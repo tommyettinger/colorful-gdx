@@ -1,0 +1,34 @@
+modifyPom {
+    project {
+        name 'colorful-gdx'
+        description 'A libGDX Batch that can manipulate colors in powerful ways.'
+        url 'https://github.com/tommyettinger/colorful-gdx'
+        inceptionYear '2019'
+
+        scm {
+            url 'https://github.com/tommyettinger/colorful-gdx'
+            connection 'scm:https://tommyettinger@github.com/tommyettinger/colorful-gdx.git'
+            developerConnection 'scm:git://github.com/tommyettinger/colorful-gdx.git'
+        }
+
+        licenses {
+            license {
+                name 'Apache Public License'
+                url 'https://www.apache.org/licenses/LICENSE-2.0.html'
+                distribution 'repo'
+            }
+        }
+
+        developers {
+            developer {
+                id 'tommyettinger'
+                name 'Tommy Ettinger'
+                email 'tommy.ettinger@gmail.com'
+            }
+        }
+    }
+}
+
+nexusStaging {
+    packageGroup = 'com.github.tommyettinger'
+}

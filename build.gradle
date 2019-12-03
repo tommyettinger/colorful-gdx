@@ -1,0 +1,55 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
+        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.0"
+    }
+}
+
+apply plugin: 'java-library'
+apply plugin: 'com.bmuschko.nexus'
+apply plugin: 'io.codearte.nexus-staging'
+apply from: 'publish.gradle'
+
+sourceCompatibility = 1.7
+
+def projectName = 'colorful'
+version '0.0.1-SNAPSHOT'
+group 'com.github.tommyettinger'
+
+def gdxVersion = '1.9.10'
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+// Disable JDK 8's doclint
+// http://blog.joda.org/2014/02/turning-off-doclint-in-jdk-8-javadoc.html
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            // The -quiet is because of some sort of weird JDK JavaCompiler bug:
+            // https://discuss.gradle.org/t/passing-arguments-to-compiler-and-javadoc/1661
+            options.addStringOption('Xdoclint:all,-missing', '-quiet')
+        }
+    }
+}
+
+jar {
+    baseName = projectName
+    manifest {
+        attributes 'Implementation-Title': projectName, 'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    api group: 'com.badlogicgames.gdx', name: 'gdx', version: gdxVersion
+    testImplementation group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl', version: gdxVersion
+    testImplementation group: 'com.badlogicgames.gdx', name: 'gdx-platform', version: gdxVersion, classifier: 'natives-desktop'
+}
