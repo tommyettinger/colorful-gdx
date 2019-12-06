@@ -50,31 +50,7 @@ public class Basics {
     {
         return (color.g - color.b) * 0.5f + 0.5f;
     }
-    /**
-     * Gets a color as a packed float given floats representing luma (Y, akin to lightness), chroma warm (Cw, one of two
-     * kinds of chroma used here), chroma mild (Cm, the other kind of chroma), and alpha. Luma should be between 0 and
-     * 1, inclusive, with 0 used for very dark colors (almost only black), and 1 used for very light colors (almost only
-     * white). The two chroma values range from 0.0 to 1.0, and unlike YCbCr and YCoCg, there's some aesthetic value in
-     * changing just one chroma value. When warm is high and mild is low, the color is more reddish; when both are low
-     * it is more bluish, and when mild is high and warm is low, the color tends to be greenish, and when both are high
-     * it tends to be brown or yellow. When warm and mild are both near 0.5f, the color is closer to gray.  Alpha is
-     * the multiplicative opacity of the color, and acts like RGBA's alpha.
-     * <br>
-     * This method clamps the resulting color's RGB values, so any values can technically be given to this as luma,
-     * warm, and mild, but they will only be reversible from the returned float color to the original Y, Cw, and Cm
-     * values if the original values were in the range that {@link #chromaWarm(Color)}, {@link #chromaMild(Color)}, and
-     * {@link #luma(Color)} return.
-     *
-     * @param luma       0f to 1f, luma or Y component of YCwCmA, with 0.5f meaning "no change" and 1f brightening
-     * @param warm       0f to 1f, "chroma warm" or Cw component of YCwCmA, with 1f more red or yellow
-     * @param mild       0f to 1f, "chroma mild" or Cm component of YCwCmA, with 1f more green or yellow
-     * @param alpha      0f to 1f, 0f makes the color transparent and 1f makes it opaque 
-     * @return a float encoding a color with the given properties
-     */
-    public static float getYCwCmA(float luma, float warm, float mild, float alpha) {
-        return NumberUtils.intBitsToFloat(((int) (alpha * 255) << 24 & 0xFE000000) | ((int) (mild * 255) << 16 & 0xFF0000)
-                | ((int) (warm * 255) << 8 & 0xFF00) | ((int) (luma * 255) & 0xFF));
-    }
+
     /**
      * Gets a color as a packed float given floats representing luma (Y, akin to lightness), chroma warm (Cw, one of two
      * kinds of chroma used here), chroma mild (Cm, the other kind of chroma), and alpha. Luma should be between 0 and
