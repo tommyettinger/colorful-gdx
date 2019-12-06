@@ -13,12 +13,12 @@ public class Basics {
     public static final Color COLOR_BLACK = new Color(0f, 0.5f, 0.5f, 0f);
     public static final Color COLOR_NEUTRAL = new Color(0.5f, 0.5f, 0.5f, 0.5f);
     
-    public static final float FLOAT_WHITE = getYCwCmA(1f, 0.5f, 0.5f, 0.5f);
-    public static final float FLOAT_BLACK = getYCwCmA(0f, 0.5f, 0.5f, 0f);
-    public static final float FLOAT_GRAY = getYCwCmA(0.35f, 0.5f, 0.5f, 0.1f);
-    public static final float FLOAT_NEUTRAL = getYCwCmA(0.5f, 0.5f, 0.5f, 0.5f);
-    public static final float FLOAT_HOT = getYCwCmA(0.225f, 1.0f, 0.58f, 0.85f);
-    public static final float FLOAT_COLD = getYCwCmA(0.3f, 0.0f, 0.45f, 0.4f);
+    public static final float FLOAT_WHITE = FloatColorTools.floatColor(1f, 0.5f, 0.5f, 0.5f);
+    public static final float FLOAT_BLACK = FloatColorTools.floatColor(0f, 0.5f, 0.5f, 0f);
+    public static final float FLOAT_GRAY = FloatColorTools.floatColor(0.35f, 0.5f, 0.5f, 0.1f);
+    public static final float FLOAT_NEUTRAL = FloatColorTools.floatColor(0.5f, 0.5f, 0.5f, 0.5f);
+    public static final float FLOAT_HOT = FloatColorTools.floatColor(0.225f, 1.0f, 0.58f, 0.85f);
+    public static final float FLOAT_COLD = FloatColorTools.floatColor(0.3f, 0.0f, 0.45f, 0.4f);
 
     /**
      * The "luma" of the given libGDX Color, which is like its lightness, in YCwCmA format; ranges from 0f to 1f .
@@ -76,17 +76,6 @@ public class Basics {
         return NumberUtils.intBitsToFloat((alpha << 24 & 0xFE000000) | (mild << 16 & 0xFF0000)
                 | (warm << 8 & 0xFF00) | (luma & 0xFF));
     }
-
-    public static float lerpFloatColors(final float start, final float end, float change) {
-        final int s = NumberUtils.floatToIntBits(start), e = NumberUtils.floatToIntBits(end),
-                ys = (s & 0xFF), cws = (s >>> 8) & 0xFF, cms = (s >>> 16) & 0xFF, as = s >>> 24 & 0xFE,
-                ye = (e & 0xFF), cwe = (e >>> 8) & 0xFF, cme = (e >>> 16) & 0xFF, ae = e >>> 24 & 0xFE;
-        return NumberUtils.intBitsToFloat(((int) (ys + change * (ye - ys)) & 0xFF)
-                | (((int) (cws + change * (cwe - cws)) & 0xFF) << 8)
-                | (((int) (cms + change * (cme - cms)) & 0xFF) << 16)
-                | (((int) (as + change * (ae - as)) & 0xFE) << 24));
-    }
-
 
     /**
      * This is the default vertex shader from libGDX.
