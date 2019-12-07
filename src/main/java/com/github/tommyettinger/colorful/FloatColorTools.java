@@ -398,12 +398,13 @@ public class FloatColorTools {
      * start as-is) and 1f (return white), start should be a packed color, as from
      * {@link #floatColor(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
      * is a little more efficient and clear than using {@link #lerpFloatColors(float, float, float)} to lerp towards
-     * white. Unlike {@link #lerpFloatColors(float, float, float)}, this keeps the alpha of start as-is.
+     * white. Unlike {@link #lerpFloatColors(float, float, float)}, this keeps the alpha and both chroma of start as-is.
+     * @see #darken(float, float) the counterpart method that darkens a float color
      * @param start the starting color as a packed float
      * @param change how much to go from start toward white, as a float between 0 and 1; higher means closer to white
      * @return a packed float that represents a color between start and white
      */
-    public static float lightenFloat(final float start, final float change) {
+    public static float lighten(final float start, final float change) {
         final int s = NumberUtils.floatToIntBits(start), luma = s & 0xFF, other = s & 0xFEFFFF00;
         return NumberUtils.intBitsToFloat(((int) (luma + (0xFF - luma) * change) & 0xFF) | other);
     }
@@ -413,13 +414,114 @@ public class FloatColorTools {
      * start as-is) and 1f (return black), start should be a packed color, as from
      * {@link #floatColor(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
      * is a little more efficient and clear than using {@link #lerpFloatColors(float, float, float)} to lerp towards
-     * black. Unlike {@link #lerpFloatColors(float, float, float)}, this keeps the alpha of start as-is.
+     * black. Unlike {@link #lerpFloatColors(float, float, float)}, this keeps the alpha and both chroma of start as-is.
+     * @see #lighten(float, float) the counterpart method that lightens a float color
      * @param start the starting color as a packed float
      * @param change how much to go from start toward black, as a float between 0 and 1; higher means closer to black
      * @return a packed float that represents a color between start and black
      */
-    public static float darkenFloat(final float start, final float change) {
+    public static float darken(final float start, final float change) {
         final int s = NumberUtils.floatToIntBits(start), luma = s & 0xFF, other = s & 0xFEFFFF00;
         return NumberUtils.intBitsToFloat(((int) (luma * (1f - change)) & 0xFF) | other);
+    }
+
+    /**
+     * Interpolates from the packed float color start towards a warmer color (yellow to red) by change. While change
+     * should be between 0f (returnstart as-is) and 1f (return fully warmed), start should be a packed color, as from
+     * {@link #floatColor(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
+     * and is a little more efficient and clear than using {@link #lerpFloatColors(float, float, float)} to lerp towards
+     * a warmer color. Unlike {@link #lerpFloatColors(float, float, float)}, this keeps the alpha and luma of start
+     * as-is.
+     * @see #cool(float, float) the counterpart method that cools a float color
+     * @param start the starting color as a packed float
+     * @param change how much to warm start, as a float between 0 and 1; higher means a warmer result
+     * @return a packed float that represents a color between start and a warmer color
+     */
+    public static float warm(final float start, final float change) {
+        final int s = NumberUtils.floatToIntBits(start), warmth = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
+        return NumberUtils.intBitsToFloat(((int) (warmth + (0xFF - warmth) * change) << 8 & 0xFF) | other);
+    }
+
+    /**
+     * Interpolates from the packed float color start towards a cooler color (green to blue) by change. While change
+     * should be between 0f (return start as-is) and 1f (return fully cooled), start should be a packed color, as from
+     * {@link #floatColor(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
+     * is a little more efficient and clear than using {@link #lerpFloatColors(float, float, float)} to lerp towards
+     * a cooler color. Unlike {@link #lerpFloatColors(float, float, float)}, this keeps the alpha and luma of start
+     * as-is.
+     * @see #warm(float, float) the counterpart method that warms a float color
+     * @param start the starting color as a packed float
+     * @param change how much to cool start, as a float between 0 and 1; higher means a cooler result
+     * @return a packed float that represents a color between start and a cooler color
+     */
+    public static float cool(final float start, final float change) {
+        final int s = NumberUtils.floatToIntBits(start), warmth = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
+        return NumberUtils.intBitsToFloat(((int) (warmth * (1f - change)) & 0xFF) << 8 | other);
+    }
+
+    /**
+     * Interpolates from the packed float color start towards a milder color (between green and yellow) by change. While
+     * change should be between 0f (return start as-is) and 1f (return fully mild), start should be a packed color, as
+     * from {@link #floatColor(float, float, float, float)}. This is a good way to reduce allocations of temporary
+     * Colors, and is a little more efficient and clear than using {@link #lerpFloatColors(float, float, float)} to lerp
+     * towards a milder color. Unlike {@link #lerpFloatColors(float, float, float)}, this keeps the alpha and luma of
+     * start as-is.
+     * @see #strengthen(float, float) the counterpart method that makes a float color more bold
+     * @param start the starting color as a packed float
+     * @param change how much to change start to a milder color, as a float between 0 and 1; higher means a milder result
+     * @return a packed float that represents a color between start and a milder color
+     */
+    public static float weaken(final float start, final float change) {
+        final int s = NumberUtils.floatToIntBits(start), warmth = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
+        return NumberUtils.intBitsToFloat(((int) (warmth + (0xFF - warmth) * change) << 8 & 0xFF) | other);
+    }
+
+    /**
+     * Interpolates from the packed float color start towards a bolder color (between blue and red) by change. While
+     * change should be between 0f (return start as-is) and 1f (return fully cooled), start should be a packed color, as
+     * from {@link #floatColor(float, float, float, float)}. This is a good way to reduce allocations of temporary
+     * Colors, and is a little more efficient and clear than using {@link #lerpFloatColors(float, float, float)} to lerp
+     * towards a bolder color. Unlike {@link #lerpFloatColors(float, float, float)}, this keeps the alpha and luma of
+     * start as-is.
+     * @see #weaken(float, float) the counterpart method that makes a float color more mild
+     * @param start the starting color as a packed float
+     * @param change how much to change start to a bolder color, as a float between 0 and 1; higher means a bolder result
+     * @return a packed float that represents a color between start and a bolder color
+     */
+    public static float strengthen(final float start, final float change) {
+        final int s = NumberUtils.floatToIntBits(start), warmth = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
+        return NumberUtils.intBitsToFloat(((int) (warmth * (1f - change)) & 0xFF) << 8 | other);
+    }
+
+    /**
+     * Interpolates from the packed float color start towards that color made opaque by change. While change should be
+     * between 0f (return start as-is) and 1f (return start with full alpha), start should be a packed color, as from
+     * {@link #floatColor(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
+     * is a little more efficient and clear than using {@link #lerpFloatColors(float, float, float)} to lerp towards
+     * transparent. This won't change the luma, chroma warm, or chroma mild of the color.
+     * @see #fade(float, float) the counterpart method that makes a float color more translucent
+     * @param start the starting color as a packed float
+     * @param change how much to go from start toward opaque, as a float between 0 and 1; higher means closer to opaque
+     * @return a packed float that represents a color between start and its opaque version
+     */
+    public static float solidify(final float start, final float change) {
+        final int s = NumberUtils.floatToIntBits(start), opacity = s >>> 24 & 0xFE, other = s & 0x00FFFFFF;
+        return NumberUtils.intBitsToFloat(((int) (opacity + (0xFE - opacity) * change) & 0xFE) << 24 | other);
+    }
+
+    /**
+     * Interpolates from the packed float color start towards transparent by change. While change should be between 0
+     * (return start as-is) and 1f (return the color with 0 alpha), start should be a packed color, as from
+     * {@link #floatColor(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
+     * and is a little more efficient and clear than using {@link #lerpFloatColors(float, float, float)} to lerp towards
+     * transparent. This won't change the luma, chroma warm, or chroma mild of the color.
+     * @see #solidify(float, float) the counterpart method that makes a float color more opaque
+     * @param start the starting color as a packed float
+     * @param change how much to go from start toward transparent, as a float between 0 and 1; higher means closer to transparent
+     * @return a packed float that represents a color between start and transparent
+     */
+    public static float fade(final float start, final float change) {
+        final int s = NumberUtils.floatToIntBits(start), opacity = s & 0xFE, other = s & 0x00FFFFFF;
+        return NumberUtils.intBitsToFloat(((int) (opacity * (1f - change)) & 0xFE) << 24 | other);
     }
 }
