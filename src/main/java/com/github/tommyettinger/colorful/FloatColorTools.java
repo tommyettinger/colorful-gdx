@@ -1,6 +1,5 @@
 package com.github.tommyettinger.colorful;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.NumberUtils;
 
@@ -120,7 +119,7 @@ public class FloatColorTools {
     public static float hue(final float encoded) {
         final int e = NumberUtils.floatToIntBits(encoded);
         final float cw = (e >>> 8 & 255) - 127.5f, cm = (e >>> 16 & 255) - 127.5f;
-        if ( cw * cw + cm + cm < 0.125f )
+        if ( cw * cw + cm * cm < 0.125f )
         {
             // it's grayscale
             return 0f;
@@ -309,115 +308,14 @@ public class FloatColorTools {
                 | y - (((decoded >>> 7 & 0x1fe) - 255) * 3 >> 4) - cm << 8
                 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
     }
-
-    ///TODO: we're done converting only up to here, maybe some more is done later in the file
-
-    /**
-     * Gets a variation on the Color basis as a packed float that has its hue, saturation, and value adjusted by the
-     * specified amounts. Takes floats representing the amounts of change to apply to hue, saturation, and value; these
-     * can be between -1f and 1f. Returns a float that can be used as a packed or encoded color with methods like
-     * {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)}, or in various SquidLib classes like SparseLayers or
-     * SquidLayers. The float is likely to be different than the result of {@link FloatColorTools#floatColor(float, float, float, float)} unless hue,
-     * saturation, and value are all 0. This won't modify the given NamedColor, nor will it allocate any objects.
-     * <br>
-     * The parameters this takes all specify additive changes for a color component, clamping the final values so they
-     * can't go above 1 or below 0, with an exception for hue, which can rotate around if lower or higher hues would be
-     * used. As an example, if you give this 0.4f for saturation, and the current color has saturation 0.7f, then the
-     * resulting color will have 1f for saturation. If you gave this -0.1f for saturation and the current color still
-     * has saturation 0.7f, then resulting color will have 0.6f for saturation.
-     *
-     * @param basis      a Color or NamedColor to use as the starting point; will not be modified itself
-     * @param hue        -1f to 1f, the hue change that can be applied to the new float color
-     * @param saturation -1f to 1f, the saturation change that can be applied to the new float color
-     * @param value      -1f to 1f, the value/brightness change that can be applied to the new float color
-     * @return a float encoding a variation of basis with the given changes
-     */
-    public static float toEditedFloat(Color basis, float hue, float saturation, float value) {
-        return toEditedFloat(basis, hue, saturation, value, 0f);
-    }
-
-    /**
-     * Gets a variation on the Color basis as a packed float that has its hue, saturation, value, and opacity adjusted
-     * by the specified amounts. Takes floats representing the amounts of change to apply to hue, saturation, value, and
-     * opacity; these can be between -1f and 1f. Returns a float that can be used as a packed or encoded color with
-     * methods like {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)}, or in various SquidLib classes like
-     * SparseLayers or SquidLayers. The float is likely to be different than the result of {@link #floatColor(float, float, float, float)} unless
-     * hue saturation, value, and opacity are all 0. This won't modify the given NamedColor, nor will it allocate any
-     * objects.
-     * <br>
-     * The parameters this takes all specify additive changes for a color component, clamping the final values so they
-     * can't go above 1 or below 0, with an exception for hue, which can rotate around if lower or higher hues would be
-     * used. As an example, if you give this 0.4f for saturation, and the current color has saturation 0.7f, then the
-     * resulting color will have 1f for saturation. If you gave this -0.1f for saturation and the current color still
-     * has saturation 0.7f, then resulting color will have 0.6f for saturation.
-     *
-     * @param hue        -1f to 1f, the hue change that can be applied to the new float color
-     * @param saturation -1f to 1f, the saturation change that can be applied to the new float color
-     * @param value      -1f to 1f, the value/brightness change that can be applied to the new float color
-     * @param opacity    -1f to 1f, the opacity/alpha change that can be applied to the new float color
-     * @return a float encoding a variation of basis with the given changes
-     */
-    public static float toEditedFloat(Color basis, float hue, float saturation, float value, float opacity) {
-        final float h, s, r = basis.r, g = basis.g, b = basis.b;
-        final float min = Math.min(Math.min(r, g), b);   //Min. value of RGB
-        final float max = Math.max(Math.max(r, g), b);   //Max value of RGB, equivalent to value
-        final float delta = max - min;                   //Delta RGB value
-        if ( delta < 0.0039f )                           //This is a gray, no chroma...
-        {
-            s = 0f;
-            h = 0f;
-            hue = 1f;
-        }
-        else                                             //Chromatic data...
-        {
-            s = delta / max;
-            final float rDelta = (((max - r) / 6f) + (delta / 2f)) / delta;
-            final float gDelta = (((max - g) / 6f) + (delta / 2f)) / delta;
-            final float bDelta = (((max - b) / 6f) + (delta / 2f)) / delta;
-
-            if      (r == max) h = (bDelta - gDelta + 1f) % 1f;
-            else if (g == max) h = ((1f / 3f) + rDelta - bDelta + 1f) % 1f;
-            else               h = ((2f / 3f) + gDelta - rDelta + 1f) % 1f;
-        }
-        saturation = MathUtils.clamp(s + saturation, 0f, 1f);
-        value = MathUtils.clamp(max + value, 0f, 1f);
-        opacity = MathUtils.clamp(basis.a + opacity, 0f, 1f);
-
-        if (saturation <= 0.0039f) {
-            return floatColor(value, value, value, opacity);
-        } else if (value <= 0.0039f) {
-            return NumberUtils.intBitsToFloat((int) (opacity * 254f) << 24 & 0xFE000000);
-        } else {
-            final float hu = ((h + hue + 6f) % 1f) * 6f;
-            final int i = (int) hu;
-            final float x = value * (1 - saturation);
-            final float y = value * (1 - saturation * (hu - i));
-            final float z = value * (1 - saturation * (1 - (hu - i)));
-
-            switch (i) {
-                case 0:
-                    return floatColor(value, z, x, opacity);
-                case 1:
-                    return floatColor(y, value, x, opacity);
-                case 2:
-                    return floatColor(x, value, z, opacity);
-                case 3:
-                    return floatColor(x, y, value, opacity);
-                case 4:
-                    return floatColor(z, x, value, opacity);
-                default:
-                    return floatColor(value, x, y, opacity);
-            }
-        }
-    }
-
+    
     /**
      * Gets a variation on the packed float color basis as another packed float that has its hue, saturation, value, and
      * opacity adjusted by the specified amounts. Takes floats representing the amounts of change to apply to hue,
      * saturation, value, and opacity; these can be between -1f and 1f. Returns a float that can be used as a packed or
-     * encoded color with methods like {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)}, or in various
-     * SquidLib classes like SparseLayers or SquidLayers. The float is likely to be different than the result of
-     * {@link #floatColor(float, float, float, float)} unless hue saturation, value, and opacity are all 0. This won't allocate any objects.
+     * encoded color with methods like {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)}. The float is
+     * likely to be different than the result of {@link #floatColor(float, float, float, float)} unless hue saturation,
+     * value, and opacity are all 0. This won't allocate any objects.
      * <br>
      * The parameters this takes all specify additive changes for a color component, clamping the final values so they
      * can't go above 1 or below 0, with an exception for hue, which can rotate around if lower or higher hues would be
@@ -433,61 +331,26 @@ public class FloatColorTools {
      * @return a float encoding a variation of basis with the given changes
      */
     public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {
-        final int bits = NumberUtils.floatToIntBits(basis);
-        final float h, s,
-                r = (bits & 0x000000ff) * 0x1.010102p-8f,
-                g = (bits & 0x0000ff00) * 0x1.010102p-16f,
-                b = (bits & 0x00ff0000) * 0x1.010102p-24f;
-        final float min = Math.min(Math.min(r, g), b);   //Min. value of RGB
-        final float max = Math.max(Math.max(r, g), b);   //Max value of RGB, equivalent to value
-        final float delta = max - min;                   //Delta RGB value
-        if ( delta < 0.0039f )                           //This is a gray, no chroma...
+        final int e = NumberUtils.floatToIntBits(basis);
+        float cw = (e >>> 8 & 255) - 127.5f, cm = (e >>> 16 & 255) - 127.5f;
+        value = MathUtils.clamp(value + (e & 0xff) * 0x1.010102p-8f, 0f, 1f);
+        opacity = MathUtils.clamp(opacity + (e >>> 24 & 0xfe) * 0x1.020408p-8f, 0f, 1f);
+        if (value <= 0.001f)
+            return NumberUtils.intBitsToFloat((int) (opacity * 255f) << 24 & 0xFE000000);
+        saturation += (float) (Math.sqrt(cw * cw + cm * cm) * 0.00554593553871802);
+        if ( saturation > 0.001f )
         {
-            s = 0f;
-            h = 0f;
-            hue = 1f;
+            // it has color
+            float angle = TrigTools.atan2_(cm, cw) + 0.125f;
+            hue += angle - (int)angle;
         }
-        else                                             //Chromatic data...
-        {
-            s = delta / max;
-            final float rDelta = (((max - r) / 6f) + (delta / 2f)) / delta;
-            final float gDelta = (((max - g) / 6f) + (delta / 2f)) / delta;
-            final float bDelta = (((max - b) / 6f) + (delta / 2f)) / delta;
-
-            if      (r == max) h = (bDelta - gDelta + 1f) % 1f;
-            else if (g == max) h = ((1f / 3f) + rDelta - bDelta + 1f) % 1f;
-            else               h = ((2f / 3f) + gDelta - rDelta + 1f) % 1f;
-        }
-        saturation = MathUtils.clamp(s + saturation, 0f, 1f);
-        value = MathUtils.clamp(max + value, 0f, 1f);
-        opacity = MathUtils.clamp(((bits & 0xfe000000) >>> 24) * 0x1.020408p-8f + opacity, 0f, 1f);
-
-        if (saturation <= 0.0039f) {
-            return floatColor(value, value, value, opacity);
-        } else if (value <= 0.0039f) {
-            return NumberUtils.intBitsToFloat((int) (opacity * 254f) << 24 & 0xFE000000);
-        } else {
-            final float hu = ((h + hue + 6f) % 1f) * 6f;
-            final int i = (int) hu;
-            final float x = value * (1 - saturation);
-            final float y = value * (1 - saturation * (hu - i));
-            final float z = value * (1 - saturation * (1 - (hu - i)));
-
-            switch (i) {
-                case 0:
-                    return floatColor(value, z, x, opacity);
-                case 1:
-                    return floatColor(y, value, x, opacity);
-                case 2:
-                    return floatColor(x, value, z, opacity);
-                case 3:
-                    return floatColor(x, y, value, opacity);
-                case 4:
-                    return floatColor(z, x, value, opacity);
-                default:
-                    return floatColor(value, x, y, opacity);
-            }
-        }
+        else
+            return floatColor(value, 0.5f, 0.5f, opacity);
+        hue -= 0.125f;
+        saturation = MathUtils.clamp(saturation, 0f, 1f) * 180.31222920256963f;
+        cw = MathUtils.clamp(TrigTools.cos_(hue) * saturation + 127.5f, 0f, 255f);
+        cm = MathUtils.clamp(TrigTools.sin_(hue) * saturation + 127.5f, 0f, 255f);
+        return floatColor(value, cw, cm, opacity);
     }
 
     /**
