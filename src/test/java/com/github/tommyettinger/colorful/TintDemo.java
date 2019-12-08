@@ -39,11 +39,11 @@ public class TintDemo extends ApplicationAdapter {
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("Palette Reducer");
+        config.setTitle("Tint Demo");
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.setIdleFPS(10);
         config.useVsync(true);
-        config.setResizable(false);
+//        config.setResizable(false);
 
         final TintDemo app = new TintDemo();
         config.setWindowListener(new Lwjgl3WindowAdapter() {
@@ -67,6 +67,11 @@ public class TintDemo extends ApplicationAdapter {
         if (screenTexture != null) screenTexture.dispose();
         screenTexture = new Texture(file);
         screenTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        int width, height;
+        Gdx.graphics.setWindowedMode(width = Math.min(screenTexture.getWidth() * 2, Gdx.graphics.getDisplayMode().width),
+                height = Math.min(screenTexture.getHeight(), Gdx.graphics.getDisplayMode().height));
+        screenView.update(width, height);
+        screenView.getCamera().position.set(width * 0.5f, height * 0.5f, 0f);
     }
 
     @Override
@@ -112,32 +117,12 @@ public class TintDemo extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         screenView.update(width, height);
+        screenView.getCamera().position.set(width * 0.5f, height * 0.5f, 0f);
+        screenView.getCamera().update();
     }
 
     public void handleInput() {
-        // only process once every 166 ms, or 6 times a second, at most
-        if (TimeUtils.timeSinceMillis(lastProcessedTime) < 166)
-            return;
-        lastProcessedTime = TimeUtils.millis();
-        if (input.isKeyPressed(Input.Keys.L)) //light
-            luma = MathUtils.clamp(luma + 0.02f, 0f, 1f);
-        else if (input.isKeyPressed(Input.Keys.D)) //dark
-            luma = MathUtils.clamp(luma - 0.02f, 0f, 1f);
-        else if (input.isKeyPressed(Input.Keys.RIGHT)) //warm
-            warm = MathUtils.clamp(warm + 0.02f, 0f, 1f);
-        else if (input.isKeyPressed(Input.Keys.LEFT)) //cool
-            warm = MathUtils.clamp(warm - 0.02f, 0f, 1f);
-        else if (input.isKeyPressed(Input.Keys.UP)) //mild
-            mild = MathUtils.clamp(mild + 0.02f, 0f, 1f);
-        else if (input.isKeyPressed(Input.Keys.DOWN)) // bold
-            mild = MathUtils.clamp(mild - 0.02f, 0f, 1f);
-        else if (input.isKeyPressed(Input.Keys.R)) // reset
-        {
-            luma = 0.5f;
-            warm = 0.5f;
-            mild = 0.5f;
-            opacity = 1f;
-        } else if (input.isKeyPressed(Input.Keys.P)) // print
+        if (input.isKeyPressed(Input.Keys.P)) // print
             System.out.println("Y=" + luma + ",Cw=" + warm + ",Cm=" + mild);
         else if (input.isKeyPressed(Input.Keys.M))
             load("samples/Mona_Lisa.jpg");
@@ -153,6 +138,31 @@ public class TintDemo extends ApplicationAdapter {
             load("samples/Spaceships.png");
         else if (input.isKeyPressed(Input.Keys.Q) || input.isKeyPressed(Input.Keys.ESCAPE)) //quit
             Gdx.app.exit();
+        else {
+            // only process once every 166 ms, or 6 times a second, at most
+            if (TimeUtils.timeSinceMillis(lastProcessedTime) < 166)
+                return;
+            lastProcessedTime = TimeUtils.millis();
+            if (input.isKeyPressed(Input.Keys.L)) //light
+                luma = MathUtils.clamp(luma + 0x1p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.D)) //dark
+                luma = MathUtils.clamp(luma - 0x1p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.RIGHT)) //warm
+                warm = MathUtils.clamp(warm + 0x1p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.LEFT)) //cool
+                warm = MathUtils.clamp(warm - 0x1p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.UP)) //mild
+                mild = MathUtils.clamp(mild + 0x1p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.DOWN)) // bold
+                mild = MathUtils.clamp(mild - 0x1p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.R)) // reset
+            {
+                luma = 0.5f;
+                warm = 0.5f;
+                mild = 0.5f;
+                opacity = 1f;
+            }
+        }
     }
 
 }
