@@ -107,14 +107,18 @@ public class Basics {
                     "varying vec2 v_texCoords;\n" +
                     "varying LOWP vec4 v_color;\n" +
                     "uniform sampler2D u_texture;\n" +
-                    "const vec3 bright = vec3(0.75, 1.0, 0.25);\n" +
-//                    "const vec3 bright = vec3(0.375, 0.5, 0.125);\n" +
+//                    "const vec3 bright = vec3(0.75, 1.0, 0.25);\n" +
+                    "const vec3 bright = vec3(0.375, 0.5, 0.125);\n" +
                     "void main()\n" +
                     "{\n" +
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                    "   vec3 ycc = vec3(v_color.r * dot(tgt.rgb, bright), ((v_color.g - 0.5) * 2.0 + tgt.r - tgt.b), ((v_color.b - 0.5) * 2.0 + tgt.g - tgt.b));\n" +
+                    //use the following line to match the color exactly
+//                    "   vec3 ycc = vec3(v_color.r * dot(tgt.rgb, bright), ((v_color.g - 0.5) * 2.0 + tgt.r - tgt.b), ((v_color.b - 0.5) * 2.0 + tgt.g - tgt.b));\n" +
                     //use the following line to increase contrast
 //                    "   vec3 ycc = vec3(v_color.r * dot(sin(tgt.rgb * 1.5707963267948966) * sqrt(tgt.rgb), bright), ((v_color.g - 0.5) * 2.0 + tgt.r - tgt.b), ((v_color.b - 0.5) * 2.0 + tgt.g - tgt.b));\n" +
+                    //use the following line to increase contrast more
+                    "   vec3 ycc = vec3(v_color.r * pow(dot(tgt.rgb, bright), 1.25) * 2.0, ((v_color.g - 0.5) * 2.0 + tgt.r - tgt.b), ((v_color.b - 0.5) * 2.0 + tgt.g - tgt.b));\n" +
+                    
                     "   gl_FragColor = clamp(vec4(dot(ycc, vec3(1.0, 0.625, -0.5)), dot(ycc, vec3(1.0, -0.375, 0.5)), dot(ycc, vec3(1.0, -0.375, -0.5)), v_color.a * tgt.a), 0.0, 1.0);\n" +
                     "}";
 }
