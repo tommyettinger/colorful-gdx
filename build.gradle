@@ -50,6 +50,6 @@ repositories {
 
 dependencies {
     api group: 'com.badlogicgames.gdx', name: 'gdx', version: gdxVersion
-    testImplementation group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl', version: gdxVersion
+    testImplementation group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl3', version: gdxVersion
     testImplementation group: 'com.badlogicgames.gdx', name: 'gdx-platform', version: gdxVersion, classifier: 'natives-desktop'
 }

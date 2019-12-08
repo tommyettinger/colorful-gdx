@@ -95,7 +95,7 @@ public class Basics {
             + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
             + "}\n";
     /**
-     * Where the magic happens; this converts from the YCwCmA format (used by colorful) to RGBA.
+     * Where the magic happens; this converts a batch color from the YCwCmA format (used by colorful) to RGBA.
      */
     public static final String fragmentShader =
             "#ifdef GL_ES\n" +
