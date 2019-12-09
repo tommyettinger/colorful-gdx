@@ -76,17 +76,22 @@ public class FloatColorTools {
      */
     public static int toRGBA8888(final float packed)
     {
-        final int decoded = NumberUtils.floatToIntBits(packed), y = (decoded & 0xff), cm = (((decoded >>> 15 & 0x1fe) - 255) >>> 2);
-        return y + (((decoded >>> 7 & 0x1fe) - 255) * 5 >>> 4) - cm << 24
-                | y - (((decoded >>> 7 & 0x1fe) - 255) * 3 >> 4) + cm << 16
-                | y - (((decoded >>> 7 & 0x1fe) - 255) * 3 >> 4) - cm << 8
+        final int decoded = NumberUtils.floatToIntBits(packed), y = (decoded & 0xff), cm = (((decoded >>> 15 & 0x1fe) - 255) >> 1);
+//        final int r = y + (((decoded >>> 7 & 0x1fe) - 255) * 5 >> 4) - cm;
+//        final int g = y - (((decoded >>> 7 & 0x1fe) - 255) * 3 >> 4) + cm;
+//        final int b = y - (((decoded >>> 7 & 0x1fe) - 255) * 3 >> 4) - cm;
+//        final int a = (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
+//        return r << 24 | g << 16 | b << 8 | a;
+        return MathUtils.clamp(y + (((decoded >>> 7 & 0x1fe) - 255) * 5 >> 3) - cm, 0, 0xFF) << 24
+                | MathUtils.clamp(y - (((decoded >>> 7 & 0x1fe) - 255) * 3 >> 3) + cm, 0, 0xFF) << 16
+                | MathUtils.clamp(y - (((decoded >>> 7 & 0x1fe) - 255) * 3 >> 3) - cm, 0, 0xFF) << 8
                 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
     }
     
     public static float fromRGBA8888(final int rgba) {
-        return NumberUtils.intBitsToFloat(((rgba >>> 8 & 0xFF) * 3 + (rgba >>> 16 & 0xFF) * 4 + (rgba >>> 24 & 0xFF) >> 3) 
-                | (0xFF + (rgba >>> 8) - (rgba >>> 24 & 0xFF) & 0x1FE) << 7
-                | (0xFF + (rgba >>> 16 & 0xFF) - (rgba >>> 24 & 0xFF) & 0x1FE) << 15
+        return NumberUtils.intBitsToFloat(((rgba >>> 24 & 0xFF) * 3 + (rgba >>> 16 & 0xFF) * 4 + (rgba >>> 8 & 0xFF) >> 3) 
+                | (0xFF + (rgba >>> 24) - (rgba >>> 8 & 0xFF) & 0x1FE) << 7
+                | (0xFF + (rgba >>> 16 & 0xFF) - (rgba >>> 8 & 0xFF) & 0x1FE) << 15
                 | (rgba & 0xFE) << 24);
 
     }
@@ -143,7 +148,7 @@ public class FloatColorTools {
     public static float red(final float encoded)
     {
         final int decoded = NumberUtils.floatToIntBits(encoded);
-        return (decoded & 0xff) * 0x1.010102p-8f + ((decoded >>> 8 & 0xff) - 127.5f) * (0x1.414142p-9f) - ((decoded >>> 16 & 0xff) - 127.5f) * 0x1.010102p-9f;
+        return MathUtils.clamp((decoded & 0xff) * 0x1.010102p-8f + ((decoded >>> 8 & 0xff) - 127.5f) * (0x1.414142p-9f) - ((decoded >>> 16 & 0xff) - 127.5f) * 0x1.010102p-9f, 0f, 1f);
     }
 
     /**
@@ -154,7 +159,7 @@ public class FloatColorTools {
     public static float green(final float encoded)
     {
         final int decoded = NumberUtils.floatToIntBits(encoded);
-        return (decoded & 0xff) * 0x1.010102p-8f - (((decoded >>> 8 & 0xff) - 127.5f) * 0x1.818184p-10f) + ((decoded >>> 16 & 0xff) - 127.5f) * 0x1.010102p-9f;
+        return MathUtils.clamp((decoded & 0xff) * 0x1.010102p-8f - (((decoded >>> 8 & 0xff) - 127.5f) * 0x1.818184p-10f) + ((decoded >>> 16 & 0xff) - 127.5f) * 0x1.010102p-9f, 0f, 1f);
     }
 
     /**
@@ -165,7 +170,7 @@ public class FloatColorTools {
     public static float blue(final float encoded)
     {
         final int decoded = NumberUtils.floatToIntBits(encoded);
-        return (decoded & 0xff) * 0x1.010102p-8f - (((decoded >>> 8 & 0xff) - 127.5f) * 0x1.818184p-10f) - ((decoded >>> 16 & 0xff) - 127.5f) * 0x1.010102p-9f;
+        return MathUtils.clamp((decoded & 0xff) * 0x1.010102p-8f - (((decoded >>> 8 & 0xff) - 127.5f) * 0x1.818184p-10f) - ((decoded >>> 16 & 0xff) - 127.5f) * 0x1.010102p-9f, 0f, 1f);
     }
 
     /**
@@ -209,7 +214,7 @@ public class FloatColorTools {
         else
         {
             // it has color
-            float angle = TrigTools.atan2_(cm, cw) + 0.125f;
+            float angle = TrigTools.atan2_(cm, cw);
             return angle - (int)angle;
         }
     }
