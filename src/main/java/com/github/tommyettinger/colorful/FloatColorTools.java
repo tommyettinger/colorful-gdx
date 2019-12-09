@@ -10,6 +10,88 @@ import com.badlogic.gdx.utils.NumberUtils;
  */
 public class FloatColorTools {
     /**
+     * Gets a packed float representation of a color given as 4 float components, here, Y (luma or lightness), Cw
+     * (chromatic warmth), Cm (chromatic mildness), and A (alpha or opacity). As long as you use a shader with
+     * {@link Basics#fragmentShader} as its shader, colors passed with
+     * {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)} will be interpreted as YCwCmA.
+     Luma should be between 0 and
+     * 1, inclusive, with 0 used for very dark colors (almost only black), and 1 used for very light colors (almost only
+     * white). The two chroma values range from 0.0 to 1.0, and there's some aesthetic value in
+     * changing just one chroma value. When warm is high and mild is low, the color is more reddish; when both are low
+     * it is more bluish, and when mild is high and warm is low, the color tends to be greenish, and when both are high
+     * it tends to be brown or yellow. When warm and mild are both near 0.5f, the color is closer to gray.  Alpha is
+     * the multiplicative opacity of the color, and acts like RGBA's alpha.
+     * <br>
+     * This method clamps the resulting color's byte values, so any values can technically be given to this as luma,
+     * warm, and mild, but they will only be reversible from the returned float color to the original Y, Cw, and Cm
+     * values if the original values were in the range that {@link #chromaWarm(float)}, {@link #chromaMild(float)}, and
+     * {@link #luma(float)} return.
+     *
+     * @param luma       0f to 1f, luma or Y component of YCwCmA, with 0.5f meaning "no change" and 1f brightening
+     * @param warm       0f to 1f, "chroma warm" or Cw component of YCwCmA, with 1f more red or yellow
+     * @param mild       0f to 1f, "chroma mild" or Cm component of YCwCmA, with 1f more green or yellow
+     * @param alpha      0f to 1f, 0f makes the color transparent and 1f makes it opaque 
+     * @return a float encoding a color with the given properties
+     */
+    public static float floatColor(float luma, float warm, float mild, float alpha) {
+        return NumberUtils.intBitsToFloat(((int) (alpha * 255) << 24 & 0xFE000000) | ((int) (mild * 255) << 16 & 0xFF0000)
+                | ((int) (warm * 255) << 8 & 0xFF00) | ((int) (luma * 255) & 0xFF));
+    }
+
+    /**
+     * Gets a color as a packed float given floats representing hue, saturation, value, and opacity.
+     * All parameters should normally be between 0 and 1 inclusive, though any hue is tolerated (precision loss may
+     * affect the color if the hue is too large). A hue of 0 is red, progressively higher hue values go to orange,
+     * yellow, green, blue, and purple before wrapping around to red as it approaches 1. A saturation of 0 is grayscale,
+     * a saturation of 1 is brightly colored, and values close to 1 will usually appear more distinct than values close
+     * to 0, especially if the hue is different. The value is similar to lightness; a value of 0.001f or less is always
+     * black (also using a shortcut if this is the case, respecting opacity), while a value of 1 is as bright as the
+     * color gets with the given saturation and value. To get a value of white, you would nee both a value of 1 and a
+     * saturation of 0.
+     *
+     * @param hue        0f to 1f, color wheel position
+     * @param saturation 0f to 1f, 0f is grayscale and 1f is brightly colored
+     * @param value      0f to 1f, 0f is black and 1f is bright or light
+     * @param opacity    0f to 1f, 0f is fully transparent and 1f is opaque
+     * @return a float encoding a color with the given properties
+     */
+    public static float floatGetHSV(float hue, float saturation, float value, float opacity) {
+        if (value <= 0.001f) {
+            return NumberUtils.intBitsToFloat((int) (opacity * 255f) << 24 & 0xFE000000);
+        } else {
+            hue -= 0.125f;
+            saturation = MathUtils.clamp(saturation, 0f, 1f) * 180.31222920256963f;
+            final float cw = MathUtils.clamp(TrigTools.cos_(hue) * saturation + 127.5f, 0f, 255f);
+            final float cm = MathUtils.clamp(TrigTools.sin_(hue) * saturation + 127.5f, 0f, 255f);
+            return floatColor(value, cw, cm, opacity);
+        }
+    }
+
+
+    /**
+     * Converts a packed float color in the format produced by {@link FloatColorTools#floatColor(float, float, float, float)} to an RGBA8888 int. This format of
+     * int can be used with Pixmap and in some other places in libGDX.
+     * @param packed a packed float color, as produced by {@link FloatColorTools#floatColor(float, float, float, float)}
+     * @return an RGBA8888 int color
+     */
+    public static int toRGBA8888(final float packed)
+    {
+        final int decoded = NumberUtils.floatToIntBits(packed), y = (decoded & 0xff), cm = (((decoded >>> 15 & 0x1fe) - 255) >>> 2);
+        return y + (((decoded >>> 7 & 0x1fe) - 255) * 5 >>> 4) - cm << 24
+                | y - (((decoded >>> 7 & 0x1fe) - 255) * 3 >> 4) + cm << 16
+                | y - (((decoded >>> 7 & 0x1fe) - 255) * 3 >> 4) - cm << 8
+                | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
+    }
+    
+    public static float fromRGBA8888(final int rgba) {
+        return NumberUtils.intBitsToFloat(((rgba >>> 8 & 0xFF) * 3 + (rgba >>> 16 & 0xFF) * 4 + (rgba >>> 24 & 0xFF) >> 3) 
+                | (0xFF + (rgba >>> 8) - (rgba >>> 24 & 0xFF) & 0x1FE) << 7
+                | (0xFF + (rgba >>> 16 & 0xFF) - (rgba >>> 24 & 0xFF) & 0x1FE) << 15
+                | (rgba & 0xFE) << 24);
+
+    }
+
+    /**
      * Gets the red channel value of the given encoded color, as an int ranging from 0 to 255, inclusive.
      * @param encoded a color as a packed float that can be obtained by {@link FloatColorTools#floatColor(float, float, float, float)}
      * @return an int from 0 to 255, inclusive, representing the red channel value of the given encoded color
@@ -233,80 +315,6 @@ public class FloatColorTools {
     public static float setAlpha(final float encodedColor, final float alpha) {
         return NumberUtils.intBitsToFloat(NumberUtils.floatToIntBits(encodedColor) & 0xFFFFFF
                 | (MathUtils.clamp((int) (255f * alpha), 0, 255) << 24 & 0xFE000000));
-    }
-
-    /**
-     * Gets a packed float representation of a color given as 4 float components, here, Y (luma or lightness), Cw
-     * (chromatic warmth), Cm (chromatic mildness), and A (alpha or opacity). As long as you use a shader with
-     * {@link Basics#fragmentShader} as its shader, colors passed with
-     * {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)} will be interpreted as YCwCmA.
-     Luma should be between 0 and
-     * 1, inclusive, with 0 used for very dark colors (almost only black), and 1 used for very light colors (almost only
-     * white). The two chroma values range from 0.0 to 1.0, and there's some aesthetic value in
-     * changing just one chroma value. When warm is high and mild is low, the color is more reddish; when both are low
-     * it is more bluish, and when mild is high and warm is low, the color tends to be greenish, and when both are high
-     * it tends to be brown or yellow. When warm and mild are both near 0.5f, the color is closer to gray.  Alpha is
-     * the multiplicative opacity of the color, and acts like RGBA's alpha.
-     * <br>
-     * This method clamps the resulting color's byte values, so any values can technically be given to this as luma,
-     * warm, and mild, but they will only be reversible from the returned float color to the original Y, Cw, and Cm
-     * values if the original values were in the range that {@link #chromaWarm(float)}, {@link #chromaMild(float)}, and
-     * {@link #luma(float)} return.
-     *
-     * @param luma       0f to 1f, luma or Y component of YCwCmA, with 0.5f meaning "no change" and 1f brightening
-     * @param warm       0f to 1f, "chroma warm" or Cw component of YCwCmA, with 1f more red or yellow
-     * @param mild       0f to 1f, "chroma mild" or Cm component of YCwCmA, with 1f more green or yellow
-     * @param alpha      0f to 1f, 0f makes the color transparent and 1f makes it opaque 
-     * @return a float encoding a color with the given properties
-     */
-    public static float floatColor(float luma, float warm, float mild, float alpha) {
-        return NumberUtils.intBitsToFloat(((int) (alpha * 255) << 24 & 0xFE000000) | ((int) (mild * 255) << 16 & 0xFF0000)
-                | ((int) (warm * 255) << 8 & 0xFF00) | ((int) (luma * 255) & 0xFF));
-    }
-    
-    /**
-     * Gets a color as a packed float given floats representing hue, saturation, value, and opacity.
-     * All parameters should normally be between 0 and 1 inclusive, though any hue is tolerated (precision loss may
-     * affect the color if the hue is too large). A hue of 0 is red, progressively higher hue values go to orange,
-     * yellow, green, blue, and purple before wrapping around to red as it approaches 1. A saturation of 0 is grayscale,
-     * a saturation of 1 is brightly colored, and values close to 1 will usually appear more distinct than values close
-     * to 0, especially if the hue is different. The value is similar to lightness; a value of 0.001f or less is always
-     * black (also using a shortcut if this is the case, respecting opacity), while a value of 1 is as bright as the
-     * color gets with the given saturation and value. To get a value of white, you would nee both a value of 1 and a
-     * saturation of 0.
-     *
-     * @param hue        0f to 1f, color wheel position
-     * @param saturation 0f to 1f, 0f is grayscale and 1f is brightly colored
-     * @param value      0f to 1f, 0f is black and 1f is bright or light
-     * @param opacity    0f to 1f, 0f is fully transparent and 1f is opaque
-     * @return a float encoding a color with the given properties
-     */
-    public static float floatGetHSV(float hue, float saturation, float value, float opacity) {
-        if (value <= 0.001f) {
-            return NumberUtils.intBitsToFloat((int) (opacity * 255f) << 24 & 0xFE000000);
-        } else {
-            hue -= 0.125f;
-            saturation = MathUtils.clamp(saturation, 0f, 1f) * 180.31222920256963f;
-            final float cw = MathUtils.clamp(TrigTools.cos_(hue) * saturation + 127.5f, 0f, 255f);
-            final float cm = MathUtils.clamp(TrigTools.sin_(hue) * saturation + 127.5f, 0f, 255f);
-            return floatColor(value, cw, cm, opacity);
-        }
-    }
-
-
-    /**
-     * Converts a packed float color in the format produced by {@link FloatColorTools#floatColor(float, float, float, float)} to an RGBA8888 int. This format of
-     * int can be used with Pixmap and in some other places in libGDX.
-     * @param packed a packed float color, as produced by {@link FloatColorTools#floatColor(float, float, float, float)}
-     * @return an RGBA8888 int color
-     */
-    public static int floatToInt(final float packed)
-    {
-        final int decoded = NumberUtils.floatToIntBits(packed), y = (decoded & 0xff), cm = (((decoded >>> 15 & 0x1fe) - 255) >>> 2);
-        return y + (((decoded >>> 7 & 0x1fe) - 255) * 5 >>> 4) - cm << 24
-                | y - (((decoded >>> 7 & 0x1fe) - 255) * 3 >> 4) + cm << 16
-                | y - (((decoded >>> 7 & 0x1fe) - 255) * 3 >> 4) - cm << 8
-                | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
     }
     
     /**

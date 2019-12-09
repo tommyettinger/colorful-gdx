@@ -38,9 +38,9 @@ if (JavaVersion.current().isJava8Compatible()) {
 }
 
 jar {
-    baseName = projectName
+    archiveBaseName.set(projectName)
     manifest {
-        attributes 'Implementation-Title': projectName, 'Implementation-Version': version
+        attributes 'Implementation-Title': projectName, 'Implementation-Version': archiveVersion
     }
 }
 
