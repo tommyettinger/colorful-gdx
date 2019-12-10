@@ -33,7 +33,7 @@ public class TintDemo extends ApplicationAdapter {
 
     private long startTime = 0L, lastProcessedTime = 0L;
     private ShaderProgram defaultShader;
-    private ShaderProgram shader, shader2, shaderCB;
+    private ShaderProgram shader;
     private Texture palette;
     private float luma = 0.5f, warm = 0.5f, mild = 0.5f, opacity = 1f;
 
@@ -78,7 +78,7 @@ public class TintDemo extends ApplicationAdapter {
     public void create() {
         font = new BitmapFont();
         defaultShader = SpriteBatch.createDefaultShader();
-        shader = new ShaderProgram(Basics.vertexShader, Basics.fragmentShader);
+        shader = new ShaderProgram(Basics.vertexShader, Basics.fragmentShaderHigherContrast);
         if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
         batch = new SpriteBatch(1000, defaultShader);
         screenView = new ScreenViewport();
@@ -144,17 +144,17 @@ public class TintDemo extends ApplicationAdapter {
                 return;
             lastProcessedTime = TimeUtils.millis();
             if (input.isKeyPressed(Input.Keys.L)) //light
-                luma = MathUtils.clamp(luma + 0x1p-7f, 0f, 1f);
+                luma = MathUtils.clamp(luma + 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.D)) //dark
-                luma = MathUtils.clamp(luma - 0x1p-7f, 0f, 1f);
+                luma = MathUtils.clamp(luma - 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.RIGHT)) //warm
-                warm = MathUtils.clamp(warm + 0x1p-7f, 0f, 1f);
+                warm = MathUtils.clamp(warm + 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.LEFT)) //cool
-                warm = MathUtils.clamp(warm - 0x1p-7f, 0f, 1f);
+                warm = MathUtils.clamp(warm - 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.UP)) //mild
-                mild = MathUtils.clamp(mild + 0x1p-7f, 0f, 1f);
+                mild = MathUtils.clamp(mild + 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.DOWN)) // bold
-                mild = MathUtils.clamp(mild - 0x1p-7f, 0f, 1f);
+                mild = MathUtils.clamp(mild - 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.R)) // reset
             {
                 luma = 0.5f;

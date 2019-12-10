@@ -59,7 +59,6 @@ public class FloatColorTools {
         if (value <= 0.001f) {
             return NumberUtils.intBitsToFloat((int) (opacity * 255f) << 24 & 0xFE000000);
         } else {
-            hue -= 0.125f;
             saturation = MathUtils.clamp(saturation, 0f, 1f) * 180.31222920256963f;
             final float cw = MathUtils.clamp(TrigTools.cos_(hue) * saturation + 127.5f, 0f, 255f);
             final float cm = MathUtils.clamp(TrigTools.sin_(hue) * saturation + 127.5f, 0f, 255f);
@@ -354,12 +353,11 @@ public class FloatColorTools {
         if ( saturation > 0.001f )
         {
             // it has color
-            float angle = TrigTools.atan2_(cm, cw) + 0.125f;
+            float angle = TrigTools.atan2_(cm, cw);
             hue += angle - (int)angle;
         }
         else
             return floatColor(value, 0.5f, 0.5f, opacity);
-        hue -= 0.125f;
         saturation = MathUtils.clamp(saturation, 0f, 1f) * 180.31222920256963f;
         cw = MathUtils.clamp(TrigTools.cos_(hue) * saturation + 127.5f, 0f, 255f);
         cm = MathUtils.clamp(TrigTools.sin_(hue) * saturation + 127.5f, 0f, 255f);
