@@ -8,6 +8,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,31 +21,32 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class TintDemo extends ApplicationAdapter {
+public class NamedDemo extends ApplicationAdapter {
     //public static final int backgroundColor = Color.rgba8888(Color.DARK_GRAY);
 //    public static final int SCREEN_WIDTH = 1531;
 //    public static final int SCREEN_HEIGHT = 862;
     public static final int SCREEN_WIDTH = 808;
     public static final int SCREEN_HEIGHT = 600;
-    protected SpriteBatch batch;
-    protected Viewport screenView;
-    protected Texture screenTexture;
-    protected BitmapFont font;
-
+    private SpriteBatch batch;
+    private Viewport screenView;
+    private Texture screenTexture;
+    private BitmapFont font;
+    private Texture blank;
     private long startTime = 0L, lastProcessedTime = 0L;
-    private ShaderProgram defaultShader;
     private ShaderProgram shader;
-    private float luma = 0.5f, warm = 0.5f, mild = 0.5f, opacity = 1f;
+    private int selectedIndex;
+    private String selectedName;
+    private float selected;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("Tint Demo");
+        config.setTitle("Named Color Demo");
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.setIdleFPS(10);
         config.useVsync(true);
 //        config.setResizable(false);
 
-        final TintDemo app = new TintDemo();
+        final NamedDemo app = new NamedDemo();
         config.setWindowListener(new Lwjgl3WindowAdapter() {
             @Override
             public void filesDropped(String[] files) {
@@ -71,7 +73,7 @@ public class TintDemo extends ApplicationAdapter {
         screenTexture = new Texture(file);
         screenTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         int width, height;
-        Gdx.graphics.setWindowedMode(width = Math.min(screenTexture.getWidth() * 2, Gdx.graphics.getDisplayMode().width),
+        Gdx.graphics.setWindowedMode(width = Math.min(screenTexture.getWidth() * 4, Gdx.graphics.getDisplayMode().width),
                 height = Math.min(screenTexture.getHeight(), Gdx.graphics.getDisplayMode().height));
         screenView.update(width, height);
         screenView.getCamera().position.set(width * 0.5f, height * 0.5f, 0f);
@@ -79,17 +81,30 @@ public class TintDemo extends ApplicationAdapter {
 
     @Override
     public void create() {
-        font = new BitmapFont();
-        defaultShader = SpriteBatch.createDefaultShader();
-        shader = new ShaderProgram(Basics.vertexShader, Basics.fragmentShaderHigherContrast);
+        Pixmap b = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        b.drawPixel(0, 0, 0x7F7F81FF);
+        blank = new Texture(b);
+        font = new BitmapFont(Gdx.files.internal("arial18.fnt"));
+        font.setColor(1f, 0.5f, 0.5f, 1f);
+        shader = new ShaderProgram(Basics.vertexShader, Basics.fragmentShader);
         if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
-        batch = new SpriteBatch(1000, defaultShader);
+        batch = new SpriteBatch(1000, shader);
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.enableBlending();
 
-        // if you don't have these files on this absolute path, that's fine, and they will be ignored
+        for (int i = 0; i < Palette.NAMES_BY_HUE.size; i++) {
+            String name = Palette.NAMES_BY_HUE.get(i);
+            float color = Palette.NAMED.get(name, Palette.WHITE);
+            if (FloatColorTools.alphaInt(color) == 0)
+                Palette.NAMES_BY_HUE.removeIndex(i--);
+        }
+        selectedIndex = 0;
+        selectedName = Palette.NAMES_BY_HUE.first();
+        selected = Palette.NAMED.get(selectedName, Palette.NEUTRAL);
+
+            // if you don't have these files on this absolute path, that's fine, and they will be ignored
 //        load("D:/Painting_by_Henri_Biva.jpg");
 //        load("D:/Among_the_Sierra_Nevada_by_Albert_Bierstadt.jpg");
         load("samples/Mona_Lisa.jpg");
@@ -103,16 +118,28 @@ public class TintDemo extends ApplicationAdapter {
         handleInput();
         batch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) {
-            batch.setShader(shader);
-            batch.setColor(luma, warm, mild, opacity);
+            batch.setPackedColor(selected);
             batch.begin();
             batch.draw(screenTexture, 0, 0);
-            batch.setShader(defaultShader);
-            batch.setPackedColor(-0x1.fffffep126f); // packed white
-            batch.draw(screenTexture, screenTexture.getWidth(), 0);
+            int i = -1;
+            final float width = screenTexture.getWidth() * 0x3p-3f, height = screenTexture.getHeight() * 0x1p-5f;
+            for (int y = 0; y < 32; y++) {
+                for (int x = 0; x < 8; x++) {
+                    String name = Palette.NAMES_BY_HUE.get(++i);
+                    float color = Palette.NAMED.get(name, Palette.WHITE);
+                    batch.setPackedColor(color);
+                    batch.draw(blank, screenTexture.getWidth() + width * x, height * (31 - y), width, height);
+                    if (i == selectedIndex) {
+                        if (FloatColorTools.luma(color) > 0.4f)
+                            font.setColor(0f, 0.5f, 0.5f, 1f);
+                        else
+                            font.setColor(1f, 0.5f, 0.5f, 1f);
+                        font.draw(batch, name, screenTexture.getWidth() + width * x + 1f, height * (32 - y) - 1f);
+                    }
+                }
+            }
         } else {
             batch.begin();
-            font.draw(batch, "Drag and drop an image file onto this window", 20, 150);
         }
         batch.end();
     }
@@ -126,7 +153,7 @@ public class TintDemo extends ApplicationAdapter {
 
     public void handleInput() {
         if (input.isKeyPressed(Input.Keys.P)) // print
-            System.out.println("Y=" + luma + ",Cw=" + warm + ",Cm=" + mild);
+            System.out.println(selectedName);
         else if (input.isKeyPressed(Input.Keys.M))
             load("samples/Mona_Lisa.jpg");
         else if (input.isKeyPressed(Input.Keys.S)) //Sierra Nevada
@@ -141,29 +168,23 @@ public class TintDemo extends ApplicationAdapter {
             load("samples/Spaceships.png");
         else if (input.isKeyPressed(Input.Keys.Q) || input.isKeyPressed(Input.Keys.ESCAPE)) //quit
             Gdx.app.exit();
-        else {
-            // only process once every 166 ms, or 6 times a second, at most
-            if (TimeUtils.timeSinceMillis(lastProcessedTime) < 166)
-                return;
-            lastProcessedTime = TimeUtils.millis();
-            if (input.isKeyPressed(Input.Keys.L)) //light
-                luma = MathUtils.clamp(luma + 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.D)) //dark
-                luma = MathUtils.clamp(luma - 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.RIGHT)) //warm
-                warm = MathUtils.clamp(warm + 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.LEFT)) //cool
-                warm = MathUtils.clamp(warm - 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.UP)) //mild
-                mild = MathUtils.clamp(mild + 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.DOWN)) // bold
-                mild = MathUtils.clamp(mild - 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.R)) // reset
+        else if(TimeUtils.timeSinceMillis(lastProcessedTime) > 150) {
+            if (input.isKeyPressed(Input.Keys.RIGHT) || input.isKeyPressed(Input.Keys.DOWN)) {
+                selectedIndex = (selectedIndex + 1) % Palette.NAMES_BY_HUE.size;
+                selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
+                selected = Palette.NAMED.get(selectedName, Palette.NEUTRAL);
+                lastProcessedTime = TimeUtils.millis();
+            } else if (input.isKeyPressed(Input.Keys.LEFT) || input.isKeyPressed(Input.Keys.UP)) {
+                selectedIndex = (selectedIndex + Palette.NAMES_BY_HUE.size - 1) % Palette.NAMES_BY_HUE.size;
+                selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
+                selected = Palette.NAMED.get(selectedName, Palette.NEUTRAL);
+                lastProcessedTime = TimeUtils.millis();
+            } else if (input.isKeyPressed(Input.Keys.R)) // random
             {
-                luma = 0.5f;
-                warm = 0.5f;
-                mild = 0.5f;
-                opacity = 1f;
+                selectedIndex = MathUtils.random(Palette.NAMES_BY_HUE.size);
+                selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
+                selected = Palette.NAMED.get(selectedName, Palette.NEUTRAL);
+                lastProcessedTime = TimeUtils.millis();
             }
         }
     }

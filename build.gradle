@@ -37,6 +37,8 @@ if (JavaVersion.current().isJava8Compatible()) {
     }
 }
 
+sourceSets.test.resources.srcDirs += [ file('src/test/resources').path ]
+
 jar {
     archiveBaseName.set(projectName)
     manifest {

@@ -1,7 +1,13 @@
 package com.github.tommyettinger.colorful;
 
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.ObjectFloatMap;
+
+import java.util.Comparator;
+
+import static com.github.tommyettinger.colorful.FloatColorTools.hue;
+import static com.github.tommyettinger.colorful.FloatColorTools.luma;
 
 /**
  * A palette of predefined colors as packed YCwCmA floats, the kind {@link FloatColorTools} works with.
@@ -25,6 +31,20 @@ public class Palette {
      */
     public static final float TRANSPARENT = 0x0.fefep-126F;
     static { NAMED.put("Transparent", 0x0.fefep-126F); LIST.add(0x0.fefep-126F); }
+
+    /**
+     * This color constant "Neutral" has RGBA8888 code {@code 7f7f81ff}, luma 0.49803925, warmth 0.49803925, mildness 0.49803925, alpha 1.0, hue 0.62496763, and saturation 0.003921569.
+     * It can be represented as a packed float with the constant {@code -0x1.fefefep125F}.
+     * Neutral is a special color because it is the closest any color can get to an identity when tinting another color;
+     * that is, tinting an image with Neutral will not change the image at all (almost).
+     * <pre>
+     * <font style='background-color: #7f7f81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7f7f81; color: #000000'>&nbsp;@&nbsp;</font>
+     * <font style='background-color: #7f7f81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #7f7f81'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #7f7f81'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #7f7f81'>&nbsp;@&nbsp;</font><font style='background-color: #7f7f81; color: #888888'>&nbsp;@&nbsp;</font>
+     * <font style='background-color: #7f7f81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7f7f81; color: #ffffff'>&nbsp;@&nbsp;</font>
+     * </pre>
+     */
+    public static final float NEUTRAL = -0x1.fefefep125F;
+    static { NAMED.put("Neutral", -0x1.fefefep125F); LIST.add(-0x1.fefefep125F); }
 
     /**
      * This color constant "Black" has RGBA8888 code {@code 000000FF}, luma 0.0, warmth 0.49803925, mildness 0.49803925, alpha 1.0, hue 0.62496763, and saturation 0.003921569.
@@ -3085,4 +3105,33 @@ public class Palette {
      */
     public static final float RASPBERRY = -0x1.dd588ep125F;
     static { NAMED.put("Raspberry", -0x1.dd588ep125F); LIST.add(-0x1.dd588ep125F); }
+    
+    /**
+     * All names for colors in this palette, in alphabetical order. You can fetch the corresponding packed float color
+     * by looking up a name in {@link #NAMED}.
+     */
+    public static final Array<String> NAMES = NAMED.keys().toArray();
+    static { NAMES.sort(); }
+    /**
+     * All names for colors in this palette, sorted by hue from red to yellow to green to blue. You can fetch the
+     * corresponding packed float color by looking up a name in {@link #NAMED}.
+     */
+    public static final Array<String> NAMES_BY_HUE = new Array<>(NAMES);
+    /**
+     * All names for colors in this palette, sorted by lightness from black to white. You can fetch the
+     * corresponding packed float color by looking up a name in {@link #NAMED}.
+     */
+    public static final Array<String> NAMES_BY_LIGHTNESS = new Array<>(NAMES);
+    static {
+        NAMES_BY_HUE.sort(new Comparator<String>() {
+            public int compare(String o1, String o2) {
+                return Float.compare(hue(NAMED.get(o1, TRANSPARENT)), hue(NAMED.get(o2, TRANSPARENT)));
+            }
+        });
+        NAMES_BY_LIGHTNESS.sort(new Comparator<String>() {
+            public int compare(String o1, String o2) {
+                return Float.compare(luma(NAMED.get(o1, TRANSPARENT)), luma(NAMED.get(o2, TRANSPARENT)));
+            }
+        });
+    }
 }
