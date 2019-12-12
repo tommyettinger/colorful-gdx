@@ -73,7 +73,7 @@ public class NamedDemo extends ApplicationAdapter {
         screenTexture = new Texture(file);
         screenTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         int width, height;
-        Gdx.graphics.setWindowedMode(width = Math.min(screenTexture.getWidth() * 4, Gdx.graphics.getDisplayMode().width),
+        Gdx.graphics.setWindowedMode(width = Math.min(screenTexture.getWidth() * 2, Gdx.graphics.getDisplayMode().width),
                 height = Math.min(screenTexture.getHeight(), Gdx.graphics.getDisplayMode().height));
         screenView.update(width, height);
         screenView.getCamera().position.set(width * 0.5f, height * 0.5f, 0f);
@@ -84,7 +84,7 @@ public class NamedDemo extends ApplicationAdapter {
         Pixmap b = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         b.drawPixel(0, 0, 0x7F7F81FF);
         blank = new Texture(b);
-        font = new BitmapFont(Gdx.files.internal("arial18.fnt"));
+        font = new BitmapFont(Gdx.files.internal("font.fnt"));
         font.setColor(1f, 0.5f, 0.5f, 1f);
         shader = new ShaderProgram(Basics.vertexShader, Basics.fragmentShader);
         if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
@@ -102,12 +102,13 @@ public class NamedDemo extends ApplicationAdapter {
         }
         selectedIndex = 0;
         selectedName = Palette.NAMES_BY_HUE.first();
-        selected = Palette.NAMED.get(selectedName, Palette.NEUTRAL);
+        selected = Palette.NAMED.get(selectedName, Palette.GRAY);
 
             // if you don't have these files on this absolute path, that's fine, and they will be ignored
 //        load("D:/Painting_by_Henri_Biva.jpg");
 //        load("D:/Among_the_Sierra_Nevada_by_Albert_Bierstadt.jpg");
-        load("samples/Mona_Lisa.jpg");
+        load("samples/Color_Guard.png");
+//        load("samples/Mona_Lisa.jpg");
     }
 
 
@@ -122,19 +123,19 @@ public class NamedDemo extends ApplicationAdapter {
             batch.begin();
             batch.draw(screenTexture, 0, 0);
             int i = -1;
-            final float width = screenTexture.getWidth() * 0x3p-3f, height = screenTexture.getHeight() * 0x1p-5f;
-            for (int y = 0; y < 32; y++) {
-                for (int x = 0; x < 8; x++) {
+            final float width = screenTexture.getWidth() / 5f, height = screenTexture.getHeight() / 51f;
+            for (int y = 0; y < 51; y++) {
+                for (int x = 0; x < 5; x++) {
                     String name = Palette.NAMES_BY_HUE.get(++i);
                     float color = Palette.NAMED.get(name, Palette.WHITE);
                     batch.setPackedColor(color);
-                    batch.draw(blank, screenTexture.getWidth() + width * x, height * (31 - y), width, height);
+                    batch.draw(blank, screenTexture.getWidth() + width * x, height * (50 - y), width, height);
                     if (i == selectedIndex) {
-                        if (FloatColorTools.luma(color) > 0.4f)
-                            font.setColor(0f, 0.5f, 0.5f, 1f);
-                        else
-                            font.setColor(1f, 0.5f, 0.5f, 1f);
-                        font.draw(batch, name, screenTexture.getWidth() + width * x + 1f, height * (32 - y) - 1f);
+//                        if (FloatColorTools.luma(color) > 0.4f)
+//                            font.setColor(0f, 0.5f, 0.5f, 1f);
+//                        else                         
+                        font.setColor(1f, 0.5f, 0.5f, 1f);
+                        font.draw(batch, name, screenTexture.getWidth() + width * x + 1f, height * (51 - y) - 1f);
                     }
                 }
             }
@@ -172,18 +173,18 @@ public class NamedDemo extends ApplicationAdapter {
             if (input.isKeyPressed(Input.Keys.RIGHT) || input.isKeyPressed(Input.Keys.DOWN)) {
                 selectedIndex = (selectedIndex + 1) % Palette.NAMES_BY_HUE.size;
                 selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
-                selected = Palette.NAMED.get(selectedName, Palette.NEUTRAL);
+                selected = Palette.NAMED.get(selectedName, Palette.GRAY);
                 lastProcessedTime = TimeUtils.millis();
             } else if (input.isKeyPressed(Input.Keys.LEFT) || input.isKeyPressed(Input.Keys.UP)) {
                 selectedIndex = (selectedIndex + Palette.NAMES_BY_HUE.size - 1) % Palette.NAMES_BY_HUE.size;
                 selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
-                selected = Palette.NAMED.get(selectedName, Palette.NEUTRAL);
+                selected = Palette.NAMED.get(selectedName, Palette.GRAY);
                 lastProcessedTime = TimeUtils.millis();
             } else if (input.isKeyPressed(Input.Keys.R)) // random
             {
                 selectedIndex = MathUtils.random(Palette.NAMES_BY_HUE.size);
                 selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
-                selected = Palette.NAMED.get(selectedName, Palette.NEUTRAL);
+                selected = Palette.NAMED.get(selectedName, Palette.GRAY);
                 lastProcessedTime = TimeUtils.millis();
             }
         }

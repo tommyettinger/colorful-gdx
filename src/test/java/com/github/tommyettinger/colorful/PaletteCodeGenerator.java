@@ -106,7 +106,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                 return c1.key.compareTo(c2.key);
             }
         });
-        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Luma</th>\n<th>Warm</th>\n<th>Mild</th>\n<th>Alph</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Luma</th>\n<th>Warm</th>\n<th>Mild</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
             sb.append(templateTable.replace("Name", sc.key)
@@ -142,7 +142,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                             + (int)Math.signum(lightnessAltLAB(c1.value) - lightnessAltLAB(c2.value));
             }
         });
-        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Luma</th>\n<th>Warm</th>\n<th>Mild</th>\n<th>Alph</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Luma</th>\n<th>Warm</th>\n<th>Mild</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
             sb.append(templateTable.replace("Name", sc.key)
@@ -169,7 +169,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                 return (int)Math.signum(lightnessAltLAB(c1.value) - lightnessAltLAB(c2.value));
             }
         });
-        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Luma</th>\n<th>Warm</th>\n<th>Mild</th>\n<th>Alph</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Luma</th>\n<th>Warm</th>\n<th>Mild</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
             sb.append(templateTable.replace("Name", sc.key)
@@ -188,24 +188,6 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         }
         sb.append("</table>\n</body>\n</html>");
         Gdx.files.local("ColorTableValue.html").writeString(sb.toString(), false);
-        
-        c = FloatColorTools.floatColor(0.5f, 0.5f, 0.5f, 1f);
-        rec[0] = "NEUTRAL";
-        rec[1] = StringKit.hex(FloatColorTools.toRGBA8888(c));
-        rec[2] = "Neutral";
-        System.out.println(
-                templateFull.replace("`Name", rec[2])
-                .replace("`NAME", rec[0])
-                .replace("`RRGGBBAA", rec[1])
-                .replace("FEDCBA", rec[1].substring(0, 6))
-                .replace("`LUMA", Float.toString(FloatColorTools.luma(c)))
-                .replace("`WARM", Float.toString(FloatColorTools.chromaWarm(c)))
-                .replace("`MILD", Float.toString(FloatColorTools.chromaMild(c)))
-                .replace("`ALPHA", Float.toString(FloatColorTools.alpha(c)))
-                .replace("`HUE", Float.toString(FloatColorTools.hue(c)))
-                .replace("`SAT", Float.toString(FloatColorTools.saturation(c)))
-                .replace("`PACKED", Float.toHexString(c))
-        );
         
         Gdx.app.exit();
     }

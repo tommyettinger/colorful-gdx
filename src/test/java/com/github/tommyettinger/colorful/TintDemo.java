@@ -9,7 +9,6 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
@@ -29,7 +28,6 @@ public class TintDemo extends ApplicationAdapter {
     protected SpriteBatch batch;
     protected Viewport screenView;
     protected Texture screenTexture;
-    protected BitmapFont font;
 
     private long startTime = 0L, lastProcessedTime = 0L;
     private ShaderProgram defaultShader;
@@ -79,7 +77,6 @@ public class TintDemo extends ApplicationAdapter {
 
     @Override
     public void create() {
-        font = new BitmapFont();
         defaultShader = SpriteBatch.createDefaultShader();
         shader = new ShaderProgram(Basics.vertexShader, Basics.fragmentShaderHigherContrast);
         if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
@@ -110,11 +107,9 @@ public class TintDemo extends ApplicationAdapter {
             batch.setShader(defaultShader);
             batch.setPackedColor(-0x1.fffffep126f); // packed white
             batch.draw(screenTexture, screenTexture.getWidth(), 0);
-        } else {
-            batch.begin();
-            font.draw(batch, "Drag and drop an image file onto this window", 20, 150);
+            batch.end();
         }
-        batch.end();
+        
     }
 
     @Override

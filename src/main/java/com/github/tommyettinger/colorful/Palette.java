@@ -31,21 +31,7 @@ public class Palette {
      */
     public static final float TRANSPARENT = 0x0.fefep-126F;
     static { NAMED.put("Transparent", 0x0.fefep-126F); LIST.add(0x0.fefep-126F); }
-
-    /**
-     * This color constant "Neutral" has RGBA8888 code {@code 7f7f81ff}, luma 0.49803925, warmth 0.49803925, mildness 0.49803925, alpha 1.0, hue 0.62496763, and saturation 0.003921569.
-     * It can be represented as a packed float with the constant {@code -0x1.fefefep125F}.
-     * Neutral is a special color because it is the closest any color can get to an identity when tinting another color;
-     * that is, tinting an image with Neutral will not change the image at all (almost).
-     * <pre>
-     * <font style='background-color: #7f7f81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7f7f81; color: #000000'>&nbsp;@&nbsp;</font>
-     * <font style='background-color: #7f7f81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #7f7f81'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #7f7f81'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #7f7f81'>&nbsp;@&nbsp;</font><font style='background-color: #7f7f81; color: #888888'>&nbsp;@&nbsp;</font>
-     * <font style='background-color: #7f7f81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7f7f81; color: #ffffff'>&nbsp;@&nbsp;</font>
-     * </pre>
-     */
-    public static final float NEUTRAL = -0x1.fefefep125F;
-    static { NAMED.put("Neutral", -0x1.fefefep125F); LIST.add(-0x1.fefefep125F); }
-
+    
     /**
      * This color constant "Black" has RGBA8888 code {@code 000000FF}, luma 0.0, warmth 0.49803925, mildness 0.49803925, alpha 1.0, hue 0.62496763, and saturation 0.003921569.
      * It can be represented as a packed float with the constant {@code -0x1.fefep125F}.
@@ -131,16 +117,18 @@ public class Palette {
     static { NAMED.put("Iron", -0x1.fefedcp125F); LIST.add(-0x1.fefedcp125F); }
 
     /**
-     * This color constant "Gray" has RGBA8888 code {@code 808080FF}, luma 0.5019608, warmth 0.49803925, mildness 0.49803925, alpha 1.0, hue 0.62496763, and saturation 0.003921569.
-     * It can be represented as a packed float with the constant {@code -0x1.feffp125F}.
+     * This color constant "Gray" has RGBA8888 code {@code 7f7f81ff}, luma 0.49803925, warmth 0.49803925, mildness 0.49803925, alpha 1.0, hue 0.62496763, and saturation 0.003921569.
+     * It can be represented as a packed float with the constant {@code -0x1.fefefep125F}.
+     * Gray is a special color because it is the closest any color can get to an identity when tinting another color;
+     * that is, tinting an image with Gray will not change the image at all (almost).
      * <pre>
-     * <font style='background-color: #808080;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #808080; color: #000000'>&nbsp;@&nbsp;</font>
-     * <font style='background-color: #808080;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #808080'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #808080'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #808080'>&nbsp;@&nbsp;</font><font style='background-color: #808080; color: #888888'>&nbsp;@&nbsp;</font>
-     * <font style='background-color: #808080;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #808080; color: #ffffff'>&nbsp;@&nbsp;</font>
+     * <font style='background-color: #7f7f81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7f7f81; color: #000000'>&nbsp;@&nbsp;</font>
+     * <font style='background-color: #7f7f81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #7f7f81'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #7f7f81'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #7f7f81'>&nbsp;@&nbsp;</font><font style='background-color: #7f7f81; color: #888888'>&nbsp;@&nbsp;</font>
+     * <font style='background-color: #7f7f81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7f7f81; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float GRAY = -0x1.feffp125F;
-    static { NAMED.put("Gray", -0x1.feffp125F); LIST.add(-0x1.feffp125F); }
+    public static final float GRAY = -0x1.fefefep125F;
+    static { NAMED.put("Gray", -0x1.fefefep125F); LIST.add(-0x1.fefefep125F); }
 
     /**
      * This color constant "Chinchilla" has RGBA8888 code {@code 929292FF}, luma 0.57254905, warmth 0.49803925, mildness 0.49803925, alpha 1.0, hue 0.62496763, and saturation 0.003921569.
