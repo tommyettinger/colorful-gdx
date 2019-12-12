@@ -12,9 +12,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -33,7 +31,6 @@ public class NamedDemo extends ApplicationAdapter {
     private BitmapFont font;
     private Texture blank;
     private long startTime = 0L, lastProcessedTime = 0L;
-    private ShaderProgram shader;
     private int selectedIndex;
     private String selectedName;
     private float selected;
@@ -86,9 +83,7 @@ public class NamedDemo extends ApplicationAdapter {
         blank = new Texture(b);
         font = new BitmapFont(Gdx.files.internal("font.fnt"));
         font.setColor(1f, 0.5f, 0.5f, 1f);
-        shader = new ShaderProgram(Basics.vertexShader, Basics.fragmentShader);
-        if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
-        batch = new SpriteBatch(1000, shader);
+        batch = Shaders.makeBatch(1.25f); // experimenting with slightly higher contrast
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -97,7 +92,7 @@ public class NamedDemo extends ApplicationAdapter {
         for (int i = 0; i < Palette.NAMES_BY_HUE.size; i++) {
             String name = Palette.NAMES_BY_HUE.get(i);
             float color = Palette.NAMED.get(name, Palette.WHITE);
-            if (FloatColorTools.alphaInt(color) == 0)
+            if (FloatColors.alphaInt(color) == 0)
                 Palette.NAMES_BY_HUE.removeIndex(i--);
         }
         selectedIndex = 0;
@@ -131,7 +126,7 @@ public class NamedDemo extends ApplicationAdapter {
                     batch.setPackedColor(color);
                     batch.draw(blank, screenTexture.getWidth() + width * x, height * (50 - y), width, height);
                     if (i == selectedIndex) {
-//                        if (FloatColorTools.luma(color) > 0.4f)
+//                        if (FloatColors.luma(color) > 0.4f)
 //                            font.setColor(0f, 0.5f, 0.5f, 1f);
 //                        else                         
                         font.setColor(1f, 0.5f, 0.5f, 1f);

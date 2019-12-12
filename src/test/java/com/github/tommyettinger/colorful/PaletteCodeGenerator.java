@@ -16,9 +16,9 @@ import java.util.Comparator;
 public class PaletteCodeGenerator extends ApplicationAdapter {
     public static float lightnessAltLAB(float color)
     {
-        return (float) Math.sqrt((Math.pow(FloatColorTools.red(color), 2.19921875) * 0x3p-3
-                + Math.pow(FloatColorTools.green(color), 2.19921875) * 0x4p-3
-                + Math.pow(FloatColorTools.blue(color), 2.19921875) * 0x1p-3));
+        return (float) Math.sqrt((Math.pow(FloatColors.red(color), 2.19921875) * 0x3p-3
+                + Math.pow(FloatColors.green(color), 2.19921875) * 0x4p-3
+                + Math.pow(FloatColors.blue(color), 2.19921875) * 0x1p-3));
     }
 
     public static void tabSplit(String[] receiving, String source) {
@@ -69,21 +69,21 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 
         for (int i = 0; i < lines.length; i++) {
             tabSplit(rec, lines[i]);
-            c = FloatColorTools.fromRGBA8888(StringKit.intFromHex(rec[1]));
+            c = FloatColors.fromRGBA8888(StringKit.intFromHex(rec[1]));
             sb.append(templateFull.replace("`Name", rec[2])
                     .replace("`NAME", rec[0])
                     .replace("`RRGGBBAA", rec[1])
                     .replace("FEDCBA", rec[1].substring(0, 6))
-                    .replace("`LUMA", Float.toString(FloatColorTools.luma(c)))
-                    .replace("`WARM", Float.toString(FloatColorTools.chromaWarm(c)))
-                    .replace("`MILD", Float.toString(FloatColorTools.chromaMild(c)))
-                    .replace("`ALPHA", Float.toString(FloatColorTools.alpha(c)))
-                    .replace("`HUE", Float.toString(FloatColorTools.hue(c)))
-                    .replace("`SAT", Float.toString(FloatColorTools.saturation(c)))
+                    .replace("`LUMA", Float.toString(FloatColors.luma(c)))
+                    .replace("`WARM", Float.toString(FloatColors.chromaWarm(c)))
+                    .replace("`MILD", Float.toString(FloatColors.chromaMild(c)))
+                    .replace("`ALPHA", Float.toString(FloatColors.alpha(c)))
+                    .replace("`HUE", Float.toString(FloatColors.hue(c)))
+                    .replace("`SAT", Float.toString(FloatColors.saturation(c)))
                     .replace("`PACKED", Float.toHexString(c))
             );
-            System.out.println(rec[2] + " : correct RGBA=" + rec[1] + ", decoded RGBA=" + StringKit.hex(FloatColorTools.toRGBA8888(c))
-                    + ", decoded luma=" + FloatColorTools.luma(c) + ", decoded warmth=" + FloatColorTools.chromaWarm(c) + ", decoded mild=" + FloatColorTools.chromaMild(c));
+            System.out.println(rec[2] + " : correct RGBA=" + rec[1] + ", decoded RGBA=" + StringKit.hex(FloatColors.toRGBA8888(c))
+                    + ", decoded luma=" + FloatColors.luma(c) + ", decoded warmth=" + FloatColors.chromaWarm(c) + ", decoded mild=" + FloatColors.chromaMild(c));
         }
         Gdx.files.local("ColorOutput.txt").writeString(sb.toString(), false);
 
@@ -110,14 +110,14 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
             sb.append(templateTable.replace("Name", sc.key)
-                    .replace("`RGBA8888", StringKit.hex(FloatColorTools.toRGBA8888(c)))
-                    .replace("FEDCBA", StringKit.hex(FloatColorTools.toRGBA8888(c)).substring(0, 6))
-                    .replace("`HUE", Float.toString(FloatColorTools.hue(c)))
-                    .replace("`SAT", Float.toString(FloatColorTools.saturation(c)))
-                    .replace("`LUMA", Float.toString(FloatColorTools.luma(c)))
-                    .replace("`WARM", Float.toString(FloatColorTools.chromaWarm(c)))
-                    .replace("`MILD", Float.toString(FloatColorTools.chromaMild(c)))
-                    .replace("`ALPH", Float.toString(FloatColorTools.alpha(c)))
+                    .replace("`RGBA8888", StringKit.hex(FloatColors.toRGBA8888(c)))
+                    .replace("FEDCBA", StringKit.hex(FloatColors.toRGBA8888(c)).substring(0, 6))
+                    .replace("`HUE", Float.toString(FloatColors.hue(c)))
+                    .replace("`SAT", Float.toString(FloatColors.saturation(c)))
+                    .replace("`LUMA", Float.toString(FloatColors.luma(c)))
+                    .replace("`WARM", Float.toString(FloatColors.chromaWarm(c)))
+                    .replace("`MILD", Float.toString(FloatColors.chromaMild(c)))
+                    .replace("`ALPH", Float.toString(FloatColors.alpha(c)))
 //                    .replace("`TWEA", Float.toString(lightnessAltLAB(c)))
                     .replace("`PACK", Float.toHexString(c))
             );
@@ -130,7 +130,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         Collections.sort(PAL, new Comparator<ObjectFloatMap.Entry<String>>() {
             @Override
             public int compare(ObjectFloatMap.Entry<String> c1, ObjectFloatMap.Entry<String> c2) {
-                float s1 = FloatColorTools.saturation(c1.value), s2 = FloatColorTools.saturation(c2.value);
+                float s1 = FloatColors.saturation(c1.value), s2 = FloatColors.saturation(c2.value);
                 if(s1 < 0x1p-7f && s2 >= 0x1p-7f)
                     return -1000;
                 else if(s1 >= 0x1p-7f && s2 < 0x1p-7f)
@@ -138,7 +138,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                 else if(s1 < 0x1p-7f && s2 < 0x1p-7f)
                     return (int)Math.signum(lightnessAltLAB(c1.value) - lightnessAltLAB(c2.value));
                 else
-                    return 3 * (int)Math.signum(FloatColorTools.hue(c1.value) - FloatColorTools.hue(c2.value))
+                    return 3 * (int)Math.signum(FloatColors.hue(c1.value) - FloatColors.hue(c2.value))
                             + (int)Math.signum(lightnessAltLAB(c1.value) - lightnessAltLAB(c2.value));
             }
         });
@@ -146,14 +146,14 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
             sb.append(templateTable.replace("Name", sc.key)
-                    .replace("`RGBA8888", StringKit.hex(FloatColorTools.toRGBA8888(c)))
-                    .replace("FEDCBA", StringKit.hex(FloatColorTools.toRGBA8888(c)).substring(0, 6))
-                    .replace("`HUE", Float.toString(FloatColorTools.hue(c)))
-                    .replace("`SAT", Float.toString(FloatColorTools.saturation(c)))
-                    .replace("`LUMA", Float.toString(FloatColorTools.luma(c)))
-                    .replace("`WARM", Float.toString(FloatColorTools.chromaWarm(c)))
-                    .replace("`MILD", Float.toString(FloatColorTools.chromaMild(c)))
-                    .replace("`ALPH", Float.toString(FloatColorTools.alpha(c)))
+                    .replace("`RGBA8888", StringKit.hex(FloatColors.toRGBA8888(c)))
+                    .replace("FEDCBA", StringKit.hex(FloatColors.toRGBA8888(c)).substring(0, 6))
+                    .replace("`HUE", Float.toString(FloatColors.hue(c)))
+                    .replace("`SAT", Float.toString(FloatColors.saturation(c)))
+                    .replace("`LUMA", Float.toString(FloatColors.luma(c)))
+                    .replace("`WARM", Float.toString(FloatColors.chromaWarm(c)))
+                    .replace("`MILD", Float.toString(FloatColors.chromaMild(c)))
+                    .replace("`ALPH", Float.toString(FloatColors.alpha(c)))
 //                    .replace("`TWEA", Float.toString(lightnessAltLAB(c)))
                     .replace("`PACK", Float.toHexString(c))
             );
@@ -173,14 +173,14 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
             sb.append(templateTable.replace("Name", sc.key)
-                    .replace("`RGBA8888", StringKit.hex(FloatColorTools.toRGBA8888(c)))
-                    .replace("FEDCBA", StringKit.hex(FloatColorTools.toRGBA8888(c)).substring(0, 6))
-                    .replace("`HUE", Float.toString(FloatColorTools.hue(c)))
-                    .replace("`SAT", Float.toString(FloatColorTools.saturation(c)))
-                    .replace("`LUMA", Float.toString(FloatColorTools.luma(c)))
-                    .replace("`WARM", Float.toString(FloatColorTools.chromaWarm(c)))
-                    .replace("`MILD", Float.toString(FloatColorTools.chromaMild(c)))
-                    .replace("`ALPH", Float.toString(FloatColorTools.alpha(c)))
+                    .replace("`RGBA8888", StringKit.hex(FloatColors.toRGBA8888(c)))
+                    .replace("FEDCBA", StringKit.hex(FloatColors.toRGBA8888(c)).substring(0, 6))
+                    .replace("`HUE", Float.toString(FloatColors.hue(c)))
+                    .replace("`SAT", Float.toString(FloatColors.saturation(c)))
+                    .replace("`LUMA", Float.toString(FloatColors.luma(c)))
+                    .replace("`WARM", Float.toString(FloatColors.chromaWarm(c)))
+                    .replace("`MILD", Float.toString(FloatColors.chromaMild(c)))
+                    .replace("`ALPH", Float.toString(FloatColors.alpha(c)))
 //                    .replace("`TWEA", Float.toString(lightnessAltLAB(c)))
                     .replace("`PACK", Float.toHexString(c))
             );

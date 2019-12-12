@@ -375,14 +375,6 @@ public class TrigTools {
      */
     public static double atan2(final double y, final double x)
     {
-        /*
-a := min (|x|, |y|) / max (|x|, |y|)
-s := a * a
-r := ((-0.0464964749 * s + 0.15931422) * s - 0.327622764) * s * a + a
-if |y| > |x| then r := 1.57079637 - r
-if x < 0 then r := 3.14159274 - r
-if y < 0 then r := -r
-         */
         if(y == 0.0 && x >= 0.0) return 0.0;
         final double ax = Math.abs(x), ay = Math.abs(y);
         if(ax < ay)
@@ -416,14 +408,6 @@ if y < 0 then r := -r
      */
     public static float atan2(final float y, final float x)
     {
-        /*
-a := min (|x|, |y|) / max (|x|, |y|)
-s := a * a
-r := ((-0.0464964749 * s + 0.15931422) * s - 0.327622764) * s * a + a
-if |y| > |x| then r := 1.57079637 - r
-if x < 0 then r := 3.14159274 - r
-if y < 0 then r := -r
-         */
         if(y == 0f && x >= 0f) return 0f;
         final float ax = Math.abs(x), ay = Math.abs(y);
         if(ax < ay)

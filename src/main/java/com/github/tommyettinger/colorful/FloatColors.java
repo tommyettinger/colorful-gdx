@@ -6,21 +6,20 @@ import com.badlogic.gdx.utils.NumberUtils;
 /**
  * Various utility methods for working with colors encoded as packed YCwCmA floats.
  * <br>
- * Created by Tommy Ettinger on 9/21/2019.
+ * Created by Tommy Ettinger on 12/2/2019.
  */
-public class FloatColorTools {
+public class FloatColors {
     /**
      * Gets a packed float representation of a color given as 4 float components, here, Y (luma or lightness), Cw
      * (chromatic warmth), Cm (chromatic mildness), and A (alpha or opacity). As long as you use a shader with
-     * {@link Basics#fragmentShader} as its shader, colors passed with
+     * {@link Shaders#fragmentShader} as its shader, colors passed with
      * {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)} will be interpreted as YCwCmA.
-     Luma should be between 0 and
-     * 1, inclusive, with 0 used for very dark colors (almost only black), and 1 used for very light colors (almost only
-     * white). The two chroma values range from 0.0 to 1.0, and there's some aesthetic value in
-     * changing just one chroma value. When warm is high and mild is low, the color is more reddish; when both are low
-     * it is more bluish, and when mild is high and warm is low, the color tends to be greenish, and when both are high
-     * it tends to be brown or yellow. When warm and mild are both near 0.5f, the color is closer to gray.  Alpha is
-     * the multiplicative opacity of the color, and acts like RGBA's alpha.
+     * Luma should be between 0 and 1, inclusive, with 0 used for very dark colors (almost only black), and 1 used for
+     * very light colors (almost only white). The two chroma values range from 0.0 to 1.0, and there's some aesthetic
+     * value in changing just one chroma value. When warm is high and mild is low, the color is more reddish, when both
+     * are low it is more bluish, when mild is high and warm is low, the color tends to be greenish, and when both are
+     * high it tends to be brown or yellow. When warm and mild are both near 0.5f, the color is closer to gray.  Alpha
+     * is the multiplicative opacity of the color, and acts like RGBA's alpha.
      * <br>
      * This method clamps the resulting color's byte values, so any values can technically be given to this as luma,
      * warm, and mild, but they will only be reversible from the returned float color to the original Y, Cw, and Cm
@@ -68,9 +67,9 @@ public class FloatColorTools {
 
 
     /**
-     * Converts a packed float color in the format produced by {@link FloatColorTools#floatColor(float, float, float, float)} to an RGBA8888 int. This format of
+     * Converts a packed float color in the format produced by {@link FloatColors#floatColor(float, float, float, float)} to an RGBA8888 int. This format of
      * int can be used with Pixmap and in some other places in libGDX.
-     * @param packed a packed float color, as produced by {@link FloatColorTools#floatColor(float, float, float, float)}
+     * @param packed a packed float color, as produced by {@link FloatColors#floatColor(float, float, float, float)}
      * @return an RGBA8888 int color
      */
     public static int toRGBA8888(final float packed)
@@ -97,7 +96,7 @@ public class FloatColorTools {
 
     /**
      * Gets the red channel value of the given encoded color, as an int ranging from 0 to 255, inclusive.
-     * @param encoded a color as a packed float that can be obtained by {@link FloatColorTools#floatColor(float, float, float, float)}
+     * @param encoded a color as a packed float that can be obtained by {@link FloatColors#floatColor(float, float, float, float)}
      * @return an int from 0 to 255, inclusive, representing the red channel value of the given encoded color
      */
     public static int redInt(final float encoded)
@@ -108,7 +107,7 @@ public class FloatColorTools {
 
     /**
      * Gets the green channel value of the given encoded color, as an int ranging from 0 to 255, inclusive.
-     * @param encoded a color as a packed float that can be obtained by {@link FloatColorTools#floatColor(float, float, float, float)}
+     * @param encoded a color as a packed float that can be obtained by {@link FloatColors#floatColor(float, float, float, float)}
      * @return an int from 0 to 255, inclusive, representing the green channel value of the given encoded color
      */
     public static int greenInt(final float encoded)
@@ -119,7 +118,7 @@ public class FloatColorTools {
 
     /**
      * Gets the blue channel value of the given encoded color, as an int ranging from 0 to 255, inclusive.
-     * @param encoded a color as a packed float that can be obtained by {@link FloatColorTools#floatColor(float, float, float, float)}
+     * @param encoded a color as a packed float that can be obtained by {@link FloatColors#floatColor(float, float, float, float)}
      * @return an int from 0 to 255, inclusive, representing the blue channel value of the given encoded color
      */
     public static int blueInt(final float encoded)
@@ -131,7 +130,7 @@ public class FloatColorTools {
     /**
      * Gets the alpha channel value of the given encoded color, as an even int ranging from 0 to 254, inclusive. Because
      * of how alpha is stored in libGDX, no odd-number values are possible for alpha.
-     * @param encoded a color as a packed float that can be obtained by {@link FloatColorTools#floatColor(float, float, float, float)}
+     * @param encoded a color as a packed float that can be obtained by {@link FloatColors#floatColor(float, float, float, float)}
      * @return an even int from 0 to 254, inclusive, representing the alpha channel value of the given encoded color
      */
     public static int alphaInt(final float encoded)
@@ -141,7 +140,7 @@ public class FloatColorTools {
     
     /**
      * Gets the red channel value of the given encoded color, as a float from 0.0f to 1.0f, inclusive.
-     * @param encoded a color as a packed float that can be obtained by {@link FloatColorTools#floatColor(float, float, float, float)}
+     * @param encoded a color as a packed float that can be obtained by {@link FloatColors#floatColor(float, float, float, float)}
      * @return a float from 0.0f to 1.0f, inclusive, representing the red channel value of the given encoded color
      */
     public static float red(final float encoded)
@@ -152,7 +151,7 @@ public class FloatColorTools {
 
     /**
      * Gets the green channel value of the given encoded color, as a float from 0.0f to 1.0f, inclusive.
-     * @param encoded a color as a packed float that can be obtained by {@link FloatColorTools#floatColor(float, float, float, float)}
+     * @param encoded a color as a packed float that can be obtained by {@link FloatColors#floatColor(float, float, float, float)}
      * @return a float from 0.0f to 1.0f, inclusive, representing the green channel value of the given encoded color
      */
     public static float green(final float encoded)
@@ -163,7 +162,7 @@ public class FloatColorTools {
 
     /**
      * Gets the blue channel value of the given encoded color, as a float from 0.0f to 1.0f, inclusive.
-     * @param encoded a color as a packed float that can be obtained by {@link FloatColorTools#floatColor(float, float, float, float)}
+     * @param encoded a color as a packed float that can be obtained by {@link FloatColors#floatColor(float, float, float, float)}
      * @return a float from 0.0f to 1.0f, inclusive, representing the blue channel value of the given encoded color
      */
     public static float blue(final float encoded)
@@ -174,7 +173,7 @@ public class FloatColorTools {
 
     /**
      * Gets the alpha channel value of the given encoded color, as a float from 0.0f to 1.0f, inclusive.
-     * @param encoded a color as a packed float that can be obtained by {@link FloatColorTools#floatColor(float, float, float, float)}
+     * @param encoded a color as a packed float that can be obtained by {@link FloatColors#floatColor(float, float, float, float)}
      * @return a float from 0.0f to 1.0f, inclusive, representing the alpha channel value of the given encoded color
      */
     public static float alpha(final float encoded)
@@ -185,7 +184,7 @@ public class FloatColorTools {
     /**
      * Gets the approximate saturation of the given encoded color, as a float ranging from 0.0f to 1.0f, inclusive.
      * This actually gets the "colorfulness" of the given color, not its saturation, which is subtly different.
-     * @param encoded a color as a packed float that can be obtained by {@link FloatColorTools#floatColor(float, float, float, float)}
+     * @param encoded a color as a packed float that can be obtained by {@link FloatColors#floatColor(float, float, float, float)}
      * @return the approximate saturation of the color from 0.0 (a grayscale color; inclusive) to 1.0 (a
      * bright color, exclusive)
      */
@@ -198,7 +197,7 @@ public class FloatColorTools {
     /**
      * Gets the hue of the given encoded color, as a float from 0f (inclusive, red and approaching orange if increased)
      * to 1f (exclusive, red and approaching purple if decreased).
-     * @param encoded a color as a packed float that can be obtained by {@link FloatColorTools#floatColor(float, float, float, float)}
+     * @param encoded a color as a packed float that can be obtained by {@link FloatColors#floatColor(float, float, float, float)}
      * @return The hue of the color from 0.0 (red, inclusive) towards orange, then yellow, and
      * eventually to purple before looping back to almost the same red (1.0, exclusive)
      */
@@ -258,7 +257,7 @@ public class FloatColorTools {
      * There are aesthetic reasons to adjust just one of Cw or Cm for some effect; multiplying Cw by
      * a number greater than 1 will make warm colors warmer and cool colors cooler, for instance, while adding a
      * positive number to Cw will make most colors approach a warmer hue (some will become more gray).
-     * @param encoded a color encoded as a packed float, as by {@link FloatColorTools#floatColor(float, float, float, float)}
+     * @param encoded a color encoded as a packed float, as by {@link FloatColors#floatColor(float, float, float, float)}
      * @return the chroma warm as a float from 0f to 1f
      */
     public static float chromaWarm(final float encoded)
@@ -282,7 +281,7 @@ public class FloatColorTools {
      * There are aesthetic reasons to adjust just one of Cw or Cm for some effect; multiplying Cw by
      * a number greater than 1 will make warm colors warmer and cool colors cooler, for instance, while adding a
      * positive number to Cw will make most colors approach a warmer hue (some will become more gray).
-     * @param encoded a color encoded as a packed float, as by {@link FloatColorTools#floatColor(float, float, float, float)}
+     * @param encoded a color encoded as a packed float, as by {@link FloatColors#floatColor(float, float, float, float)}
      * @return the chroma mild as a float from 0f to 1f
      */
     public static float chromaMild(final float encoded)
@@ -296,7 +295,7 @@ public class FloatColorTools {
      * has its own alpha multiplied by {@code alpha}, without constructing any objects along the way. If you want to set
      * the alpha without considering its current value, you can use {@link #setAlpha(float, float)}
      *
-     * @param encodedColor a color encoded as a packed float, as by {@link FloatColorTools#floatColor(float, float, float, float)}
+     * @param encodedColor a color encoded as a packed float, as by {@link FloatColors#floatColor(float, float, float, float)}
      * @param alpha  between 0.0 and 1.0 inclusive, the alpha to multiply the color's own alpha by
      * @return a color encoded as a packed float, using color's RGB channels but with its A channel times {@code alpha}
      */
@@ -312,7 +311,7 @@ public class FloatColorTools {
      * set to the given alpha, without constructing any objects along the way. This does not consider the current alpha
      * of the encoded color; if you want to do that, you can use {@link #multiplyAlpha(float, float)}.
      *
-     * @param encodedColor a color encoded as a packed float, as by {@link FloatColorTools#floatColor(float, float, float, float)}
+     * @param encodedColor a color encoded as a packed float, as by {@link FloatColors#floatColor(float, float, float, float)}
      * @param alpha        between 0.0 and 1.0 inclusive, the alpha to set into the returned packed color
      * @return another color encoded as a packed float, using encodedColor's RGB channels and the given alpha
      */

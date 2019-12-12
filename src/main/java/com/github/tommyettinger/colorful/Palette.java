@@ -6,13 +6,18 @@ import com.badlogic.gdx.utils.ObjectFloatMap;
 
 import java.util.Comparator;
 
-import static com.github.tommyettinger.colorful.FloatColorTools.hue;
-import static com.github.tommyettinger.colorful.FloatColorTools.luma;
+import static com.github.tommyettinger.colorful.FloatColors.hue;
+import static com.github.tommyettinger.colorful.FloatColors.luma;
 
 /**
- * A palette of predefined colors as packed YCwCmA floats, the kind {@link FloatColorTools} works with.
+ * A palette of predefined colors as packed YCwCmA floats, the kind {@link FloatColors} works with.
  * You can access colors by their constant name, such as {@code OCEAN_BLUE}, by the {@link #NAMED} map using
- * {@code NAMED.get("Ocean Blue", 0f)}, or by index in the FloatArray called {@link #LIST}.
+ * {@code NAMED.get("Ocean Blue", 0f)}, or by index in the FloatArray called {@link #LIST}. Note that to access a float
+ * color from NAMED, you need to give a default value if the name is not found; {@code 0f} is a good default because it
+ * will not occur in a valid YCwCmA color. You can access the names in a specific order with {@link #NAMES} (which is
+ * alphabetical), {@link #NAMES_BY_HUE} (which is sorted by the hue of the matching color, from red to yellow to blue
+ * (with gray around here) to purple to red again), or {@link #NAMES_BY_LIGHTNESS} (which is sorted by the luma of the
+ * matching color, from darkest to lightest). Having a name lets you look up the matching color in {@link #NAMED}.
  * <br>
  * Created by Tommy Ettinger on 12/8/2019.
  */

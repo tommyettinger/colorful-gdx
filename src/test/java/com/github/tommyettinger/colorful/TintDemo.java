@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -77,10 +76,9 @@ public class TintDemo extends ApplicationAdapter {
 
     @Override
     public void create() {
+        batch = Shaders.makeBatch();
         defaultShader = SpriteBatch.createDefaultShader();
-        shader = new ShaderProgram(Basics.vertexShader, Basics.fragmentShaderHigherContrast);
-        if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
-        batch = new SpriteBatch(1000, defaultShader);
+        shader = batch.getShader();
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -137,8 +135,8 @@ public class TintDemo extends ApplicationAdapter {
         else if (input.isKeyPressed(Input.Keys.Q) || input.isKeyPressed(Input.Keys.ESCAPE)) //quit
             Gdx.app.exit();
         else {
-            // only process once every 166 ms, or 6 times a second, at most
-            if (TimeUtils.timeSinceMillis(lastProcessedTime) < 166)
+            // only process once every 150 ms, or just over 6 times a second, at most
+            if (TimeUtils.timeSinceMillis(lastProcessedTime) < 150)
                 return;
             lastProcessedTime = TimeUtils.millis();
             if (input.isKeyPressed(Input.Keys.L)) //light
