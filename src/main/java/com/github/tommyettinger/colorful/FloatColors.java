@@ -534,4 +534,31 @@ public class FloatColors {
         final int s = NumberUtils.floatToIntBits(start), opacity = s & 0xFE, other = s & 0x00FFFFFF;
         return NumberUtils.intBitsToFloat(((int) (opacity * (1f - change)) & 0xFE) << 24 | other);
     }
+
+    /**
+     * Given a packed float YCwCmA color {@code mainColor} and another YCwCmA color that it should be made to contrast
+     * with, gets a packed float YCwCmA color with a contrasting luma but the same chromatic channels and opacity (Cw
+     * and Cm are likely to be clamped if the result gets close to white or black). This won't ever produce black or
+     * other very dark colors, and also has a gap in the range it produces for luma values between 0.5 and 0.55. That
+     * allows most of the colors this method produces to contrast well as a foreground when displayed on a background of
+     * {@code contrastingColor}, or vice versa. This will leave the luma unchanged if the chromatic channels of the
+     * contrastingColor and those of the mainColor are already very different.
+     * @param mainColor a packed float color, as produced by {@link #floatColor(float, float, float, float)}; this is the color that will be adjusted
+     * @param contrastingColor a packed float color, as produced by {@link #floatColor(float, float, float, float)}; the adjusted mainColor will contrast with this
+     * @return a different, contrasting packed float color
+     */
+    public static float contrastLuma(final float mainColor, final float contrastingColor)
+    {
+        final int bits = NumberUtils.floatToIntBits(mainColor),
+                contrastBits = NumberUtils.floatToIntBits(contrastingColor),
+                luma = (bits & 0xff),
+                warm = (bits >>> 8 & 0xff),
+                mild = (bits >>> 16 & 0xff),
+                cLuma = (contrastBits & 0xff),
+                cWarm = (contrastBits >>> 8 & 0xff),
+                cMild = (contrastBits >>> 16 & 0xff);
+        if((warm - cWarm) * (warm - cWarm) + (mild - cMild) * (mild - cMild) >= 0x10000)
+            return mainColor;
+        return floatColor(cLuma < 128 ? luma * (0.45f / 255f) + 0.55f : 0.5f - luma * (0.45f / 255f), warm, mild, 0x1.010102p-8f * (bits >>> 24));
+    }
 }
