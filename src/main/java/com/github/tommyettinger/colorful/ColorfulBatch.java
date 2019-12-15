@@ -128,8 +128,9 @@ public class ColorfulBatch implements Batch {
                 + "void main()\n" //
                 + "{\n" //
                 + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" //
-                + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n" //
                 + "   v_color.a = v_color.a * (255.0/254.0);\n" //
+                + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n" //
+                + "   v_tweak.a = v_tweak.a * (255.0/254.0);\n" //
                 + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" //
                 + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
                 + "}\n";
@@ -144,11 +145,11 @@ public class ColorfulBatch implements Batch {
                         "varying LOWP vec4 v_color;\n" +
                         "varying LOWP vec4 v_tweak;\n" +
                         "uniform sampler2D u_texture;\n" +
-                        "const vec3 bright = vec3(0.375, 0.5, 0.125) * (4.0 / 3.0);\n" +
+                        "const vec3 bright = vec3(0.375, 0.5, 0.125);\n" +
                         "void main()\n" +
                         "{\n" +
                         "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "   vec3 ycc = vec3((v_tweak.r * pow(dot(tgt.rgb, bright), v_tweak.a + 0.5) + v_color.r - 0.5) * 1.5, (v_color.g - 0.5 + (tgt.r - tgt.b) * v_tweak.g) * 2.0, (v_color.b - 0.5 + (tgt.g - tgt.b) * v_tweak.b) * 2.0);\n" +
+                        "   vec3 ycc = vec3((v_tweak.r * pow(dot(tgt.rgb, bright), v_tweak.a + 0.5) * 2.0 + v_color.r - 0.5), (v_color.g - 0.5 + (tgt.r - tgt.b) * v_tweak.g) * 2.0, (v_color.b - 0.5 + (tgt.g - tgt.b) * v_tweak.b) * 2.0);\n" +
                         "   gl_FragColor = clamp(vec4(dot(ycc, vec3(1.0, 0.625, -0.5)), dot(ycc, vec3(1.0, -0.375, 0.5)), dot(ycc, vec3(1.0, -0.375, -0.5)), v_color.a * tgt.a), 0.0, 1.0);\n" +
                         "}";
 
@@ -235,7 +236,7 @@ public class ColorfulBatch implements Batch {
     }
 
     public void setTweak (float luma, float warm, float mild, float contrast) {
-        color = NumberUtils.intBitsToFloat(((int)(contrast * 255) << 24 & 0xFE000000) | ((int)(mild * 255) << 16) | ((int)(warm * 255) << 8) | ((int)(luma * 255)));
+        tweak = NumberUtils.intBitsToFloat(((int)(contrast * 255) << 24 & 0xFE000000) | ((int)(mild * 255) << 16) | ((int)(warm * 255) << 8) | ((int)(luma * 255)));
     }
 
     public void setTweak (final float tweak) {
