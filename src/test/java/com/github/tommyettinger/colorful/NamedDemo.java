@@ -99,9 +99,12 @@ public class NamedDemo extends ApplicationAdapter {
             if (FloatColors.alphaInt(color) == 0)
                 Palette.NAMES_BY_HUE.removeIndex(i--);
         }
-        selectedIndex = 0;
-        selectedName = Palette.NAMES_BY_HUE.first();
-        selected = Palette.NAMED.get(selectedName, Palette.GRAY);
+        selectedName = "Gray";
+        selectedIndex = Palette.NAMES_BY_HUE.indexOf("Gray", false);
+        selected = Palette.GRAY;
+//        selectedName = Palette.NAMES_BY_HUE.first();
+//        selectedIndex = 0;
+//        selected = Palette.NAMED.get(selectedName, Palette.GRAY);
 
         // if you don't have these files on this absolute path, that's fine, and they will be ignored
 //        load("D:/Painting_by_Henri_Biva.jpg");
@@ -159,8 +162,6 @@ public class NamedDemo extends ApplicationAdapter {
     public void handleInput() {
         if (input.isKeyPressed(Input.Keys.Q) || input.isKeyPressed(Input.Keys.ESCAPE)) //quit
             Gdx.app.exit();
-        else if (input.isKeyPressed(Input.Keys.P)) // print
-            System.out.println(selectedName);
         else if (input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
             if (input.isKeyPressed(Input.Keys.M))
                 load("samples/Mona_Lisa.jpg");
@@ -189,7 +190,12 @@ public class NamedDemo extends ApplicationAdapter {
                 selectedIndex = MathUtils.random(Palette.NAMES_BY_HUE.size);
                 selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
                 selected = Palette.NAMED.get(selectedName, Palette.GRAY);
-            } else if (input.isKeyPressed(Input.Keys.L)) //light
+            } else if (input.isKeyPressed(Input.Keys.P)) // print
+                System.out.println("Using color " + selectedName
+                        + " with luma="+FloatColors.luma(selected) + ",warm="+FloatColors.chromaWarm(selected)
+                        + ",mild="+FloatColors.chromaMild(selected)+",alpha=1.0 .\nUsing tweak with luma="+luma
+                        + ",warm="+warm + ",mild="+mild+",contrast="+contrast + " .");
+            else if (input.isKeyPressed(Input.Keys.L)) //light
                 luma = MathUtils.clamp(luma + 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.D)) //dark
                 luma = MathUtils.clamp(luma - 0x3p-7f, 0f, 1f);
@@ -199,13 +205,13 @@ public class NamedDemo extends ApplicationAdapter {
                 warm = MathUtils.clamp(warm - 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.M)) //mild
                 mild = MathUtils.clamp(mild + 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.B)) // bold
+            else if (input.isKeyPressed(Input.Keys.B)) //bold
                 mild = MathUtils.clamp(mild - 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.S)) // sharp contrast
+            else if (input.isKeyPressed(Input.Keys.S)) //sharp contrast
                 contrast = MathUtils.clamp(contrast + 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.F)) // fuzzy contrast
+            else if (input.isKeyPressed(Input.Keys.F)) //fuzzy contrast
                 contrast = MathUtils.clamp(contrast - 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.BACKSPACE)) // reset
+            else if (input.isKeyPressed(Input.Keys.BACKSPACE)) //reset
             {
                 luma = 0.5f;
                 warm = 0.5f;
