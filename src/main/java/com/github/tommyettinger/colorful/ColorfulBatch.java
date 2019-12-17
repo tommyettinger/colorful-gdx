@@ -130,7 +130,7 @@ public class ColorfulBatch implements Batch {
                 + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" //
                 + "   v_color.a = v_color.a * (255.0/254.0);\n" //
                 + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n" //
-                + "   v_tweak.a = v_tweak.a * (255.0/254.0);\n" //
+                + "   v_tweak.a = pow(v_tweak.a * (255.0/254.0) + 0.5, 1.709);\n" //
                 + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" //
                 + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
                 + "}\n";
@@ -149,9 +149,8 @@ public class ColorfulBatch implements Batch {
                         "void main()\n" +
                         "{\n" +
                         "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "   float contrast = pow(v_tweak.a + 0.5, 1.709);\n" +
                         "   vec3 ycc = vec3(\n" +
-                        "     (v_tweak.r * pow(dot(tgt.rgb, bright), contrast) * (0.75 + contrast * 1.25) + v_color.r - 0.5),\n" + // luma
+                        "     (v_tweak.r * pow(dot(tgt.rgb, bright), v_tweak.a) * (0.75 + v_tweak.a * 1.25) + v_color.r - 0.5),\n" + // luma
                         "     (v_color.g - 0.5 + (tgt.r - tgt.b) * v_tweak.g) * 2.0,\n" + // warmth
                         "     (v_color.b - 0.5 + (tgt.g - tgt.b) * v_tweak.b) * 2.0);\n" + // mildness
                         "   gl_FragColor = clamp(vec4(\n" +
@@ -613,6 +612,7 @@ public class ColorfulBatch implements Batch {
     public void draw (Texture texture, float[] spriteVertices, int offset, int count) {
         if (!drawing) throw new IllegalStateException("ColorfulBatch.begin must be called before draw.");
 
+        count = (count / 5) * 6;
         int verticesLength = vertices.length;
         int remainingVertices = verticesLength;
         if (texture != lastTexture)
@@ -625,15 +625,33 @@ public class ColorfulBatch implements Batch {
             }
         }
         int copyCount = Math.min(remainingVertices, count);
+        final float tweak = this.tweak;
 
-        System.arraycopy(spriteVertices, offset, vertices, idx, copyCount);
+        ////old way, breaks when libGDX code expects SPRITE_SIZE to be 20
+        //System.arraycopy(spriteVertices, offset, vertices, idx, copyCount);
+        for (int s = offset, v = idx, i = 0; i < copyCount; i += 6) {
+            vertices[v++] = spriteVertices[s++];
+            vertices[v++] = spriteVertices[s++];
+            vertices[v++] = spriteVertices[s++];
+            vertices[v++] = tweak;
+            vertices[v++] = spriteVertices[s++];
+            vertices[v++] = spriteVertices[s++];
+        }
         idx += copyCount;
         count -= copyCount;
         while (count > 0) {
-            offset += copyCount;
+            offset += (copyCount / 6) * 5;
             flush();
             copyCount = Math.min(verticesLength, count);
-            System.arraycopy(spriteVertices, offset, vertices, 0, copyCount);
+            //System.arraycopy(spriteVertices, offset, vertices, 0, copyCount);
+            for (int s = offset, v = 0, i = 0; i < copyCount; i += 6) {
+                vertices[v++] = spriteVertices[s++];
+                vertices[v++] = spriteVertices[s++];
+                vertices[v++] = spriteVertices[s++];
+                vertices[v++] = tweak;
+                vertices[v++] = spriteVertices[s++];
+                vertices[v++] = spriteVertices[s++];
+            }
             idx += copyCount;
             count -= copyCount;
         }
@@ -1029,7 +1047,7 @@ public class ColorfulBatch implements Batch {
 
         renderCalls++;
         totalRenderCalls++;
-        int spritesInBatch = idx / 20;
+        int spritesInBatch = idx / SPRITE_SIZE;
         if (spritesInBatch > maxSpritesInBatch) maxSpritesInBatch = spritesInBatch;
         int count = spritesInBatch * 6;
 

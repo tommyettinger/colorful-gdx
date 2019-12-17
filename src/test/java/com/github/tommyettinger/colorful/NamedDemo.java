@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -26,7 +25,7 @@ public class NamedDemo extends ApplicationAdapter {
     public static final int SCREEN_WIDTH = 808;
     public static final int SCREEN_HEIGHT = 600;
     private ColorfulBatch batch;
-    private SpriteBatch basicBatch;
+//    private SpriteBatch basicBatch;
     private Viewport screenView;
     private Texture screenTexture;
     private BitmapFont font;
@@ -87,7 +86,7 @@ public class NamedDemo extends ApplicationAdapter {
         font.setColor(1f, 0.5f, 0.5f, 1f);
 //        batch = Shaders.makeBatch(1.25f); // experimenting with slightly higher contrast
         batch = new ColorfulBatch();
-        basicBatch = new SpriteBatch();
+//        basicBatch = new SpriteBatch();
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -120,7 +119,7 @@ public class NamedDemo extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         handleInput();
         batch.setProjectionMatrix(screenView.getCamera().combined);
-        basicBatch.setProjectionMatrix(screenView.getCamera().combined);
+//        basicBatch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) {
             batch.setPackedColor(selected);
             batch.begin();
@@ -136,18 +135,19 @@ public class NamedDemo extends ApplicationAdapter {
                     batch.draw(blank, screenTexture.getWidth() + width * x, height * (50 - y), width, height);
                 }
             }
-            batch.end();
-            basicBatch.begin();
+//            batch.end();
+//            basicBatch.begin();
             i = -1;
             for (int y = 0; y < 51; y++) {
                 for (int x = 0; x < 5; x++) {
                     if (++i == selectedIndex) {
-                        font.setColor(1f, 1f, 1f, 1f);
-                        font.draw(basicBatch, Palette.NAMES_BY_HUE.get(i), screenTexture.getWidth() + width * x + 1f, height * (51 - y) - 1f);
+                        font.setColor(0.5f, 0.5f, 0.5f, 1f);
+                        font.draw(batch, Palette.NAMES_BY_HUE.get(i), screenTexture.getWidth() + width * x + 1f, height * (51 - y) - 1f);
                     }
                 }
             }
-            basicBatch.end();
+//            basicBatch.end();
+            batch.end();
 
         }
     }
