@@ -620,9 +620,9 @@ public class ColorfulBatch implements Batch {
      * format libGDX uses to give to SpriteBatch, that is, in groups of 20 floats per sprite. ColorfulBatch uses 24
      * floats per sprite, to add tweak per color, so this does some conversion.
      * @param texture the Texture being drawn from; usually an atlas or some parent Texture with lots of TextureRegions
-     * @param spriteVertices not the same format as {@link #vertices}
-     * @param offset
-     * @param count
+     * @param spriteVertices not the same format as {@link #vertices} in this class; should have a length that's a multiple of 20
+     * @param offset where to start drawing vertices from {@code spriteVertices}
+     * @param count how many vertices to draw from {@code spriteVertices} (20 vertices is one sprite)
      */
     @Override
     public void draw (Texture texture, float[] spriteVertices, int offset, int count) {
@@ -671,6 +671,44 @@ public class ColorfulBatch implements Batch {
                 vertices[v++] = spriteVertices[s++];
                 vertices[v++] = tweak;
             }
+            idx += copyCount;
+            count -= copyCount;
+        }
+    }
+
+    /**
+     * Meant for code that uses ColorfulBatch specifically and can set an extra float (for the color tweak) per vertex,
+     * this is just like {@link #draw(Texture, float[], int, int)} when used in other Batch implementations, but expects
+     * {@code spriteVertices} to have a length that is a multiple of 24 instead of 20.
+     * @param texture the Texture being drawn from; usually an atlas or some parent Texture with lots of TextureRegions
+     * @param spriteVertices vertices formatted as this class uses them; length should be a multiple of 24
+     * @param offset where to start drawing vertices from {@code spriteVertices}
+     * @param count how many vertices to draw from {@code spriteVertices} (24 vertices is one sprite)
+     */
+    public void drawExactly (Texture texture, float[] spriteVertices, int offset, int count) {
+        if (!drawing) throw new IllegalStateException("ColorfulBatch.begin must be called before draw.");
+
+        int verticesLength = vertices.length;
+        int remainingVertices = verticesLength;
+        if (texture != lastTexture)
+            switchTexture(texture);
+        else {
+            remainingVertices -= idx;
+            if (remainingVertices == 0) {
+                flush();
+                remainingVertices = verticesLength;
+            }
+        }
+        int copyCount = Math.min(remainingVertices, count);
+
+        System.arraycopy(spriteVertices, offset, vertices, idx, copyCount);
+        idx += copyCount;
+        count -= copyCount;
+        while (count > 0) {
+            offset += copyCount;
+            flush();
+            copyCount = Math.min(verticesLength, count);
+            System.arraycopy(spriteVertices, offset, vertices, 0, copyCount);
             idx += copyCount;
             count -= copyCount;
         }
