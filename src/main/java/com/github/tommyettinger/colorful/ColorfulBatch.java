@@ -19,17 +19,17 @@ import com.badlogic.gdx.utils.NumberUtils;
  * Created by Tommy Ettinger on 12/14/2019.
  */
 public class ColorfulBatch implements Batch {
-    private static final int SPRITE_SIZE = 24;
+    public static final int SPRITE_SIZE = 24;
     public static final String TWEAK_ATTRIBUTE = "a_tweak";
 
     private Mesh mesh;
 
-    final float[] vertices;
-    int idx = 0;
-    Texture lastTexture = null;
-    float invTexWidth = 0, invTexHeight = 0;
+    private final float[] vertices;
+    private int idx = 0;
+    private Texture lastTexture = null;
+    private float invTexWidth = 0, invTexHeight = 0;
 
-    boolean drawing = false;
+    private boolean drawing = false;
 
     private final Matrix4 transformMatrix = new Matrix4();
     private final Matrix4 projectionMatrix = new Matrix4();
@@ -47,7 +47,14 @@ public class ColorfulBatch implements Batch {
 
     private float color = Palette.GRAY;
     private final Color tempColor = new Color(0.5f, 0.5f, 0.5f, 1f);
-    private float tweak = FloatColors.floatColor(0.5f, 0.5f, 0.5f, 0.5f);
+
+    /**
+     * A constant packed float that can be assigned to this ColorfulBatch's tweak with {@link #setTweak(float)} to make
+     * all of the tweak adjustments virtually imperceptible. When this is set as the tweak, it won't change the luma
+     * multiplier or luma contrast, and it won't change either chromatic value multiplier.
+     */
+    public static final float TWEAK_RESET = FloatColors.floatColor(0.5f, 0.5f, 0.5f, 0.5f);
+    private float tweak = TWEAK_RESET;
 
     /** Number of render calls since the last {@link #begin()}. **/
     public int renderCalls = 0;
@@ -87,8 +94,8 @@ public class ColorfulBatch implements Batch {
         mesh = new Mesh(vertexDataType, false, size * 4, size * 6,
                 new VertexAttribute(VertexAttributes.Usage.Position, 2, ShaderProgram.POSITION_ATTRIBUTE),
                 new VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, ShaderProgram.COLOR_ATTRIBUTE),
-                new VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, TWEAK_ATTRIBUTE),
-                new VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, ShaderProgram.TEXCOORD_ATTRIBUTE + "0"));
+                new VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, ShaderProgram.TEXCOORD_ATTRIBUTE + "0"),
+                new VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, TWEAK_ATTRIBUTE));
 
         projectionMatrix.setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -118,8 +125,8 @@ public class ColorfulBatch implements Batch {
     public static ShaderProgram createDefaultShader () {
         String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
                 + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" //
-                + "attribute vec4 " + TWEAK_ATTRIBUTE + ";\n" //
                 + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" //
+                + "attribute vec4 " + TWEAK_ATTRIBUTE + ";\n" //
                 + "uniform mat4 u_projTrans;\n" //
                 + "varying vec4 v_color;\n" //
                 + "varying vec4 v_tweak;\n" //
@@ -363,30 +370,30 @@ public class ColorfulBatch implements Batch {
         vertices[idx] = x1;
         vertices[idx + 1] = y1;
         vertices[idx + 2] = color;
-        vertices[idx + 3] = tweak;
-        vertices[idx + 4] = u;
-        vertices[idx + 5] = v;
+        vertices[idx + 3] = u;
+        vertices[idx + 4] = v;
+        vertices[idx + 5] = tweak;
 
         vertices[idx + 6] = x2;
         vertices[idx + 7] = y2;
         vertices[idx + 8] = color;
-        vertices[idx + 9] = tweak;
-        vertices[idx + 10] = u;
-        vertices[idx + 11] = v2;
-        
+        vertices[idx + 9] = u;
+        vertices[idx + 10] = v2;
+        vertices[idx + 11] = tweak;
+
         vertices[idx + 12] = x3;
         vertices[idx + 13] = y3;
         vertices[idx + 14] = color;
-        vertices[idx + 15] = tweak;
-        vertices[idx + 16] = u2;
-        vertices[idx + 17] = v2;
-        
+        vertices[idx + 15] = u2;
+        vertices[idx + 16] = v2;
+        vertices[idx + 17] = tweak;
+
         vertices[idx + 18] = x4;
         vertices[idx + 19] = y4;
         vertices[idx + 20] = color;
-        vertices[idx + 21] = tweak;
-        vertices[idx + 22] = u2;
-        vertices[idx + 23] = v;
+        vertices[idx + 21] = u2;
+        vertices[idx + 22] = v;
+        vertices[idx + 23] = tweak;
         this.idx = idx + 24;
     }
 
@@ -427,30 +434,30 @@ public class ColorfulBatch implements Batch {
         vertices[idx] = x;
         vertices[idx + 1] = y;
         vertices[idx + 2] = color;
-        vertices[idx + 3] = tweak;
-        vertices[idx + 4] = u;
-        vertices[idx + 5] = v;
+        vertices[idx + 3] = u;
+        vertices[idx + 4] = v;
+        vertices[idx + 5] = tweak;
 
         vertices[idx + 6] = x;
         vertices[idx + 7] = fy2;
         vertices[idx + 8] = color;
-        vertices[idx + 9] = tweak;
-        vertices[idx + 10] = u;
-        vertices[idx + 11] = v2;
+        vertices[idx + 9] = u;
+        vertices[idx + 10] = v2;
+        vertices[idx + 11] = tweak;
 
         vertices[idx + 12] = fx2;
         vertices[idx + 13] = fy2;
         vertices[idx + 14] = color;
-        vertices[idx + 15] = tweak;
-        vertices[idx + 16] = u2;
-        vertices[idx + 17] = v2;
+        vertices[idx + 15] = u2;
+        vertices[idx + 16] = v2;
+        vertices[idx + 17] = tweak;
 
         vertices[idx + 18] = fx2;
         vertices[idx + 19] = y;
         vertices[idx + 20] = color;
-        vertices[idx + 21] = tweak;
-        vertices[idx + 22] = u2;
-        vertices[idx + 23] = v;
+        vertices[idx + 21] = u2;
+        vertices[idx + 22] = v;
+        vertices[idx + 23] = tweak;
         this.idx = idx + 24;
     }
 
@@ -478,30 +485,30 @@ public class ColorfulBatch implements Batch {
         vertices[idx] = x;
         vertices[idx + 1] = y;
         vertices[idx + 2] = color;
-        vertices[idx + 3] = tweak;
-        vertices[idx + 4] = u;
-        vertices[idx + 5] = v;
+        vertices[idx + 3] = u;
+        vertices[idx + 4] = v;
+        vertices[idx + 5] = tweak;
 
         vertices[idx + 6] = x;
         vertices[idx + 7] = fy2;
         vertices[idx + 8] = color;
-        vertices[idx + 9] = tweak;
-        vertices[idx + 10] = u;
-        vertices[idx + 11] = v2;
+        vertices[idx + 9] = u;
+        vertices[idx + 10] = v2;
+        vertices[idx + 11] = tweak;
 
         vertices[idx + 12] = fx2;
         vertices[idx + 13] = fy2;
         vertices[idx + 14] = color;
-        vertices[idx + 15] = tweak;
-        vertices[idx + 16] = u2;
-        vertices[idx + 17] = v2;
+        vertices[idx + 15] = u2;
+        vertices[idx + 16] = v2;
+        vertices[idx + 17] = tweak;
 
         vertices[idx + 18] = fx2;
         vertices[idx + 19] = y;
         vertices[idx + 20] = color;
-        vertices[idx + 21] = tweak;
-        vertices[idx + 22] = u2;
-        vertices[idx + 23] = v;
+        vertices[idx + 21] = u2;
+        vertices[idx + 22] = v;
+        vertices[idx + 23] = tweak;
         this.idx = idx + 24;
     }
 
@@ -525,30 +532,30 @@ public class ColorfulBatch implements Batch {
         vertices[idx] = x;
         vertices[idx + 1] = y;
         vertices[idx + 2] = color;
-        vertices[idx + 3] = tweak;
-        vertices[idx + 4] = u;
-        vertices[idx + 5] = v;
+        vertices[idx + 3] = u;
+        vertices[idx + 4] = v;
+        vertices[idx + 5] = tweak;
 
         vertices[idx + 6] = x;
         vertices[idx + 7] = fy2;
         vertices[idx + 8] = color;
-        vertices[idx + 9] = tweak;
-        vertices[idx + 10] = u;
-        vertices[idx + 11] = v2;
+        vertices[idx + 9] = u;
+        vertices[idx + 10] = v2;
+        vertices[idx + 11] = tweak;
 
         vertices[idx + 12] = fx2;
         vertices[idx + 13] = fy2;
         vertices[idx + 14] = color;
-        vertices[idx + 15] = tweak;
-        vertices[idx + 16] = u2;
-        vertices[idx + 17] = v2;
+        vertices[idx + 15] = u2;
+        vertices[idx + 16] = v2;
+        vertices[idx + 17] = tweak;
 
         vertices[idx + 18] = fx2;
         vertices[idx + 19] = y;
         vertices[idx + 20] = color;
-        vertices[idx + 21] = tweak;
-        vertices[idx + 22] = u2;
-        vertices[idx + 23] = v;
+        vertices[idx + 21] = u2;
+        vertices[idx + 22] = v;
+        vertices[idx + 23] = tweak;
         this.idx = idx + 24;
     }
 
@@ -581,33 +588,42 @@ public class ColorfulBatch implements Batch {
         vertices[idx] = x;
         vertices[idx + 1] = y;
         vertices[idx + 2] = color;
-        vertices[idx + 3] = tweak;
-        vertices[idx + 4] = u;
-        vertices[idx + 5] = v;
+        vertices[idx + 3] = u;
+        vertices[idx + 4] = v;
+        vertices[idx + 5] = tweak;
 
         vertices[idx + 6] = x;
         vertices[idx + 7] = fy2;
         vertices[idx + 8] = color;
-        vertices[idx + 9] = tweak;
-        vertices[idx + 10] = u;
-        vertices[idx + 11] = v2;
+        vertices[idx + 9] = u;
+        vertices[idx + 10] = v2;
+        vertices[idx + 11] = tweak;
 
         vertices[idx + 12] = fx2;
         vertices[idx + 13] = fy2;
         vertices[idx + 14] = color;
-        vertices[idx + 15] = tweak;
-        vertices[idx + 16] = u2;
-        vertices[idx + 17] = v2;
+        vertices[idx + 15] = u2;
+        vertices[idx + 16] = v2;
+        vertices[idx + 17] = tweak;
 
         vertices[idx + 18] = fx2;
         vertices[idx + 19] = y;
         vertices[idx + 20] = color;
-        vertices[idx + 21] = tweak;
-        vertices[idx + 22] = u2;
-        vertices[idx + 23] = v;
+        vertices[idx + 21] = u2;
+        vertices[idx + 22] = v;
+        vertices[idx + 23] = tweak;
         this.idx = idx + 24;
     }
 
+    /**
+     * This is very different from the other overloads in this class; it assumes the float array it is given is in the
+     * format libGDX uses to give to SpriteBatch, that is, in groups of 20 floats per sprite. ColorfulBatch uses 24
+     * floats per sprite, to add tweak per color, so this does some conversion.
+     * @param texture the Texture being drawn from; usually an atlas or some parent Texture with lots of TextureRegions
+     * @param spriteVertices not the same format as {@link #vertices}
+     * @param offset
+     * @param count
+     */
     @Override
     public void draw (Texture texture, float[] spriteVertices, int offset, int count) {
         if (!drawing) throw new IllegalStateException("ColorfulBatch.begin must be called before draw.");
@@ -629,13 +645,14 @@ public class ColorfulBatch implements Batch {
 
         ////old way, breaks when libGDX code expects SPRITE_SIZE to be 20
         //System.arraycopy(spriteVertices, offset, vertices, idx, copyCount);
+        ////new way, thanks mgsx
         for (int s = offset, v = idx, i = 0; i < copyCount; i += 6) {
             vertices[v++] = spriteVertices[s++];
             vertices[v++] = spriteVertices[s++];
             vertices[v++] = spriteVertices[s++];
+            vertices[v++] = spriteVertices[s++];
+            vertices[v++] = spriteVertices[s++];
             vertices[v++] = tweak;
-            vertices[v++] = spriteVertices[s++];
-            vertices[v++] = spriteVertices[s++];
         }
         idx += copyCount;
         count -= copyCount;
@@ -643,14 +660,16 @@ public class ColorfulBatch implements Batch {
             offset += (copyCount / 6) * 5;
             flush();
             copyCount = Math.min(verticesLength, count);
+            ////old way, breaks when libGDX code expects SPRITE_SIZE to be 20
             //System.arraycopy(spriteVertices, offset, vertices, 0, copyCount);
+            ////new way, thanks mgsx
             for (int s = offset, v = 0, i = 0; i < copyCount; i += 6) {
                 vertices[v++] = spriteVertices[s++];
                 vertices[v++] = spriteVertices[s++];
                 vertices[v++] = spriteVertices[s++];
+                vertices[v++] = spriteVertices[s++];
+                vertices[v++] = spriteVertices[s++];
                 vertices[v++] = tweak;
-                vertices[v++] = spriteVertices[s++];
-                vertices[v++] = spriteVertices[s++];
             }
             idx += copyCount;
             count -= copyCount;
@@ -687,30 +706,30 @@ public class ColorfulBatch implements Batch {
         vertices[idx] = x;
         vertices[idx + 1] = y;
         vertices[idx + 2] = color;
-        vertices[idx + 3] = tweak;
-        vertices[idx + 4] = u;
-        vertices[idx + 5] = v;
+        vertices[idx + 3] = u;
+        vertices[idx + 4] = v;
+        vertices[idx + 5] = tweak;
 
         vertices[idx + 6] = x;
         vertices[idx + 7] = fy2;
         vertices[idx + 8] = color;
-        vertices[idx + 9] = tweak;
-        vertices[idx + 10] = u;
-        vertices[idx + 11] = v2;
+        vertices[idx + 9] = u;
+        vertices[idx + 10] = v2;
+        vertices[idx + 11] = tweak;
 
         vertices[idx + 12] = fx2;
         vertices[idx + 13] = fy2;
         vertices[idx + 14] = color;
-        vertices[idx + 15] = tweak;
-        vertices[idx + 16] = u2;
-        vertices[idx + 17] = v2;
+        vertices[idx + 15] = u2;
+        vertices[idx + 16] = v2;
+        vertices[idx + 17] = tweak;
 
         vertices[idx + 18] = fx2;
         vertices[idx + 19] = y;
         vertices[idx + 20] = color;
-        vertices[idx + 21] = tweak;
-        vertices[idx + 22] = u2;
-        vertices[idx + 23] = v;
+        vertices[idx + 21] = u2;
+        vertices[idx + 22] = v;
+        vertices[idx + 23] = tweak;
         this.idx = idx + 24;
     }
 
@@ -812,30 +831,30 @@ public class ColorfulBatch implements Batch {
         vertices[idx] = x1;
         vertices[idx + 1] = y1;
         vertices[idx + 2] = color;
-        vertices[idx + 3] = tweak;
-        vertices[idx + 4] = u;
-        vertices[idx + 5] = v;
+        vertices[idx + 3] = u;
+        vertices[idx + 4] = v;
+        vertices[idx + 5] = tweak;
 
         vertices[idx + 6] = x2;
         vertices[idx + 7] = y2;
         vertices[idx + 8] = color;
-        vertices[idx + 9] = tweak;
-        vertices[idx + 10] = u;
-        vertices[idx + 11] = v2;
+        vertices[idx + 9] = u;
+        vertices[idx + 10] = v2;
+        vertices[idx + 11] = tweak;
 
         vertices[idx + 12] = x3;
         vertices[idx + 13] = y3;
         vertices[idx + 14] = color;
-        vertices[idx + 15] = tweak;
-        vertices[idx + 16] = u2;
-        vertices[idx + 17] = v2;
+        vertices[idx + 15] = u2;
+        vertices[idx + 16] = v2;
+        vertices[idx + 17] = tweak;
 
         vertices[idx + 18] = x4;
         vertices[idx + 19] = y4;
         vertices[idx + 20] = color;
-        vertices[idx + 21] = tweak;
-        vertices[idx + 22] = u2;
-        vertices[idx + 23] = v;
+        vertices[idx + 21] = u2;
+        vertices[idx + 22] = v;
+        vertices[idx + 23] = tweak;
         this.idx = idx + 24;
     }
 
@@ -953,30 +972,30 @@ public class ColorfulBatch implements Batch {
         vertices[idx] = x1;
         vertices[idx + 1] = y1;
         vertices[idx + 2] = color;
-        vertices[idx + 3] = tweak;
-        vertices[idx + 4] = u1;
-        vertices[idx + 5] = v1;
+        vertices[idx + 3] = u1;
+        vertices[idx + 4] = v1;
+        vertices[idx + 5] = tweak;
 
         vertices[idx + 6] = x2;
         vertices[idx + 7] = y2;
         vertices[idx + 8] = color;
-        vertices[idx + 9] = tweak;
-        vertices[idx + 10] = u2;
-        vertices[idx + 11] = v2;
+        vertices[idx + 9] = u2;
+        vertices[idx + 10] = v2;
+        vertices[idx + 11] = tweak;
 
         vertices[idx + 12] = x3;
         vertices[idx + 13] = y3;
         vertices[idx + 14] = color;
-        vertices[idx + 15] = tweak;
-        vertices[idx + 16] = u3;
-        vertices[idx + 17] = v3;
+        vertices[idx + 15] = u3;
+        vertices[idx + 16] = v3;
+        vertices[idx + 17] = tweak;
 
         vertices[idx + 18] = x4;
         vertices[idx + 19] = y4;
         vertices[idx + 20] = color;
-        vertices[idx + 21] = tweak;
-        vertices[idx + 22] = u4;
-        vertices[idx + 23] = v4;
+        vertices[idx + 21] = u4;
+        vertices[idx + 22] = v4;
+        vertices[idx + 23] = tweak;
         this.idx = idx + 24;
     }
 
@@ -1014,30 +1033,30 @@ public class ColorfulBatch implements Batch {
         vertices[idx] = x1;
         vertices[idx + 1] = y1;
         vertices[idx + 2] = color;
-        vertices[idx + 3] = tweak;
-        vertices[idx + 4] = u;
-        vertices[idx + 5] = v;
+        vertices[idx + 3] = u;
+        vertices[idx + 4] = v;
+        vertices[idx + 5] = tweak;
 
         vertices[idx + 6] = x2;
         vertices[idx + 7] = y2;
         vertices[idx + 8] = color;
-        vertices[idx + 9] = tweak;
-        vertices[idx + 10] = u;
-        vertices[idx + 11] = v2;
+        vertices[idx + 9] = u;
+        vertices[idx + 10] = v2;
+        vertices[idx + 11] = tweak;
 
         vertices[idx + 12] = x3;
         vertices[idx + 13] = y3;
         vertices[idx + 14] = color;
-        vertices[idx + 15] = tweak;
-        vertices[idx + 16] = u2;
-        vertices[idx + 17] = v2;
+        vertices[idx + 15] = u2;
+        vertices[idx + 16] = v2;
+        vertices[idx + 17] = tweak;
 
         vertices[idx + 18] = x4;
         vertices[idx + 19] = y4;
         vertices[idx + 20] = color;
-        vertices[idx + 21] = tweak;
-        vertices[idx + 22] = u2;
-        vertices[idx + 23] = v;
+        vertices[idx + 21] = u2;
+        vertices[idx + 22] = v;
+        vertices[idx + 23] = tweak;
         this.idx = idx + 24;
     }
 
@@ -1201,5 +1220,28 @@ public class ColorfulBatch implements Batch {
     public boolean isDrawing () {
         return drawing;
     }
-
+    static public final int X1 = 0;
+    static public final int Y1 = 1;
+    static public final int C1 = 2;
+    static public final int U1 = 3;
+    static public final int V1 = 4;
+    static public final int T1 = 5;
+    static public final int X2 = 6;
+    static public final int Y2 = 7;
+    static public final int C2 = 8;
+    static public final int U2 = 9;
+    static public final int V2 = 10;
+    static public final int T2 = 11;
+    static public final int X3 = 12;
+    static public final int Y3 = 13;
+    static public final int C3 = 14;
+    static public final int U3 = 15;
+    static public final int V3 = 16;
+    static public final int T3 = 17;
+    static public final int X4 = 18;
+    static public final int Y4 = 19;
+    static public final int C4 = 20;
+    static public final int U4 = 21;
+    static public final int V4 = 22;
+    static public final int T4 = 23;
 }
