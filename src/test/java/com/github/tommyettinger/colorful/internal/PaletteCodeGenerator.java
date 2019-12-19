@@ -1,16 +1,19 @@
-package com.github.tommyettinger.colorful;
+package com.github.tommyettinger.colorful.internal;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.utils.ObjectFloatMap;
+import com.github.tommyettinger.colorful.FloatColors;
+import com.github.tommyettinger.colorful.Palette;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 /**
+ * A tool, not a demo, used to generate the data used in {@link Palette} and in the javadocs.
  * Created by Tommy Ettinger on 12/8/2019.
  */
 public class PaletteCodeGenerator extends ApplicationAdapter {
@@ -136,10 +139,10 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                 else if(s1 >= 0x1p-7f && s2 < 0x1p-7f)
                     return 1000;
                 else if(s1 < 0x1p-7f && s2 < 0x1p-7f)
-                    return (int)Math.signum(lightnessAltLAB(c1.value) - lightnessAltLAB(c2.value));
+                    return (int)Math.signum(FloatColors.luma(c1.value) - FloatColors.luma(c2.value));
                 else
                     return 3 * (int)Math.signum(FloatColors.hue(c1.value) - FloatColors.hue(c2.value))
-                            + (int)Math.signum(lightnessAltLAB(c1.value) - lightnessAltLAB(c2.value));
+                            + (int)Math.signum(FloatColors.luma(c1.value) - FloatColors.luma(c2.value));
             }
         });
         sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Luma</th>\n<th>Warm</th>\n<th>Mild</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
@@ -166,7 +169,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         Collections.sort(PAL, new Comparator<ObjectFloatMap.Entry<String>>() {
             @Override
             public int compare(ObjectFloatMap.Entry<String> c1, ObjectFloatMap.Entry<String> c2) {
-                return (int)Math.signum(lightnessAltLAB(c1.value) - lightnessAltLAB(c2.value));
+                return (int)Math.signum(FloatColors.luma(c1.value) - FloatColors.luma(c2.value));
             }
         });
         sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Luma</th>\n<th>Warm</th>\n<th>Mild</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");

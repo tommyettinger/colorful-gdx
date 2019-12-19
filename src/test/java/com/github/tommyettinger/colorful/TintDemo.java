@@ -76,7 +76,7 @@ public class TintDemo extends ApplicationAdapter {
 
     @Override
     public void create() {
-        batch = Shaders.makeBatch();
+        batch = Shaders.makeBatch(1.5f);
         defaultShader = SpriteBatch.createDefaultShader();
         shader = batch.getShader();
         screenView = new ScreenViewport();
@@ -85,8 +85,8 @@ public class TintDemo extends ApplicationAdapter {
         batch.enableBlending();
 
         // if you don't have these files on this absolute path, that's fine, and they will be ignored
-//        load("D:/Painting_by_Henri_Biva.jpg");
-//        load("D:/Among_the_Sierra_Nevada_by_Albert_Bierstadt.jpg");
+//        load("samples/Painting_by_Henri_Biva.jpg");
+//        load("samples/Among_the_Sierra_Nevada_by_Albert_Bierstadt.jpg");
         load("samples/Mona_Lisa.jpg");
     }
 
@@ -129,7 +129,7 @@ public class TintDemo extends ApplicationAdapter {
         else if (input.isKeyPressed(Input.Keys.C)) // Color Guard, pixel art cartoon-wargame style
             load("samples/Color_Guard.png");
         else if (input.isKeyPressed(Input.Keys.G)) // grayscale palette
-            load("samples/GrayscaleSpaceships.png");
+            load("samples/Grayscale_Spaceships.png");
         else if (input.isKeyPressed(Input.Keys.A)) // higher-color atlas
             load("samples/Spaceships.png");
         else if (input.isKeyPressed(Input.Keys.Q) || input.isKeyPressed(Input.Keys.ESCAPE)) //quit

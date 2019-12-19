@@ -1,4 +1,4 @@
-package com.github.tommyettinger.colorful;
+package com.github.tommyettinger.colorful.internal;
 
 import com.badlogic.gdx.utils.NumberUtils;
 

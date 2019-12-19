@@ -39,6 +39,8 @@ if (JavaVersion.current().isJava8Compatible()) {
 
 sourceSets.test.resources.srcDirs += [ file('src/test/resources').path ]
 
+javadoc.destinationDir = file('docs/apidocs')
+
 jar {
     archiveBaseName.set(projectName)
     manifest {

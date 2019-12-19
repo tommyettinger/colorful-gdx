@@ -131,6 +131,7 @@ public class ColorfulBatch implements Batch {
                 + "varying vec4 v_color;\n" //
                 + "varying vec4 v_tweak;\n" //
                 + "varying vec2 v_texCoords;\n" //
+                + "varying float v_lightFix;\n" //
                 + "\n" //
                 + "void main()\n" //
                 + "{\n" //
@@ -138,6 +139,7 @@ public class ColorfulBatch implements Batch {
                 + "   v_color.a = v_color.a * (255.0/254.0);\n" //
                 + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n" //
                 + "   v_tweak.a = pow(v_tweak.a * (255.0/254.0) + 0.5, 1.709);\n" //
+                + "   v_lightFix = 1.0 + pow(v_tweak.a, 1.41421356);\n" //
                 + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" //
                 + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
                 + "}\n";
@@ -151,13 +153,14 @@ public class ColorfulBatch implements Batch {
                         "varying vec2 v_texCoords;\n" +
                         "varying LOWP vec4 v_color;\n" +
                         "varying LOWP vec4 v_tweak;\n" +
+                        "varying float v_lightFix;\n" +
                         "uniform sampler2D u_texture;\n" +
                         "const vec3 bright = vec3(0.375, 0.5, 0.125);\n" +
                         "void main()\n" +
                         "{\n" +
                         "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                         "   vec3 ycc = vec3(\n" +
-                        "     (v_tweak.r * pow(dot(tgt.rgb, bright), v_tweak.a) * (0.75 + v_tweak.a * 1.25) + v_color.r - 0.5),\n" + // luma
+                        "     (v_tweak.r * pow(dot(tgt.rgb, bright), v_tweak.a) * v_lightFix + v_color.r - 0.5),\n" + // luma
                         "     (v_color.g - 0.5 + (tgt.r - tgt.b) * v_tweak.g) * 2.0,\n" + // warmth
                         "     (v_color.b - 0.5 + (tgt.g - tgt.b) * v_tweak.b) * 2.0);\n" + // mildness
                         "   gl_FragColor = clamp(vec4(\n" +
