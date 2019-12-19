@@ -280,7 +280,7 @@ public class Palette {
     static { NAMED.put("Periwinkle", -0x1.80812p125F); LIST.add(-0x1.80812p125F); }
 
     /**
-     * This color constant "Ultramarine" has RGBA8888 code {@code 0000FFFF}, luma 0.121568635, warmth 0.0, mildness 0.0, alpha 1.0, hue 0.62496763, and saturation 1.0.
+     * This color constant "Blue" has RGBA8888 code {@code 0000FFFF}, luma 0.121568635, warmth 0.0, mildness 0.0, alpha 1.0, hue 0.62496763, and saturation 1.0.
      * It can be represented as a packed float with the constant {@code -0x1.00003ep125F}.
      * <pre>
      * <font style='background-color: #0000FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0000FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -288,8 +288,8 @@ public class Palette {
      * <font style='background-color: #0000FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0000FF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float ULTRAMARINE = -0x1.00003ep125F;
-    static { NAMED.put("Ultramarine", -0x1.00003ep125F); LIST.add(-0x1.00003ep125F); }
+    public static final float BLUE = -0x1.00003ep125F;
+    static { NAMED.put("Blue", -0x1.00003ep125F); LIST.add(-0x1.00003ep125F); }
 
     /**
      * This color constant "Faded Blue" has RGBA8888 code {@code 3F3FBFFF}, luma 0.30980393, warmth 0.24705884, mildness 0.24705884, alpha 1.0, hue 0.62496763, and saturation 0.5058824.
@@ -508,7 +508,7 @@ public class Palette {
     static { NAMED.put("Cream", -0x1.3f3feep126F); LIST.add(-0x1.3f3feep126F); }
 
     /**
-     * This color constant "Lemon" has RGBA8888 code {@code FFFF00FF}, luma 0.8745099, warmth 1.0, mildness 1.0, alpha 1.0, hue 0.12496766, and saturation 1.0.
+     * This color constant "Yellow" has RGBA8888 code {@code FFFF00FF}, luma 0.8745099, warmth 1.0, mildness 1.0, alpha 1.0, hue 0.12496766, and saturation 1.0.
      * It can be represented as a packed float with the constant {@code -0x1.ffffbep126F}.
      * <pre>
      * <font style='background-color: #FFFF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFFF00; color: #000000'>&nbsp;@&nbsp;</font>
@@ -516,8 +516,8 @@ public class Palette {
      * <font style='background-color: #FFFF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFFF00; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float LEMON = -0x1.ffffbep126F;
-    static { NAMED.put("Lemon", -0x1.ffffbep126F); LIST.add(-0x1.ffffbep126F); }
+    public static final float YELLOW = -0x1.ffffbep126F;
+    static { NAMED.put("Yellow", -0x1.ffffbep126F); LIST.add(-0x1.ffffbep126F); }
 
     /**
      * This color constant "Earwax" has RGBA8888 code {@code BFBF3FFF}, luma 0.6862745, warmth 0.7490196, mildness 0.7490196, alpha 1.0, hue 0.12496766, and saturation 0.49803922.
@@ -568,7 +568,7 @@ public class Palette {
     static { NAMED.put("Jade", -0x1.7efefep126F); LIST.add(-0x1.7efefep126F); }
 
     /**
-     * This color constant "Shamrock Green" has RGBA8888 code {@code 00FF00FF}, luma 0.49803925, warmth 0.49803925, mildness 1.0, alpha 1.0, hue 0.25062412, and saturation 0.7071122.
+     * This color constant "Green" has RGBA8888 code {@code 00FF00FF}, luma 0.49803925, warmth 0.49803925, mildness 1.0, alpha 1.0, hue 0.25062412, and saturation 0.7071122.
      * It can be represented as a packed float with the constant {@code -0x1.fefefep126F}.
      * <pre>
      * <font style='background-color: #00FF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00FF00; color: #000000'>&nbsp;@&nbsp;</font>
@@ -576,8 +576,8 @@ public class Palette {
      * <font style='background-color: #00FF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00FF00; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SHAMROCK_GREEN = -0x1.fefefep126F;
-    static { NAMED.put("Shamrock Green", -0x1.fefefep126F); LIST.add(-0x1.fefefep126F); }
+    public static final float GREEN = -0x1.fefefep126F;
+    static { NAMED.put("Green", -0x1.fefefep126F); LIST.add(-0x1.fefefep126F); }
 
     /**
      * This color constant "Celadon" has RGBA8888 code {@code AFFFAFFF}, luma 0.8431373, warmth 0.49803925, mildness 0.654902, alpha 1.0, hue 0.25201452, and saturation 0.219082.
@@ -1876,7 +1876,7 @@ public class Palette {
     static { NAMED.put("Brick", -0x1.078b04p126F); LIST.add(-0x1.078b04p126F); }
 
     /**
-     * This color constant "Fusion Red" has RGBA8888 code {@code FF3C0AFF}, luma 0.49411768, warmth 0.9803922, mildness 0.59607846, alpha 1.0, hue 0.031421863, and saturation 0.6928314.
+     * This color constant "Red" has RGBA8888 code {@code FF3C0AFF}, luma 0.49411768, warmth 0.9803922, mildness 0.59607846, alpha 1.0, hue 0.031421863, and saturation 0.6928314.
      * It can be represented as a packed float with the constant {@code -0x1.31f4fcp126F}.
      * <pre>
      * <font style='background-color: #FF3C0A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF3C0A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1884,8 +1884,8 @@ public class Palette {
      * <font style='background-color: #FF3C0A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF3C0A; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float FUSION_RED = -0x1.31f4fcp126F;
-    static { NAMED.put("Fusion Red", -0x1.31f4fcp126F); LIST.add(-0x1.31f4fcp126F); }
+    public static final float RED = -0x1.31f4fcp126F;
+    static { NAMED.put("Red", -0x1.31f4fcp126F); LIST.add(-0x1.31f4fcp126F); }
 
     /**
      * This color constant "Embers" has RGBA8888 code {@code F55A32FF}, luma 0.56078434, warmth 0.882353, mildness 0.5764706, alpha 1.0, hue 0.031421863, and saturation 0.55143726.
@@ -2872,7 +2872,7 @@ public class Palette {
     static { NAMED.put("Heliotrope", -0x1.52ff5p125F); LIST.add(-0x1.52ff5p125F); }
 
     /**
-     * This color constant "Light Plum" has RGBA8888 code {@code DA20E0FF}, luma 0.4901961, warmth 0.48627454, mildness 0.121568635, alpha 1.0, hue 0.74423003, and saturation 0.5355347.
+     * This color constant "Purple" has RGBA8888 code {@code DA20E0FF}, luma 0.4901961, warmth 0.48627454, mildness 0.121568635, alpha 1.0, hue 0.74423003, and saturation 0.5355347.
      * It can be represented as a packed float with the constant {@code -0x1.3ef8fap125F}.
      * <pre>
      * <font style='background-color: #DA20E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #DA20E0; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2880,8 +2880,8 @@ public class Palette {
      * <font style='background-color: #DA20E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #DA20E0; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float LIGHT_PLUM = -0x1.3ef8fap125F;
-    static { NAMED.put("Light Plum", -0x1.3ef8fap125F); LIST.add(-0x1.3ef8fap125F); }
+    public static final float PURPLE = -0x1.3ef8fap125F;
+    static { NAMED.put("Purple", -0x1.3ef8fap125F); LIST.add(-0x1.3ef8fap125F); }
 
     /**
      * This color constant "Wisteria" has RGBA8888 code {@code BD29FFFF}, luma 0.48235297, warmth 0.36862746, mildness 0.078431375, alpha 1.0, hue 0.70190847, and saturation 0.62446594.
@@ -3052,7 +3052,7 @@ public class Palette {
     static { NAMED.put("Flamingo", -0x1.ad6f1ap125F); LIST.add(-0x1.ad6f1ap125F); }
 
     /**
-     * This color constant "Lipstick" has RGBA8888 code {@code E61E78FF}, luma 0.454902, warmth 0.7137255, mildness 0.32156864, alpha 1.0, hue 0.8892774, and saturation 0.3937419.
+     * This color constant "Rose" has RGBA8888 code {@code E61E78FF}, luma 0.454902, warmth 0.7137255, mildness 0.32156864, alpha 1.0, hue 0.8892774, and saturation 0.3937419.
      * It can be represented as a packed float with the constant {@code -0x1.a56ce8p125F}.
      * <pre>
      * <font style='background-color: #E61E78;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E61E78; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3060,8 +3060,8 @@ public class Palette {
      * <font style='background-color: #E61E78;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E61E78; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float LIPSTICK = -0x1.a56ce8p125F;
-    static { NAMED.put("Lipstick", -0x1.a56ce8p125F); LIST.add(-0x1.a56ce8p125F); }
+    public static final float ROSE = -0x1.a56ce8p125F;
+    static { NAMED.put("Rose", -0x1.a56ce8p125F); LIST.add(-0x1.a56ce8p125F); }
 
     /**
      * This color constant "Carmine" has RGBA8888 code {@code BD1039FF}, luma 0.3372549, warmth 0.7568628, mildness 0.41960788, alpha 1.0, hue 0.9517127, and saturation 0.38063467.

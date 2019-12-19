@@ -1,4 +1,4 @@
-/*******************************************************************************
+/* *****************************************************************************
  * Copyright 2011 See AUTHORS file.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,7 +31,9 @@ import static com.github.tommyettinger.colorful.ColorfulBatch.*;
  * the origin is not modified by rotation and scaling). The origin is given relative to the bottom left corner of the ColorfulSprite, its
  * position.
  * @author mzechner
- * @author Nathan Sweet */
+ * @author Nathan Sweet 
+ * @author Tommy Ettinger
+ */
 public class ColorfulSprite extends TextureRegion {
 	public static final int VERTEX_SIZE = 2 + 1 + 2 + 1;
 	public static final int SPRITE_SIZE = 4 * VERTEX_SIZE;
@@ -561,7 +563,7 @@ public class ColorfulSprite extends TextureRegion {
 		draw(batch);
 		setAlpha(oldAlpha);
 	}
-
+	
 	public float getX () {
 		return x;
 	}
