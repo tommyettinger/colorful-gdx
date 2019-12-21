@@ -1,5 +1,6 @@
 package com.github.tommyettinger.colorful;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.NumberUtils;
 
@@ -67,8 +68,8 @@ public class FloatColors {
 
 
     /**
-     * Converts a packed float color in the format produced by {@link FloatColors#floatColor(float, float, float, float)} to an RGBA8888 int. This format of
-     * int can be used with Pixmap and in some other places in libGDX.
+     * Converts a packed float color in the format produced by {@link FloatColors#floatColor(float, float, float, float)} to an RGBA8888 int.
+     * This format of int can be used with Pixmap and in some other places in libGDX.
      * @param packed a packed float color, as produced by {@link FloatColors#floatColor(float, float, float, float)}
      * @return an RGBA8888 int color
      */
@@ -85,12 +86,34 @@ public class FloatColors {
                 | MathUtils.clamp(y - (((decoded >>> 7 & 0x1fe) - 255) * 3 >> 3) - cm, 0, 0xFF) << 8
                 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
     }
-    
+
+    /**
+     * Takes a color encoded as an RGBA8888 int and converts to a packed float in the YCwCmA this uses.
+     * @param rgba an int with the channels (in order) red, green, blue, alpha; should have 8 bits per channel
+     * @return a packed float as YCwCmA, which this class can use
+     */
     public static float fromRGBA8888(final int rgba) {
-        return NumberUtils.intBitsToFloat(((rgba >>> 24 & 0xFF) * 3 + (rgba >>> 16 & 0xFF) * 4 + (rgba >>> 8 & 0xFF) >> 3) 
+        return NumberUtils.intBitsToFloat(((rgba >>> 24 & 0xFF) * 3 + (rgba >>> 16 & 0xFF) * 4 + (rgba >>> 8 & 0xFF) >> 3)
                 | (0xFF + (rgba >>> 24) - (rgba >>> 8 & 0xFF) & 0x1FE) << 7
                 | (0xFF + (rgba >>> 16 & 0xFF) - (rgba >>> 8 & 0xFF) & 0x1FE) << 15
                 | (rgba & 0xFE) << 24);
+
+    }
+
+    /**
+     * Takes a libGDX Color that uses RGBA8888 channels and converts to a packed float in the YCwCmA this uses.
+     * @param color a libGDX RGBA8888 Color
+     * @return a packed float as YCwCmA, which this class can use
+     */
+    public static float fromColor(final Color color) {
+        return NumberUtils.intBitsToFloat((int) (255 * (color.r * 0x3p-3f + color.g * 0x4p-3f + color.b * 0x1p-3f))
+                        | (int)((color.r - color.b + 1f) * 127.5f) << 8
+                        | (int)((color.g - color.b + 1f) * 127.5f) << 16
+                        | ((int)(color.a * 255f) << 24 & 0xFE000000));
+//                ((rgba >>> 24 & 0xFF) * 3 + (rgba >>> 16 & 0xFF) * 4 + (rgba >>> 8 & 0xFF) >> 3)
+//                | (0xFF + (rgba >>> 24) - (rgba >>> 8 & 0xFF) & 0x1FE) << 7
+//                | (0xFF + (rgba >>> 16 & 0xFF) - (rgba >>> 8 & 0xFF) & 0x1FE) << 15
+//                | (rgba & 0xFE) << 24);
 
     }
 

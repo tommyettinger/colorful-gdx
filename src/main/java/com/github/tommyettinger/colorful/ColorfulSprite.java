@@ -52,13 +52,16 @@ public class ColorfulSprite extends TextureRegion {
 		setTweakedColor(Palette.GRAY, TWEAK_RESET);
 	}
 
-	/** Creates a sprite with width, height, and texture region equal to the size of the texture. */
+	/** Creates a sprite with width, height, and texture region equal to the size of the texture. 
+	 * @param texture A Texture that will be used in full for this ColorfulSprite.
+	 */
 	public ColorfulSprite(Texture texture) {
 		this(texture, 0, 0, texture.getWidth(), texture.getHeight());
 	}
 
 	/** Creates a sprite with width, height, and texture region equal to the specified size. The texture region's upper left corner
 	 * will be 0,0.
+	 * @param texture A Texture that will have some of its area used for this ColorfulSprite, starting at 0,0 in the upper left.
 	 * @param srcWidth The width of the texture region. May be negative to flip the sprite when drawn.
 	 * @param srcHeight The height of the texture region. May be negative to flip the sprite when drawn. */
 	public ColorfulSprite(Texture texture, int srcWidth, int srcHeight) {
@@ -66,6 +69,9 @@ public class ColorfulSprite extends TextureRegion {
 	}
 
 	/** Creates a sprite with width, height, and texture region equal to the specified size.
+	 * @param texture A Texture that will have some of its area used for this ColorfulSprite, starting at srcX,srcY in the upper left.
+	 * @param srcX The x-coordinate for the upper left corner of the region to use.
+	 * @param srcY The y-coordinate for the upper left corner of the region to use.
 	 * @param srcWidth The width of the texture region. May be negative to flip the sprite when drawn.
 	 * @param srcHeight The height of the texture region. May be negative to flip the sprite when drawn. */
 	public ColorfulSprite(Texture texture, int srcX, int srcY, int srcWidth, int srcHeight) {
@@ -74,36 +80,44 @@ public class ColorfulSprite extends TextureRegion {
 		setRegion(srcX, srcY, srcWidth, srcHeight);
 		setTweakedColor(Palette.GRAY, TWEAK_RESET);
 		setSize(Math.abs(srcWidth), Math.abs(srcHeight));
-		setOrigin(width / 2, height / 2);
+		setOrigin(width * 0.5f, height * 0.5f);
 	}
 
-	// Note the region is copied.
 	/** Creates a sprite based on a specific TextureRegion, the new sprite's region is a copy of the parameter region - altering one
-	 * does not affect the other */
+	 * does not affect the other
+	 * @param region A TextureRegion that will have relevant data copied into this ColorfulSprite.
+	 */
 	public ColorfulSprite(TextureRegion region) {
 		setRegion(region);
 		setTweakedColor(Palette.GRAY, TWEAK_RESET);
 		setSize(region.getRegionWidth(), region.getRegionHeight());
-		setOrigin(width / 2, height / 2);
+		setOrigin(width * 0.5f, height * 0.5f);
 	}
 
 	/** Creates a sprite with width, height, and texture region equal to the specified size, relative to specified sprite's texture
 	 * region.
+	 * @param region A TextureRegion that this will use for its Texture and as a basis for the relative coordinates in that Texture.
+	 * @param srcX Number of pixels to add to the texture coordinates of {@code region} on the x-axis.
+	 * @param srcY Number of pixels to add to the texture coordinates of {@code region} on the y-axis. 
 	 * @param srcWidth The width of the texture region. May be negative to flip the sprite when drawn.
 	 * @param srcHeight The height of the texture region. May be negative to flip the sprite when drawn. */
 	public ColorfulSprite(TextureRegion region, int srcX, int srcY, int srcWidth, int srcHeight) {
 		setRegion(region, srcX, srcY, srcWidth, srcHeight);
 		setTweakedColor(Palette.GRAY, TWEAK_RESET);
 		setSize(Math.abs(srcWidth), Math.abs(srcHeight));
-		setOrigin(width / 2, height / 2);
+		setOrigin(width * 0.5f, height * 0.5f);
 	}
 
-	/** Creates a colorfulSprite that is a copy in every way of the specified colorfulSprite. */
+	/** Creates a colorfulSprite that is a copy in every way of the specified colorfulSprite. 
+	 * @param colorfulSprite A ColorfulSprite that will be copied exactly.
+	 */
 	public ColorfulSprite(ColorfulSprite colorfulSprite) {
 		set(colorfulSprite);
 	}
 
-	/** Make this colorfulSprite a copy in every way of the specified colorfulSprite */
+	/** Make this colorfulSprite a copy in every way of the specified colorfulSprite
+	 * @param colorfulSprite A ColorfulSprite that will be copied exactly.
+	 */
 	public void set (ColorfulSprite colorfulSprite) {
 		if (colorfulSprite == null) throw new IllegalArgumentException("colorfulSprite cannot be null.");
 		System.arraycopy(colorfulSprite.vertices, 0, vertices, 0, SPRITE_SIZE);
@@ -126,7 +140,12 @@ public class ColorfulSprite extends TextureRegion {
 	}
 
 	/** Sets the position and size of the sprite when drawn, before scaling and rotation are applied. If origin, rotation, or scale
-	 * are changed, it is slightly more efficient to set the bounds after those operations. */
+	 * are changed, it is slightly more efficient to set the bounds after those operations. 
+	 * @param x The x-position of the ColorfulSprite in world space.
+	 * @param y The y-position of the ColorfulSprite in world space.
+	 * @param width The width to display the ColorfulSprite with. 
+	 * @param height The height to display the ColorfulSprite with.
+	 */
 	public void setBounds (float x, float y, float width, float height) {
 		this.x = x;
 		this.y = y;
@@ -155,7 +174,10 @@ public class ColorfulSprite extends TextureRegion {
 
 	/** Sets the size of the sprite when drawn, before scaling and rotation are applied. If origin, rotation, or scale are changed,
 	 * it is slightly more efficient to set the size after those operations. If both position and size are to be changed, it is
-	 * better to use {@link #setBounds(float, float, float, float)}. */
+	 * better to use {@link #setBounds(float, float, float, float)}.
+	 * @param width The width to display the ColorfulSprite with. 
+	 * @param height The height to display the ColorfulSprite with.
+	 */
 	public void setSize (float width, float height) {
 		this.width = width;
 		this.height = height;
@@ -182,48 +204,67 @@ public class ColorfulSprite extends TextureRegion {
 
 	/** Sets the position where the sprite will be drawn. If origin, rotation, or scale are changed, it is slightly more efficient
 	 * to set the position after those operations. If both position and size are to be changed, it is better to use
-	 * {@link #setBounds(float, float, float, float)}. */
+	 * {@link #setBounds(float, float, float, float)}. 
+	 * @param x The x-position of the ColorfulSprite in world space.
+	 * @param y The y-position of the ColorfulSprite in world space.
+	 */
 	public void setPosition (float x, float y) {
 		translate(x - this.x, y - this.y);
 	}
 
-	/** Sets the position where the sprite will be drawn, relative to its current origin.  */
+	/** Sets the position where the sprite will be drawn, relative to its current origin. 
+	 * @param x The adjustment to make to the x-position, relative to the current origin. 
+	 * @param y The adjustment to make to the y-position, relative to the current origin. 
+	 */
 	public void setOriginBasedPosition (float x, float y) {
 		setPosition(x - this.originX, y - this.originY);
 	}
 
 	/** Sets the x position where the sprite will be drawn. If origin, rotation, or scale are changed, it is slightly more efficient
 	 * to set the position after those operations. If both position and size are to be changed, it is better to use
-	 * {@link #setBounds(float, float, float, float)}. */
+	 * {@link #setBounds(float, float, float, float)}.
+	 * @param x The x-position of the ColorfulSprite in world space.
+	 */
 	public void setX (float x) {
 		translateX(x - this.x);
 	}
 
 	/** Sets the y position where the sprite will be drawn. If origin, rotation, or scale are changed, it is slightly more efficient
 	 * to set the position after those operations. If both position and size are to be changed, it is better to use
-	 * {@link #setBounds(float, float, float, float)}. */
+	 * {@link #setBounds(float, float, float, float)}.
+	 * @param y The y-position of the ColorfulSprite in world space.
+	 */
 	public void setY (float y) {
 		translateY(y - this.y);
 	}
 	
-	/** Sets the x position so that it is centered on the given x parameter */
+	/** Sets the x position so that it is centered on the given x parameter.
+	 * @param x The x-position of the center of the ColorfulSprite in world space.
+	 */
 	public void setCenterX (float x) {
-		setX(x - width / 2);
+		setX(x - width * 0.5f);
 	}
 
-	/** Sets the y position so that it is centered on the given y parameter */
+	/** Sets the y position so that it is centered on the given y parameter.
+	 * @param y The y-position of the center of the ColorfulSprite in world space.
+	 */
 	public void setCenterY (float y) {
-		setY(y - height / 2);
+		setY(y - height * 0.5f);
 	}
 
-	/** Sets the position so that the sprite is centered on (x, y) */
+	/** Sets the position so that the sprite is centered on (x, y).
+	 * @param x The x-position of the center of the ColorfulSprite in world space.
+	 * @param y The y-position of the center of the ColorfulSprite in world space.
+	 */
 	public void setCenter (float x, float y) {
 		setCenterX(x);
 		setCenterY(y);
 	}
 
 	/** Sets the x position relative to the current position where the sprite will be drawn. If origin, rotation, or scale are
-	 * changed, it is slightly more efficient to translate after those operations. */
+	 * changed, it is slightly more efficient to translate after those operations.
+	 * @param xAmount How much to move the ColorfulSprite on the x-axis, in world space.
+	 */
 	public void translateX (float xAmount) {
 		this.x += xAmount;
 
@@ -237,7 +278,9 @@ public class ColorfulSprite extends TextureRegion {
 	}
 
 	/** Sets the y position relative to the current position where the sprite will be drawn. If origin, rotation, or scale are
-	 * changed, it is slightly more efficient to translate after those operations. */
+	 * changed, it is slightly more efficient to translate after those operations. 
+	 * @param yAmount How much to move the ColorfulSprite on the y-axis, in world space.
+	 */
 	public void translateY (float yAmount) {
 		y += yAmount;
 
@@ -251,7 +294,10 @@ public class ColorfulSprite extends TextureRegion {
 	}
 
 	/** Sets the position relative to the current position where the sprite will be drawn. If origin, rotation, or scale are
-	 * changed, it is slightly more efficient to translate after those operations. */
+	 * changed, it is slightly more efficient to translate after those operations.
+	 * @param xAmount How much to move the ColorfulSprite on the x-axis, in world space.
+	 * @param yAmount How much to move the ColorfulSprite on the y-axis, in world space.
+	 */
 	public void translate (float xAmount, float yAmount) {
 		x += xAmount;
 		y += yAmount;
@@ -273,6 +319,8 @@ public class ColorfulSprite extends TextureRegion {
 	}
 
 	/** Sets the color used to tint this sprite. Default is {@link Palette#GRAY}, which makes no changes to the color.
+	 * Use {@link FloatColors#floatColor(float, float, float, float)} or a predefined color from {@link Palette} if you
+	 * don't have a color currently.
 	 * @param color the packed float color used to add luma, warmth, and mildness to the current sprite, as well as the multiplier for alpha
 	 */
 	public void setColor (final float color) {
@@ -323,7 +371,7 @@ public class ColorfulSprite extends TextureRegion {
 	 * @param color a libGDX RGBA8888 Color
 	 */
 	public void setColor (Color color) {
-		setColor(FloatColors.fromRGBA8888(Color.rgba8888(color)));
+		setColor(FloatColors.fromColor(color));
 	}
 
 	/** Sets the alpha portion of the color used to tint this sprite. */
@@ -366,8 +414,8 @@ public class ColorfulSprite extends TextureRegion {
 
 	/** Place origin in the center of the sprite */
 	public void setOriginCenter() {
-		this.originX = width / 2;
-		this.originY = height / 2;
+		this.originX = width * 0.5f;
+		this.originY = height * 0.5f;
 		dirty = true;
 	}
 
