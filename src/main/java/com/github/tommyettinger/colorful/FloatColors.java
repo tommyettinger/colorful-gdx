@@ -59,9 +59,9 @@ public class FloatColors {
         if (value <= 0.001f) {
             return NumberUtils.intBitsToFloat((int) (opacity * 255f) << 24 & 0xFE000000);
         } else {
-            saturation = MathUtils.clamp(saturation, 0f, 1f) * 180.31222920256963f;
-            final float cw = MathUtils.clamp(TrigTools.cos_(hue) * saturation + 127.5f, 0f, 255f);
-            final float cm = MathUtils.clamp(TrigTools.sin_(hue) * saturation + 127.5f, 0f, 255f);
+            saturation = MathUtils.clamp(saturation, 0f, 1f) * 0.70710677f;
+            final float cw = MathUtils.clamp(TrigTools.cos_(hue) * saturation + 0.5f, 0f, 255f);
+            final float cm = MathUtils.clamp(TrigTools.sin_(hue) * saturation + 0.5f, 0f, 255f);
             return floatColor(value, cw, cm, opacity);
         }
     }
