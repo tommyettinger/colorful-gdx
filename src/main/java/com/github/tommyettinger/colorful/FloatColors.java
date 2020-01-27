@@ -60,8 +60,8 @@ public class FloatColors {
             return NumberUtils.intBitsToFloat((int) (opacity * 255f) << 24 & 0xFE000000);
         } else {
             saturation = MathUtils.clamp(saturation, 0f, 1f) * 0.70710677f;
-            final float cw = MathUtils.clamp(TrigTools.cos_(hue) * saturation + 0.5f, 0f, 255f);
-            final float cm = MathUtils.clamp(TrigTools.sin_(hue) * saturation + 0.5f, 0f, 255f);
+            final float cw = MathUtils.clamp(TrigTools.cos_(hue) * saturation + 0.5f, 0f, 1f);
+            final float cm = MathUtils.clamp(TrigTools.sin_(hue) * saturation + 0.5f, 0f, 1f);
             return floatColor(value, cw, cm, opacity);
         }
     }
@@ -375,14 +375,17 @@ public class FloatColors {
         if ( saturation > 0.001f )
         {
             // it has color
-            float angle = TrigTools.atan2_(cm, cw);
-            hue += angle - (int)angle;
+            hue += TrigTools.atan2_(cm, cw);
         }
         else
             return floatColor(value, 0.5f, 0.5f, opacity);
-        saturation = MathUtils.clamp(saturation, 0f, 1f) * 180.31222920256963f;
-        cw = MathUtils.clamp(TrigTools.cos_(hue) * saturation + 127.5f, 0f, 255f);
-        cm = MathUtils.clamp(TrigTools.sin_(hue) * saturation + 127.5f, 0f, 255f);
+        //// this commented section is probably wrong; it needs some testing.
+//        saturation = MathUtils.clamp(saturation, 0f, 1f) * 180.31222920256963f;
+//        cw = MathUtils.clamp(TrigTools.cos_(hue) * saturation + 127.5f, 0f, 255f);
+//        cm = MathUtils.clamp(TrigTools.sin_(hue) * saturation + 127.5f, 0f, 255f);
+        saturation = MathUtils.clamp(saturation, 0f, 1f) * 0.70710677f;
+        cw = MathUtils.clamp(TrigTools.cos_(hue) * saturation + 0.5f, 0f, 1f);
+        cm = MathUtils.clamp(TrigTools.sin_(hue) * saturation + 0.5f, 0f, 1f);
         return floatColor(value, cw, cm, opacity);
     }
 
@@ -560,17 +563,20 @@ public class FloatColors {
 
     /**
      * Given a packed float YCwCmA color {@code mainColor} and another YCwCmA color that it should be made to contrast
-     * with, gets a packed float YCwCmA color with a contrasting luma but the same chromatic channels and opacity (Cw
+     * with, gets a packed float YCwCmA color with roughly inverted luma but the same chromatic channels and opacity (Cw
      * and Cm are likely to be clamped if the result gets close to white or black). This won't ever produce black or
      * other very dark colors, and also has a gap in the range it produces for luma values between 0.5 and 0.55. That
      * allows most of the colors this method produces to contrast well as a foreground when displayed on a background of
      * {@code contrastingColor}, or vice versa. This will leave the luma unchanged if the chromatic channels of the
-     * contrastingColor and those of the mainColor are already very different.
+     * contrastingColor and those of the mainColor are already very different. This has nothing to do with the contrast
+     * channel of the tweak in ColorfulBatch; where that part of the tweak can make too-similar lightness values further
+     * apart by just a little, this makes a modification on {@code mainColor} to maximize its lightness difference from
+     * {@code contrastingColor} without losing its other qualities.
      * @param mainColor a packed float color, as produced by {@link #floatColor(float, float, float, float)}; this is the color that will be adjusted
      * @param contrastingColor a packed float color, as produced by {@link #floatColor(float, float, float, float)}; the adjusted mainColor will contrast with this
-     * @return a different, contrasting packed float color
+     * @return a different packed float color, based on mainColor but with potentially very different lightness
      */
-    public static float contrastLuma(final float mainColor, final float contrastingColor)
+    public static float inverseLuma(final float mainColor, final float contrastingColor)
     {
         final int bits = NumberUtils.floatToIntBits(mainColor),
                 contrastBits = NumberUtils.floatToIntBits(contrastingColor),

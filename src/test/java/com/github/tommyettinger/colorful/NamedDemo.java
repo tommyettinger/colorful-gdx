@@ -30,7 +30,7 @@ public class NamedDemo extends ApplicationAdapter {
     private Texture screenTexture;
     private BitmapFont font;
     private Texture blank;
-    private long startTime = 0L, lastProcessedTime = 0L;
+    private long lastProcessedTime = 0L;
     private int selectedIndex;
     private String selectedName;
     private float selected;

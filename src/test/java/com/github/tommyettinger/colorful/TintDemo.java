@@ -28,7 +28,7 @@ public class TintDemo extends ApplicationAdapter {
     protected Viewport screenView;
     protected Texture screenTexture;
 
-    private long startTime = 0L, lastProcessedTime = 0L;
+    private long lastProcessedTime = 0L;
     private ShaderProgram defaultShader;
     private ShaderProgram shader;
     private float luma = 0.5f, warm = 0.5f, mild = 0.5f, opacity = 1f;
