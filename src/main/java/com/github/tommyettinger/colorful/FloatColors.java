@@ -366,11 +366,11 @@ public class FloatColors {
      */
     public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {
         final int e = NumberUtils.floatToIntBits(basis);
-        float cw = (e >>> 8 & 255) - 127.5f, cm = (e >>> 16 & 255) - 127.5f;
         value = MathUtils.clamp(value + (e & 0xff) * 0x1.010102p-8f, 0f, 1f);
         opacity = MathUtils.clamp(opacity + (e >>> 24 & 0xfe) * 0x1.020408p-8f, 0f, 1f);
         if (value <= 0.001f)
-            return NumberUtils.intBitsToFloat((int) (opacity * 255f) << 24 & 0xFE000000);
+            return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x7F7F00);
+        float cw = (e >>> 8 & 255) - 127.5f, cm = (e >>> 16 & 255) - 127.5f;
         saturation += (float) (Math.sqrt(cw * cw + cm * cm) * 0.00554593553871802);
         if ( saturation > 0.001f )
         {
@@ -379,11 +379,7 @@ public class FloatColors {
         }
         else
             return floatColor(value, 0.5f, 0.5f, opacity);
-        //// this commented section is probably wrong; it needs some testing.
-//        saturation = MathUtils.clamp(saturation, 0f, 1f) * 180.31222920256963f;
-//        cw = MathUtils.clamp(TrigTools.cos_(hue) * saturation + 127.5f, 0f, 255f);
-//        cm = MathUtils.clamp(TrigTools.sin_(hue) * saturation + 127.5f, 0f, 255f);
-        saturation = MathUtils.clamp(saturation, 0f, 1f) * 0.70710677f;
+        saturation = MathUtils.clamp(saturation, 0f, 1f) * 0.5f;//0.70710677f
         cw = MathUtils.clamp(TrigTools.cos_(hue) * saturation + 0.5f, 0f, 1f);
         cm = MathUtils.clamp(TrigTools.sin_(hue) * saturation + 0.5f, 0f, 1f);
         return floatColor(value, cw, cm, opacity);
