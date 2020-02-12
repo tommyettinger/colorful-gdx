@@ -590,4 +590,24 @@ public class FloatColors {
             return mainColor;
         return floatColor(cLuma < 128 ? luma * (0.45f / 255f) + 0.55f : 0.5f - luma * (0.45f / 255f), warm, mild, 0x1.010102p-8f * (bits >>> 24));
     }
+
+    /**
+     * Makes the additive YCwCmA color stored in {@code color} cause less of a change when used as a tint, as if it were
+     * mixed with neutral gray. When {@code fraction} is 1.0, this returns color unchanged; when fraction is 0.0, it
+     * returns {@link Palette#GRAY}, and when it is in-between 0.0 and 1.0 it returns something between the two. This is
+     * meant for things like area of effect abilities that make smaller color changes toward their periphery.
+     * @param color a color that should have its tinting effect potentially weakened
+     * @param fraction how much of {@code color} should be kept, from 0.0 to 1.0
+     * @return a YCwCmA float color between gray and {@code color}
+     */
+    public static float lessenChange(final float color, float fraction) {
+        final int e = NumberUtils.floatToIntBits(color),
+                ys = 0x7F, cws = 0x7F, cms = 0x7F, as = 0xFE,
+                ye = (e & 0xFF), cwe = (e >>> 8) & 0xFF, cme = (e >>> 16) & 0xFF, ae = e >>> 24 & 0xFE;
+        return NumberUtils.intBitsToFloat(((int) (ys + fraction * (ye - ys)) & 0xFF)
+                | (((int) (cws + fraction * (cwe - cws)) & 0xFF) << 8)
+                | (((int) (cms + fraction * (cme - cms)) & 0xFF) << 16)
+                | (((int) (as + fraction * (ae - as)) & 0xFE) << 24));
+    }
+
 }
