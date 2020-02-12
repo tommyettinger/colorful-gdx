@@ -75,12 +75,14 @@ public class ColorWheelDemo extends ApplicationAdapter {
         batch.setPackedColor(FloatColors.floatGetHSV(0, 0, layer, 1f));
         batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
         for (int dist = 1; dist <= maxDist; dist++) {
-            final int circ = MathUtils.ceilPositive(MathUtils.PI2 * dist) << 1;
+            final int circ = dist * 6;
             final float ic = 1f / circ;
             for (int t = 0; t < circ; t++) {
-                final float angle = t * ic;
+                final float angle = t * ic, x = TrigTools.cos_(angle), y = TrigTools.sin_(angle);
+                if((Math.abs(x) + Math.abs(y) + Math.abs(2f * (layer - 0.5f))) * dist > maxDist)
+                    continue;
                 batch.setPackedColor(FloatColors.floatGetHSV(angle, dist * iMax, layer, 1f));
-                batch.draw(blank, 254.75f + TrigTools.cos_(angle) * dist, 254.75f + TrigTools.sin_(angle) * dist, 1.5f, 1.5f);
+                batch.draw(blank, 254.75f + x * dist, 254.75f + y * dist, 1.5f, 1.5f);
             }
         }
         batch.end();

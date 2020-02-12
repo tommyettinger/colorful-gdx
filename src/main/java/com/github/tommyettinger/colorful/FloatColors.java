@@ -22,7 +22,7 @@ public class FloatColors {
      * high it tends to be brown or yellow. When warm and mild are both near 0.5f, the color is closer to gray.  Alpha
      * is the multiplicative opacity of the color, and acts like RGBA's alpha.
      * <br>
-     * This method clamps the resulting color's byte values, so any values can technically be given to this as luma,
+     * This method bit-masks the resulting color's byte values, so any values can technically be given to this as luma,
      * warm, and mild, but they will only be reversible from the returned float color to the original Y, Cw, and Cm
      * values if the original values were in the range that {@link #chromaWarm(float)}, {@link #chromaMild(float)}, and
      * {@link #luma(float)} return.
@@ -57,9 +57,9 @@ public class FloatColors {
      */
     public static float floatGetHSV(float hue, float saturation, float value, float opacity) {
         if (value <= 0.001f) {
-            return NumberUtils.intBitsToFloat((int) (opacity * 255f) << 24 & 0xFE000000);
+            return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x7F7F00);
         } else {
-            saturation = MathUtils.clamp(saturation, 0f, 1f) * 0.70710677f;
+            saturation = MathUtils.clamp(saturation, 0f, 1f) * 0.5f;//0.70710677f;
             final float cw = MathUtils.clamp(TrigTools.cos_(hue) * saturation + 0.5f, 0f, 1f);
             final float cm = MathUtils.clamp(TrigTools.sin_(hue) * saturation + 0.5f, 0f, 1f);
             return floatColor(value, cw, cm, opacity);
