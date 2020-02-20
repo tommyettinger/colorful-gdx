@@ -135,4 +135,47 @@ public class Shaders {
             throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
         return new SpriteBatch(1000, shader);
     }
+
+    /**
+     * A somewhat-experimental shader that takes colors in Hue, Saturation, Lightness, Alpha format, where:
+     * <ul>
+     *     <li>Hue can range between 0.0 and 1.0 and is added to the hue angle of the color being rendered, which also
+     *         starts in the 0.0-1.0 range (corresponding to 0-360 degrees). This is always a "hue shift" and does not
+     *         set the hue to a specific angle. The shift will move colors from red to orange to yellow to green to blue
+     *         to purple and back to red. A hue shift of 0.0 will not change the rendered hue.</li>
+     *     <li>Saturation can range from 0.0 to 1.0, where values less than 0.5 reduce saturation and values greater
+     *         than 0.5 increase it. If saturation goes too high, it will be clamped at the most saturated color for its
+     *         hue; the clamping happens sooner for lighter and darker colors.</li>
+     *     <li>Lightness can range from 0.0 to 1.0, where values less than 0.5 reduce lightness and values greater
+     *         than 0.5 increase it. The lightness will be clamped as well.</li>
+     *     <li>Alpha is normal multiplicative alpha, from 0.0 to 1.0.</li>
+     * </ul>
+     * If using LibGDX Color objects, hue is set with r, saturation is set with g, lightness is set with b, and alpha is
+     * still set with a.
+     */
+    public static final String fragmentShaderHSL =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+//                    "const vec3 bright = vec3(0.75, 1.0, 0.25);\n" +
+                    "const vec3 bright = vec3(0.375, 0.5, 0.125);\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "   float hue = (v_color.r - 0.375) * 6.283185307179586;\n" +
+                    "   float sat = v_color.g * 2.0;\n" +
+                    "   vec3 ycc = vec3(v_color.b - 0.5 + dot(tgt.rgb, bright), cos(hue) * sat + tgt.g - (tgt.b + tgt.r) * 0.5, sin(hue) * sat + tgt.b - tgt.r);\n" +
+                    //// Use this to change non-visible colors to be limited to the outer band of possible results
+                    "   gl_FragColor = clamp(vec4(dot(ycc, vec3(1.0, -0.5, -0.375)), dot(ycc, vec3(1.0, 0.5, 0.125)), dot(ycc, vec3(1.0, -0.5, 0.625)), v_color.a * tgt.a), 0.0, 1.0);\n" +
+                    //// Use this instead to not render colors that are outside the visible range, without clamping
+//                    "   gl_FragColor = vec4(dot(ycc, vec3(1.0, -0.5, -0.375)), dot(ycc, vec3(1.0, 0.5, 0.125)), dot(ycc, vec3(1.0, -0.5, 0.625)), v_color.a * tgt.a);\n" +
+//                    "   if(any(notEqual(gl_FragColor.rgb, clamp(gl_FragColor.rgb, 0.0, 1.0)))) discard;\n" +
+                    "}";
+
 }

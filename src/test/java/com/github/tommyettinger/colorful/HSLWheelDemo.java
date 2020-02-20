@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -16,20 +18,18 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class ColorWheelDemo extends ApplicationAdapter {
+public class HSLWheelDemo extends ApplicationAdapter {
     //public static final int backgroundColor = Color.rgba8888(Color.DARK_GRAY);
 //    public static final int SCREEN_WIDTH = 1531;
 //    public static final int SCREEN_HEIGHT = 862;
     public static final int SCREEN_WIDTH = 512;
     public static final int SCREEN_HEIGHT = 512;
-    private ColorfulBatch batch;
-//    private SpriteBatch basicBatch;
+    private SpriteBatch batch;
     private Viewport screenView;
     private BitmapFont font;
     private Texture blank;
     private long lastProcessedTime = 0L, startTime;
     private float layer = 0.5f;
-    private float luma = 0.5f, warm = 0.5f, mild = 0.5f, contrast = 0.5f;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -39,7 +39,7 @@ public class ColorWheelDemo extends ApplicationAdapter {
         config.useVsync(true);
 //        config.setResizable(false);
 
-        final ColorWheelDemo app = new ColorWheelDemo();
+        final HSLWheelDemo app = new HSLWheelDemo();
         new Lwjgl3Application(app, config);
     }
 
@@ -52,7 +52,8 @@ public class ColorWheelDemo extends ApplicationAdapter {
         font = new BitmapFont(Gdx.files.internal("font.fnt"));
         font.setColor(1f, 0.5f, 0.5f, 1f);
 //        batch = Shaders.makeBatch(1.25f); // experimenting with slightly higher contrast
-        batch = new ColorfulBatch();
+        ShaderProgram shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL);
+        batch = new SpriteBatch(1000, shader);
 //        basicBatch = new SpriteBatch();
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
@@ -68,22 +69,21 @@ public class ColorWheelDemo extends ApplicationAdapter {
         handleInput();
         layer = TrigTools.acos_(TrigTools.sin_(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) * 2f;
         batch.setProjectionMatrix(screenView.getCamera().combined);
-        batch.setPackedColor(Palette.GRAY);
+        batch.setColor(0f, 0f, 0.5f, 1f);
         batch.begin();
-        batch.setTweak(luma, warm, mild, contrast);
         batch.draw(blank, 0, 0, 512, 512);
         final float maxDist = 254f * TrigTools.sin_(layer * 0.5f) + 1f, iMax = 1f / maxDist;
         //final float circumference = 1605.3539f;//MathUtils.PI * 511f;
-        batch.setPackedColor(FloatColors.floatGetHSV(0, 0, layer, 1f));
+        batch.setColor(0, 0, layer, 1f);
         batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
         for (int dist = 1; dist <= maxDist; dist++) {
             final int circ = dist * 6;
             final float ic = 1f / circ;
             for (int t = 0; t < circ; t++) {
                 final float angle = t * ic, x = TrigTools.cos_(angle), y = TrigTools.sin_(angle);
-                if((Math.abs(x) + Math.abs(y) + Math.abs(2f * (layer - 0.5f))) * dist > maxDist)
-                    continue;
-                batch.setPackedColor(FloatColors.floatGetHSV(angle, dist * iMax, layer, 1f));
+//                if((Math.abs(x) + Math.abs(y) + Math.abs(2f * (layer - 0.5f))) * dist > maxDist)
+//                    continue;
+                batch.setColor(angle, dist * iMax, layer, 1f);
                 batch.draw(blank, 254.75f + x * dist, 254.75f + y * dist, 1.5f, 1.5f);
             }
         }
@@ -109,33 +109,6 @@ public class ColorWheelDemo extends ApplicationAdapter {
             } else if (input.isKeyPressed(Input.Keys.R)) // random
             {
                 layer = MathUtils.random();
-            } else if (input.isKeyPressed(Input.Keys.P)) // print
-                System.out.println("Using layer=" + layer
-                        +", and using tweak with luma="+luma
-                        + ",warm="+warm + ",mild="+mild+",contrast="+contrast + " .");
-            else if (input.isKeyPressed(Input.Keys.L)) //light
-                luma = MathUtils.clamp(luma + 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.D)) //dark
-                luma = MathUtils.clamp(luma - 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.W)) //warm
-                warm = MathUtils.clamp(warm + 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.C)) //cool
-                warm = MathUtils.clamp(warm - 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.M)) //mild
-                mild = MathUtils.clamp(mild + 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.B)) //bold
-                mild = MathUtils.clamp(mild - 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.S)) //sharp contrast
-                contrast = MathUtils.clamp(contrast + 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.F)) //fuzzy contrast
-                contrast = MathUtils.clamp(contrast - 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.BACKSPACE)) //reset
-            {
-                luma = 0.5f;
-                warm = 0.5f;
-                mild = 0.5f;
-                contrast = 0.5f;
-            }
-        }
+            }        }
     }
 }
