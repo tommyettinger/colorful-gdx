@@ -178,4 +178,44 @@ public class Shaders {
 //                    "   if(any(notEqual(gl_FragColor.rgb, clamp(gl_FragColor.rgb, 0.0, 1.0)))) discard;\n" +
                     "}";
 
+    public static boolean inGamutHSL(float hue, float saturation, float lightness) {
+        hue -= 0.375f;
+        //saturation *= 2f;
+        // positive: cyan to green to yellow
+        // negative: blue to purple to red
+        final float wild = TrigTools.cos_(hue) * saturation;
+        // positive: green to cyan to blue
+        // negative: yellow to orange to red
+        final float cool = TrigTools.sin_(hue) * saturation;
+
+        float dot = lightness + wild * -0.5f + cool * -0.375f;
+        if(dot < 0f || dot > 1f)
+            return false;
+        dot = lightness + wild * 0.5f + cool * 0.125f;
+        if(dot < 0f || dot > 1f)
+            return false;
+        dot = lightness + wild * -0.5f + cool * 0.625f;
+        return (dot >= 0f) && (dot <= 1f);
+    }
+    public static float gamutHSL(float hue, float lightness) {
+        hue -= 0.375f;
+        // natural vs. artificial
+        // positive: cyan to green to yellow
+        // negative: blue to purple to red
+        final float wild = TrigTools.cos_(hue);
+        // cool vs. warm
+        // positive: green to cyan to blue
+        // negative: yellow to orange to red
+        final float cool = TrigTools.sin_(hue);
+        float sat = (1f - lightness) /
+                Math.max(wild * -0.5f + cool * -0.375f,
+                Math.max(wild * 0.5f + cool * 0.125f,
+                        wild * -0.5f + cool * 0.625f));
+        return Math.max(0f, sat);
+//        return Math.max(0f,
+//                Math.min(wild * -0.5f + cool * -0.375f,
+//                        Math.min(wild * 0.5f + cool * 0.125f,
+//                                wild * -0.5f + cool * 0.625f)) / (1f - lightness)
+//        );
+    }
 }

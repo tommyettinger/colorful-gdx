@@ -67,23 +67,31 @@ public class HSLWheelDemo extends ApplicationAdapter {
         Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         handleInput();
+//        layer = TrigTools.acos_(TrigTools.sin_(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) + 0.5f;
         layer = TrigTools.acos_(TrigTools.sin_(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) * 2f;
         batch.setProjectionMatrix(screenView.getCamera().combined);
         batch.setColor(0f, 0f, 0.5f, 1f);
         batch.begin();
         batch.draw(blank, 0, 0, 512, 512);
-        final float maxDist = 254f * TrigTools.sin_(layer * 0.5f) + 1f, iMax = 1f / maxDist;
+        final float
+                maxDist = 254f * TrigTools.sin_(layer * 0.5f) + 1f,
+//                maxDist = 255f,
+                iMax = 1f / maxDist;
         //final float circumference = 1605.3539f;//MathUtils.PI * 511f;
         batch.setColor(0, 0, layer, 1f);
         batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
+        float sat;
         for (int dist = 1; dist <= maxDist; dist++) {
             final int circ = dist * 6;
             final float ic = 1f / circ;
             for (int t = 0; t < circ; t++) {
                 final float angle = t * ic, x = TrigTools.cos_(angle), y = TrigTools.sin_(angle);
+                sat = dist * iMax * Shaders.gamutHSL(angle, layer);
 //                if((Math.abs(x) + Math.abs(y) + Math.abs(2f * (layer - 0.5f))) * dist > maxDist)
 //                    continue;
-                batch.setColor(angle, dist * iMax, layer, 1f);
+//                if(!Shaders.inGamutHSL(angle, sat, layer))
+//                    continue;
+                batch.setColor(angle, sat, layer, 1f);
                 batch.draw(blank, 254.75f + x * dist, 254.75f + y * dist, 1.5f, 1.5f);
             }
         }
