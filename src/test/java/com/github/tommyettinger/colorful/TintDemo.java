@@ -76,7 +76,7 @@ public class TintDemo extends ApplicationAdapter {
 
     @Override
     public void create() {
-        batch = Shaders.makeBatch(1.5f);
+        batch = Shaders.makeBatch();
         defaultShader = SpriteBatch.createDefaultShader();
         shader = batch.getShader();
         screenView = new ScreenViewport();

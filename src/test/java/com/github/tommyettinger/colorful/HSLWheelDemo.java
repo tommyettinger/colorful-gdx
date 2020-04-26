@@ -53,6 +53,8 @@ public class HSLWheelDemo extends ApplicationAdapter {
         font.setColor(1f, 0.5f, 0.5f, 1f);
 //        batch = Shaders.makeBatch(1.25f); // experimenting with slightly higher contrast
         ShaderProgram shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL);
+        if(!shader.isCompiled())
+            System.out.println(shader.getLog());
         batch = new SpriteBatch(1000, shader);
 //        basicBatch = new SpriteBatch();
         screenView = new ScreenViewport();
@@ -68,7 +70,10 @@ public class HSLWheelDemo extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         handleInput();
 //        layer = TrigTools.acos_(TrigTools.sin_(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) + 0.5f;
-        layer = TrigTools.acos_(TrigTools.sin_(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) * 2f;
+//        layer = TrigTools.acos_(TrigTools.sin_(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) * 2f;
+        layer = TimeUtils.timeSinceMillis(startTime) * 0x1p-12f;
+        int floor = MathUtils.floorPositive(layer);
+        layer = (floor & 1) + (layer - floor) * (-(floor & 1) | 1);
         batch.setProjectionMatrix(screenView.getCamera().combined);
         batch.setColor(0f, 0f, 0.5f, 1f);
         batch.begin();
@@ -86,7 +91,8 @@ public class HSLWheelDemo extends ApplicationAdapter {
             final float ic = 1f / circ;
             for (int t = 0; t < circ; t++) {
                 final float angle = t * ic, x = TrigTools.cos_(angle), y = TrigTools.sin_(angle);
-                sat = dist * iMax * Shaders.gamutHSL(angle, layer);
+                sat = dist * iMax;// * (0.5f - Math.abs(layer - 0.5f)) * 2f;
+//                sat = dist * iMax * Shaders.gamutHSL(angle, layer);
 //                if((Math.abs(x) + Math.abs(y) + Math.abs(2f * (layer - 0.5f))) * dist > maxDist)
 //                    continue;
 //                if(!Shaders.inGamutHSL(angle, sat, layer))

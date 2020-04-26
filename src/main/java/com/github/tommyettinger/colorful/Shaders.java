@@ -153,7 +153,7 @@ public class Shaders {
      * If using LibGDX Color objects, hue is set with r, saturation is set with g, lightness is set with b, and alpha is
      * still set with a.
      */
-    public static final String fragmentShaderHSL =
+    public static final String fragmentShaderHSLKinda =
             "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
                     "precision mediump float;\n" +
@@ -176,6 +176,77 @@ public class Shaders {
                     //// Use this instead to not render colors that are outside the visible range, without clamping
 //                    "   gl_FragColor = vec4(dot(ycc, vec3(1.0, -0.5, -0.375)), dot(ycc, vec3(1.0, 0.5, 0.125)), dot(ycc, vec3(1.0, -0.5, 0.625)), v_color.a * tgt.a);\n" +
 //                    "   if(any(notEqual(gl_FragColor.rgb, clamp(gl_FragColor.rgb, 0.0, 1.0)))) discard;\n" +
+                    "}";
+    public static final String fragmentShaderHSL =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "\n" +
+                    "vec4 rgb2hsl(vec4 color) {\n" +
+                    "  vec4 hsl = color;\n" +
+                    "  float fmin = min(min(color.r, color.g), color.b);    //Min. value of RGB\n" +
+                    "  float fmax = max(max(color.r, color.g), color.b);    //Max. value of RGB\n" +
+                    "  float delta = fmax - fmin;             //Delta RGB value\n" +
+                    "  hsl.z = (fmax + fmin) * 0.5; // Luminance\n" +
+                    "  if (hsl.z < 0.5)\n" +
+                    "    hsl.y = delta / (fmax + fmin); // Saturation\n" +
+                    "  else\n" +
+                    "    hsl.y = delta / (2.0 - fmax - fmin); // Saturation\n" +
+                    "  vec3 drgb = (((fmax - color.rgb) / 6.0) + (delta / 2.0)) / delta;\n" +
+                    "  if (color.r == fmax )\n" +
+                    "    hsl.x = drgb.b - drgb.g; // Hue\n" +
+                    "  else if (color.g == fmax)\n" +
+                    "    hsl.x = (1.0 / 3.0) + drgb.r - drgb.b; // Hue\n" +
+                    "  else if (color.b == fmax)\n" +
+                    "    hsl.x = (2.0 / 3.0) + drgb.g - drgb.r; // Hue\n" +
+                    "  hsl.x = fract(hsl.x);\n" +
+                    "  return hsl;\n" +
+                    "}\n"+
+                    "float hue2rgb(float f1, float f2, float hue) {\n" +
+                    "    hue = fract(hue);\n" +
+                    "    float res;\n" +
+                    "    if (hue < (1.0 / 6.0))\n" +
+                    "        res = f1 + (f2 - f1) * 6.0 * hue;\n" +
+                    "    else if (hue < 0.5)\n" +
+                    "        res = f2;\n" +
+                    "    else if (hue < (2.0 /3.0))\n" +
+                    "        res = f1 + (f2 - f1) * ((2.0 / 3.0) - hue) * 6.0;\n" +
+                    "    else\n" +
+                    "        res = f1;\n" +
+                    "    return res;\n" +
+                    "}\n" +
+                    "\n" +
+                    "vec4 hsl2rgb(vec4 hsla) {\n" +
+                    "    vec4 rgba;\n" +
+                    "    if (hsla.y == 0.0) {\n" +
+                    "        rgba = hsla.zzzw; // Luminance\n" +
+                    "    } else {\n" +
+                    "        float f2;\n" + 
+                    "        if (hsla.z < 0.5)\n" +
+                    "            f2 = hsla.z * (1.0 + hsla.y);\n" +
+                    "        else\n" +
+                    "            f2 = hsla.z + hsla.y - hsla.y * hsla.z;\n" +
+                    "        float f1 = 2.0 * hsla.z - f2;\n" +
+                    "        rgba.r = hue2rgb(f1, f2, hsla.x + (1.0/3.0));\n" +
+                    "        rgba.g = hue2rgb(f1, f2, hsla.x);\n" +
+                    "        rgba.b = hue2rgb(f1, f2, hsla.x - (1.0/3.0));\n" +
+                    "        rgba.a = hsla.a;\n" +
+                    "    }\n" +
+                    "    return rgba;\n" +
+                    "}\n" + 
+                    "void main()\n" +
+                    "{\n" +
+                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "   vec4 hsl = rgb2hsl(tgt);\n" +
+                    "   hsl.x = fract((fract(v_color.x + 0.5 - hsl.x) - 0.5) * clamp(step(hsl.y, 0.05) * 1.0 + v_color.w, 0.0, 1.0) + hsl.x);\n" +
+                    "   hsl.yz = mix(hsl.yz, v_color.yz, v_color.w);\n" +
+                    "   gl_FragColor = hsl2rgb(hsl);\n" +
                     "}";
 
     public static boolean inGamutHSL(float hue, float saturation, float lightness) {
