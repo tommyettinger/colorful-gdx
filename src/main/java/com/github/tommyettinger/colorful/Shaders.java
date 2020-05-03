@@ -177,23 +177,16 @@ public class Shaders {
 //                    "   gl_FragColor = vec4(dot(ycc, vec3(1.0, -0.5, -0.375)), dot(ycc, vec3(1.0, 0.5, 0.125)), dot(ycc, vec3(1.0, -0.5, 0.625)), v_color.a * tgt.a);\n" +
 //                    "   if(any(notEqual(gl_FragColor.rgb, clamp(gl_FragColor.rgb, 0.0, 1.0)))) discard;\n" +
                     "}";
-    public static final String fragmentShaderHSL =
-            "#ifdef GL_ES\n" +
-                    "#define LOWP lowp\n" +
-                    "precision mediump float;\n" +
-                    "#else\n" +
-                    "#define LOWP \n" +
-                    "#endif\n" +
-                    "varying vec2 v_texCoords;\n" +
-                    "varying LOWP vec4 v_color;\n" +
-                    "uniform sampler2D u_texture;\n" +
-                    "\n" +
-                    "vec4 rgb2hsl(vec4 color) {\n" +
+    
+    public static final String partialCodeHSL =
+            "vec4 rgb2hsl(vec4 color) {\n" +
                     "  vec4 hsl = color;\n" +
                     "  float fmin = min(min(color.r, color.g), color.b);    //Min. value of RGB\n" +
                     "  float fmax = max(max(color.r, color.g), color.b);    //Max. value of RGB\n" +
                     "  float delta = fmax - fmin;             //Delta RGB value\n" +
                     "  hsl.z = (fmax + fmin) * 0.5; // Luminance\n" +
+                    "  if (delta < 0.001)\n" +
+                    "    return vec4(0.0, 0.0, hsl.zw);\n" +
                     "  if (hsl.z < 0.5)\n" +
                     "    hsl.y = delta / (fmax + fmin); // Saturation\n" +
                     "  else\n" +
@@ -227,7 +220,7 @@ public class Shaders {
                     "    if (hsla.y == 0.0) {\n" +
                     "        rgba = hsla.zzzw; // Luminance\n" +
                     "    } else {\n" +
-                    "        float f2;\n" + 
+                    "        float f2;\n" +
                     "        if (hsla.z < 0.5)\n" +
                     "            f2 = hsla.z * (1.0 + hsla.y);\n" +
                     "        else\n" +
@@ -239,13 +232,47 @@ public class Shaders {
                     "        rgba.a = hsla.a;\n" +
                     "    }\n" +
                     "    return rgba;\n" +
-                    "}\n" + 
+                    "}\n";
+
+
+    public static final String fragmentShaderHSL =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    partialCodeHSL +
                     "void main()\n" +
                     "{\n" +
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                     "   vec4 hsl = rgb2hsl(tgt);\n" +
                     "   hsl.x = fract((fract(v_color.x + 0.5 - hsl.x) - 0.5) * clamp(step(hsl.y, 0.05) * 1.0 + v_color.w, 0.0, 1.0) + hsl.x);\n" +
                     "   hsl.yz = mix(hsl.yz, v_color.yz, v_color.w);\n" +
+                    "   gl_FragColor = hsl2rgb(hsl);\n" +
+                    "}";
+
+
+    public static final String fragmentShaderRotateHSL =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    partialCodeHSL +
+                    "void main()\n" +
+                    "{\n" +
+                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "   vec4 hsl = rgb2hsl(tgt);\n" +
+                    "   hsl.x = fract(v_color.x + hsl.x);\n" +
+                    "   hsl.yzw *= v_color.yzw;\n" +
                     "   gl_FragColor = hsl2rgb(hsl);\n" +
                     "}";
 
