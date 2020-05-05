@@ -316,4 +316,23 @@ public class Shaders {
 //                                wild * -0.5f + cool * 0.625f)) / (1f - lightness)
 //        );
     }
+    public static final String fragmentShaderReplacement = 
+                    "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "uniform vec4 u_search;\n" +
+                    "uniform vec4 u_replace;\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "   vec4 tgt = texture2D(u_texture, v_texCoords);\n" +
+                    "   float curve = smoothstep(0.0, 1.0, 1.25 - distance(tgt.rgb, u_search.rgb) * 2.0);\n" +
+                    "   gl_FragColor = vec4(mix(tgt.rgb, u_replace.rgb, curve), tgt.a) * v_color;\n" +
+                    "}";
+
 }
