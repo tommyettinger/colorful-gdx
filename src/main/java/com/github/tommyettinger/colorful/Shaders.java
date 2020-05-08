@@ -238,13 +238,6 @@ public class Shaders {
     public static final String partialCodeHSL2 =
                     "#define TWO_PI 6.283185307179586\n" +
                     "\n" +
-                    "vec3 hue(float t) {\n" +
-                    "    return clamp(vec3(\n" +
-                    "        sin(((1.75 / 6.0) - t) * TWO_PI) * 0.875 + 0.625,\n" +
-                    "        sin(((3.75 / 6.0) - t) * TWO_PI) * 0.875 + 0.625,\n" +
-                    "        sin(((5.75 / 6.0) - t) * TWO_PI) * 1.5 + 0.875\n" +
-                    "    ), 0.0, 1.0);\n" +
-                    "}\n" +
                     "vec4 rgb2hsl(vec4 color) {\n" +
                     "  vec4 hsl = color;\n" +
                     "  float fmin = min(min(color.r, color.g), color.b);    //Min. value of RGB\n" +
@@ -272,13 +265,11 @@ public class Shaders {
                     "    if (hsla.y == 0.0) {\n" +
                     "        rgba = hsla.zzzw; // Luminance\n" +
                     "    } else {\n" +
-                    "        float f2;\n" +
-                    "        if (hsla.z < 0.5)\n" +
-                    "            f2 = hsla.z * (1.0 + hsla.y);\n" +
-                    "        else\n" +
-                    "            f2 = hsla.z + hsla.y - hsla.y * hsla.z;\n" +
-                    "        float f1 = 2.0 * hsla.z - f2;\n" +
-                    "        rgba.rgb = hue(hsla.x);\n" +
+                    "        rgba.rgb = mix(vec3(1.0), clamp(vec3(\n" +
+                    "            sin(((1.75 / 6.0) - hsla.x) * TWO_PI) * 0.875 + 0.625,\n" +
+                    "            sin(((3.75 / 6.0) - hsla.x) * TWO_PI) * 0.875 + 0.625,\n" +
+                    "            sin(((5.75 / 6.0) - hsla.x) * TWO_PI) * 1.5 + 0.875\n" +
+                    "        ), 0.0, 1.0), hsla.y * (1.0 - 2.0 * abs(0.5 - hsla.z))) * sqrt(hsla.z);\n" +
                     "        rgba.a = hsla.a;\n" +
                     "    }\n" +
                     "    return rgba;\n" +
