@@ -235,6 +235,56 @@ public class Shaders {
                     "}\n";
 
 
+    public static final String partialCodeHSL2 =
+                    "#define TWO_PI 6.283185307179586\n" +
+                    "\n" +
+                    "vec3 hue(float t) {\n" +
+                    "    return clamp(vec3(\n" +
+                    "        sin(((1.75 / 6.0) - t) * TWO_PI) * 0.875 + 0.625,\n" +
+                    "        sin(((3.75 / 6.0) - t) * TWO_PI) * 0.875 + 0.625,\n" +
+                    "        sin(((5.75 / 6.0) - t) * TWO_PI) * 1.5 + 0.875\n" +
+                    "    ), 0.0, 1.0);\n" +
+                    "}\n" +
+                    "vec4 rgb2hsl(vec4 color) {\n" +
+                    "  vec4 hsl = color;\n" +
+                    "  float fmin = min(min(color.r, color.g), color.b);    //Min. value of RGB\n" +
+                    "  float fmax = max(max(color.r, color.g), color.b);    //Max. value of RGB\n" +
+                    "  float delta = fmax - fmin;             //Delta RGB value\n" +
+                    "  hsl.z = (fmax + fmin) * 0.5; // Luminance\n" +
+                    "  if (delta < 0.001)\n" +
+                    "    return vec4(0.0, 0.0, hsl.zw);\n" +
+                    "  if (hsl.z < 0.5)\n" +
+                    "    hsl.y = delta / (fmax + fmin); // Saturation\n" +
+                    "  else\n" +
+                    "    hsl.y = delta / (2.0 - fmax - fmin); // Saturation\n" +
+                    "  vec3 drgb = (((fmax - color.rgb) / 6.0) + (delta / 2.0)) / delta;\n" +
+                    "  if (color.r == fmax )\n" +
+                    "    hsl.x = drgb.b - drgb.g; // Hue\n" +
+                    "  else if (color.g == fmax)\n" +
+                    "    hsl.x = (1.0 / 3.0) + drgb.r - drgb.b; // Hue\n" +
+                    "  else if (color.b == fmax)\n" +
+                    "    hsl.x = (2.0 / 3.0) + drgb.g - drgb.r; // Hue\n" +
+                    "  hsl.x = fract(hsl.x);\n" +
+                    "  return hsl;\n" +
+                    "}\n"+
+                    "vec4 hsl2rgb(vec4 hsla) {\n" +
+                    "    vec4 rgba;\n" +
+                    "    if (hsla.y == 0.0) {\n" +
+                    "        rgba = hsla.zzzw; // Luminance\n" +
+                    "    } else {\n" +
+                    "        float f2;\n" +
+                    "        if (hsla.z < 0.5)\n" +
+                    "            f2 = hsla.z * (1.0 + hsla.y);\n" +
+                    "        else\n" +
+                    "            f2 = hsla.z + hsla.y - hsla.y * hsla.z;\n" +
+                    "        float f1 = 2.0 * hsla.z - f2;\n" +
+                    "        rgba.rgb = hue(hsla.x);\n" +
+                    "        rgba.a = hsla.a;\n" +
+                    "    }\n" +
+                    "    return rgba;\n" +
+                    "}\n";
+
+
     public static final String fragmentShaderHSL =
             "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
@@ -246,6 +296,26 @@ public class Shaders {
                     "varying LOWP vec4 v_color;\n" +
                     "uniform sampler2D u_texture;\n" +
                     partialCodeHSL +
+                    "void main()\n" +
+                    "{\n" +
+                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "   vec4 hsl = rgb2hsl(tgt);\n" +
+                    "   hsl.x = fract((fract(v_color.x + 0.5 - hsl.x) - 0.5) * clamp(step(hsl.y, 0.05) * 1.0 + v_color.w, 0.0, 1.0) + hsl.x);\n" +
+                    "   hsl.yz = mix(hsl.yz, v_color.yz, v_color.w);\n" +
+                    "   gl_FragColor = hsl2rgb(hsl);\n" +
+                    "}";
+
+    public static final String fragmentShaderHSL2 =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    partialCodeHSL2 +
                     "void main()\n" +
                     "{\n" +
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +

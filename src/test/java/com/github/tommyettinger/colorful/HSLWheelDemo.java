@@ -30,6 +30,7 @@ public class HSLWheelDemo extends ApplicationAdapter {
     private Texture blank;
     private long lastProcessedTime = 0L, startTime;
     private float layer = 0.5f;
+    private ShaderProgram shader, otherShader;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -51,9 +52,12 @@ public class HSLWheelDemo extends ApplicationAdapter {
         blank = new Texture(b);
         font = new BitmapFont(Gdx.files.internal("font.fnt"));
         font.setColor(1f, 0.5f, 0.5f, 1f);
-        ShaderProgram shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL);
+        shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL);
         if(!shader.isCompiled())
             System.out.println(shader.getLog());
+        otherShader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL2);
+        if(!otherShader.isCompiled())
+            System.out.println(otherShader.getLog());
         batch = new SpriteBatch(1000, shader);
 //        basicBatch = new SpriteBatch();
         screenView = new ScreenViewport();
@@ -122,6 +126,10 @@ public class HSLWheelDemo extends ApplicationAdapter {
             } else if (input.isKeyPressed(Input.Keys.R)) // random
             {
                 layer = MathUtils.random();
-            }        }
+            } else if (input.isKeyPressed(Input.Keys.S)) // shader
+            {
+                batch.setShader(batch.getShader() == shader ? otherShader : shader); 
+            }
+        }
     }
 }
