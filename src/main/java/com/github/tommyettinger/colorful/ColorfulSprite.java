@@ -351,6 +351,34 @@ public class ColorfulSprite extends TextureRegion {
 		vertices[T4] = tweak;
 	}
 
+	/** Sets the color used to tint this sprite and the tweak that affects how that color will be treated.
+	 * Default color is {@link Palette#GRAY}, which makes no changes to the color, and default tweak is
+	 * {@link ColorfulBatch#TWEAK_RESET}, which resets any changes to the tweak back to a neutral state. You can easily
+	 * get a tweak value with {@link FloatColors#floatColor(float, float, float, float)}, just using the last parameter
+	 * to represent contrast.
+	 * @param lumaAdd how much lightness to add; darkest is 0f, neutral is 0.5f, lightest is 1f
+	 * @param warmAdd how much warmth to add; coolest is 0f, neutral is 0.5f, warmest is 1f
+	 * @param mildAdd how much mildness to add; boldest is 0f, neutral is 0.5f, mildest is 1f
+	 * @param alphaMul how much to multiply alpha by; fully transparent is 0f, neutral is 1f
+	 * @param lumaMul how much source lightness should be multiplied by; darkest is 0f, neutral is 0.5f, lightest is 1f
+	 * @param warmMul how much source warmth should be multiplied by; no cool/warm is 0f, neutral is 0.5f, max cool/warm is 1f
+	 * @param mildMul how much source mildness should be multiplied by; no bold/mild is 0f, neutral is 0.5f, max bold/mild is 1f
+	 * @param contrast how to affect the curvature of lightness in the source; 0f makes lightness very even, 0.5f doesn't change lightness, and 1f makes light colors lighter and dark colors darker
+	 */
+	public void setTweakedColor (float lumaAdd, float warmAdd, float mildAdd, float alphaMul, float lumaMul, float warmMul, float mildMul, float contrast) {
+		final float color = FloatColors.floatColor(lumaAdd, warmAdd, mildAdd, alphaMul),
+				tweak = FloatColors.floatColor(lumaMul, warmMul, mildMul, contrast); 
+		float[] vertices = this.vertices;
+		vertices[C1] = color;
+		vertices[C2] = color;
+		vertices[C3] = color;
+		vertices[C4] = color;
+		vertices[T1] = tweak;
+		vertices[T2] = tweak;
+		vertices[T3] = tweak;
+		vertices[T4] = tweak;
+	}
+
 	/** Sets the tweak that affects how the rendered color will be treated.
 	 * Default tweak is {@link ColorfulBatch#TWEAK_RESET}, which resets any changes to the tweak back to a neutral
 	 * state. You can easily get a tweak value with {@link FloatColors#floatColor(float, float, float, float)}, just
@@ -392,6 +420,16 @@ public class ColorfulSprite extends TextureRegion {
 		vertices[C2] = color;
 		vertices[C3] = color;
 		vertices[C4] = color;
+	}
+
+	/** @see #setColor(float) */
+	public void setTweak (float luma, float warm, float mild, float contrast) {
+		final float tweak = FloatColors.floatColor(luma, warm, mild, contrast);
+		final float[] vertices = this.vertices;
+		vertices[C1] = tweak;
+		vertices[C2] = tweak;
+		vertices[C3] = tweak;
+		vertices[C4] = tweak;
 	}
 
 	/** Exactly the same as {@link #setColor(float)}.

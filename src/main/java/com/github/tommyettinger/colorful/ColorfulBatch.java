@@ -50,7 +50,7 @@ public class ColorfulBatch implements Batch {
     private ShaderProgram customShader = null;
     private boolean ownsShader;
 
-    private float color = Palette.GRAY;
+    protected float color = Palette.GRAY;
     private final Color tempColor = new Color(0.5f, 0.5f, 0.5f, 1f);
 
     /**
@@ -59,7 +59,7 @@ public class ColorfulBatch implements Batch {
      * multiplier or luma contrast, and it won't change either chromatic value multiplier.
      */
     public static final float TWEAK_RESET = FloatColors.floatColor(0.5f, 0.5f, 0.5f, 0.5f);
-    private float tweak = TWEAK_RESET;
+    protected float tweak = TWEAK_RESET;
 
     /** Number of render calls since the last {@link #begin()}. **/
     public int renderCalls = 0;
@@ -220,11 +220,11 @@ public class ColorfulBatch implements Batch {
 
     @Override
     public void setColor (float luma, float warm, float mild, float alpha) {
-        color = NumberUtils.intBitsToFloat(((int)(alpha * 255) << 24 & 0xFE000000) | ((int)(mild * 255) << 16) | ((int)(warm * 255) << 8) | ((int)(luma * 255)));
+        color = FloatColors.floatColor(luma, warm, mild, alpha);
     }
 
     public void setColor (final float color) {
-        this.color = color;
+        setPackedColor(color);
     }
 
     public void setIntColor(final int color) {
@@ -258,7 +258,7 @@ public class ColorfulBatch implements Batch {
     }
 
     public void setTweak (float luma, float warm, float mild, float contrast) {
-        tweak = NumberUtils.intBitsToFloat(((int)(contrast * 255) << 24 & 0xFE000000) | ((int)(mild * 255) << 16) | ((int)(warm * 255) << 8) | ((int)(luma * 255)));
+        tweak = FloatColors.floatColor(luma, warm, mild, contrast);
     }
 
     public void setTweak (final float tweak) {
@@ -267,6 +267,15 @@ public class ColorfulBatch implements Batch {
     
     public float getTweak () {
         return tweak;
+    }
+    
+    public void setIntTweak(final int tweak) {
+        this.tweak = NumberUtils.intBitsToFloat(Integer.reverseBytes(tweak & -2));
+    }
+
+    public void setIntTweak(int luma, int warm, int mild, int alpha) {
+        tweak = NumberUtils.intBitsToFloat((alpha << 24 & 0xFE000000)
+                | (mild << 16 & 0xFF0000) | (warm << 8 & 0xFF00) | (luma & 0xFF));
     }
 
     @Override
