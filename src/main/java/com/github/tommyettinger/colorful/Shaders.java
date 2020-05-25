@@ -179,7 +179,25 @@ public class Shaders {
                     "}";
     
     public static final String partialCodeHSL =
-            "vec4 rgb2hsl(vec4 color) {\n" +
+            //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a
+            //different distribution that matches primary colors in painting (where purple is opposite yellow).
+            "float official2primaries(float hue) {\n" +
+                    "    return  hue * ( 2.3357\n" +
+                    "          + hue * (-1.8600\n" +
+                    "          + hue * (-4.8505\n" +
+                    "          + hue * (10.2624\n" +
+                    "          + hue *  -4.8876))));\n" +
+                    "}\n" +
+                    //Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a
+                    //different distribution that matches primary colors in painting (where purple is opposite yellow).
+                    "float primaries2official(float hue) {\n" +
+                    "    return  hue * (  1.6943\n" +
+                    "          + hue * (-11.6741\n" +
+                    "          + hue * ( 35.0206\n" +
+                    "          + hue * (-38.1354\n" +
+                    "          + hue *   14.0946))));\n" +
+                    "}\n" + 
+                    "vec4 rgb2hsl(vec4 color) {\n" +
                     "  vec4 hsl = color;\n" +
                     "  float fmin = min(min(color.r, color.g), color.b);    //Min. value of RGB\n" +
                     "  float fmax = max(max(color.r, color.g), color.b);    //Max. value of RGB\n" +
@@ -198,11 +216,7 @@ public class Shaders {
                     "    hsl.x = (1.0 / 3.0) + drgb.r - drgb.b; // Hue\n" +
                     "  else if (color.b == fmax)\n" +
                     "    hsl.x = (2.0 / 3.0) + drgb.g - drgb.r; // Hue\n" +
-                    "  hsl.x = fract(hsl.x);\n" +
-                    "  hsl.x =          ( 0.005952380952385247\n" +
-                    "         + hsl.x * ( 2.3102730602730013  \n" +
-                    "         + hsl.x * (-3.224775224775078   \n" +
-                    "         + hsl.x *   1.930069930069835 ))) * 0.9789332138054713;\n" +
+                    "  hsl.x = official2primaries(fract(hsl.x));\n" +
                     "  return hsl;\n" +
                     "}\n"+
                     "float hue2rgb(float f1, float f2, float hue) {\n" +
@@ -218,7 +232,6 @@ public class Shaders {
                     "        res = f1;\n" +
                     "    return res;\n" +
                     "}\n" +
-                    "\n" +
                     "vec4 hsl2rgb(vec4 hsla) {\n" +
                     "    vec4 rgba;\n" +
                     "    if (hsla.y == 0.0) {\n" +
@@ -230,11 +243,7 @@ public class Shaders {
                     "        else\n" +
                     "            f2 = hsla.z + hsla.y - hsla.y * hsla.z;\n" +
                     "        float f1 = 2.0 * hsla.z - f2;\n" +
-                    "        float hue = hsla.x;\n" +
-                    "        hue =     ( 0.01966642206673619 \n" +
-                    "          + hue * (-0.38268960264404805 \n" +
-                    "          + hue * ( 3.058414343322909   \n" +
-                    "          + hue *  -1.6977433204190169  ))) * 1.0023577033634776;\n" +
+                    "        float hue = primaries2official(hsla.x);\n" +
                     "        rgba.r = hue2rgb(f1, f2, hue + (1.0/3.0));\n" +
                     "        rgba.g = hue2rgb(f1, f2, hue);\n" +
                     "        rgba.b = hue2rgb(f1, f2, hue - (1.0/3.0));\n" +
