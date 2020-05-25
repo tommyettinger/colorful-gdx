@@ -199,6 +199,10 @@ public class Shaders {
                     "  else if (color.b == fmax)\n" +
                     "    hsl.x = (2.0 / 3.0) + drgb.g - drgb.r; // Hue\n" +
                     "  hsl.x = fract(hsl.x);\n" +
+                    "  hsl.x =          ( 0.005952380952385247\n" +
+                    "         + hsl.x * ( 2.3102730602730013  \n" +
+                    "         + hsl.x * (-3.224775224775078   \n" +
+                    "         + hsl.x *   1.930069930069835 ))) * 0.9789332138054713;\n" +
                     "  return hsl;\n" +
                     "}\n"+
                     "float hue2rgb(float f1, float f2, float hue) {\n" +
@@ -226,9 +230,14 @@ public class Shaders {
                     "        else\n" +
                     "            f2 = hsla.z + hsla.y - hsla.y * hsla.z;\n" +
                     "        float f1 = 2.0 * hsla.z - f2;\n" +
-                    "        rgba.r = hue2rgb(f1, f2, hsla.x + (1.0/3.0));\n" +
-                    "        rgba.g = hue2rgb(f1, f2, hsla.x);\n" +
-                    "        rgba.b = hue2rgb(f1, f2, hsla.x - (1.0/3.0));\n" +
+                    "        float hue = hsla.x;\n" +
+                    "        hue =     ( 0.01966642206673619 \n" +
+                    "          + hue * (-0.38268960264404805 \n" +
+                    "          + hue * ( 3.058414343322909   \n" +
+                    "          + hue *  -1.6977433204190169  ))) * 1.0023577033634776;\n" +
+                    "        rgba.r = hue2rgb(f1, f2, hue + (1.0/3.0));\n" +
+                    "        rgba.g = hue2rgb(f1, f2, hue);\n" +
+                    "        rgba.b = hue2rgb(f1, f2, hue - (1.0/3.0));\n" +
                     "        rgba.a = hsla.a;\n" +
                     "    }\n" +
                     "    return rgba;\n" +
@@ -311,12 +320,11 @@ public class Shaders {
                     "{\n" +
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                     "   vec4 hsl = rgb2hsl(tgt);\n" +
-                    "   hsl.x = fract((fract(v_color.x + 0.5 - hsl.x) - 0.5) * clamp(step(hsl.y, 0.05) * 1.0 + v_color.w, 0.0, 1.0) + hsl.x);\n" +
+                    "   hsl.x = fract((fract(v_color.x + 0.5 - hsl.x) - 0.5) * clamp(step(hsl.y, 0.05) * v_color.w, 0.0, 1.0) + hsl.x);\n" +
                     "   hsl.yz = mix(hsl.yz, v_color.yz, v_color.w);\n" +
                     "   gl_FragColor = hsl2rgb(hsl);\n" +
                     "}";
-
-
+    
     public static final String fragmentShaderRotateHSL =
             "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
