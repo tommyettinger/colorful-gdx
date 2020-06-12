@@ -30,8 +30,8 @@ public class HSLTintDemo extends ApplicationAdapter {
 
     private long lastProcessedTime = 0L;
     private ShaderProgram defaultShader;
-    private ShaderProgram shader;
-    private float hue = 0f, sat = 1f, lightness = 1f, opacity = 1f;
+    private ShaderProgram shader, shader2;
+    private float hue = 0.5f, sat = 0.5f, lightness = 0.5f, opacity = 0.5f;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -80,6 +80,9 @@ public class HSLTintDemo extends ApplicationAdapter {
         shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderRotateHSL);
         if(!shader.isCompiled())
             System.out.println(shader.getLog());
+        shader2 = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderRotateHSL2);
+        if(!shader2.isCompiled())
+            System.out.println(shader2.getLog());
         batch = new SpriteBatch(8000, defaultShader);
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
@@ -100,9 +103,15 @@ public class HSLTintDemo extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         handleInput();
         batch.setProjectionMatrix(screenView.getCamera().combined);
-        if (screenTexture != null) {
-            batch.setShader(shader);
-            batch.setColor(hue, sat, lightness, opacity);
+        if (screenTexture != null) { 
+            if((TimeUtils.millis() & 1024) == 0) {
+                batch.setShader(shader);
+                batch.setColor(hue, sat, lightness, opacity);
+            }
+            else {
+                batch.setShader(shader2);
+                batch.setColor(hue, sat, lightness, opacity);
+            }
             batch.begin();
             batch.draw(screenTexture, 0, 0);
             batch.setShader(defaultShader);
@@ -152,12 +161,16 @@ public class HSLTintDemo extends ApplicationAdapter {
                 lightness = MathUtils.clamp(lightness + 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.DOWN)) // bold
                 lightness = MathUtils.clamp(lightness - 0x3p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.RIGHT_BRACKET)) //mild
+                opacity = MathUtils.clamp(opacity + 0x3p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.LEFT_BRACKET)) // bold
+                opacity = MathUtils.clamp(opacity - 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.R)) // reset
             {
                 hue = 0.5f;
                 sat = 0.5f;
                 lightness = 0.5f;
-                opacity = 1f;
+                opacity = 0.5f;
             }
         }
     }

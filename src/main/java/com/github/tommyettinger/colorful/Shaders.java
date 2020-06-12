@@ -349,9 +349,53 @@ public class Shaders {
                     "{\n" +
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                     "   vec4 hsl = rgb2hsl(tgt);\n" +
-                    "   hsl.x = fract(v_color.x + hsl.x);\n" +
-                    "   hsl.yzw *= v_color.yzw;\n" +
+                    "   hsl.x = fract(v_color.x + hsl.x + 0.5);\n" +
+                    "   hsl.yz = clamp(hsl.yz * v_color.yz * 2.0, 0.0, 1.0);\n" +
                     "   gl_FragColor = hsl2rgb(hsl);\n" +
+                    "}";
+
+    /**
+     * Credit for HLSL version goes to Andrey-Postelzhuk,
+     * <a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/">Unity Forums</a>.
+     * The YCC adaptation, and different approach to contrast (this has close to neutral contrast when a is 0.5,
+     * while the original had a fair bit higher contrast than expected), is from this codebase.
+     */
+    public static final String fragmentShaderRotateHSL2 = 
+                    "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "vec3 applyHue(vec3 aColor, float aHue)\n" +
+                    "{\n" +
+                    "    float angle = aHue;\n" +
+                    "    vec3 k = vec3(0.57735);\n" +
+                    "    float c = cos(angle);\n" +
+                    "    //Rodrigues' rotation formula\n" +
+                    "    return aColor * c + cross(k, aColor) * sin(angle) + k * dot(k, aColor) * (1.0 - c);\n" +
+                    "}\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "    float hue = 6.2831853 * (v_color.r - 0.5);\n" +
+                    "    float saturation = v_color.g * 2.0;\n" +
+                    "    float brightness = v_color.b - 0.5;\n" +
+                    "    float contrast = pow(v_color.a + 0.5, 1.709);\n" +
+                    "    float lightFix = 1.0 + pow(contrast, 1.41421356);\n" +
+                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "    tgt.rgb = applyHue(tgt.rgb, hue);\n" +
+                    "    vec3 ycc = vec3(\n" +
+                    "     (0.5 * pow(dot(tgt.rgb, vec3(0.375, 0.5, 0.125)), contrast) * lightFix + brightness),\n" + // lightness
+                    "     ((tgt.r - tgt.b) * saturation),\n" + // warmth
+                    "     ((tgt.g - tgt.b) * saturation));\n" + // mildness
+                    "   gl_FragColor = clamp(vec4(\n" +
+                    "     dot(ycc, vec3(1.0, 0.625, -0.5)),\n" + // back to red
+                    "     dot(ycc, vec3(1.0, -0.375, 0.5)),\n" + // back to green
+                    "     dot(ycc, vec3(1.0, -0.375, -0.5)),\n" + // back to blue
+                    "     tgt.a), 0.0, 1.0);\n" + // keep alpha, then clamp
                     "}";
 
     public static boolean inGamutHSL(float hue, float saturation, float lightness) {
