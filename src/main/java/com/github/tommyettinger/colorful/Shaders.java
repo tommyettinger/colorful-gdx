@@ -177,9 +177,8 @@ public class Shaders {
 //                    "   gl_FragColor = vec4(dot(ycc, vec3(1.0, -0.5, -0.375)), dot(ycc, vec3(1.0, 0.5, 0.125)), dot(ycc, vec3(1.0, -0.5, 0.625)), v_color.a * tgt.a);\n" +
 //                    "   if(any(notEqual(gl_FragColor.rgb, clamp(gl_FragColor.rgb, 0.0, 1.0)))) discard;\n" +
                     "}";
-    
-    public static final String partialCodeHSL =
-            //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a
+    /*
+                //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a
             //different distribution that matches primary colors in painting (where purple is opposite yellow).
             "float official2primaries(float hue) {\n" +
                     "    return  hue * ( 2.3357\n" +
@@ -196,6 +195,28 @@ public class Shaders {
                     "          + hue * ( 35.0206\n" +
                     "          + hue * (-38.1354\n" +
                     "          + hue *   14.0946))));\n" +
+                    "}\n" + 
+     */
+    public static final String partialCodeHSL =
+            //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a
+            //different distribution that matches primary colors in painting (where purple is opposite yellow).
+            "float official2primaries(float hue) {\n" +
+                    "    return  hue * (  2.137\n" +
+                    "          + hue * (  0.542\n" +
+                    "          + hue * (-15.141\n" +
+                    "          + hue * ( 30.120\n" +
+                    "          + hue * (-22.541\n" +
+                    "          + hue *   5.883)))));\n" +
+                    "}\n" +
+                    //Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a
+                    //different distribution that matches primary colors in painting (where purple is opposite yellow).
+                    "float primaries2official(float hue) {\n" +
+                    "    return  hue * (  0.677\n" +
+                    "          + hue * ( -0.123\n" +
+                    "          + hue * (-11.302\n" +
+                    "          + hue * ( 46.767\n" +
+                    "          + hue * (-58.493\n" +
+                    "          + hue *   23.474)))));\n" +
                     "}\n" + 
                     "vec4 rgb2hsl(vec4 color) {\n" +
                     "  vec4 hsl = color;\n" +
