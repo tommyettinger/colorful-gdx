@@ -77,10 +77,10 @@ public class HSLTintDemo extends ApplicationAdapter {
     @Override
     public void create() {
         defaultShader = SpriteBatch.createDefaultShader();
-        shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderRotateHSL);
+        shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL);
         if(!shader.isCompiled())
             System.out.println(shader.getLog());
-        shader2 = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderRotateHSL2);
+        shader2 = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL2);
         if(!shader2.isCompiled())
             System.out.println(shader2.getLog());
         batch = new SpriteBatch(8000, defaultShader);
@@ -105,10 +105,12 @@ public class HSLTintDemo extends ApplicationAdapter {
         batch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) { 
             if((TimeUtils.millis() & 1024) == 0) {
+                Gdx.graphics.setTitle("Shader 1");
                 batch.setShader(shader);
                 batch.setColor(hue, sat, lightness, opacity);
             }
             else {
+                Gdx.graphics.setTitle("Shader 2");
                 batch.setShader(shader2);
                 batch.setColor(hue, sat, lightness, opacity);
             }

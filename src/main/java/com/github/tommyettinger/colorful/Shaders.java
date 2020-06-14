@@ -274,45 +274,29 @@ public class Shaders {
                     "}\n";
 
 
+    /**
+     * Credit to Sam Hocevar, https://gamedev.stackexchange.com/a/59808 .
+     */
     public static final String partialCodeHSL2 =
-                    "#define TWO_PI 6.283185307179586\n" +
+            "const float eps = 1.0e-10;\n" +
+                    "vec4 rgb2hsl(vec4 c)\n" +
+                    "{\n" +
+                    "    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n" +
+                    "    vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));\n" +
+                    "    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));\n" +
                     "\n" +
-                    "vec4 rgb2hsl(vec4 color) {\n" +
-                    "  vec4 hsl = color;\n" +
-                    "  float fmin = min(min(color.r, color.g), color.b);    //Min. value of RGB\n" +
-                    "  float fmax = max(max(color.r, color.g), color.b);    //Max. value of RGB\n" +
-                    "  float delta = fmax - fmin;             //Delta RGB value\n" +
-                    "  hsl.z = (fmax + fmin) * 0.5; // Luminance\n" +
-                    "  if (delta < 0.001)\n" +
-                    "    return vec4(0.0, 0.0, hsl.zw);\n" +
-                    "  if (hsl.z < 0.5)\n" +
-                    "    hsl.y = delta / (fmax + fmin); // Saturation\n" +
-                    "  else\n" +
-                    "    hsl.y = delta / (2.0 - fmax - fmin); // Saturation\n" +
-                    "  vec3 drgb = (((fmax - color.rgb) / 6.0) + (delta / 2.0)) / delta;\n" +
-                    "  if (color.r == fmax )\n" +
-                    "    hsl.x = drgb.b - drgb.g; // Hue\n" +
-                    "  else if (color.g == fmax)\n" +
-                    "    hsl.x = (1.0 / 3.0) + drgb.r - drgb.b; // Hue\n" +
-                    "  else if (color.b == fmax)\n" +
-                    "    hsl.x = (2.0 / 3.0) + drgb.g - drgb.r; // Hue\n" +
-                    "  hsl.x = fract(hsl.x);\n" +
-                    "  return hsl;\n" +
-                    "}\n"+
-                    "vec4 hsl2rgb(vec4 hsla) {\n" +
-                    "    vec4 rgba;\n" +
-                    "    if (hsla.y == 0.0) {\n" +
-                    "        rgba = hsla.zzzw; // Luminance\n" +
-                    "    } else {\n" +
-                    "        rgba.rgb = mix(vec3(1.0), clamp(vec3(\n" +
-                    "            sin(((1.75 / 6.0) - hsla.x) * TWO_PI) * 0.875 + 0.625,\n" +
-                    "            sin(((3.75 / 6.0) - hsla.x) * TWO_PI) * 0.875 + 0.625,\n" +
-                    "            sin(((5.75 / 6.0) - hsla.x) * TWO_PI) * 1.5 + 0.875\n" +
-                    "        ), 0.0, 1.0), hsla.y * (1.0 - 2.0 * abs(0.5 - hsla.z))) * sqrt(hsla.z);\n" +
-                    "        rgba.a = hsla.a;\n" +
-                    "    }\n" +
-                    "    return rgba;\n" +
-                    "}\n";
+                    "    float d = q.x - min(q.w, q.y);\n" +
+                    "    float l = q.x * (1.0 - 0.5 * d / (q.x + eps));\n" +
+                    "    return vec4(abs(q.z + (q.w - q.y) / (6.0 * d + eps)), (q.x - l) / (min(l, 1.0 - l) + eps), l, c.a);\n" +
+                    "}\n" +
+                    "\n" +
+                    "vec4 hsl2rgb(vec4 c)\n" +
+                    "{\n" +
+                    "    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n" +
+                    "    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);\n" +
+                    "    float v = (c.z + c.y * min(c.z, 1.0 - c.z));\n" +
+                    "    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n" +
+                    "}";
 
 
     public static final String fragmentShaderHSL =
@@ -330,7 +314,7 @@ public class Shaders {
                     "{\n" +
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                     "   vec4 hsl = rgb2hsl(tgt);\n" +
-                    "   hsl.x = fract((fract(v_color.x + 0.5 - hsl.x) - 0.5) * clamp(step(hsl.y, 0.05) * 1.0 + v_color.w, 0.0, 1.0) + hsl.x);\n" +
+                    "   hsl.x = fract((fract(v_color.x + 0.5 - hsl.x) - 0.5) * clamp(step(hsl.y, 0.05) * v_color.w, 0.0, 1.0) + hsl.x);\n" +
                     "   hsl.yz = mix(hsl.yz, v_color.yz, v_color.w);\n" +
                     "   gl_FragColor = hsl2rgb(hsl);\n" +
                     "}";
@@ -354,7 +338,7 @@ public class Shaders {
                     "   hsl.yz = mix(hsl.yz, v_color.yz, v_color.w);\n" +
                     "   gl_FragColor = hsl2rgb(hsl);\n" +
                     "}";
-    
+
     public static final String fragmentShaderRotateHSL =
             "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
@@ -375,13 +359,33 @@ public class Shaders {
                     "   gl_FragColor = hsl2rgb(hsl);\n" +
                     "}";
 
+    public static final String fragmentShaderRotateHSL2 =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    partialCodeHSL2 +
+                    "void main()\n" +
+                    "{\n" +
+                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "   vec4 hsl = rgb2hsl(tgt);\n" +
+                    "   hsl.x = fract(v_color.x + hsl.x + 0.5);\n" +
+                    "   hsl.yz = clamp(hsl.yz * v_color.yz * 2.0, 0.0, 1.0);\n" +
+                    "   gl_FragColor = hsl2rgb(hsl);\n" +
+                    "}";
+
     /**
      * Credit for HLSL version goes to Andrey-Postelzhuk,
      * <a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/">Unity Forums</a>.
      * The YCC adaptation, and different approach to contrast (this has close to neutral contrast when a is 0.5,
      * while the original had a fair bit higher contrast than expected), is from this codebase.
      */
-    public static final String fragmentShaderRotateHSL2 = 
+    public static final String fragmentShaderHSLC = 
                     "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
                     "precision mediump float;\n" +
