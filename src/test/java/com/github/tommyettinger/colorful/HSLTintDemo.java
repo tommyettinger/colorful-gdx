@@ -31,6 +31,7 @@ public class HSLTintDemo extends ApplicationAdapter {
     private long lastProcessedTime = 0L;
     private ShaderProgram defaultShader;
     private ShaderProgram shader, shader2;
+    private boolean flipping = true;
     private float hue = 0.5f, sat = 0.5f, lightness = 0.5f, opacity = 0.5f;
 
     public static void main(String[] arg) {
@@ -77,10 +78,10 @@ public class HSLTintDemo extends ApplicationAdapter {
     @Override
     public void create() {
         defaultShader = SpriteBatch.createDefaultShader();
-        shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL);
+        shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL2);
         if(!shader.isCompiled())
             System.out.println(shader.getLog());
-        shader2 = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL2);
+        shader2 = new ShaderProgram(Shaders.vertexShaderHSLC, Shaders.fragmentShaderHSLC);
         if(!shader2.isCompiled())
             System.out.println(shader2.getLog());
         batch = new SpriteBatch(8000, defaultShader);
@@ -104,7 +105,7 @@ public class HSLTintDemo extends ApplicationAdapter {
         handleInput();
         batch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) { 
-            if((TimeUtils.millis() & 1024) == 0) {
+            if((TimeUtils.millis() & 1024) == 0 || !flipping) {
                 Gdx.graphics.setTitle("Shader 1");
                 batch.setShader(shader);
                 batch.setColor(hue, sat, lightness, opacity);
@@ -134,6 +135,8 @@ public class HSLTintDemo extends ApplicationAdapter {
     public void handleInput() {
         if (input.isKeyPressed(Input.Keys.P)) // print
             System.out.println("Y=" + hue + ",Cw=" + sat + ",Cm=" + lightness);
+        else if (input.isKeyPressed(Input.Keys.F))
+            flipping = !flipping;
         else if (input.isKeyPressed(Input.Keys.M))
             load("samples/Mona_Lisa.jpg");
         else if (input.isKeyPressed(Input.Keys.S)) //Sierra Nevada
