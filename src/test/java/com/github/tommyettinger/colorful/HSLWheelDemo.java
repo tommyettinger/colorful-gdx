@@ -52,7 +52,7 @@ public class HSLWheelDemo extends ApplicationAdapter {
         blank = new Texture(b);
         font = new BitmapFont(Gdx.files.internal("font.fnt"));
         font.setColor(1f, 0.5f, 0.5f, 1f);
-        shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL);
+        shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL3);
         if(!shader.isCompiled())
             System.out.println(shader.getLog());
         otherShader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL2);
@@ -74,9 +74,10 @@ public class HSLWheelDemo extends ApplicationAdapter {
         handleInput();
 //        layer = TrigTools.acos_(TrigTools.sin_(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) + 0.5f;
 //        layer = TrigTools.acos_(TrigTools.sin_(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) * 2f;
-        layer = TimeUtils.timeSinceMillis(startTime) * 0x1p-12f;
-        int floor = MathUtils.floorPositive(layer);
-        layer = (floor & 1) + (layer - floor) * (-(floor & 1) | 1);
+//        layer = TimeUtils.timeSinceMillis(startTime) * 0x1p-12f;
+//        int floor = MathUtils.floorPositive(layer);
+//        layer = (floor & 1) + (layer - floor) * (-(floor & 1) | 1);
+        layer = 0.5f;
         batch.setProjectionMatrix(screenView.getCamera().combined);
         batch.setColor(0f, 0f, 0.5f, 1f);
         batch.begin();
