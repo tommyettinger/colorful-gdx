@@ -325,25 +325,42 @@ public class Shaders {
      */
     public static final String partialCodeHSL3 =
             "const float eps = 1.0e-10;\n" +
-                    //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a
-                    //different distribution that matches primary colors in painting (where purple is opposite yellow).
+                    //// maybe not blue enough?
+//                    //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a
+//                    //different distribution that matches primary colors in painting (where purple is opposite yellow).
+//                    "float official2primaries(float hue) {\n" +
+//                    "    return  hue * (  1.630\n" +
+//                    "          + hue * (  5.937\n" +
+//                    "          + hue * (-38.485\n" +
+//                    "          + hue * ( 76.101\n" +
+//                    "          + hue * (-63.977\n" +
+//                    "          + hue *   19.794)))));\n" +
+//                    "}\n" +
+//                    //Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a
+//                    //different distribution that matches primary colors in painting (where purple is opposite yellow).
+//                    "float primaries2official(float hue) {\n" +
+//                    "    return  hue * (  1.463\n" +
+//                    "          + hue * ( -9.834\n" +
+//                    "          + hue * ( 31.153\n" +
+//                    "          + hue * (-35.066\n" +
+//                    "          + hue *   13.284))));\n" +
+//                    "}\n" +
                     "float official2primaries(float hue) {\n" +
-                    "    return  hue * (  1.630\n" +
-                    "          + hue * (  5.937\n" +
-                    "          + hue * (-38.485\n" +
-                    "          + hue * ( 76.101\n" +
-                    "          + hue * (-63.977\n" +
-                    "          + hue *   19.794)))));\n" +
+                    "    return  hue * (  2.634\n" +
+                    "          + hue * ( -4.703\n" +
+                    "          + hue * (  3.659\n" +
+                    "          + hue * (  0.829\n" +
+                    "          + hue *   -1.419))));\n" +
                     "}\n" +
-                    //Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a
-                    //different distribution that matches primary colors in painting (where purple is opposite yellow).
                     "float primaries2official(float hue) {\n" +
-                    "    return  hue * (  1.463\n" +
-                    "          + hue * ( -9.834\n" +
-                    "          + hue * ( 31.153\n" +
-                    "          + hue * (-35.066\n" +
-                    "          + hue *   13.284))));\n" +
+                    "    return  hue * (  1.163\n" +
+                    "          + hue * ( -7.102\n" +
+                    "          + hue * ( 22.709\n" +
+                    "          + hue * (-25.502\n" +
+                    "          + hue *    9.732))));\n" +
                     "}\n" +
+                    
+                    //// way too much orange?
 //                    //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a
 //                    //different distribution that matches primary colors in painting (where purple is opposite yellow).
 //                    "float official2primaries(float hue) {\n" +
