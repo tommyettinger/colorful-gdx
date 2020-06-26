@@ -345,21 +345,48 @@ public class Shaders {
 //                    "          + hue * (-35.066\n" +
 //                    "          + hue *   13.284))));\n" +
 //                    "}\n" +
+                    //// still weirdly high orange
+//                    "float official2primaries(float hue) {\n" +
+//                    "    return  hue * (  2.634\n" +
+//                    "          + hue * ( -4.703\n" +
+//                    "          + hue * (  3.659\n" +
+//                    "          + hue * (  0.829\n" +
+//                    "          + hue *   -1.419))));\n" +
+//                    "}\n" +
+//                    "float primaries2official(float hue) {\n" +
+//                    "    return  hue * (  1.163\n" +
+//                    "          + hue * ( -7.102\n" +
+//                    "          + hue * ( 22.709\n" +
+//                    "          + hue * (-25.502\n" +
+//                    "          + hue *    9.732))));\n" +
+//                    "}\n" +
+//                    "const float ROOT   = 16.0;\n" +
+//                    "const float SQUARE = ROOT * ROOT;\n" +
                     "float official2primaries(float hue) {\n" +
-                    "    return  hue * (  2.634\n" +
-                    "          + hue * ( -4.703\n" +
-                    "          + hue * (  3.659\n" +
-                    "          + hue * (  0.829\n" +
-                    "          + hue *   -1.419))));\n" +
+//                    "    return (sqrt(hue * 0.9375 + 0.0625) - 0.25) * 1.333;\n" +
+//                    "    return asin(sqrt(hue * SQUARE) * (1.0 / ROOT)) * (2.0 * 3.14159274);\n" +
+
+//                    "    return asin((sqrt(hue * 0.9375 + 0.0625) - 0.25) * 2.666 - 1.0) * 0.318309886 + 0.5;\n" +
+
+//                    "    return sqrt(sin((hue - 0.5) * 3.14159274) * 0.5f + 0.5f);\n" +
+                    "    return sqrt(hue);\n" +
                     "}\n" +
                     "float primaries2official(float hue) {\n" +
-                    "    return  hue * (  1.163\n" +
-                    "          + hue * ( -7.102\n" +
-                    "          + hue * ( 22.709\n" +
-                    "          + hue * (-25.502\n" +
-                    "          + hue *    9.732))));\n" +
-                    "}\n" +
+//                    "    hue = sin((hue) * (0.5 * 3.14159274));\n" +
+//                    "    hue = (hue) * 0.75 + 0.25;\n" +
                     
+//                    "    hue = sin((hue - 0.5) * 3.14159274);\n" +
+//                    "    hue = (hue + 1.0) * 0.375 + 0.25;\n" +
+//                    "    return (hue * hue - 0.0625) * (1.0 / 0.9375);\n" +
+                    
+//                    "    return asin(hue * hue * 2.0 - 1.0) * 0.318309886 + 0.5;\n" +
+                    "    return hue * hue;\n" +
+
+//                    "    hue = sin((hue) * (0.5 * 3.14159274));\n" +
+//                    "    hue = hue * ROOT;\n" +
+//                    "    return (hue * hue) * (1.0 / SQUARE);\n" +
+
+                    "}\n" +
                     //// way too much orange?
 //                    //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a
 //                    //different distribution that matches primary colors in painting (where purple is opposite yellow).
