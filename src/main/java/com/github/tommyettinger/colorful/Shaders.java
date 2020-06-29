@@ -31,6 +31,44 @@ public class Shaders {
             + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
             + "}\n";
     /**
+     * A simple shader that uses additive blending with "normal" RGBA colors (alpha is still multiplicative).
+     * With the default SpriteBatch ShaderProgram, white is the neutral color, 50% gray darkens a color by about 50%,
+     * and black darkens a color to black, but nothing can brighten a color. With this, 50% gray is the neutral color,
+     * white adds 0.5 to the RGB channels (brightening it and also desaturating it), and black subtracts 0.5 from the
+     * RGB channels (darkening and desaturating, but not to black unless the color is already somewhat dark).
+     */
+    public static final String fragmentShaderRGBA =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "   gl_FragColor = clamp(vec4(tgt.rgb * pow((v_color.rgb + 0.1) * 1.666, vec3(1.5)), v_color.a * tgt.a), 0.0, 1.0);\n" +
+                    "}";
+    //// save the result as shader, and set it on your batch with
+    // ShaderProgram shader = makeRGBAShader();
+    // batch.setShader(shader)
+    /**
+     * A simple helper method that builds the simplest shader here. You can assign the result to a SpriteBatch with its
+     * {@link SpriteBatch#setShader(ShaderProgram)} method.
+     * @return a ShaderProgram that uses the RGBA shader {@link #fragmentShaderRGBA}
+     */
+    public static ShaderProgram makeRGBAShader()
+    {
+        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShaderRGBA);
+        if(!shader.isCompiled())
+            throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
+        return shader;
+    }
+
+    /**
      * Where the magic happens; this converts a batch color from the YCwCmA format (used by colorful) to RGBA.
      * The vertex color will be split up into 4 channels just as a normal shader does, but the channels here are
      * luma, chromatic warmth, chromatic mildness, and alpha; alpha acts just like a typical RGBA shader, but the others
