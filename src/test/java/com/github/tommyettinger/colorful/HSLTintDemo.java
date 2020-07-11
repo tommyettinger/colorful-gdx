@@ -30,13 +30,16 @@ public class HSLTintDemo extends ApplicationAdapter {
 
     private long lastProcessedTime = 0L;
     private ShaderProgram defaultShader;
-    private ShaderProgram shader, shader2;
+//    private ShaderProgram shaderBroken;
+    private ShaderProgram shaderHSLC;
     private boolean flipping = true;
-    private float hue = 0.5f, sat = 0.5f, lightness = 0.5f, opacity = 0.5f;
+    private float hue = 0.5f, sat = 0.5f, lightness = 0.5f, // all neutral values
+    //// contrast can be used by some shaders as alpha/opacity; it's currently lightness contrast
+            contrast = 0.5f;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("Tint Demo");
+        config.setTitle("HSL Demo");
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.setIdleFPS(10);
         config.useVsync(true);
@@ -78,12 +81,12 @@ public class HSLTintDemo extends ApplicationAdapter {
     @Override
     public void create() {
         defaultShader = SpriteBatch.createDefaultShader();
-        shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL2);
-        if(!shader.isCompiled())
-            System.out.println(shader.getLog());
-        shader2 = new ShaderProgram(Shaders.vertexShaderHSLC, Shaders.fragmentShaderHSLC);
-        if(!shader2.isCompiled())
-            System.out.println(shader2.getLog());
+//        shaderBroken = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL2);
+//        if(!shaderBroken.isCompiled())
+//            System.out.println(shaderBroken.getLog());
+        shaderHSLC = new ShaderProgram(Shaders.vertexShaderHSLC, Shaders.fragmentShaderHSLC);
+        if(!shaderHSLC.isCompiled())
+            System.out.println(shaderHSLC.getLog());
         batch = new SpriteBatch(8000, defaultShader);
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
@@ -105,16 +108,23 @@ public class HSLTintDemo extends ApplicationAdapter {
         handleInput();
         batch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) { 
-            if((TimeUtils.millis() & 1024) == 0 || !flipping) {
-                Gdx.graphics.setTitle("Shader 1");
-                batch.setShader(shader);
-                batch.setColor(hue, sat, lightness, opacity);
-            }
-            else {
-                Gdx.graphics.setTitle("Shader 2");
-                batch.setShader(shader2);
-                batch.setColor(hue, sat, lightness, opacity);
-            }
+//            if(flipping && (TimeUtils.millis() & 1024) == 0) {
+//                Gdx.graphics.setTitle("Shader 1");
+//                batch.setShader(shaderBroken);
+//                batch.setColor(hue, sat, lightness, opacity);
+//            }
+//            else {
+//                Gdx.graphics.setTitle("Shader 2");
+                Gdx.graphics.setTitle("Hue Rotation");
+                batch.setShader(shaderHSLC);
+                batch.setColor(
+                        // this is the same as: (TimeUtils.millis() % 2048.0f) * (1.0f / 2048.0f)
+                        // that means it cycles from 0.0f to almost 1.0f every 2 seconds (and a tiny bit more),
+                        // it's just a faster way of doing some of that math.
+                        // this is the value used for hue; the user can't change hue, only time will change it.
+                        (TimeUtils.millis() & 2047) * 0x1p-11f, 
+                        sat, lightness, contrast);
+//            }
             batch.begin();
             batch.draw(screenTexture, 0, 0);
             batch.setShader(defaultShader);
@@ -156,26 +166,26 @@ public class HSLTintDemo extends ApplicationAdapter {
             if (TimeUtils.timeSinceMillis(lastProcessedTime) < 80)
                 return;
             lastProcessedTime = TimeUtils.millis();
-            if (input.isKeyPressed(Input.Keys.H)) //light
+            if (input.isKeyPressed(Input.Keys.H)) //hue
                 hue = (hue += 0x7p-8f) - MathUtils.floor(hue);
-            else if (input.isKeyPressed(Input.Keys.RIGHT)) //warm
+            else if (input.isKeyPressed(Input.Keys.RIGHT)) //saturation increase
                 sat = MathUtils.clamp(sat + 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.LEFT)) //cool
+            else if (input.isKeyPressed(Input.Keys.LEFT)) //saturation decrease
                 sat = MathUtils.clamp(sat - 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.UP)) //mild
+            else if (input.isKeyPressed(Input.Keys.UP)) //lighten
                 lightness = MathUtils.clamp(lightness + 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.DOWN)) // bold
+            else if (input.isKeyPressed(Input.Keys.DOWN)) //darken
                 lightness = MathUtils.clamp(lightness - 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.RIGHT_BRACKET)) //mild
-                opacity = MathUtils.clamp(opacity + 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.LEFT_BRACKET)) // bold
-                opacity = MathUtils.clamp(opacity - 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.R)) // reset
+            else if (input.isKeyPressed(Input.Keys.RIGHT_BRACKET)) //contrast increase
+                contrast = MathUtils.clamp(contrast + 0x3p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.LEFT_BRACKET)) //contrast decrease
+                contrast = MathUtils.clamp(contrast - 0x3p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.R)) //reset
             {
                 hue = 0.5f;
                 sat = 0.5f;
                 lightness = 0.5f;
-                opacity = 0.5f;
+                contrast = 0.5f;
             }
         }
     }

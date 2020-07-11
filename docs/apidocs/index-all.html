@@ -727,6 +727,13 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShaderHSL2">fragmentShaderHSL2</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShaderHSL3">fragmentShaderHSL3</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShaderHSLC">fragmentShaderHSLC</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
+<dd>
+<div class="block">Credit for HLSL version goes to Andrey-Postelzhuk,
+ <a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/">Unity Forums</a>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShaderHSLKinda">fragmentShaderHSLKinda</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
 <dd>
 <div class="block">A somewhat-experimental shader that takes colors in Hue, Saturation, Lightness, Alpha format, where:
@@ -741,7 +748,15 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShaderReplacement">fragmentShaderReplacement</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShaderRGBA">fragmentShaderRGBA</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
+<dd>
+<div class="block">A simple shader that uses additive blending with "normal" RGBA colors (alpha is still multiplicative).</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShaderRotateHSL">fragmentShaderRotateHSL</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShaderRotateHSL2">fragmentShaderRotateHSL2</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShaderRotateHSL3">fragmentShaderRotateHSL3</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Palette.html#FRESH_BLOOD">FRESH_BLOOD</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Palette.html" title="class in com.github.tommyettinger.colorful">Palette</a></dt>
 <dd>
@@ -1103,6 +1118,10 @@
 <div class="block">Prepares and returns a new SpriteBatch that uses the default <a href="com/github/tommyettinger/colorful/Shaders.html#vertexShader"><code>Shaders.vertexShader</code></a> and <a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShader"><code>Shaders.fragmentShader</code></a>
  from this class, making it able to render YCwCmA colors from the rest of this library.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#makeRGBAShader--">makeRGBAShader()</a></span> - Static method in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
+<dd>
+<div class="block">A simple helper method that builds the simplest shader here.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Palette.html#MALACHITE">MALACHITE</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Palette.html" title="class in com.github.tommyettinger.colorful">Palette</a></dt>
 <dd>
 <div class="block">This color constant "Malachite" has RGBA8888 code <code>0AD70AFF</code>, luma 0.43921572, warmth 0.49803925, mildness 0.90196085, alpha 1.0, hue 0.25077635, and saturation 0.5684652.</div>
@@ -1242,7 +1261,14 @@
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#partialCodeHSL">partialCodeHSL</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#partialCodeHSL2">partialCodeHSL2</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Credit to Sam Hocevar, https://gamedev.stackexchange.com/a/59808 .</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#partialCodeHSL3">partialCodeHSL3</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
+<dd>
+<div class="block">Adjusted-hue version of <a href="com/github/tommyettinger/colorful/Shaders.html#partialCodeHSL2"><code>Shaders.partialCodeHSL2</code></a>, supplying HSL to-and-from RGB conversions with a smaller range
+ of hue used for cyan and a larger range for orange.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Palette.html#PASTEL_SKY">PASTEL_SKY</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Palette.html" title="class in com.github.tommyettinger.colorful">Palette</a></dt>
 <dd>
 <div class="block">This color constant "Pastel Sky" has RGBA8888 code <code>ABE3E3FF</code>, luma 0.8078432, warmth 0.38823533, mildness 0.49803925, alpha 1.0, hue 0.5027919, and saturation 0.15808348.</div>
@@ -1919,6 +1945,10 @@
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#vertexShader">vertexShader</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
 <dd>
 <div class="block">This is the default vertex shader from libGDX.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#vertexShaderHSLC">vertexShaderHSLC</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
+<dd>
+<div class="block">This is the default vertex shader from libGDX, but also sets a varying value for contrast.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Palette.html#VIOLET">VIOLET</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Palette.html" title="class in com.github.tommyettinger.colorful">Palette</a></dt>
 <dd>

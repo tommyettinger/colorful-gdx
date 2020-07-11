@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -154,6 +154,17 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#fragmentShaderHSL3">fragmentShaderHSL3</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#fragmentShaderHSLC">fragmentShaderHSLC</a></span></code>
+<div class="block">Credit for HLSL version goes to Andrey-Postelzhuk,
+ <a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/">Unity Forums</a>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#fragmentShaderHSLKinda">fragmentShaderHSLKinda</a></span></code>
 <div class="block">A somewhat-experimental shader that takes colors in Hue, Saturation, Lightness, Alpha format, where:
  
@@ -174,20 +185,49 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#fragmentShaderRotateHSL">fragmentShaderRotateHSL</a></span></code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#fragmentShaderRGBA">fragmentShaderRGBA</a></span></code>
+<div class="block">A simple shader that uses additive blending with "normal" RGBA colors (alpha is still multiplicative).</div>
+</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#partialCodeHSL">partialCodeHSL</a></span></code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#fragmentShaderRotateHSL">fragmentShaderRotateHSL</a></span></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#partialCodeHSL2">partialCodeHSL2</a></span></code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#fragmentShaderRotateHSL2">fragmentShaderRotateHSL2</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#fragmentShaderRotateHSL3">fragmentShaderRotateHSL3</a></span></code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#partialCodeHSL">partialCodeHSL</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#partialCodeHSL2">partialCodeHSL2</a></span></code>
+<div class="block">Credit to Sam Hocevar, https://gamedev.stackexchange.com/a/59808 .</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#partialCodeHSL3">partialCodeHSL3</a></span></code>
+<div class="block">Adjusted-hue version of <a href="../../../../com/github/tommyettinger/colorful/Shaders.html#partialCodeHSL2"><code>partialCodeHSL2</code></a>, supplying HSL to-and-from RGB conversions with a smaller range
+ of hue used for cyan and a larger range for orange.</div>
+</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#vertexShader">vertexShader</a></span></code>
 <div class="block">This is the default vertex shader from libGDX.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#vertexShaderHSLC">vertexShaderHSLC</a></span></code>
+<div class="block">This is the default vertex shader from libGDX, but also sets a varying value for contrast.</div>
 </td>
 </tr>
 </table>
@@ -247,6 +287,12 @@ extends java.lang.Object</pre>
  from this class, making it able to render YCwCmA colors from the rest of this library.</div>
 </td>
 </tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>static com.badlogic.gdx.graphics.glutils.ShaderProgram</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#makeRGBAShader--">makeRGBAShader</a></span>()</code>
+<div class="block">A simple helper method that builds the simplest shader here.</div>
+</td>
+</tr>
 </table>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -280,6 +326,24 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../constant-values.html#com.github.tommyettinger.colorful.Shaders.vertexShader">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a name="fragmentShaderRGBA">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>fragmentShaderRGBA</h4>
+<pre>public static final&nbsp;java.lang.String fragmentShaderRGBA</pre>
+<div class="block">A simple shader that uses additive blending with "normal" RGBA colors (alpha is still multiplicative).
+ With the default SpriteBatch ShaderProgram, white is the neutral color, 50% gray darkens a color by about 50%,
+ and black darkens a color to black, but nothing can brighten a color. With this, 50% gray is the neutral color,
+ white adds 0.5 to the RGB channels (brightening it and also desaturating it), and black subtracts 0.5 from the
+ RGB channels (darkening and desaturating, but not to black unless the color is already somewhat dark).</div>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../constant-values.html#com.github.tommyettinger.colorful.Shaders.fragmentShaderRGBA">Constant Field Values</a></dd>
 </dl>
 </li>
 </ul>
@@ -383,9 +447,26 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>partialCodeHSL2</h4>
 <pre>public static final&nbsp;java.lang.String partialCodeHSL2</pre>
+<div class="block">Credit to Sam Hocevar, https://gamedev.stackexchange.com/a/59808 .</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../constant-values.html#com.github.tommyettinger.colorful.Shaders.partialCodeHSL2">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a name="partialCodeHSL3">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>partialCodeHSL3</h4>
+<pre>public static final&nbsp;java.lang.String partialCodeHSL3</pre>
+<div class="block">Adjusted-hue version of <a href="../../../../com/github/tommyettinger/colorful/Shaders.html#partialCodeHSL2"><code>partialCodeHSL2</code></a>, supplying HSL to-and-from RGB conversions with a smaller range
+ of hue used for cyan and a larger range for orange. Credit to Sam Hocevar,
+ https://gamedev.stackexchange.com/a/59808 .</div>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../constant-values.html#com.github.tommyettinger.colorful.Shaders.partialCodeHSL3">Constant Field Values</a></dd>
 </dl>
 </li>
 </ul>
@@ -415,6 +496,19 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
+<a name="fragmentShaderHSL3">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>fragmentShaderHSL3</h4>
+<pre>public static final&nbsp;java.lang.String fragmentShaderHSL3</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../constant-values.html#com.github.tommyettinger.colorful.Shaders.fragmentShaderHSL3">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
 <a name="fragmentShaderRotateHSL">
 <!--   -->
 </a>
@@ -425,6 +519,63 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../constant-values.html#com.github.tommyettinger.colorful.Shaders.fragmentShaderRotateHSL">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a name="fragmentShaderRotateHSL2">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>fragmentShaderRotateHSL2</h4>
+<pre>public static final&nbsp;java.lang.String fragmentShaderRotateHSL2</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../constant-values.html#com.github.tommyettinger.colorful.Shaders.fragmentShaderRotateHSL2">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a name="fragmentShaderRotateHSL3">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>fragmentShaderRotateHSL3</h4>
+<pre>public static final&nbsp;java.lang.String fragmentShaderRotateHSL3</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../constant-values.html#com.github.tommyettinger.colorful.Shaders.fragmentShaderRotateHSL3">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a name="vertexShaderHSLC">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>vertexShaderHSLC</h4>
+<pre>public static final&nbsp;java.lang.String vertexShaderHSLC</pre>
+<div class="block">This is the default vertex shader from libGDX, but also sets a varying value for contrast.</div>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../constant-values.html#com.github.tommyettinger.colorful.Shaders.vertexShaderHSLC">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a name="fragmentShaderHSLC">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>fragmentShaderHSLC</h4>
+<pre>public static final&nbsp;java.lang.String fragmentShaderHSLC</pre>
+<div class="block">Credit for HLSL version goes to Andrey-Postelzhuk,
+ <a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/">Unity Forums</a>.
+ The YCC adaptation, and different approach to contrast (this has close to neutral contrast when a is 0.5,
+ while the original had a fair bit higher contrast than expected), is from this codebase.</div>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../constant-values.html#com.github.tommyettinger.colorful.Shaders.fragmentShaderHSLC">Constant Field Values</a></dd>
 </dl>
 </li>
 </ul>
@@ -466,6 +617,21 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="makeRGBAShader--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>makeRGBAShader</h4>
+<pre>public static&nbsp;com.badlogic.gdx.graphics.glutils.ShaderProgram&nbsp;makeRGBAShader()</pre>
+<div class="block">A simple helper method that builds the simplest shader here. You can assign the result to a SpriteBatch with its
+ <code>SpriteBatch.setShader(ShaderProgram)</code> method.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a ShaderProgram that uses the RGBA shader <a href="../../../../com/github/tommyettinger/colorful/Shaders.html#fragmentShaderRGBA"><code>fragmentShaderRGBA</code></a></dd>
+</dl>
+</li>
+</ul>
 <a name="makeBatch--">
 <!--   -->
 </a>
