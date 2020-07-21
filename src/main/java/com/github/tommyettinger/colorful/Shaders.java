@@ -175,6 +175,29 @@ public class Shaders {
     }
 
     /**
+     * Prepares and returns a new SpriteBatch that uses {@link #vertexShaderHSLC} and {@link #fragmentShaderHSLC}
+     * from this class, making it interpret the SpriteBatch's color, as set by 
+     * {@link SpriteBatch#setColor(float, float, float, float)}, to be hue rotation, saturation change, lightness
+     * change, and contrast change. All of these are neutral when their value is 0.5f. Hue rotates clockwise or
+     * counterclockwise when it goes toward 0.0, and the other way when it goes toward 1.0; 0.0 and 1.0 both refer to
+     * the 180 degree rotation, but I don't know which goes which way (it also depends on how you visualize hue).
+     * Saturation becomes more grayscale as it goes towards 0.0, and more vivid as it goes towards 1.0. Lightness gets
+     * darker towards 0.0, lighter towards 1.0 (any lightness above 0.5 will brighten the image, unlike the default
+     * shader and batch color). Contrast affects changes in lightness; low contrast makes all lightness closer to the
+     * mid-range, while high contrast makes even small changes in the mid-range of an image's color have stark lightness
+     * changes in the result.
+     * @return a freshly allocated SpriteBatch that will also have a new ShaderProgram for rendering YCwCmA
+     */
+    public static SpriteBatch makeBatchHSLC()
+    {
+        ShaderProgram shader = new ShaderProgram(vertexShaderHSLC, fragmentShaderHSLC);
+        if(!shader.isCompiled())
+            throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
+        return new SpriteBatch(1000, shader);
+    }
+
+
+    /**
      * A somewhat-experimental shader that takes colors in Hue, Saturation, Lightness, Alpha format, where:
      * <ul>
      *     <li>Hue can range between 0.0 and 1.0 and is added to the hue angle of the color being rendered, which also

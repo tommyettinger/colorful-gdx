@@ -11,20 +11,25 @@ specifically how it handles color tinting with `setColor(float, float, float, fl
   - The ways you can adjust tints don't match any kind of aesthetic way of representing color; you're limited to
     reducing red, green, and blue by some percentage each.
 
-We address this in colorful by representing colors differently. Instead of red, green, blue, and alpha channels,
-colorful uses luma (also called lightness), chromatic warmth, chromatic mildness, and alpha. The chromatic channels are
-only meaningful together, and can be used to get the hue and colorfulness (related to saturation) of any individual
-color. All channels go from `0.0f` to `1.0f` as `float`s, and can also be viewed as `int`s from `0` to `255` (`254` for
-alpha, because it is never an odd number). For luma, `0.0f` is black regardless of chromatic channels, and `1.0f` is
-white, again regardless. Tinting an image with black won't actually make the image all black, unlike the default
-setColor(), but it will make it much darker. Similarly, tinting an image with white will make the image much lighter
-(unlike the default, where white makes no change). When you want to tint with a neutral color, use
-`batch.setColor(0.5f, 0.5f, 0.5f, 1.0f)` or `batch.setPackedColor(Palette.GRAY)`; this will make almost no changes to
-the colors in the textures you draw. For chromatic warmth, `0.0f` is used for colors from green to blue, while `1.0f` is
-used for colors from yellow to red. For chromatic mildness, `0.0f` is used for colors from blue to red, while `1.0f` is
-used for colors from green to yellow. When both warmth and mildness are `0.5f`, that represents a grayscale color, which
-means it makes no change to the hue or saturation of the image drawn. For alpha, it acts exactly like alpha does
-normally in SpriteBatch. The term for this color representation is YCwCmA, using a similar naming convention to
+We address this in colorful by representing tint colors differently. While there's some support here for HSLC tints
+(hue, saturation, lightness, contrast) via `Shaders.makeBatchHSLC()`, much more of the library is focused on the YCwCmA
+color space.
+
+### YCwCmA
+
+Instead of red, green, blue, and alpha channels, YCwCmA uses luma (also called lightness), chromatic
+warmth, chromatic mildness, and alpha. The chromatic channels are only meaningful together, and can be used to get the
+hue and colorfulness (related to saturation) of any individual color. All channels go from `0.0f` to `1.0f` as `float`s,
+and can also be viewed as `int`s from `0` to `255` (`254` for alpha, because it is never an odd number). For luma,
+`0.0f` is black regardless of chromatic channels, and `1.0f` is white, again regardless. Tinting an image with black
+won't actually make the image all black, unlike the default setColor(), but it will make it much darker. Similarly,
+tinting an image with white will make the image much lighter (unlike the default, where white makes no change). When you
+want to tint with a neutral color, use `batch.setColor(0.5f, 0.5f, 0.5f, 1.0f)` or `batch.setPackedColor(Palette.GRAY)`;
+this will make almost no changes to the colors in the textures you draw. For chromatic warmth, `0.0f` is used for colors
+from green to blue, while `1.0f` is used for colors from yellow to red. For chromatic mildness, `0.0f` is used for
+colors from blue to red, while `1.0f` is used for colors from green to yellow. When both warmth and mildness are `0.5f`,
+that represents a grayscale color, which means it makes no change to the hue or saturation of the image drawn. For
+alpha, it acts exactly like alpha does normally in SpriteBatch. YCwCmA uses a similar naming convention to
 [YcbCr](https://en.wikipedia.org/wiki/YCbCr) or [YCoCg](https://en.wikipedia.org/wiki/YCoCg), both close relatives. The
 reason this library uses YCwCmA instead of YCoCg is that it is comparable in computational cost to transform to and from
 RGB, but the luma is somewhat more accurate with YCwCmA, and the warmth axis is very useful for aesthetic reasons. As an
@@ -70,7 +75,21 @@ very similar to the ones chosen for the palette as used in [SquidLib](https://gi
 not identical; some colors have simpler names, like `Green` instead of `Shamrock Green` or `Yellow` instead of `Lemon`.
 Naming 256 colors, some of them very similar, was not easy, and some choices are probably odd.
 
+### HSLC
+
+HSLC doesn't allow changing alpha, so it may be unsuitable for some tasks, but it does allow smooth hue rotations across
+the HSL hue range, can saturate or desaturate colors like the two Chroma values can in YCwCmA, and has similar luma
+adjustment to YCwCmA as well. Like with YCwCmA, when you tint with all values equal to 0.5f, then the result color
+shouldn't change. Raising or lowering hue (stored in the red channel) will rotate the hue away from the input color.
+Raising saturation (stored in the green channel) will make the colors more vivid, while decreasing it wll make them
+closer to grayscale. Raising lightness (stored in the blue channel) will make colors lighter (it can make them brighter
+than the original color if lightness is greater than 0.5), while lowering it will make colors darker. Contrast affects
+how rapidly the lightness in input colors changes, so when contrast is high, even slightly different mid-range colors
+will have stark lightness differences, while when contrast is low, most lightness will be in the mid-range.
+
 ## Samples
+
+These all show YCwCmA changes.
 
 Tinting with gray as the color causes no change to the original image.
 ![Tinting with gray](https://i.imgur.com/1Nq43hx.png)
@@ -105,12 +124,12 @@ Using the Maven Central dependency is recommended, and Gradle and Maven can both
 
 Gradle dependency:
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.2.0'
+implementation 'com.github.tommyettinger:colorful:0.2.1'
 ```
 
 Gradle dependency if also using GWT to make an HTML application:
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.2.0:sources'
+implementation 'com.github.tommyettinger:colorful:0.2.1:sources'
 ```
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
 ```xml
@@ -122,8 +141,8 @@ If you don't use Gradle, here's the Maven dependency:
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful</artifactId>
-  <version>0.2.0</version>
+  <version>0.2.1</version>
 </dependency>
 ```
 
-If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.2.0).
+If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.2.1).

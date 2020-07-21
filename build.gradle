@@ -18,10 +18,10 @@ apply from: 'publish.gradle'
 sourceCompatibility = 1.7
 
 def projectName = 'colorful'
-version '0.2.1-SNAPSHOT'
+version '0.2.1'
 group 'com.github.tommyettinger'
 
-def gdxVersion = '1.9.10'
+def gdxVersion = '1.9.11'
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
