@@ -87,7 +87,7 @@ public class HSLTintDemo extends ApplicationAdapter {
         shaderHSLC = new ShaderProgram(Shaders.vertexShaderHSLC, Shaders.fragmentShaderHSLC);
         if(!shaderHSLC.isCompiled())
             System.out.println(shaderHSLC.getLog());
-        shaderHSLC2 = new ShaderProgram(Shaders.vertexShaderHSLC, Shaders.fragmentShaderHSLC2);
+        shaderHSLC2 = new ShaderProgram(Shaders.vertexShaderHSLC, Shaders.fragmentShaderHSLC3);
         if(!shaderHSLC2.isCompiled())
             System.out.println(shaderHSLC2.getLog());
         batch = new SpriteBatch(8000, defaultShader);
@@ -113,23 +113,24 @@ public class HSLTintDemo extends ApplicationAdapter {
         if (screenTexture != null) { 
 //            if(flipping && (TimeUtils.millis() & 1024) == 0) {
 //                if(batch.getShader() == shaderHSLC) {
-            //// this has strange lightness adjustment as the hue changes (without telling it to adjust lightness)
-//                    Gdx.graphics.setTitle("Shader 2");
-//                    batch.setShader(shaderHSLC2);
+            //// this should act like Shader 1, but will also adjust lightness in a sine-wave
+                    Gdx.graphics.setTitle("Shader 2");
+                    batch.setShader(shaderHSLC2);
 //                }
 //                else {
-            //// this seems to look much better, but it isn't easy to draw a color wheel with it for some reason...
-                    Gdx.graphics.setTitle("Shader 1");
-                    batch.setShader(shaderHSLC);
+            //// this should be the default for hue rotations
+//                    Gdx.graphics.setTitle("Shader 1");
+//                    batch.setShader(shaderHSLC);
 //                }
-//            }             
-            batch.setColor(
-                        // this is the same as: (TimeUtils.millis() % 2048.0f) * (1.0f / 2048.0f)
-                        // that means it cycles from 0.0f to almost 1.0f every 2 seconds (and a tiny bit more),
-                        // it's just a faster way of doing some of that math.
-                        // this is the value used for hue; the user can't change hue, only time will change it.
-                        (TimeUtils.millis() & 2047) * 0x1p-11f, 
-                        sat, lightness, contrast);
+//            }
+            // the bitwise AND with 0xFFFFFF is needed to make the millisecond time a usable size for a float
+            // it causes the animation to jump, but very rarely, once every 18 minutes or so
+            hue = (TimeUtils.millis() & 0xFFFFFF) * 0.0007f;
+            // we need to make sure hue and lightness are in the 0.0 to 1.0 range. If they are positive, this does that.
+            hue -= (int)hue;
+            lightness = (TimeUtils.millis() & 0xFFFFFF) * 0.0016f;
+            lightness -= (int)lightness;
+            batch.setColor(hue, sat, lightness, contrast);
             batch.begin();
             batch.draw(screenTexture, 0, 0);
             //// double window width in load() and uncomment the following to show an un-shifted image at right

@@ -700,6 +700,42 @@ public class Shaders {
                     "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue
                     "     tgt.a), 0.0, 1.0);\n" + // keep alpha, then clamp
                     "}";
+    public static final String fragmentShaderHSLC3 =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying float v_lightFix;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "vec3 applyHue(vec3 rgb, float hue)\n" +
+                    "{\n" +
+                    "    vec3 k = vec3(0.57735);\n" +
+                    "    float c = cos(hue);\n" +
+                    "    //Rodrigues' rotation formula\n" +
+                    "    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n" +
+                    "}\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "    float hue = 6.2831853 * (v_color.x - 0.5);\n" +
+                    "    float saturation = v_color.y * 2.0;\n" +
+                    "    float brightness = v_color.z - 0.5;\n" +
+                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "    tgt.rgb = applyHue(tgt.rgb, hue);\n" +
+                    "    tgt.rgb = vec3(\n" +
+                    "     (0.5 * pow(dot(tgt.rgb, vec3(0.375, 0.5, 0.125)), v_color.w) * v_lightFix),\n" + // lightness
+                    "     ((tgt.r - tgt.b) * saturation),\n" + // warmth
+                    "     ((tgt.g - tgt.b) * saturation));\n" + // mildness
+                    "    tgt.r = sin((tgt.r + brightness) * 6.2831853) * 0.5 + 0.5;\n" +
+                    "    gl_FragColor = clamp(vec4(\n" +
+                    "     dot(tgt.rgb, vec3(1.0, 0.625, -0.5)),\n" + // back to red
+                    "     dot(tgt.rgb, vec3(1.0, -0.375, 0.5)),\n" + // back to green
+                    "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue
+                    "     tgt.a), 0.0, 1.0);\n" + // keep alpha, then clamp
+                    "}";
 
     public static boolean inGamutHSL(float hue, float saturation, float lightness) {
         hue -= 0.375f;
