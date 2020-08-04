@@ -77,7 +77,6 @@ public class HSLWheelDemo extends ApplicationAdapter {
 //        layer = TimeUtils.timeSinceMillis(startTime) * 0x1p-12f;
 //        int floor = MathUtils.floorPositive(layer);
 //        layer = (floor & 1) + (layer - floor) * (-(floor & 1) | 1);
-        layer = 0.5f;
         batch.setProjectionMatrix(screenView.getCamera().combined);
         batch.setColor(0f, 0f, 0.5f, 1f);
         batch.begin();

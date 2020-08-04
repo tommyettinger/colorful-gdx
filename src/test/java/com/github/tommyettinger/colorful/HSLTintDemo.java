@@ -31,7 +31,7 @@ public class HSLTintDemo extends ApplicationAdapter {
     private long lastProcessedTime = 0L;
     private ShaderProgram defaultShader;
 //    private ShaderProgram shaderBroken;
-    private ShaderProgram shaderHSLC;
+    private ShaderProgram shaderHSLC, shaderHSLC2;
     private boolean flipping = true;
     private float hue = 0.5f, sat = 0.5f, lightness = 0.5f, // all neutral values
     //// contrast can be used by some shaders as alpha/opacity; it's currently lightness contrast
@@ -72,7 +72,7 @@ public class HSLTintDemo extends ApplicationAdapter {
         screenTexture = new Texture(file);
         screenTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         int width, height;
-        Gdx.graphics.setWindowedMode(width = Math.min(screenTexture.getWidth() * 2, Gdx.graphics.getDisplayMode().width),
+        Gdx.graphics.setWindowedMode(width = Math.min(screenTexture.getWidth()/* * 2*/, Gdx.graphics.getDisplayMode().width),
                 height = Math.min(screenTexture.getHeight(), Gdx.graphics.getDisplayMode().height));
         screenView.update(width, height);
         screenView.getCamera().position.set(width * 0.5f, height * 0.5f, 0f);
@@ -87,6 +87,9 @@ public class HSLTintDemo extends ApplicationAdapter {
         shaderHSLC = new ShaderProgram(Shaders.vertexShaderHSLC, Shaders.fragmentShaderHSLC);
         if(!shaderHSLC.isCompiled())
             System.out.println(shaderHSLC.getLog());
+        shaderHSLC2 = new ShaderProgram(Shaders.vertexShaderHSLC, Shaders.fragmentShaderHSLC2);
+        if(!shaderHSLC2.isCompiled())
+            System.out.println(shaderHSLC2.getLog());
         batch = new SpriteBatch(8000, defaultShader);
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
@@ -109,27 +112,30 @@ public class HSLTintDemo extends ApplicationAdapter {
         batch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) { 
 //            if(flipping && (TimeUtils.millis() & 1024) == 0) {
-//                Gdx.graphics.setTitle("Shader 1");
-//                batch.setShader(shaderBroken);
-//                batch.setColor(hue, sat, lightness, opacity);
-//            }
-//            else {
-//                Gdx.graphics.setTitle("Shader 2");
-                Gdx.graphics.setTitle("Hue Rotation");
-                batch.setShader(shaderHSLC);
-                batch.setColor(
+//                if(batch.getShader() == shaderHSLC) {
+            //// this has strange lightness adjustment as the hue changes (without telling it to adjust lightness)
+//                    Gdx.graphics.setTitle("Shader 2");
+//                    batch.setShader(shaderHSLC2);
+//                }
+//                else {
+            //// this seems to look much better, but it isn't easy to draw a color wheel with it for some reason...
+                    Gdx.graphics.setTitle("Shader 1");
+                    batch.setShader(shaderHSLC);
+//                }
+//            }             
+            batch.setColor(
                         // this is the same as: (TimeUtils.millis() % 2048.0f) * (1.0f / 2048.0f)
                         // that means it cycles from 0.0f to almost 1.0f every 2 seconds (and a tiny bit more),
                         // it's just a faster way of doing some of that math.
                         // this is the value used for hue; the user can't change hue, only time will change it.
                         (TimeUtils.millis() & 2047) * 0x1p-11f, 
                         sat, lightness, contrast);
-//            }
             batch.begin();
             batch.draw(screenTexture, 0, 0);
-            batch.setShader(defaultShader);
-            batch.setPackedColor(-0x1.fffffep126f); // packed white
-            batch.draw(screenTexture, screenTexture.getWidth(), 0);
+            //// double window width in load() and uncomment the following to show an un-shifted image at right
+//            batch.setShader(defaultShader);
+//            batch.setPackedColor(-0x1.fffffep126f); // packed white
+//            batch.draw(screenTexture, screenTexture.getWidth(), 0);
             batch.end();
         }
         
@@ -145,8 +151,6 @@ public class HSLTintDemo extends ApplicationAdapter {
     public void handleInput() {
         if (input.isKeyPressed(Input.Keys.P)) // print
             System.out.println("Y=" + hue + ",Cw=" + sat + ",Cm=" + lightness);
-        else if (input.isKeyPressed(Input.Keys.F))
-            flipping = !flipping;
         else if (input.isKeyPressed(Input.Keys.M))
             load("samples/Mona_Lisa.jpg");
         else if (input.isKeyPressed(Input.Keys.S)) //Sierra Nevada
@@ -187,6 +191,8 @@ public class HSLTintDemo extends ApplicationAdapter {
                 lightness = 0.5f;
                 contrast = 0.5f;
             }
+            else if (input.isKeyPressed(Input.Keys.F))
+                flipping = !flipping;
         }
     }
 

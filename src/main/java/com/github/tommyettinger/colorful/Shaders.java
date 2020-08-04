@@ -669,6 +669,37 @@ public class Shaders {
                     "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue
                     "     tgt.a), 0.0, 1.0);\n" + // keep alpha, then clamp
                     "}";
+    public static final String fragmentShaderHSLC2 = 
+                    "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying float v_lightFix;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    partialCodeHSL2 +
+                    "void main()\n" +
+                    "{\n" +
+                    "    float hue = (v_color.x - 0.5);\n" +
+                    "    float saturation = v_color.y * 2.0;\n" +
+                    "    float brightness = v_color.z - 0.5;\n" +
+                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "    tgt = rgb2hsl(tgt);\n" +
+                    "    tgt.r = fract(tgt.r + hue);\n" +
+                    "    tgt = hsl2rgb(tgt);\n" +
+                    "    tgt.rgb = vec3(\n" +
+                    "     (0.5 * pow(dot(tgt.rgb, vec3(0.375, 0.5, 0.125)), v_color.w) * v_lightFix + brightness),\n" + // lightness
+                    "     ((tgt.r - tgt.b) * saturation),\n" + // warmth
+                    "     ((tgt.g - tgt.b) * saturation));\n" + // mildness
+                    "    gl_FragColor = clamp(vec4(\n" +
+                    "     dot(tgt.rgb, vec3(1.0, 0.625, -0.5)),\n" + // back to red
+                    "     dot(tgt.rgb, vec3(1.0, -0.375, 0.5)),\n" + // back to green
+                    "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue
+                    "     tgt.a), 0.0, 1.0);\n" + // keep alpha, then clamp
+                    "}";
 
     public static boolean inGamutHSL(float hue, float saturation, float lightness) {
         hue -= 0.375f;
