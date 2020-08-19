@@ -87,7 +87,7 @@ public class HSLTintDemo extends ApplicationAdapter {
         shaderHSLC = new ShaderProgram(Shaders.vertexShaderHSLC, Shaders.fragmentShaderHSLC);
         if(!shaderHSLC.isCompiled())
             System.out.println(shaderHSLC.getLog());
-        shaderHSLC2 = new ShaderProgram(Shaders.vertexShaderHSLC, Shaders.fragmentShaderHSLC3);
+        shaderHSLC2 = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSLA);
         if(!shaderHSLC2.isCompiled())
             System.out.println(shaderHSLC2.getLog());
         batch = new SpriteBatch(8000, defaultShader);
@@ -128,8 +128,8 @@ public class HSLTintDemo extends ApplicationAdapter {
             hue = (TimeUtils.millis() & 0xFFFFFF) * 0.0007f;
             // we need to make sure hue and lightness are in the 0.0 to 1.0 range. If they are positive, this does that.
             hue -= (int)hue;
-            lightness = (TimeUtils.millis() & 0xFFFFFF) * 0.0016f;
-            lightness -= (int)lightness;
+//            lightness = (TimeUtils.millis() & 0xFFFFFF) * 0.0016f;
+//            lightness -= (int)lightness;
             batch.setColor(hue, sat, lightness, contrast);
             batch.begin();
             batch.draw(screenTexture, 0, 0);

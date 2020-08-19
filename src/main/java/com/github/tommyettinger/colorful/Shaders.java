@@ -609,7 +609,8 @@ public class Shaders {
                     "   gl_FragColor = hsl2rgb(hsl);\n" +
                     "}";
     /**
-     * This is the default vertex shader from libGDX, but also sets a varying value for contrast.
+     * This is the default vertex shader from libGDX, but also sets a varying value for contrast. It is needed if you
+     * use {@link #fragmentShaderHSLC}.
      */
     public static final String vertexShaderHSLC = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
             + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
@@ -629,6 +630,9 @@ public class Shaders {
             + "}\n";
 
     /**
+     * Allows changing Hue/Saturation/Lightness/Contrast, with hue as a rotation. Expects the vertex shader to be
+     * {@link #vertexShaderHSLC}, which sets {@code varying float v_lightFix} so contrast can use it.
+     * <br>
      * Credit for HLSL version goes to Andrey-Postelzhuk,
      * <a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/">Unity Forums</a>.
      * The YCC adaptation, and different approach to contrast (this has close to neutral contrast when a is 0.5,
@@ -669,6 +673,51 @@ public class Shaders {
                     "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue
                     "     tgt.a), 0.0, 1.0);\n" + // keep alpha, then clamp
                     "}";
+    /**
+     * Allows changing Hue/Saturation/Lightness/Alpha, with hue as a rotation. Expects the vertex shader to be
+     * {@link #vertexShader}, unlike what {@link #fragmentShaderHSLC} expects.
+     * <br>
+     * Credit for HLSL version goes to Andrey-Postelzhuk,
+     * <a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/">Unity Forums</a>.
+     * The YCC adaptation, and change to use alpha, is from this codebase.
+     */
+    public static final String fragmentShaderHSLA = 
+                    "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "vec3 applyHue(vec3 rgb, float hue)\n" +
+                    "{\n" +
+                    "    vec3 k = vec3(0.57735);\n" +
+                    "    float c = cos(hue);\n" +
+                    "    //Rodrigues' rotation formula\n" +
+                    "    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n" +
+                    "}\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "    float hue = 6.2831853 * (v_color.x - 0.5);\n" +
+                    "    float saturation = v_color.y * 2.0;\n" +
+                    "    float brightness = v_color.z - 0.5;\n" +
+                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "    tgt.rgb = applyHue(tgt.rgb, hue);\n" +
+                    "    tgt.rgb = vec3(\n" +
+                    "     (dot(tgt.rgb, vec3(0.375, 0.5, 0.125)) + brightness),\n" + // lightness
+                    "     ((tgt.r - tgt.b) * saturation),\n" + // warmth
+                    "     ((tgt.g - tgt.b) * saturation));\n" + // mildness
+                    "    gl_FragColor = clamp(vec4(\n" +
+                    "     dot(tgt.rgb, vec3(1.0, 0.625, -0.5)),\n" + // back to red
+                    "     dot(tgt.rgb, vec3(1.0, -0.375, 0.5)),\n" + // back to green
+                    "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue
+                    "     tgt.a * v_color.w), 0.0, 1.0);\n" + // keep alpha, then clamp
+                    "}";
+    /**
+     * Generally a lower-quality hue rotation than {@link #fragmentShaderHSLC}; this is here as a work in progress.
+     */
     public static final String fragmentShaderHSLC2 = 
                     "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
@@ -700,6 +749,9 @@ public class Shaders {
                     "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue
                     "     tgt.a), 0.0, 1.0);\n" + // keep alpha, then clamp
                     "}";
+    /**
+     * Cycles lightness in a psychedelic way as hue and lightness change; not a general-purpose usage.
+     */
     public static final String fragmentShaderHSLC3 =
             "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
