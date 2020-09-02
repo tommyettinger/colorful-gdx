@@ -616,9 +616,9 @@ public class Shaders {
      * This is the default vertex shader from libGDX, but also sets a varying value for contrast. It is needed if you
      * use {@link #fragmentShaderHSLC}.
      */
-    public static final String vertexShaderHSLC = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
-            + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
-            + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+    public static final String vertexShaderHSLC = "attribute vec4 a_position;\n"
+            + "attribute vec4 a_color;\n"
+            + "attribute vec2 a_texCoord0;\n"
             + "uniform mat4 u_projTrans;\n"
             + "varying vec4 v_color;\n"
             + "varying vec2 v_texCoords;\n" 
@@ -626,11 +626,11 @@ public class Shaders {
             + "\n"
             + "void main()\n"
             + "{\n"
-            + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
-            + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+            + "   v_color = a_color;\n"
+            + "   v_texCoords = a_texCoord0;\n"
             + "   v_color.a = pow(v_color.a * (255.0/254.0) + 0.5, 1.709);\n"    
             + "   v_lightFix = 1.0 + pow(v_color.a, 1.41421356);\n"
-            + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+            + "   gl_Position =  u_projTrans * a_position;\n"
             + "}\n";
 
     /**

@@ -99,8 +99,8 @@ public class HSLTintDemo extends ApplicationAdapter {
         // if you don't have these files on this absolute path, that's fine, and they will be ignored
 //        load("samples/Painting_by_Henri_Biva.jpg");
 //        load("samples/Among_the_Sierra_Nevada_by_Albert_Bierstadt.jpg");
-//        load("samples/Mona_Lisa.jpg");
-        load("D:/bubble-translucent.png");
+        load("samples/Mona_Lisa.jpg");
+//        load("D:/bubble-translucent.png");
     }
 
 
@@ -114,13 +114,13 @@ public class HSLTintDemo extends ApplicationAdapter {
 //            if(flipping && (TimeUtils.millis() & 1024) == 0) {
 //                if(batch.getShader() == shaderHSLC) {
             //// this should act like Shader 1, but will also adjust lightness in a sine-wave
-                    Gdx.graphics.setTitle("Shader 2");
-                    batch.setShader(shaderHSLC2);
+//                    Gdx.graphics.setTitle("Shader 2");
+//                    batch.setShader(shaderHSLC2);
 //                }
 //                else {
             //// this should be the default for hue rotations
 //                    Gdx.graphics.setTitle("Shader 1");
-//                    batch.setShader(shaderHSLC);
+                    batch.setShader(shaderHSLC);
 //                }
 //            }
             // the bitwise AND with 0xFFFFFF is needed to make the millisecond time a usable size for a float
