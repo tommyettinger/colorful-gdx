@@ -528,7 +528,7 @@ public class Shaders {
                     "{\n" +
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                     "   vec4 hsl = rgb2hsl(tgt);\n" +
-                    "   hsl.x = fract((fract(v_color.x + 0.5 - hsl.x) - 0.5) * clamp(step(hsl.y, 0.05) * v_color.w, 0.0, 1.0) + hsl.x);\n" +
+                    "   hsl.x = fract((fract(v_color.x + 0.5 - hsl.x) - 0.5) * v_color.w + hsl.x);\n" +
                     "   hsl.yz = mix(hsl.yz, v_color.yz, v_color.w);\n" +
                     "   gl_FragColor = hsl2rgb(hsl);\n" +
                     "}";
@@ -803,6 +803,38 @@ public class Shaders {
                     "     tgt.a), 0.0, 1.0);\n" + // keep alpha, then clamp
                     "}";
 
+    /**
+     * One of the more useful HSL shaders here, this takes a batch color as hue, saturation, lightness, and intensity,
+     * with hue as a target hue and intensity used to determine how much of the target color should be used. There is no
+     * neutral value for hue, saturation, or lightness, but if intensity is 0, then the source color will be used
+     * exactly. On the other hand, if intensity is 1.0, then all pixels will be the target color. Hue is specified from
+     * 0.0 to 1.0, with 0.0 as red, about 0.3 as green, about 0.6 as blue, etc. Saturation is specified from 0.0 to 1.0,
+     * with 0.0 as grayscale and 1.0 as a fully-saturated target color. Lightness is specified from 0.0 to 1.0, with 0.0
+     * as black, the 0.3 to 0.7 range as most colors, and 1.0 white; saturation is clamped to a smaller value as
+     * lightness moves away from 0.5 (toward black or white).
+     */
+    public static final String fragmentShaderHSLI =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    partialCodeHSL2 +
+                    "void main()\n" +
+                    "{\n" +
+                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "   vec4 hsl = rgb2hsl(tgt);\n" +
+                    "   hsl.xy = vec2(cos(hsl.x * 6.2831853), sin(hsl.x * 6.2831853)) * hsl.y;\n" +
+                    "   vec3 tint = vec3(cos(v_color.x * 6.2831853) * v_color.y, sin(v_color.x * 6.2831853) * v_color.y, v_color.z);\n" +
+                    "   hsl.xyz = mix(hsl.xyz, tint, v_color.w);\n" +
+                    "   hsl.xy = vec2(fract(atan(hsl.y, hsl.x) / 6.2831853), length(hsl.xy));\n" +
+                    "   gl_FragColor = hsl2rgb(hsl);\n" +
+                    "}";
+    
     public static boolean inGamutHSL(float hue, float saturation, float lightness) {
         hue -= 0.375f;
         //saturation *= 2f;
