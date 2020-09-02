@@ -430,7 +430,9 @@ public class Shaders {
 //                    "    return asin((sqrt(hue * 0.9375 + 0.0625) - 0.25) * 2.666 - 1.0) * 0.318309886 + 0.5;\n" +
 
 //                    "    return sqrt(sin((hue - 0.5) * 3.14159274) * 0.5f + 0.5f);\n" +
-                    "    return sqrt(hue);\n" +
+//                    "    return pow(hue, 0.5625);\n" +
+//                    "    return sqrt(hue);\n" +
+                    "    return (sqrt(hue + 0.050625) - 0.225) * 1.25;\n" +
                     "}\n" +
                     "float primaries2official(float hue) {\n" +
 //                    "    hue = sin((hue) * (0.5 * 3.14159274));\n" +
@@ -441,7 +443,9 @@ public class Shaders {
 //                    "    return (hue * hue - 0.0625) * (1.0 / 0.9375);\n" +
                     
 //                    "    return asin(hue * hue * 2.0 - 1.0) * 0.318309886 + 0.5;\n" +
-                    "    return hue * hue;\n" +
+//                    "    return pow(hue, 1.77777);\n" +
+                    "    return pow(hue * 0.8 + 0.225, 2.0) - 0.050625;\n" +
+//                    "    return hue * hue;\n" +
 
 //                    "    hue = sin((hue) * (0.5 * 3.14159274));\n" +
 //                    "    hue = hue * ROOT;\n" +
@@ -498,7 +502,7 @@ public class Shaders {
                     "varying vec2 v_texCoords;\n" +
                     "varying LOWP vec4 v_color;\n" +
                     "uniform sampler2D u_texture;\n" +
-                    partialCodeHSL2 +
+                    partialCodeHSL +
                     "void main()\n" +
                     "{\n" +
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
@@ -715,6 +719,16 @@ public class Shaders {
                     "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue
                     "     tgt.a * v_color.w), 0.0, 1.0);\n" + // keep alpha, then clamp
                     "}";
+    
+    public static final String hueRodrigues =
+            "vec3 applyHue(vec3 rgb, float hue)\n" +
+            "{\n" +
+            "    vec3 k = vec3(0.57735);\n" +
+            "    float c = cos(hue);\n" +
+            "    //Rodrigues' rotation formula\n" +
+            "    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n" +
+            "}\n";
+
     /**
      * Generally a lower-quality hue rotation than {@link #fragmentShaderHSLC}; this is here as a work in progress.
      */

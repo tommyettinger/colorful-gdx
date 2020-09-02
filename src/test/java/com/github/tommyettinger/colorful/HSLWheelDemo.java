@@ -52,10 +52,10 @@ public class HSLWheelDemo extends ApplicationAdapter {
         blank = new Texture(b);
         font = new BitmapFont(Gdx.files.internal("font.fnt"));
         font.setColor(1f, 0.5f, 0.5f, 1f);
-        shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL3);
+        shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL2);
         if(!shader.isCompiled())
             System.out.println(shader.getLog());
-        otherShader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL2);
+        otherShader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL3);
         if(!otherShader.isCompiled())
             System.out.println(otherShader.getLog());
         batch = new SpriteBatch(1000, shader);
