@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -32,6 +33,8 @@ public class RGBDemo extends ApplicationAdapter {
     private long lastProcessedTime = 0L;
     private ShaderProgram defaultShader;
     private ShaderProgram shader;
+    private ShaderProgram altShader;
+    private ShaderProgram shaderChoice;
     private float red = 0.5f, green = 0.5f, blue = 0.5f, opacity = 1f;
 
     public static void main(String[] arg) {
@@ -80,6 +83,10 @@ public class RGBDemo extends ApplicationAdapter {
         batch = new SpriteBatch(1000, Shaders.makeRGBAShader());
         defaultShader = SpriteBatch.createDefaultShader();
         shader = batch.getShader();
+        altShader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderGammaRGBA);
+        if(!altShader.isCompiled())
+            throw new GdxRuntimeException("Couldn't compile shader: " + altShader.getLog());
+        shaderChoice = shader;
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -99,7 +106,7 @@ public class RGBDemo extends ApplicationAdapter {
         handleInput();
         batch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) {
-            batch.setShader(shader);
+            batch.setShader(shaderChoice);
             batch.setColor(red, green, blue, opacity);
             batch.begin();
             batch.draw(screenTexture, 0, 0);
@@ -152,6 +159,12 @@ public class RGBDemo extends ApplicationAdapter {
                 green = 0.5f;
                 blue = 0.5f;
                 opacity = 1f;
+            }
+            else if(input.isKeyPressed(Input.Keys.O)) // other shader
+            {
+                batch.setShader(shaderChoice == shader ? altShader : shader);
+                shaderChoice = batch.getShader();
+                System.out.println("Other shader? " + (shaderChoice == altShader));
             }
         }
     }

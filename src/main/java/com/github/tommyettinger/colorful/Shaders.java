@@ -35,7 +35,10 @@ public class Shaders {
      * With the default SpriteBatch ShaderProgram, white is the neutral color, 50% gray darkens a color by about 50%,
      * and black darkens a color to black, but nothing can brighten a color. With this, 50% gray is the neutral color,
      * white adds 0.5 to the RGB channels (brightening it and also desaturating it), and black subtracts 0.5 from the
-     * RGB channels (darkening and desaturating, but not to black unless the color is already somewhat dark).
+     * RGB channels (darkening and desaturating, but not to black unless the color is already somewhat dark). When
+     * tinting with white, this looks like <a href="https://i.imgur.com/iAb1rig.png">The Mona Lisa on the left</a>, when
+     * tinting with 50% gray, it makes no change, and when tinting with black, it almost reaches all black, but some
+     * faint part of the image is still barely visible.
      */
     public static final String fragmentShaderRGBA =
             "#ifdef GL_ES\n" +
@@ -52,17 +55,58 @@ public class Shaders {
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                     "   gl_FragColor = clamp(vec4(tgt.rgb * pow((v_color.rgb + 0.1) * 1.666, vec3(1.5)), v_color.a * tgt.a), 0.0, 1.0);\n" +
                     "}";
+    /**
+     * A simple shader that uses multiplicative blending with "normal" RGBA colors, but internally uses gamma correction
+     * to make changes in color smoother. With the default SpriteBatch ShaderProgram, white is the neutral color, 50%
+     * gray darkens a color by about 50%, and black darkens a color to black, but nothing can brighten a color. With
+     * this, 50% gray is the neutral color, white multiplies the RGB channels by about 2 (brightening it and slightly
+     * desaturating it), and black multiplies the RGB channels by 0 (reducing the color always to black). When tinting
+     * with white, this looks like <a href="https://i.imgur.com/gKRSzKv.png">The Mona Lisa on the left</a>; when tinting
+     * with 50% gray, it makes no change, and when tinting with black, it produces an all-black image.
+     * <br>
+     * Credit for finding this goes to CypherCove, who uses a similar version in
+     * <a href="https://github.com/CypherCove/gdx-tween/blob/5047eeae9250d1f1c52e87aaf572956045a523f9/gdx-tween/src/main/java/com/cyphercove/gdxtween/graphics/GtColor.java">gdx=tween</a>.
+     */
+    public static final String fragmentShaderGammaRGBA =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "   vec4 tgt = texture2D(u_texture, v_texCoords);\n" +
+                    "   gl_FragColor = clamp(vec4(sqrt(tgt.rgb * tgt.rgb * v_color.rgb * v_color.rgb * 4.0), v_color.a * tgt.a), 0.0, 1.0);\n" +
+                    "}";
     //// save the result as shader, and set it on your batch with
     // ShaderProgram shader = makeRGBAShader();
     // batch.setShader(shader)
     /**
-     * A simple helper method that builds the simplest shader here. You can assign the result to a SpriteBatch with its
+     * A simple helper method that builds the simplest shader here; this shader allows tinting with light colors to
+     * lighten an image. You can assign the result to a SpriteBatch with its
      * {@link SpriteBatch#setShader(ShaderProgram)} method.
      * @return a ShaderProgram that uses the RGBA shader {@link #fragmentShaderRGBA}
      */
     public static ShaderProgram makeRGBAShader()
     {
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShaderRGBA);
+        if(!shader.isCompiled())
+            throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
+        return shader;
+    }
+    /**
+     * A simple helper method that builds the simplest shader here; this shader allows tinting with light colors to
+     * lighten an image, and also smooths changes well. You can assign the result to a SpriteBatch with its
+     * {@link SpriteBatch#setShader(ShaderProgram)} method.
+     * @return a ShaderProgram that uses the RGBA shader {@link #fragmentShaderGammaRGBA}
+     */
+    public static ShaderProgram makeGammaRGBAShader()
+    {
+        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShaderGammaRGBA);
         if(!shader.isCompiled())
             throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
         return shader;
