@@ -75,12 +75,8 @@ public class ColorWheelDemo extends ApplicationAdapter {
                         "     (v_tweak.r * pow(dot(tgt.rgb, bright), v_tweak.a) * v_lightFix + v_color.r - 0.5),\n" + // luma
                         "     (v_color.g - 0.5 + (tgt.r - tgt.b) * v_tweak.g) * 2.0,\n" + // warmth
                         "     (v_color.b - 0.5 + (tgt.g - tgt.b) * v_tweak.b) * 2.0);\n" + // mildness
-                        "   vec3 back = vec3(\n" + // back to red
-                        "     dot(ycc, vec3(1.0,  0.625, -0.5)),\n" + // back to red
-                        "     dot(ycc, vec3(1.0, -0.375,  0.5)),\n" + // back to green
-                        "     dot(ycc, vec3(1.0, -0.375, -0.5)));\n" + // back to blue
-                        "   gl_FragColor = clamp(vec4(back.rgb,\n" +
-                        "     v_color.a * tgt.a), 0.0, 1.0);\n" + // back to alpha and clamp
+                        "   vec3 back = mat3(1.0, 1.0, 1.0, 0.625, -0.375, -0.375, -0.5, 0.5, -0.5) * ycc;\n" + // back to RGB
+                        "   gl_FragColor = clamp(vec4(back.rgb, v_color.a * tgt.a), 0.0, 1.0);\n" + // back to alpha and clamp
                         "   if(any(notEqual(back, gl_FragColor.rgb))) discard;\n" +
                         "}";
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
