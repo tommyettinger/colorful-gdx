@@ -69,8 +69,9 @@ public class IPTColorWheelDemo extends ApplicationAdapter {
                         "void main()\n" +
                         "{\n" +
                         "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "    vec3 ipt = v_color.rgb * 16.0 - 8.0 + (mat3(0.4000, 4.4550, 0.8056, 0.4000, 4.8510, 0.3572, 0.2000, 0.3960, 1.1628) * \n" +
-                        "        (pow(mat3(0.313921, 0.151693, 0.017700, 0.639468, 0.748209, 0.109400, 0.0465970, 0.1000044, 0.8729000) * tgt.rgb, vec3(0.43))));\n" +
+                        "    vec3 ipt = v_color.rgb - 0.5 + vec3(0.5, 0.0, 0.0);\n" +
+//                        "        (mat3(0.4000, 4.4550, 0.8056, 0.4000, 4.8510, 0.3572, 0.2000, 0.3960, 1.1628) * \n" +
+//                        "        (pow(mat3(0.313921, 0.151693, 0.017700, 0.639468, 0.748209, 0.109400, 0.0465970, 0.1000044, 0.8729000) * tgt.rgb, vec3(0.43))));\n" +
                         "    vec3 back = mat3(1.0, 1.0, 1.0, 0.097569, -0.113880, 0.032615, 0.205226, 0.133217, -0.676890) * ipt;\n" +
                         "    back = mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) * \n" +
                         "        (pow(abs(back), vec3(2.3256)) * sign(back));\n" +
@@ -79,7 +80,7 @@ public class IPTColorWheelDemo extends ApplicationAdapter {
 //                        "     (v_color.g - 0.5 + (tgt.r - tgt.b) * v_tweak.g) * 2.0,\n" + // warmth
 //                        "     (v_color.b - 0.5 + (tgt.g - tgt.b) * v_tweak.b) * 2.0);\n" + // mildness
                         "    gl_FragColor = clamp(vec4(back, 1.0), 0.0, 1.0);\n" + // back to alpha and clamp
-//                        "    if(any(notEqual(back, gl_FragColor.rgb))) discard;\n" +
+                        "    if(any(notEqual(back, gl_FragColor.rgb))) discard;\n" +
                         "}";
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
         if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
