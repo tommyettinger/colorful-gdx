@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -23,7 +24,7 @@ public class IPTColorWheelDemo extends ApplicationAdapter {
 //    public static final int SCREEN_HEIGHT = 862;
     public static final int SCREEN_WIDTH = 512;
     public static final int SCREEN_HEIGHT = 512;
-    private ColorfulBatch batch;
+    private SpriteBatch batch;
 //    private SpriteBatch basicBatch;
     private Viewport screenView;
     private BitmapFont font;
@@ -53,7 +54,7 @@ public class IPTColorWheelDemo extends ApplicationAdapter {
         font = new BitmapFont(Gdx.files.internal("font.fnt"));
         font.setColor(1f, 0.5f, 0.5f, 1f);
 //        batch = Shaders.makeBatch(1.25f); // experimenting with slightly higher contrast
-        batch = new ColorfulBatch();
+        batch = new SpriteBatch();
         String vertexShader = batch.getShader().getVertexShaderSource();
         String fragmentShader =
                 "#ifdef GL_ES\n" +
@@ -64,22 +65,20 @@ public class IPTColorWheelDemo extends ApplicationAdapter {
                         "#endif\n" +
                         "varying vec2 v_texCoords;\n" +
                         "varying LOWP vec4 v_color;\n" +
-                        "varying LOWP vec4 v_tweak;\n" +
-                        "varying float v_lightFix;\n" +
                         "uniform sampler2D u_texture;\n" +
                         "void main()\n" +
                         "{\n" +
                         "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "    vec3 ipt = mat3(0.4000, 4.4550, 0.8056, 0.4000, 4.8510, 0.3572, 0.2000, 0.3960, 1.1628) * \n" +
-                        "        pow(mat3(0.313921, 0.151693, 0.017700, 0.639468, 0.748209, 0.109400, 0.0465970, 0.1000044, 0.8729000) * (v_color.rgb - vec3(0.0, 0.5, 0.5)), vec3(0.43));\n" +
+                        "    vec3 ipt = v_color.rgb * 16.0 - 8.0 + (mat3(0.4000, 4.4550, 0.8056, 0.4000, 4.8510, 0.3572, 0.2000, 0.3960, 1.1628) * \n" +
+                        "        (pow(mat3(0.313921, 0.151693, 0.017700, 0.639468, 0.748209, 0.109400, 0.0465970, 0.1000044, 0.8729000) * tgt.rgb, vec3(0.43))));\n" +
                         "    vec3 back = mat3(1.0, 1.0, 1.0, 0.097569, -0.113880, 0.032615, 0.205226, 0.133217, -0.676890) * ipt;\n" +
                         "    back = mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) * \n" +
-                        "        pow(abs(back), vec3(2.3256)) * sign(back);\n" +
+                        "        (pow(abs(back), vec3(2.3256)) * sign(back));\n" +
 //                        "   vec3 ycc = vec3(\n" +
 //                        "     (v_tweak.r * pow(dot(tgt.rgb, bright), v_tweak.a) * v_lightFix + v_color.r - 0.5),\n" + // luma
 //                        "     (v_color.g - 0.5 + (tgt.r - tgt.b) * v_tweak.g) * 2.0,\n" + // warmth
 //                        "     (v_color.b - 0.5 + (tgt.g - tgt.b) * v_tweak.b) * 2.0);\n" + // mildness
-                        "    gl_FragColor = clamp(vec4(back, v_color.a * tgt.a), 0.0, 1.0);\n" + // back to alpha and clamp
+                        "    gl_FragColor = clamp(vec4(back, 1.0), 0.0, 1.0);\n" + // back to alpha and clamp
 //                        "    if(any(notEqual(back, gl_FragColor.rgb))) discard;\n" +
                         "}";
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
@@ -102,11 +101,11 @@ public class IPTColorWheelDemo extends ApplicationAdapter {
         batch.setProjectionMatrix(screenView.getCamera().combined);
         batch.setPackedColor(Palette.GRAY);
         batch.begin();
-        batch.setTweak(intens, protan, tritan, contrast);
+//        batch.setTweak(intens, protan, tritan, contrast);
         batch.draw(blank, 0, 0, 512, 512);
         final float maxDist = 254f * TrigTools.sin_(layer * 0.5f) + 1f, iMax = 1f / maxDist;
         //final float circumference = 1605.3539f;//MathUtils.PI * 511f;
-        batch.setPackedColor(FloatColors.floatColor(layer, 0.5f, 0.5f, 1f));
+        batch.setColor(layer, 0.5f, 0.5f, 1f);
         batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
         for (int x = 0; x < 512; x++) {
             for (int y = 0; y < 512; y++) {
