@@ -12,13 +12,19 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.tommyettinger.anim8.AnimatedGif;
+import com.github.tommyettinger.anim8.AnimatedPNG;
+import com.github.tommyettinger.anim8.Dithered;
+import com.github.tommyettinger.anim8.PaletteReducer;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class IPTColorWheelDemo extends ApplicationAdapter {
+public class IPTGamutDemo extends ApplicationAdapter {
     //public static final int backgroundColor = Color.rgba8888(Color.DARK_GRAY);
 //    public static final int SCREEN_WIDTH = 1531;
 //    public static final int SCREEN_HEIGHT = 862;
@@ -41,7 +47,7 @@ public class IPTColorWheelDemo extends ApplicationAdapter {
         config.useVsync(true);
 //        config.setResizable(false);
 
-        final IPTColorWheelDemo app = new IPTColorWheelDemo();
+        final IPTGamutDemo app = new IPTGamutDemo();
         new Lwjgl3Application(app, config);
     }
 
@@ -69,7 +75,7 @@ public class IPTColorWheelDemo extends ApplicationAdapter {
                         "void main()\n" +
                         "{\n" +
                         "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "    vec3 ipt = v_color.rgb - 0.5 + vec3(0.5, 0.0, 0.0);\n" +
+                        "    vec3 ipt = v_color.rgb * vec3(1.0, 2.0, 2.0) + vec3(0.0, -1.0, -1.0);\n" +
 //                        "        (mat3(0.4000, 4.4550, 0.8056, 0.4000, 4.8510, 0.3572, 0.2000, 0.3960, 1.1628) * \n" +
 //                        "        (pow(mat3(0.313921, 0.151693, 0.017700, 0.639468, 0.748209, 0.109400, 0.0465970, 0.1000044, 0.8729000) * tgt.rgb, vec3(0.43))));\n" +
                         "    vec3 back = mat3(1.0, 1.0, 1.0, 0.097569, -0.113880, 0.032615, 0.205226, 0.133217, -0.676890) * ipt;\n" +
@@ -90,22 +96,42 @@ public class IPTColorWheelDemo extends ApplicationAdapter {
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.enableBlending();
+        final int frameCount = 120;
+        Array<Pixmap> pixmaps = new Array<>(frameCount);
+        for (int i = 0; i < frameCount; i++) {
+            layer = i / (frameCount - 1f);
+            renderInternal();
+            // this gets a screenshot of the current window and adds it to the Array of Pixmap.
+            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        }
+        // AnimatedGif is from anim8; if no extra settings are specified it will calculate a 255-color palette from
+        // the given pixmaps and use that for all frames, dithering any colors that don't match.
+        AnimatedGif gif = new AnimatedGif();
+        AnimatedPNG png = new AnimatedPNG();
+        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
+        gif.palette = new PaletteReducer(pixmaps);
+        gif.palette.setDitherStrength(1.25f);
+        // 24 is how many frames per second the animated GIF should play back at.
+        gif.write(Gdx.files.local("IPTGamut.gif"), pixmaps, 24);
+        png.write(Gdx.files.local("IPTGamut.png"), pixmaps, 24);
+
     }
 
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         handleInput();
         layer = TrigTools.acos_(TrigTools.sin_(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) * 2f;
+        renderInternal();
+    }
+    
+    public void renderInternal() {
+        Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(screenView.getCamera().combined);
         batch.setPackedColor(Palette.GRAY);
         batch.begin();
-//        batch.setTweak(intens, protan, tritan, contrast);
         batch.draw(blank, 0, 0, 512, 512);
-        final float maxDist = 254f * TrigTools.sin_(layer * 0.5f) + 1f, iMax = 1f / maxDist;
-        //final float circumference = 1605.3539f;//MathUtils.PI * 511f;
         batch.setColor(layer, 0.5f, 0.5f, 1f);
         batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
         for (int x = 0; x < 512; x++) {
@@ -114,18 +140,6 @@ public class IPTColorWheelDemo extends ApplicationAdapter {
                 batch.draw(blank, x, y, 1f, 1f);
             }
         }
-//        for (int dist = 1; dist <= maxDist; dist++) {
-//            final int circ = dist * 6;
-//            final float ic = 1f / circ;
-//            final float id = dist * iMax;
-//            for (int t = 0; t < circ; t++) {
-//                final float angle = t * ic, x = TrigTools.cos_(angle), y = TrigTools.sin_(angle);
-////                if((Math.abs(x) + Math.abs(y) + Math.abs(2f * (layer - 0.5f))) * dist > maxDist)
-////                    continue;
-//                batch.setPackedColor(FloatColors.floatColor(layer, x * id * 0.5f + 0.5f, y * id * 0.5f + 0.5f, 1f));
-//                batch.draw(blank, 254.75f + x * dist, 254.75f + y * dist, 1.5f, 1.5f);
-//            }
-//        }
         batch.end();
     }
 
