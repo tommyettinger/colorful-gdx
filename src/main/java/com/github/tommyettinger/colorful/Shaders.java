@@ -240,25 +240,25 @@ public class Shaders {
         return new SpriteBatch(1000, shader);
     }
 
-
     /**
-     * A somewhat-experimental shader that takes colors in Hue, Saturation, Lightness, Alpha format, where:
-     * <ul>
-     *     <li>Hue can range between 0.0 and 1.0 and is added to the hue angle of the color being rendered, which also
-     *         starts in the 0.0-1.0 range (corresponding to 0-360 degrees). This is always a "hue shift" and does not
-     *         set the hue to a specific angle. The shift will move colors from red to orange to yellow to green to blue
-     *         to purple and back to red. A hue shift of 0.0 will not change the rendered hue.</li>
-     *     <li>Saturation can range from 0.0 to 1.0, where values less than 0.5 reduce saturation and values greater
-     *         than 0.5 increase it. If saturation goes too high, it will be clamped at the most saturated color for its
-     *         hue; the clamping happens sooner for lighter and darker colors.</li>
-     *     <li>Lightness can range from 0.0 to 1.0, where values less than 0.5 reduce lightness and values greater
-     *         than 0.5 increase it. The lightness will be clamped as well.</li>
-     *     <li>Alpha is normal multiplicative alpha, from 0.0 to 1.0.</li>
-     * </ul>
-     * If using LibGDX Color objects, hue is set with r, saturation is set with g, lightness is set with b, and alpha is
-     * still set with a.
+     * Similar to {@link #fragmentShader}, but this uses the very perceptually-accurate IPT color space as described by
+     * Ebner and Fairchild, instead of the custom YCwCm color space. IPT doesn't really need that much more computation
+     * to be done by the shader, but tends to make gradual changes in color much smoother. If comparing to YCwCm, then
+     * Y (luma) is like I (intensity) here, so when a Batch color has 0 for I (stored in the r channel), it makes the
+     * image very dark, while if the Batch color has 1 for I, it makes the image very light. Cw and Cm can be graphed
+     * like a color wheel, and in their case, the 4 corners of a square graph are red, yellow, green, and blue. IPT is
+     * less geometrical, and the corners are roughly purple, orange, green, and cyan, while the centers of the edges of
+     * the square are close to red, yellow, green, and blue. <a href="https://i.imgur.com/A3n4qmM.png">See this capture
+     * of the IPT space</a> if you want a better picture. The P (short for protan, a term from ophthalmology) channel
+     * (stored in g) is the left-to-right axis there, with P==0 making colors green or blue (cooler), and P==1 making
+     * colors orange, red, or purple (somewhat warmer). The T (short for tritan, also from ophthalmology) channel
+     * (stored in b) is the down-to-up axis there, with T==0 making colors more blue or purple, and T==1 making colors
+     * more green, yellow, brown, or orange. Where protan can be viewed as going from cool to warm as its value
+     * increases, tritan can be viewed as going from artificial to natural, or perhaps fluid to solid. Alpha is treated
+     * exactly as it is in the standard libGDX fragment shader, with the alpha in the batch color multiplied by the
+     * alpha in the image pixel to get the result alpha.
      */
-    public static final String fragmentShaderHSLKinda =
+    public static String fragmentShaderIPT =
             "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
                     "precision mediump float;\n" +
@@ -268,20 +268,18 @@ public class Shaders {
                     "varying vec2 v_texCoords;\n" +
                     "varying LOWP vec4 v_color;\n" +
                     "uniform sampler2D u_texture;\n" +
-//                    "const vec3 bright = vec3(0.75, 1.0, 0.25);\n" +
-                    "const vec3 bright = vec3(0.375, 0.5, 0.125);\n" +
                     "void main()\n" +
                     "{\n" +
-                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                    "   float hue = (v_color.r - 0.375) * 6.283185307179586;\n" +
-                    "   float sat = v_color.g * 2.0;\n" +
-                    "   vec3 ycc = vec3(v_color.b - 0.5 + dot(tgt.rgb, bright), cos(hue) * sat + tgt.g - (tgt.b + tgt.r) * 0.5, sin(hue) * sat + tgt.b - tgt.r);\n" +
-                    //// Use this to change non-visible colors to be limited to the outer band of possible results
-                    "   gl_FragColor = clamp(vec4(dot(ycc, vec3(1.0, -0.5, -0.375)), dot(ycc, vec3(1.0, 0.5, 0.125)), dot(ycc, vec3(1.0, -0.5, 0.625)), v_color.a * tgt.a), 0.0, 1.0);\n" +
-                    //// Use this instead to not render colors that are outside the visible range, without clamping
-//                    "   gl_FragColor = vec4(dot(ycc, vec3(1.0, -0.5, -0.375)), dot(ycc, vec3(1.0, 0.5, 0.125)), dot(ycc, vec3(1.0, -0.5, 0.625)), v_color.a * tgt.a);\n" +
-//                    "   if(any(notEqual(gl_FragColor.rgb, clamp(gl_FragColor.rgb, 0.0, 1.0)))) discard;\n" +
+                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "    vec3 ipt = (mat3(+0.4000, +6.6825, +1.0741, +0.4000, -7.2765, +0.4763, +0.2000, +0.5940, -1.5504) * \n" +
+                    "        (pow(mat3(0.313921, 0.151693, 0.017700, 0.639468, 0.748209, 0.109400, 0.0465970, 0.1000044, 0.8729000) * (tgt.rgb), vec3(0.43))))\n" +
+                    "        + v_color.rgb - 0.5;\n" +
+                    "    vec3 back = mat3(1.0, 1.0, 1.0, 0.06503950, -0.07591241, 0.02174116, 0.15391950, 0.09991275, -0.50766750) * ipt;\n" +
+                    "    back = mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) * \n" +
+                    "        (pow(abs(back), vec3(2.3256)) * sign(back));\n" +
+                    "    gl_FragColor = vec4(clamp(back, 0.0, 1.0), v_color.a * tgt.a);\n" +
                     "}";
+
     /*
                 //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a
             //different distribution that matches primary colors in painting (where purple is opposite yellow).
@@ -879,46 +877,6 @@ public class Shaders {
                     "   gl_FragColor = hsl2rgb(hsl);\n" +
                     "}";
     
-    public static boolean inGamutHSL(float hue, float saturation, float lightness) {
-        hue -= 0.375f;
-        //saturation *= 2f;
-        // positive: cyan to green to yellow
-        // negative: blue to purple to red
-        final float wild = TrigTools.cos_(hue) * saturation;
-        // positive: green to cyan to blue
-        // negative: yellow to orange to red
-        final float cool = TrigTools.sin_(hue) * saturation;
-
-        float dot = lightness + wild * -0.5f + cool * -0.375f;
-        if(dot < 0f || dot > 1f)
-            return false;
-        dot = lightness + wild * 0.5f + cool * 0.125f;
-        if(dot < 0f || dot > 1f)
-            return false;
-        dot = lightness + wild * -0.5f + cool * 0.625f;
-        return (dot >= 0f) && (dot <= 1f);
-    }
-    public static float gamutHSL(float hue, float lightness) {
-        hue -= 0.375f;
-        // natural vs. artificial
-        // positive: cyan to green to yellow
-        // negative: blue to purple to red
-        final float wild = TrigTools.cos_(hue);
-        // cool vs. warm
-        // positive: green to cyan to blue
-        // negative: yellow to orange to red
-        final float cool = TrigTools.sin_(hue);
-        float sat = (1f - lightness) /
-                Math.max(wild * -0.5f + cool * -0.375f,
-                Math.max(wild * 0.5f + cool * 0.125f,
-                        wild * -0.5f + cool * 0.625f));
-        return Math.max(0f, sat);
-//        return Math.max(0f,
-//                Math.min(wild * -0.5f + cool * -0.375f,
-//                        Math.min(wild * 0.5f + cool * 0.125f,
-//                                wild * -0.5f + cool * 0.625f)) / (1f - lightness)
-//        );
-    }
     public static final String fragmentShaderReplacement = 
                     "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
