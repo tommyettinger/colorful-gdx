@@ -75,16 +75,13 @@ public class IPTGamutDemo extends ApplicationAdapter {
                         "void main()\n" +
                         "{\n" +
                         "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "    vec3 ipt = v_color.rgb * vec3(1.0, 2.0, 2.0) + vec3(0.0, -1.0, -1.0);\n" +
-//                        "        (mat3(0.4000, 4.4550, 0.8056, 0.4000, 4.8510, 0.3572, 0.2000, 0.3960, 1.1628) * \n" +
+                        "    vec3 ipt = vec3(v_color.r, v_color.gb * 2.0 - 1.0);\n" +
+//                        "        (mat3(+0.4000, +6.6825, +1.0741, +0.4000, -7.2765, +0.4763, +0.2000, +0.5940, -1.5504) * \n" +
+//                        "        (mat3(+0.4000, +4.4550, +0.8056, +0.4000, -4.8510, +0.3572, +0.2000, +0.3960, -1.1628) * \n" +
 //                        "        (pow(mat3(0.313921, 0.151693, 0.017700, 0.639468, 0.748209, 0.109400, 0.0465970, 0.1000044, 0.8729000) * tgt.rgb, vec3(0.43))));\n" +
                         "    vec3 back = mat3(1.0, 1.0, 1.0, 0.06503950, -0.07591241, 0.02174116, 0.15391950, 0.09991275, -0.50766750) * ipt;\n" +
                         "    back = mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) * \n" +
                         "        (pow(abs(back), vec3(2.3256)) * sign(back));\n" +
-//                        "   vec3 ycc = vec3(\n" +
-//                        "     (v_tweak.r * pow(dot(tgt.rgb, bright), v_tweak.a) * v_lightFix + v_color.r - 0.5),\n" + // luma
-//                        "     (v_color.g - 0.5 + (tgt.r - tgt.b) * v_tweak.g) * 2.0,\n" + // warmth
-//                        "     (v_color.b - 0.5 + (tgt.g - tgt.b) * v_tweak.b) * 2.0);\n" + // mildness
                         "    gl_FragColor = clamp(vec4(back, 1.0), 0.0, 1.0);\n" + // back to alpha and clamp
                         "    if(any(notEqual(back, gl_FragColor.rgb))) discard;\n" +
                         "}";
