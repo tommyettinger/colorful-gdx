@@ -38,12 +38,12 @@ public class FloatColors {
                 | ((int) (warm * 255) << 8 & 0xFF00) | ((int) (luma * 255) & 0xFF));
     }
     
-    public static float hsl2rgb(final float hsla){
+    public static float hsl2rgb(final float hsla) {
         final int decoded = NumberUtils.floatToIntBits(hsla);
-        final float h = (decoded & 0xFF) / 255f;
-        final float s = (decoded >>> 8 & 0xFF) / 255f;
-        final float l = (decoded >>> 16 & 0xFF) / 255f;
-        final float a = (decoded >>> 24 & 0xFE) / 255f;
+        return hsl2rgb((decoded & 0xFF) / 255f, (decoded >>> 8 & 0xFF) / 255f, (decoded >>> 16 & 0xFF) / 255f, (decoded >>> 24 & 0xFE) / 255f);
+    }
+    
+    public static float hsl2rgb(final float h, final float s, final float l, final float a){
         float x = MathUtils.clamp(Math.abs(h * 6f - 3f) - 1f, 0f, 1f), y = h + 2f / 3f, z = h + 1f / 3f;
         y -= (int)y;
         z -= (int)z;
@@ -51,15 +51,14 @@ public class FloatColors {
         z = MathUtils.clamp(Math.abs(z * 6f - 3f) - 1f, 0f, 1f);
         float v = (l + s * Math.min(l, 1f - l));
         float d = 2f * (1f - l / (v + 1e-10f));
-        return floatColor(v * MathUtils.lerp(1f, x, d), v * MathUtils.lerp(1f, y, d), v * MathUtils.lerp(1f, z, d), a)
+        return floatColor(v * MathUtils.lerp(1f, x, d), v * MathUtils.lerp(1f, y, d), v * MathUtils.lerp(1f, z, d), a);
     }
     
     public static float rgb2hsl(final float rgba) {
         final int decoded = NumberUtils.floatToIntBits(rgba);
-        final float r = (decoded & 0xFF) / 255f;
-        final float g = (decoded >>> 8 & 0xFF) / 255f;
-        final float b = (decoded >>> 16 & 0xFF) / 255f;
-        final float a = (decoded >>> 24 & 0xFE) / 255f;
+        return rgb2hsl((decoded & 0xFF) / 255f, (decoded >>> 8 & 0xFF) / 255f, (decoded >>> 16 & 0xFF) / 255f, (decoded >>> 24 & 0xFE) / 255f);
+    }    
+    public static float rgb2hsl(final float r, final float g, final float b, final float a) {
         float x, y, z, w;
         if(g < b) {
             x = b;
@@ -87,30 +86,26 @@ public class FloatColors {
     }
 
     /**
-     * Gets a color as a packed float given floats representing hue, saturation, value, and opacity.
+     * Gets a color as a packed float given floats representing hue, saturation, lightness, and opacity.
      * All parameters should normally be between 0 and 1 inclusive, though any hue is tolerated (precision loss may
      * affect the color if the hue is too large). A hue of 0 is red, progressively higher hue values go to orange,
      * yellow, green, blue, and purple before wrapping around to red as it approaches 1. A saturation of 0 is grayscale,
      * a saturation of 1 is brightly colored, and values close to 1 will usually appear more distinct than values close
-     * to 0, especially if the hue is different. The value is similar to lightness; a value of 0.001f or less is always
-     * black (also using a shortcut if this is the case, respecting opacity), while a value of 1 is as bright as the
-     * color gets with the given saturation and value. To get a value of white, you would nee both a value of 1 and a
-     * saturation of 0.
+     * to 0, especially if the hue is different. A lightness of 0.001f or less is always black (also using a shortcut if
+     * this is the case, respecting opacity), while a lightness of 1f is white. Very bright colors are mostly in a band
+     * of high-saturation where lightness is 0.5f.
      *
      * @param hue        0f to 1f, color wheel position
      * @param saturation 0f to 1f, 0f is grayscale and 1f is brightly colored
-     * @param value      0f to 1f, 0f is black and 1f is bright or light
+     * @param lightness  0f to 1f, 0f is black and 1f is white
      * @param opacity    0f to 1f, 0f is fully transparent and 1f is opaque
      * @return a float encoding a color with the given properties
      */
-    public static float floatGetHSV(float hue, float saturation, float value, float opacity) {
-        if (value <= 0.001f) {
+    public static float floatGetHSL(float hue, float saturation, float lightness, float opacity) {
+        if (lightness <= 0.001f) {
             return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x7F7F00);
         } else {
-            saturation = MathUtils.clamp(saturation, 0f, 1f) * 0.5f;//0.70710677f;
-            final float cw = MathUtils.clamp(TrigTools.cos_(hue) * saturation + 0.5f, 0f, 1f);
-            final float cm = MathUtils.clamp(TrigTools.sin_(hue) * saturation + 0.5f, 0f, 1f);
-            return floatColor(value, cw, cm, opacity);
+            return fromRGBA(hsl2rgb(hue, saturation, lightness, opacity));
         }
     }
 
@@ -126,15 +121,27 @@ public class FloatColors {
         final int decoded = NumberUtils.floatToIntBits(packed), y = (decoded & 0xff),
                 cw = ((decoded >>> 7 & 0x1fe) - 255),
                 cm = (((decoded >>> 15 & 0x1fe) - 255) >> 1);
-//        final int r = y + (((decoded >>> 7 & 0x1fe) - 255) * 5 >> 4) - cm;
-//        final int g = y - (((decoded >>> 7 & 0x1fe) - 255) * 3 >> 4) + cm;
-//        final int b = y - (((decoded >>> 7 & 0x1fe) - 255) * 3 >> 4) - cm;
-//        final int a = (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
-//        return r << 24 | g << 16 | b << 8 | a;
         return MathUtils.clamp(y + (cw * 5 >> 3) - cm, 0, 0xFF) << 24
                 | MathUtils.clamp(y - (cw * 3 >> 3) + cm, 0, 0xFF) << 16
                 | MathUtils.clamp(y - (cw * 3 >> 3) - cm, 0, 0xFF) << 8
                 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
+    }
+    /**
+     * Converts a packed float color in the format produced by {@link FloatColors#floatColor(float, float, float, float)}
+     * to a packed float in RGBA format.
+     * This format of float can be used with the standard SpriteBatch and in some other places in libGDX.
+     * @param packed a packed float color, as produced by {@link FloatColors#floatColor(float, float, float, float)}
+     * @return a packed float color as RGBA
+     */
+    public static float toRGBA(final float packed)
+    {
+        final int decoded = NumberUtils.floatToIntBits(packed), y = (decoded & 0xff),
+                cw = ((decoded >>> 7 & 0x1fe) - 255),
+                cm = (((decoded >>> 15 & 0x1fe) - 255) >> 1);
+        return NumberUtils.intBitsToFloat(MathUtils.clamp(y + (cw * 5 >> 3) - cm, 0, 0xFF)
+                | MathUtils.clamp(y - (cw * 3 >> 3) + cm, 0, 0xFF) << 8
+                | MathUtils.clamp(y - (cw * 3 >> 3) - cm, 0, 0xFF) << 16
+                | (decoded & 0xfe000000));
     }
 
     /**
@@ -143,11 +150,23 @@ public class FloatColors {
      * @return a packed float as YCwCmA, which this class can use
      */
     public static float fromRGBA8888(final int rgba) {
-        return NumberUtils.intBitsToFloat(((rgba >>> 24 & 0xFF) * 3 + (rgba >>> 16 & 0xFF) * 4 + (rgba >>> 8 & 0xFF) >> 3)
+        return NumberUtils.intBitsToFloat(((rgba >>> 24) * 3 + (rgba >>> 16 & 0xFF) * 4 + (rgba >>> 8 & 0xFF) >> 3)
                 | (0xFF + (rgba >>> 24) - (rgba >>> 8 & 0xFF) & 0x1FE) << 7
                 | (0xFF + (rgba >>> 16 & 0xFF) - (rgba >>> 8 & 0xFF) & 0x1FE) << 15
                 | (rgba & 0xFE) << 24);
+    }
 
+    /**
+     * Takes a color encoded as an RGBA8888 packed float and converts to a packed float in the YCwCmA this uses.
+     * @param packed a packed float in RGBA8888 format, with A in the MSB and R in the LSB
+     * @return a packed float as YCwCmA, which this class can use
+     */
+    public static float fromRGBA(final float packed) {
+        final int rgba = NumberUtils.floatToIntBits(packed);
+        return NumberUtils.intBitsToFloat(((rgba & 0xFF) * 3 + (rgba >>> 8 & 0xFF) * 4 + (rgba >>> 16 & 0xFF) >> 3)
+                | (0xFF + (rgba & 0xFF) - (rgba >>> 16 & 0xFF) & 0x1FE) << 7
+                | (0xFF + (rgba >>> 8 & 0xFF) - (rgba >>> 16 & 0xFF) & 0x1FE) << 15
+                | (rgba >>> 24 & 0xFE) << 24);
     }
 
     /**
@@ -265,16 +284,36 @@ public class FloatColors {
     }
 
     /**
-     * Gets the approximate saturation of the given encoded color, as a float ranging from 0.0f to 1.0f, inclusive.
-     * This actually gets the "colorfulness" of the given color, not its saturation, which is subtly different.
+     * Gets the saturation of the given encoded color, as a float ranging from 0.0f to 1.0f, inclusive.
      * @param encoded a color as a packed float that can be obtained by {@link FloatColors#floatColor(float, float, float, float)}
-     * @return the approximate saturation of the color from 0.0 (a grayscale color; inclusive) to 1.0 (a
-     * bright color, exclusive)
+     * @return the saturation of the color from 0.0 (a grayscale color; inclusive) to 1.0 (a bright color, inclusive)
      */
     public static float saturation(final float encoded) {
-        final int e = NumberUtils.floatToIntBits(encoded);
-        final double cw = (e >>> 8 & 255) - 127.5, cm = (e >>> 16 & 255) - 127.5;
-        return (float) (Math.sqrt(cw * cw + cm * cm) * 0.00554593553871802);
+        final int decoded = NumberUtils.floatToIntBits(encoded), lu = (decoded & 0xff),
+                cw = ((decoded >>> 7 & 0x1fe) - 255),
+                cm = (((decoded >>> 15 & 0x1fe) - 255) >> 1);
+        final float r = MathUtils.clamp(lu + (cw * 5 >> 3) - cm, 0, 0xFF) * 0x1.010102p-8f;
+        final float g = MathUtils.clamp(lu - (cw * 3 >> 3) + cm, 0, 0xFF) * 0x1.010102p-8f;
+        final float b =  MathUtils.clamp(lu - (cw * 3 >> 3) - cm, 0, 0xFF) * 0x1.010102p-8f;
+        float x, y, w;
+        if(g < b) {
+            x = b;
+            y = g;
+        }
+        else {
+            x = g;
+            y = b;
+        }
+        if(r < x) {
+            w = r;
+        }
+        else {
+            w = x;
+            x = r;
+        }
+        float d = x - Math.min(w, y);
+        float l = x * (1f - 0.5f * d / (x + 1e-10f));
+        return (x - l) / (Math.min(l, 1f - l) + 1e-10f);
     }
 
     /**
@@ -285,19 +324,35 @@ public class FloatColors {
      * eventually to purple before looping back to almost the same red (1.0, exclusive)
      */
     public static float hue(final float encoded) {
-        final int e = NumberUtils.floatToIntBits(encoded);
-        final float cw = (e >>> 8 & 255) - 127.5f, cm = (e >>> 16 & 255) - 127.5f;
-        if ( cw * cw + cm * cm < 0.125f )
-        {
-            // it's grayscale
-            return 0f;
+        final int decoded = NumberUtils.floatToIntBits(encoded), lu = (decoded & 0xff),
+                cw = ((decoded >>> 7 & 0x1fe) - 255),
+                cm = (((decoded >>> 15 & 0x1fe) - 255) >> 1);
+        final float r = MathUtils.clamp(lu + (cw * 5 >> 3) - cm, 0, 0xFF) * 0x1.010102p-8f;
+        final float g = MathUtils.clamp(lu - (cw * 3 >> 3) + cm, 0, 0xFF) * 0x1.010102p-8f;
+        final float b =  MathUtils.clamp(lu - (cw * 3 >> 3) - cm, 0, 0xFF) * 0x1.010102p-8f;
+        float x, y, z, w;
+        if(g < b) {
+            x = b;
+            y = g;
+            z = -1f;
+            w = 2f / 3f;
         }
-        else
-        {
-            // it has color
-            float angle = TrigTools.atan2_(cm, cw);
-            return angle - (int)angle;
+        else {
+            x = g;
+            y = b;
+            z = 0f;
+            w = -1f / 3f;
         }
+        if(r < x) {
+            z = w;
+            w = r;
+        }
+        else {
+            w = x;
+            x = r;
+        }
+        float d = x - Math.min(w, y);
+        return Math.abs(z + (w - y) / (6f * d + 1e-10f));
     }
     
     /**
@@ -421,19 +476,39 @@ public class FloatColors {
         opacity = MathUtils.clamp(opacity + (e >>> 24 & 0xfe) * 0x1.020408p-8f, 0f, 1f);
         if (value <= 0.001f)
             return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x7F7F00);
-        float cw = (e >>> 8 & 255) - 127.5f, cm = (e >>> 16 & 255) - 127.5f;
-        saturation += (float) (Math.sqrt(cw * cw + cm * cm) * 0.00554593553871802);
-        if ( saturation > 0.001f )
-        {
-            // it has color
-            hue += TrigTools.atan2_(cm, cw);
+        final int lu = (e & 0xff);
+        final int cw = ((e >>> 7 & 0x1fe) - 255);
+        final int cm = (((e >>> 15 & 0x1fe) - 255) >> 1);
+        int r = MathUtils.clamp(lu + (cw * 5 >> 3) - cm, 0, 0xFF), 
+                g = MathUtils.clamp(lu - (cw * 3 >> 3) + cm, 0, 0xFF), 
+                b = MathUtils.clamp(lu - (cw * 3 >> 3) - cm, 0, 0xFF);
+        rgb2hsl(r, g, b, opacity);
+        float x, y, z, w;
+        if(g < b) {
+            x = b;
+            y = g;
+            z = -1f;
+            w = 2f / 3f;
         }
-        else
-            return floatColor(value, 0.5f, 0.5f, opacity);
-        saturation = MathUtils.clamp(saturation, 0f, 1f) * 0.5f;//0.70710677f
-        cw = MathUtils.clamp(TrigTools.cos_(hue) * saturation + 0.5f, 0f, 1f);
-        cm = MathUtils.clamp(TrigTools.sin_(hue) * saturation + 0.5f, 0f, 1f);
-        return floatColor(value, cw, cm, opacity);
+        else {
+            x = g;
+            y = b;
+            z = 0f;
+            w = -1f / 3f;
+        }
+        if(r < x) {
+            z = w;
+            w = r;
+        }
+        else {
+            w = x;
+            x = r;
+        }
+        float d = x - Math.min(w, y);
+        float l = x * (1f - 0.5f * d / (x + 1e-10f));
+        float hue2 = Math.abs(z + (w - y) / (6f * d + 1e-10f));
+        float sat2 = (x - l) / (Math.min(l, 1f - l) + 1e-10f);
+        return fromRGBA(hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), MathUtils.clamp(saturation + sat2, 0f, 1f), value, opacity));
     }
 
     /**
