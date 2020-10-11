@@ -37,6 +37,54 @@ public class FloatColors {
         return NumberUtils.intBitsToFloat(((int) (alpha * 255) << 24 & 0xFE000000) | ((int) (mild * 255) << 16 & 0xFF0000)
                 | ((int) (warm * 255) << 8 & 0xFF00) | ((int) (luma * 255) & 0xFF));
     }
+    
+    public static float hsl2rgb(final float hsla){
+        final int decoded = NumberUtils.floatToIntBits(hsla);
+        final float h = (decoded & 0xFF) / 255f;
+        final float s = (decoded >>> 8 & 0xFF) / 255f;
+        final float l = (decoded >>> 16 & 0xFF) / 255f;
+        final float a = (decoded >>> 24 & 0xFE) / 255f;
+        float x = MathUtils.clamp(Math.abs(h * 6f - 3f) - 1f, 0f, 1f), y = h + 2f / 3f, z = h + 1f / 3f;
+        y -= (int)y;
+        z -= (int)z;
+        y = MathUtils.clamp(Math.abs(y * 6f - 3f) - 1f, 0f, 1f);
+        z = MathUtils.clamp(Math.abs(z * 6f - 3f) - 1f, 0f, 1f);
+        float v = (l + s * Math.min(l, 1f - l));
+        float d = 2f * (1f - l / (v + 1e-10f));
+        return floatColor(v * MathUtils.lerp(1f, x, d), v * MathUtils.lerp(1f, y, d), v * MathUtils.lerp(1f, z, d), a)
+    }
+    
+    public static float rgb2hsl(final float rgba) {
+        final int decoded = NumberUtils.floatToIntBits(rgba);
+        final float r = (decoded & 0xFF) / 255f;
+        final float g = (decoded >>> 8 & 0xFF) / 255f;
+        final float b = (decoded >>> 16 & 0xFF) / 255f;
+        final float a = (decoded >>> 24 & 0xFE) / 255f;
+        float x, y, z, w;
+        if(g < b) {
+            x = b;
+            y = g;
+            z = -1f;
+            w = 2f / 3f;
+        }
+        else {
+            x = g;
+            y = b;
+            z = 0f;
+            w = -1f / 3f;
+        }
+        if(r < x) {
+            z = w;
+            w = r;
+        }
+        else {
+            w = x;
+            x = r;
+        }
+        float d = x - Math.min(w, y);
+        float l = x * (1f - 0.5f * d / (x + 1e-10f));
+        return floatColor(Math.abs(z + (w - y) / (6f * d + 1e-10f)), (x - l) / (Math.min(l, 1f - l) + 1e-10f), l, a);
+    }
 
     /**
      * Gets a color as a packed float given floats representing hue, saturation, value, and opacity.
@@ -75,15 +123,17 @@ public class FloatColors {
      */
     public static int toRGBA8888(final float packed)
     {
-        final int decoded = NumberUtils.floatToIntBits(packed), y = (decoded & 0xff), cm = (((decoded >>> 15 & 0x1fe) - 255) >> 1);
+        final int decoded = NumberUtils.floatToIntBits(packed), y = (decoded & 0xff),
+                cw = ((decoded >>> 7 & 0x1fe) - 255),
+                cm = (((decoded >>> 15 & 0x1fe) - 255) >> 1);
 //        final int r = y + (((decoded >>> 7 & 0x1fe) - 255) * 5 >> 4) - cm;
 //        final int g = y - (((decoded >>> 7 & 0x1fe) - 255) * 3 >> 4) + cm;
 //        final int b = y - (((decoded >>> 7 & 0x1fe) - 255) * 3 >> 4) - cm;
 //        final int a = (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
 //        return r << 24 | g << 16 | b << 8 | a;
-        return MathUtils.clamp(y + (((decoded >>> 7 & 0x1fe) - 255) * 5 >> 3) - cm, 0, 0xFF) << 24
-                | MathUtils.clamp(y - (((decoded >>> 7 & 0x1fe) - 255) * 3 >> 3) + cm, 0, 0xFF) << 16
-                | MathUtils.clamp(y - (((decoded >>> 7 & 0x1fe) - 255) * 3 >> 3) - cm, 0, 0xFF) << 8
+        return MathUtils.clamp(y + (cw * 5 >> 3) - cm, 0, 0xFF) << 24
+                | MathUtils.clamp(y - (cw * 3 >> 3) + cm, 0, 0xFF) << 16
+                | MathUtils.clamp(y - (cw * 3 >> 3) - cm, 0, 0xFF) << 8
                 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
     }
 
@@ -106,15 +156,25 @@ public class FloatColors {
      * @return a packed float as YCwCmA, which this class can use
      */
     public static float fromColor(final Color color) {
-        return NumberUtils.intBitsToFloat((int) (255 * (color.r * 0x3p-3f + color.g * 0x4p-3f + color.b * 0x1p-3f))
-                        | (int)((color.r - color.b + 1f) * 127.5f) << 8
-                        | (int)((color.g - color.b + 1f) * 127.5f) << 16
+        return NumberUtils.intBitsToFloat((int) (255 * (color.r * 0x3p-3f + color.g * 0x4p-3f + color.b * 0x1p-3f)) & 0xFF
+                        | (int)((color.r - color.b + 1f) * 127.5f) << 8 & 0xFF00
+                        | (int)((color.g - color.b + 1f) * 127.5f) << 16 & 0xFF0000
                         | ((int)(color.a * 255f) << 24 & 0xFE000000));
-//                ((rgba >>> 24 & 0xFF) * 3 + (rgba >>> 16 & 0xFF) * 4 + (rgba >>> 8 & 0xFF) >> 3)
-//                | (0xFF + (rgba >>> 24) - (rgba >>> 8 & 0xFF) & 0x1FE) << 7
-//                | (0xFF + (rgba >>> 16 & 0xFF) - (rgba >>> 8 & 0xFF) & 0x1FE) << 15
-//                | (rgba & 0xFE) << 24);
+    }
 
+    /**
+     * Takes RGBA components from 0.0 to 1.0 each and conveerts to a packed float in the YCwCmA this uses.
+     * @param r red, from 0.0 to 1.0 (both inclusive)
+     * @param g green, from 0.0 to 1.0 (both inclusive)
+     * @param b blue, from 0.0 to 1.0 (both inclusive)
+     * @param a alpha, from 0.0 to 1.0 (both inclusive)
+     * @return a packed float as YCwCmA, which this class can use
+     */
+    public static float fromRGBA(final float r, final float g, final float b, final float a) {
+        return NumberUtils.intBitsToFloat((int) (255 * (r * 0x3p-3f + g * 0x4p-3f + b * 0x1p-3f)) & 0xFF
+                        | (int)((r - b + 1f) * 127.5f) << 8 & 0xFF00
+                        | (int)((g - b + 1f) * 127.5f) << 16 & 0xFF0000
+                        | ((int)(a * 255f) << 24 & 0xFE000000));
     }
 
     /**
@@ -241,7 +301,7 @@ public class FloatColors {
     }
     
     /**
-     * The "luma" of the given packed float, which is like its lightness, in YCwCm format; ranges from 0.0f to
+     * The "luma" of the given packed float in YCwCm format, which is like its lightness; ranges from 0.0f to
      * 1.0f . YCwCm is useful for modifications to colors:
      * <ul>
      *     <li>You can get a grayscale version of a color by setting Cw and Cm to 0.5,</li>
@@ -252,9 +312,6 @@ public class FloatColors {
      *     <li>you can lighten or darken by increasing or decreasing luma,</li>
      *     <li>and so on and so forth.</li>
      * </ul>
-     * There are aesthetic reasons to adjust just one of Cw or Cm for some effect; multiplying Cw by
-     * a number greater than 1 will make warm colors warmer and cool colors cooler, for instance, while adding a
-     * positive number to Cw will make most colors approach a warmer hue (some will become more gray).
      * @param encoded a packed float
      * @return the luma as a float from 0.0f to 1.0f
      */
@@ -266,8 +323,8 @@ public class FloatColors {
     }
     
     /**
-     * The "chroma warm" of the given packed float, which when combined with chroma mild describes the shade and
-     * saturation of a color, in YCwCm format; ranges from 0f to 1f . YCwCm is useful for modifications to colors:
+     * The "chroma warm" of the given packed float in YCwCm format, which when combined with chroma mild describes the
+     * shade and saturation of a color; ranges from 0f to 1f . YCwCm is useful for modifications to colors:
      * <ul>
      *     <li>You can get a grayscale version of a color by setting Cw and Cm to 0.5,</li>
      *     <li>You can desaturate by subtracting 0.5, multiplying Cw and Cm by a number between 0 and 1, and adding 0.5
@@ -277,9 +334,6 @@ public class FloatColors {
      *     <li>you can lighten or darken by increasing or decreasing luma,</li>
      *     <li>and so on and so forth.</li>
      * </ul>
-     * There are aesthetic reasons to adjust just one of Cw or Cm for some effect; multiplying Cw by
-     * a number greater than 1 will make warm colors warmer and cool colors cooler, for instance, while adding a
-     * positive number to Cw will make most colors approach a warmer hue (some will become more gray).
      * @param encoded a color encoded as a packed float, as by {@link FloatColors#floatColor(float, float, float, float)}
      * @return the chroma warm as a float from 0f to 1f
      */
@@ -289,8 +343,8 @@ public class FloatColors {
     }
 
     /**
-     * The "chroma mild" of the given packed float, which when combined with chroma warm describes the shade and
-     * saturation of a color, in YCwCm format; ranges from 0f to 1f .
+     * The "chroma mild" of the given packed float in YCwCm format, which when combined with chroma warm describes the
+     * shade and saturation of a color; ranges from 0f to 1f .
      * YCwCm is useful for modifications to colors:
      * <ul>
      *     <li>You can get a grayscale version of a color by setting Cw and Cm to 0.5,</li>
@@ -301,9 +355,6 @@ public class FloatColors {
      *     <li>you can lighten or darken by increasing or decreasing luma,</li>
      *     <li>and so on and so forth.</li>
      * </ul>
-     * There are aesthetic reasons to adjust just one of Cw or Cm for some effect; multiplying Cw by
-     * a number greater than 1 will make warm colors warmer and cool colors cooler, for instance, while adding a
-     * positive number to Cw will make most colors approach a warmer hue (some will become more gray).
      * @param encoded a color encoded as a packed float, as by {@link FloatColors#floatColor(float, float, float, float)}
      * @return the chroma mild as a float from 0f to 1f
      */
@@ -536,7 +587,7 @@ public class FloatColors {
      * @param change how much to go from start toward opaque, as a float between 0 and 1; higher means closer to opaque
      * @return a packed float that represents a color between start and its opaque version
      */
-    public static float solidify(final float start, final float change) {
+    public static float blot(final float start, final float change) {
         final int s = NumberUtils.floatToIntBits(start), opacity = s >>> 24 & 0xFE, other = s & 0x00FFFFFF;
         return NumberUtils.intBitsToFloat(((int) (opacity + (0xFE - opacity) * change) & 0xFE) << 24 | other);
     }
@@ -547,7 +598,7 @@ public class FloatColors {
      * {@link #floatColor(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
      * and is a little more efficient and clear than using {@link #lerpFloatColors(float, float, float)} to lerp towards
      * transparent. This won't change the luma, chroma warm, or chroma mild of the color.
-     * @see #solidify(float, float) the counterpart method that makes a float color more opaque
+     * @see #blot(float, float) the counterpart method that makes a float color more opaque
      * @param start the starting color as a packed float
      * @param change how much to go from start toward transparent, as a float between 0 and 1; higher means closer to transparent
      * @return a packed float that represents a color between start and transparent
