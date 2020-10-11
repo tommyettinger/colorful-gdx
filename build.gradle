@@ -18,7 +18,7 @@ apply from: 'publish.gradle'
 sourceCompatibility = 1.7
 
 def projectName = 'colorful'
-version '0.2.1'
+version '0.2.2'
 group 'com.github.tommyettinger'
 
 def gdxVersion = '1.9.11'

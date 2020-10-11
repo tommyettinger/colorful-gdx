@@ -280,128 +280,32 @@ public class Shaders {
                     "    gl_FragColor = vec4(clamp(back, 0.0, 1.0), v_color.a * tgt.a);\n" +
                     "}";
 
-    /*
-                //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a
-            //different distribution that matches primary colors in painting (where purple is opposite yellow).
-            "float official2primaries(float hue) {\n" +
-                    "    return  hue * ( 2.3357\n" +
-                    "          + hue * (-1.8600\n" +
-                    "          + hue * (-4.8505\n" +
-                    "          + hue * (10.2624\n" +
-                    "          + hue *  -4.8876))));\n" +
-                    "}\n" +
-                    //Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a
-                    //different distribution that matches primary colors in painting (where purple is opposite yellow).
-                    "float primaries2official(float hue) {\n" +
-                    "    return  hue * (  1.6943\n" +
-                    "          + hue * (-11.6741\n" +
-                    "          + hue * ( 35.0206\n" +
-                    "          + hue * (-38.1354\n" +
-                    "          + hue *   14.0946))));\n" +
-                    "}\n" + 
-     */
-    public static final String partialCodeHSL =
-            //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a
-            //different distribution that matches primary colors in painting (where purple is opposite yellow).
-            "float official2primaries(float hue) {\n" +
-                    "    return  hue * (  2.137\n" +
-                    "          + hue * (  0.542\n" +
-                    "          + hue * (-15.141\n" +
-                    "          + hue * ( 30.120\n" +
-                    "          + hue * (-22.541\n" +
-                    "          + hue *   5.883)))));\n" +
-                    "}\n" +
-                    //Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a
-                    //different distribution that matches primary colors in painting (where purple is opposite yellow).
-                    "float primaries2official(float hue) {\n" +
-                    "    return  hue * (  0.677\n" +
-                    "          + hue * ( -0.123\n" +
-                    "          + hue * (-11.302\n" +
-                    "          + hue * ( 46.767\n" +
-                    "          + hue * (-58.493\n" +
-                    "          + hue *   23.474)))));\n" +
-                    "}\n" + 
-                    "vec4 rgb2hsl(vec4 color) {\n" +
-                    "  vec4 hsl = color;\n" +
-                    "  float fmin = min(min(color.r, color.g), color.b);    //Min. value of RGB\n" +
-                    "  float fmax = max(max(color.r, color.g), color.b);    //Max. value of RGB\n" +
-                    "  float delta = fmax - fmin;             //Delta RGB value\n" +
-                    "  hsl.z = (fmax + fmin) * 0.5; // Luminance\n" +
-                    "  if (delta < 0.001)\n" +
-                    "    return vec4(0.0, 0.0, hsl.zw);\n" +
-                    "  if (hsl.z < 0.5)\n" +
-                    "    hsl.y = delta / (fmax + fmin); // Saturation\n" +
-                    "  else\n" +
-                    "    hsl.y = delta / (2.0 - fmax - fmin); // Saturation\n" +
-                    "  vec3 drgb = (((fmax - color.rgb) / 6.0) + (delta / 2.0)) / delta;\n" +
-                    "  if (color.r == fmax )\n" +
-                    "    hsl.x = drgb.b - drgb.g; // Hue\n" +
-                    "  else if (color.g == fmax)\n" +
-                    "    hsl.x = (1.0 / 3.0) + drgb.r - drgb.b; // Hue\n" +
-                    "  else if (color.b == fmax)\n" +
-                    "    hsl.x = (2.0 / 3.0) + drgb.g - drgb.r; // Hue\n" +
-                    "  hsl.x = official2primaries(fract(hsl.x));\n" +
-                    "  return hsl;\n" +
-                    "}\n"+
-                    "float hue2rgb(float f1, float f2, float hue) {\n" +
-                    "    hue = fract(hue);\n" +
-                    "    float res;\n" +
-                    "    if (hue < (1.0 / 6.0))\n" +
-                    "        res = f1 + (f2 - f1) * 6.0 * hue;\n" +
-                    "    else if (hue < 0.5)\n" +
-                    "        res = f2;\n" +
-                    "    else if (hue < (2.0 /3.0))\n" +
-                    "        res = f1 + (f2 - f1) * ((2.0 / 3.0) - hue) * 6.0;\n" +
-                    "    else\n" +
-                    "        res = f1;\n" +
-                    "    return res;\n" +
-                    "}\n" +
-                    "vec4 hsl2rgb(vec4 hsla) {\n" +
-                    "    vec4 rgba;\n" +
-                    "    if (hsla.y == 0.0) {\n" +
-                    "        rgba = hsla.zzzw; // Luminance\n" +
-                    "    } else {\n" +
-                    "        float f2;\n" +
-                    "        if (hsla.z < 0.5)\n" +
-                    "            f2 = hsla.z * (1.0 + hsla.y);\n" +
-                    "        else\n" +
-                    "            f2 = hsla.z + hsla.y - hsla.y * hsla.z;\n" +
-                    "        float f1 = 2.0 * hsla.z - f2;\n" +
-                    "        float hue = primaries2official(hsla.x);\n" +
-                    "        rgba.r = hue2rgb(f1, f2, hue + (1.0/3.0));\n" +
-                    "        rgba.g = hue2rgb(f1, f2, hue);\n" +
-                    "        rgba.b = hue2rgb(f1, f2, hue - (1.0/3.0));\n" +
-                    "        rgba.a = hsla.a;\n" +
-                    "    }\n" +
-                    "    return rgba;\n" +
-                    "}\n";
-
 
     /**
      * Credit to Sam Hocevar, https://gamedev.stackexchange.com/a/59808 .
      */
-    public static final String partialCodeHSL2 =
+    public static final String partialCodeHSL =
             "const float eps = 1.0e-10;\n" +
-                    //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a
-                    //different distribution that matches primary colors in painting (where purple is opposite yellow).
-                    "float official2primaries(float hue) {\n" +
-                    "    return  hue * (  2.137\n" +
-                    "          + hue * (  0.542\n" +
-                    "          + hue * (-15.141\n" +
-                    "          + hue * ( 30.120\n" +
-                    "          + hue * (-22.541\n" +
-                    "          + hue *   5.883)))));\n" +
-                    "}\n" +
-                    //Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a
-                    //different distribution that matches primary colors in painting (where purple is opposite yellow).
-                    "float primaries2official(float hue) {\n" +
-                    "    return  hue * (  0.677\n" +
-                    "          + hue * ( -0.123\n" +
-                    "          + hue * (-11.302\n" +
-                    "          + hue * ( 46.767\n" +
-                    "          + hue * (-58.493\n" +
-                    "          + hue *   23.474)))));\n" +
-                    "}\n" +
+//                    //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a
+//                    //different distribution that matches primary colors in painting (where purple is opposite yellow).
+//                    "float official2primaries(float hue) {\n" +
+//                    "    return  hue * (  2.137\n" +
+//                    "          + hue * (  0.542\n" +
+//                    "          + hue * (-15.141\n" +
+//                    "          + hue * ( 30.120\n" +
+//                    "          + hue * (-22.541\n" +
+//                    "          + hue *   5.883)))));\n" +
+//                    "}\n" +
+//                    //Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a
+//                    //different distribution that matches primary colors in painting (where purple is opposite yellow).
+//                    "float primaries2official(float hue) {\n" +
+//                    "    return  hue * (  0.677\n" +
+//                    "          + hue * ( -0.123\n" +
+//                    "          + hue * (-11.302\n" +
+//                    "          + hue * ( 46.767\n" +
+//                    "          + hue * (-58.493\n" +
+//                    "          + hue *   23.474)))));\n" +
+//                    "}\n" +
                     "vec4 rgb2hsl(vec4 c)\n" +
                     "{\n" +
                     "    const vec4 J = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n" +
@@ -422,11 +326,11 @@ public class Shaders {
                     "}";
 
     /**
-     * Adjusted-hue version of {@link #partialCodeHSL2}, supplying HSL to-and-from RGB conversions with a smaller range
-     * of hue used for cyan and a larger range for orange. Credit to Sam Hocevar,
+     * Adjusted-hue version of {@link #partialCodeHSL}, supplying HSL to-and-from RGB conversions with a smaller range
+     * of hue used for cyan and a larger range for orange. Not currently used. Credit to Sam Hocevar,
      * https://gamedev.stackexchange.com/a/59808 .
      */
-    public static final String partialCodeHSL3 =
+    public static final String partialCodeHSLStretched =
             "const float eps = 1.0e-10;\n" +
                     //// maybe not blue enough?
 //                    //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a
@@ -533,27 +437,6 @@ public class Shaders {
                     "    float v = (c.z + c.y * min(c.z, 1.0 - c.z));\n" +
                     "    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n" +
                     "}";
-    
-    public static final String fragmentShaderHSL =
-            "#ifdef GL_ES\n" +
-                    "#define LOWP lowp\n" +
-                    "precision mediump float;\n" +
-                    "#else\n" +
-                    "#define LOWP \n" +
-                    "#endif\n" +
-                    "varying vec2 v_texCoords;\n" +
-                    "varying LOWP vec4 v_color;\n" +
-                    "uniform sampler2D u_texture;\n" +
-                    partialCodeHSL +
-                    "void main()\n" +
-                    "{\n" +
-                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                    "   vec4 hsl = rgb2hsl(tgt);\n" +
-                    "   hsl.x = fract(hsl.x + fract(v_color.x - hsl.x) * v_color.w);\n" +
-//                    "   hsl.x = fract(hsl.x + (fract(v_color.x + hsl.x + 0.5) - 0.5) * v_color.w);\n" +
-                    "   hsl.yz = mix(hsl.yz, v_color.yz, v_color.w);\n" +
-                    "   gl_FragColor = hsl2rgb(hsl);\n" +
-                    "}";
 
     public static final String fragmentShaderHSL2 =
             "#ifdef GL_ES\n" +
@@ -565,7 +448,7 @@ public class Shaders {
                     "varying vec2 v_texCoords;\n" +
                     "varying LOWP vec4 v_color;\n" +
                     "uniform sampler2D u_texture;\n" +
-                    partialCodeHSL2 +
+                    partialCodeHSL +
                     "void main()\n" +
                     "{\n" +
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
@@ -574,28 +457,8 @@ public class Shaders {
                     "   hsl.yz = mix(hsl.yz, v_color.yz, v_color.w);\n" +
                     "   gl_FragColor = hsl2rgb(hsl);\n" +
                     "}";
-
-    public static final String fragmentShaderHSL3 =
-            "#ifdef GL_ES\n" +
-                    "#define LOWP lowp\n" +
-                    "precision mediump float;\n" +
-                    "#else\n" +
-                    "#define LOWP \n" +
-                    "#endif\n" +
-                    "varying vec2 v_texCoords;\n" +
-                    "varying LOWP vec4 v_color;\n" +
-                    "uniform sampler2D u_texture;\n" +
-                    partialCodeHSL3 +
-                    "void main()\n" +
-                    "{\n" +
-                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                    "   vec4 hsl = rgb2hsl(tgt);\n" +
-                    "   hsl.x = fract((fract(v_color.x + 0.5 - hsl.x) - 0.5) * clamp(step(hsl.y, 0.05) * v_color.w, 0.0, 1.0) + hsl.x);\n" +
-                    "   hsl.yz = mix(hsl.yz, v_color.yz, v_color.w);\n" +
-                    "   gl_FragColor = hsl2rgb(hsl);\n" +
-                    "}";
-
-    public static final String fragmentShaderRotateHSL =
+    
+    public static final String fragmentShaderRotateHSL2 =
             "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
                     "precision mediump float;\n" +
@@ -615,45 +478,6 @@ public class Shaders {
                     "   gl_FragColor = hsl2rgb(hsl);\n" +
                     "}";
 
-    public static final String fragmentShaderRotateHSL2 =
-            "#ifdef GL_ES\n" +
-                    "#define LOWP lowp\n" +
-                    "precision mediump float;\n" +
-                    "#else\n" +
-                    "#define LOWP \n" +
-                    "#endif\n" +
-                    "varying vec2 v_texCoords;\n" +
-                    "varying LOWP vec4 v_color;\n" +
-                    "uniform sampler2D u_texture;\n" +
-                    partialCodeHSL2 +
-                    "void main()\n" +
-                    "{\n" +
-                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                    "   vec4 hsl = rgb2hsl(tgt);\n" +
-                    "   hsl.x = fract(v_color.x + hsl.x + 0.5);\n" +
-                    "   hsl.yz = clamp(hsl.yz * v_color.yz * 2.0, 0.0, 1.0);\n" +
-                    "   gl_FragColor = hsl2rgb(hsl);\n" +
-                    "}";
-
-    public static final String fragmentShaderRotateHSL3 =
-            "#ifdef GL_ES\n" +
-                    "#define LOWP lowp\n" +
-                    "precision mediump float;\n" +
-                    "#else\n" +
-                    "#define LOWP \n" +
-                    "#endif\n" +
-                    "varying vec2 v_texCoords;\n" +
-                    "varying LOWP vec4 v_color;\n" +
-                    "uniform sampler2D u_texture;\n" +
-                    partialCodeHSL3 +
-                    "void main()\n" +
-                    "{\n" +
-                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                    "   vec4 hsl = rgb2hsl(tgt);\n" +
-                    "   hsl.x = fract(v_color.x + hsl.x + 0.5);\n" +
-                    "   hsl.yz = clamp(hsl.yz * v_color.yz * 2.0, 0.0, 1.0);\n" +
-                    "   gl_FragColor = hsl2rgb(hsl);\n" +
-                    "}";
     /**
      * This is the default vertex shader from libGDX, but also sets a varying value for contrast. It is needed if you
      * use {@link #fragmentShaderHSLC}.
@@ -761,7 +585,11 @@ public class Shaders {
                     "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue
                     "     tgt.a * v_color.w), 0.0, 1.0);\n" + // keep alpha, then clamp
                     "}";
-    
+    /**
+     * GLSL: Takes an RGB vec3 and a float that represents a hue rotation in radians, and returns the rotated RGB vec3.
+     * Credit for this challenging method goes to Andrey-Postelzhuk,
+     * <a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/">Unity Forums</a>.
+     */
     public static final String hueRodrigues =
             "vec3 applyHue(vec3 rgb, float hue)\n" +
             "{\n" +
@@ -773,6 +601,8 @@ public class Shaders {
 
     /**
      * Generally a lower-quality hue rotation than {@link #fragmentShaderHSLC}; this is here as a work in progress.
+     * Expects the vertex shader to be {@link #vertexShaderHSLC}, which sets {@code varying float v_lightFix} so
+     * contrast can use it.
      */
     public static final String fragmentShaderHSLC2 = 
                     "#ifdef GL_ES\n" +
@@ -785,7 +615,7 @@ public class Shaders {
                     "varying float v_lightFix;\n" +
                     "varying LOWP vec4 v_color;\n" +
                     "uniform sampler2D u_texture;\n" +
-                    partialCodeHSL2 +
+                            partialCodeHSL +
                     "void main()\n" +
                     "{\n" +
                     "    float hue = (v_color.x - 0.5);\n" +
@@ -807,6 +637,8 @@ public class Shaders {
                     "}";
     /**
      * Cycles lightness in a psychedelic way as hue and lightness change; not a general-purpose usage.
+     * Expects the vertex shader to be {@link #vertexShaderHSLC}, which sets {@code varying float v_lightFix} so
+     * contrast can use it.
      */
     public static final String fragmentShaderHSLC3 =
             "#ifdef GL_ES\n" +
@@ -844,6 +676,35 @@ public class Shaders {
                     "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue
                     "     tgt.a), 0.0, 1.0);\n" + // keep alpha, then clamp
                     "}";
+    /**
+     * Cycles hue, but not lightness; otherwise this is like {@link #fragmentShaderHSLC3} without contrast, and keeping
+     * alpha intact.
+     * Internally, this uses Sam Hocevar's RGB/HSL conversion instead of Andrey-Postelzhuk's HSLC code.
+     * Expects the vertex shader to be {@link #vertexShader}, not the HSLC variant.
+     */
+    public static final String fragmentShaderHSLPsychedelic =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    partialCodeHSL +
+                    "void main()\n" +
+                    "{\n" +
+                    "    float hue = v_color.x - 0.5;\n" +
+                    "    float saturation = v_color.y * 2.0;\n" +
+                    "    float brightness = v_color.z - 0.5;\n" +
+                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "    tgt = rgb2hsl(tgt);\n" +
+                    "    tgt.x = fract(tgt.x + hue);\n" +
+                    "    tgt.y = clamp(tgt.y * saturation, 0.0, 1.0);\n" +
+                    "    tgt.z = clamp(brightness + tgt.z, 0.0, 1.0);\n" +
+                    "    gl_FragColor = hsl2rgb(tgt);\n" +
+                    "}";
 
     /**
      * One of the more useful HSL shaders here, this takes a batch color as hue, saturation, lightness, and intensity,
@@ -865,7 +726,7 @@ public class Shaders {
                     "varying vec2 v_texCoords;\n" +
                     "varying LOWP vec4 v_color;\n" +
                     "uniform sampler2D u_texture;\n" +
-                    partialCodeHSL2 +
+                    partialCodeHSL +
                     "void main()\n" +
                     "{\n" +
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +

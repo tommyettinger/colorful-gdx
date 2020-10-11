@@ -55,7 +55,7 @@ public class HSLWheelDemo extends ApplicationAdapter {
         shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL2);
         if(!shader.isCompiled())
             System.out.println(shader.getLog());
-        otherShader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL3);
+        otherShader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSLPsychedelic);
         if(!otherShader.isCompiled())
             System.out.println(otherShader.getLog());
         batch = new SpriteBatch(1000, shader);
@@ -88,7 +88,7 @@ public class HSLWheelDemo extends ApplicationAdapter {
         //final float circumference = 1605.3539f;//MathUtils.PI * 511f;
         batch.setColor(0, 0, layer, 1f);
         batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
-        float sat;
+        float sat, offset = (TimeUtils.millis() & 4095) * 0x1p-12f;
         for (int dist = 1; dist <= maxDist; dist++) {
             final int circ = dist * 6;
             final float ic = 1f / circ;
@@ -100,7 +100,7 @@ public class HSLWheelDemo extends ApplicationAdapter {
 //                    continue;
 //                if(!Shaders.inGamutHSL(angle, sat, layer))
 //                    continue;
-                batch.setColor(angle, sat, layer, 1f);
+                batch.setColor(angle + offset - (int)(angle + offset), sat, layer, 1f);
                 batch.draw(blank, 254.75f + x * dist, 254.75f + y * dist, 1.5f, 1.5f);
             }
         }
