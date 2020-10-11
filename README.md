@@ -145,4 +145,4 @@ If you don't use Gradle, here's the Maven dependency:
 </dependency>
 ```
 
-If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.2.0).
+If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.2.2).
