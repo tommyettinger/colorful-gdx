@@ -17,13 +17,6 @@ import java.util.Comparator;
  * Created by Tommy Ettinger on 12/8/2019.
  */
 public class PaletteCodeGenerator extends ApplicationAdapter {
-    public static float lightnessAltLAB(float color)
-    {
-        return (float) Math.sqrt((Math.pow(FloatColors.red(color), 2.19921875) * 0x3p-3
-                + Math.pow(FloatColors.green(color), 2.19921875) * 0x4p-3
-                + Math.pow(FloatColors.blue(color), 2.19921875) * 0x1p-3));
-    }
-
     public static void tabSplit(String[] receiving, String source) {
         int dl = 1, idx = -1, idx2;
         for (int i = 0; i < 2; i++) {
@@ -46,13 +39,10 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         config.setTitle("Palette codegen tool");
         config.setIdleFPS(1);
         config.useVsync(true);
-//        config.setResizable(false);
 
         new Lwjgl3Application(new PaletteCodeGenerator(), config);
     }
     public void create() {
-        //// This block, when uncommented, will read in color names and values from ColorData.txt and produce a formatted
-        //// block of partial Java source as ColorOutput.txt , to be put in SColor.java .
         String templateFull = "\n/**\n" +
                 "* This color constant \"`Name\" has RGBA8888 code {@code `RRGGBBAA}, luma `LUMA, warmth `WARM, mildness `MILD, alpha `ALPHA, hue `HUE, and saturation `SAT.\n" +
                 "* It can be represented as a packed float with the constant {@code `PACKEDF}.\n" +
@@ -86,7 +76,9 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                     .replace("`PACKED", Float.toHexString(c))
             );
             System.out.println(rec[2] + " : correct RGBA=" + rec[1] + ", decoded RGBA=" + StringKit.hex(FloatColors.toRGBA8888(c))
-                    + ", decoded luma=" + FloatColors.luma(c) + ", decoded warmth=" + FloatColors.chromaWarm(c) + ", decoded mild=" + FloatColors.chromaMild(c));
+                    + ", decoded hue=" + FloatColors.hue(c) + ", decoded saturation=" + FloatColors.saturation(c) + ", decoded lightness=" + FloatColors.lightness(c)
+//                    + ", decoded luma=" + FloatColors.luma(c) + ", decoded warmth=" + FloatColors.chromaWarm(c) + ", decoded mild=" + FloatColors.chromaMild(c)
+            );
         }
         Gdx.files.local("ColorOutput.txt").writeString(sb.toString(), false);
 
@@ -100,8 +92,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
             ee.value = e.value;
             PAL.add(ee);
         }
-        //final OrderedSet<Float> PAL = new OrderedSet<>(Palette);
-//        StringBuilder sb = new StringBuilder(100000);
+
         sb.setLength(0);
         Collections.sort(PAL, new Comparator<ObjectFloatMap.Entry<String>>() {
             @Override
@@ -121,10 +112,8 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                     .replace("`WARM", Float.toString(FloatColors.chromaWarm(c)))
                     .replace("`MILD", Float.toString(FloatColors.chromaMild(c)))
                     .replace("`ALPH", Float.toString(FloatColors.alpha(c)))
-//                    .replace("`TWEA", Float.toString(lightnessAltLAB(c)))
                     .replace("`PACK", Float.toHexString(c))
             );
-            //System.out.println("Processed " + i);
         }
         sb.append("</table>\n</body>\n</html>");
         Gdx.files.local("ColorTable.html").writeString(sb.toString(), false);
@@ -134,14 +123,14 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
             @Override
             public int compare(ObjectFloatMap.Entry<String> c1, ObjectFloatMap.Entry<String> c2) {
                 float s1 = FloatColors.saturation(c1.value), s2 = FloatColors.saturation(c2.value);
-                if(s1 < 0x1p-7f && s2 >= 0x1p-7f)
+                if(s1 <= 0x1p-6f && s2 > 0x1p-6f)
                     return -1000;
-                else if(s1 >= 0x1p-7f && s2 < 0x1p-7f)
+                else if(s1 > 0x1p-6f && s2 <= 0x1p-6f)
                     return 1000;
-                else if(s1 < 0x1p-7f && s2 < 0x1p-7f)
+                else if(s1 <= 0x1p-6f && s2 <= 0x1p-6f)
                     return (int)Math.signum(FloatColors.luma(c1.value) - FloatColors.luma(c2.value));
                 else
-                    return 3 * (int)Math.signum(FloatColors.hue(c1.value) - FloatColors.hue(c2.value))
+                    return 2 * (int)Math.signum(FloatColors.hue(c1.value) - FloatColors.hue(c2.value))
                             + (int)Math.signum(FloatColors.luma(c1.value) - FloatColors.luma(c2.value));
             }
         });
@@ -157,10 +146,8 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                     .replace("`WARM", Float.toString(FloatColors.chromaWarm(c)))
                     .replace("`MILD", Float.toString(FloatColors.chromaMild(c)))
                     .replace("`ALPH", Float.toString(FloatColors.alpha(c)))
-//                    .replace("`TWEA", Float.toString(lightnessAltLAB(c)))
                     .replace("`PACK", Float.toHexString(c))
             );
-            //System.out.println("Processed " + i);
         }
         sb.append("</table>\n</body>\n</html>");
         Gdx.files.local("ColorTableHue.html").writeString(sb.toString(), false);
@@ -184,10 +171,8 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                     .replace("`WARM", Float.toString(FloatColors.chromaWarm(c)))
                     .replace("`MILD", Float.toString(FloatColors.chromaMild(c)))
                     .replace("`ALPH", Float.toString(FloatColors.alpha(c)))
-//                    .replace("`TWEA", Float.toString(lightnessAltLAB(c)))
                     .replace("`PACK", Float.toHexString(c))
             );
-            //System.out.println("Processed " + i);
         }
         sb.append("</table>\n</body>\n</html>");
         Gdx.files.local("ColorTableValue.html").writeString(sb.toString(), false);

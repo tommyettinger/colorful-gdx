@@ -119,8 +119,8 @@ public class FloatColors {
     public static int toRGBA8888(final float packed)
     {
         final int decoded = NumberUtils.floatToIntBits(packed), y = (decoded & 0xff),
-                cw = ((decoded >>> 7 & 0x1fe) - 255),
-                cm = (((decoded >>> 15 & 0x1fe) - 255) >> 1);
+                cw = ((decoded >>> 7 & 0x1fe) - 254),
+                cm = (((decoded >>> 15 & 0x1fe) - 254) >> 1);
         return MathUtils.clamp(y + (cw * 5 >> 3) - cm, 0, 0xFF) << 24
                 | MathUtils.clamp(y - (cw * 3 >> 3) + cm, 0, 0xFF) << 16
                 | MathUtils.clamp(y - (cw * 3 >> 3) - cm, 0, 0xFF) << 8
@@ -136,8 +136,8 @@ public class FloatColors {
     public static float toRGBA(final float packed)
     {
         final int decoded = NumberUtils.floatToIntBits(packed), y = (decoded & 0xff),
-                cw = ((decoded >>> 7 & 0x1fe) - 255),
-                cm = (((decoded >>> 15 & 0x1fe) - 255) >> 1);
+                cw = ((decoded >>> 7 & 0x1fe) - 254),
+                cm = (((decoded >>> 15 & 0x1fe) - 254) >> 1);
         return NumberUtils.intBitsToFloat(MathUtils.clamp(y + (cw * 5 >> 3) - cm, 0, 0xFF)
                 | MathUtils.clamp(y - (cw * 3 >> 3) + cm, 0, 0xFF) << 8
                 | MathUtils.clamp(y - (cw * 3 >> 3) - cm, 0, 0xFF) << 16
@@ -290,8 +290,8 @@ public class FloatColors {
      */
     public static float saturation(final float encoded) {
         final int decoded = NumberUtils.floatToIntBits(encoded), lu = (decoded & 0xff),
-                cw = ((decoded >>> 7 & 0x1fe) - 255),
-                cm = (((decoded >>> 15 & 0x1fe) - 255) >> 1);
+                cw = ((decoded >>> 7 & 0x1fe) - 254),
+                cm = (((decoded >>> 15 & 0x1fe) - 254) >> 1);
         final float r = MathUtils.clamp(lu + (cw * 5 >> 3) - cm, 0, 0xFF) * 0x1.010102p-8f;
         final float g = MathUtils.clamp(lu - (cw * 3 >> 3) + cm, 0, 0xFF) * 0x1.010102p-8f;
         final float b =  MathUtils.clamp(lu - (cw * 3 >> 3) - cm, 0, 0xFF) * 0x1.010102p-8f;
@@ -315,6 +315,32 @@ public class FloatColors {
         float l = x * (1f - 0.5f * d / (x + 1e-10f));
         return (x - l) / (Math.min(l, 1f - l) + 1e-10f);
     }
+    public static float lightness(final float encoded) {
+        final int decoded = NumberUtils.floatToIntBits(encoded), lu = (decoded & 0xff),
+                cw = ((decoded >>> 7 & 0x1fe) - 254),
+                cm = (((decoded >>> 15 & 0x1fe) - 254) >> 1);
+        final float r = MathUtils.clamp(lu + (cw * 5 >> 3) - cm, 0, 0xFF) * 0x1.010102p-8f;
+        final float g = MathUtils.clamp(lu - (cw * 3 >> 3) + cm, 0, 0xFF) * 0x1.010102p-8f;
+        final float b =  MathUtils.clamp(lu - (cw * 3 >> 3) - cm, 0, 0xFF) * 0x1.010102p-8f;
+        float x, y, w;
+        if(g < b) {
+            x = b;
+            y = g;
+        }
+        else {
+            x = g;
+            y = b;
+        }
+        if(r < x) {
+            w = r;
+        }
+        else {
+            w = x;
+            x = r;
+        }
+        float d = x - Math.min(w, y);
+        return x * (1f - 0.5f * d / (x + 1e-10f));
+    }
 
     /**
      * Gets the hue of the given encoded color, as a float from 0f (inclusive, red and approaching orange if increased)
@@ -325,8 +351,8 @@ public class FloatColors {
      */
     public static float hue(final float encoded) {
         final int decoded = NumberUtils.floatToIntBits(encoded), lu = (decoded & 0xff),
-                cw = ((decoded >>> 7 & 0x1fe) - 255),
-                cm = (((decoded >>> 15 & 0x1fe) - 255) >> 1);
+                cw = ((decoded >>> 7 & 0x1fe) - 254),
+                cm = (((decoded >>> 15 & 0x1fe) - 254) >> 1);
         final float r = MathUtils.clamp(lu + (cw * 5 >> 3) - cm, 0, 0xFF) * 0x1.010102p-8f;
         final float g = MathUtils.clamp(lu - (cw * 3 >> 3) + cm, 0, 0xFF) * 0x1.010102p-8f;
         final float b =  MathUtils.clamp(lu - (cw * 3 >> 3) - cm, 0, 0xFF) * 0x1.010102p-8f;
