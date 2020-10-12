@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.github.tommyettinger.colorful.ycwcm.ColorfulBatch;
+import com.github.tommyettinger.colorful.ycwcm.ColorfulSprite;
 
 /**
  * Constants that contain the critical shader code to construct a {@link ShaderProgram} that can render the rest of this
@@ -437,7 +439,7 @@ public class Shaders {
                     "    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n" +
                     "}";
 
-    public static final String fragmentShaderHSL2 =
+    public static final String fragmentShaderHSL =
             "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
                     "precision mediump float;\n" +
@@ -457,7 +459,7 @@ public class Shaders {
                     "   gl_FragColor = hsl2rgb(hsl);\n" +
                     "}";
     
-    public static final String fragmentShaderRotateHSL2 =
+    public static final String fragmentShaderRotateHSL =
             "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
                     "precision mediump float;\n" +

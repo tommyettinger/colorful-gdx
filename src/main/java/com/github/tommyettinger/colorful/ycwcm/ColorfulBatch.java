@@ -1,4 +1,4 @@
-package com.github.tommyettinger.colorful;
+package com.github.tommyettinger.colorful.ycwcm;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Affine2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.NumberUtils;
+import com.github.tommyettinger.colorful.FloatColors;
 
 /**
  * A substitute for {@link com.badlogic.gdx.graphics.g2d.SpriteBatch} that adds an additional attribute to store an
@@ -58,7 +59,7 @@ public class ColorfulBatch implements Batch {
      * all of the tweak adjustments virtually imperceptible. When this is set as the tweak, it won't change the luma
      * multiplier or luma contrast, and it won't change either chromatic value multiplier.
      */
-    public static final float TWEAK_RESET = FloatColors.floatColor(0.5f, 0.5f, 0.5f, 0.5f);
+    public static final float TWEAK_RESET = ColorTools.ycwcma(0.5f, 0.5f, 0.5f, 0.5f);
     protected float tweak = TWEAK_RESET;
 
     /** Number of render calls since the last {@link #begin()}. **/
@@ -220,7 +221,7 @@ public class ColorfulBatch implements Batch {
 
     @Override
     public void setColor (float luma, float warm, float mild, float alpha) {
-        color = FloatColors.floatColor(luma, warm, mild, alpha);
+        color = ColorTools.ycwcma(luma, warm, mild, alpha);
     }
 
     public void setColor (final float color) {
@@ -258,7 +259,7 @@ public class ColorfulBatch implements Batch {
     }
 
     public void setTweak (float luma, float warm, float mild, float contrast) {
-        tweak = FloatColors.floatColor(luma, warm, mild, contrast);
+        tweak = ColorTools.ycwcma(luma, warm, mild, contrast);
     }
 
     public void setTweak (final float tweak) {

@@ -15,6 +15,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.tommyettinger.colorful.ycwcm.ColorTools;
+import com.github.tommyettinger.colorful.ycwcm.ColorfulBatch;
+import com.github.tommyettinger.colorful.ycwcm.Palette;
 
 import static com.badlogic.gdx.Gdx.input;
 
@@ -95,7 +98,7 @@ public class NamedDemo extends ApplicationAdapter {
         for (int i = 0; i < Palette.NAMES_BY_HUE.size; i++) {
             String name = Palette.NAMES_BY_HUE.get(i);
             float color = Palette.NAMED.get(name, Palette.WHITE);
-            if (FloatColors.alphaInt(color) == 0)
+            if (ColorTools.alphaInt(color) == 0)
                 Palette.NAMES_BY_HUE.removeIndex(i--);
         }
         selectedName = "Gray";
@@ -192,8 +195,8 @@ public class NamedDemo extends ApplicationAdapter {
                 selected = Palette.NAMED.get(selectedName, Palette.GRAY);
             } else if (input.isKeyPressed(Input.Keys.P)) // print
                 System.out.println("Using color " + selectedName
-                        + " with luma="+FloatColors.luma(selected) + ",warm="+FloatColors.chromaWarm(selected)
-                        + ",mild="+FloatColors.chromaMild(selected)+",alpha=1.0 .\nUsing tweak with luma="+luma
+                        + " with luma="+ ColorTools.luma(selected) + ",warm="+ ColorTools.chromaWarm(selected)
+                        + ",mild="+ ColorTools.chromaMild(selected)+",alpha=1.0 .\nUsing tweak with luma="+luma
                         + ",warm="+warm + ",mild="+mild+",contrast="+contrast + " .");
             else if (input.isKeyPressed(Input.Keys.L)) //light
                 luma = MathUtils.clamp(luma + 0x3p-7f, 0f, 1f);

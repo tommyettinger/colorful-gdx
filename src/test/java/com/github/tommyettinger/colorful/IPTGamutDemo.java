@@ -127,7 +127,7 @@ public class IPTGamutDemo extends ApplicationAdapter {
         Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(screenView.getCamera().combined);
-        batch.setPackedColor(Palette.GRAY);
+        batch.setColor(0.5f, 0.5f, 0.5f, 1f);
         batch.begin();
         batch.draw(blank, 0, 0, 512, 512);
         batch.setColor(layer, 0.5f, 0.5f, 1f);

@@ -52,7 +52,7 @@ public class HSLWheelDemo extends ApplicationAdapter {
         blank = new Texture(b);
         font = new BitmapFont(Gdx.files.internal("font.fnt"));
         font.setColor(1f, 0.5f, 0.5f, 1f);
-        shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL2);
+        shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL);
         if(!shader.isCompiled())
             System.out.println(shader.getLog());
         otherShader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSLPsychedelic);

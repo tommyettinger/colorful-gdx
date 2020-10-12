@@ -1,13 +1,14 @@
-package com.github.tommyettinger.colorful;
+package com.github.tommyettinger.colorful.ycwcm;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.ObjectFloatMap;
+import com.github.tommyettinger.colorful.FloatColors;
 
 import java.util.Comparator;
 
-import static com.github.tommyettinger.colorful.FloatColors.hue;
-import static com.github.tommyettinger.colorful.FloatColors.luma;
+import static com.github.tommyettinger.colorful.ycwcm.ColorTools.hue;
+import static com.github.tommyettinger.colorful.ycwcm.ColorTools.luma;
 
 /**
  * A palette of predefined colors as packed YCwCmA floats, the kind {@link FloatColors} works with.

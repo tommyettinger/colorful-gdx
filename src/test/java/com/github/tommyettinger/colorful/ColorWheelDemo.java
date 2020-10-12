@@ -14,6 +14,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.tommyettinger.colorful.ycwcm.ColorTools;
+import com.github.tommyettinger.colorful.ycwcm.ColorfulBatch;
+import com.github.tommyettinger.colorful.ycwcm.Palette;
 
 import static com.badlogic.gdx.Gdx.input;
 
@@ -103,7 +106,7 @@ public class ColorWheelDemo extends ApplicationAdapter {
         batch.draw(blank, 0, 0, 512, 512);
         final float maxDist = 254f * TrigTools.sin_(layer * 0.5f) + 1f, iMax = 1f / maxDist;
         //final float circumference = 1605.3539f;//MathUtils.PI * 511f;
-        batch.setPackedColor(FloatColors.floatColor(layer, 0.5f, 0.5f, 1f));
+        batch.setPackedColor(ColorTools.ycwcma(layer, 0.5f, 0.5f, 1f));
         batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
         for (int x = 0; x < 512; x++) {
             for (int y = 0; y < 512; y++) {

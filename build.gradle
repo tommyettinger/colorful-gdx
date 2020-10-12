@@ -21,7 +21,7 @@ def projectName = 'colorful'
 version '0.3.0-SNAPSHOT'
 group 'com.github.tommyettinger'
 
-def gdxVersion = '1.9.10'
+def gdxVersion = '1.9.11'
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
