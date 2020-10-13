@@ -49,13 +49,19 @@ public class ColorTools {
 	 */
 	public static int toRGBA8888(final float packed)
 	{
-		final int decoded = NumberUtils.floatToIntBits(packed), y = (decoded & 0xff),
-				cw = ((decoded >>> 7 & 0x1fe) - 254),
-				cm = (((decoded >>> 15 & 0x1fe) - 254) >> 1);
-		return MathUtils.clamp(y + (cw * 5 >> 3) - cm, 0, 0xFF) << 24
-				| MathUtils.clamp(y - (cw * 3 >> 3) + cm, 0, 0xFF) << 16
-				| MathUtils.clamp(y - (cw * 3 >> 3) - cm, 0, 0xFF) << 8
-				| (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
+		final int decoded = NumberUtils.floatToIntBits(packed), i = (decoded & 0xff),
+				p = ((decoded >>> 7 & 0x1fe) - 255),
+				t = (((decoded >>> 15 & 0x1fe) - 255) >> 1);
+		float lPrime = i + 0.06503950f * p + 0.15391950f * t;
+		float mPrime = i - 0.07591241f * p + 0.09991275f * t;
+		float sPrime = i + 0.02174116f * p - 0.50766750f * t;
+		float l = Math.copySign((float) Math.pow(Math.abs(lPrime), 2.3256), lPrime);
+		float m = Math.copySign((float) Math.pow(Math.abs(mPrime), 2.3256), mPrime);
+		float s = Math.copySign((float) Math.pow(Math.abs(sPrime), 2.3256), sPrime);
+		int r = MathUtils.clamp((int) ((5.432622 * l - 4.679100 * m + 0.246257 * s) * 255.99999), 0, 255);
+		int g = MathUtils.clamp((int) ((-1.10517 * l + 2.311198 * m - 0.205880 * s) * 255.99999), 0, 255);
+		int b = MathUtils.clamp((int) ((0.028104 * l - 0.194660 * m + 1.166325 * s) * 255.99999), 0, 255);
+		return r << 24 | g << 16 | b << 8 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
 	}
 
 	/**
@@ -67,64 +73,96 @@ public class ColorTools {
 	 */
 	public static float toRGBA(final float packed)
 	{
-		final int decoded = NumberUtils.floatToIntBits(packed), y = (decoded & 0xff),
-				cw = ((decoded >>> 7 & 0x1fe) - 254),
-				cm = (((decoded >>> 15 & 0x1fe) - 254) >> 1);
-		return NumberUtils.intBitsToFloat(MathUtils.clamp(y + (cw * 5 >> 3) - cm, 0, 0xFF)
-				| MathUtils.clamp(y - (cw * 3 >> 3) + cm, 0, 0xFF) << 8
-				| MathUtils.clamp(y - (cw * 3 >> 3) - cm, 0, 0xFF) << 16
-				| (decoded & 0xfe000000));
+		final int decoded = NumberUtils.floatToIntBits(packed), i = (decoded & 0xff),
+				p = ((decoded >>> 7 & 0x1fe) - 255),
+				t = (((decoded >>> 15 & 0x1fe) - 255) >> 1);
+		float lPrime = i + 0.06503950f * p + 0.15391950f * t;
+		float mPrime = i - 0.07591241f * p + 0.09991275f * t;
+		float sPrime = i + 0.02174116f * p - 0.50766750f * t;
+		float l = Math.copySign((float) Math.pow(Math.abs(lPrime), 2.3256), lPrime);
+		float m = Math.copySign((float) Math.pow(Math.abs(mPrime), 2.3256), mPrime);
+		float s = Math.copySign((float) Math.pow(Math.abs(sPrime), 2.3256), sPrime);
+		int r = MathUtils.clamp((int) ((5.432622 * l - 4.679100 * m + 0.246257 * s) * 255.99999), 0, 255);
+		int g = MathUtils.clamp((int) ((-1.10517 * l + 2.311198 * m - 0.205880 * s) * 255.99999), 0, 255);
+		int b = MathUtils.clamp((int) ((0.028104 * l - 0.194660 * m + 1.166325 * s) * 255.99999), 0, 255);
+		return NumberUtils.intBitsToFloat(r | g << 8 | b << 16 | (decoded & 0xfe000000));
 	}
 
 	/**
-	 * Takes a color encoded as an RGBA8888 int and converts to a packed float in the YCwCmA this uses.
+	 * Takes a color encoded as an RGBA8888 int and converts to a packed float in the IPT format this uses.
 	 * @param rgba an int with the channels (in order) red, green, blue, alpha; should have 8 bits per channel
-	 * @return a packed float as YCwCmA, which this class can use
+	 * @return a packed float as IPT, which this class can use
 	 */
 	public static float fromRGBA8888(final int rgba) {
-		return NumberUtils.intBitsToFloat(((rgba >>> 24) * 3 + (rgba >>> 16 & 0xFF) * 4 + (rgba >>> 8 & 0xFF) >> 3)
-				| (0xFF + (rgba >>> 24) - (rgba >>> 8 & 0xFF) & 0x1FE) << 7
-				| (0xFF + (rgba >>> 16 & 0xFF) - (rgba >>> 8 & 0xFF) & 0x1FE) << 15
+		final float r = (rgba >>> 24) * 0x1.010101010101p-8f;
+		final float g = (rgba >>> 16 & 0xFF) * 0x1.010101010101p-8f;
+		final float b = (rgba >>> 8 & 0xFF) * 0x1.010101010101p-8f;
+		final float l = (float) Math.pow(0.313921f * r + 0.639468f * g + 0.0465970f * b, 0.43f);
+		final float m = (float) Math.pow(0.151693f * r + 0.748209f * g + 0.1000044f * b, 0.43f);
+		final float s = (float) Math.pow(0.017700f * r + 0.109400f * g + 0.8729000f * b, 0.43f);
+
+		return NumberUtils.intBitsToFloat(
+				  (int)(102.0f * l + 102.0f * m + 51.0f * s + 0.5f)
+				| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 128f)
+				| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 128f)
 				| (rgba & 0xFE) << 24);
 	}
 
 	/**
-	 * Takes a color encoded as an RGBA8888 packed float and converts to a packed float in the YCwCmA this uses.
+	 * Takes a color encoded as an RGBA8888 packed float and converts to a packed float in the IPT format this uses.
 	 * @param packed a packed float in RGBA8888 format, with A in the MSB and R in the LSB
-	 * @return a packed float as YCwCmA, which this class can use
+	 * @return a packed float as IPT, which this class can use
 	 */
 	public static float fromRGBA(final float packed) {
-		final int rgba = NumberUtils.floatToIntBits(packed);
-		return NumberUtils.intBitsToFloat(((rgba & 0xFF) * 3 + (rgba >>> 8 & 0xFF) * 4 + (rgba >>> 16 & 0xFF) >> 3)
-				| (0xFF + (rgba & 0xFF) - (rgba >>> 16 & 0xFF) & 0x1FE) << 7
-				| (0xFF + (rgba >>> 8 & 0xFF) - (rgba >>> 16 & 0xFF) & 0x1FE) << 15
-				| (rgba >>> 24 & 0xFE) << 24);
+		final int abgr = NumberUtils.floatToIntBits(packed);
+		final float r = (abgr & 0xFF) * 0x1.010101010101p-8f;
+		final float g = (abgr >>> 8 & 0xFF) * 0x1.010101010101p-8f;
+		final float b = (abgr >>> 16 & 0xFF) * 0x1.010101010101p-8f;
+		final float l = (float) Math.pow(0.313921f * r + 0.639468f * g + 0.0465970f * b, 0.43f);
+		final float m = (float) Math.pow(0.151693f * r + 0.748209f * g + 0.1000044f * b, 0.43f);
+		final float s = (float) Math.pow(0.017700f * r + 0.109400f * g + 0.8729000f * b, 0.43f);
+
+		return NumberUtils.intBitsToFloat(
+				(int)(102.0f * l + 102.0f * m + 51.0f * s + 0.5f)
+						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 128f)
+						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 128f)
+				| (abgr & 0xFE000000));
 	}
 
 	/**
-	 * Takes a libGDX Color that uses RGBA8888 channels and converts to a packed float in the YCwCmA this uses.
+	 * Takes a libGDX Color that uses RGBA8888 channels and converts to a packed float in the IPT format this uses.
 	 * @param color a libGDX RGBA8888 Color
-	 * @return a packed float as YCwCmA, which this class can use
+	 * @return a packed float as IPT, which this class can use
 	 */
 	public static float fromColor(final Color color) {
-		return NumberUtils.intBitsToFloat((int) (255 * (color.r * 0x3p-3f + color.g * 0x4p-3f + color.b * 0x1p-3f)) & 0xFF
-						| (int)((color.r - color.b + 1f) * 127.5f) << 8 & 0xFF00
-						| (int)((color.g - color.b + 1f) * 127.5f) << 16 & 0xFF0000
+		final float l = (float) Math.pow(0.313921f * color.r + 0.639468f * color.g + 0.0465970f * color.b, 0.43f);
+		final float m = (float) Math.pow(0.151693f * color.r + 0.748209f * color.g + 0.1000044f * color.b, 0.43f);
+		final float s = (float) Math.pow(0.017700f * color.r + 0.109400f * color.g + 0.8729000f * color.b, 0.43f);
+
+		return NumberUtils.intBitsToFloat(
+				(int)(102.0f * l + 102.0f * m + 51.0f * s + 0.5f)
+						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 128f)
+						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 128f)
 						| ((int)(color.a * 255f) << 24 & 0xFE000000));
 	}
 
 	/**
-	 * Takes RGBA components from 0.0 to 1.0 each and converts to a packed float in the YCwCmA this uses.
+	 * Takes RGBA components from 0.0 to 1.0 each and converts to a packed float in the IPT format this uses.
 	 * @param r red, from 0.0 to 1.0 (both inclusive)
 	 * @param g green, from 0.0 to 1.0 (both inclusive)
 	 * @param b blue, from 0.0 to 1.0 (both inclusive)
 	 * @param a alpha, from 0.0 to 1.0 (both inclusive)
-	 * @return a packed float as YCwCmA, which this class can use
+	 * @return a packed float as IPT, which this class can use
 	 */
 	public static float fromRGBA(final float r, final float g, final float b, final float a) {
-		return NumberUtils.intBitsToFloat((int) (255 * (r * 0x3p-3f + g * 0x4p-3f + b * 0x1p-3f)) & 0xFF
-						| (int)((r - b + 1f) * 127.5f) << 8 & 0xFF00
-						| (int)((g - b + 1f) * 127.5f) << 16 & 0xFF0000
+		final float l = (float) Math.pow(0.313921f * r + 0.639468f * g + 0.0465970f * b, 0.43f);
+		final float m = (float) Math.pow(0.151693f * r + 0.748209f * g + 0.1000044f * b, 0.43f);
+		final float s = (float) Math.pow(0.017700f * r + 0.109400f * g + 0.8729000f * b, 0.43f);
+
+		return NumberUtils.intBitsToFloat(
+				(int)(102.0f * l + 102.0f * m + 51.0f * s + 0.5f)
+						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 128f)
+						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 128f)
 						| ((int)(a * 255f) << 24 & 0xFE000000));
 	}
 
