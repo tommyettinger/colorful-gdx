@@ -1,4 +1,4 @@
-package com.github.tommyettinger.colorful;
+package com.github.tommyettinger.colorful.ipt;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.tommyettinger.colorful.Shaders;
 
 import static com.badlogic.gdx.Gdx.input;
 
@@ -99,7 +100,7 @@ public class IPTTintDemo extends ApplicationAdapter {
                         "        (pow(abs(back), vec3(2.3256)) * sign(back));\n" +
                         "    gl_FragColor = vec4(clamp(back, 0.0, 1.0), v_color.a * tgt.a);\n" +
                         "}";
-        shader = new ShaderProgram(Shaders.vertexShader, fragmentShader);
+        shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderIPT);
         if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);

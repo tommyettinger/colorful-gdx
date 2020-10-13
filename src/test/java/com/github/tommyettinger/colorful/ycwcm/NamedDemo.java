@@ -1,4 +1,4 @@
-package com.github.tommyettinger.colorful;
+package com.github.tommyettinger.colorful.ycwcm;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -15,9 +15,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.tommyettinger.colorful.ycwcm.ColorTools;
-import com.github.tommyettinger.colorful.ycwcm.ColorfulBatch;
-import com.github.tommyettinger.colorful.ycwcm.Palette;
 
 import static com.badlogic.gdx.Gdx.input;
 

@@ -49,18 +49,19 @@ public class ColorTools {
 	 */
 	public static int toRGBA8888(final float packed)
 	{
-		final int decoded = NumberUtils.floatToIntBits(packed), i = (decoded & 0xff),
-				p = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				t = ((decoded >>> 15 & 0x1fe) - 0xfe);
+		final int decoded = NumberUtils.floatToIntBits(packed);
+		final float i = (decoded & 0xff) / 255f;
+		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float lPrime = i + 0.06503950f * p + 0.15391950f * t;
 		final float mPrime = i - 0.07591241f * p + 0.09991275f * t;
 		final float sPrime = i + 0.02174116f * p - 0.50766750f * t;
 		final float l = Math.copySign((float) Math.pow(Math.abs(lPrime), 2.3256), lPrime);
 		final float m = Math.copySign((float) Math.pow(Math.abs(mPrime), 2.3256), mPrime);
 		final float s = Math.copySign((float) Math.pow(Math.abs(sPrime), 2.3256), sPrime);
-		final int r = MathUtils.clamp((int) ((5.432622 * l - 4.679100 * m + 0.246257 * s) * 255.99999), 0, 255);
-		final int g = MathUtils.clamp((int) ((-1.10517 * l + 2.311198 * m - 0.205880 * s) * 255.99999), 0, 255);
-		final int b = MathUtils.clamp((int) ((0.028104 * l - 0.194660 * m + 1.166325 * s) * 255.99999), 0, 255);
+		final int r = MathUtils.clamp((int) ((5.432622 * l - 4.679100 * m + 0.246257 * s) * 256.0), 0, 255);
+		final int g = MathUtils.clamp((int) ((-1.10517 * l + 2.311198 * m - 0.205880 * s) * 256.0), 0, 255);
+		final int b = MathUtils.clamp((int) ((0.028104 * l - 0.194660 * m + 1.166325 * s) * 256.0), 0, 255);
 		return r << 24 | g << 16 | b << 8 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
 	}
 
@@ -73,18 +74,19 @@ public class ColorTools {
 	 */
 	public static float toRGBA(final float packed)
 	{
-		final int decoded = NumberUtils.floatToIntBits(packed), i = (decoded & 0xff),
-				p = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				t = ((decoded >>> 15 & 0x1fe) - 0xfe);
+		final int decoded = NumberUtils.floatToIntBits(packed);
+		final float i = (decoded & 0xff) / 255f;
+		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float lPrime = i + 0.06503950f * p + 0.15391950f * t;
 		final float mPrime = i - 0.07591241f * p + 0.09991275f * t;
 		final float sPrime = i + 0.02174116f * p - 0.50766750f * t;
 		final float l = Math.copySign((float) Math.pow(Math.abs(lPrime), 2.3256), lPrime);
 		final float m = Math.copySign((float) Math.pow(Math.abs(mPrime), 2.3256), mPrime);
 		final float s = Math.copySign((float) Math.pow(Math.abs(sPrime), 2.3256), sPrime);
-		final int r = MathUtils.clamp((int) ((5.432622 * l - 4.679100 * m + 0.246257 * s) * 255.99999), 0, 255);
-		final int g = MathUtils.clamp((int) ((-1.10517 * l + 2.311198 * m - 0.205880 * s) * 255.99999), 0, 255);
-		final int b = MathUtils.clamp((int) ((0.028104 * l - 0.194660 * m + 1.166325 * s) * 255.99999), 0, 255);
+		final int r = MathUtils.clamp((int) ((5.432622 * l - 4.679100 * m + 0.246257 * s) * 256.0), 0, 255);
+		final int g = MathUtils.clamp((int) ((-1.10517 * l + 2.311198 * m - 0.205880 * s) * 256.0), 0, 255);
+		final int b = MathUtils.clamp((int) ((0.028104 * l - 0.194660 * m + 1.166325 * s) * 256.0), 0, 255);
 		return NumberUtils.intBitsToFloat(r | g << 8 | b << 16 | (decoded & 0xfe000000));
 	}
 	/**
@@ -96,9 +98,10 @@ public class ColorTools {
 	 */
 	public static Color toColor(Color editing, final float packed)
 	{
-		final int decoded = NumberUtils.floatToIntBits(packed), i = (decoded & 0xff),
-				p = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				t = ((decoded >>> 15 & 0x1fe) - 0xfe);
+		final int decoded = NumberUtils.floatToIntBits(packed);
+		final float i = (decoded & 0xff) / 255f;
+		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float lPrime = i + 0.06503950f * p + 0.15391950f * t;
 		final float mPrime = i - 0.07591241f * p + 0.09991275f * t;
 		final float sPrime = i + 0.02174116f * p - 0.50766750f * t;
@@ -127,8 +130,8 @@ public class ColorTools {
 
 		return NumberUtils.intBitsToFloat(
 				  (int)(102.0f * l + 102.0f * m + 51.0f * s + 0.5f)
-				| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 128f)
-				| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 128f)
+				| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 128f) << 8
+				| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 128f) << 16
 				| (rgba & 0xFE) << 24);
 	}
 
@@ -148,8 +151,8 @@ public class ColorTools {
 
 		return NumberUtils.intBitsToFloat(
 				(int)(102.0f * l + 102.0f * m + 51.0f * s + 0.5f)
-						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 128f)
-						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 128f)
+						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 127.5f) << 8
+						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 127.5f) << 16
 				| (abgr & 0xFE000000));
 	}
 
@@ -165,8 +168,8 @@ public class ColorTools {
 
 		return NumberUtils.intBitsToFloat(
 				(int)(102.0f * l + 102.0f * m + 51.0f * s + 0.5f)
-						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 128f)
-						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 128f)
+						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 128f) << 8
+						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 128f) << 16
 						| ((int)(color.a * 255f) << 24 & 0xFE000000));
 	}
 
@@ -185,8 +188,8 @@ public class ColorTools {
 
 		return NumberUtils.intBitsToFloat(
 				(int)(102.0f * l + 102.0f * m + 51.0f * s + 0.5f)
-						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 128f)
-						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 128f)
+						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 128f) << 8
+						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 128f) << 16
 						| ((int)(a * 255f) << 24 & 0xFE000000));
 	}
 
@@ -197,16 +200,17 @@ public class ColorTools {
 	 */
 	public static int redInt(final float encoded)
 	{
-		final int decoded = NumberUtils.floatToIntBits(encoded), i = (decoded & 0xff),
-				p = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				t = ((decoded >>> 15 & 0x1fe) - 0xfe);
+		final int decoded = NumberUtils.floatToIntBits(encoded);
+		final float i = (decoded & 0xff) / 255f;
+		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float lPrime = i + 0.06503950f * p + 0.15391950f * t;
 		final float mPrime = i - 0.07591241f * p + 0.09991275f * t;
 		final float sPrime = i + 0.02174116f * p - 0.50766750f * t;
 		final float l = Math.copySign((float) Math.pow(Math.abs(lPrime), 2.3256), lPrime);
 		final float m = Math.copySign((float) Math.pow(Math.abs(mPrime), 2.3256), mPrime);
 		final float s = Math.copySign((float) Math.pow(Math.abs(sPrime), 2.3256), sPrime);
-		return MathUtils.clamp((int) ((5.432622 * l - 4.679100 * m + 0.246257 * s) * 255.99999), 0, 255);
+		return MathUtils.clamp((int) ((5.432622 * l - 4.679100 * m + 0.246257 * s) * 256.0), 0, 255);
 	}
 
 	/**
@@ -216,16 +220,17 @@ public class ColorTools {
 	 */
 	public static int greenInt(final float encoded)
 	{
-		final int decoded = NumberUtils.floatToIntBits(encoded), i = (decoded & 0xff),
-				p = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				t = ((decoded >>> 15 & 0x1fe) - 0xfe);
+		final int decoded = NumberUtils.floatToIntBits(encoded);
+		final float i = (decoded & 0xff) / 255f;
+		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float lPrime = i + 0.06503950f * p + 0.15391950f * t;
 		final float mPrime = i - 0.07591241f * p + 0.09991275f * t;
 		final float sPrime = i + 0.02174116f * p - 0.50766750f * t;
 		final float l = Math.copySign((float) Math.pow(Math.abs(lPrime), 2.3256), lPrime);
 		final float m = Math.copySign((float) Math.pow(Math.abs(mPrime), 2.3256), mPrime);
 		final float s = Math.copySign((float) Math.pow(Math.abs(sPrime), 2.3256), sPrime);
-		return MathUtils.clamp((int) ((-1.10517 * l + 2.311198 * m - 0.205880 * s) * 255.99999), 0, 255); 
+		return MathUtils.clamp((int) ((-1.10517 * l + 2.311198 * m - 0.205880 * s) * 256.0), 0, 255); 
 	}
 
 	/**
@@ -235,16 +240,17 @@ public class ColorTools {
 	 */
 	public static int blueInt(final float encoded)
 	{
-		final int decoded = NumberUtils.floatToIntBits(encoded), i = (decoded & 0xff),
-				p = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				t = ((decoded >>> 15 & 0x1fe) - 0xfe);
+		final int decoded = NumberUtils.floatToIntBits(encoded);
+		final float i = (decoded & 0xff) / 255f;
+		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float lPrime = i + 0.06503950f * p + 0.15391950f * t;
 		final float mPrime = i - 0.07591241f * p + 0.09991275f * t;
 		final float sPrime = i + 0.02174116f * p - 0.50766750f * t;
 		final float l = Math.copySign((float) Math.pow(Math.abs(lPrime), 2.3256), lPrime);
 		final float m = Math.copySign((float) Math.pow(Math.abs(mPrime), 2.3256), mPrime);
 		final float s = Math.copySign((float) Math.pow(Math.abs(sPrime), 2.3256), sPrime);
-		return MathUtils.clamp((int) ((0.028104 * l - 0.194660 * m + 1.166325 * s) * 255.99999), 0, 255);
+		return MathUtils.clamp((int) ((0.028104 * l - 0.194660 * m + 1.166325 * s) * 256.0), 0, 255);
 	}
 
 	/**
@@ -265,9 +271,10 @@ public class ColorTools {
 	 */
 	public static float red(final float encoded)
 	{
-		final int decoded = NumberUtils.floatToIntBits(encoded), i = (decoded & 0xff),
-				p = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				t = ((decoded >>> 15 & 0x1fe) - 0xfe);
+		final int decoded = NumberUtils.floatToIntBits(encoded);
+		final float i = (decoded & 0xff) / 255f;
+		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float lPrime = i + 0.06503950f * p + 0.15391950f * t;
 		final float mPrime = i - 0.07591241f * p + 0.09991275f * t;
 		final float sPrime = i + 0.02174116f * p - 0.50766750f * t;
@@ -284,9 +291,10 @@ public class ColorTools {
 	 */
 	public static float green(final float encoded)
 	{
-		final int decoded = NumberUtils.floatToIntBits(encoded), i = (decoded & 0xff),
-				p = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				t = ((decoded >>> 15 & 0x1fe) - 0xfe);
+		final int decoded = NumberUtils.floatToIntBits(encoded);
+		final float i = (decoded & 0xff) / 255f;
+		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float lPrime = i + 0.06503950f * p + 0.15391950f * t;
 		final float mPrime = i - 0.07591241f * p + 0.09991275f * t;
 		final float sPrime = i + 0.02174116f * p - 0.50766750f * t;
@@ -303,9 +311,10 @@ public class ColorTools {
 	 */
 	public static float blue(final float encoded)
 	{
-		final int decoded = NumberUtils.floatToIntBits(encoded), i = (decoded & 0xff),
-				p = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				t = ((decoded >>> 15 & 0x1fe) - 0xfe);
+		final int decoded = NumberUtils.floatToIntBits(encoded);
+		final float i = (decoded & 0xff) / 255f;
+		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float lPrime = i + 0.06503950f * p + 0.15391950f * t;
 		final float mPrime = i - 0.07591241f * p + 0.09991275f * t;
 		final float sPrime = i + 0.02174116f * p - 0.50766750f * t;
@@ -355,18 +364,20 @@ public class ColorTools {
 	 * @return the saturation of the color from 0.0 (a grayscale color; inclusive) to 1.0 (a bright color, inclusive)
 	 */
 	public static float saturation(final float encoded) {
-		final int decoded = NumberUtils.floatToIntBits(encoded), i = (decoded & 0xff),
-				p = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				t = ((decoded >>> 15 & 0x1fe) - 0xfe);
+		final int decoded = NumberUtils.floatToIntBits(encoded);
+		final float i = (decoded & 0xff) / 255f;
+		if(Math.abs(i - 0.5) > 0.495f) return 0f;
+		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float lPrime = i + 0.06503950f * p + 0.15391950f * t;
 		final float mPrime = i - 0.07591241f * p + 0.09991275f * t;
 		final float sPrime = i + 0.02174116f * p - 0.50766750f * t;
 		final float l = Math.copySign((float) Math.pow(Math.abs(lPrime), 2.3256), lPrime);
 		final float m = Math.copySign((float) Math.pow(Math.abs(mPrime), 2.3256), mPrime);
 		final float s = Math.copySign((float) Math.pow(Math.abs(sPrime), 2.3256), sPrime);
-		final float r = (5.432622f * l - 4.679100f * m + 0.246257f * s);
-		final float g = (-1.10517f * l + 2.311198f * m - 0.205880f * s);
-		final float b = (0.028104f * l - 0.194660f * m + 1.166325f * s);
+		final float r = MathUtils.clamp((5.432622f * l - 4.679100f * m + 0.246257f * s), 0f, 1f);
+		final float g = MathUtils.clamp((-1.10517f * l + 2.311198f * m - 0.205880f * s), 0f, 1f);
+		final float b = MathUtils.clamp((0.028104f * l - 0.194660f * m + 1.166325f * s), 0f, 1f);
 		float x, y, w;
 		if(g < b) {
 			x = b;
@@ -389,18 +400,19 @@ public class ColorTools {
 	}
 
 	public static float lightness(final float encoded) {
-		final int decoded = NumberUtils.floatToIntBits(encoded), i = (decoded & 0xff),
-				p = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				t = ((decoded >>> 15 & 0x1fe) - 0xfe);
+		final int decoded = NumberUtils.floatToIntBits(encoded);
+		final float i = (decoded & 0xff) / 255f;
+		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float lPrime = i + 0.06503950f * p + 0.15391950f * t;
 		final float mPrime = i - 0.07591241f * p + 0.09991275f * t;
 		final float sPrime = i + 0.02174116f * p - 0.50766750f * t;
 		final float l = Math.copySign((float) Math.pow(Math.abs(lPrime), 2.3256), lPrime);
 		final float m = Math.copySign((float) Math.pow(Math.abs(mPrime), 2.3256), mPrime);
 		final float s = Math.copySign((float) Math.pow(Math.abs(sPrime), 2.3256), sPrime);
-		final float r = (5.432622f * l - 4.679100f * m + 0.246257f * s);
-		final float g = (-1.10517f * l + 2.311198f * m - 0.205880f * s);
-		final float b = (0.028104f * l - 0.194660f * m + 1.166325f * s);
+		final float r = MathUtils.clamp((5.432622f * l - 4.679100f * m + 0.246257f * s), 0f, 1f);
+		final float g = MathUtils.clamp((-1.10517f * l + 2.311198f * m - 0.205880f * s), 0f, 1f);
+		final float b = MathUtils.clamp((0.028104f * l - 0.194660f * m + 1.166325f * s), 0f, 1f);
 
 		float x, y, w;
 		if(g < b) {
@@ -430,18 +442,19 @@ public class ColorTools {
 	 * eventually to purple before looping back to almost the same red (1.0, exclusive)
 	 */
 	public static float hue(final float encoded) {
-		final int decoded = NumberUtils.floatToIntBits(encoded), i = (decoded & 0xff),
-				p = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				t = ((decoded >>> 15 & 0x1fe) - 0xfe);
+		final int decoded = NumberUtils.floatToIntBits(encoded);
+		final float i = (decoded & 0xff) / 255f;
+		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float lPrime = i + 0.06503950f * p + 0.15391950f * t;
 		final float mPrime = i - 0.07591241f * p + 0.09991275f * t;
 		final float sPrime = i + 0.02174116f * p - 0.50766750f * t;
 		final float l = Math.copySign((float) Math.pow(Math.abs(lPrime), 2.3256), lPrime);
 		final float m = Math.copySign((float) Math.pow(Math.abs(mPrime), 2.3256), mPrime);
 		final float s = Math.copySign((float) Math.pow(Math.abs(sPrime), 2.3256), sPrime);
-		final float r = (5.432622f * l - 4.679100f * m + 0.246257f * s);
-		final float g = (-1.10517f * l + 2.311198f * m - 0.205880f * s);
-		final float b = (0.028104f * l - 0.194660f * m + 1.166325f * s);
+		final float r = MathUtils.clamp((5.432622f * l - 4.679100f * m + 0.246257f * s), 0f, 1f);
+		final float g = MathUtils.clamp((-1.10517f * l + 2.311198f * m - 0.205880f * s), 0f, 1f);
+		final float b = MathUtils.clamp((0.028104f * l - 0.194660f * m + 1.166325f * s), 0f, 1f);
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
@@ -477,7 +490,7 @@ public class ColorTools {
 	 */
 	public static float intensity(final float encoded)
 	{
-		return (NumberUtils.floatToIntBits(encoded) & 0xff) * 0x1.010102p-8f;
+		return (NumberUtils.floatToIntBits(encoded) & 0xff) / 255f;
 	}
 
 	/**
@@ -490,7 +503,7 @@ public class ColorTools {
 	 */
 	public static float protan(final float encoded)
 	{
-		return ((NumberUtils.floatToIntBits(encoded) >>> 8 & 0xff)) * 0x1.010102p-8f;
+		return ((NumberUtils.floatToIntBits(encoded) >>> 8 & 0xff)) / 255f;
 	}
 
 	/**
@@ -503,7 +516,7 @@ public class ColorTools {
 	 */
 	public static float tritan(final float encoded)
 	{
-		return ((NumberUtils.floatToIntBits(encoded) >>> 16 & 0xff)) * 0x1.010102p-8f;
+		return ((NumberUtils.floatToIntBits(encoded) >>> 16 & 0xff)) / 255f;
 	}
 
 	/**
@@ -529,22 +542,21 @@ public class ColorTools {
 	 */
 	public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {
 		final int e = NumberUtils.floatToIntBits(basis);
-		final float i = MathUtils.clamp(value + (e & 0xff) * 0x1.010102p-8f, 0f, 1f);
+		final float i = MathUtils.clamp(value + (e & 0xff) / 255f, 0f, 1f);
 		opacity = MathUtils.clamp(opacity + (e >>> 24 & 0xfe) * 0x1.020408p-8f, 0f, 1f);
 		if (i <= 0.001f)
-			return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x7F7F00);
-		final int
-				p = ((e >>> 7 & 0x1fe) - 0xfe),
-				t = ((e >>> 15 & 0x1fe) - 0xfe);
+			return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x808000);
+		final float p = ((e >>> 7 & 0x1fe) - 0xff) / 255f;
+		final float t = ((e >>> 15 & 0x1fe) - 0xff) / 255f;
 		final float lPrime = i + 0.06503950f * p + 0.15391950f * t;
 		final float mPrime = i - 0.07591241f * p + 0.09991275f * t;
 		final float sPrime = i + 0.02174116f * p - 0.50766750f * t;
 		final float l = Math.copySign((float) Math.pow(Math.abs(lPrime), 2.3256), lPrime);
 		final float m = Math.copySign((float) Math.pow(Math.abs(mPrime), 2.3256), mPrime);
 		final float s = Math.copySign((float) Math.pow(Math.abs(sPrime), 2.3256), sPrime);
-		final float r = (5.432622f * l - 4.679100f * m + 0.246257f * s);
-		final float g = (-1.10517f * l + 2.311198f * m - 0.205880f * s);
-		final float b = (0.028104f * l - 0.194660f * m + 1.166325f * s);
+		final float r = MathUtils.clamp((5.432622f * l - 4.679100f * m + 0.246257f * s), 0f, 1f);
+		final float g = MathUtils.clamp((-1.10517f * l + 2.311198f * m - 0.205880f * s), 0f, 1f);
+		final float b = MathUtils.clamp((0.028104f * l - 0.194660f * m + 1.166325f * s), 0f, 1f);
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
@@ -731,7 +743,7 @@ public class ColorTools {
 				ct = (contrastBits >>> 16 & 0xff);
 		if((p - cp) * (p - cp) + (t - ct) * (t - ct) >= 0x10000)
 			return mainColor;
-		return ipt(ci < 128 ? i * (0.45f / 255f) + 0.55f : 0.5f - i * (0.45f / 255f), p, t, 0x1.010102p-8f * (bits >>> 24));
+		return ipt(ci < 128 ? i * (0.45f / 255f) + 0.55f : 0.5f - i * (0.45f / 255f), p, t, 0x1.0p-8f * (bits >>> 24));
 	}
 
 	/**

@@ -1,10 +1,11 @@
-package com.github.tommyettinger.colorful.internal;
+package com.github.tommyettinger.colorful.ycwcm.internal;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.utils.ObjectFloatMap;
+import com.github.tommyettinger.colorful.internal.StringKit;
 import com.github.tommyettinger.colorful.ycwcm.ColorTools;
 import com.github.tommyettinger.colorful.ycwcm.Palette;
 
@@ -80,14 +81,14 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //                    + ", decoded luma=" + FloatColors.luma(c) + ", decoded warmth=" + FloatColors.chromaWarm(c) + ", decoded mild=" + FloatColors.chromaMild(c)
             );
         }
-        Gdx.files.local("ColorOutput.txt").writeString(sb.toString(), false);
+        Gdx.files.local("ColorOutputYCwCm.txt").writeString(sb.toString(), false);
 
         String templateTable = "<tr>\n<td style='background-color: #FEDCBA;'></td>\n<td>Name</td>\n<td>0x`RGBA8888</td>\n<td>`LUMA</td>\n<td>`WARM</td>\n<td>`MILD</td>\n<td>`ALPH</td>\n<td>`HUE</td>\n<td>`SAT</td>\n<td>`PACK</td>\n</tr>\n";
         final int size = Palette.NAMED.size;
         ArrayList<ObjectFloatMap.Entry<String>> PAL = new ArrayList<>(size);
         for(ObjectFloatMap.Entry<String> e : Palette.NAMED.entries())
         {
-            ObjectFloatMap.Entry<String> ee = new ObjectFloatMap.Entry<String>();
+            ObjectFloatMap.Entry<String> ee = new ObjectFloatMap.Entry<>();
             ee.key = e.key;
             ee.value = e.value;
             PAL.add(ee);
@@ -116,7 +117,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
             );
         }
         sb.append("</table>\n</body>\n</html>");
-        Gdx.files.local("ColorTable.html").writeString(sb.toString(), false);
+        Gdx.files.local("ColorTableYCwCm.html").writeString(sb.toString(), false);
 
         sb.setLength(0);
         Collections.sort(PAL, new Comparator<ObjectFloatMap.Entry<String>>() {
@@ -150,7 +151,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
             );
         }
         sb.append("</table>\n</body>\n</html>");
-        Gdx.files.local("ColorTableHue.html").writeString(sb.toString(), false);
+        Gdx.files.local("ColorTableHueYCwCm.html").writeString(sb.toString(), false);
 
         sb.setLength(0);
         Collections.sort(PAL, new Comparator<ObjectFloatMap.Entry<String>>() {
@@ -175,7 +176,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
             );
         }
         sb.append("</table>\n</body>\n</html>");
-        Gdx.files.local("ColorTableValue.html").writeString(sb.toString(), false);
+        Gdx.files.local("ColorTableValueYCwCm.html").writeString(sb.toString(), false);
         
         Gdx.app.exit();
     }
