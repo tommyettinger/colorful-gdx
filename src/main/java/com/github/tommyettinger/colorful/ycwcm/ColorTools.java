@@ -213,6 +213,31 @@ public class ColorTools {
 		return ((NumberUtils.floatToIntBits(encoded) & 0xfe000000) >>> 24) * 0.003937008f;
 	}
 
+
+	/**
+	 * Gets a color as a YCwCmA packed float given floats representing hue, saturation, lightness, and opacity.
+	 * All parameters should normally be between 0 and 1 inclusive, though any hue is tolerated (precision loss may
+	 * affect the color if the hue is too large). A hue of 0 is red, progressively higher hue values go to orange,
+	 * yellow, green, blue, and purple before wrapping around to red as it approaches 1. A saturation of 0 is grayscale,
+	 * a saturation of 1 is brightly colored, and values close to 1 will usually appear more distinct than values close
+	 * to 0, especially if the hue is different. A lightness of 0.001f or less is always black (also using a shortcut if
+	 * this is the case, respecting opacity), while a lightness of 1f is white. Very bright colors are mostly in a band
+	 * of high-saturation where lightness is 0.5f.
+	 *
+	 * @param hue        0f to 1f, color wheel position
+	 * @param saturation 0f to 1f, 0f is grayscale and 1f is brightly colored
+	 * @param lightness  0f to 1f, 0f is black and 1f is white
+	 * @param opacity    0f to 1f, 0f is fully transparent and 1f is opaque
+	 * @return a float encoding a color with the given properties
+	 */
+	public static float floatGetHSL(float hue, float saturation, float lightness, float opacity) {
+		if (lightness <= 0.001f) {
+			return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x7F7F00);
+		} else {
+			return fromRGBA(FloatColors.hsl2rgb(hue, saturation, lightness, opacity));
+		}
+	}
+
 	/**
 	 * Gets the saturation of the given encoded color, as a float ranging from 0.0f to 1.0f, inclusive.
 	 * @param encoded a color as a packed float that can be obtained by {@link #ycwcma(float, float, float, float)}

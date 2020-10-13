@@ -12,11 +12,24 @@ import com.github.tommyettinger.colorful.ycwcm.ColorTools;
  */
 public class FloatColors {
 
+    /**
+     * Converts a packed float in HSLA format (hue, saturation, lightness, alpha) to a packed float in RGBA format.
+     * @param hsla an HSLA-format packed float
+     * @return an RGBA-format packed float
+     */
     public static float hsl2rgb(final float hsla) {
         final int decoded = NumberUtils.floatToIntBits(hsla);
         return hsl2rgb((decoded & 0xFF) / 255f, (decoded >>> 8 & 0xFF) / 255f, (decoded >>> 16 & 0xFF) / 255f, (decoded >>> 24 & 0xFE) / 255f);
     }
-    
+
+    /**
+     * Converts the four HSLA components, each in the 0.0 to 1.0 range, to a packed float in RGBA format.
+     * @param h hue, from 0.0 to 1.0
+     * @param s saturation, from 0.0 to 1.0
+     * @param l lightness, from 0.0 to 1.0
+     * @param a alpha, from 0.0 to 1.0
+     * @return an RGBA-format packed float
+     */
     public static float hsl2rgb(final float h, final float s, final float l, final float a){
         float x = MathUtils.clamp(Math.abs(h * 6f - 3f) - 1f, 0f, 1f), y = h + 2f / 3f, z = h + 1f / 3f;
         y -= (int)y;
@@ -27,11 +40,28 @@ public class FloatColors {
         float d = 2f * (1f - l / (v + 1e-10f));
         return Color.toFloatBits(v * MathUtils.lerp(1f, x, d), v * MathUtils.lerp(1f, y, d), v * MathUtils.lerp(1f, z, d), a);
     }
-    
+
+    /**
+     * Converts a packed float in RGBA format to a packed float in "HSLA format" (hue, saturation, lightness, alpha),
+     * which isn't one of the regular formats this supports but can be useful for conversions.
+     * @param rgba an RGBA-format packed float
+     * @return an "HSLA-format" packed float
+     */
     public static float rgb2hsl(final float rgba) {
         final int decoded = NumberUtils.floatToIntBits(rgba);
         return rgb2hsl((decoded & 0xFF) / 255f, (decoded >>> 8 & 0xFF) / 255f, (decoded >>> 16 & 0xFF) / 255f, (decoded >>> 24 & 0xFE) / 255f);
-    }    
+    }
+
+    /**
+     * Converts the four RGBA components, each in the 0.0 to 1.0 range, to a packed float in "HSLA format" (hue,
+     * saturation, lightness, alpha), which isn't one of the regular formats this supports but can be useful for
+     * conversions.
+     * @param r red, from 0.0 to 1.0
+     * @param g green, from 0.0 to 1.0
+     * @param b blue, from 0.0 to 1.0
+     * @param a alpha, from 0.0 to 1.0
+     * @return an "HSLA-format" packed float
+     */
     public static float rgb2hsl(final float r, final float g, final float b, final float a) {
         float x, y, z, w;
         if(g < b) {
@@ -59,30 +89,6 @@ public class FloatColors {
         return Color.toFloatBits(Math.abs(z + (w - y) / (6f * d + 1e-10f)), (x - l) / (Math.min(l, 1f - l) + 1e-10f), l, a);
     }
 
-    /**
-     * Gets a color as a packed float given floats representing hue, saturation, lightness, and opacity.
-     * All parameters should normally be between 0 and 1 inclusive, though any hue is tolerated (precision loss may
-     * affect the color if the hue is too large). A hue of 0 is red, progressively higher hue values go to orange,
-     * yellow, green, blue, and purple before wrapping around to red as it approaches 1. A saturation of 0 is grayscale,
-     * a saturation of 1 is brightly colored, and values close to 1 will usually appear more distinct than values close
-     * to 0, especially if the hue is different. A lightness of 0.001f or less is always black (also using a shortcut if
-     * this is the case, respecting opacity), while a lightness of 1f is white. Very bright colors are mostly in a band
-     * of high-saturation where lightness is 0.5f.
-     *
-     * @param hue        0f to 1f, color wheel position
-     * @param saturation 0f to 1f, 0f is grayscale and 1f is brightly colored
-     * @param lightness  0f to 1f, 0f is black and 1f is white
-     * @param opacity    0f to 1f, 0f is fully transparent and 1f is opaque
-     * @return a float encoding a color with the given properties
-     */
-    public static float floatGetHSL(float hue, float saturation, float lightness, float opacity) {
-        if (lightness <= 0.001f) {
-            return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x7F7F00);
-        } else {
-            return ColorTools.fromRGBA(hsl2rgb(hue, saturation, lightness, opacity));
-        }
-    }
-
 
     /**
      * Given a color stored as a packed float and an alpha multiplier to affect that color (between 0f and 1f, inclusive
@@ -91,6 +97,7 @@ public class FloatColors {
      * the alpha without considering its current value, you can use {@link #setAlpha(float, float)}
      *
      * @param encodedColor a color encoded as a packed float, as by {@link ColorTools#ycwcma(float, float, float, float)}
+     *                     or {@link com.github.tommyettinger.colorful.ipt.ColorTools#ipt(float, float, float, float)}
      * @param alpha  between 0.0 and 1.0 inclusive, the alpha to multiply the color's own alpha by
      * @return a color encoded as a packed float, using color's RGB channels but with its A channel times {@code alpha}
      */
@@ -107,6 +114,7 @@ public class FloatColors {
      * of the encoded color; if you want to do that, you can use {@link #multiplyAlpha(float, float)}.
      *
      * @param encodedColor a color encoded as a packed float, as by {@link ColorTools#ycwcma(float, float, float, float)}
+     *                     or {@link com.github.tommyettinger.colorful.ipt.ColorTools#ipt(float, float, float, float)}
      * @param alpha        between 0.0 and 1.0 inclusive, the alpha to set into the returned packed color
      * @return another color encoded as a packed float, using encodedColor's RGB channels and the given alpha
      */
@@ -117,8 +125,11 @@ public class FloatColors {
 
     /**
      * Interpolates from the packed float color start towards end by change. Both start and end should be packed colors,
-     * as from {@link ColorTools#ycwcma(float, float, float, float)}, and change can be between 0f
-     * (keep start) and 1f (only use end). This is a good way to reduce allocations of temporary Colors.
+     * as from {@link ColorTools#ycwcma(float, float, float, float)} or
+     * {@link com.github.tommyettinger.colorful.ipt.ColorTools#ipt(float, float, float, float)}, and change can be between 0f
+     * (keep start) and 1f (only use end). Both start and end should use the same color space; that is, both could be
+     * produced using YCwCmA, or both could be produced using IPT, but not a mix of the two. This is a good way to
+     * reduce allocations of temporary Colors.
      * @param start the starting color as a packed float
      * @param end the target color as a packed float
      * @param change how much to go from start toward end, as a float between 0 and 1; higher means closer to end
@@ -137,8 +148,11 @@ public class FloatColors {
     /**
      * Interpolates from the packed float color start towards end by change, but keeps the alpha of start and uses the
      * alpha of end as an extra factor that can affect how much to change. Both start and end should be packed colors,
-     * as from {@link ColorTools#ycwcma(float, float, float, float)}, and change can be between 0f
-     * (keep start) and 1f (only use end). This is a good way to reduce allocations of temporary Colors.
+     * as from {@link ColorTools#ycwcma(float, float, float, float)} or
+     * {@link com.github.tommyettinger.colorful.ipt.ColorTools#ipt(float, float, float, float)}, and change can be between 0f
+     * (keep start) and 1f (only use end). Both start and end should use the same color space; that is, both could be
+     * produced using YCwCmA, or both could be produced using IPT, but not a mix of the two. This is a good way to
+     * reduce allocations of temporary Colors.
      * @param start the starting color as a packed float; alpha will be preserved
      * @param end the target color as a packed float; alpha will not be used directly, and will instead be multiplied with change
      * @param change how much to go from start toward end, as a float between 0 and 1; higher means closer to end

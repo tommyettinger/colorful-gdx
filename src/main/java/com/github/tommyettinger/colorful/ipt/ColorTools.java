@@ -326,6 +326,30 @@ public class ColorTools {
 	}
 
 	/**
+	 * Gets a color as an IPT packed float given floats representing hue, saturation, lightness, and opacity.
+	 * All parameters should normally be between 0 and 1 inclusive, though any hue is tolerated (precision loss may
+	 * affect the color if the hue is too large). A hue of 0 is red, progressively higher hue values go to orange,
+	 * yellow, green, blue, and purple before wrapping around to red as it approaches 1. A saturation of 0 is grayscale,
+	 * a saturation of 1 is brightly colored, and values close to 1 will usually appear more distinct than values close
+	 * to 0, especially if the hue is different. A lightness of 0.001f or less is always black (also using a shortcut if
+	 * this is the case, respecting opacity), while a lightness of 1f is white. Very bright colors are mostly in a band
+	 * of high-saturation where lightness is 0.5f.
+	 *
+	 * @param hue        0f to 1f, color wheel position
+	 * @param saturation 0f to 1f, 0f is grayscale and 1f is brightly colored
+	 * @param lightness  0f to 1f, 0f is black and 1f is white
+	 * @param opacity    0f to 1f, 0f is fully transparent and 1f is opaque
+	 * @return a float encoding a color with the given properties
+	 */
+	public static float floatGetHSL(float hue, float saturation, float lightness, float opacity) {
+		if (lightness <= 0.001f) {
+			return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x7F7F00);
+		} else {
+			return fromRGBA(FloatColors.hsl2rgb(hue, saturation, lightness, opacity));
+		}
+	}
+
+	/**
 	 * Gets the saturation of the given encoded color, as a float ranging from 0.0f to 1.0f, inclusive.
 	 * @param encoded a color as a packed float that can be obtained by {@link #ipt(float, float, float, float)}
 	 * @return the saturation of the color from 0.0 (a grayscale color; inclusive) to 1.0 (a bright color, inclusive)
@@ -505,16 +529,22 @@ public class ColorTools {
 	 */
 	public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {
 		final int e = NumberUtils.floatToIntBits(basis);
-		value = MathUtils.clamp(value + (e & 0xff) * 0x1.010102p-8f, 0f, 1f);
+		final float i = MathUtils.clamp(value + (e & 0xff) * 0x1.010102p-8f, 0f, 1f);
 		opacity = MathUtils.clamp(opacity + (e >>> 24 & 0xfe) * 0x1.020408p-8f, 0f, 1f);
-		if (value <= 0.001f)
+		if (i <= 0.001f)
 			return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x7F7F00);
-		final int lu = (e & 0xff);
-		final int cw = ((e >>> 7 & 0x1fe) - 0xfe);
-		final int cm = (((e >>> 15 & 0x1fe) - 0xfe) >> 1);
-		final float r = MathUtils.clamp(lu + (cw * 5 >> 3) - cm, 0, 0xFF) * 0x1.010102p-8f;
-		final float g = MathUtils.clamp(lu - (cw * 3 >> 3) + cm, 0, 0xFF) * 0x1.010102p-8f;
-		final float b = MathUtils.clamp(lu - (cw * 3 >> 3) - cm, 0, 0xFF) * 0x1.010102p-8f;
+		final int
+				p = ((e >>> 7 & 0x1fe) - 0xfe),
+				t = ((e >>> 15 & 0x1fe) - 0xfe);
+		final float lPrime = i + 0.06503950f * p + 0.15391950f * t;
+		final float mPrime = i - 0.07591241f * p + 0.09991275f * t;
+		final float sPrime = i + 0.02174116f * p - 0.50766750f * t;
+		final float l = Math.copySign((float) Math.pow(Math.abs(lPrime), 2.3256), lPrime);
+		final float m = Math.copySign((float) Math.pow(Math.abs(mPrime), 2.3256), mPrime);
+		final float s = Math.copySign((float) Math.pow(Math.abs(sPrime), 2.3256), sPrime);
+		final float r = (5.432622f * l - 4.679100f * m + 0.246257f * s);
+		final float g = (-1.10517f * l + 2.311198f * m - 0.205880f * s);
+		final float b = (0.028104f * l - 0.194660f * m + 1.166325f * s);
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
@@ -537,10 +567,9 @@ public class ColorTools {
 			x = r;
 		}
 		float d = x - Math.min(w, y);
-		float l = x * (1f - 0.5f * d / (x + 1e-10f));
 		float hue2 = Math.abs(z + (w - y) / (6f * d + 1e-10f));
-		float sat2 = (x - l) / (Math.min(l, 1f - l) + 1e-10f);
-		return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), MathUtils.clamp(saturation + sat2, 0f, 1f), value, opacity));
+		float sat2 = (x - i) / (Math.min(i, 1f - i) + 1e-10f);
+		return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), MathUtils.clamp(saturation + sat2, 0f, 1f), i, opacity));
 	}
 
 	/**
@@ -555,8 +584,8 @@ public class ColorTools {
 	 * @return a packed float that represents a color between start and white
 	 */
 	public static float lighten(final float start, final float change) {
-		final int s = NumberUtils.floatToIntBits(start), luma = s & 0xFF, other = s & 0xFEFFFF00;
-		return NumberUtils.intBitsToFloat(((int) (luma + (0xFF - luma) * change) & 0xFF) | other);
+		final int s = NumberUtils.floatToIntBits(start), i = s & 0xFF, other = s & 0xFEFFFF00;
+		return NumberUtils.intBitsToFloat(((int) (i + (0xFF - i) * change) & 0xFF) | other);
 	}
 
 	/**
@@ -571,8 +600,8 @@ public class ColorTools {
 	 * @return a packed float that represents a color between start and black
 	 */
 	public static float darken(final float start, final float change) {
-		final int s = NumberUtils.floatToIntBits(start), luma = s & 0xFF, other = s & 0xFEFFFF00;
-		return NumberUtils.intBitsToFloat(((int) (luma * (1f - change)) & 0xFF) | other);
+		final int s = NumberUtils.floatToIntBits(start), i = s & 0xFF, other = s & 0xFEFFFF00;
+		return NumberUtils.intBitsToFloat(((int) (i * (1f - change)) & 0xFF) | other);
 	}
 
 	/**
@@ -588,8 +617,8 @@ public class ColorTools {
 	 * @return a packed float that represents a color between start and a warmer color
 	 */
 	public static float protanUp(final float start, final float change) {
-		final int s = NumberUtils.floatToIntBits(start), warmth = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
-		return NumberUtils.intBitsToFloat(((int) (warmth + (0xFF - warmth) * change) << 8 & 0xFF) | other);
+		final int s = NumberUtils.floatToIntBits(start), p = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
+		return NumberUtils.intBitsToFloat(((int) (p + (0xFF - p) * change) << 8 & 0xFF) | other);
 	}
 
 	/**
@@ -605,8 +634,8 @@ public class ColorTools {
 	 * @return a packed float that represents a color between start and a cooler color
 	 */
 	public static float protanDown(final float start, final float change) {
-		final int s = NumberUtils.floatToIntBits(start), warmth = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
-		return NumberUtils.intBitsToFloat(((int) (warmth * (1f - change)) & 0xFF) << 8 | other);
+		final int s = NumberUtils.floatToIntBits(start), p = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
+		return NumberUtils.intBitsToFloat(((int) (p * (1f - change)) & 0xFF) << 8 | other);
 	}
 
 	/**
@@ -622,8 +651,8 @@ public class ColorTools {
 	 * @return a packed float that represents a color between start and a more natural color
 	 */
 	public static float tritanUp(final float start, final float change) {
-		final int s = NumberUtils.floatToIntBits(start), warmth = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
-		return NumberUtils.intBitsToFloat(((int) (warmth + (0xFF - warmth) * change) << 8 & 0xFF) | other);
+		final int s = NumberUtils.floatToIntBits(start), t = s >>> 16 & 0xFF, other = s & 0xFE00FFFF;
+		return NumberUtils.intBitsToFloat(((int) (t + (0xFF - t) * change) << 8 & 0xFF) | other);
 	}
 
 	/**
@@ -639,8 +668,8 @@ public class ColorTools {
 	 * @return a packed float that represents a color between start and a more artificial color
 	 */
 	public static float tritanDown(final float start, final float change) {
-		final int s = NumberUtils.floatToIntBits(start), warmth = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
-		return NumberUtils.intBitsToFloat(((int) (warmth * (1f - change)) & 0xFF) << 8 | other);
+		final int s = NumberUtils.floatToIntBits(start), t = s >>> 16 & 0xFF, other = s & 0xFE00FFFF;
+		return NumberUtils.intBitsToFloat(((int) (t * (1f - change)) & 0xFF) << 8 | other);
 	}
 
 	/**
@@ -648,7 +677,7 @@ public class ColorTools {
 	 * between 0f (return start as-is) and 1f (return start with full alpha), start should be a packed color, as from
 	 * {@link #ipt(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
 	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
-	 * transparent. This won't change the luma, chroma warm, or chroma mild of the color.
+	 * transparent. This won't change the intensity, protan, or tritan of the color.
 	 * @see #fade(float, float) the counterpart method that makes a float color more translucent
 	 * @param start the starting color as a packed float
 	 * @param change how much to go from start toward opaque, as a float between 0 and 1; higher means closer to opaque
@@ -664,7 +693,7 @@ public class ColorTools {
 	 * (return start as-is) and 1f (return the color with 0 alpha), start should be a packed color, as from
 	 * {@link #ipt(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
 	 * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
-	 * transparent. This won't change the luma, chroma warm, or chroma mild of the color.
+	 * transparent. This won't change the intensity, protan, or tritan of the color.
 	 * @see #blot(float, float) the counterpart method that makes a float color more opaque
 	 * @param start the starting color as a packed float
 	 * @param change how much to go from start toward transparent, as a float between 0 and 1; higher means closer to transparent
@@ -676,33 +705,33 @@ public class ColorTools {
 	}
 
 	/**
-	 * Given a packed float YCwCmA color {@code mainColor} and another YCwCmA color that it should be made to contrast
-	 * with, gets a packed float YCwCmA color with roughly inverted luma but the same chromatic channels and opacity (Cw
-	 * and Cm are likely to be clamped if the result gets close to white or black). This won't ever produce black or
-	 * other very dark colors, and also has a gap in the range it produces for luma values between 0.5 and 0.55. That
-	 * allows most of the colors this method produces to contrast well as a foreground when displayed on a background of
-	 * {@code contrastingColor}, or vice versa. This will leave the luma unchanged if the chromatic channels of the
+	 * Given a packed float IPT color {@code mainColor} and another IPT color that it should be made to contrast with,
+	 * gets a packed float IPT color with roughly inverted intnsity but the same chromatic channels and opacity (P and T
+	 * are likely to be clamped if the result gets close to white or black). This won't ever produce black or other very
+	 * dark colors, and also has a gap in the range it produces for intensity values between 0.5 and 0.55. That allows
+	 * most of the colors this method produces to contrast well as a foreground when displayed on a background of
+	 * {@code contrastingColor}, or vice versa. This will leave the intensity unchanged if the chromatic channels of the
 	 * contrastingColor and those of the mainColor are already very different. This has nothing to do with the contrast
 	 * channel of the tweak in ColorfulBatch; where that part of the tweak can make too-similar lightness values further
 	 * apart by just a little, this makes a modification on {@code mainColor} to maximize its lightness difference from
 	 * {@code contrastingColor} without losing its other qualities.
 	 * @param mainColor a packed float color, as produced by {@link #ipt(float, float, float, float)}; this is the color that will be adjusted
 	 * @param contrastingColor a packed float color, as produced by {@link #ipt(float, float, float, float)}; the adjusted mainColor will contrast with this
-	 * @return a different packed float color, based on mainColor but with potentially very different lightness
+	 * @return a different IPT packed float color, based on mainColor but with potentially very different lightness
 	 */
-	public static float inverseLuma(final float mainColor, final float contrastingColor)
+	public static float inverseIntensity(final float mainColor, final float contrastingColor)
 	{
 		final int bits = NumberUtils.floatToIntBits(mainColor),
 				contrastBits = NumberUtils.floatToIntBits(contrastingColor),
-				luma = (bits & 0xff),
-				warm = (bits >>> 8 & 0xff),
-				mild = (bits >>> 16 & 0xff),
-				cLuma = (contrastBits & 0xff),
-				cWarm = (contrastBits >>> 8 & 0xff),
-				cMild = (contrastBits >>> 16 & 0xff);
-		if((warm - cWarm) * (warm - cWarm) + (mild - cMild) * (mild - cMild) >= 0x10000)
+				i = (bits & 0xff),
+				p = (bits >>> 8 & 0xff),
+				t = (bits >>> 16 & 0xff),
+				ci = (contrastBits & 0xff),
+				cp = (contrastBits >>> 8 & 0xff),
+				ct = (contrastBits >>> 16 & 0xff);
+		if((p - cp) * (p - cp) + (t - ct) * (t - ct) >= 0x10000)
 			return mainColor;
-		return ipt(cLuma < 128 ? luma * (0.45f / 255f) + 0.55f : 0.5f - luma * (0.45f / 255f), warm, mild, 0x1.010102p-8f * (bits >>> 24));
+		return ipt(ci < 128 ? i * (0.45f / 255f) + 0.55f : 0.5f - i * (0.45f / 255f), p, t, 0x1.010102p-8f * (bits >>> 24));
 	}
 
 	/**
