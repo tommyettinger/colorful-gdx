@@ -405,10 +405,9 @@ public class ColorTools {
 		final int lu = (e & 0xff);
 		final int cw = ((e >>> 7 & 0x1fe) - 0xfe);
 		final int cm = (((e >>> 15 & 0x1fe) - 0xfe) >> 1);
-		int r = MathUtils.clamp(lu + (cw * 5 >> 3) - cm, 0, 0xFF), 
-				g = MathUtils.clamp(lu - (cw * 3 >> 3) + cm, 0, 0xFF), 
-				b = MathUtils.clamp(lu - (cw * 3 >> 3) - cm, 0, 0xFF);
-		FloatColors.rgb2hsl(r, g, b, opacity);
+		final float r = MathUtils.clamp(lu + (cw * 5 >> 3) - cm, 0, 0xFF) * 0x1.010102p-8f;
+		final float g = MathUtils.clamp(lu - (cw * 3 >> 3) + cm, 0, 0xFF) * 0x1.010102p-8f;
+		final float b = MathUtils.clamp(lu - (cw * 3 >> 3) - cm, 0, 0xFF) * 0x1.010102p-8f;
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
