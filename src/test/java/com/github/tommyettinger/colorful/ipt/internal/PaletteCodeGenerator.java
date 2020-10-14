@@ -5,8 +5,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.utils.NumberUtils;
+import com.badlogic.gdx.utils.ObjectFloatMap;
 import com.github.tommyettinger.colorful.internal.StringKit;
 import com.github.tommyettinger.colorful.ipt.ColorTools;
+import com.github.tommyettinger.colorful.ipt.Palette;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * A tool, not a demo, used to generate the data used in Palette and in the javadocs.
@@ -77,101 +83,101 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
             );
         }
         Gdx.files.local("ColorOutputIPT.txt").writeString(sb.toString(), false);
-//
-//        String templateTable = "<tr>\n<td style='background-color: #FEDCBA;'></td>\n<td>Name</td>\n<td>0x`RGBA8888</td>\n<td>`INTENS</td>\n<td>`PROTAN</td>\n<td>`TRITAN</td>\n<td>`ALPH</td>\n<td>`HUE</td>\n<td>`SAT</td>\n<td>`PACK</td>\n</tr>\n";
-//        final int size = Palette.NAMED.size;
-//        ArrayList<ObjectFloatMap.Entry<String>> PAL = new ArrayList<>(size);
-//        for(ObjectFloatMap.Entry<String> e : Palette.NAMED.entries())
-//        {
-//            ObjectFloatMap.Entry<String> ee = new ObjectFloatMap.Entry<>();
-//            ee.key = e.key;
-//            ee.value = e.value;
-//            PAL.add(ee);
-//        }
-//
-//        sb.setLength(0);
-//        Collections.sort(PAL, new Comparator<ObjectFloatMap.Entry<String>>() {
-//            @Override
-//            public int compare(ObjectFloatMap.Entry<String> c1, ObjectFloatMap.Entry<String> c2) {
-//                return c1.key.compareTo(c2.key);
-//            }
-//        });
-//        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Luma</th>\n<th>Warm</th>\n<th>Mild</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
-//        for(ObjectFloatMap.Entry<String> sc : PAL) {
-//            c = sc.value;
-//            sb.append(templateTable.replace("Name", sc.key)
-//                    .replace("`RGBA8888", StringKit.hex(ColorTools.toRGBA8888(c)))
-//                    .replace("FEDCBA", StringKit.hex(ColorTools.toRGBA8888(c)).substring(0, 6))
-//                    .replace("`HUE", Float.toString(ColorTools.hue(c)))
-//                    .replace("`SAT", Float.toString(ColorTools.saturation(c)))
-//                    .replace("`INTENS", Float.toString(ColorTools.intensity(c)))
-//                    .replace("`PROTAN", Float.toString(ColorTools.protan(c)))
-//                    .replace("`TRITAN", Float.toString(ColorTools.tritan(c)))
-//                    .replace("`ALPH", Float.toString(ColorTools.alpha(c)))
-//                    .replace("`PACK", Float.toHexString(c))
-//            );
-//        }
-//        sb.append("</table>\n</body>\n</html>");
-//        Gdx.files.local("ColorTableIPT.html").writeString(sb.toString(), false);
-//
-//        sb.setLength(0);
-//        Collections.sort(PAL, new Comparator<ObjectFloatMap.Entry<String>>() {
-//            @Override
-//            public int compare(ObjectFloatMap.Entry<String> c1, ObjectFloatMap.Entry<String> c2) {
-//                float s1 = ColorTools.saturation(c1.value), s2 = ColorTools.saturation(c2.value);
-//                if(s1 <= 0x1p-6f && s2 > 0x1p-6f)
-//                    return -1000;
-//                else if(s1 > 0x1p-6f && s2 <= 0x1p-6f)
-//                    return 1000;
-//                else if(s1 <= 0x1p-6f && s2 <= 0x1p-6f)
-//                    return (int)Math.signum(ColorTools.intensity(c1.value) - ColorTools.intensity(c2.value));
-//                else
-//                    return 2 * (int)Math.signum(ColorTools.hue(c1.value) - ColorTools.hue(c2.value))
-//                            + (int)Math.signum(ColorTools.intensity(c1.value) - ColorTools.intensity(c2.value));
-//            }
-//        });
-//        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Luma</th>\n<th>Warm</th>\n<th>Mild</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
-//        for(ObjectFloatMap.Entry<String> sc : PAL) {
-//            c = sc.value;
-//            sb.append(templateTable.replace("Name", sc.key)
-//                    .replace("`RGBA8888", StringKit.hex(ColorTools.toRGBA8888(c)))
-//                    .replace("FEDCBA", StringKit.hex(ColorTools.toRGBA8888(c)).substring(0, 6))
-//                    .replace("`HUE", Float.toString(ColorTools.hue(c)))
-//                    .replace("`SAT", Float.toString(ColorTools.saturation(c)))
-//                    .replace("`INTENS", Float.toString(ColorTools.intensity(c)))
-//                    .replace("`PROTAN", Float.toString(ColorTools.protan(c)))
-//                    .replace("`TRITAN", Float.toString(ColorTools.tritan(c)))
-//                    .replace("`ALPH", Float.toString(ColorTools.alpha(c)))
-//                    .replace("`PACK", Float.toHexString(c))
-//            );
-//        }
-//        sb.append("</table>\n</body>\n</html>");
-//        Gdx.files.local("ColorTableHueIPT.html").writeString(sb.toString(), false);
-//
-//        sb.setLength(0);
-//        Collections.sort(PAL, new Comparator<ObjectFloatMap.Entry<String>>() {
-//            @Override
-//            public int compare(ObjectFloatMap.Entry<String> c1, ObjectFloatMap.Entry<String> c2) {
-//                return (int)Math.signum(ColorTools.intensity(c1.value) - ColorTools.intensity(c2.value));
-//            }
-//        });
-//        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Luma</th>\n<th>Warm</th>\n<th>Mild</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
-//        for(ObjectFloatMap.Entry<String> sc : PAL) {
-//            c = sc.value;
-//            sb.append(templateTable.replace("Name", sc.key)
-//                    .replace("`RGBA8888", StringKit.hex(ColorTools.toRGBA8888(c)))
-//                    .replace("FEDCBA", StringKit.hex(ColorTools.toRGBA8888(c)).substring(0, 6))
-//                    .replace("`HUE", Float.toString(ColorTools.hue(c)))
-//                    .replace("`SAT", Float.toString(ColorTools.saturation(c)))
-//                    .replace("`INTENS", Float.toString(ColorTools.intensity(c)))
-//                    .replace("`PROTAN", Float.toString(ColorTools.protan(c)))
-//                    .replace("`TRITAN", Float.toString(ColorTools.tritan(c)))
-//                    .replace("`ALPH", Float.toString(ColorTools.alpha(c)))
-//                    .replace("`PACK", Float.toHexString(c))
-//            );
-//        }
-//        sb.append("</table>\n</body>\n</html>");
-//        Gdx.files.local("ColorTableValueIPT.html").writeString(sb.toString(), false);
+
+        String templateTable = "<tr>\n<td style='background-color: #FEDCBA;'></td>\n<td>Name</td>\n<td>0x`RGBA8888</td>\n<td>`INTENS</td>\n<td>`PROTAN</td>\n<td>`TRITAN</td>\n<td>`ALPH</td>\n<td>`HUE</td>\n<td>`SAT</td>\n<td>`PACKF</td>\n</tr>\n";
+        final int size = Palette.NAMED.size;
+        ArrayList<ObjectFloatMap.Entry<String>> PAL = new ArrayList<>(size);
+        for(ObjectFloatMap.Entry<String> e : Palette.NAMED.entries())
+        {
+            ObjectFloatMap.Entry<String> ee = new ObjectFloatMap.Entry<>();
+            ee.key = e.key;
+            ee.value = e.value;
+            PAL.add(ee);
+        }
+
+        sb.setLength(0);
+        Collections.sort(PAL, new Comparator<ObjectFloatMap.Entry<String>>() {
+            @Override
+            public int compare(ObjectFloatMap.Entry<String> c1, ObjectFloatMap.Entry<String> c2) {
+                return c1.key.compareTo(c2.key);
+            }
+        });
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Intens</th>\n<th>Protan</th>\n<th>Tritan</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
+        for(ObjectFloatMap.Entry<String> sc : PAL) {
+            c = sc.value;
+            sb.append(templateTable.replace("Name", sc.key)
+                    .replace("`RGBA8888", StringKit.hex(ColorTools.toRGBA8888(c)))
+                    .replace("FEDCBA", StringKit.hex(ColorTools.toRGBA8888(c)).substring(0, 6))
+                    .replace("`HUE", Float.toString(ColorTools.hue(c)))
+                    .replace("`SAT", Float.toString(ColorTools.saturation(c)))
+                    .replace("`INTENS", Float.toString(ColorTools.intensity(c)))
+                    .replace("`PROTAN", Float.toString(ColorTools.protan(c)))
+                    .replace("`TRITAN", Float.toString(ColorTools.tritan(c)))
+                    .replace("`ALPH", Float.toString(ColorTools.alpha(c)))
+                    .replace("`PACK", Float.toHexString(c))
+            );
+        }
+        sb.append("</table>\n</body>\n</html>");
+        Gdx.files.local("ColorTableIPT.html").writeString(sb.toString(), false);
+
+        sb.setLength(0);
+        Collections.sort(PAL, new Comparator<ObjectFloatMap.Entry<String>>() {
+            @Override
+            public int compare(ObjectFloatMap.Entry<String> c1, ObjectFloatMap.Entry<String> c2) {
+                float s1 = ColorTools.saturation(c1.value), s2 = ColorTools.saturation(c2.value);
+                if(s1 <= 0x1p-6f && s2 > 0x1p-6f)
+                    return -1000;
+                else if(s1 > 0x1p-6f && s2 <= 0x1p-6f)
+                    return 1000;
+                else if(s1 <= 0x1p-6f && s2 <= 0x1p-6f)
+                    return (int)Math.signum(ColorTools.intensity(c1.value) - ColorTools.intensity(c2.value));
+                else
+                    return 2 * (int)Math.signum(ColorTools.hue(c1.value) - ColorTools.hue(c2.value))
+                            + (int)Math.signum(ColorTools.intensity(c1.value) - ColorTools.intensity(c2.value));
+            }
+        });
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Intens</th>\n<th>Protan</th>\n<th>Tritan</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
+        for(ObjectFloatMap.Entry<String> sc : PAL) {
+            c = sc.value;
+            sb.append(templateTable.replace("Name", sc.key)
+                    .replace("`RGBA8888", StringKit.hex(ColorTools.toRGBA8888(c)))
+                    .replace("FEDCBA", StringKit.hex(ColorTools.toRGBA8888(c)).substring(0, 6))
+                    .replace("`HUE", Float.toString(ColorTools.hue(c)))
+                    .replace("`SAT", Float.toString(ColorTools.saturation(c)))
+                    .replace("`INTENS", Float.toString(ColorTools.intensity(c)))
+                    .replace("`PROTAN", Float.toString(ColorTools.protan(c)))
+                    .replace("`TRITAN", Float.toString(ColorTools.tritan(c)))
+                    .replace("`ALPH", Float.toString(ColorTools.alpha(c)))
+                    .replace("`PACK", Float.toHexString(c))
+            );
+        }
+        sb.append("</table>\n</body>\n</html>");
+        Gdx.files.local("ColorTableHueIPT.html").writeString(sb.toString(), false);
+
+        sb.setLength(0);
+        Collections.sort(PAL, new Comparator<ObjectFloatMap.Entry<String>>() {
+            @Override
+            public int compare(ObjectFloatMap.Entry<String> c1, ObjectFloatMap.Entry<String> c2) {
+                return (int)Math.signum(ColorTools.intensity(c1.value) - ColorTools.intensity(c2.value));
+            }
+        });
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Intens</th>\n<th>Protan</th>\n<th>Tritan</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
+        for(ObjectFloatMap.Entry<String> sc : PAL) {
+            c = sc.value;
+            sb.append(templateTable.replace("Name", sc.key)
+                    .replace("`RGBA8888", StringKit.hex(ColorTools.toRGBA8888(c)))
+                    .replace("FEDCBA", StringKit.hex(ColorTools.toRGBA8888(c)).substring(0, 6))
+                    .replace("`HUE", Float.toString(ColorTools.hue(c)))
+                    .replace("`SAT", Float.toString(ColorTools.saturation(c)))
+                    .replace("`INTENS", Float.toString(ColorTools.intensity(c)))
+                    .replace("`PROTAN", Float.toString(ColorTools.protan(c)))
+                    .replace("`TRITAN", Float.toString(ColorTools.tritan(c)))
+                    .replace("`ALPH", Float.toString(ColorTools.alpha(c)))
+                    .replace("`PACK", Float.toHexString(c))
+            );
+        }
+        sb.append("</table>\n</body>\n</html>");
+        Gdx.files.local("ColorTableValueIPT.html").writeString(sb.toString(), false);
         
         Gdx.app.exit();
     }
