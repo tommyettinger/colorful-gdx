@@ -138,8 +138,8 @@ public class ColorTools {
 		final float s = 0.024828f * r + 0.064919f * g + 0.910230f * b;
 		return NumberUtils.intBitsToFloat(
 				(int)(102.0f * l + 102.0f * m + 51.0f * s + 0.5f)
-						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 127.5f) << 8
-						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 127.5f) << 16
+						| (int)((568.0125f) * l - (618.5025f) * m + (50.489998f) * s + 127.5f) << 8
+						| (int)((102.714f) * l + (45.543f) * m - (148.25699f) * s + 127.5f) << 16
 						| (rgba & 0xFE) << 24);
 	}
 
@@ -159,8 +159,8 @@ public class ColorTools {
 
 		return NumberUtils.intBitsToFloat(
 				(int)(102.0f * l + 102.0f * m + 51.0f * s + 0.5f)
-						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 127.5f) << 8
-						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 127.5f) << 16
+						| (int)((568.0125f) * l - (618.5025f) * m + (50.489998f) * s + 127.5f) << 8
+						| (int)((102.714f) * l + (45.543f) * m - (148.25699f) * s + 127.5f) << 16
 				| (abgr & 0xFE000000));
 	}
 
@@ -176,8 +176,8 @@ public class ColorTools {
 
 		return NumberUtils.intBitsToFloat(
 				(int)(102.0f * l + 102.0f * m + 51.0f * s + 0.5f)
-						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 128f) << 8
-						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 128f) << 16
+						| (int)((568.0125f) * l - (618.5025f) * m + (50.489998f) * s + 127.5f) << 8
+						| (int)((102.714f) * l + (45.543f) * m - (148.25699f) * s + 127.5f) << 16
 						| ((int)(color.a * 255f) << 24 & 0xFE000000));
 	}
 
@@ -196,8 +196,8 @@ public class ColorTools {
 
 		return NumberUtils.intBitsToFloat(
 				(int)(102.0f * l + 102.0f * m + 51.0f * s + 0.5f)
-						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 128f) << 8
-						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 128f) << 16
+						| (int)((568.0125f) * l - (618.5025f) * m + (50.489998f) * s + 127.5f) << 8
+						| (int)((102.714f) * l + (45.543f) * m - (148.25699f) * s + 127.5f) << 16
 						| ((int)(a * 255f) << 24 & 0xFE000000));
 	}
 
@@ -440,14 +440,14 @@ public class ColorTools {
 		if(g < b) {
 			x = b;
 			y = g;
-			z = -1f;
-			w = 2f / 3f;
+			z = -1.0f;
+			w = 0.6666667f;
 		}
 		else {
 			x = g;
 			y = b;
 			z = 0f;
-			w = -1f / 3f;
+			w = -0.33333334f;
 		}
 		if(r < x) {
 			z = w;
@@ -539,14 +539,14 @@ public class ColorTools {
 		if(g < b) {
 			x = b;
 			y = g;
-			z = -1f;
-			w = 2f / 3f;
+			z = -1.0f;
+			w = 0.6666667f;
 		}
 		else {
 			x = g;
 			y = b;
 			z = 0f;
-			w = -1f / 3f;
+			w = -0.33333334f;
 		}
 		if(r < x) {
 			z = w;
@@ -721,7 +721,7 @@ public class ColorTools {
 				ct = (contrastBits >>> 16 & 0xff);
 		if((p - cp) * (p - cp) + (t - ct) * (t - ct) >= 0x10000)
 			return mainColor;
-		return ipt(ci < 128 ? i * (0.45f / 255f) + 0.55f : 0.5f - i * (0.45f / 255f), p, t, 0x1.0p-8f * (bits >>> 24));
+		return ipt(ci < 128 ? i * (0.0017647059f) + 0.55f : 0.5f - i * (0.0017647059f), p, t, 0x1.0p-8f * (bits >>> 24));
 	}
 
 	/**
