@@ -4,11 +4,11 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.ObjectFloatMap;
 import com.github.tommyettinger.colorful.internal.StringKit;
 import com.github.tommyettinger.colorful.ipt.ColorTools;
-import com.github.tommyettinger.colorful.ipt.Palette;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +35,48 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //        System.out.println(StringKit.join(";", receiving));
     }
 
+    public static float fromRGBA8888(final int rgba) {
+        final float r = (rgba >>> 24) * 0x1.010101010101p-8f;
+        final float g = (rgba >>> 16 & 0xFF) * 0x1.010101010101p-8f;
+        final float b = (rgba >>> 8 & 0xFF) * 0x1.010101010101p-8f;
+        final float l = 0.313921f * r + 0.639468f * g + 0.0465970f * b;
+        final float m = 0.151693f * r + 0.748209f * g + 0.1000044f * b;
+        final float s = 0.017700f * r + 0.109400f * g + 0.8729000f * b;
+//        final float l = (float) Math.pow(0.313921f * r + 0.639468f * g + 0.0465970f * b, 1f);
+//        final float m = (float) Math.pow(0.151693f * r + 0.748209f * g + 0.1000044f * b, 1f);
+//        final float s = (float) Math.pow(0.017700f * r + 0.109400f * g + 0.8729000f * b, 1f);
+//        float                         i = 0.4000f * l + 0.4000f * m + 0.2000f * s;
+//        float                         p = (568.0125f) * l - (618.5025f) * m + ( 50.4900f) * s;
+//        float                         t = (102.7140f) * l + ( 45.5430f) * m - (148.2570f) * s;
+        //(852.01874f) * l - (927.7538f) * m + (75.7350f) * s
+        //(136.94775f) * l + (60.72825f) * m - (197.676f) * s
+        return NumberUtils.intBitsToFloat(
+                (int)(102.0f * l + 102.0f * m + 51.0f * s + 0.5f)
+                        | (int)((568.0125f) * l - (618.5025f) * m + ( 50.4900f) * s + 128f) << 8
+                        | (int)((102.7140f) * l + ( 45.5430f) * m - (148.2570f) * s + 128f) << 16
+                        | (rgba & 0xFE) << 24);
+    }
+    public static int toRGBA8888(final float packed)
+    {
+        final int decoded = NumberUtils.floatToIntBits(packed);
+        final float i = (decoded & 0xff) / 255f;
+        final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+        final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+        //final float l = i + 0.06503950f * p + 0.15391950f * t;
+        //final float m = i - 0.07591241f * p + 0.09991275f * t;
+        //final float s = i + 0.02174116f * p - 0.50766750f * t;
+
+        final float l = i + 0.097569f * p + 0.205226f * t;
+        final float m = i - 0.113880f * p + 0.133217f * t;
+        final float s = i + 0.032615f * p - 0.676890f * t;
+        //final float l = Math.copySign((float) Math.pow(Math.abs(lPrime), 2.3256), lPrime);
+        //final float m = Math.copySign((float) Math.pow(Math.abs(mPrime), 2.3256), mPrime);
+        //final float s = Math.copySign((float) Math.pow(Math.abs(sPrime), 2.3256), sPrime);
+        final int r = MathUtils.clamp((int) ((5.432622 * l - 4.679100 * m + 0.246257 * s) * 256.0), 0, 255);
+        final int g = MathUtils.clamp((int) ((-1.10517 * l + 2.311198 * m - 0.205880 * s) * 256.0), 0, 255);
+        final int b = MathUtils.clamp((int) ((0.028104 * l - 0.194660 * m + 1.166325 * s) * 256.0), 0, 255);
+        return r << 24 | g << 16 | b << 8 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
+    }
 
     public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -45,6 +87,12 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         new Lwjgl3Application(new PaletteCodeGenerator(), config);
     }
     public void create() {
+        float c;
+
+        c = fromRGBA8888(0x0000FFFF);
+        System.out.println(ColorTools.intensity(c));
+        c = fromRGBA8888(0xFF0000FF);
+        System.out.println(ColorTools.intensity(c));
         String templateFull = "\n/**\n" +
                 "* This color constant \"`Name\" has RGBA8888 code {@code `RRGGBBAA}, intensity `INTENS, protan `PROTAN, tritan `TRITAN, alpha `ALPHA, hue `HUE, and saturation `SAT.\n" +
                 "* It can be represented as a packed float with the constant {@code `PACKEDF}.\n" +
@@ -58,13 +106,12 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                 "static { NAMED.put(\"`Name\", `PACKEDF); LIST.add(`PACKEDF); }\n";
         String data = Gdx.files.classpath("AuroraColorData.txt").readString();
         String[] lines = StringKit.split(data, "\n"), rec = new String[3];
-        float c;
         StringBuilder sb = new StringBuilder(100000).append("public static final ObjectFloatMap<String> NAMED = new ObjectFloatMap<String>(").append(lines.length).append(");\n")
                 .append("public static final FloatArray LIST = new FloatArray(").append(lines.length).append(");\n");
 
         for (int i = 0; i < lines.length; i++) {
             tabSplit(rec, lines[i]);
-            c = ColorTools.fromRGBA8888(StringKit.intFromHex(rec[1]));
+            c = fromRGBA8888(StringKit.intFromHex(rec[1]));
             sb.append(templateFull.replace("`Name", rec[2])
                     .replace("`NAME", rec[0])
                     .replace("`RRGGBBAA", rec[1])
@@ -77,7 +124,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                     .replace("`SAT", Float.toString(ColorTools.saturation(c)))
                     .replace("`PACKED", Float.toHexString(c))
             );
-            System.out.println(rec[2] + " : correct RGBA=" + rec[1] + ", decoded RGBA=" + StringKit.hex(ColorTools.toRGBA8888(c)) + ", raw=" + StringKit.hex(NumberUtils.floatToIntBits(c))
+            System.out.println(rec[2] + " : correct RGBA=" + rec[1] + ", decoded RGBA=" + StringKit.hex(toRGBA8888(c)) + ", raw=" + StringKit.hex(NumberUtils.floatToIntBits(c))
                     + ", decoded hue=" + ColorTools.hue(c) + ", decoded saturation=" + ColorTools.saturation(c) + ", decoded lightness=" + ColorTools.lightness(c)
 //                    + ", decoded luma=" + FloatColors.luma(c) + ", decoded warmth=" + FloatColors.chromaWarm(c) + ", decoded mild=" + FloatColors.chromaMild(c)
             );
@@ -106,8 +153,8 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
             sb.append(templateTable.replace("Name", sc.key)
-                    .replace("`RGBA8888", StringKit.hex(ColorTools.toRGBA8888(c)))
-                    .replace("FEDCBA", StringKit.hex(ColorTools.toRGBA8888(c)).substring(0, 6))
+                    .replace("`RGBA8888", StringKit.hex(toRGBA8888(c)))
+                    .replace("FEDCBA", StringKit.hex(toRGBA8888(c)).substring(0, 6))
                     .replace("`HUE", Float.toString(ColorTools.hue(c)))
                     .replace("`SAT", Float.toString(ColorTools.saturation(c)))
                     .replace("`INTENS", Float.toString(ColorTools.intensity(c)))
@@ -140,8 +187,8 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
             sb.append(templateTable.replace("Name", sc.key)
-                    .replace("`RGBA8888", StringKit.hex(ColorTools.toRGBA8888(c)))
-                    .replace("FEDCBA", StringKit.hex(ColorTools.toRGBA8888(c)).substring(0, 6))
+                    .replace("`RGBA8888", StringKit.hex(toRGBA8888(c)))
+                    .replace("FEDCBA", StringKit.hex(toRGBA8888(c)).substring(0, 6))
                     .replace("`HUE", Float.toString(ColorTools.hue(c)))
                     .replace("`SAT", Float.toString(ColorTools.saturation(c)))
                     .replace("`INTENS", Float.toString(ColorTools.intensity(c)))
@@ -165,8 +212,8 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
             sb.append(templateTable.replace("Name", sc.key)
-                    .replace("`RGBA8888", StringKit.hex(ColorTools.toRGBA8888(c)))
-                    .replace("FEDCBA", StringKit.hex(ColorTools.toRGBA8888(c)).substring(0, 6))
+                    .replace("`RGBA8888", StringKit.hex(toRGBA8888(c)))
+                    .replace("FEDCBA", StringKit.hex(toRGBA8888(c)).substring(0, 6))
                     .replace("`HUE", Float.toString(ColorTools.hue(c)))
                     .replace("`SAT", Float.toString(ColorTools.saturation(c)))
                     .replace("`INTENS", Float.toString(ColorTools.intensity(c)))
