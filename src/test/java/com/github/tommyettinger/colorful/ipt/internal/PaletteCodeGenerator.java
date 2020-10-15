@@ -103,11 +103,6 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
     }
     public void create() {
         float c;
-
-        c = fromRGBA8888(0x0000FFFF);
-        System.out.println(ColorTools.intensity(c));
-        c = fromRGBA8888(0xFF0000FF);
-        System.out.println(ColorTools.intensity(c));
         String templateFull = "\n/**\n" +
                 "* This color constant \"`Name\" has RGBA8888 code {@code `RRGGBBAA}, intensity `INTENS, protan `PROTAN, tritan `TRITAN, alpha `ALPHA, hue `HUE, and saturation `SAT.\n" +
                 "* It can be represented as a packed float with the constant {@code `PACKEDF}.\n" +
