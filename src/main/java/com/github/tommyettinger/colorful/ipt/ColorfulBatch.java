@@ -1,12 +1,7 @@
-package com.github.tommyettinger.colorful.ycwcm;
+package com.github.tommyettinger.colorful.ipt;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.VertexAttributes;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -14,13 +9,12 @@ import com.badlogic.gdx.math.Affine2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.NumberUtils;
-import com.github.tommyettinger.colorful.FloatColors;
 
 /**
  * A substitute for {@link com.badlogic.gdx.graphics.g2d.SpriteBatch} that adds an additional attribute to store an
- * extra color's worth of channels, used to modify the luma and chromatic channels of a color by multiplication (called
- * the "tweak") while the primary color affects the color additively (just called the color, often drawn from
- * {@link Palette} or generated with {@link FloatColors}).
+ * extra color's worth of channels, used to modify the intensity and chromatic channels of a color by multiplication
+ * (calle the "tweak") while the primary color affects the color additively (just called the color, often drawn from
+ * {@link Palette} or generated with {@link ColorTools}).
  * <br>
  * Created by Tommy Ettinger on 12/14/2019.
  */
@@ -56,10 +50,10 @@ public class ColorfulBatch implements Batch {
 
     /**
      * A constant packed float that can be assigned to this ColorfulBatch's tweak with {@link #setTweak(float)} to make
-     * all of the tweak adjustments virtually imperceptible. When this is set as the tweak, it won't change the luma
-     * multiplier or luma contrast, and it won't change either chromatic value multiplier.
+     * all of the tweak adjustments virtually imperceptible. When this is set as the tweak, it won't change the
+     * intensity multiplier or intensity contrast, and it won't change either chromatic value multiplier.
      */
-    public static final float TWEAK_RESET = ColorTools.ycwcm(0.5f, 0.5f, 0.5f, 0.5f);
+    public static final float TWEAK_RESET = ColorTools.ipt(0.5f, 0.5f, 0.5f, 0.5f);
     protected float tweak = TWEAK_RESET;
 
     /** Number of render calls since the last {@link #begin()}. **/
@@ -161,19 +155,17 @@ public class ColorfulBatch implements Batch {
                         "varying LOWP vec4 v_tweak;\n" +
                         "varying float v_lightFix;\n" +
                         "uniform sampler2D u_texture;\n" +
-                        "const vec3 bright = vec3(0.375, 0.5, 0.125);\n" +
                         "void main()\n" +
                         "{\n" +
-                        "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "   vec3 ycc = vec3(\n" +
-                        "     (v_color.r - 0.5 + v_tweak.r * pow(dot(tgt.rgb, bright), v_tweak.a) * v_lightFix),\n" + // luma
-                        "     (v_color.g - 0.5 + (tgt.r - tgt.b) * v_tweak.g) * 2.0,\n" + // warmth
-                        "     (v_color.b - 0.5 + (tgt.g - tgt.b) * v_tweak.b) * 2.0);\n" + // mildness
-                        "   gl_FragColor = clamp(vec4(\n" +
-                        "     dot(ycc, vec3(1.0, 0.625, -0.5)),\n" + // back to red
-                        "     dot(ycc, vec3(1.0, -0.375, 0.5)),\n" + // back to green
-                        "     dot(ycc, vec3(1.0, -0.375, -0.5)),\n" + // back to blue
-                        "     v_color.a * tgt.a), 0.0, 1.0);\n" + // back to alpha and clamp
+                        "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                        "  vec3 ipt = (mat3(+0.4000,+4.4550,+0.8056,+0.4000,-4.8510,+0.3572,+0.2000,+0.3960,-1.1628) * \n" +
+                        "    mat3(0.313921, 0.151693, 0.017700, 0.639468, 0.748209, 0.109400, 0.0465970, 0.1000044, 0.8729000) * (tgt.rgb));\n" +
+                        "  ipt.x = pow(ipt.x, v_tweak.a) * v_lightFix;\n" +
+                        "  ipt *= v_tweak.rgb;\n" +
+                        "  ipt += v_color.rgb - 0.5;\n" +
+                        "  vec3 back = mat3(+1.0,+1.0,+1.0,+0.097569,-0.113880,+0.032615,+0.205226,+0.133217,-0.676890) * ipt;\n" +
+                        "  back = mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) * back;\n" +
+                        "  gl_FragColor = clamp(vec4(back, v_color.a * tgt.a), 0.0, 1.0);\n" +
                         "}";
 
 
@@ -219,9 +211,19 @@ public class ColorfulBatch implements Batch {
         color = tint.toFloatBits();
     }
 
+    /**
+     * Sets the color to the result of {@link ColorTools#ipt(float, float, float, float)} on the same arguments.
+     * For the IPT parameters, 0.5f is a neutral value (causing no change), while for alpha, 1.0f is a neutral
+     * value. For IPT, higher values will add to the corresponding channel, while lower values will subtract from it.
+     * @see ColorTools#ipt(float, float, float, float) 
+     * @param intensity like lightness; additive; ranges from 0 (black) to 1 (white)
+     * @param protan cool-to-warm, roughly; additive; ranges from 0 (green/cyan/blue) to 1 (orange/red/purple)
+     * @param tritan artificial-to-natural, very roughly; additive; ranges from 0 (blue/purple) to 1 (green/yellow/orange)
+     * @param alpha opacity, from 0 to 1; multiplicative
+     */
     @Override
-    public void setColor (float luma, float warm, float mild, float alpha) {
-        color = ColorTools.ycwcm(luma, warm, mild, alpha);
+    public void setColor (float intensity, float protan, float tritan, float alpha) {
+        color = ColorTools.ipt(intensity, protan, tritan, alpha);
     }
 
     public void setColor (final float color) {
@@ -232,9 +234,19 @@ public class ColorfulBatch implements Batch {
         this.color = NumberUtils.intBitsToFloat(Integer.reverseBytes(color & -2));
     }
 
-    public void setIntColor(int luma, int warm, int mild, int alpha) {
+    /**
+     * Sets the color with the given IPT and A parameters from 0 to 255.
+     * For the IPT parameters, 127 or 128 is a neutral value (causing no change), while for alpha, 255 is a neutral
+     * value. For IPT, higher values will add to the corresponding channel, while lower values will subtract from it.
+     * @see ColorTools#ipt(float, float, float, float) 
+     * @param intensity like lightness; additive; ranges from 0 (black) to 255 (white)
+     * @param protan cool-to-warm, roughly; additive; ranges from 0 (green/cyan/blue) to 255 (orange/red/purple)
+     * @param tritan artificial-to-natural, very roughly; additive; ranges from 0 (blue/purple) to 255 (green/yellow/orange)
+     * @param alpha opacity, from 0 to 255 (254 is equivalent, since the lowest bit is discarded); multiplicative
+     */
+    public void setIntColor(int intensity, int protan, int tritan, int alpha) {
         color = NumberUtils.intBitsToFloat((alpha << 24 & 0xFE000000)
-                | (mild << 16 & 0xFF0000) | (warm << 8 & 0xFF00) | (luma & 0xFF));
+                | (tritan << 16 & 0xFF0000) | (protan << 8 & 0xFF00) | (intensity & 0xFF));
     }
 
     @Override
@@ -258,8 +270,16 @@ public class ColorfulBatch implements Batch {
         return color;
     }
 
-    public void setTweak (float luma, float warm, float mild, float contrast) {
-        tweak = ColorTools.ycwcm(luma, warm, mild, contrast);
+    /**
+     * Sets the multiplicative and contrast parts of the shader's color changes. 0.5 is a neutral value that should have
+     * minimal effect on the image; using {@code (0.5f, 0.5f, 0.5f, 0.5f)} will effectively remove the tweak.
+     * @param intensity like lightness; multiplicative; ranges from 0 (black) to 1 (white)
+     * @param protan cool-to-warm, roughly; multiplicative; ranges from 0 (green and red are removed) to 1 (green-ness or red-ness is emphasized)
+     * @param tritan artificial-to-natural, very roughly; multiplicative; ranges from 0 (blue and yellow are removed) to 1 (blue-ness or yellow-ness is emphasized)
+     * @param contrast affects how lightness changes; ranges from 0 (low contrast, cloudy look) to 1 (high contrast, sharpened look) 
+     */
+    public void setTweak (float intensity, float protan, float tritan, float contrast) {
+        tweak = ColorTools.ipt(intensity, protan, tritan, contrast);
     }
 
     public void setTweak (final float tweak) {
@@ -269,14 +289,30 @@ public class ColorfulBatch implements Batch {
     public float getTweak () {
         return tweak;
     }
-    
+
+    /**
+     * Takes the tweak as an int in the format: intensity (8 bits), protan (8 bits), tritan (8 bits), contrast (7 bits),
+     * (1 ignored bit at the end). An example would be 0x7820206E, which slightly darkens (with intensity 0x78, slightly
+     * below the halfway point of 0x80), significantly reduces colorfulness with protan and tritan multipliers of 0x20
+     * (closer to 0, so most colors will be almost grayscale), and slightly reduces contrast (with contrast and the
+     * ignored bit as 0x6E, which is less than the halfway point).
+     * @param tweak the tweak to use as an integer, with intensity in the most significant bits and contrast in least
+     */
     public void setIntTweak(final int tweak) {
         this.tweak = NumberUtils.intBitsToFloat(Integer.reverseBytes(tweak & -2));
     }
 
-    public void setIntTweak(int luma, int warm, int mild, int contrast) {
+    /**
+     * Sets the multiplicative and contrast parts of the shader's color changes. 127 is a neutral value that should have
+     * minimal effect on the image; using {@code (127, 127, 127, 127)} will effectively remove the tweak.
+     * @param intensity like lightness; multiplicative; ranges from 0 (black) to 255 (white)
+     * @param protan cool-to-warm, roughly; multiplicative; ranges from 0 (green and red are removed) to 255 (green-ness or red-ness is emphasized)
+     * @param tritan artificial-to-natural, very roughly; multiplicative; ranges from 0 (blue and yellow are removed) to 255 (blue-ness or yellow-ness is emphasized)
+     * @param contrast affects how lightness changes; ranges from 0 (low contrast, cloudy look) to 255 (high contrast, sharpened look) 
+     */
+    public void setIntTweak(int intensity, int protan, int tritan, int contrast) {
         tweak = NumberUtils.intBitsToFloat((contrast << 24 & 0xFE000000)
-                | (mild << 16 & 0xFF0000) | (warm << 8 & 0xFF00) | (luma & 0xFF));
+                | (tritan << 16 & 0xFF0000) | (protan << 8 & 0xFF00) | (intensity & 0xFF));
     }
 
     @Override

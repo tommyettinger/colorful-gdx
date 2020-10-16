@@ -279,7 +279,6 @@ public class Shaders {
                     "    vec3 back = mat3(+1.0,+1.0,+1.0,+0.097569,-0.113880,+0.032615,+0.205226,+0.133217,-0.676890) * ipt;\n" +
                     "    back = mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) * back;\n" +
                     "    gl_FragColor = vec4(clamp(back, 0.0, 1.0), v_color.a * tgt.a);\n" +
-//                    "    if(any(notEqual(back, gl_FragColor.rgb))) gl_FragColor.rgb = vec3(1.0) - back;\n" +
                     "}";
 
 //                    "void main()\n" +
