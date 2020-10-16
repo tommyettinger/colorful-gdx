@@ -135,8 +135,8 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                     .replace("`PACKED", Float.toHexString(c))
             );
             System.out.println(rec[2] + " : correct RGBA=" + rec[1] + ", decoded RGBA=" + StringKit.hex(toRGBA8888(c)) + ", raw=" + StringKit.hex(NumberUtils.floatToIntBits(c))
-                    + ", decoded hue=" + ColorTools.hue(c) + ", decoded saturation=" + ColorTools.saturation(c) + ", decoded lightness=" + ColorTools.lightness(c)
-//                    + ", decoded luma=" + FloatColors.luma(c) + ", decoded warmth=" + FloatColors.chromaWarm(c) + ", decoded mild=" + FloatColors.chromaMild(c)
+//                    + ", decoded hue=" + ColorTools.hue(c) + ", decoded saturation=" + ColorTools.saturation(c) + ", decoded lightness=" + ColorTools.lightness(c)
+                    + ", decoded intens=" + ColorTools.intensity(c) + ", decoded protan=" + (ColorTools.protan(c)*2f-1f) + ", decoded tritan=" + (ColorTools.tritan(c)*2f-1f)
             );
         }
         Gdx.files.local("ColorOutputIPT.txt").writeString(sb.toString(), false);
@@ -182,11 +182,11 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
             @Override
             public int compare(ObjectFloatMap.Entry<String> c1, ObjectFloatMap.Entry<String> c2) {
                 float s1 = ColorTools.saturation(c1.value), s2 = ColorTools.saturation(c2.value);
-                if(s1 <= 0x1p-6f && s2 > 0x1p-6f)
+                if(s1 <= 0.05f && s2 > 0.05f)
                     return -1000;
-                else if(s1 > 0x1p-6f && s2 <= 0x1p-6f)
+                else if(s1 > 0.05f && s2 <= 0.05f)
                     return 1000;
-                else if(s1 <= 0x1p-6f && s2 <= 0x1p-6f)
+                else if(s1 <= 0.05f && s2 <= 0.05f)
                     return (int)Math.signum(ColorTools.intensity(c1.value) - ColorTools.intensity(c2.value));
                 else
                     return 2 * (int)Math.signum(ColorTools.hue(c1.value) - ColorTools.hue(c2.value))

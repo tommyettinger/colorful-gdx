@@ -96,7 +96,7 @@ public class FloatColors {
      * has its own alpha multiplied by {@code alpha}, without constructing any objects along the way. If you want to set
      * the alpha without considering its current value, you can use {@link #setAlpha(float, float)}
      *
-     * @param encodedColor a color encoded as a packed float, as by {@link ColorTools#ycwcma(float, float, float, float)}
+     * @param encodedColor a color encoded as a packed float, as by {@link ColorTools#ycwcm(float, float, float, float)}
      *                     or {@link com.github.tommyettinger.colorful.ipt.ColorTools#ipt(float, float, float, float)}
      * @param alpha  between 0.0 and 1.0 inclusive, the alpha to multiply the color's own alpha by
      * @return a color encoded as a packed float, using color's RGB channels but with its A channel times {@code alpha}
@@ -113,7 +113,7 @@ public class FloatColors {
      * set to the given alpha, without constructing any objects along the way. This does not consider the current alpha
      * of the encoded color; if you want to do that, you can use {@link #multiplyAlpha(float, float)}.
      *
-     * @param encodedColor a color encoded as a packed float, as by {@link ColorTools#ycwcma(float, float, float, float)}
+     * @param encodedColor a color encoded as a packed float, as by {@link ColorTools#ycwcm(float, float, float, float)}
      *                     or {@link com.github.tommyettinger.colorful.ipt.ColorTools#ipt(float, float, float, float)}
      * @param alpha        between 0.0 and 1.0 inclusive, the alpha to set into the returned packed color
      * @return another color encoded as a packed float, using encodedColor's RGB channels and the given alpha
@@ -125,10 +125,10 @@ public class FloatColors {
 
     /**
      * Interpolates from the packed float color start towards end by change. Both start and end should be packed colors,
-     * as from {@link ColorTools#ycwcma(float, float, float, float)} or
+     * as from {@link ColorTools#ycwcm(float, float, float, float)} or
      * {@link com.github.tommyettinger.colorful.ipt.ColorTools#ipt(float, float, float, float)}, and change can be between 0f
      * (keep start) and 1f (only use end). Both start and end should use the same color space; that is, both could be
-     * produced using YCwCmA, or both could be produced using IPT, but not a mix of the two. This is a good way to
+     * produced using YCwCm, or both could be produced using IPT, but not a mix of the two. This is a good way to
      * reduce allocations of temporary Colors.
      * @param start the starting color as a packed float
      * @param end the target color as a packed float
@@ -148,10 +148,10 @@ public class FloatColors {
     /**
      * Interpolates from the packed float color start towards end by change, but keeps the alpha of start and uses the
      * alpha of end as an extra factor that can affect how much to change. Both start and end should be packed colors,
-     * as from {@link ColorTools#ycwcma(float, float, float, float)} or
+     * as from {@link ColorTools#ycwcm(float, float, float, float)} or
      * {@link com.github.tommyettinger.colorful.ipt.ColorTools#ipt(float, float, float, float)}, and change can be between 0f
      * (keep start) and 1f (only use end). Both start and end should use the same color space; that is, both could be
-     * produced using YCwCmA, or both could be produced using IPT, but not a mix of the two. This is a good way to
+     * produced using YCwCm, or both could be produced using IPT, but not a mix of the two. This is a good way to
      * reduce allocations of temporary Colors.
      * @param start the starting color as a packed float; alpha will be preserved
      * @param end the target color as a packed float; alpha will not be used directly, and will instead be multiplied with change

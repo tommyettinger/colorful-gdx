@@ -320,7 +320,7 @@ public class ColorfulSprite extends TextureRegion {
 	}
 
 	/** Sets the color used to tint this sprite. Default is {@link Palette#GRAY}, which makes no changes to the color.
-	 * Use {@link ColorTools#ycwcma(float, float, float, float)} or a predefined color from {@link Palette} if you
+	 * Use {@link ColorTools#ycwcm(float, float, float, float)} or a predefined color from {@link Palette} if you
 	 * don't have a color currently.
 	 * @param color the packed float color used to add luma, warmth, and mildness to the current sprite, as well as the multiplier for alpha
 	 */
@@ -335,7 +335,7 @@ public class ColorfulSprite extends TextureRegion {
 	/** Sets the color used to tint this sprite and the tweak that affects how that color will be treated.
 	 * Default color is {@link Palette#GRAY}, which makes no changes to the color, and default tweak is
 	 * {@link ColorfulBatch#TWEAK_RESET}, which resets any changes to the tweak back to a neutral state. You can easily
-	 * get a tweak value with {@link ColorTools#ycwcma(float, float, float, float)}, just using the last parameter
+	 * get a tweak value with {@link ColorTools#ycwcm(float, float, float, float)}, just using the last parameter
 	 * to represent contrast.
 	 * @param color the packed float color used to add luma, warmth, and mildness to the current sprite, as well as the multiplier for alpha
 	 * @param tweak the packed float used to multiply luma, warmth and mildness, as well as the setting for contrast   
@@ -355,7 +355,7 @@ public class ColorfulSprite extends TextureRegion {
 	/** Sets the color used to tint this sprite and the tweak that affects how that color will be treated.
 	 * Default color is {@link Palette#GRAY}, which makes no changes to the color, and default tweak is
 	 * {@link ColorfulBatch#TWEAK_RESET}, which resets any changes to the tweak back to a neutral state. You can easily
-	 * get a tweak value with {@link ColorTools#ycwcma(float, float, float, float)}, just using the last parameter
+	 * get a tweak value with {@link ColorTools#ycwcm(float, float, float, float)}, just using the last parameter
 	 * to represent contrast.
 	 * @param lumaAdd how much lightness to add; darkest is 0f, neutral is 0.5f, lightest is 1f
 	 * @param warmAdd how much warmth to add; coolest is 0f, neutral is 0.5f, warmest is 1f
@@ -367,8 +367,8 @@ public class ColorfulSprite extends TextureRegion {
 	 * @param contrast how to affect the curvature of lightness in the source; 0f makes lightness very even, 0.5f doesn't change lightness, and 1f makes light colors lighter and dark colors darker
 	 */
 	public void setTweakedColor (float lumaAdd, float warmAdd, float mildAdd, float alphaMul, float lumaMul, float warmMul, float mildMul, float contrast) {
-		final float color = ColorTools.ycwcma(lumaAdd, warmAdd, mildAdd, alphaMul),
-				tweak = ColorTools.ycwcma(lumaMul, warmMul, mildMul, contrast); 
+		final float color = ColorTools.ycwcm(lumaAdd, warmAdd, mildAdd, alphaMul),
+				tweak = ColorTools.ycwcm(lumaMul, warmMul, mildMul, contrast); 
 		float[] vertices = this.vertices;
 		vertices[C1] = color;
 		vertices[C2] = color;
@@ -382,7 +382,7 @@ public class ColorfulSprite extends TextureRegion {
 
 	/** Sets the tweak that affects how the rendered color will be treated.
 	 * Default tweak is {@link ColorfulBatch#TWEAK_RESET}, which resets any changes to the tweak back to a neutral
-	 * state. You can easily get a tweak value with {@link ColorTools#ycwcma(float, float, float, float)}, just
+	 * state. You can easily get a tweak value with {@link ColorTools#ycwcm(float, float, float, float)}, just
 	 * using the last parameter to represent contrast.
 	 * @param tweak the packed float used to multiply luma, warmth and mildness, as well as the setting for contrast   
 	 */
@@ -395,7 +395,7 @@ public class ColorfulSprite extends TextureRegion {
 	}
 
 	/**
-	 * Given an RGBA8888 Color from libGDX, this converts that to a YCwCmA color as a packed float and sets the color of
+	 * Given an RGBA8888 Color from libGDX, this converts that to a YCwCm color as a packed float and sets the color of
 	 * the sprite using that.
 	 * @param color a libGDX RGBA8888 Color
 	 */
@@ -415,7 +415,7 @@ public class ColorfulSprite extends TextureRegion {
 
 	/** @see #setColor(float) */
 	public void setColor (float luma, float warm, float mild, float alpha) {
-		final float color = ColorTools.ycwcma(luma, warm, mild, alpha);
+		final float color = ColorTools.ycwcm(luma, warm, mild, alpha);
 		final float[] vertices = this.vertices;
 		vertices[C1] = color;
 		vertices[C2] = color;
@@ -425,7 +425,7 @@ public class ColorfulSprite extends TextureRegion {
 
 	/** @see #setColor(float) */
 	public void setTweak (float luma, float warm, float mild, float contrast) {
-		final float tweak = ColorTools.ycwcma(luma, warm, mild, contrast);
+		final float tweak = ColorTools.ycwcm(luma, warm, mild, contrast);
 		final float[] vertices = this.vertices;
 		vertices[C1] = tweak;
 		vertices[C2] = tweak;

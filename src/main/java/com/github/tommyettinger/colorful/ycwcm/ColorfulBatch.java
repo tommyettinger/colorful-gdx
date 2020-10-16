@@ -59,7 +59,7 @@ public class ColorfulBatch implements Batch {
      * all of the tweak adjustments virtually imperceptible. When this is set as the tweak, it won't change the luma
      * multiplier or luma contrast, and it won't change either chromatic value multiplier.
      */
-    public static final float TWEAK_RESET = ColorTools.ycwcma(0.5f, 0.5f, 0.5f, 0.5f);
+    public static final float TWEAK_RESET = ColorTools.ycwcm(0.5f, 0.5f, 0.5f, 0.5f);
     protected float tweak = TWEAK_RESET;
 
     /** Number of render calls since the last {@link #begin()}. **/
@@ -221,7 +221,7 @@ public class ColorfulBatch implements Batch {
 
     @Override
     public void setColor (float luma, float warm, float mild, float alpha) {
-        color = ColorTools.ycwcma(luma, warm, mild, alpha);
+        color = ColorTools.ycwcm(luma, warm, mild, alpha);
     }
 
     public void setColor (final float color) {
@@ -259,7 +259,7 @@ public class ColorfulBatch implements Batch {
     }
 
     public void setTweak (float luma, float warm, float mild, float contrast) {
-        tweak = ColorTools.ycwcma(luma, warm, mild, contrast);
+        tweak = ColorTools.ycwcm(luma, warm, mild, contrast);
     }
 
     public void setTweak (final float tweak) {

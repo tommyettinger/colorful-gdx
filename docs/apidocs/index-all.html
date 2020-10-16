@@ -696,7 +696,7 @@
 </dd>
 <dt><a href="com/github/tommyettinger/colorful/FloatColors.html" title="class in com.github.tommyettinger.colorful"><span class="typeNameLink">FloatColors</span></a> - Class in <a href="com/github/tommyettinger/colorful/package-summary.html">com.github.tommyettinger.colorful</a></dt>
 <dd>
-<div class="block">Various utility methods for working with colors encoded as packed YCwCmA floats.</div>
+<div class="block">Various utility methods for working with colors encoded as packed YCwCm floats.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/FloatColors.html#FloatColors--">FloatColors()</a></span> - Constructor for class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/FloatColors.html" title="class in com.github.tommyettinger.colorful">FloatColors</a></dt>
 <dd>&nbsp;</dd>
@@ -716,7 +716,7 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShader">fragmentShader</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
 <dd>
-<div class="block">Where the magic happens; this converts a batch color from the YCwCmA format (used by colorful) to RGBA.</div>
+<div class="block">Where the magic happens; this converts a batch color from the YCwCm format (used by colorful) to RGBA.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShaderGammaRGBA">fragmentShaderGammaRGBA</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
 <dd>
@@ -784,11 +784,11 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/FloatColors.html#fromColor-com.badlogic.gdx.graphics.Color-">fromColor(Color)</a></span> - Static method in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/FloatColors.html" title="class in com.github.tommyettinger.colorful">FloatColors</a></dt>
 <dd>
-<div class="block">Takes a libGDX Color that uses RGBA8888 channels and converts to a packed float in the YCwCmA this uses.</div>
+<div class="block">Takes a libGDX Color that uses RGBA8888 channels and converts to a packed float in the YCwCm this uses.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/FloatColors.html#fromRGBA8888-int-">fromRGBA8888(int)</a></span> - Static method in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/FloatColors.html" title="class in com.github.tommyettinger.colorful">FloatColors</a></dt>
 <dd>
-<div class="block">Takes a color encoded as an RGBA8888 int and converts to a packed float in the YCwCmA this uses.</div>
+<div class="block">Takes a color encoded as an RGBA8888 int and converts to a packed float in the YCwCm this uses.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Palette.html#FRUIT_PUNCH">FRUIT_PUNCH</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Palette.html" title="class in com.github.tommyettinger.colorful">Palette</a></dt>
 <dd>
@@ -963,8 +963,8 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/FloatColors.html#inverseLuma-float-float-">inverseLuma(float, float)</a></span> - Static method in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/FloatColors.html" title="class in com.github.tommyettinger.colorful">FloatColors</a></dt>
 <dd>
-<div class="block">Given a packed float YCwCmA color <code>mainColor</code> and another YCwCmA color that it should be made to contrast
- with, gets a packed float YCwCmA color with roughly inverted luma but the same chromatic channels and opacity (Cw
+<div class="block">Given a packed float YCwCm color <code>mainColor</code> and another YCwCm color that it should be made to contrast
+ with, gets a packed float YCwCm color with roughly inverted luma but the same chromatic channels and opacity (Cw
  and Cm are likely to be clamped if the result gets close to white or black).</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Palette.html#IOLITE">IOLITE</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Palette.html" title="class in com.github.tommyettinger.colorful">Palette</a></dt>
@@ -1044,7 +1044,7 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/FloatColors.html#lessenChange-float-float-">lessenChange(float, float)</a></span> - Static method in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/FloatColors.html" title="class in com.github.tommyettinger.colorful">FloatColors</a></dt>
 <dd>
-<div class="block">Makes the additive YCwCmA color stored in <code>color</code> cause less of a change when used as a tint, as if it were
+<div class="block">Makes the additive YCwCm color stored in <code>color</code> cause less of a change when used as a tint, as if it were
  mixed with neutral gray.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Palette.html#LIGHT_GRAY">LIGHT_GRAY</a></span> - Static variable in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Palette.html" title="class in com.github.tommyettinger.colorful">Palette</a></dt>
@@ -1127,12 +1127,12 @@
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#makeBatch--">makeBatch()</a></span> - Static method in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
 <dd>
 <div class="block">Prepares and returns a new SpriteBatch that uses the default <a href="com/github/tommyettinger/colorful/Shaders.html#vertexShader"><code>Shaders.vertexShader</code></a> and <a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShader"><code>Shaders.fragmentShader</code></a>
- from this class, making it able to render YCwCmA colors from the rest of this library.</div>
+ from this class, making it able to render YCwCm colors from the rest of this library.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#makeBatch-float-">makeBatch(float)</a></span> - Static method in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
 <dd>
 <div class="block">Prepares and returns a new SpriteBatch that uses the default <a href="com/github/tommyettinger/colorful/Shaders.html#vertexShader"><code>Shaders.vertexShader</code></a> and <a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShader"><code>Shaders.fragmentShader</code></a>
- from this class, making it able to render YCwCmA colors from the rest of this library.</div>
+ from this class, making it able to render YCwCm colors from the rest of this library.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Shaders.html#makeBatchHSLC--">makeBatchHSLC()</a></span> - Static method in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Shaders.html" title="class in com.github.tommyettinger.colorful">Shaders</a></dt>
 <dd>
@@ -1283,7 +1283,7 @@
 <dl>
 <dt><a href="com/github/tommyettinger/colorful/Palette.html" title="class in com.github.tommyettinger.colorful"><span class="typeNameLink">Palette</span></a> - Class in <a href="com/github/tommyettinger/colorful/package-summary.html">com.github.tommyettinger.colorful</a></dt>
 <dd>
-<div class="block">A palette of predefined colors as packed YCwCmA floats, the kind <a href="com/github/tommyettinger/colorful/FloatColors.html" title="class in com.github.tommyettinger.colorful"><code>FloatColors</code></a> works with.</div>
+<div class="block">A palette of predefined colors as packed YCwCm floats, the kind <a href="com/github/tommyettinger/colorful/FloatColors.html" title="class in com.github.tommyettinger.colorful"><code>FloatColors</code></a> works with.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/Palette.html#Palette--">Palette()</a></span> - Constructor for class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/Palette.html" title="class in com.github.tommyettinger.colorful">Palette</a></dt>
 <dd>&nbsp;</dd>
@@ -1576,7 +1576,7 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/ColorfulSprite.html#setColor-com.badlogic.gdx.graphics.Color-">setColor(Color)</a></span> - Method in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful">ColorfulSprite</a></dt>
 <dd>
-<div class="block">Given an RGBA8888 Color from libGDX, this converts that to a YCwCmA color as a packed float and sets the color of
+<div class="block">Given an RGBA8888 Color from libGDX, this converts that to a YCwCm color as a packed float and sets the color of
  the sprite using that.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com/github/tommyettinger/colorful/ColorfulSprite.html#setColor-float-float-float-float-">setColor(float, float, float, float)</a></span> - Method in class com.github.tommyettinger.colorful.<a href="com/github/tommyettinger/colorful/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful">ColorfulSprite</a></dt>

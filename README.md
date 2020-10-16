@@ -12,12 +12,12 @@ specifically how it handles color tinting with `setColor(float, float, float, fl
     reducing red, green, and blue by some percentage each.
 
 We address this in colorful by representing tint colors differently. While there's some support here for HSLC tints
-(hue, saturation, lightness, contrast) via `Shaders.makeBatchHSLC()`, much more of the library is focused on the YCwCmA
-color space.
+(hue, saturation, lightness, contrast) via `Shaders.makeBatchHSLC()`, much more of the library is focused on the custom
+YCwCm color space, and a modification of the IPT color space.
 
-### YCwCmA
+### YCwCm
 
-Instead of red, green, blue, and alpha channels, YCwCmA uses luma (also called lightness), chromatic
+Instead of red, green, blue, and alpha channels, YCwCm uses luma (also called lightness), chromatic
 warmth, chromatic mildness, and alpha. The chromatic channels are only meaningful together, and can be used to get the
 hue and colorfulness (related to saturation) of any individual color. All channels go from `0.0f` to `1.0f` as `float`s,
 and can also be viewed as `int`s from `0` to `255` (`254` for alpha, because it is never an odd number). For luma,
@@ -29,10 +29,10 @@ this will make almost no changes to the colors in the textures you draw. For chr
 from green to blue, while `1.0f` is used for colors from yellow to red. For chromatic mildness, `0.0f` is used for
 colors from blue to red, while `1.0f` is used for colors from green to yellow. When both warmth and mildness are `0.5f`,
 that represents a grayscale color, which means it makes no change to the hue or saturation of the image drawn. For
-alpha, it acts exactly like alpha does normally in SpriteBatch. YCwCmA uses a similar naming convention to
+alpha, it acts exactly like alpha does normally in SpriteBatch. YCwCm uses a similar naming convention to
 [YcbCr](https://en.wikipedia.org/wiki/YCbCr) or [YCoCg](https://en.wikipedia.org/wiki/YCoCg), both close relatives. The
-reason this library uses YCwCmA instead of YCoCg is that it is comparable in computational cost to transform to and from
-RGB, but the luma is somewhat more accurate with YCwCmA, and the warmth axis is very useful for aesthetic reasons. As an
+reason this library uses YCwCm instead of YCoCg is that it is comparable in computational cost to transform to and from
+RGB, but the luma is somewhat more accurate with YCwCm, and the warmth axis is very useful for aesthetic reasons. As an
 example of the aesthetic usage, you could move an image into warm or hot hues when a fire is nearby, or into cooler hues
 when the weather is freezing. When warmth is very high, it is also nice to be able to move mildness up and down, which
 makes the color mimic that of fire (going from red embers to yellow sparks, spending more time near orange flame).
@@ -63,11 +63,11 @@ Some useful things to use the tweak for include:
     darkening or other adjustments.
 
 In the library, there's the basic shader code in `Shaders.java` (and convenience methods that construct SpriteBatch
-objects using those shaders), predefined packed-float colors in `Palette.java`, and quite a lot of methods for
-manipulating those colors as floats in `FloatColors.java`. The newer method involving a tweak requires using a
-ColorfulBatch instead of a SpriteBatch, but the API is almost the same, and is in `ColorfulBatch.java`. If you use a
-ColorfulBatch, you should also use ColorfulSprite instead of Sprite if you want to set a tweak per-sprite, but even a
-standard Sprite will render correctly.
+objects using those shaders), predefined packed-float colors in `ycwcm/Palette.java`, and quite a lot of methods for
+manipulating those colors as floats in `FloatColors.java` and `ycwcm/ColorTools.java`. The newer method involving a
+tweak requires using a ColorfulBatch instead of a SpriteBatch, but the API is almost the same, and is in
+`ycwcm/ColorfulBatch.java`. If you use a ColorfulBatch, you should also use ColorfulSprite instead of Sprite if you want
+to set a tweak per-sprite, but even a standard Sprite will render correctly.
 
 The palette used is a slight adjustment on DawnBringer's Aurora palette, a 256-color palette that gets less attention
 than his smaller pixel art palettes, but that has excellent coverage of most colors. The names used for colors in it are
@@ -75,11 +75,21 @@ very similar to the ones chosen for the palette as used in [SquidLib](https://gi
 not identical; some colors have simpler names, like `Green` instead of `Shamrock Green` or `Yellow` instead of `Lemon`.
 Naming 256 colors, some of them very similar, was not easy, and some choices are probably odd.
 
+### IPT
+
+The IPT color space is quite similar to YCwCm in some ways, but should have smoother transitions between hues -- after
+all, [that's what it was created for](https://www.researchgate.net/publication/221677980_Development_and_Testing_of_a_Color_Space_IPT_with_Improved_Hue_Uniformity)
+by Ebner and Fairchild in 1998. It has I (intensity, effectively lightness), P (protan, named after a concept in
+ophthalmology and corresponding to a cyan-to-red axis), and T (tritan, also a medical term and corresponding to a
+violet-to-yellow axis) channels, plus alpha here. In standard IPT, intensity is very similar for most mid-brightness
+colors, but falls off suddenly from about 0.3 to 0 in a range of just 1/14 gray to black. Here, we avoid some
+`Math.pow()` calculations and even out the intensity
+
 ### HSLC
 
 HSLC doesn't allow changing alpha, so it may be unsuitable for some tasks, but it does allow smooth hue rotations across
-the HSL hue range, can saturate or desaturate colors like the two Chroma values can in YCwCmA, and has similar luma
-adjustment to YCwCmA as well. Like with YCwCmA, when you tint with all values equal to 0.5f, then the result color
+the HSL hue range, can saturate or desaturate colors like the two Chroma values can in YCwCm, and has similar luma
+adjustment to YCwCm as well. Like with YCwCm, when you tint with all values equal to 0.5f, then the result color
 shouldn't change. Raising or lowering hue (stored in the red channel) will rotate the hue away from the input color.
 Raising saturation (stored in the green channel) will make the colors more vivid, while decreasing it wll make them
 closer to grayscale. Raising lightness (stored in the blue channel) will make colors lighter (it can make them brighter
@@ -89,7 +99,7 @@ will have stark lightness differences, while when contrast is low, most lightnes
 
 ## Samples
 
-These all show YCwCmA changes.
+These all show YCwCm changes.
 
 Tinting with gray as the color causes no change to the original image.
 ![Tinting with gray](https://i.imgur.com/1Nq43hx.png)

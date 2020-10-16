@@ -102,11 +102,11 @@
 <br>
 <pre>public class <span class="typeNameLabel">Palette</span>
 extends java.lang.Object</pre>
-<div class="block">A palette of predefined colors as packed YCwCmA floats, the kind <a href="../../../../com/github/tommyettinger/colorful/FloatColors.html" title="class in com.github.tommyettinger.colorful"><code>FloatColors</code></a> works with.
+<div class="block">A palette of predefined colors as packed YCwCm floats, the kind <a href="../../../../com/github/tommyettinger/colorful/FloatColors.html" title="class in com.github.tommyettinger.colorful"><code>FloatColors</code></a> works with.
  You can access colors by their constant name, such as <code>OCEAN_BLUE</code>, by the <a href="../../../../com/github/tommyettinger/colorful/Palette.html#NAMED"><code>NAMED</code></a> map using
  <code>NAMED.get("Ocean Blue", 0f)</code>, or by index in the FloatArray called <a href="../../../../com/github/tommyettinger/colorful/Palette.html#LIST"><code>LIST</code></a>. Note that to access a float
  color from NAMED, you need to give a default value if the name is not found; <code>0f</code> is a good default because it
- will not occur in a valid YCwCmA color. You can access the names in a specific order with <a href="../../../../com/github/tommyettinger/colorful/Palette.html#NAMES"><code>NAMES</code></a> (which is
+ will not occur in a valid YCwCm color. You can access the names in a specific order with <a href="../../../../com/github/tommyettinger/colorful/Palette.html#NAMES"><code>NAMES</code></a> (which is
  alphabetical), <a href="../../../../com/github/tommyettinger/colorful/Palette.html#NAMES_BY_HUE"><code>NAMES_BY_HUE</code></a> (which is sorted by the hue of the matching color, from red to yellow to blue
  (with gray around here) to purple to red again), or <a href="../../../../com/github/tommyettinger/colorful/Palette.html#NAMES_BY_LIGHTNESS"><code>NAMES_BY_LIGHTNESS</code></a> (which is sorted by the luma of the
  matching color, from darkest to lightest). Having a name lets you look up the matching color in <a href="../../../../com/github/tommyettinger/colorful/Palette.html#NAMED"><code>NAMED</code></a>.

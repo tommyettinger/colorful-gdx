@@ -134,7 +134,7 @@ extends java.lang.Object</pre>
 <tr class="altColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#fragmentShader">fragmentShader</a></span></code>
-<div class="block">Where the magic happens; this converts a batch color from the YCwCmA format (used by colorful) to RGBA.</div>
+<div class="block">Where the magic happens; this converts a batch color from the YCwCm format (used by colorful) to RGBA.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -288,14 +288,14 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>static com.badlogic.gdx.graphics.g2d.SpriteBatch</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#makeBatch--">makeBatch</a></span>()</code>
 <div class="block">Prepares and returns a new SpriteBatch that uses the default <a href="../../../../com/github/tommyettinger/colorful/Shaders.html#vertexShader"><code>vertexShader</code></a> and <a href="../../../../com/github/tommyettinger/colorful/Shaders.html#fragmentShader"><code>fragmentShader</code></a>
- from this class, making it able to render YCwCmA colors from the rest of this library.</div>
+ from this class, making it able to render YCwCm colors from the rest of this library.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static com.badlogic.gdx.graphics.g2d.SpriteBatch</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/github/tommyettinger/colorful/Shaders.html#makeBatch-float-">makeBatch</a></span>(float&nbsp;contrast)</code>
 <div class="block">Prepares and returns a new SpriteBatch that uses the default <a href="../../../../com/github/tommyettinger/colorful/Shaders.html#vertexShader"><code>vertexShader</code></a> and <a href="../../../../com/github/tommyettinger/colorful/Shaders.html#fragmentShader"><code>fragmentShader</code></a>
- from this class, making it able to render YCwCmA colors from the rest of this library.</div>
+ from this class, making it able to render YCwCm colors from the rest of this library.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
@@ -408,7 +408,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>fragmentShader</h4>
 <pre>public static final&nbsp;java.lang.String fragmentShader</pre>
-<div class="block">Where the magic happens; this converts a batch color from the YCwCmA format (used by colorful) to RGBA.
+<div class="block">Where the magic happens; this converts a batch color from the YCwCm format (used by colorful) to RGBA.
  The vertex color will be split up into 4 channels just as a normal shader does, but the channels here are
  luma, chromatic warmth, chromatic mildness, and alpha; alpha acts just like a typical RGBA shader, but the others
  are additive instead of multiplicative, with 0.5 as a neutral value. This does not support the "tweak" features
@@ -752,13 +752,13 @@ extends java.lang.Object</pre>
 <h4>makeBatch</h4>
 <pre>public static&nbsp;com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;makeBatch()</pre>
 <div class="block">Prepares and returns a new SpriteBatch that uses the default <a href="../../../../com/github/tommyettinger/colorful/Shaders.html#vertexShader"><code>vertexShader</code></a> and <a href="../../../../com/github/tommyettinger/colorful/Shaders.html#fragmentShader"><code>fragmentShader</code></a>
- from this class, making it able to render YCwCmA colors from the rest of this library. It won't be a
+ from this class, making it able to render YCwCm colors from the rest of this library. It won't be a
  <a href="../../../../com/github/tommyettinger/colorful/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful"><code>ColorfulBatch</code></a> (those can adjust colors in more ways); you can simply use <code>new ColorfulBatch()</code> to
  make one of those. Note that a SpriteBatch won't be able to render a <a href="../../../../com/github/tommyettinger/colorful/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful"><code>ColorfulSprite</code></a>, but ColorfulBatch
  can.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a freshly allocated SpriteBatch that will also have a new ShaderProgram for rendering YCwCmA</dd>
+<dd>a freshly allocated SpriteBatch that will also have a new ShaderProgram for rendering YCwCm</dd>
 </dl>
 </li>
 </ul>
@@ -770,7 +770,7 @@ extends java.lang.Object</pre>
 <h4>makeBatch</h4>
 <pre>public static&nbsp;com.badlogic.gdx.graphics.g2d.SpriteBatch&nbsp;makeBatch(float&nbsp;contrast)</pre>
 <div class="block">Prepares and returns a new SpriteBatch that uses the default <a href="../../../../com/github/tommyettinger/colorful/Shaders.html#vertexShader"><code>vertexShader</code></a> and <a href="../../../../com/github/tommyettinger/colorful/Shaders.html#fragmentShader"><code>fragmentShader</code></a>
- from this class, making it able to render YCwCmA colors from the rest of this library. This also takes a
+ from this class, making it able to render YCwCm colors from the rest of this library. This also takes a
  <code>contrast</code> parameter; if greater than 1.0 it will make light colors lighter and dark colors darker, while
  if it is less than 1.0 it will make all but the darkest colors closer to the upper-middle-range of lightness.
  If you want to adjust contrast per-sprite, use a <a href="../../../../com/github/tommyettinger/colorful/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful"><code>ColorfulBatch</code></a> (those can adjust colors in more ways);
@@ -783,7 +783,7 @@ extends java.lang.Object</pre>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>contrast</code> - how much contrast should be emphasized; higher than 1.0 is more contrasting, and this should usually be between 0.1 and 2.0</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a freshly allocated SpriteBatch that will also have a new ShaderProgram for rendering YCwCmA</dd>
+<dd>a freshly allocated SpriteBatch that will also have a new ShaderProgram for rendering YCwCm</dd>
 </dl>
 </li>
 </ul>
@@ -807,7 +807,7 @@ extends java.lang.Object</pre>
  changes in the result.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>a freshly allocated SpriteBatch that will also have a new ShaderProgram for rendering YCwCmA</dd>
+<dd>a freshly allocated SpriteBatch that will also have a new ShaderProgram for rendering YCwCm</dd>
 </dl>
 </li>
 </ul>

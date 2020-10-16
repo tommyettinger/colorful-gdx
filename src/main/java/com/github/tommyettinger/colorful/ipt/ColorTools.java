@@ -138,8 +138,8 @@ public class ColorTools {
 		final float s = 0.024828f * r + 0.064919f * g + 0.910230f * b;
 		return NumberUtils.intBitsToFloat(
 						  MathUtils.clamp((int)(102.0f * l + 102.0f * m + 51.0f * s + 0.5f), 0, 255)
-						| MathUtils.clamp((int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 128f), 0, 255) << 8
-						| MathUtils.clamp((int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 128f), 0, 255) << 16
+						| MathUtils.clamp((int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 127.5f), 0, 255) << 8
+						| MathUtils.clamp((int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 127.5f), 0, 255) << 16
 						| (rgba & 0xFE) << 24);
 	}
 
@@ -159,8 +159,8 @@ public class ColorTools {
 
 		return NumberUtils.intBitsToFloat(
 				(int)(102.0f * l + 102.0f * m + 51.0f * s + 0.5f)
-						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 128f) << 8
-						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 128f) << 16
+						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 127.5f) << 8
+						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 127.5f) << 16
 				| (abgr & 0xFE000000));
 	}
 
@@ -176,8 +176,8 @@ public class ColorTools {
 
 		return NumberUtils.intBitsToFloat(
 				(int)(102.0f * l + 102.0f * m + 51.0f * s + 0.5f)
-						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 128f) << 8
-						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 128f) << 16
+						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 127.5f) << 8
+						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 127.5f) << 16
 						| ((int)(color.a * 255f) << 24 & 0xFE000000));
 	}
 
@@ -196,8 +196,8 @@ public class ColorTools {
 
 		return NumberUtils.intBitsToFloat(
 				(int)(102.0f * l + 102.0f * m + 51.0f * s + 0.5f)
-						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 128f) << 8
-						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 128f) << 16
+						| (int)((852.01874f) * l - (927.7538f) * m + (75.7350f) * s + 127.5f) << 8
+						| (int)((136.94775f) * l + (60.72825f) * m - (197.676f) * s + 127.5f) << 16
 						| ((int)(a * 255f) << 24 & 0xFE000000));
 	}
 
@@ -381,9 +381,10 @@ public class ColorTools {
 			w = x;
 			x = r;
 		}
-		float d = x - Math.min(w, y);
-		float li = x * (1f - 0.5f * d / (x + 1e-10f));
-		return (x - li) / (Math.min(li, 1f - li) + 1e-10f);
+		return x - Math.min(w, y);
+//		float d = x - Math.min(w, y);
+//		float li = x * (1f - 0.5f * d / (x + 1e-10f));
+//		return (x - li); // (Math.min(li, 1f - li) + 1e-10f);
 	}
 
 	public static float lightness(final float encoded) {
