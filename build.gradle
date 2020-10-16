@@ -21,7 +21,7 @@ def projectName = 'colorful'
 version '0.3.0-SNAPSHOT'
 group 'com.github.tommyettinger'
 
-def gdxVersion = '1.9.11'
+def gdxVersion = '1.9.10'
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
@@ -56,5 +56,5 @@ dependencies {
     api group: 'com.badlogicgames.gdx', name: 'gdx', version: gdxVersion
     testImplementation group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl3', version: gdxVersion
     testImplementation group: 'com.badlogicgames.gdx', name: 'gdx-platform', version: gdxVersion, classifier: 'natives-desktop'
-    testImplementation 'com.github.tommyettinger:anim8-gdx:0.2.1'
+    testImplementation 'com.github.tommyettinger:anim8-gdx:0.2.2'
 }

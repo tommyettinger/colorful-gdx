@@ -92,13 +92,13 @@ public class IPTTintDemo extends ApplicationAdapter {
                         "void main()\n" +
                         "{\n" +
                         "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "    vec3 ipt = (mat3(+0.4000, +6.6825, +1.0741, +0.4000, -7.2765, +0.4763, +0.2000, +0.5940, -1.5504) * \n" +
-                        "        (pow(mat3(0.313921, 0.151693, 0.017700, 0.639468, 0.748209, 0.109400, 0.0465970, 0.1000044, 0.8729000) * (tgt.rgb), vec3(0.43))))\n" +
+                        "    vec3 ipt = (mat3(+0.4000,+4.4550,+0.8056,+0.4000,-4.8510,+0.3572,+0.2000,+0.3960,-1.1628) * \n" +
+                        "        mat3(0.313921, 0.151693, 0.017700, 0.639468, 0.748209, 0.109400, 0.0465970, 0.1000044, 0.8729000) * (tgt.rgb))\n" +
                         "        + v_color.rgb - 0.5;\n" +
-                        "    vec3 back = mat3(1.0, 1.0, 1.0, 0.06503950, -0.07591241, 0.02174116, 0.15391950, 0.09991275, -0.50766750) * ipt;\n" +
-                        "    back = mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) * \n" +
-                        "        (pow(abs(back), vec3(2.3256)) * sign(back));\n" +
+                        "    vec3 back = mat3(+1.0,+1.0,+1.0,+0.097569,-0.113880,+0.032615,+0.205226,+0.133217,-0.676890) * ipt;\n" +
+                        "    back = mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) * back;\n" +
                         "    gl_FragColor = vec4(clamp(back, 0.0, 1.0), v_color.a * tgt.a);\n" +
+//                    "    if(any(notEqual(back, gl_FragColor.rgb))) gl_FragColor.rgb = vec3(1.0) - back;\n" +
                         "}";
         shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderIPT);
         if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());

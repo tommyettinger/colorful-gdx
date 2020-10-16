@@ -77,12 +77,9 @@ public class IPTGamutDemo extends ApplicationAdapter {
                         "{\n" +
                         "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                         "    vec3 ipt = vec3(v_color.r, v_color.gb * 2.0 - 1.0);\n" +
-//                        "        (mat3(+0.4000, +6.6825, +1.0741, +0.4000, -7.2765, +0.4763, +0.2000, +0.5940, -1.5504) * \n" +
-//                        "        (mat3(+0.4000, +4.4550, +0.8056, +0.4000, -4.8510, +0.3572, +0.2000, +0.3960, -1.1628) * \n" +
-//                        "        (pow(mat3(0.313921, 0.151693, 0.017700, 0.639468, 0.748209, 0.109400, 0.0465970, 0.1000044, 0.8729000) * tgt.rgb, vec3(0.43))));\n" +
-                        "    vec3 back = mat3(1.0, 1.0, 1.0, 0.097569, -0.113880, 0.032615, 0.205226, 0.133217, -0.676890) * ipt;\n" +
-                        "    back = mat3(3.569800, -1.105200, -0.018548, -2.687500, 2.311300, -0.091536, 0.11744, -0.20588, 1.11010) * back;\n" +
-                        "    gl_FragColor = clamp(vec4(back, 1.0), 0.0, 1.0);\n" + // back to alpha and clamp
+                        "    vec3 back = mat3(+1.0,+1.0,+1.0,+0.097569,-0.113880,+0.032615,+0.205226,+0.133217,-0.676890) * ipt;\n" +
+                        "    back = mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) * back;\n" +
+                        "    gl_FragColor = vec4(clamp(back, 0.0, 1.0), v_color.a * tgt.a);\n" +
                         "    if(any(notEqual(back, gl_FragColor.rgb))) discard;\n" +
                         "}";
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
@@ -105,10 +102,12 @@ public class IPTGamutDemo extends ApplicationAdapter {
         // the given pixmaps and use that for all frames, dithering any colors that don't match.
         AnimatedGif gif = new AnimatedGif();
         AnimatedPNG png = new AnimatedPNG();
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.CHAOTIC_NOISE); // this is better than it sounds
         gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
         gif.palette = new PaletteReducer(pixmaps);
-        gif.palette.setDitherStrength(1f);
+        gif.palette.setDitherStrength(0.7f);
+        gif.palette.analyze(pixmaps, 200);
         // 24 is how many frames per second the animated GIF should play back at.
         gif.write(Gdx.files.local("IPTGamut.gif"), pixmaps, 24);
         png.write(Gdx.files.local("IPTGamut.png"), pixmaps, 24);
