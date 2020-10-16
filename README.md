@@ -81,9 +81,17 @@ The IPT color space is quite similar to YCwCm in some ways, but should have smoo
 all, [that's what it was created for](https://www.researchgate.net/publication/221677980_Development_and_Testing_of_a_Color_Space_IPT_with_Improved_Hue_Uniformity)
 by Ebner and Fairchild in 1998. It has I (intensity, effectively lightness), P (protan, named after a concept in
 ophthalmology and corresponding to a cyan-to-red axis), and T (tritan, also a medical term and corresponding to a
-violet-to-yellow axis) channels, plus alpha here. In standard IPT, intensity is very similar for most mid-brightness
-colors, but falls off suddenly from about 0.3 to 0 in a range of just 1/14 gray to black. Here, we avoid some
-`Math.pow()` calculations and even out the intensity
+blue-to-yellow axis) channels, plus alpha here. In standard IPT, intensity is very similar for most mid-brightness
+colors, but falls off suddenly from about 0.3 to 0 in a range of just 1/14 gray to black. Here, we avoid any
+`Math.pow()` calculations, which evens out the intensity so 1/10 gray has 0.1 intensity. The hue and chroma components
+should be fairly similar, but aren't quite identical. You might want to prefer IPT over YCwCm if you want color
+transitions to look as smooth as possible, and don't mind a tiny bit of extra calculation this needs to do internally.
+Even with the different calculation for intensity/lightness, most colors that are perceptually similar in lightness
+should have similar intensity here.
+
+The `com.github.tommyettinger.colorful.ipt` package has parallels to all the classes in the `ycmcw` package, and the
+`ColorfulBatch`, `ColorfulSprite`, and `Palette` classes work almost identically. For ColorfulBatch, this means there's
+an additive color, and a multiplicative "tweak," plus multiplicative alpha in the color and contrast in the tweak.
 
 ### HSLC
 
