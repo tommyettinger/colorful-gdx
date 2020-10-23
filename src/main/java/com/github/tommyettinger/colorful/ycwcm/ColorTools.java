@@ -673,4 +673,38 @@ public class ColorTools {
 				| ((int)(MathUtils.clamp(cw + b, -1, 1) * 127.5f + 128f) << 8 & 0xFF00) | (int)(MathUtils.clamp(y + a, 0, 1) * 255f));
 	}
 
+	/**
+	 * Returns true if the given packed float color, as YCwCm, is valid to convert losslessly back to RGBA. 
+	 * @param packed a packed float color as YCwCm
+	 * @return true if the given packed float color can be converted back and forth to RGBA
+	 */
+	public static boolean inGamut(final float packed)
+	{
+		final int decoded = NumberUtils.floatToIntBits(packed), y = (decoded & 0xff),
+				cw = ((decoded >>> 7 & 0x1fe) - 0xfe),
+				cm = (((decoded >>> 15 & 0x1fe) - 0xfe) >> 1);
+		final int r = y + (cw * 5 >> 3) - cm;
+		if(r < 0 || r > 255) return false;
+		final int g = y - (cw * 3 >> 3) + cm;
+		if(g < 0 || g > 255) return false;
+		final int b = y - (cw * 3 >> 3) - cm;
+		return (b >= 0) && (b <= 255);
+	}
+	/**
+	 * Returns true if the given YCwCm values are valid to convert losslessly back to RGBA. 
+	 * @param y luma channel, as a float from 0 to 1
+	 * @param cw chromatic warmth channel, as a float from 0 to 1
+	 * @param cm chromatic mildness channel, as a float from 0 to 1
+	 * @return true if the given packed float color can be converted back and forth to RGBA
+	 */
+	public static boolean inGamut(float y, float cw, float cm)
+	{
+		final int yi = (int)(y * 255.5f), cwi = (int) ((cw - 0.5f) * 511f), cmi = (int) ((cw - 0.5f) * 511f);
+		final int r = yi + (cwi * 5 >> 3) - cmi;
+		if(r < 0 || r > 255) return false;
+		final int g = yi - (cwi * 3 >> 3) + cmi;
+		if(g < 0 || g > 255) return false;
+		final int b = yi - (cwi * 3 >> 3) - cmi;
+		return (b >= 0) && (b <= 255);
+	}
 }

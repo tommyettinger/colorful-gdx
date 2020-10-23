@@ -780,6 +780,11 @@ public class ColorTools {
 		return color;
 	}
 
+	/**
+	 * Returns true if the given packed float color, as IPT, is valid to convert losslessly back to RGBA. 
+	 * @param packed a packed float color as IPT
+	 * @return true if the given packed float color can be converted back and forth to RGBA
+	 */
 	public static boolean inGamut(final float packed)
 	{
 		final int decoded = NumberUtils.floatToIntBits(packed);
@@ -796,7 +801,13 @@ public class ColorTools {
 		final float b = (0.028104f * l - 0.194660f * m + 1.166325f * s);
 		return (b >= 0) && (b <= 1);
 	}
-
+	/**
+	 * Returns true if the given IPT values are valid to convert losslessly back to RGBA. 
+	 * @param i intensity channel, as a float from 0 to 1
+	 * @param p protan channel, as a float from 0 to 1
+	 * @param t tritan channel, as a float from 0 to 1
+	 * @return true if the given packed float color can be converted back and forth to RGBA
+	 */
 	public static boolean inGamut(float i, float p, float t)
 	{
 		p = (p - 0.5f) * 2f;
