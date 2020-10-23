@@ -768,13 +768,13 @@ public class ColorTools {
 		final float limit = variance * variance;
 		float dist = limit + 1f, x = 0, y = 0, z = 0;
 		while (dist > limit){
-			x = (seed * 0xD1B54A32D192ED03L >> 41) * 0x1p-22f * variance;
-			y = (seed * 0xABC98388FB8FAC03L >> 41) * 0x1p-22f * variance;
-			z = (seed * 0x8CB92BA72F3D8DD7L >> 41) * 0x1p-22f * variance;
+			x = (((seed * 0xD1B54A32D192ED03L >>> 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;
+			y = (((seed * 0xABC98388FB8FAC03L >>> 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;
+			z = (((seed * 0x8CB92BA72F3D8DD7L >>> 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;
 			++seed;
 			dist = x * x + y * y + z * z;
 		}
-		return NumberUtils.intBitsToFloat((decoded & 0xFE000000) | ((int)(MathUtils.clamp(t + z, -1, 1) * 127.999f + 128f) << 16 & 0xFF0000)
-				| ((int)(MathUtils.clamp(p + y, -1, 1) * 127.999f + 128f) << 8 & 0xFF00) | (int)(MathUtils.clamp(i + x, 0, 1) * 255.999f));
+		return NumberUtils.intBitsToFloat((decoded & 0xFE000000) | ((int)(MathUtils.clamp(t + z, -1, 1) * 127.5f + 128f) << 16 & 0xFF0000)
+				| ((int)(MathUtils.clamp(p + y, -1, 1) * 127.5f + 128f) << 8 & 0xFF00) | (int)(MathUtils.clamp(i + x, 0, 1) * 255f));
 	}
 }

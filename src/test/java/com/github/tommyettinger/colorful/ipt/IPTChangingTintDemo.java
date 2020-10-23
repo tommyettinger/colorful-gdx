@@ -99,7 +99,7 @@ public class IPTChangingTintDemo extends ApplicationAdapter {
         batch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) {
             batch.setShader(shader);
-            batch.setPackedColor(tint = ColorTools.randomEdit(tint, seed++, 0.05f));
+            batch.setPackedColor(tint = ColorTools.randomEdit(tint, seed++, 0.04f));
             batch.begin();
             batch.draw(screenTexture, 0, 0);
             batch.setShader(defaultShader);
@@ -134,7 +134,6 @@ public class IPTChangingTintDemo extends ApplicationAdapter {
             load("samples/Spaceships.png");
         else if (input.isKeyPressed(Input.Keys.R)) {
             tint = Palette.GRAY;
-            seed = 1L;
         }
         else if (input.isKeyPressed(Input.Keys.Q) || input.isKeyPressed(Input.Keys.ESCAPE)) //quit
             Gdx.app.exit();
