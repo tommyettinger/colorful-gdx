@@ -766,15 +766,50 @@ public class ColorTools {
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float limit = variance * variance;
-		float dist = limit + 1f, x = 0, y = 0, z = 0;
-		while (dist > limit){
+		float dist, x, y, z;
+		for (int j = 0; j < 50; j++) {
 			x = (((seed * 0xD1B54A32D192ED03L >>> 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;
 			y = (((seed * 0xABC98388FB8FAC03L >>> 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;
 			z = (((seed * 0x8CB92BA72F3D8DD7L >>> 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;
 			++seed;
 			dist = x * x + y * y + z * z;
+			if(dist <= limit && inGamut(x += i, y = (p + y) * 0.5f + 0.5f, z = (t + z) * 0.5f + 0.5f))
+				return NumberUtils.intBitsToFloat((decoded & 0xFE000000) | ((int)(z * 255.5f) << 16 & 0xFF0000)
+					| ((int)(y * 255.5f) << 8 & 0xFF00) | (int)(x * 255.5f));
 		}
-		return NumberUtils.intBitsToFloat((decoded & 0xFE000000) | ((int)(MathUtils.clamp(t + z, -1, 1) * 127.5f + 128f) << 16 & 0xFF0000)
-				| ((int)(MathUtils.clamp(p + y, -1, 1) * 127.5f + 128f) << 8 & 0xFF00) | (int)(MathUtils.clamp(i + x, 0, 1) * 255f));
+		return color;
 	}
+
+	public static boolean inGamut(final float packed)
+	{
+		final int decoded = NumberUtils.floatToIntBits(packed);
+		final float i = (decoded & 0xff) / 255f;
+		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float l = i + 0.097569f * p + 0.205226f * t;
+		final float m = i - 0.11388f * p + 0.133217f * t;
+		final float s = i + 0.032615f * p - 0.67689f * t;
+		final float r = (5.432622f * l - 4.679100f * m + 0.246257f * s);
+		if(r < 0 || r > 1) return false;
+		final float g = (-1.10517f * l + 2.311198f * m - 0.205880f * s);
+		if(g < 0 || g > 1) return false;
+		final float b = (0.028104f * l - 0.194660f * m + 1.166325f * s);
+		return (b >= 0) && (b <= 1);
+	}
+
+	public static boolean inGamut(float i, float p, float t)
+	{
+		p = (p - 0.5f) * 2f;
+		t = (t - 0.5f) * 2f;
+		final float l = i + 0.097569f * p + 0.205226f * t;
+		final float m = i - 0.11388f * p + 0.133217f * t;
+		final float s = i + 0.032615f * p - 0.67689f * t;
+		final float r = (5.432622f * l - 4.679100f * m + 0.246257f * s);
+		if(r < 0 || r > 1) return false;
+		final float g = (-1.10517f * l + 2.311198f * m - 0.205880f * s);
+		if(g < 0 || g > 1) return false;
+		final float b = (0.028104f * l - 0.194660f * m + 1.166325f * s);
+		return (b >= 0) && (b <= 1);
+	}
+
 }

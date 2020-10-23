@@ -99,7 +99,7 @@ public class IPTChangingTintDemo extends ApplicationAdapter {
         batch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) {
             batch.setShader(shader);
-            batch.setPackedColor(tint = ColorTools.randomEdit(tint, seed++, 0.04f));
+            batch.setPackedColor(tint = ColorTools.randomEdit(tint, seed++, 0.03125f));
             batch.begin();
             batch.draw(screenTexture, 0, 0);
             batch.setShader(defaultShader);
