@@ -29,9 +29,6 @@ public class TrigTools {
      * floats you should usually use methods that take floats (or return floats, if assigning the result to a float),
      * and likewise for doubles.
      * <br>
-     * Unlike in previous versions of this method, the sign of the input doesn't affect performance here, at least not
-     * by a measurable amount.
-     * <br>
      * The technique for sine approximation is mostly from
      * <a href="https://web.archive.org/web/20080228213915/http://devmaster.net/forums/showthread.php?t=5784">this archived DevMaster thread</a>,
      * with credit to "Nick". Changes have been made to accelerate wrapping from any double to the valid input range.
@@ -67,8 +64,6 @@ public class TrigTools {
      * floats you should usually use methods that take floats (or return floats, if assigning the result to a float),
      * and likewise for doubles.
      * <br>
-     * Unlike in previous versions of this method, the sign of the input doesn't affect performance here, at least not
-     * by a measurable amount.
      * The technique for cosine approximation is mostly from
      * <a href="https://web.archive.org/web/20080228213915/http://devmaster.net/forums/showthread.php?t=5784">this archived DevMaster thread</a>,
      * with credit to "Nick". Changes have been made to accelerate wrapping from any double to the valid input range.
@@ -102,9 +97,6 @@ public class TrigTools {
      * between float and double takes about as long as this method normally takes to run (or longer), so if you have
      * floats you should usually use methods that take floats (or return floats, if assigning the result to a float),
      * and likewise for doubles.
-     * <br>
-     * Unlike in previous versions of this method, the sign of the input doesn't affect performance here, at least not
-     * by a measurable amount.
      * <br>
      * The technique for sine approximation is mostly from
      * <a href="https://web.archive.org/web/20080228213915/http://devmaster.net/forums/showthread.php?t=5784">this archived DevMaster thread</a>,
@@ -140,9 +132,6 @@ public class TrigTools {
      * floats you should usually use methods that take floats (or return floats, if assigning the result to a float),
      * and likewise for doubles.
      * <br>
-     * Unlike in previous versions of this method, the sign of the input doesn't affect performance here, at least not
-     * by a measurable amount.
-     * <br>
      * The technique for cosine approximation is mostly from
      * <a href="https://web.archive.org/web/20080228213915/http://devmaster.net/forums/showthread.php?t=5784">this archived DevMaster thread</a>,
      * with credit to "Nick". Changes have been made to accelerate wrapping from any float to the valid input range.
@@ -175,9 +164,6 @@ public class TrigTools {
      * between float and double takes about as long as this method normally takes to run (or longer), so if you have
      * floats you should usually use methods that take floats (or return floats, if assigning the result to a float),
      * and likewise for doubles.
-     * <br>
-     * Unlike in previous versions of this method, the sign of the input doesn't affect performance here, at least not
-     * by a measurable amount.
      * <br>
      * The technique for sine approximation is mostly from
      * <a href="https://web.archive.org/web/20080228213915/http://devmaster.net/forums/showthread.php?t=5784">this archived DevMaster thread</a>,
@@ -212,9 +198,6 @@ public class TrigTools {
      * between float and double takes about as long as this method normally takes to run (or longer), so if you have
      * floats you should usually use methods that take floats (or return floats, if assigning the result to a float),
      * and likewise for doubles.
-     * <br>
-     * Unlike in previous versions of this method, the sign of the input doesn't affect performance here, at least not
-     * by a measurable amount.
      * <br>
      * The technique for cosine approximation is mostly from
      * <a href="https://web.archive.org/web/20080228213915/http://devmaster.net/forums/showthread.php?t=5784">this archived DevMaster thread</a>,
