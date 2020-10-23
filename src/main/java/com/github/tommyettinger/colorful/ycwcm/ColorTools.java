@@ -641,4 +641,36 @@ public class ColorTools {
 				| (((int) (cms + fraction * (cme - cms)) & 0xFF) << 16)
 				| (((int) (as + fraction * (ae - as)) & 0xFE) << 24));
 	}
+	/**
+	 * Makes a quasi-randomly-edited variant on the given {@code color}, allowing typically a small amount of
+	 * {@code variance} (such as 0.05 to 0.25) between the given color and what this can return. The {@code seed} should
+	 * be different each time this is called, and can be obtained from a random number generator to make the colors more
+	 * random, or can be incremented on each call. If the seed is only incremented or decremented, then this shouldn't
+	 * produce two similar colors in a row unless variance is very small. The variance affects the Y, Cw, and Cm of the
+	 * generated color, and each of those channels can go up or down by the given variance as long as the total distance
+	 * isn't greater than the variance (this considers Cw and Cm extra-wide, going from -1 to 1, while I goes from 0 to
+	 * 1, but only internally for measuring distance).
+	 * @param color a packed float color, as produced by {@link #ycwcm(float, float, float, float)}
+	 * @param seed a long seed that should be different on each call; should not be 0
+	 * @param variance max amount of difference between the given color and the generated color; always less than 1
+	 * @return a generated packed float color that should be at least somewhat different from {@code color}
+	 */
+	public static float randomEdit(final float color, long seed, final float variance) {
+		final int decoded = NumberUtils.floatToIntBits(color);
+		final float y = (decoded & 0xff) / 255f;
+		final float cw = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float cm = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float limit = variance * variance;
+		float dist = limit + 1f, a = 0, b = 0, c = 0;
+		while (dist > limit){
+			a = (seed * 0xD1B54A32D192ED03L >> 41) * 0x1p-22f * variance;
+			b = (seed * 0xABC98388FB8FAC03L >> 41) * 0x1p-22f * variance;
+			c = (seed * 0x8CB92BA72F3D8DD7L >> 41) * 0x1p-22f * variance;
+			++seed;
+			dist = a * a + b * b + c * c;
+		}
+		return NumberUtils.intBitsToFloat((decoded & 0xFE000000) | ((int)(MathUtils.clamp(cm + c, -1, 1) * 127.999f + 128f) << 16 & 0xFF0000)
+				| ((int)(MathUtils.clamp(cw + b, -1, 1) * 127.999f + 128f) << 8 & 0xFF00) | (int)(MathUtils.clamp(y + a, 0, 1) * 255.999f));
+	}
+
 }
