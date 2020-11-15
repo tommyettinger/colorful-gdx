@@ -77,8 +77,7 @@ public class IPTGamutDemo extends ApplicationAdapter {
                         "{\n" +
                         "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                         "    vec3 ipt = vec3(v_color.r, v_color.gb * 2.0 - 1.0);\n" +
-                        "    vec3 back = mat3(+1.0,+1.0,+1.0,+0.097569,-0.113880,+0.032615,+0.205226,+0.133217,-0.676890) * ipt;\n" +
-                        "    back = mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) * back;\n" +
+                        "    vec3 back = mat3(0.999779, 1.00015, 0.999769, 1.07094, -0.377744, 0.0629496, 0.324891, 0.220439, -0.809638) * ipt;\n" +
                         "    gl_FragColor = vec4(clamp(back, 0.0, 1.0), v_color.a * tgt.a);\n" +
                         "    if(any(notEqual(back, gl_FragColor.rgb))) discard;\n" +
                         "}";
@@ -101,16 +100,16 @@ public class IPTGamutDemo extends ApplicationAdapter {
         // AnimatedGif is from anim8; if no extra settings are specified it will calculate a 255-color palette from
         // the given pixmaps and use that for all frames, dithering any colors that don't match.
         AnimatedGif gif = new AnimatedGif();
-        AnimatedPNG png = new AnimatedPNG();
+//        AnimatedPNG png = new AnimatedPNG();
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.CHAOTIC_NOISE); // this is better than it sounds
-        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
-//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
+        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
         gif.palette = new PaletteReducer(pixmaps);
-        gif.palette.setDitherStrength(0.7f);
-        gif.palette.analyze(pixmaps, 200);
+        gif.palette.setDitherStrength(0.5f);
+        gif.palette.analyze(pixmaps, 400);
         // 24 is how many frames per second the animated GIF should play back at.
         gif.write(Gdx.files.local("IPTGamut.gif"), pixmaps, 24);
-        png.write(Gdx.files.local("IPTGamut.png"), pixmaps, 24);
+//        png.write(Gdx.files.local("IPTGamut.png"), pixmaps, 24);
 
     }
 
