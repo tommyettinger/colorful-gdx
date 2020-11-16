@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class HSLITintDemo extends ApplicationAdapter {
+public class HSLPTintDemo extends ApplicationAdapter {
     //public static final int backgroundColor = Color.rgba8888(Color.DARK_GRAY);
 //    public static final int SCREEN_WIDTH = 1531;
 //    public static final int SCREEN_HEIGHT = 862;
@@ -30,18 +30,18 @@ public class HSLITintDemo extends ApplicationAdapter {
 
     private long lastProcessedTime = 0L;
     private ShaderProgram defaultShader;
-    private ShaderProgram shaderHSLI;
+    private ShaderProgram shaderHSLP;
     private float hue = 0.98f, sat = 0.75f, lightness = 0.4f, // a deep cherry-red color
     intensity = 0.5f;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("HSLI Demo");
+        config.setTitle("HSLP Demo");
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.setIdleFPS(10);
         config.useVsync(true);
         
-        final HSLITintDemo app = new HSLITintDemo();
+        final HSLPTintDemo app = new HSLPTintDemo();
         config.setWindowListener(new Lwjgl3WindowAdapter() {
             @Override
             public void filesDropped(String[] files) {
@@ -77,9 +77,9 @@ public class HSLITintDemo extends ApplicationAdapter {
     @Override
     public void create() {
         defaultShader = SpriteBatch.createDefaultShader();
-        shaderHSLI = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSLI);
-        if(!shaderHSLI.isCompiled())
-            System.out.println(shaderHSLI.getLog());
+        shaderHSLP = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSLP);
+        if(!shaderHSLP.isCompiled())
+            System.out.println(shaderHSLP.getLog());
         batch = new SpriteBatch(8000, defaultShader);
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
@@ -101,7 +101,7 @@ public class HSLITintDemo extends ApplicationAdapter {
         handleInput();
         batch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) { 
-            batch.setShader(shaderHSLI);
+            batch.setShader(shaderHSLP);
             batch.setColor(hue, sat, lightness, intensity);
             batch.begin();
             batch.draw(screenTexture, 0, 0);

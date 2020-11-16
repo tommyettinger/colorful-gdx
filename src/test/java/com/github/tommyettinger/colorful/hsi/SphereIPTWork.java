@@ -1,38 +1,36 @@
-package com.github.tommyettinger.colorful.ipt;
+package com.github.tommyettinger.colorful.hsi;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.NumberUtils;
+import com.github.tommyettinger.colorful.ipt.ColorTools;
+import com.github.tommyettinger.colorful.ipt.Palette;
 
 import static com.github.tommyettinger.colorful.ipt.ColorTools.*;
 
 public class SphereIPTWork {
-    public static final Vector3 yellow  = new Vector3(0.16155326f,0.020876605f,-0.26078433f);
-    public static final Vector3 magenta = new Vector3(-0.16136102f,0.122068435f,-0.070396f);
-    public static final Vector3 cyan    = new Vector3(0.16420607f,0.3481738f,0.104959644f);
-
     public static Vector3 plump(Vector3 original, Vector3 buffer) {
-        final float crMid = cyan.y * original.y + cyan.z * original.z;
-        final float crScale = (original.x - 0.5f + (NumberUtils.floatToRawIntBits(crMid) >>> 31)) * cyan.x / -crMid;
-        final float mgMid = magenta.y * original.y + magenta.z * original.z;
-        final float mgScale = (original.x + 0.5f - (NumberUtils.floatToRawIntBits(mgMid) >>> 31)) * magenta.x / -mgMid;
-        final float ybMid = yellow.y * original.y + yellow.z * original.z;
-        final float ybScale = (original.x - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * yellow.x / -ybMid;
+        final float crMid = 0.3481738f * original.y + 0.104959644f * original.z;
+        final float crScale = (original.x - 0.5f + (NumberUtils.floatToRawIntBits(crMid) >>> 31)) * 0.16420607f / -crMid;
+        final float mgMid = 0.122068435f * original.y + -0.070396f * original.z;
+        final float mgScale = (original.x + 0.5f - (NumberUtils.floatToRawIntBits(mgMid) >>> 31)) * -0.16136102f / -mgMid;
+        final float ybMid = 0.020876605f * original.y + -0.26078433f * original.z;
+        final float ybScale = (original.x - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
         final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
-        final float d = MathUtils.cos(3.14159f * original.x) * 0.5f / Vector2.len(original.y * scale, original.z * scale);
+        final float d = 0.25f * MathUtils.cos(3.14159f * original.x) / Vector2.len(original.y * scale, original.z * scale);
         return buffer.set(original.x, original.y * d, original.z * d);
     }
 
     public static Vector3 thin(Vector3 original, Vector3 buffer) {
-        final float crMid = cyan.y * original.y + cyan.z * original.z;
-        final float crScale = (original.x - 0.5f + (NumberUtils.floatToRawIntBits(crMid) >>> 31)) * cyan.x / -crMid;
-        final float mgMid = magenta.y * original.y + magenta.z * original.z;
-        final float mgScale = (original.x + 0.5f - (NumberUtils.floatToRawIntBits(mgMid) >>> 31)) * magenta.x / -mgMid;
-        final float ybMid = yellow.y * original.y + yellow.z * original.z;
-        final float ybScale = (original.x - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * yellow.x / -ybMid;
+        final float crMid = 0.3481738f * original.y + 0.104959644f * original.z;
+        final float crScale = (original.x - 0.5f + (NumberUtils.floatToRawIntBits(crMid) >>> 31)) * 0.16420607f / -crMid;
+        final float mgMid = 0.122068435f * original.y + -0.070396f * original.z;
+        final float mgScale = (original.x + 0.5f - (NumberUtils.floatToRawIntBits(mgMid) >>> 31)) * -0.16136102f / -mgMid;
+        final float ybMid = 0.020876605f * original.y + -0.26078433f * original.z;
+        final float ybScale = (original.x - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
         final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
-        final float d = 2f * Vector2.len(original.y * scale, original.z * scale) / MathUtils.cos(3.14159f * original.x);
+        final float d = 4f * Vector2.len(original.y * scale, original.z * scale) / MathUtils.cos(3.14159f * original.x);
         return buffer.set(original.x, original.y * d, original.z * d);
     }
 

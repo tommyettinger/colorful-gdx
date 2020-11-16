@@ -716,16 +716,16 @@ public class Shaders {
                     "}";
 
     /**
-     * One of the more useful HSL shaders here, this takes a batch color as hue, saturation, lightness, and intensity,
-     * with hue as a target hue and intensity used to determine how much of the target color should be used. There is no
-     * neutral value for hue, saturation, or lightness, but if intensity is 0, then the source color will be used
-     * exactly. On the other hand, if intensity is 1.0, then all pixels will be the target color. Hue is specified from
+     * One of the more useful HSL shaders here, this takes a batch color as hue, saturation, lightness, and power,
+     * with hue as a target hue and power used to determine how much of the target color should be used. There is no
+     * neutral value for hue, saturation, or lightness, but if power is 0, then the source color will be used
+     * exactly. On the other hand, if power is 1.0, then all pixels will be the target color. Hue is specified from
      * 0.0 to 1.0, with 0.0 as red, about 0.3 as green, about 0.6 as blue, etc. Saturation is specified from 0.0 to 1.0,
      * with 0.0 as grayscale and 1.0 as a fully-saturated target color. Lightness is specified from 0.0 to 1.0, with 0.0
      * as black, the 0.3 to 0.7 range as most colors, and 1.0 white; saturation is clamped to a smaller value as
      * lightness moves away from 0.5 (toward black or white).
      */
-    public static final String fragmentShaderHSLI =
+    public static final String fragmentShaderHSLP =
             "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
                     "precision mediump float;\n" +
