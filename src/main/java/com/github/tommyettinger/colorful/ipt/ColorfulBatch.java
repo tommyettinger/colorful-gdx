@@ -254,7 +254,7 @@ public class ColorfulBatch implements Batch {
 
     @Override
     public Color getColor () {
-        final int intBits = NumberUtils.floatToIntBits(color);
+        final int intBits = NumberUtils.floatToRawIntBits(color);
         Color color = tempColor;
         color.r = (intBits & 0xff) / 255f;
         color.g = ((intBits >>> 8) & 0xff) / 255f;

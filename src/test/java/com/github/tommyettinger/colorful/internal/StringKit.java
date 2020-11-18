@@ -432,7 +432,7 @@ public class StringKit {
         return builder;
     }
     public static StringBuilder appendHex(StringBuilder builder, float number){
-        final int h = NumberUtils.floatToIntBits(number);
+        final int h = NumberUtils.floatToRawIntBits(number);
         for (int i = 28; i >= 0; i -= 4) {
             builder.append(hexDigits[(h >> i & 15)]);
         }

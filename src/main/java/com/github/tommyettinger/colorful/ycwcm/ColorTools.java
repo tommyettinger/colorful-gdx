@@ -47,7 +47,7 @@ public class ColorTools {
 	 */
 	public static int toRGBA8888(final float packed)
 	{
-		final int decoded = NumberUtils.floatToIntBits(packed), y = (decoded & 0xff),
+		final int decoded = NumberUtils.floatToRawIntBits(packed), y = (decoded & 0xff),
 				cw = ((decoded >>> 7 & 0x1fe) - 0xfe),
 				cm = (((decoded >>> 15 & 0x1fe) - 0xfe) >> 1);
 		return MathUtils.clamp(y + (cw * 5 >> 3) - cm, 0, 0xFF) << 24
@@ -65,7 +65,7 @@ public class ColorTools {
 	 */
 	public static float toRGBA(final float packed)
 	{
-		final int decoded = NumberUtils.floatToIntBits(packed), y = (decoded & 0xff),
+		final int decoded = NumberUtils.floatToRawIntBits(packed), y = (decoded & 0xff),
 				cw = ((decoded >>> 7 & 0x1fe) - 0xfe),
 				cm = (((decoded >>> 15 & 0x1fe) - 0xfe) >> 1);
 		return NumberUtils.intBitsToFloat(MathUtils.clamp(y + (cw * 5 >> 3) - cm, 0, 0xFF)
@@ -92,7 +92,7 @@ public class ColorTools {
 	 * @return a packed float as YCwCm, which this class can use
 	 */
 	public static float fromRGBA(final float packed) {
-		final int rgba = NumberUtils.floatToIntBits(packed);
+		final int rgba = NumberUtils.floatToRawIntBits(packed);
 		return NumberUtils.intBitsToFloat(((rgba & 0xFF) * 3 + (rgba >>> 8 & 0xFF) * 4 + (rgba >>> 16 & 0xFF) >> 3)
 				| (0xFF + (rgba & 0xFF) - (rgba >>> 16 & 0xFF) & 0x1FE) << 7
 				| (0xFF + (rgba >>> 8 & 0xFF) - (rgba >>> 16 & 0xFF) & 0x1FE) << 15
@@ -133,7 +133,7 @@ public class ColorTools {
 	 */
 	public static int redInt(final float encoded)
 	{
-		final int decoded = NumberUtils.floatToIntBits(encoded);
+		final int decoded = NumberUtils.floatToRawIntBits(encoded);
 		return (decoded & 0xff) + (((decoded >>> 7 & 0x1fe) - 0xfe) * 5 >>> 4) - (((decoded >>> 15 & 0x1fe) - 0xfe) >>> 2);
 	}
 
@@ -144,7 +144,7 @@ public class ColorTools {
 	 */
 	public static int greenInt(final float encoded)
 	{
-		final int decoded = NumberUtils.floatToIntBits(encoded);
+		final int decoded = NumberUtils.floatToRawIntBits(encoded);
 		return (decoded & 0xff) - (((decoded >>> 7 & 0x1fe) - 0xfe) * 3 >> 4) + (((decoded >>> 15 & 0x1fe) - 0xfe) >> 2);
 	}
 
@@ -155,7 +155,7 @@ public class ColorTools {
 	 */
 	public static int blueInt(final float encoded)
 	{
-		final int decoded = NumberUtils.floatToIntBits(encoded);
+		final int decoded = NumberUtils.floatToRawIntBits(encoded);
 		return (decoded & 0xff) - (((decoded >>> 7 & 0x1fe) - 0xfe) * 3 >> 4) - (((decoded >>> 15 & 0x1fe) - 0xfe) >> 2);
 	}
 
@@ -167,7 +167,7 @@ public class ColorTools {
 	 */
 	public static int alphaInt(final float encoded)
 	{
-		return (NumberUtils.floatToIntBits(encoded) & 0xfe000000) >>> 24;
+		return (NumberUtils.floatToRawIntBits(encoded) & 0xfe000000) >>> 24;
 	}
 
 	/**
@@ -177,7 +177,7 @@ public class ColorTools {
 	 */
 	public static float red(final float encoded)
 	{
-		final int decoded = NumberUtils.floatToIntBits(encoded);
+		final int decoded = NumberUtils.floatToRawIntBits(encoded);
 		return MathUtils.clamp((decoded & 0xff) * 0x1.010102p-8f + ((decoded >>> 8 & 0xff) - 127.5f) * (0x1.414142p-9f) - ((decoded >>> 16 & 0xff) - 127.5f) * 0x1.010102p-9f, 0f, 1f);
 	}
 
@@ -188,7 +188,7 @@ public class ColorTools {
 	 */
 	public static float green(final float encoded)
 	{
-		final int decoded = NumberUtils.floatToIntBits(encoded);
+		final int decoded = NumberUtils.floatToRawIntBits(encoded);
 		return MathUtils.clamp((decoded & 0xff) * 0x1.010102p-8f - (((decoded >>> 8 & 0xff) - 127.5f) * 0x1.818184p-10f) + ((decoded >>> 16 & 0xff) - 127.5f) * 0x1.010102p-9f, 0f, 1f);
 	}
 
@@ -199,7 +199,7 @@ public class ColorTools {
 	 */
 	public static float blue(final float encoded)
 	{
-		final int decoded = NumberUtils.floatToIntBits(encoded);
+		final int decoded = NumberUtils.floatToRawIntBits(encoded);
 		return MathUtils.clamp((decoded & 0xff) * 0x1.010102p-8f - (((decoded >>> 8 & 0xff) - 127.5f) * 0x1.818184p-10f) - ((decoded >>> 16 & 0xff) - 127.5f) * 0x1.010102p-9f, 0f, 1f);
 	}
 
@@ -210,7 +210,7 @@ public class ColorTools {
 	 */
 	public static float alpha(final float encoded)
 	{
-		return ((NumberUtils.floatToIntBits(encoded) & 0xfe000000) >>> 24) * 0.003937008f;
+		return ((NumberUtils.floatToRawIntBits(encoded) & 0xfe000000) >>> 24) * 0.003937008f;
 	}
 
 
@@ -244,7 +244,7 @@ public class ColorTools {
 	 * @return the saturation of the color from 0.0 (a grayscale color; inclusive) to 1.0 (a bright color, inclusive)
 	 */
 	public static float saturation(final float encoded) {
-		final int decoded = NumberUtils.floatToIntBits(encoded), lu = (decoded & 0xff),
+		final int decoded = NumberUtils.floatToRawIntBits(encoded), lu = (decoded & 0xff),
 				cw = ((decoded >>> 7 & 0x1fe) - 0xfe),
 				cm = (((decoded >>> 15 & 0x1fe) - 0xfe) >> 1);
 		final float r = MathUtils.clamp(lu + (cw * 5 >> 3) - cm, 0, 0xFF) * 0x1.010102p-8f;
@@ -272,7 +272,7 @@ public class ColorTools {
 	}
 
 	public static float lightness(final float encoded) {
-		final int decoded = NumberUtils.floatToIntBits(encoded), lu = (decoded & 0xff),
+		final int decoded = NumberUtils.floatToRawIntBits(encoded), lu = (decoded & 0xff),
 				cw = ((decoded >>> 7 & 0x1fe) - 0xfe),
 				cm = (((decoded >>> 15 & 0x1fe) - 0xfe) >> 1);
 		final float r = MathUtils.clamp(lu + (cw * 5 >> 3) - cm, 0, 0xFF) * 0x1.010102p-8f;
@@ -306,7 +306,7 @@ public class ColorTools {
 	 * eventually to purple before looping back to almost the same red (1.0, exclusive)
 	 */
 	public static float hue(final float encoded) {
-		final int decoded = NumberUtils.floatToIntBits(encoded), lu = (decoded & 0xff),
+		final int decoded = NumberUtils.floatToRawIntBits(encoded), lu = (decoded & 0xff),
 				cw = ((decoded >>> 7 & 0x1fe) - 0xfe),
 				cm = (((decoded >>> 15 & 0x1fe) - 0xfe) >> 1);
 		final float r = MathUtils.clamp(lu + (cw * 5 >> 3) - cm, 0, 0xFF) * 0x1.010102p-8f;
@@ -354,8 +354,8 @@ public class ColorTools {
 	 */
 	public static float luma(final float encoded)
 	{
-		return (NumberUtils.floatToIntBits(encoded) & 0xff) * 0x1.010102p-8f;
-//        final int bits = NumberUtils.floatToIntBits(encoded);
+		return (NumberUtils.floatToRawIntBits(encoded) & 0xff) * 0x1.010102p-8f;
+//        final int bits = NumberUtils.floatToRawIntBits(encoded);
 //        return (bits & 0xFF) * 0x3p-11f + (bits >>> 8 & 0xFF) * 0x1p-9f + (bits >>> 16 & 0xFF) * 0x1p-11f;
 	}
 
@@ -376,7 +376,7 @@ public class ColorTools {
 	 */
 	public static float chromaWarm(final float encoded)
 	{
-		return ((NumberUtils.floatToIntBits(encoded) >>> 8 & 0xff)) * 0x1.010102p-8f;
+		return ((NumberUtils.floatToRawIntBits(encoded) >>> 8 & 0xff)) * 0x1.010102p-8f;
 	}
 
 	/**
@@ -397,7 +397,7 @@ public class ColorTools {
 	 */
 	public static float chromaMild(final float encoded)
 	{
-		return ((NumberUtils.floatToIntBits(encoded) >>> 16 & 0xff)) * 0x1.010102p-8f;
+		return ((NumberUtils.floatToRawIntBits(encoded) >>> 16 & 0xff)) * 0x1.010102p-8f;
 	}
 
 	/**
@@ -422,7 +422,7 @@ public class ColorTools {
 	 * @return a float encoding a variation of basis with the given changes
 	 */
 	public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {
-		final int e = NumberUtils.floatToIntBits(basis);
+		final int e = NumberUtils.floatToRawIntBits(basis);
 		value = MathUtils.clamp(value + (e & 0xff) * 0x1.010102p-8f, 0f, 1f);
 		opacity = MathUtils.clamp(opacity + (e >>> 24 & 0xfe) * 0x1.020408p-8f, 0f, 1f);
 		if (value <= 0.001f)
@@ -473,7 +473,7 @@ public class ColorTools {
 	 * @return a packed float that represents a color between start and white
 	 */
 	public static float lighten(final float start, final float change) {
-		final int s = NumberUtils.floatToIntBits(start), luma = s & 0xFF, other = s & 0xFEFFFF00;
+		final int s = NumberUtils.floatToRawIntBits(start), luma = s & 0xFF, other = s & 0xFEFFFF00;
 		return NumberUtils.intBitsToFloat(((int) (luma + (0xFF - luma) * change) & 0xFF) | other);
 	}
 
@@ -489,7 +489,7 @@ public class ColorTools {
 	 * @return a packed float that represents a color between start and black
 	 */
 	public static float darken(final float start, final float change) {
-		final int s = NumberUtils.floatToIntBits(start), luma = s & 0xFF, other = s & 0xFEFFFF00;
+		final int s = NumberUtils.floatToRawIntBits(start), luma = s & 0xFF, other = s & 0xFEFFFF00;
 		return NumberUtils.intBitsToFloat(((int) (luma * (1f - change)) & 0xFF) | other);
 	}
 
@@ -506,7 +506,7 @@ public class ColorTools {
 	 * @return a packed float that represents a color between start and a warmer color
 	 */
 	public static float warm(final float start, final float change) {
-		final int s = NumberUtils.floatToIntBits(start), warmth = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
+		final int s = NumberUtils.floatToRawIntBits(start), warmth = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
 		return NumberUtils.intBitsToFloat(((int) (warmth + (0xFF - warmth) * change) << 8 & 0xFF) | other);
 	}
 
@@ -523,7 +523,7 @@ public class ColorTools {
 	 * @return a packed float that represents a color between start and a cooler color
 	 */
 	public static float cool(final float start, final float change) {
-		final int s = NumberUtils.floatToIntBits(start), warmth = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
+		final int s = NumberUtils.floatToRawIntBits(start), warmth = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
 		return NumberUtils.intBitsToFloat(((int) (warmth * (1f - change)) & 0xFF) << 8 | other);
 	}
 
@@ -540,7 +540,7 @@ public class ColorTools {
 	 * @return a packed float that represents a color between start and a milder color
 	 */
 	public static float weaken(final float start, final float change) {
-		final int s = NumberUtils.floatToIntBits(start), warmth = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
+		final int s = NumberUtils.floatToRawIntBits(start), warmth = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
 		return NumberUtils.intBitsToFloat(((int) (warmth + (0xFF - warmth) * change) << 8 & 0xFF) | other);
 	}
 
@@ -557,7 +557,7 @@ public class ColorTools {
 	 * @return a packed float that represents a color between start and a bolder color
 	 */
 	public static float strengthen(final float start, final float change) {
-		final int s = NumberUtils.floatToIntBits(start), warmth = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
+		final int s = NumberUtils.floatToRawIntBits(start), warmth = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
 		return NumberUtils.intBitsToFloat(((int) (warmth * (1f - change)) & 0xFF) << 8 | other);
 	}
 
@@ -573,7 +573,7 @@ public class ColorTools {
 	 * @return a packed float that represents a color between start and its opaque version
 	 */
 	public static float blot(final float start, final float change) {
-		final int s = NumberUtils.floatToIntBits(start), opacity = s >>> 24 & 0xFE, other = s & 0x00FFFFFF;
+		final int s = NumberUtils.floatToRawIntBits(start), opacity = s >>> 24 & 0xFE, other = s & 0x00FFFFFF;
 		return NumberUtils.intBitsToFloat(((int) (opacity + (0xFE - opacity) * change) & 0xFE) << 24 | other);
 	}
 
@@ -589,7 +589,7 @@ public class ColorTools {
 	 * @return a packed float that represents a color between start and transparent
 	 */
 	public static float fade(final float start, final float change) {
-		final int s = NumberUtils.floatToIntBits(start), opacity = s & 0xFE, other = s & 0x00FFFFFF;
+		final int s = NumberUtils.floatToRawIntBits(start), opacity = s & 0xFE, other = s & 0x00FFFFFF;
 		return NumberUtils.intBitsToFloat(((int) (opacity * (1f - change)) & 0xFE) << 24 | other);
 	}
 
@@ -610,8 +610,8 @@ public class ColorTools {
 	 */
 	public static float inverseLuma(final float mainColor, final float contrastingColor)
 	{
-		final int bits = NumberUtils.floatToIntBits(mainColor),
-				contrastBits = NumberUtils.floatToIntBits(contrastingColor),
+		final int bits = NumberUtils.floatToRawIntBits(mainColor),
+				contrastBits = NumberUtils.floatToRawIntBits(contrastingColor),
 				luma = (bits & 0xff),
 				warm = (bits >>> 8 & 0xff),
 				mild = (bits >>> 16 & 0xff),
@@ -633,7 +633,7 @@ public class ColorTools {
 	 * @return a YCwCm float color between gray and {@code color}
 	 */
 	public static float lessenChange(final float color, float fraction) {
-		final int e = NumberUtils.floatToIntBits(color),
+		final int e = NumberUtils.floatToRawIntBits(color),
 				ys = 0x7F, cws = 0x7F, cms = 0x7F, as = 0xFE,
 				ye = (e & 0xFF), cwe = (e >>> 8) & 0xFF, cme = (e >>> 16) & 0xFF, ae = e >>> 24 & 0xFE;
 		return NumberUtils.intBitsToFloat(((int) (ys + fraction * (ye - ys)) & 0xFF)
@@ -656,7 +656,7 @@ public class ColorTools {
 	 * @return a generated packed float color that should be at least somewhat different from {@code color}
 	 */
 	public static float randomEdit(final float color, long seed, final float variance) {
-		final int decoded = NumberUtils.floatToIntBits(color);
+		final int decoded = NumberUtils.floatToRawIntBits(color);
 		final float y = (decoded & 0xff) / 255f;
 		final float cw = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float cm = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
@@ -680,7 +680,7 @@ public class ColorTools {
 	 */
 	public static boolean inGamut(final float packed)
 	{
-		final int decoded = NumberUtils.floatToIntBits(packed), y = (decoded & 0xff),
+		final int decoded = NumberUtils.floatToRawIntBits(packed), y = (decoded & 0xff),
 				cw = ((decoded >>> 7 & 0x1fe) - 0xfe),
 				cm = (((decoded >>> 15 & 0x1fe) - 0xfe) >> 1);
 		final int r = y + (cw * 5 >> 3) - cm;
