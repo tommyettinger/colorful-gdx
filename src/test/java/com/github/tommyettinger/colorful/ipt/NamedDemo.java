@@ -132,7 +132,7 @@ public class NamedDemo extends ApplicationAdapter {
                 for (int x = 0; x < 5; x++) {
                     String name = Palette.NAMES_BY_HUE.get(++i);
                     float color = Palette.NAMED.get(name, Palette.WHITE);
-//                    System.out.printf("0x%08X : %s\n", Float.floatToIntBits(color), name);
+//                    System.out.printf("0x%08X : %s\n", Float.floatToRawIntBits(color), name);
                     batch.setPackedColor(color);
                     batch.draw(blank, screenTexture.getWidth() + width * x, height * (50 - y), width, height);
                 }

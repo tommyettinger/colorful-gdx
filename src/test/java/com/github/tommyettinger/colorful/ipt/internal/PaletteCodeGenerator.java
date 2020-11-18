@@ -70,7 +70,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    }
 //    public static int toRGBA8888(final float packed)
 //    {
-//        final int decoded = NumberUtils.floatToIntBits(packed);
+//        final int decoded = NumberUtils.floatToRawIntBits(packed);
 //        final float i = (decoded & 0xff) / 255f;
 //        final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 //        final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
@@ -134,7 +134,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                     .replace("`SAT", Float.toString(ColorTools.saturation(c)))
                     .replace("`PACKED", Float.toHexString(c))
             );
-            System.out.println(rec[2] + " : correct RGBA=" + rec[1] + ", decoded RGBA=" + StringKit.hex(toRGBA8888(c)) + ", raw=" + StringKit.hex(NumberUtils.floatToIntBits(c))
+            System.out.println(rec[2] + " : correct RGBA=" + rec[1] + ", decoded RGBA=" + StringKit.hex(toRGBA8888(c)) + ", raw=" + StringKit.hex(NumberUtils.floatToRawIntBits(c))
 //                    + ", decoded hue=" + ColorTools.hue(c) + ", decoded saturation=" + ColorTools.saturation(c) + ", decoded lightness=" + ColorTools.lightness(c)
                     + ", decoded intens=" + ColorTools.intensity(c) + ", decoded protan=" + (ColorTools.protan(c)*2f-1f) + ", decoded tritan=" + (ColorTools.tritan(c)*2f-1f)
             );

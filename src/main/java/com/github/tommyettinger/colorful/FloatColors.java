@@ -18,7 +18,7 @@ public class FloatColors {
      * @return an RGBA-format packed float
      */
     public static float hsl2rgb(final float hsla) {
-        final int decoded = NumberUtils.floatToIntBits(hsla);
+        final int decoded = NumberUtils.floatToRawIntBits(hsla);
         return hsl2rgb((decoded & 0xFF) / 255f, (decoded >>> 8 & 0xFF) / 255f, (decoded >>> 16 & 0xFF) / 255f, (decoded >>> 24 & 0xFE) / 255f);
     }
 
@@ -48,7 +48,7 @@ public class FloatColors {
      * @return an "HSLA-format" packed float
      */
     public static float rgb2hsl(final float rgba) {
-        final int decoded = NumberUtils.floatToIntBits(rgba);
+        final int decoded = NumberUtils.floatToRawIntBits(rgba);
         return rgb2hsl((decoded & 0xFF) / 255f, (decoded >>> 8 & 0xFF) / 255f, (decoded >>> 16 & 0xFF) / 255f, (decoded >>> 24 & 0xFE) / 255f);
     }
 
@@ -102,7 +102,7 @@ public class FloatColors {
      * @return a color encoded as a packed float, using color's RGB channels but with its A channel times {@code alpha}
      */
     public static float multiplyAlpha(final float encodedColor, final float alpha) {
-        final int bits = NumberUtils.floatToIntBits(encodedColor);
+        final int bits = NumberUtils.floatToRawIntBits(encodedColor);
         return NumberUtils.intBitsToFloat(bits & 0xFFFFFF
                 | (MathUtils.clamp((int) ((bits >>> 24) * alpha), 0, 255) << 24 & 0xFE000000));
     }
@@ -119,7 +119,7 @@ public class FloatColors {
      * @return another color encoded as a packed float, using encodedColor's RGB channels and the given alpha
      */
     public static float setAlpha(final float encodedColor, final float alpha) {
-        return NumberUtils.intBitsToFloat(NumberUtils.floatToIntBits(encodedColor) & 0xFFFFFF
+        return NumberUtils.intBitsToFloat(NumberUtils.floatToRawIntBits(encodedColor) & 0xFFFFFF
                 | (MathUtils.clamp((int) (255f * alpha), 0, 255) << 24 & 0xFE000000));
     }
 
@@ -136,7 +136,7 @@ public class FloatColors {
      * @return a packed float that represents a color between start and end
      */
     public static float lerpFloatColors(final float start, final float end, float change) {
-        final int s = NumberUtils.floatToIntBits(start), e = NumberUtils.floatToIntBits(end),
+        final int s = NumberUtils.floatToRawIntBits(start), e = NumberUtils.floatToRawIntBits(end),
                 ys = (s & 0xFF), cws = (s >>> 8) & 0xFF, cms = (s >>> 16) & 0xFF, as = s >>> 24 & 0xFE,
                 ye = (e & 0xFF), cwe = (e >>> 8) & 0xFF, cme = (e >>> 16) & 0xFF, ae = e >>> 24 & 0xFE;
         return NumberUtils.intBitsToFloat(((int) (ys + change * (ye - ys)) & 0xFF)
@@ -159,7 +159,7 @@ public class FloatColors {
      * @return a packed float that represents a color between start and end
      */
     public static float lerpFloatColorsBlended(final float start, final float end, float change) {
-        final int s = NumberUtils.floatToIntBits(start), e = NumberUtils.floatToIntBits(end),
+        final int s = NumberUtils.floatToRawIntBits(start), e = NumberUtils.floatToRawIntBits(end),
                 ys = (s & 0xFF), cws = (s >>> 8) & 0xFF, cms = (s >>> 16) & 0xFF, as = s >>> 24 & 0xFE,
                 ye = (e & 0xFF), cwe = (e >>> 8) & 0xFF, cme = (e >>> 16) & 0xFF;
         change *= (e >>> 25) * 0.007874016f;
