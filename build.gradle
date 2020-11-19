@@ -56,5 +56,5 @@ dependencies {
     api group: 'com.badlogicgames.gdx', name: 'gdx', version: gdxVersion
     testImplementation group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl3', version: gdxVersion
     testImplementation group: 'com.badlogicgames.gdx', name: 'gdx-platform', version: gdxVersion, classifier: 'natives-desktop'
-    testImplementation 'com.github.tommyettinger:anim8-gdx:0.2.2'
+    testImplementation 'com.github.tommyettinger:anim8-gdx:0.2.3'
 }
