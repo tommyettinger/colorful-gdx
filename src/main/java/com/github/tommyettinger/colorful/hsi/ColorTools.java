@@ -425,30 +425,6 @@ public class ColorTools {
 	}
 
 	/**
-	 * Gets a color as an IPT packed float given floats representing hue, saturation, lightness, and opacity.
-	 * All parameters should normally be between 0 and 1 inclusive, though any hue is tolerated (precision loss may
-	 * affect the color if the hue is too large). A hue of 0 is red, progressively higher hue values go to orange,
-	 * yellow, green, blue, and purple before wrapping around to red as it approaches 1. A saturation of 0 is grayscale,
-	 * a saturation of 1 is brightly colored, and values close to 1 will usually appear more distinct than values close
-	 * to 0, especially if the hue is different. A lightness of 0.001f or less is always black (also using a shortcut if
-	 * this is the case, respecting opacity), while a lightness of 1f is white. Very bright colors are mostly in a band
-	 * of high-saturation where lightness is 0.5f.
-	 *
-	 * @param hue        0f to 1f, color wheel position
-	 * @param saturation 0f to 1f, 0f is grayscale and 1f is brightly colored
-	 * @param lightness  0f to 1f, 0f is black and 1f is white
-	 * @param opacity    0f to 1f, 0f is fully transparent and 1f is opaque
-	 * @return a float encoding a color with the given properties
-	 */
-	public static float floatGetHSL(float hue, float saturation, float lightness, float opacity) {
-		if (lightness <= 0.001f) {
-			return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000));
-		} else {
-			return fromRGBA(FloatColors.hsl2rgb(hue, saturation, lightness, opacity));
-		}
-	}
-
-	/**
 	 * Gets the saturation of the given encoded color, as a float ranging from 0.0f to 1.0f, inclusive.
 	 * @param encoded a color as a packed float that can be obtained by {@link #hsi(float, float, float, float)}
 	 * @return the saturation of the color from 0.0 (a grayscale color; inclusive) to 1.0 (a bright color, inclusive)
@@ -471,8 +447,8 @@ public class ColorTools {
 	}
 
 	/**
-	 * The "intensity" of the given packed float in IPT format, which is like its lightness; ranges from 0.0f to
-	 * 1.0f . You can edit the intensity of a color with {@link #lighten(float, float)} and
+	 * The "intensity" of the given packed float in HSI (or IPT) format, which is like its lightness; ranges from 0.0f
+	 * to 1.0f . You can edit the intensity of a color with {@link #lighten(float, float)} and
 	 * {@link #darken(float, float)}.
 	 *
 	 * @param encoded a color encoded as a packed float, as by {@link #hsi(float, float, float, float)}
@@ -590,7 +566,7 @@ public class ColorTools {
 	 * alpha, hue, and intensity of start as-is.
 	 * @see #saturationUp(float, float) the counterpart method that warms a float color
 	 * @param start the starting color as a packed float
-	 * @param change how much to cool start, as a float between 0 and 1; higher means a cooler result
+	 * @param change how much to desaturate start, as a float between 0 and 1; higher means a more-gray result
 	 * @return a packed float that represents a color between start and a cooler color
 	 */
 	public static float saturationDown(final float start, final float change) {
@@ -603,7 +579,7 @@ public class ColorTools {
 	 * between 0f (return start as-is) and 1f (return start with full alpha), start should be a packed color, as from
 	 * {@link #hsi(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
 	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
-	 * transparent. This won't change the intensity, protan, or tritan of the color.
+	 * transparent. This won't change the intensity, hue, or saturation of the color.
 	 * @see #fade(float, float) the counterpart method that makes a float color more translucent
 	 * @param start the starting color as a packed float
 	 * @param change how much to go from start toward opaque, as a float between 0 and 1; higher means closer to opaque
@@ -619,7 +595,7 @@ public class ColorTools {
 	 * (return start as-is) and 1f (return the color with 0 alpha), start should be a packed color, as from
 	 * {@link #hsi(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
 	 * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
-	 * transparent. This won't change the intensity, protan, or tritan of the color.
+	 * transparent. This won't change the intensity, hue, or saturation of the color.
 	 * @see #blot(float, float) the counterpart method that makes a float color more opaque
 	 * @param start the starting color as a packed float
 	 * @param change how much to go from start toward transparent, as a float between 0 and 1; higher means closer to transparent
@@ -631,19 +607,19 @@ public class ColorTools {
 	}
 
 	/**
-	 * Given a packed float IPT color {@code mainColor} and another IPT color that it should be made to contrast with,
-	 * gets a packed float IPT color with roughly inverted intnsity but the same chromatic channels and opacity (P and T
-	 * are likely to be clamped if the result gets close to white or black). This won't ever produce black or other very
+	 * Given a packed float HSI color {@code mainColor} and another HSI color that it should be made to contrast with,
+	 * gets a packed float HSI color with roughly inverted intensity but the same hue, saturation, and opacity (although
+	 * saturation will be reduced if this gets closer to black or white). This won't ever produce black or other very
 	 * dark colors, and also has a gap in the range it produces for intensity values between 0.5 and 0.55. That allows
 	 * most of the colors this method produces to contrast well as a foreground when displayed on a background of
-	 * {@code contrastingColor}, or vice versa. This will leave the intensity unchanged if the chromatic channels of the
+	 * {@code contrastingColor}, or vice versa. This will leave the intensity unchanged if the hue and saturation of the
 	 * contrastingColor and those of the mainColor are already very different. This has nothing to do with the contrast
 	 * channel of the tweak in ColorfulBatch; where that part of the tweak can make too-similar lightness values further
 	 * apart by just a little, this makes a modification on {@code mainColor} to maximize its lightness difference from
 	 * {@code contrastingColor} without losing its other qualities.
 	 * @param mainColor a packed float color, as produced by {@link #hsi(float, float, float, float)}; this is the color that will be adjusted
 	 * @param contrastingColor a packed float color, as produced by {@link #hsi(float, float, float, float)}; the adjusted mainColor will contrast with this
-	 * @return a different IPT packed float color, based on mainColor but with potentially very different lightness
+	 * @return a different HSI packed float color, based on mainColor but with potentially very different lightness
 	 */
 	public static float inverseIntensity(final float mainColor, final float contrastingColor)
 	{
@@ -657,25 +633,27 @@ public class ColorTools {
 				ci = (contrastBits >>> 16 & 0xff);
 		if(Math.abs(s - cs) * Math.abs(h - ch) >= 0x900)
 			return mainColor;
-		return hsi(h, s, ci < 128 ? i * (0.45f / 255f) + 0.55f : 0.5f - i * (0.45f / 255f), 0x1.020408p-8f * (bits >>> 24 & 0xFE));
+		final float i2 = ci < 128 ? i * (0.45f / 255f) + 0.55f : 0.5f - i * (0.45f / 255f);
+		float limit = MathUtils.cos(i2 * (3.14159f / 255f)) * 255;
+		return NumberUtils.intBitsToFloat((bits & 0xFE000000) | h << 16 | (int)Math.min(s, limit) << 8 | h);
 	}
 
 	/**
-	 * Makes the additive IPT color stored in {@code color} cause less of a change when used as a tint, as if it were
+	 * Makes the additive HSI color stored in {@code color} cause less of a change when used as a tint, as if it were
 	 * mixed with neutral gray. When {@code fraction} is 1.0, this returns color unchanged; when fraction is 0.0, it
 	 * returns {@link Palette#GRAY}, and when it is in-between 0.0 and 1.0 it returns something between the two. This is
 	 * meant for things like area of effect abilities that make smaller color changes toward their periphery.
 	 * @param color a color that should have its tinting effect potentially weakened
 	 * @param fraction how much of {@code color} should be kept, from 0.0 to 1.0
-	 * @return an IPT float color between gray and {@code color}
+	 * @return an HSI float color between gray and {@code color}
 	 */
 	public static float lessenChange(final float color, float fraction) {
 		final int e = NumberUtils.floatToRawIntBits(color),
-				is = 0x80, ps = 0x80, ts = 0x80, as = 0xFE,
-				ie = (e & 0xFF), pe = (e >>> 8) & 0xFF, te = (e >>> 16) & 0xFF, ae = e >>> 24 & 0xFE;
-		return NumberUtils.intBitsToFloat(((int) (is + fraction * (ie - is)) & 0xFF)
-				| (((int) (ps + fraction * (pe - ps)) & 0xFF) << 8)
-				| (((int) (ts + fraction * (te - ts)) & 0xFF) << 16)
+				he = (e & 0xFF), se = (e >>> 8) & 0xFF, ie = (e >>> 16) & 0xFF, ae = e >>> 24 & 0xFE,
+				is = 0x80, as = 0xFE;
+		return NumberUtils.intBitsToFloat(he
+				| (((int) (fraction * se) & 0xFF) << 8)
+				| (((int) (is + fraction * (ie - is)) & 0xFF) << 16)
 				| (((int) (as + fraction * (ae - as)) & 0xFE) << 24));
 	}
 
@@ -695,9 +673,9 @@ public class ColorTools {
 	 */
 	public static float randomEdit(final float color, long seed, final float variance) {
 		final int decoded = NumberUtils.floatToRawIntBits(color);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float h = (decoded & 0xff) / 255f;
+		final float s = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float i = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float limit = variance * variance;
 		float dist, x, y, z;
 		for (int j = 0; j < 50; j++) {
@@ -706,7 +684,7 @@ public class ColorTools {
 			z = (((seed * 0x8CB92BA72F3D8DD7L >>> 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;
 			++seed;
 			dist = x * x + y * y + z * z;
-			if(dist <= limit && inGamut(x += i, y = (p + y) * 0.5f + 0.5f, z = (t + z) * 0.5f + 0.5f))
+			if(dist <= limit && inGamut(x += h, y += s, z += i))
 				return NumberUtils.intBitsToFloat((decoded & 0xFE000000) | ((int)(z * 255.5f) << 16 & 0xFF0000)
 					| ((int)(y * 255.5f) << 8 & 0xFF00) | (int)(x * 255.5f));
 		}
@@ -714,40 +692,26 @@ public class ColorTools {
 	}
 
 	/**
-	 * Returns true if the given packed float color, as IPT, is valid to convert losslessly back to RGBA. 
-	 * @param packed a packed float color as IPT
+	 * Returns true if the given packed float color, as HSI, is valid to convert losslessly back to RGBA.
+	 * @param packed a packed float color as HSI
 	 * @return true if the given packed float color can be converted back and forth to RGBA
 	 */
 	public static boolean inGamut(final float packed)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(packed);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float r = 0.999779f * i + 1.0709400f * p + 0.324891f * t;
-		if(r < 0 || r > 1) return false;
-		final float g = 1.000150f * i - 0.3777440f * p + 0.220439f * t;
-		if(g < 0 || g > 1) return false;
-		final float b = 0.999769f * i + 0.0629496f * p - 0.809638f * t;
-		return (b >= 0) && (b <= 1);
+		return (decoded >>> 8 & 0xff) / 255f <= MathUtils.cos((decoded >>> 16 & 0xff) * (3.14159f / 255f));
+
 	}
 	/**
-	 * Returns true if the given IPT values are valid to convert losslessly back to RGBA. 
+	 * Returns true if the given HSI values are valid to convert losslessly back to RGBA.
+	 * @param h hue channel; not used
+	 * @param s saturation channel, as a float from 0 to 1
 	 * @param i intensity channel, as a float from 0 to 1
-	 * @param p protan channel, as a float from 0 to 1
-	 * @param t tritan channel, as a float from 0 to 1
 	 * @return true if the given packed float color can be converted back and forth to RGBA
 	 */
-	public static boolean inGamut(float i, float p, float t)
+	public static boolean inGamut(float h, float s, float i)
 	{
-		p = (p - 0.5f) * 2f;
-		t = (t - 0.5f) * 2f;
-		final float r = 0.999779f * i + 1.0709400f * p + 0.324891f * t;
-		if(r < 0 || r > 1) return false;
-		final float g = 1.000150f * i - 0.3777440f * p + 0.220439f * t;
-		if(g < 0 || g > 1) return false;
-		final float b = 0.999769f * i + 0.0629496f * p - 0.809638f * t;
-		return (b >= 0) && (b <= 1);
+		return i >= 0 && i <= 1 && s >= 0 && s <= MathUtils.cos(i * 3.14159f);
 	}
 
 }
