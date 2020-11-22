@@ -9,7 +9,11 @@ import com.github.tommyettinger.colorful.ycwcm.Palette;
 
 /**
  * Contains code for manipulating colors as {@code int}, packed {@code float}, and {@link Color} values in the IPT
- * color space.
+ * color space. IPT has more perceptually-uniform handling of hue than some other color spaces, like YCwCm, and even
+ * though the version here gives up the complex exponential adjustments to various components that the original IPT
+ * paper used, it still is pretty good at preserving perceptual lightness. In most regards, this is a more
+ * thoroughly-constructed color space than YCwCm, but YCwCm may still be useful because of how it maps to aesthetic
+ * components of color. See {@link #ipt(float, float, float, float)} for docs on the I, P, and T channels.
  */
 public class ColorTools {
 	/**
@@ -172,8 +176,6 @@ public class ColorTools {
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		return MathUtils.clamp((int) ((0.999779f * i + 1.0709400f * p + 0.324891f * t) * 256.0), 0, 255);
-		//return MathUtils.clamp((int) ((1.000150f * i - 0.3777440f * p + 0.220439f * t) * 256.0), 0, 255);
-		//return MathUtils.clamp((int) ((0.999769f * i + 0.0629496f * p - 0.809638f * t) * 256.0), 0, 255);
 	}
 
 	/**
@@ -540,7 +542,7 @@ public class ColorTools {
 	 */
 	public static float protanUp(final float start, final float change) {
 		final int s = NumberUtils.floatToRawIntBits(start), p = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
-		return NumberUtils.intBitsToFloat(((int) (p + (0xFF - p) * change) << 8 & 0xFF) | other);
+		return NumberUtils.intBitsToFloat(((int) (p + (0xFF - p) * change) << 8 & 0xFF00) | other);
 	}
 
 	/**
@@ -574,7 +576,7 @@ public class ColorTools {
 	 */
 	public static float tritanUp(final float start, final float change) {
 		final int s = NumberUtils.floatToRawIntBits(start), t = s >>> 16 & 0xFF, other = s & 0xFE00FFFF;
-		return NumberUtils.intBitsToFloat(((int) (t + (0xFF - t) * change) << 8 & 0xFF) | other);
+		return NumberUtils.intBitsToFloat(((int) (t + (0xFF - t) * change) << 16 & 0xFF0000) | other);
 	}
 
 	/**
@@ -591,7 +593,7 @@ public class ColorTools {
 	 */
 	public static float tritanDown(final float start, final float change) {
 		final int s = NumberUtils.floatToRawIntBits(start), t = s >>> 16 & 0xFF, other = s & 0xFE00FFFF;
-		return NumberUtils.intBitsToFloat(((int) (t * (1f - change)) & 0xFF) << 8 | other);
+		return NumberUtils.intBitsToFloat(((int) (t * (1f - change)) & 0xFF) << 16 | other);
 	}
 
 	/**
