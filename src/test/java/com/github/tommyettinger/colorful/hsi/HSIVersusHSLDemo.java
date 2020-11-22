@@ -70,14 +70,14 @@ public class HSIVersusHSLDemo extends ApplicationAdapter {
                         "void main()\n" +
                         "{\n" +
                         "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "    vec3 ipt = vec3(v_color.r * 0.9998 - 0.4999, v_color.gb - 0.5);\n" +
+                        "    vec3 ipt = vec3(v_color.r * 0.9998 - 0.4999, v_color.gb * 2.0 - 1.0);\n" +
                         "    float crMid = dot(cyan.yz, ipt.yz);\n" +
                         "    float crScale = (ipt.x - 0.5 * sign(crMid)) * cyan.x / -crMid;\n" +
                         "    float mgMid = dot(magenta.yz, ipt.yz);\n" +
                         "    float mgScale = (ipt.x + 0.5 * sign(mgMid)) * magenta.x / -mgMid;\n" +
                         "    float ybMid = dot(yellow.yz, ipt.yz);\n" +
                         "    float ybScale = (ipt.x - 0.5 * sign(ybMid)) * yellow.x / -ybMid;\n" +
-                        "    float scale = 4.0 * min(crScale, min(mgScale, ybScale));\n" +
+                        "    float scale = 2.0 * min(crScale, min(mgScale, ybScale));\n" +
                         "    ipt.yz *= scale * length(ipt.yz) / cos(3.14159 * ipt.x);\n" +
                         "    ipt.x += 0.5;\n" +
                         "    vec3 back = mat3(0.999779, 1.00015, 0.999769, 1.07094, -0.377744, 0.0629496, 0.324891, 0.220439, -0.809638) * ipt;\n" +
@@ -98,27 +98,25 @@ public class HSIVersusHSLDemo extends ApplicationAdapter {
         for (int i = 0; i < frameCount; i++) {
             layer = TrigTools.acos_(TrigTools.sin_(i / (frameCount - 1f))) * 2f;
             renderInternal();
-            /*
+
             // this gets a screenshot of the current window and adds it to the Array of Pixmap.
             pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         }
 //// AnimatedGif is from anim8; this code uses the predefined DawnBringer Aurora palette, which has 255 colors
 //// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
         AnimatedGif gif = new AnimatedGif();
-//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
-//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
+////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
+////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
         gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
         gif.palette = new PaletteReducer();
-//        gif.palette.setDitherStrength(0.5f);
-//        gif.palette.analyze(pixmaps, 500);
-//        // 24 is how many frames per second the animated GIF should play back at.
+////        gif.palette.setDitherStrength(0.5f);
+////        gif.palette.analyze(pixmaps, 500);
+////        // 24 is how many frames per second the animated GIF should play back at.
         gif.write(Gdx.files.local("HSIVersusHSV.gif"), pixmaps, 24);
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
         AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
         png.write(Gdx.files.local("HSIVersusHSV.png"), pixmaps, 24);
-             */
-        }
     }
 
 
