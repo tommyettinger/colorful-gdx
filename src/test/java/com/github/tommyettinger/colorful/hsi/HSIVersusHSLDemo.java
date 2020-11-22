@@ -70,24 +70,25 @@ public class HSIVersusHSLDemo extends ApplicationAdapter {
                         "void main()\n" +
                         "{\n" +
                         "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "    vec3 ipt = vec3(v_color.r * 0.9998 - 0.4999, v_color.gb * 2.0 - 1.0);\n" +
+                        "    vec3 ipt = vec3(v_color.r * 0.9998 - 0.4999, v_color.gb - 0.5);\n" +
                         "    float crMid = dot(cyan.yz, ipt.yz);\n" +
                         "    float crScale = (ipt.x - 0.5 * sign(crMid)) * cyan.x / -crMid;\n" +
                         "    float mgMid = dot(magenta.yz, ipt.yz);\n" +
                         "    float mgScale = (ipt.x + 0.5 * sign(mgMid)) * magenta.x / -mgMid;\n" +
                         "    float ybMid = dot(yellow.yz, ipt.yz);\n" +
                         "    float ybScale = (ipt.x - 0.5 * sign(ybMid)) * yellow.x / -ybMid;\n" +
-                        "    float scale = 2.0 * min(crScale, min(mgScale, ybScale));\n" +
-                        "    ipt.yz *= scale * length(ipt.yz) / cos(3.14159 * ipt.x);\n" +
+                        "    float scale = 4.0 * min(crScale, min(mgScale, ybScale));\n" +
+                        "    ipt.yz *= scale * length(ipt.yz) / cos(3.141592 * ipt.x);\n" +
                         "    ipt.x += 0.5;\n" +
                         "    vec3 back = mat3(0.999779, 1.00015, 0.999769, 1.07094, -0.377744, 0.0629496, 0.324891, 0.220439, -0.809638) * ipt;\n" +
                         "    gl_FragColor = vec4(clamp(back, 0.0, 1.0), v_color.a * tgt.a);\n" +
                         "    if(any(notEqual(back, gl_FragColor.rgb))) discard;\n" +
                         "}";
         hsiShader = new ShaderProgram(vertexShader, fragmentShader);
-        if (!hsiShader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + hsiShader.getLog());
+        if (!hsiShader.isCompiled())
+            throw new IllegalArgumentException("Error compiling shader: " + hsiShader.getLog());
         hslShader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL);
-        if(!hslShader.isCompiled())
+        if (!hslShader.isCompiled())
             System.out.println(hslShader.getLog());
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
