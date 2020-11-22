@@ -105,7 +105,7 @@ public class IPTGamutDemo extends ApplicationAdapter {
         gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
         gif.palette = new PaletteReducer();
 //        gif.palette.setDitherStrength(0.5f);
-//        gif.palette.analyze(pixmaps, 500);
+//        gif.palette = new PaletteReducer(pixmaps);
 //        // 24 is how many frames per second the animated GIF should play back at.
         gif.write(Gdx.files.local("IPTGamut.gif"), pixmaps, 24);
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
