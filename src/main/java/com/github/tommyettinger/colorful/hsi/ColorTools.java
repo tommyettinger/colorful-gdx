@@ -8,6 +8,8 @@ import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.TrigTools;
 import com.github.tommyettinger.colorful.ycwcm.Palette;
 
+import java.util.Random;
+
 /**
  * Contains code for manipulating colors as {@code int}, packed {@code float}, and {@link Color} values in the HSI
  * color space.
@@ -62,7 +64,7 @@ public class ColorTools {
 		final float ybMid = 0.020876605f * y + -0.26078433f * z;
 		final float ybScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
 		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
-		final float d = 4f * Vector2.len(y * scale, z * scale) / MathUtils.cos(3.14159f * i);
+		final float d = 4f * Vector2.len(y * scale, z * scale) / MathUtils.sin(3.14159f * i);
 
 		final float p = y * d;
 		final float t = z * d;
@@ -94,7 +96,7 @@ public class ColorTools {
 		final float ybMid = 0.020876605f * y + -0.26078433f * z;
 		final float ybScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
 		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
-		final float d = 4f * Vector2.len(y * scale, z * scale) / MathUtils.cos(3.14159f * i);
+		final float d = 4f * Vector2.len(y * scale, z * scale) / MathUtils.sin(3.14159f * i);
 
 		final float p = y * d;
 		final float t = z * d;
@@ -125,7 +127,7 @@ public class ColorTools {
 		final float ybMid = 0.020876605f * y + -0.26078433f * z;
 		final float ybScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
 		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
-		final float d = 4f * Vector2.len(y * scale, z * scale) / MathUtils.cos(3.14159f * i);
+		final float d = 4f * Vector2.len(y * scale, z * scale) / MathUtils.sin(3.14159f * i);
 
 		final float p = y * d;
 		final float t = z * d;
@@ -159,7 +161,7 @@ public class ColorTools {
 		final float ybScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
 		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
 		final float h = TrigTools.atan2_(t, p);
-		final float s = 0.25f * MathUtils.cos(3.14159f * i) / Vector2.len(p * scale, t * scale);
+		final float s = 0.25f * MathUtils.sin(3.14159f * i) / Vector2.len(p * scale, t * scale);
 		return NumberUtils.intBitsToFloat(((rgba & 0xFE) << 24) | ((int) ((i+0.5f) * 255) << 16 & 0xFF0000)
 				| ((int) (s * 255) << 8 & 0xFF00) | ((int) (h * 255) & 0xFF));
 	}
@@ -186,7 +188,7 @@ public class ColorTools {
 		final float ybScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
 		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
 		final float h = TrigTools.atan2_(t, p);
-		final float s = 0.25f * MathUtils.cos(3.14159f * i) / Vector2.len(p * scale, t * scale);
+		final float s = 0.25f * MathUtils.sin(3.14159f * i) / Vector2.len(p * scale, t * scale);
 		return NumberUtils.intBitsToFloat((abgr & 0xFE000000) | ((int) ((i+0.5f) * 255) << 16 & 0xFF0000)
 				| ((int) (s * 255) << 8 & 0xFF00) | ((int) (h * 255) & 0xFF));
 	}
@@ -210,7 +212,7 @@ public class ColorTools {
 		final float ybScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
 		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
 		final float h = TrigTools.atan2_(t, p);
-		final float s = 0.25f * MathUtils.cos(3.14159f * i) / Vector2.len(p * scale, t * scale);
+		final float s = 0.25f * MathUtils.sin(3.14159f * i) / Vector2.len(p * scale, t * scale);
 		return NumberUtils.intBitsToFloat(((int) (color.a * 255) << 24 & 0xFE000000) | ((int) ((i+0.5f) * 255) << 16 & 0xFF0000)
 				| ((int) (s * 255) << 8 & 0xFF00) | ((int) (h * 255) & 0xFF));
 	}
@@ -236,7 +238,7 @@ public class ColorTools {
 		final float ybScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
 		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
 		final float h = TrigTools.atan2_(t, p);
-		final float s = 0.25f * MathUtils.cos(3.14159f * i) / Vector2.len(p * scale, t * scale);
+		final float s = 0.25f * MathUtils.sin(3.14159f * i) / Vector2.len(p * scale, t * scale);
 		return NumberUtils.intBitsToFloat(((int) (a * 255) << 24 & 0xFE000000) | ((int) ((i+0.5f) * 255) << 16 & 0xFF0000)
 				| ((int) (s * 255) << 8 & 0xFF00) | ((int) (h * 255) & 0xFF));
 	}
@@ -260,7 +262,7 @@ public class ColorTools {
 		final float ybMid = 0.020876605f * y + -0.26078433f * z;
 		final float ybScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
 		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
-		final float d = 4f * Vector2.len(y * scale, z * scale) / MathUtils.cos(3.14159f * i);
+		final float d = 4f * Vector2.len(y * scale, z * scale) / MathUtils.sin(3.14159f * i);
 
 		final float p = y * d;
 		final float t = z * d;
@@ -287,7 +289,7 @@ public class ColorTools {
 		final float ybMid = 0.020876605f * y + -0.26078433f * z;
 		final float ybScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
 		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
-		final float d = 4f * Vector2.len(y * scale, z * scale) / MathUtils.cos(3.14159f * i);
+		final float d = 4f * Vector2.len(y * scale, z * scale) / MathUtils.sin(3.14159f * i);
 
 		final float p = y * d;
 		final float t = z * d;
@@ -314,7 +316,7 @@ public class ColorTools {
 		final float ybMid = 0.020876605f * y + -0.26078433f * z;
 		final float ybScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
 		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
-		final float d = 4f * Vector2.len(y * scale, z * scale) / MathUtils.cos(3.14159f * i);
+		final float d = 4f * Vector2.len(y * scale, z * scale) / MathUtils.sin(3.14159f * i);
 
 		final float p = y * d;
 		final float t = z * d;
@@ -352,7 +354,7 @@ public class ColorTools {
 		final float ybMid = 0.020876605f * y + -0.26078433f * z;
 		final float ybScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
 		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
-		final float d = 4f * Vector2.len(y * scale, z * scale) / MathUtils.cos(3.14159f * i);
+		final float d = 4f * Vector2.len(y * scale, z * scale) / MathUtils.sin(3.14159f * i);
 
 		final float p = y * d;
 		final float t = z * d;
@@ -379,7 +381,7 @@ public class ColorTools {
 		final float ybMid = 0.020876605f * y + -0.26078433f * z;
 		final float ybScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
 		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
-		final float d = 4f * Vector2.len(y * scale, z * scale) / MathUtils.cos(3.14159f * i);
+		final float d = 4f * Vector2.len(y * scale, z * scale) / MathUtils.sin(3.14159f * i);
 
 		final float p = y * d;
 		final float t = z * d;
@@ -406,7 +408,7 @@ public class ColorTools {
 		final float ybMid = 0.020876605f * y + -0.26078433f * z;
 		final float ybScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
 		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
-		final float d = 4f * Vector2.len(y * scale, z * scale) / MathUtils.cos(3.14159f * i);
+		final float d = 4f * Vector2.len(y * scale, z * scale) / MathUtils.sin(3.14159f * i);
 
 		final float p = y * d;
 		final float t = z * d;
@@ -553,7 +555,7 @@ public class ColorTools {
 	 */
 	public static float saturationUp(final float start, final float change) {
 		final int s = NumberUtils.floatToRawIntBits(start), t = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
-		float limit = MathUtils.cos((s >>> 16 & 0xFF) * (3.14159f / 255f)) * 255;
+		float limit = MathUtils.sin((s >>> 16 & 0xFF) * (3.14159f / 255f)) * 255;
 		return NumberUtils.intBitsToFloat(((int) Math.min(t + (0xFF - t) * change, limit) << 8 & 0xFF00) | other);
 	}
 
@@ -634,7 +636,7 @@ public class ColorTools {
 		if(Math.abs(s - cs) * Math.abs(h - ch) >= 0x900)
 			return mainColor;
 		final float i2 = ci < 128 ? i * (0.45f / 255f) + 0.55f : 0.5f - i * (0.45f / 255f);
-		float limit = MathUtils.cos(i2 * (3.14159f / 255f)) * 255;
+		float limit = MathUtils.sin(i2 * (3.14159f / 255f)) * 255;
 		return NumberUtils.intBitsToFloat((bits & 0xFE000000) | h << 16 | (int)Math.min(s, limit) << 8 | h);
 	}
 
@@ -699,7 +701,7 @@ public class ColorTools {
 	public static boolean inGamut(final float packed)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(packed);
-		return (decoded >>> 8 & 0xff) / 255f <= MathUtils.cos((decoded >>> 16 & 0xff) * (3.14159f / 255f));
+		return (decoded >>> 8 & 0xff) / 255f <= MathUtils.sin((decoded >>> 16 & 0xff) * (3.14159f / 255f));
 
 	}
 	/**
@@ -711,7 +713,22 @@ public class ColorTools {
 	 */
 	public static boolean inGamut(float h, float s, float i)
 	{
-		return i >= 0 && i <= 1 && s >= 0 && s <= MathUtils.cos(i * 3.14159f);
+		return i >= 0 && i <= 1 && s >= 0 && s <= MathUtils.sin(i * 3.14159f);
 	}
 
+	/**
+	 * Given a Random to generate random values, this produces an approximately-evenly-distributed
+	 * random HSI color as a packed float. It has an equal likelihood of producing any intensity (which is the least
+	 * evenly-distributed part of this), but will correctly produce results in the wide outer bands of high saturation
+	 * more often than the thin inner column of grayscale. It always produces an opaque color (alpha always equals 1).
+	 * @param random a Random number generator, like {@link com.badlogic.gdx.math.RandomXS128} from libGDX
+	 * @return an approximately-evenly-distributed random HSI color
+	 */
+	public static float randomColor(Random random) {
+		final float i = MathUtils.sin(random.nextFloat() * MathUtils.PI);
+		final float limit = MathUtils.sin(i * 3.14159f);
+		final float s = (float) Math.sqrt(random.nextFloat()) * limit;
+		final float h = random.nextFloat();
+		return hsi(h, s, i, 1f);
+	}
 }
