@@ -291,6 +291,15 @@ public class Shaders {
 //                    "}";
 //
 
+    /**
+     * A vertex shader that does the bulk of processing HSI-format batch colors and converting them to a format
+     * {@link #fragmentShaderHSI} can use. Since HSI is only a cylindrical/spherical adaptation of IPT, with identical
+     * I components and the combination of H and S in polar coordinates mapping to P and T in Cartesian coordinates,
+     * the fragment shader this is used with can be any that expects an IPT color (currently only
+     * {@link #fragmentShaderIPT} does this, and it's the same as {@link #fragmentShaderHSI}). This vertex shader does
+     * a lot more than most vertex shaders here, but since it is executed relatively rarely (unless you're drawing many
+     * 1-pixel textures), there shouldn't be a heavy performance penalty.
+     */
     public static final String vertexShaderHSI = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
         + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
         + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
@@ -302,15 +311,20 @@ public class Shaders {
         + "const vec3 cyan    = vec3( 0.16420607f,0.3481738f,   0.104959644f);\n"
         + "void main()\n"
         + "{\n"
+        + "    v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
         + "    v_color.a = " + ShaderProgram.COLOR_ATTRIBUTE + ".a * (255.0/254.0);\n"
-        + "    v_color.rgb = " + ShaderProgram.COLOR_ATTRIBUTE + ".rgb - 0.5;\n"
-        + "    v_color.x *= 0.99999;\n"
+        + "    vec3 hsi = v_color.rgb;\n"
+        + "    v_color.x = (hsi.z - 0.5) * 0.9999;\n"
+        + "    hsi.x *= 6.28318;\n"
+        + "    hsi.y *= 0.5;\n"
+        + "    v_color.y = cos(hsi.x) * hsi.y;\n"
+        + "    v_color.z = sin(hsi.x) * hsi.y;\n"
         + "    float crMid = dot(cyan.yz, v_color.yz);\n"
         + "    float mgMid = dot(magenta.yz, v_color.yz);\n"
         + "    float ybMid = dot(yellow.yz, v_color.yz);\n"
-        + "    float crScale = (v_color.x - 0.5 + step(crMid, 0.0)) * cyan.x / -crMid;\n"
-        + "    float mgScale = (v_color.x + 0.5 - step(mgMid, 0.0)) * magenta.x / -mgMid;\n"
-        + "    float ybScale = (v_color.x - 0.5 + step(ybMid, 0.0)) * yellow.x / -ybMid;\n"
+        + "    float crScale = (v_color.x - 0.5 + step(crMid, 0.0)) * cyan.x / (0.00001 - crMid);\n"
+        + "    float mgScale = (v_color.x + 0.5 - step(mgMid, 0.0)) * magenta.x / (0.00001 - mgMid);\n"
+        + "    float ybScale = (v_color.x - 0.5 + step(ybMid, 0.0)) * yellow.x / (0.00001 - ybMid);\n"
         + "    float scale = 4.0 * min(crScale, min(mgScale, ybScale));\n"
         + "    v_color.yz *= scale * length(v_color.yz) / cos(3.14159 * v_color.x);\n"
         + "    v_color.xyz += 0.5;\n"
