@@ -291,6 +291,34 @@ public class Shaders {
 //                    "}";
 //
 
+    public static final String vertexShaderHSI = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+        + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+        + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+        + "uniform mat4 u_projTrans;\n"
+        + "varying vec4 v_color;\n"
+        + "varying vec2 v_texCoords;\n"
+        + "const vec3 yellow  = vec3( 0.16155326f,0.020876605f,-0.26078433f );\n"
+        + "const vec3 magenta = vec3(-0.16136102f,0.122068435f,-0.070396f   );\n"
+        + "const vec3 cyan    = vec3( 0.16420607f,0.3481738f,   0.104959644f);\n"
+        + "void main()\n"
+        + "{\n"
+        + "    v_color.a = " + ShaderProgram.COLOR_ATTRIBUTE + ".a * (255.0/254.0);\n"
+        + "    v_color.rgb = " + ShaderProgram.COLOR_ATTRIBUTE + ".rgb - 0.5;\n"
+        + "    v_color.x *= 0.99999;\n"
+        + "    float crMid = dot(cyan.yz, v_color.yz);\n"
+        + "    float mgMid = dot(magenta.yz, v_color.yz);\n"
+        + "    float ybMid = dot(yellow.yz, v_color.yz);\n"
+        + "    float crScale = (v_color.x - 0.5 + step(crMid, 0.0)) * cyan.x / -crMid;\n"
+        + "    float mgScale = (v_color.x + 0.5 - step(mgMid, 0.0)) * magenta.x / -mgMid;\n"
+        + "    float ybScale = (v_color.x - 0.5 + step(ybMid, 0.0)) * yellow.x / -ybMid;\n"
+        + "    float scale = 4.0 * min(crScale, min(mgScale, ybScale));\n"
+        + "    v_color.yz *= scale * length(v_color.yz) / cos(3.14159 * v_color.x);\n"
+        + "    v_color.xyz += 0.5;\n"
+        + "    v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+        + "    gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+        + "}\n";
+    public static String fragmentShaderHSI = fragmentShaderIPT;
+
     /**
      * Credit to Sam Hocevar, https://gamedev.stackexchange.com/a/59808 .
      */
