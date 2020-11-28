@@ -2,9 +2,11 @@ package com.github.tommyettinger.colorful.ipt;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.Shaders;
+import com.github.tommyettinger.colorful.TrigTools;
 import com.github.tommyettinger.colorful.ycwcm.Palette;
 
 /**
@@ -748,4 +750,55 @@ public class ColorTools {
 		return (b >= 0) && (b <= 1);
 	}
 
+	/**
+	 * Converts from a packed float in HSI format to a packed float in IPT format.
+	 * @param packed a packed float in HSI format
+	 * @return a packed float in IPT format
+	 */
+	public static float fromHSI(float packed){
+		final int decoded = NumberUtils.floatToRawIntBits(packed);
+		final float h = (decoded & 0xff) / 255f;
+		final float s = (decoded >>> 8 & 0xff) / 255f;
+		final float i = (decoded >>> 16 & 0xff) / 255f;
+		final float y = TrigTools.cos_(h) * s, z = TrigTools.sin_(h) * s;
+		final float crMid = 0.3481738f * y + 0.104959644f * z;
+		final float crScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(crMid) >>> 31)) * 0.16420607f / -crMid;
+		final float mgMid = 0.122068435f * y + -0.070396f * z;
+		final float mgScale = (i + 0.5f - (NumberUtils.floatToRawIntBits(mgMid) >>> 31)) * -0.16136102f / -mgMid;
+		final float ybMid = 0.020876605f * y + -0.26078433f * z;
+		final float ybScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
+		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
+		final float d = 4f * s * scale / (MathUtils.sin(3.14159f * i) + 0.000001f);
+
+		final float p = y * d;
+		final float t = z * d;
+		return NumberUtils.intBitsToFloat((decoded & 0xFE000000) | ((int) (t * 255) << 16 & 0xFF0000)
+				| ((int) (p * 255) << 8 & 0xFF00) | (decoded >>> 16 & 0xFF));
+	}
+
+	/**
+	 * Converts from hue, saturation, intensity, and alpha components (each ranging from 0 to 1 inclusive) to a packed
+	 * float color in IPT format.
+	 * @param hue hue, from 0 to 1 inclusive; 0 is red, 0.25 is yellow, 0.75 is blue
+	 * @param saturation saturation from 0 (grayscale) to a limit between 0 and 1 depending on intensity (it can be 1 only when intensity is 0.5)
+	 * @param intensity intensity, or lightness, from 0 (black) to 1 (white)
+	 * @param alpha alpha transparency/opacity, from 0 (fully transparent) to 1 (fully opaque)
+	 * @return a packed float in IPT format
+	 */
+	public static float fromHSI(float hue, float saturation, float intensity, float alpha){
+		final float y = TrigTools.cos_(hue) * saturation, z = TrigTools.sin_(hue) * saturation;
+		final float crMid = 0.3481738f * y + 0.104959644f * z;
+		final float crScale = (intensity - 0.5f + (NumberUtils.floatToRawIntBits(crMid) >>> 31)) * 0.16420607f / -crMid;
+		final float mgMid = 0.122068435f * y + -0.070396f * z;
+		final float mgScale = (intensity + 0.5f - (NumberUtils.floatToRawIntBits(mgMid) >>> 31)) * -0.16136102f / -mgMid;
+		final float ybMid = 0.020876605f * y + -0.26078433f * z;
+		final float ybScale = (intensity - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
+		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
+		final float d = 4f * saturation * scale / (MathUtils.sin(3.14159f * intensity) + 0.000001f);
+
+		final float p = y * d;
+		final float t = z * d;
+		return NumberUtils.intBitsToFloat(((int)(alpha * 255) << 24 & 0xFE000000) | ((int) (t * 255) << 16 & 0xFF0000)
+				| ((int) (p * 255) << 8 & 0xFF00) | ((int) (intensity * 255) & 0xFF));
+	}
 }
