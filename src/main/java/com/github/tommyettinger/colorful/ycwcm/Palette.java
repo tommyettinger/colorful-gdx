@@ -125,8 +125,6 @@ public class Palette {
     /**
      * This color constant "Gray" has RGBA8888 code {@code 808080FF}, luma 0.5019608, warmth 0.49803925, mildness 0.49803925, alpha 1.0, hue 0.0, and saturation 0.0.
      * It can be represented as a packed float with the constant {@code -0x1.feffp125F}.
-     * Gray is a special color because it is the closest any color can get to an identity when tinting another color;
-     * that is, tinting an image with Gray will not change the image at all (almost).
      * <pre>
      * <font style='background-color: #808080;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #808080; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #808080;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #808080'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #808080'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #808080'>&nbsp;@&nbsp;</font><font style='background-color: #808080; color: #888888'>&nbsp;@&nbsp;</font>
@@ -401,7 +399,7 @@ public class Palette {
     static { NAMED.put("Raw Meat", -0x1.ff7d6p125F); LIST.add(-0x1.ff7d6p125F); }
 
     /**
-     * This color constant "Fresh Blood" has RGBA8888 code {@code FF0000FF}, luma 0.37254903, warmth 1.0, mildness 0.49803925, alpha 1.0, hue 0.0, and saturation 1.0.
+     * This color constant "Red" has RGBA8888 code {@code FF0000FF}, luma 0.37254903, warmth 1.0, mildness 0.49803925, alpha 1.0, hue 0.0, and saturation 1.0.
      * It can be represented as a packed float with the constant {@code -0x1.fffebep125F}.
      * <pre>
      * <font style='background-color: #FF0000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF0000; color: #000000'>&nbsp;@&nbsp;</font>
@@ -409,8 +407,8 @@ public class Palette {
      * <font style='background-color: #FF0000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF0000; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float FRESH_BLOOD = -0x1.fffebep125F;
-    static { NAMED.put("Fresh Blood", -0x1.fffebep125F); LIST.add(-0x1.fffebep125F); }
+    public static final float RED = -0x1.fffebep125F;
+    static { NAMED.put("Red", -0x1.fffebep125F); LIST.add(-0x1.fffebep125F); }
 
     /**
      * This color constant "Putty" has RGBA8888 code {@code BF3F3FFF}, luma 0.43529415, warmth 0.7490196, mildness 0.49803925, alpha 1.0, hue 0.0, and saturation 0.5039369.
@@ -1877,7 +1875,7 @@ public class Palette {
     static { NAMED.put("Brick", -0x1.078b04p126F); LIST.add(-0x1.078b04p126F); }
 
     /**
-     * This color constant "Red" has RGBA8888 code {@code FF3C0AFF}, luma 0.49411768, warmth 0.9803922, mildness 0.59607846, alpha 1.0, hue 0.034013607, and saturation 0.99190295.
+     * This color constant "Bright Red" has RGBA8888 code {@code FF3C0AFF}, luma 0.49411768, warmth 0.9803922, mildness 0.59607846, alpha 1.0, hue 0.034013607, and saturation 0.99190295.
      * It can be represented as a packed float with the constant {@code -0x1.31f4fcp126F}.
      * <pre>
      * <font style='background-color: #FF3C0A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF3C0A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1885,8 +1883,8 @@ public class Palette {
      * <font style='background-color: #FF3C0A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF3C0A; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float RED = -0x1.31f4fcp126F;
-    static { NAMED.put("Red", -0x1.31f4fcp126F); LIST.add(-0x1.31f4fcp126F); }
+    public static final float BRIGHT_RED = -0x1.31f4fcp126F;
+    static { NAMED.put("Bright Red", -0x1.31f4fcp126F); LIST.add(-0x1.31f4fcp126F); }
 
     /**
      * This color constant "Embers" has RGBA8888 code {@code F55A32FF}, luma 0.56078434, warmth 0.882353, mildness 0.5764706, alpha 1.0, hue 0.034188032, and saturation 0.9069769.
