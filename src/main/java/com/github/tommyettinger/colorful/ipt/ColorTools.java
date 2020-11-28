@@ -9,6 +9,8 @@ import com.github.tommyettinger.colorful.Shaders;
 import com.github.tommyettinger.colorful.TrigTools;
 import com.github.tommyettinger.colorful.ycwcm.Palette;
 
+import java.util.Random;
+
 /**
  * Contains code for manipulating colors as {@code int}, packed {@code float}, and {@link Color} values in the IPT
  * color space. IPT has more perceptually-uniform handling of hue than some other color spaces, like YCwCm, and even
@@ -725,11 +727,12 @@ public class ColorTools {
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float r = 0.999779f * i + 1.0709400f * p + 0.324891f * t;
-		if(r < 0 || r > 1) return false;
+		if(r < -0.006f || r > 1.003f) return false;
 		final float g = 1.000150f * i - 0.3777440f * p + 0.220439f * t;
-		if(g < 0 || g > 1) return false;
+		if(g < -0.006f || g > 1.003f)
+			return false;
 		final float b = 0.999769f * i + 0.0629496f * p - 0.809638f * t;
-		return (b >= 0) && (b <= 1);
+		return (b >= -0.006f && b <= 1.003f);
 	}
 	/**
 	 * Returns true if the given IPT values are valid to convert losslessly back to RGBA. 
@@ -743,11 +746,12 @@ public class ColorTools {
 		p = (p - 0.5f) * 2f;
 		t = (t - 0.5f) * 2f;
 		final float r = 0.999779f * i + 1.0709400f * p + 0.324891f * t;
-		if(r < 0 || r > 1) return false;
+		if(r < -0.006f || r > 1.003f) return false;
 		final float g = 1.000150f * i - 0.3777440f * p + 0.220439f * t;
-		if(g < 0 || g > 1) return false;
+		if(g < -0.006f || g > 1.003f)
+			return false;
 		final float b = 0.999769f * i + 0.0629496f * p - 0.809638f * t;
-		return (b >= 0) && (b <= 1);
+		return (b >= -0.006f && b <= 1.003f);
 	}
 
 	/**
@@ -800,5 +804,23 @@ public class ColorTools {
 		final float t = z * d;
 		return NumberUtils.intBitsToFloat(((int)(alpha * 255) << 24 & 0xFE000000) | ((int) (t * 255) << 16 & 0xFF0000)
 				| ((int) (p * 255) << 8 & 0xFF00) | ((int) (intensity * 255) & 0xFF));
+	}
+
+	/**
+	 * Produces a random packed float color that is always in-gamut and should be uniformly distributed.
+	 * @param random a Random object (or preferably a subclass of Random, like {@link com.badlogic.gdx.math.RandomXS128})
+	 * @return a packed float color that is always in-gamut
+	 */
+	public static float randomColor(Random random) {
+		final float ir = 0.1882353f, pr = 0.83137256f - 0.5f, tr = 0.6431373f - 0.5f;
+		final float ig = 0.5764706f, pg = 0.12941177f - 0.5f, tg = 0.827451f - 0.5f;
+		final float ib = 0.23137255f, pb = 0.53333336f - 0.5f, tb = 0.02745098f - 0.5f;
+		final float r = random.nextFloat(), g = random.nextFloat(), b = random.nextFloat();
+		return NumberUtils.intBitsToFloat(0xFE000000
+				| ((int) ((tr * r + tg * g + tb * b) * 127.5f + 127.5f) << 16 & 0xFF0000)
+				| ((int) ((pr * r + pg * g + pb * b) * 127.5f + 127.5f) << 8 & 0xFF00)
+				| ((int)((ir * r + ig * g + ib * b) * 255f) & 0xFF));
+
+
 	}
 }
