@@ -820,7 +820,15 @@ public class ColorTools {
 				| ((int) ((tr * r + tg * g + tb * b) * 127.5f + 127.5f) << 16 & 0xFF0000)
 				| ((int) ((pr * r + pg * g + pb * b) * 127.5f + 127.5f) << 8 & 0xFF00)
 				| ((int)((ir * r + ig * g + ib * b) * 255f) & 0xFF));
+	}
 
-
+	public static float subrandomColor(float r, float g, float b) {
+		final float ir = 0.1882353f, pr = 0.83137256f - 0.5f, tr = 0.6431373f - 0.5f;
+		final float ig = 0.5764706f, pg = 0.12941177f - 0.5f, tg = 0.827451f - 0.5f;
+		final float ib = 0.23137255f, pb = 0.53333336f - 0.5f, tb = 0.02745098f - 0.5f;
+		return NumberUtils.intBitsToFloat(0xFE000000
+				| ((int) ((tr * r + tg * g + tb * b) * 127.5f + 127.5f) << 16 & 0xFF0000)
+				| ((int) ((pr * r + pg * g + pb * b) * 127.5f + 127.5f) << 8 & 0xFF00)
+				| ((int)((ir * r + ig * g + ib * b) * 255f) & 0xFF));
 	}
 }
