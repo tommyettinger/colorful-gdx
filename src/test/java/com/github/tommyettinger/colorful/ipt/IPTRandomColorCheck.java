@@ -7,7 +7,7 @@ public class IPTRandomColorCheck {
         RandomXS128 random = new RandomXS128(0L, 1L);
         for (int i = 0; i < 10000; i++) {
             float color = ColorTools.randomColor(random);
-            if(!ColorTools.inGamut(color)) {
+            if (!ColorTools.inGamut(color)) {
                 System.out.printf("Color with IPT values: I=%f, P=%f, T=%f\n",
                         ColorTools.intensity(color), ColorTools.protan(color), ColorTools.tritan(color));
                 System.out.println("It's out of gamut!");
