@@ -9,10 +9,16 @@ public class SubRandomPaletteGenerator {
         IntArray rgba = new IntArray(64);
         rgba.add(0);
         rgba.add(0x0B080FFF);
+        rgba.add(0x353336FF);
+        rgba.add(0x555555FF);
+        rgba.add(0x797577FF);
+        rgba.add(0xAAAAAAFF);
+        rgba.add(0xC8C8C8FF);
+        rgba.add(0xE0E0E0FF);
         rgba.add(0xFAF7F0FF);
         int idx = 1;
         while (rgba.size < 64) {
-            float color = gaussianColor(idx++, 0.8 / Math.exp(rgba.size * 0x1p-6));
+            float color = gaussianColor(idx++, 0.6 * (1.0 - rgba.size * rgba.size * rgba.size * 0x1p-19));
             if(ColorTools.inGamut(color))
             {
                 rgba.add(ColorTools.toRGBA8888(color));
