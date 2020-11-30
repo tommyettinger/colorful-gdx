@@ -14,7 +14,17 @@ import com.badlogic.gdx.utils.NumberUtils;
  * A substitute for {@link com.badlogic.gdx.graphics.g2d.SpriteBatch} that adds an additional attribute to store an
  * extra color's worth of channels, used to modify the intensity and chromatic channels of a color by multiplication
  * (calle the "tweak") while the primary color affects the color additively (just called the color, often drawn from
- * {@link Palette} or generated with {@link ColorTools}).
+ * {@link Palette} or generated with {@link ColorTools}). This ColorfulBatch uses the IPT color space where SpriteBatch
+ * normally uses RGBA, which means that in the batch color, r maps to additive intensity, g maps to additive protan, b
+ * maps to additive tritan, and a maps to multiplicative alpha. Additive values cause no change when they are 0.5, but
+ * cause a sharp increase at 1.0 and a sharp decrease at 0.0. In the tweak, r maps to multiplicative intensity, g maps
+ * to multiplicative protan, b maps to multiplicative tritan, and a maps to "exponential-like" contrast. Like with the
+ * additive values, 0.5 causes no change for multiplicative values, but you can think of the existing color as being
+ * temporarily shifted down by 0.5 for each of the IPT channels, so each IPT channel's range is -0.5 to 0.5 before being
+ * multiplied by the corresponding tweak value (times 2.0, which means multiplicative tweak values less than 0.5 make
+ * colors closer to grayscale and values greater than 0.5 make colors more vibrant). Contrast is a special value; 0.5
+ * still means "no change," but lower values will make intensity changes less distinct between similar colors, while
+ * higher values will "sharpen" the changes in intensity.
  * <br>
  * Created by Tommy Ettinger on 12/14/2019.
  */
@@ -83,11 +93,11 @@ public class ColorfulBatch implements Batch {
      * <p>
      * The defaultShader specifies the shader to use. Note that the names for uniforms for this default shader are different than
      * the ones expect for shaders set with {@link #setShader(ShaderProgram)}. See {@link #createDefaultShader()}.
-     * @param size The max number of sprites in a single batch. Max of 5461.
+     * @param size The max number of sprites in a single batch. Max of 10922.
      * @param defaultShader The default shader to use. This is not owned by the ColorfulBatch and must be disposed separately. */
     public ColorfulBatch(int size, ShaderProgram defaultShader) {
-        // 32767 is max vertex index, so 32767 / 6 vertices per sprite = 5461 sprites max.
-        if (size > 5461) throw new IllegalArgumentException("Can't have more than 5461 sprites per batch: " + size);
+        // 65535 is max vertex index, so 65535 / 6 vertices per sprite = 10922 sprites max.
+        if (size > 10922) throw new IllegalArgumentException("Can't have more than 10922 sprites per batch: " + size);
 
         Mesh.VertexDataType vertexDataType = (Gdx.gl30 != null) ? Mesh.VertexDataType.VertexBufferObjectWithVAO : Mesh.VertexDataType.VertexArray;
 
@@ -179,9 +189,9 @@ public class ColorfulBatch implements Batch {
 
         Gdx.gl.glDepthMask(false);
         if (customShader != null)
-            customShader.begin();
+            customShader.bind();
         else
-            shader.begin();
+            shader.bind();
         setupMatrices();
 
         drawing = true;
@@ -197,11 +207,6 @@ public class ColorfulBatch implements Batch {
         GL20 gl = Gdx.gl;
         gl.glDepthMask(true);
         if (isBlendingEnabled()) gl.glDisable(GL20.GL_BLEND);
-
-        if (customShader != null)
-            customShader.end();
-        else
-            shader.end();
     }
 
     @Override
@@ -1279,17 +1284,13 @@ public class ColorfulBatch implements Batch {
     public void setShader (ShaderProgram shader) {
         if (drawing) {
             flush();
-            if (customShader != null)
-                customShader.end();
-            else
-                this.shader.end();
         }
         customShader = shader;
         if (drawing) {
             if (customShader != null)
-                customShader.begin();
+                customShader.bind();
             else
-                this.shader.begin();
+                this.shader.bind();
             setupMatrices();
         }
     }

@@ -89,11 +89,11 @@ public class ColorfulBatch implements Batch {
      * <p>
      * The defaultShader specifies the shader to use. Note that the names for uniforms for this default shader are different than
      * the ones expect for shaders set with {@link #setShader(ShaderProgram)}. See {@link #createDefaultShader()}.
-     * @param size The max number of sprites in a single batch. Max of 5461.
+     * @param size The max number of sprites in a single batch. Max of 10922.
      * @param defaultShader The default shader to use. This is not owned by the ColorfulBatch and must be disposed separately. */
     public ColorfulBatch(int size, ShaderProgram defaultShader) {
-        // 32767 is max vertex index, so 32767 / 6 vertices per sprite = 5461 sprites max.
-        if (size > 5461) throw new IllegalArgumentException("Can't have more than 5461 sprites per batch: " + size);
+        // 65535 is max vertex index, so 65535 / 6 vertices per sprite = 10922 sprites max.
+        if (size > 10922) throw new IllegalArgumentException("Can't have more than 10922 sprites per batch: " + size);
 
         Mesh.VertexDataType vertexDataType = (Gdx.gl30 != null) ? Mesh.VertexDataType.VertexBufferObjectWithVAO : Mesh.VertexDataType.VertexArray;
 
@@ -189,9 +189,9 @@ public class ColorfulBatch implements Batch {
 
         Gdx.gl.glDepthMask(false);
         if (customShader != null)
-            customShader.begin();
+            customShader.bind();
         else
-            shader.begin();
+            shader.bind();
         setupMatrices();
 
         drawing = true;
@@ -207,11 +207,6 @@ public class ColorfulBatch implements Batch {
         GL20 gl = Gdx.gl;
         gl.glDepthMask(true);
         if (isBlendingEnabled()) gl.glDisable(GL20.GL_BLEND);
-
-        if (customShader != null)
-            customShader.end();
-        else
-            shader.end();
     }
 
     @Override
@@ -1245,17 +1240,13 @@ public class ColorfulBatch implements Batch {
     public void setShader (ShaderProgram shader) {
         if (drawing) {
             flush();
-            if (customShader != null)
-                customShader.end();
-            else
-                this.shader.end();
         }
         customShader = shader;
         if (drawing) {
             if (customShader != null)
-                customShader.begin();
+                customShader.bind();
             else
-                this.shader.begin();
+                this.shader.bind();
             setupMatrices();
         }
     }
