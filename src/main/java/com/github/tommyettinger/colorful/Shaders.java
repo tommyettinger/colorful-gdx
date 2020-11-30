@@ -274,22 +274,10 @@ public class Shaders {
                     "{\n" +
                     "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                     "    vec3 ipt = (mat3(0.189786, 0.669665 , 0.286498, 0.576951, -0.73741 , 0.655205, 0.233221, 0.0681367, -0.941748)\n" +
-                    "         * (tgt.rgb)) + v_color.rgb - 0.5;\n" + 
+                    "         * (tgt.rgb)) + v_color.rgb - 0.5;\n" +
                     "    vec3 back = mat3(0.999779, 1.00015, 0.999769, 1.07094, -0.377744, 0.0629496, 0.324891, 0.220439, -0.809638) * ipt;\n" +
                     "    gl_FragColor = vec4(clamp(back, 0.0, 1.0), v_color.a * tgt.a);\n" +
                     "}";
-
-//                    "void main()\n" +
-//                    "{\n" +
-//                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-//                    "    vec3 ipt = (mat3(+0.4000, +6.6825, +1.0741, +0.4000, -7.2765, +0.4763, +0.2000, +0.5940, -1.5504) * \n" + 
-//                    "        mat3(0.313921, 0.151693, 0.017700, 0.639468, 0.748209, 0.109400, 0.0465970, 0.1000044, 0.8729000) * (tgt.rgb))\n" +
-//                    "        + v_color.rgb - 0.5;\n" +
-//                    "    vec3 back = mat3(1.0, 1.0, 1.0, 0.06503950, -0.07591241, 0.02174116, 0.15391950, 0.09991275, -0.50766750) * ipt;\n" +
-//                    "    back = mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) * back;\n" +
-//                    "    gl_FragColor = vec4(clamp(back, 0.0, 1.0), v_color.a * tgt.a);\n" +
-//                    "}";
-//
 
     /**
      * A vertex shader that does the bulk of processing HSI-format batch colors and converting them to a format
@@ -807,5 +795,34 @@ public class Shaders {
                     "   float curve = smoothstep(0.0, 1.0, 1.25 - distance(tgt.rgb, u_search.rgb) * 2.0);\n" +
                     "   gl_FragColor = vec4(mix(tgt.rgb, u_replace.rgb, curve), tgt.a) * v_color;\n" +
                     "}";
+    /**
+     * A drop-in replacement for the default fragment shader that eliminates lightness differences in the output colors.
+     * Specifically, it does the normal SpriteBatch shader's step with the multiplicative batch color, converts to IPT,
+     * sets intensity to 0.5, shrinks the P and T components so the color is less saturated, and then converts back to
+     * an RGBA color. Editing this shader is strongly encouraged to fit your needs!
+     */
+    public static String fragmentShaderFlatLightness =
+  "#ifdef GL_ES\n" +
+  "#define LOWP lowp\n" +
+  "precision mediump float;\n" +
+  "#else\n" +
+  "#define LOWP \n" +
+  "#endif\n" +
+  "#define TARGET_LIGHTNESS 0.5 \n" +
+  "#define SATURATION_CHANGE 1.0 \n" +
+  "varying vec2 v_texCoords;\n" +
+  "varying LOWP vec4 v_color;\n" +
+  "uniform sampler2D u_texture;\n" +
+  "void main()\n" +
+  "{\n" +
+  "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+  "    vec3 ipt = (mat3(0.189786, 0.669665 , 0.286498, 0.576951, -0.73741 , 0.655205, 0.233221, 0.0681367, -0.941748)\n" +
+  "         * (tgt.rgb * v_color.rgb));\n" +
+  "    ipt.x = TARGET_LIGHTNESS;\n" + // change to desired lightness or pass in a lightness as a uniform
+//  "    ipt.x = (ipt.x - 0.5) * 0.125 + TARGET_LIGHTNESS;\n" + // an optional other way that preserves a tiny bit of original lightness
+  "    ipt.yz *= SATURATION_CHANGE;\n" + // reduces saturation to 2/3 of its initial value; may be > 1.0 to increase saturation
+  "    vec3 back = clamp(mat3(0.999779, 1.00015, 0.999769, 1.07094, -0.377744, 0.0629496, 0.324891, 0.220439, -0.809638) * ipt, 0.0, 1.0);\n" +
+  "    gl_FragColor = vec4(back, v_color.a * tgt.a);\n" +
+  "}";
 
 }
