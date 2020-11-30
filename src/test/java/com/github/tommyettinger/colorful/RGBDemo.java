@@ -83,7 +83,7 @@ public class RGBDemo extends ApplicationAdapter {
         batch = new SpriteBatch(1000, Shaders.makeRGBAShader());
         defaultShader = SpriteBatch.createDefaultShader();
         shader = batch.getShader();
-        altShader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderGammaRGBA);
+        altShader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderFlatLightness);
         if(!altShader.isCompiled())
             throw new GdxRuntimeException("Couldn't compile shader: " + altShader.getLog());
         shaderChoice = shader;
