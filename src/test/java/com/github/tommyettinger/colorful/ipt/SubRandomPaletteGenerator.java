@@ -18,7 +18,7 @@ public class SubRandomPaletteGenerator {
         rgba.add(0xFAF7F0FF);
         int idx = 1;
         while (rgba.size < 64) {
-            float color = gaussianColor(idx++, 0.6 * (1.0 - rgba.size * rgba.size * rgba.size * 0x1p-19));
+            float color = gaussianColor(idx++, 0.5 * (1.0 - rgba.size * rgba.size * rgba.size * 0x1p-19));
             if(ColorTools.inGamut(color))
             {
                 rgba.add(ColorTools.toRGBA8888(color));
@@ -97,7 +97,7 @@ public class SubRandomPaletteGenerator {
             n /= 5;
             denominator *= 5.0;
         }
-        return ColorTools.ipt((float) resX,
+        return ColorTools.ipt((float) (PNG8.probit(resX) * 2.0 % 0.5 + 0.5),
                 (float) (PNG8.probit(resY) % sat + 0.5),
                 (float) (PNG8.probit(resZ) % sat + 0.5), 1f);
     }
