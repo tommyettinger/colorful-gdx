@@ -6,7 +6,8 @@ import com.github.tommyettinger.colorful.internal.StringKit;
 
 public class SubRandomPaletteGenerator {
     public static void main(String[] args) {
-        IntArray rgba = new IntArray(64);
+        final int limit = 64;
+        IntArray rgba = new IntArray(limit);
         rgba.add(0);
         rgba.add(0x0B080FFF);
         rgba.add(0x353336FF);
@@ -16,17 +17,19 @@ public class SubRandomPaletteGenerator {
         rgba.add(0xC8C8C8FF);
         rgba.add(0xE0E0E0FF);
         rgba.add(0xFAF7F0FF);
-        int idx = 1;
-        while (rgba.size < 64) {
-            float color = gaussianColor(idx++, 0.5 * (1.0 - rgba.size * rgba.size * rgba.size * 0x1p-19));
-            if(ColorTools.inGamut(color))
-            {
-                rgba.add(ColorTools.toRGBA8888(color));
+        int idx = 1, initial = rgba.size;
+        while (rgba.size < limit) {
+            for (int i = initial; i < 32 && rgba.size < limit; i++) {
+                float color = gaussianColor(idx++, 0.5 * (1.0 - i * i * i * 0x1p-16));
+                if (ColorTools.inGamut(color)) {
+                    rgba.add(ColorTools.toRGBA8888(color));
+                }
             }
         }
-        StringBuilder sb = new StringBuilder(12 * 64 + 2).append('{');
-        for (int i = 0; i < 64; i++) {
+        StringBuilder sb = new StringBuilder(12 * rgba.size + 34).append('{');
+        for (int i = 0; i < rgba.size; i++) {
             StringKit.appendHex(sb.append("0x"), rgba.get(i)).append(", ");
+            if(7 == (i & 7)) sb.append('\n');
         }
         System.out.println(sb.append('}'));
     }
@@ -97,7 +100,7 @@ public class SubRandomPaletteGenerator {
             n /= 5;
             denominator *= 5.0;
         }
-        return ColorTools.ipt((float) (PNG8.probit(resX) * 2.0 % 0.5 + 0.5),
+        return ColorTools.ipt((float) Math.pow(PNG8.probit(resX) % 0.5 + 0.5, 1.25),
                 (float) (PNG8.probit(resY) % sat + 0.5),
                 (float) (PNG8.probit(resZ) % sat + 0.5), 1f);
     }
