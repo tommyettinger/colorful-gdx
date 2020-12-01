@@ -800,6 +800,9 @@ public class Shaders {
      * Specifically, it does the normal SpriteBatch shader's step with the multiplicative batch color, converts to IPT,
      * sets intensity to 0.5, shrinks the P and T components so the color is less saturated, and then converts back to
      * an RGBA color. Editing this shader is strongly encouraged to fit your needs!
+     * <br>
+     * This uses {@link #vertexShader}, as usual.
+     * @see #fragmentShaderConfigurableContrast a per-sprite-configurable version of this
      */
     public static String fragmentShaderFlatLightness =
   "#ifdef GL_ES\n" +
@@ -819,10 +822,44 @@ public class Shaders {
   "    vec3 ipt = (mat3(0.189786, 0.669665 , 0.286498, 0.576951, -0.73741 , 0.655205, 0.233221, 0.0681367, -0.941748)\n" +
   "         * (tgt.rgb * v_color.rgb));\n" +
   "    ipt.x = TARGET_LIGHTNESS;\n" + // change to desired lightness or pass in a lightness as a uniform
-//  "    ipt.x = (ipt.x - 0.5) * 0.125 + TARGET_LIGHTNESS;\n" + // an optional other way that preserves a tiny bit of original lightness
-  "    ipt.yz *= SATURATION_CHANGE;\n" + // reduces saturation to 2/3 of its initial value; may be > 1.0 to increase saturation
+  "//    ipt.x = (ipt.x - 0.5) * 0.25 + TARGET_LIGHTNESS;\n" + // an alternative way that preserves a tiny bit of original lightness
+  "    ipt.yz *= SATURATION_CHANGE;\n" + // multiplies saturation by SATURATION_CHANGE, which may be more or less than 1.0
   "    vec3 back = clamp(mat3(0.999779, 1.00015, 0.999769, 1.07094, -0.377744, 0.0629496, 0.324891, 0.220439, -0.809638) * ipt, 0.0, 1.0);\n" +
   "    gl_FragColor = vec4(back, v_color.a * tgt.a);\n" +
   "}";
+    /**
+     * A specialized shader that can reduce lightness differences in the output colors, saturate/desaturate them, and
+     * can be configured to use some of the existing lightness in the image to add to a main flat lightness.
+     * Specifically, it takes the fragment color (typically a pixel in a texture), converts to IPT, does a calculation
+     * involving the intensity of the fragment color where the batch color's blue channel affects how much that
+     * intensity is used, adds the red channel of the batch color, multiplies the P and T components by the green
+     * channel times 2.0 to saturate or desaturate, and then converts back to an RGBA color. The neutral value for this
+     * is the RGBA color 0.5, 0.5, 1.0, 1.0 . A typical usage to achieve a fog effect would be to raise lightness (r),
+     * slightly reduce saturation (g), sharply flatten the original texture's lightness (b), and leave alpha alone (a):
+     * 0.7, 0.4, 0.2, 1.0 .
+     * <br>
+     * This uses {@link #vertexShader}, as usual.
+     * @see #fragmentShaderFlatLightness if you only need one contrast setting and still want to set color tints
+     */
+    public static String fragmentShaderConfigurableContrast =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "    vec3 ipt = (mat3(0.189786, 0.669665 , 0.286498, 0.576951, -0.73741 , 0.655205, 0.233221, 0.0681367, -0.941748)\n" +
+                    "         * tgt.rgb);\n" +
+                    "    ipt.x = (ipt.x - 0.5) * v_color.b + v_color.r;\n" + // preserves some lightness based on b, sets main lightness with r
+                    "    ipt.yz *= v_color.g * 2.0;\n" + // the green channel affects saturation; if it's 0.5 it won't change saturation.
+                    "    vec3 back = clamp(mat3(0.999779, 1.00015, 0.999769, 1.07094, -0.377744, 0.0629496, 0.324891, 0.220439, -0.809638) * ipt, 0.0, 1.0);\n" +
+                    "    gl_FragColor = vec4(back, v_color.a * tgt.a);\n" +
+                    "}";
 
 }
