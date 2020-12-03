@@ -417,29 +417,37 @@ public class ColorTools {
 
 	/**
 	 * Given a packed float RGBA color {@code mainColor} and another RGBA color that it should be made to contrast with,
-	 * gets a packed float IPT color with roughly inverted intnsity but the same chromatic channels and opacity (P and T
-	 * are likely to be clamped if the result gets close to white or black). This won't ever produce black or other very
-	 * dark colors, and also has a gap in the range it produces for intensity values between 0.5 and 0.55. That allows
-	 * most of the colors this method produces to contrast well as a foreground when displayed on a background of
-	 * {@code contrastingColor}, or vice versa. This will leave the intensity unchanged if the chromatic channels of the
-	 * contrastingColor and those of the mainColor are already very different. This has nothing to do with the contrast
-	 * channel of the tweak in ColorfulBatch; where that part of the tweak can make too-similar lightness values further
-	 * apart by just a little, this makes a modification on {@code mainColor} to maximize its lightness difference from
-	 * {@code contrastingColor} without losing its other qualities.
+	 * gets a packed float RGBA color with roughly inverted "intensity" (essentially lightness, but how the IPT color
+	 * space interprets it) but the same general hue and saturation unless the intensity/lightness gets too close to
+	 * white or black. This won't ever produce black or other very dark colors, and also has a gap in the range it
+	 * produces for intensity values between 0.5 and 0.55. That allows most of the colors this method produces to
+	 * contrast well as a foreground when displayed on a background of {@code contrastingColor}, or vice versa. This
+	 * will leave the intensity unchanged if the hue/saturation of the contrastingColor and those of the mainColor are
+	 * already very different. This has nothing to do with the contrast channel of the tweak in ColorfulBatch; where
+	 * that part of the tweak can make too-similar lightness values further apart by just a little, this makes a
+	 * modification on {@code mainColor} to maximize its lightness difference from {@code contrastingColor} without
+	 * losing its other qualities.
 	 * @param mainColor a packed float color, as produced by {@link #rgb(float, float, float, float)}; this is the color that will be adjusted
 	 * @param contrastingColor a packed float color, as produced by {@link #rgb(float, float, float, float)}; the adjusted mainColor will contrast with this
-	 * @return a different IPT packed float color, based on mainColor but with potentially very different lightness
+	 * @return a different RGBA packed float color, based on mainColor but with potentially very different lightness
 	 */
 	public static float inverseIntensity(final float mainColor, final float contrastingColor)
 	{
 		final int bits = NumberUtils.floatToRawIntBits(mainColor),
 				contrastBits = NumberUtils.floatToRawIntBits(contrastingColor),
-				i = (bits & 0xff),
-				p = (bits >>> 8 & 0xff),
-				t = (bits >>> 16 & 0xff),
-				ci = (contrastBits & 0xff),
-				cp = (contrastBits >>> 8 & 0xff),
-				ct = (contrastBits >>> 16 & 0xff);
+				r = (bits & 0xff),
+				g = (bits >>> 8 & 0xff),
+				b = (bits >>> 16 & 0xff),
+				cr = (contrastBits & 0xff),
+				cg = (contrastBits >>> 8 & 0xff),
+				cb = (contrastBits >>> 16 & 0xff),
+				i = MathUtils.clamp((int) ((0.189786f * r + 0.576951f * g + 0.233221f * b) * 255.999f), 0, 255),
+				p = MathUtils.clamp((int) ((0.669665f * r - 0.73741f * g + 0.0681367f * b) * 127.5f + 127.5f), 0, 255),
+				t = MathUtils.clamp((int) ((0.286498f * r + 0.655205f * g - 0.941748f * b) * 127.5f + 127.5f), 0, 255),
+				ci = MathUtils.clamp((int) ((0.189786f * cr + 0.576951f * cg + 0.233221f * cb) * 255.999f), 0, 255),
+				cp = MathUtils.clamp((int) ((0.669665f * cr - 0.73741f * cg + 0.0681367f * cb) * 127.5f + 127.5f), 0, 255),
+				ct = MathUtils.clamp((int) ((0.286498f * cr + 0.655205f * cg - 0.941748f * cb) * 127.5f + 127.5f), 0, 255);
+
 		if((p - cp) * (p - cp) + (t - ct) * (t - ct) >= 0x10000)
 			return mainColor;
 		return com.github.tommyettinger.colorful.ipt.ColorTools.toRGBA(
@@ -460,12 +468,13 @@ public class ColorTools {
 	 */
 	public static float lessenChange(final float color, float fraction) {
 		final int e = NumberUtils.floatToRawIntBits(color),
-				is = 0x80, ps = 0x80, ts = 0x80, as = 0xFE,
-				ie = (e & 0xFF), pe = (e >>> 8) & 0xFF, te = (e >>> 16) & 0xFF, ae = e >>> 24 & 0xFE;
-		return NumberUtils.intBitsToFloat(((int) (is + fraction * (ie - is)) & 0xFF)
-				| (((int) (ps + fraction * (pe - ps)) & 0xFF) << 8)
-				| (((int) (ts + fraction * (te - ts)) & 0xFF) << 16)
-				| (((int) (as + fraction * (ae - as)) & 0xFE) << 24));
+				rs = 0x80, gs = 0x80, bs = 0x80, as = 0xFE,
+				re = (e & 0xFF), ge = (e >>> 8) & 0xFF, be = (e >>> 16) & 0xFF, ae = e >>> 24 & 0xFE;
+		return NumberUtils.intBitsToFloat(
+				  ((int) (rs + fraction * (re - rs)) & 0xFF)
+				| ((int) (gs + fraction * (ge - gs)) & 0xFF) << 8
+				| ((int) (bs + fraction * (be - bs)) & 0xFF) << 16
+				| ((int) (as + fraction * (ae - as)) & 0xFE) << 24);
 	}
 
 	/**
@@ -473,10 +482,9 @@ public class ColorTools {
 	 * {@code variance} (such as 0.05 to 0.25) between the given color and what this can return. The {@code seed} should
 	 * be different each time this is called, and can be obtained from a random number generator to make the colors more
 	 * random, or can be incremented on each call. If the seed is only incremented or decremented, then this shouldn't
-	 * produce two similar colors in a row unless variance is very small. The variance affects the I, P, and T of the
-	 * generated color, and each of those channels can go up or down by the given variance as long as the total distance
-	 * isn't greater than the variance (this considers P and T extra-wide, going from -1 to 1, while I goes from 0 to 1,
-	 * but only internally for measuring distance).
+	 * produce two similar colors in a row unless variance is very small. The variance affects the R, G, and B of the
+	 * generated color equally, and each of those channels can go up or down by the given variance as long as the total
+	 * distance isn't greater than the variance.
 	 * @param color a packed float color, as produced by {@link #rgb(float, float, float, float)}
 	 * @param seed a long seed that should be different on each call; should not be 0
 	 * @param variance max amount of difference between the given color and the generated color; always less than 1
@@ -484,9 +492,9 @@ public class ColorTools {
 	 */
 	public static float randomEdit(final float color, long seed, final float variance) {
 		final int decoded = NumberUtils.floatToRawIntBits(color);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float r = (decoded & 0xff) / 255f;
+		final float g = (decoded >>> 8 & 0xff) / 255f;
+		final float b = (decoded >>> 16 & 0xff) / 255f;
 		final float limit = variance * variance;
 		float dist, x, y, z;
 		for (int j = 0; j < 50; j++) {
@@ -495,9 +503,9 @@ public class ColorTools {
 			z = (((seed * 0x8CB92BA72F3D8DD7L >>> 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;
 			seed += 0x9E3779B97F4A7C15L;
 			dist = x * x + y * y + z * z;
-			x += i;
-			y = (p + y) * 0.5f + 0.5f;
-			z = (t + z) * 0.5f + 0.5f;
+			x += r;
+			y += g;
+			z += b;
 			if(dist <= limit)
 				return NumberUtils.intBitsToFloat((decoded & 0xFE000000) | ((int)(z * 255.999f) << 16 & 0xFF0000)
 					| ((int)(y * 255.999f) << 8 & 0xFF00) | (int)(x * 255.999f));
