@@ -33,14 +33,14 @@ public class ColorTools {
 	 * When warm and mild are both near 0.5f, the color is closer to gray.  Alpha is the multiplicative opacity of the
 	 * color, and acts like RGBA's alpha.
 	 * <br>
-	 * This method bit-masks the resulting color's byte values, so any values can technically be given to this as luma,
-	 * warm, and mild, but they will only be reversible from the returned float color to the original Y, Cw, and Cm
-	 * values if the original values were in the range that {@link #protan(float)}, {@link #tritan(float)}, and
-	 * {@link #intensity(float)} return.
+	 * This method bit-masks the resulting color's byte values, so any values can technically be given to this as
+	 * intensity, protan, and tritan, but they will only be reversible from the returned float color to the original I,
+	 * P, and T values if the original values were in the range that {@link #intensity(float)}, {@link #protan(float)},
+	 * and {@link #tritan(float)} return.
 	 *
-	 * @param intens       0f to 1f, intensity or I component of IPT, with 0.5f meaning "no change" and 1f brightening
-	 * @param protan       0f to 1f, protan or P component of IPT, with 1f more orange, red, or magenta
-	 * @param tritan       0f to 1f, tritan or T component of IPT, with 1f more green, yellow, or red
+	 * @param intens     0f to 1f, intensity or I component of IPT, with 0.5f meaning "no change" and 1f brightening
+	 * @param protan     0f to 1f, protan or P component of IPT, with 1f more orange, red, or magenta
+	 * @param tritan     0f to 1f, tritan or T component of IPT, with 1f more green, yellow, or red
 	 * @param alpha      0f to 1f, 0f makes the color transparent and 1f makes it opaque 
 	 * @return a float encoding a color with the given properties
 	 */
@@ -133,7 +133,7 @@ public class ColorTools {
 		final float b = (abgr >>> 16 & 0xFF) * 0x1.010101010101p-8f;
 
 		return NumberUtils.intBitsToFloat(
-				          MathUtils.clamp((int)((0.189786f * r + 0.576951f * g + 0.233221f * b) * 255.0f + 0.500f), 0, 255)
+				          MathUtils.clamp((int)((0.189786f * r + 0.576951f * g + 0.233221f * b) * 255.999f), 0, 255)
 						| MathUtils.clamp((int)((0.669665f * r - 0.73741f * g + 0.0681367f * b) * 127.5f + 127.5f), 0, 255) << 8
 						| MathUtils.clamp((int)((0.286498f * r + 0.655205f * g - 0.941748f * b) * 127.5f + 127.5f), 0, 255) << 16
 						| (abgr & 0xFE000000));
@@ -536,9 +536,9 @@ public class ColorTools {
 	 * Interpolates from the packed float color start towards a warmer color (orange to magenta) by change. While change
 	 * should be between 0f (return start as-is) and 1f (return fully warmed), start should be a packed color, as from
 	 * {@link #ipt(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
-	 * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
-	 * a warmer color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and luma of start
-	 * as-is.
+	 * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to
+	 * lerp towards a warmer color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the
+	 * alpha and intensity of start as-is.
 	 * @see #protanDown(float, float) the counterpart method that cools a float color
 	 * @param start the starting color as a packed float
 	 * @param change how much to warm start, as a float between 0 and 1; higher means a warmer result
@@ -553,9 +553,9 @@ public class ColorTools {
 	 * Interpolates from the packed float color start towards a cooler color (green to blue) by change. While change
 	 * should be between 0f (return start as-is) and 1f (return fully cooled), start should be a packed color, as from
 	 * {@link #ipt(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
-	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
-	 * a cooler color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and luma of start
-	 * as-is.
+	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
+	 * towards a cooler color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and
+	 * intensity of start as-is.
 	 * @see #protanUp(float, float) the counterpart method that warms a float color
 	 * @param start the starting color as a packed float
 	 * @param change how much to cool start, as a float between 0 and 1; higher means a cooler result
@@ -570,9 +570,9 @@ public class ColorTools {
 	 * Interpolates from the packed float color start towards a "natural" color (between green and orange) by change.
 	 * While change should be between 0f (return start as-is) and 1f (return fully natural), start should be a packed color, as
 	 * from {@link #ipt(float, float, float, float)}. This is a good way to reduce allocations of temporary
-	 * Colors, and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
-	 * towards a more natural color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and luma of
-	 * start as-is.
+	 * Colors, and is a little more efficient and clear than using
+	 * {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards a more natural color. Unlike
+	 * {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and intensity of start as-is.
 	 * @see #tritanDown(float, float) the counterpart method that makes a float color less natural
 	 * @param start the starting color as a packed float
 	 * @param change how much to change start to a natural color, as a float between 0 and 1; higher means a more natural result
@@ -589,7 +589,7 @@ public class ColorTools {
 	 * from {@link #ipt(float, float, float, float)}. This is a good way to reduce allocations of temporary
 	 * Colors, and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
 	 * towards a more artificial color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the
-	 * alpha and luma of start as-is.
+	 * alpha and intensity of start as-is.
 	 * @see #tritanUp(float, float) the counterpart method that makes a float color less artificial
 	 * @param start the starting color as a packed float
 	 * @param change how much to change start to a bolder color, as a float between 0 and 1; higher means a more artificial result
@@ -706,7 +706,7 @@ public class ColorTools {
 			x = (((seed * 0xD1B54A32D192ED03L >>> 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;
 			y = (((seed * 0xABC98388FB8FAC03L >>> 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;
 			z = (((seed * 0x8CB92BA72F3D8DD7L >>> 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;
-			++seed;
+			seed += 0x9E3779B97F4A7C15L;
 			dist = x * x + y * y + z * z;
 			if(dist <= limit && inGamut(x += i, y = (p + y) * 0.5f + 0.5f, z = (t + z) * 0.5f + 0.5f))
 				return NumberUtils.intBitsToFloat((decoded & 0xFE000000) | ((int)(z * 255.5f) << 16 & 0xFF0000)
