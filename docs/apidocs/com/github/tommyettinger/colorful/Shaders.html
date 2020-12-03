@@ -114,6 +114,21 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="row-color">
 <td class="col-first"><code>static java.lang.String</code></td>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#fragmentShaderConfigurableContrast">fragmentShaderConfigurableContrast</a></span></code></th>
+<td class="col-last">
+<div class="block">A specialized shader that can reduce lightness differences in the output colors, saturate/desaturate them, and
+ can be configured to use some of the existing lightness in the image to add to a main flat lightness.</div>
+</td>
+</tr>
+<tr class="alt-color">
+<td class="col-first"><code>static java.lang.String</code></td>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#fragmentShaderFlatLightness">fragmentShaderFlatLightness</a></span></code></th>
+<td class="col-last">
+<div class="block">A drop-in replacement for the default fragment shader that eliminates lightness differences in the output colors.</div>
+</td>
+</tr>
+<tr class="row-color">
+<td class="col-first"><code>static java.lang.String</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#fragmentShaderGammaRGBA">fragmentShaderGammaRGBA</a></span></code></th>
 <td class="col-last">
 <div class="block">A simple shader that uses multiplicative blending with "normal" RGBA colors, but internally uses gamma correction
@@ -667,6 +682,43 @@ extends java.lang.Object</pre>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd><a href="../../../../constant-values.html#com.github.tommyettinger.colorful.Shaders.fragmentShaderReplacement">Constant Field Values</a></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="fragmentShaderFlatLightness">
+<h3>fragmentShaderFlatLightness</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name">fragmentShaderFlatLightness</span></div>
+<div class="block">A drop-in replacement for the default fragment shader that eliminates lightness differences in the output colors.
+ Specifically, it does the normal SpriteBatch shader's step with the multiplicative batch color, converts to IPT,
+ sets intensity to 0.5, shrinks the P and T components so the color is less saturated, and then converts back to
+ an RGBA color. Editing this shader is strongly encouraged to fit your needs!
+ <br>
+ This uses <a href="#vertexShader"><code>vertexShader</code></a>, as usual.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd><a href="#fragmentShaderConfigurableContrast"><code>a per-sprite-configurable version of this</code></a></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="fragmentShaderConfigurableContrast">
+<h3>fragmentShaderConfigurableContrast</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name">fragmentShaderConfigurableContrast</span></div>
+<div class="block">A specialized shader that can reduce lightness differences in the output colors, saturate/desaturate them, and
+ can be configured to use some of the existing lightness in the image to add to a main flat lightness.
+ Specifically, it takes the fragment color (typically a pixel in a texture), converts to IPT, does a calculation
+ involving the intensity of the fragment color where the batch color's blue channel affects how much that
+ intensity is used, adds the red channel of the batch color, multiplies the P and T components by the green
+ channel times 2.0 to saturate or desaturate, and then converts back to an RGBA color. The neutral value for this
+ is the RGBA color 0.5, 0.5, 1.0, 1.0 . A typical usage to achieve a fog effect would be to raise lightness (r),
+ slightly reduce saturation (g), sharply flatten the original texture's lightness (b), and leave alpha alone (a):
+ 0.7, 0.4, 0.2, 1.0 .
+ <br>
+ This uses <a href="#vertexShader"><code>vertexShader</code></a>, as usual.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd><a href="#fragmentShaderFlatLightness"><code>if you only need one contrast setting and still want to set color tints</code></a></dd>
 </dl>
 </section>
 </li>
