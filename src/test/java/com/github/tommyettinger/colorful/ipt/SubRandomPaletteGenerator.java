@@ -6,7 +6,7 @@ import com.github.tommyettinger.colorful.internal.StringKit;
 
 public class SubRandomPaletteGenerator {
     public static void main(String[] args) {
-        final int limit = 64;
+        final int limit = 32;
         IntArray rgba = new IntArray(limit);
         rgba.add(0);
         rgba.add(0x0B080FFF);

@@ -666,7 +666,7 @@ public class ColorTools {
 			a = (((seed * 0xD1B54A32D192ED03L >>> 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;
 			b = (((seed * 0xABC98388FB8FAC03L >>> 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;
 			c = (((seed * 0x8CB92BA72F3D8DD7L >>> 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;
-			++seed;
+			seed += 0x9E3779B97F4A7C15L;
 			dist = a * a + b * b + c * c;
 		}
 		return NumberUtils.intBitsToFloat((decoded & 0xFE000000) | ((int)(MathUtils.clamp(cm + c, -1, 1) * 127.5f + 128f) << 16 & 0xFF0000)

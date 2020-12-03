@@ -31,7 +31,7 @@ public class FloatColors {
      * @return an RGBA-format packed float
      */
     public static float hsl2rgb(final float h, final float s, final float l, final float a){
-        float x = MathUtils.clamp(Math.abs(h * 6f - 3f) - 1f, 0f, 1f), y = h + 2f / 3f, z = h + 1f / 3f;
+        float x = MathUtils.clamp(Math.abs(h * 6f - 3f) - 1f, 0f, 1f), y = h + (2f / 3f), z = h + (1f / 3f);
         y -= (int)y;
         z -= (int)z;
         y = MathUtils.clamp(Math.abs(y * 6f - 3f) - 1f, 0f, 1f);
@@ -126,10 +126,10 @@ public class FloatColors {
     /**
      * Interpolates from the packed float color start towards end by change. Both start and end should be packed colors,
      * as from {@link ColorTools#ycwcm(float, float, float, float)} or
-     * {@link com.github.tommyettinger.colorful.ipt.ColorTools#ipt(float, float, float, float)}, and change can be between 0f
-     * (keep start) and 1f (only use end). Both start and end should use the same color space; that is, both could be
-     * produced using YCwCm, or both could be produced using IPT, but not a mix of the two. This is a good way to
-     * reduce allocations of temporary Colors.
+     * {@link com.github.tommyettinger.colorful.ipt.ColorTools#ipt(float, float, float, float)}, and change can be
+     * between 0f (keep start) and 1f (only use end). Both start and end should use the same color space; that is, both
+     * could be produced using YCwCm, both could be produced using IPT, or both could be libGDX-native RGB, but they
+     * can't mix. This is a good way to reduce allocations of temporary Colors.
      * @param start the starting color as a packed float
      * @param end the target color as a packed float
      * @param change how much to go from start toward end, as a float between 0 and 1; higher means closer to end
