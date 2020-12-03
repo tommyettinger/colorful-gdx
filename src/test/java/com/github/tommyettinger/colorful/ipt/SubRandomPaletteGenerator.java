@@ -3,10 +3,32 @@ package com.github.tommyettinger.colorful.ipt;
 import com.badlogic.gdx.utils.IntArray;
 import com.github.tommyettinger.anim8.PNG8;
 import com.github.tommyettinger.colorful.internal.StringKit;
+/* Example output:
 
+{0x00000000, 0x0B080FFF, 0x353336FF, 0x555555FF, 0x797577FF, 0xAAAAAAFF, 0xC8C8C8FF, 0xE0E0E0FF,
+0xFAF7F0FF, 0xA01948FF, 0x18CA91FF, 0x076C12FF, 0xD1B8E1FF, 0xC768D7FF, 0x8F6730FF, 0x44BF74FF,
+0x76450FFF, 0x4569B5FF, 0x1A0635FF, 0xC5706FFF, 0x007A43FF, 0x98C5B6FF, 0x9B39B2FF, 0x9CF1EFFF,
+0x48262FFF, 0xFAB8C0FF, 0x0A2815FF, 0x275ECCFF, 0x6A1E7DFF, 0x778E35FF, 0xBD3819FF, 0x9BE1DEFF,
+0x8C0F0AFF, 0xACB1A0FF, 0xA394C4FF, 0x68070CFF, 0x507394FF, 0x1B5264FF, 0xCB8C55FF, 0x8534B8FF,
+0xB6C6E4FF, 0x261286FF, 0x37D5E2FF, 0x0A3744FF, 0xE758CBFF, 0xBF3C6BFF, 0xA1A75EFF, 0x945B87FF,
+0xB9AA7FFF, 0x8F3D3FFF, 0xC0D4C2FF, 0x1D0372FF, 0xF277C4FF, 0x41C18CFF, 0xA7EFFCFF, 0xC52EC5FF,
+0x525124FF, 0xE46884FF, 0x0F1475FF, 0x6072D6FF, 0xCDBDC1FF, 0x25226CFF, 0xCBDBD1FF, 0x7A0C28FF,
+}
+
+EXPERIMENTAL:
+{0x00000000, 0x0B080FFF, 0x353336FF, 0x555555FF, 0x797577FF, 0xAAAAAAFF, 0xC8C8C8FF, 0xE0E0E0FF,
+0xFAF7F0FF, 0xE2B6EAFF, 0x8D9325FF, 0x3E86AFFF, 0xD405C7FF, 0x2BC98DFF, 0xB36713FF, 0x144367FF,
+0xBFA9E6FF, 0xE970CEFF, 0x518026FF, 0xD1E37FFF, 0xEAE7DAFF, 0x4A98C2FF, 0x304CBCFF, 0xED9277FF,
+0x48912FFF, 0x3E564AFF, 0x210CABFF, 0xEC4A5BFF, 0xE722C7FF, 0x0F547BFF, 0xE70610FF, 0x2582C9FF,
+0x00D44EFF, 0x6F232CFF, 0x15FF1FFF, 0xE114ADFF, 0xC0A800FF, 0xCEEB28FF, 0xBB9FC0FF, 0xD02BB2FF,
+0xF8FCB8FF, 0x2CE6DBFF, 0xBD704BFF, 0x1C5DC0FF, 0xA8B714FF, 0x66328DFF, 0x8A8FB5FF, 0xFDAE1DFF,
+0xDF696EFF, 0x709258FF, 0xAAEBB2FF, 0xA2F3E6FF, 0x30A4C8FF, 0x6A3280FF, 0xA19C3AFF, 0x7126C7FF,
+0x745D54FF, 0x89CE42FF, 0xD91AFCFF, 0x2F9CADFF, 0x7C2925FF, 0x91B556FF, 0x07FB0CFF, 0x4C28D0FF,
+}
+ */
 public class SubRandomPaletteGenerator {
     public static void main(String[] args) {
-        final int limit = 32;
+        final int limit = 64;
         IntArray rgba = new IntArray(limit);
         rgba.add(0);
         rgba.add(0x0B080FFF);
@@ -100,9 +122,10 @@ public class SubRandomPaletteGenerator {
             n /= 5;
             denominator *= 5.0;
         }
-        return ColorTools.ipt((float) Math.pow(PNG8.probit(resX) % 0.5 + 0.5, 1.25),
-                (float) (PNG8.probit(resY) % sat + 0.5),
-                (float) (PNG8.probit(resZ) % sat + 0.5), 1f);
+        return ColorTools.ipt(
+                (float) (PNG8.probit(resX) * 2.0 % 0.5 + 0.5),
+                (float) (PNG8.probit(resY) * sat + 0.5),
+                (float) (PNG8.probit(resZ) * sat + 0.5), 1f);
     }
 
 }
