@@ -54,6 +54,15 @@ public class ColorTools {
 		Color.rgba8888ToColor(editing, Integer.reverseBytes(NumberUtils.floatToRawIntBits(packed)));
 		return editing;
 	}
+	/**
+	 * Converts a packed float color in the format produced by {@link #rgb(float, float, float, float)} to an
+	 * RGBA8888 int. This format of int can be used with Pixmap and in some other places in libGDX.
+	 * @param packed a packed float color, as produced by {@link #rgb(float, float, float, float)}
+	 * @return an RGBA8888 int color
+	 */
+	public static int toRGBA8888(final float packed) {
+		return Integer.reverseBytes(NumberUtils.floatToIntColor(packed));
+	}
 
 	/**
 	 * Takes a color encoded as an RGBA8888 int and converts to a packed float in the RGB format this uses.
@@ -61,7 +70,7 @@ public class ColorTools {
 	 * @return a packed float as RGB, which this class can use
 	 */
 	public static float fromRGBA8888(final int rgba) {
-		return NumberUtils.intBitsToFloat(Integer.reverseBytes(rgba));
+		return NumberUtils.intBitsToFloat(Integer.reverseBytes(rgba) & 0xFEFFFFFF);
 	}
 
 	/**

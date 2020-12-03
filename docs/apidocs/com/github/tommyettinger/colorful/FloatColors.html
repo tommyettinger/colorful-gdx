@@ -348,10 +348,10 @@ float&nbsp;end,
 float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards end by change. Both start and end should be packed colors,
  as from <a href="ycwcm/ColorTools.html#ycwcm(float,float,float,float)"><code>ColorTools.ycwcm(float, float, float, float)</code></a> or
- <a href="ipt/ColorTools.html#ipt(float,float,float,float)"><code>ColorTools.ipt(float, float, float, float)</code></a>, and change can be between 0f
- (keep start) and 1f (only use end). Both start and end should use the same color space; that is, both could be
- produced using YCwCm, or both could be produced using IPT, but not a mix of the two. This is a good way to
- reduce allocations of temporary Colors.</div>
+ <a href="ipt/ColorTools.html#ipt(float,float,float,float)"><code>ColorTools.ipt(float, float, float, float)</code></a>, and change can be
+ between 0f (keep start) and 1f (only use end). Both start and end should use the same color space; that is, both
+ could be produced using YCwCm, both could be produced using IPT, or both could be libGDX-native RGB, but they
+ can't mix. This is a good way to reduce allocations of temporary Colors.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>start</code> - the starting color as a packed float</dd>
