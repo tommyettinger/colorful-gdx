@@ -2,6 +2,7 @@ package com.github.tommyettinger.colorful.ycwcm;
 
 import com.badlogic.gdx.utils.IntArray;
 import com.github.tommyettinger.anim8.PNG8;
+import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.colorful.internal.StringKit;
 /* Example output (256 colors):
 {0x00000000, 0x0B080FFF, 0x353336FF, 0x555555FF, 0x797577FF, 0xAAAAAAFF, 0xC8C8C8FF, 0xE0E0E0FF,
@@ -135,7 +136,8 @@ public class SubRandomPaletteGenerator {
             denominator *= 5.0;
         }
         return ColorTools.ycwcm(
-                (float) (PNG8.probit(resX) * 2.0 % 0.5 + 0.5),
+                PaletteReducer.barronSpline((float) resX, 1.25f, 0.5f),//(PNG8.probit(resX) * 5.0 % 0.5 + 0.5),
+//                (float) (PNG8.probit(resX) * 2.0 % 0.5 + 0.5),
                 (float) (PNG8.probit(resY) % sat + 0.5),
                 (float) (PNG8.probit(resZ) % sat + 0.5), 1f);
     }
