@@ -146,10 +146,11 @@ public class ColorfulBatch implements Batch {
                 + "void main()\n"
                 + "{\n"
                 + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+                + "   v_color.rgb -= 0.5;\n"
                 + "   v_color.a = v_color.a * (255.0/254.0);\n"
                 + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
-                + "   v_tweak.a = pow(v_tweak.a * (255.0/254.0) + 0.5, 1.709);\n"
-                + "   v_lightFix = 1.0 + pow(v_tweak.a, 1.41421356);\n"
+                + "   v_tweak.a = pow(v_tweak.a * (255.0/254.0), 3.0);\n"
+                + "   v_lightFix = 2.0 * (1.0 + pow(v_tweak.a, 1.41421356));\n"
                 + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
                 + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
                 + "}\n";
@@ -169,7 +170,7 @@ public class ColorfulBatch implements Batch {
                         "{\n" +
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                         "  float ti = pow(dot(vec3(0.189786, 0.576951, 0.233221), tgt.rgb), v_tweak.a) * v_lightFix;\n" +
-                        "  tgt.rgb = (tgt.rgb * v_tweak.rgb * ti + v_color.rgb - 0.5) * 2.0;\n" +
+                        "  tgt.rgb = (tgt.rgb * v_tweak.rgb + v_color.rgb) * ti;\n" +
                         "  tgt.a *= v_color.a;\n" +
                         "  gl_FragColor = clamp(tgt, 0.0, 1.0);\n" +
                         "}";
