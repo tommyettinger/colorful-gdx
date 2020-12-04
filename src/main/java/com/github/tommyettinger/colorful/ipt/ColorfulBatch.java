@@ -133,25 +133,25 @@ public class ColorfulBatch implements Batch {
 
     /** Returns a new instance of the default shader used by ColorfulBatch for GL2 when no shader is specified. */
     public static ShaderProgram createDefaultShader () {
-        String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
-                + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" //
-                + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" //
-                + "attribute vec4 " + TWEAK_ATTRIBUTE + ";\n" //
-                + "uniform mat4 u_projTrans;\n" //
-                + "varying vec4 v_color;\n" //
-                + "varying vec4 v_tweak;\n" //
-                + "varying vec2 v_texCoords;\n" //
-                + "varying float v_lightFix;\n" //
-                + "\n" //
-                + "void main()\n" //
-                + "{\n" //
-                + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" //
-                + "   v_color.a = v_color.a * (255.0/254.0);\n" //
-                + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n" //
-                + "   v_tweak.a = pow(v_tweak.a * (255.0/254.0) + 0.5, 1.709);\n" //
-                + "   v_lightFix = 1.0 + pow(v_tweak.a, 1.41421356);\n" //
-                + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" //
-                + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
+        String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+                + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+                + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+                + "attribute vec4 " + TWEAK_ATTRIBUTE + ";\n"
+                + "uniform mat4 u_projTrans;\n"
+                + "varying vec4 v_color;\n"
+                + "varying vec4 v_tweak;\n"
+                + "varying vec2 v_texCoords;\n"
+                + "varying float v_lightFix;\n"
+                + "\n"
+                + "void main()\n"
+                + "{\n"
+                + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+                + "   v_color.a = v_color.a * (255.0/254.0);\n"
+                + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
+                + "   v_tweak.a = pow(v_tweak.a * (255.0/254.0) + 0.5, 1.709);\n"
+                + "   v_lightFix = 1.0 + pow(v_tweak.a, 1.41421356);\n"
+                + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+                + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
                 + "}\n";
         String fragmentShader =
                 "#ifdef GL_ES\n" +
