@@ -842,6 +842,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Holds the geometry, color, and texture information for drawing 2D sprites using <a href="com/github/tommyettinger/colorful/ipt/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.ipt"><code>ColorfulBatch</code></a>.</div>
 </dd>
+<dt><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb"><span class="type-name-link">ColorfulSprite</span></a> - Class in <a href="com/github/tommyettinger/colorful/rgb/package-summary.html">com.github.tommyettinger.colorful.rgb</a></dt>
+<dd>
+<div class="block">Holds the geometry, color, and texture information for drawing 2D sprites using <a href="com/github/tommyettinger/colorful/rgb/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.rgb"><code>ColorfulBatch</code></a>.</div>
+</dd>
 <dt><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm"><span class="type-name-link">ColorfulSprite</span></a> - Class in <a href="com/github/tommyettinger/colorful/ycwcm/package-summary.html">com.github.tommyettinger.colorful.ycwcm</a></dt>
 <dd>
 <div class="block">Holds the geometry, color, and texture information for drawing 2D sprites using <a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.ycwcm"><code>ColorfulBatch</code></a>.</div>
@@ -850,11 +854,20 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates an uninitialized sprite.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#%3Cinit%3E()">ColorfulSprite()</a></span> - Constructor for class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Creates an uninitialized sprite.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#%3Cinit%3E()">ColorfulSprite()</a></span> - Constructor for class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Creates an uninitialized sprite.</div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#%3Cinit%3E(com.badlogic.gdx.graphics.g2d.TextureRegion)">ColorfulSprite(TextureRegion)</a></span> - Constructor for class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Creates a sprite based on a specific TextureRegion, the new sprite's region is a copy of the parameter region - altering one
+ does not affect the other</div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#%3Cinit%3E(com.badlogic.gdx.graphics.g2d.TextureRegion)">ColorfulSprite(TextureRegion)</a></span> - Constructor for class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Creates a sprite based on a specific TextureRegion, the new sprite's region is a copy of the parameter region - altering one
  does not affect the other</div>
@@ -869,12 +882,21 @@ loadScripts(document, 'script');</script>
 <div class="block">Creates a sprite with width, height, and texture region equal to the specified size, relative to specified sprite's texture
  region.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#%3Cinit%3E(com.badlogic.gdx.graphics.g2d.TextureRegion,int,int,int,int)">ColorfulSprite(TextureRegion, int, int, int, int)</a></span> - Constructor for class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Creates a sprite with width, height, and texture region equal to the specified size, relative to specified sprite's texture
+ region.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#%3Cinit%3E(com.badlogic.gdx.graphics.g2d.TextureRegion,int,int,int,int)">ColorfulSprite(TextureRegion, int, int, int, int)</a></span> - Constructor for class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Creates a sprite with width, height, and texture region equal to the specified size, relative to specified sprite's texture
  region.</div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#%3Cinit%3E(com.badlogic.gdx.graphics.Texture)">ColorfulSprite(Texture)</a></span> - Constructor for class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Creates a sprite with width, height, and texture region equal to the size of the texture.</div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#%3Cinit%3E(com.badlogic.gdx.graphics.Texture)">ColorfulSprite(Texture)</a></span> - Constructor for class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Creates a sprite with width, height, and texture region equal to the size of the texture.</div>
 </dd>
@@ -886,6 +908,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a sprite with width, height, and texture region equal to the specified size.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#%3Cinit%3E(com.badlogic.gdx.graphics.Texture,int,int)">ColorfulSprite(Texture, int, int)</a></span> - Constructor for class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Creates a sprite with width, height, and texture region equal to the specified size.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#%3Cinit%3E(com.badlogic.gdx.graphics.Texture,int,int)">ColorfulSprite(Texture, int, int)</a></span> - Constructor for class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Creates a sprite with width, height, and texture region equal to the specified size.</div>
@@ -894,11 +920,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a sprite with width, height, and texture region equal to the specified size.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#%3Cinit%3E(com.badlogic.gdx.graphics.Texture,int,int,int,int)">ColorfulSprite(Texture, int, int, int, int)</a></span> - Constructor for class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Creates a sprite with width, height, and texture region equal to the specified size.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#%3Cinit%3E(com.badlogic.gdx.graphics.Texture,int,int,int,int)">ColorfulSprite(Texture, int, int, int, int)</a></span> - Constructor for class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Creates a sprite with width, height, and texture region equal to the specified size.</div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#%3Cinit%3E(com.github.tommyettinger.colorful.ipt.ColorfulSprite)">ColorfulSprite(ColorfulSprite)</a></span> - Constructor for class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Creates a colorfulSprite that is a copy in every way of the specified colorfulSprite.</div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#%3Cinit%3E(com.github.tommyettinger.colorful.rgb.ColorfulSprite)">ColorfulSprite(ColorfulSprite)</a></span> - Constructor for class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Creates a colorfulSprite that is a copy in every way of the specified colorfulSprite.</div>
 </dd>
@@ -1307,6 +1341,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#draw(com.github.tommyettinger.colorful.ipt.ColorfulBatch,float)">draw(ColorfulBatch, float)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#draw(com.github.tommyettinger.colorful.rgb.ColorfulBatch)">draw(ColorfulBatch)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#draw(com.github.tommyettinger.colorful.rgb.ColorfulBatch,float)">draw(ColorfulBatch, float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#draw(com.github.tommyettinger.colorful.ycwcm.ColorfulBatch)">draw(ColorfulBatch)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#draw(com.github.tommyettinger.colorful.ycwcm.ColorfulBatch,float)">draw(ColorfulBatch, float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
@@ -1663,6 +1701,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">boolean parameters x,y are not setting a state, but performing a flip</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#flip(boolean,boolean)">flip(boolean, boolean)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">boolean parameters x,y are not setting a state, but performing a flip</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#flip(boolean,boolean)">flip(boolean, boolean)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">boolean parameters x,y are not setting a state, but performing a flip</div>
@@ -1906,6 +1948,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the bounding axis aligned <code>Rectangle</code> that bounds this sprite.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#getBoundingRectangle()">getBoundingRectangle()</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Returns the bounding axis aligned <code>Rectangle</code> that bounds this sprite.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#getBoundingRectangle()">getBoundingRectangle()</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Returns the bounding axis aligned <code>Rectangle</code> that bounds this sprite.</div>
@@ -1918,6 +1964,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulBatch.html#getColor()">getColor()</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulBatch</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#getColor()">getColor()</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Returns the color of this sprite.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html#getColor()">getColor()</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulBatch</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#getColor()">getColor()</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
@@ -1928,11 +1978,17 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the multiplicative color tweaks used by this sprite, as a packed float with the same format as a color.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#getColorTweak()">getColorTweak()</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Returns the multiplicative color tweaks used by this sprite, as a packed float with the same format as a color.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#getColorTweak()">getColorTweak()</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Returns the multiplicative color tweaks used by this sprite, as a packed float with the same format as a color.</div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#getHeight()">getHeight()</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#getHeight()">getHeight()</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#getHeight()">getHeight()</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
@@ -1940,6 +1996,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">The origin influences <a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setPosition(float,float)"><code>ColorfulSprite.setPosition(float, float)</code></a>, <a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setRotation(float)"><code>ColorfulSprite.setRotation(float)</code></a> and the expansion direction of scaling
  <a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setScale(float,float)"><code>ColorfulSprite.setScale(float, float)</code></a></div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#getOriginX()">getOriginX()</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">The origin influences <a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setPosition(float,float)"><code>ColorfulSprite.setPosition(float, float)</code></a>, <a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setRotation(float)"><code>ColorfulSprite.setRotation(float)</code></a> and the expansion direction of scaling
+ <a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setScale(float,float)"><code>ColorfulSprite.setScale(float, float)</code></a></div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#getOriginX()">getOriginX()</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
@@ -1950,6 +2011,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">The origin influences <a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setPosition(float,float)"><code>ColorfulSprite.setPosition(float, float)</code></a>, <a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setRotation(float)"><code>ColorfulSprite.setRotation(float)</code></a> and the expansion direction of scaling
  <a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setScale(float,float)"><code>ColorfulSprite.setScale(float, float)</code></a></div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#getOriginY()">getOriginY()</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">The origin influences <a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setPosition(float,float)"><code>ColorfulSprite.setPosition(float, float)</code></a>, <a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setRotation(float)"><code>ColorfulSprite.setRotation(float)</code></a> and the expansion direction of scaling
+ <a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setScale(float,float)"><code>ColorfulSprite.setScale(float, float)</code></a></div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#getOriginY()">getOriginY()</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
@@ -1970,11 +2036,17 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#getRotation()">getRotation()</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#getRotation()">getRotation()</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#getRotation()">getRotation()</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#getScaleX()">getScaleX()</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
 <dd>
 <div class="block">X scale of the sprite, independent of size set by <a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setSize(float,float)"><code>ColorfulSprite.setSize(float, float)</code></a></div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#getScaleX()">getScaleX()</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">X scale of the sprite, independent of size set by <a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setSize(float,float)"><code>ColorfulSprite.setSize(float, float)</code></a></div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#getScaleX()">getScaleX()</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
@@ -1983,6 +2055,10 @@ loadScripts(document, 'script');</script>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#getScaleY()">getScaleY()</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Y scale of the sprite, independent of size set by <a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setSize(float,float)"><code>ColorfulSprite.setSize(float, float)</code></a></div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#getScaleY()">getScaleY()</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Y scale of the sprite, independent of size set by <a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setSize(float,float)"><code>ColorfulSprite.setSize(float, float)</code></a></div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#getScaleY()">getScaleY()</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
@@ -2010,19 +2086,29 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the packed vertices, colors, and texture coordinates for this sprite.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#getVertices()">getVertices()</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Returns the packed vertices, colors, and texture coordinates for this sprite.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#getVertices()">getVertices()</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Returns the packed vertices, colors, and texture coordinates for this sprite.</div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#getWidth()">getWidth()</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#getWidth()">getWidth()</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#getWidth()">getWidth()</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#getX()">getX()</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#getX()">getX()</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#getX()">getX()</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#getY()">getY()</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#getY()">getY()</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#getY()">getY()</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
@@ -3648,11 +3734,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the sprite's rotation in degrees relative to the current rotation.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#rotate(float)">rotate(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the sprite's rotation in degrees relative to the current rotation.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#rotate(float)">rotate(float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the sprite's rotation in degrees relative to the current rotation.</div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#rotate90(boolean)">rotate90(boolean)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Rotates this sprite 90 degrees in-place by rotating the texture coordinates.</div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#rotate90(boolean)">rotate90(boolean)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Rotates this sprite 90 degrees in-place by rotating the texture coordinates.</div>
 </dd>
@@ -3751,6 +3845,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the sprite's scale relative to the current scale.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#scale(float)">scale(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the sprite's scale relative to the current scale.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#scale(float)">scale(float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the sprite's scale relative to the current scale.</div>
@@ -3768,6 +3866,8 @@ loadScripts(document, 'script');</script>
 <div class="block">This color constant "Scribe Ink" has RGBA8888 code <code>280A1EFF</code>, luma 0.09019608, warmth 0.5176471, mildness 0.45882356, alpha 1.0, hue 0.88505745, and saturation 0.59183675.</div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#scroll(float,float)">scroll(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#scroll(float,float)">scroll(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#scroll(float,float)">scroll(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
@@ -3811,11 +3911,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Make this colorfulSprite a copy in every way of the specified colorfulSprite</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#set(com.github.tommyettinger.colorful.rgb.ColorfulSprite)">set(ColorfulSprite)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Make this colorfulSprite a copy in every way of the specified colorfulSprite</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#set(com.github.tommyettinger.colorful.ycwcm.ColorfulSprite)">set(ColorfulSprite)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Make this colorfulSprite a copy in every way of the specified colorfulSprite</div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setAlpha(float)">setAlpha(float)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the alpha portion of the color used to tint this sprite.</div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setAlpha(float)">setAlpha(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the alpha portion of the color used to tint this sprite.</div>
 </dd>
@@ -3845,11 +3953,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the position and size of the sprite when drawn, before scaling and rotation are applied.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setBounds(float,float,float,float)">setBounds(float, float, float, float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the position and size of the sprite when drawn, before scaling and rotation are applied.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#setBounds(float,float,float,float)">setBounds(float, float, float, float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the position and size of the sprite when drawn, before scaling and rotation are applied.</div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setCenter(float,float)">setCenter(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the position so that the sprite is centered on (x, y).</div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setCenter(float,float)">setCenter(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the position so that the sprite is centered on (x, y).</div>
 </dd>
@@ -3861,11 +3977,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the x position so that it is centered on the given x parameter.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setCenterX(float)">setCenterX(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the x position so that it is centered on the given x parameter.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#setCenterX(float)">setCenterX(float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the x position so that it is centered on the given x parameter.</div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setCenterY(float)">setCenterY(float)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the y position so that it is centered on the given y parameter.</div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setCenterY(float)">setCenterY(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the y position so that it is centered on the given y parameter.</div>
 </dd>
@@ -3881,6 +4005,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulBatch.html#setColor(float)">setColor(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulBatch</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setColor(float)">setColor(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the color used to tint this sprite.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html#setColor(float)">setColor(float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulBatch</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#setColor(float)">setColor(float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
@@ -3897,6 +4025,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the color to the result of <a href="com/github/tommyettinger/colorful/rgb/ColorTools.html#rgb(float,float,float,float)"><code>ColorTools.rgb(float, float, float, float)</code></a> on the same arguments.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setColor(float,float,float,float)">setColor(float, float, float, float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html#setColor(float,float,float,float)">setColor(float, float, float, float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulBatch</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#setColor(float,float,float,float)">setColor(float, float, float, float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
@@ -3910,6 +4040,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulBatch.html#setColor(com.badlogic.gdx.graphics.Color)">setColor(Color)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulBatch</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setColor(com.badlogic.gdx.graphics.Color)">setColor(Color)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the additive color of the sprite using the given RGBA Color.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html#setColor(com.badlogic.gdx.graphics.Color)">setColor(Color)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulBatch</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#setColor(com.badlogic.gdx.graphics.Color)">setColor(Color)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
@@ -3918,6 +4052,10 @@ loadScripts(document, 'script');</script>
  the sprite using that.</div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setFlip(boolean,boolean)">setFlip(boolean, boolean)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Set the sprite's flip state regardless of current condition</div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setFlip(boolean,boolean)">setFlip(boolean, boolean)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Set the sprite's flip state regardless of current condition</div>
 </dd>
@@ -3967,6 +4105,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the origin in relation to the sprite's position for scaling and rotation.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setOrigin(float,float)">setOrigin(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the origin in relation to the sprite's position for scaling and rotation.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#setOrigin(float,float)">setOrigin(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the origin in relation to the sprite's position for scaling and rotation.</div>
@@ -3975,11 +4117,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the position where the sprite will be drawn, relative to its current origin.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setOriginBasedPosition(float,float)">setOriginBasedPosition(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the position where the sprite will be drawn, relative to its current origin.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#setOriginBasedPosition(float,float)">setOriginBasedPosition(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the position where the sprite will be drawn, relative to its current origin.</div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setOriginCenter()">setOriginCenter()</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Place origin in the center of the sprite</div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setOriginCenter()">setOriginCenter()</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Place origin in the center of the sprite</div>
 </dd>
@@ -3995,6 +4145,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulBatch.html#setPackedColor(float)">setPackedColor(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulBatch</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setPackedColor(float)">setPackedColor(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Exactly the same as <a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setColor(float)"><code>ColorfulSprite.setColor(float)</code></a>.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html#setPackedColor(float)">setPackedColor(float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulBatch</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#setPackedColor(float)">setPackedColor(float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
@@ -4002,6 +4156,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Exactly the same as <a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#setColor(float)"><code>ColorfulSprite.setColor(float)</code></a>.</div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setPosition(float,float)">setPosition(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the position where the sprite will be drawn.</div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setPosition(float,float)">setPosition(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the position where the sprite will be drawn.</div>
 </dd>
@@ -4017,9 +4175,15 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setRegion(float,float,float,float)">setRegion(float, float, float, float)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setRegion(float,float,float,float)">setRegion(float, float, float, float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#setRegion(float,float,float,float)">setRegion(float, float, float, float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setRotation(float)">setRotation(float)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the rotation of the sprite in degrees.</div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setRotation(float)">setRotation(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the rotation of the sprite in degrees.</div>
 </dd>
@@ -4031,11 +4195,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the sprite's scale for both X and Y uniformly.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setScale(float)">setScale(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the sprite's scale for both X and Y uniformly.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#setScale(float)">setScale(float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the sprite's scale for both X and Y uniformly.</div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setScale(float,float)">setScale(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the sprite's scale for both X and Y.</div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setScale(float,float)">setScale(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the sprite's scale for both X and Y.</div>
 </dd>
@@ -4050,6 +4222,10 @@ loadScripts(document, 'script');</script>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html#setShader(com.badlogic.gdx.graphics.glutils.ShaderProgram)">setShader(ShaderProgram)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulBatch</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setSize(float,float)">setSize(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the size of the sprite when drawn, before scaling and rotation are applied.</div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setSize(float,float)">setSize(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the size of the sprite when drawn, before scaling and rotation are applied.</div>
 </dd>
@@ -4071,6 +4247,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulBatch.html#setTweak(float)">setTweak(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulBatch</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setTweak(float)">setTweak(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the tweak that affects how the rendered color will be treated.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html#setTweak(float)">setTweak(float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulBatch</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#setTweak(float)">setTweak(float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
@@ -4087,11 +4267,17 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the multiplicative and contrast parts of the shader's color changes.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setTweak(float,float,float,float)">setTweak(float, float, float, float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html#setTweak(float,float,float,float)">setTweak(float, float, float, float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulBatch</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#setTweak(float,float,float,float)">setTweak(float, float, float, float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setTweakedColor(float,float)">setTweakedColor(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the color used to tint this sprite and the tweak that affects how that color will be treated.</div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setTweakedColor(float,float)">setTweakedColor(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the color used to tint this sprite and the tweak that affects how that color will be treated.</div>
 </dd>
@@ -4103,15 +4289,23 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the color used to tint this sprite and the tweak that affects how that color will be treated.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setTweakedColor(float,float,float,float,float,float,float,float)">setTweakedColor(float, float, float, float, float, float, float, float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the color used to tint this sprite and the tweak that affects how that color will be treated.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#setTweakedColor(float,float,float,float,float,float,float,float)">setTweakedColor(float, float, float, float, float, float, float, float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the color used to tint this sprite and the tweak that affects how that color will be treated.</div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setU(float)">setU(float)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setU(float)">setU(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#setU(float)">setU(float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setU2(float)">setU2(float)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setU2(float)">setU2(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#setU2(float)">setU2(float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
@@ -4123,13 +4317,21 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setV(float)">setV(float)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setV(float)">setV(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#setV(float)">setV(float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setV2(float)">setV2(float)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setV2(float)">setV2(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#setV2(float)">setV2(float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setX(float)">setX(float)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the x position where the sprite will be drawn.</div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setX(float)">setX(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the x position where the sprite will be drawn.</div>
 </dd>
@@ -4138,6 +4340,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the x position where the sprite will be drawn.</div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#setY(float)">setY(float)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the y position where the sprite will be drawn.</div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#setY(float)">setY(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the y position where the sprite will be drawn.</div>
 </dd>
@@ -4377,6 +4583,8 @@ loadScripts(document, 'script');</script>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#SPRITE_SIZE">SPRITE_SIZE</a></span> - Static variable in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulBatch.html#SPRITE_SIZE">SPRITE_SIZE</a></span> - Static variable in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulBatch</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#SPRITE_SIZE">SPRITE_SIZE</a></span> - Static variable in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html#SPRITE_SIZE">SPRITE_SIZE</a></span> - Static variable in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulBatch</a></dt>
 <dd>&nbsp;</dd>
@@ -4667,6 +4875,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the position relative to the current position where the sprite will be drawn.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#translate(float,float)">translate(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the position relative to the current position where the sprite will be drawn.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#translate(float,float)">translate(float, float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the position relative to the current position where the sprite will be drawn.</div>
@@ -4675,11 +4887,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets the x position relative to the current position where the sprite will be drawn.</div>
 </dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#translateX(float)">translateX(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the x position relative to the current position where the sprite will be drawn.</div>
+</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#translateX(float)">translateX(float)</a></span> - Method in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the x position relative to the current position where the sprite will be drawn.</div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#translateY(float)">translateY(float)</a></span> - Method in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>
+<div class="block">Sets the y position relative to the current position where the sprite will be drawn.</div>
+</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#translateY(float)">translateY(float)</a></span> - Method in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>
 <div class="block">Sets the y position relative to the current position where the sprite will be drawn.</div>
 </dd>
@@ -4897,6 +5117,8 @@ loadScripts(document, 'script');</script>
 <div class="block">This color constant "Varnish" has RGBA8888 code <code>401811FF</code>, luma 0.14901961, warmth 0.5921569, mildness 0.5137255, alpha 1.0, hue 0.027777778, and saturation 0.6.</div>
 </dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html#VERTEX_SIZE">VERTEX_SIZE</a></span> - Static variable in class com.github.tommyettinger.colorful.ipt.<a href="com/github/tommyettinger/colorful/ipt/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ipt">ColorfulSprite</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html#VERTEX_SIZE">VERTEX_SIZE</a></span> - Static variable in class com.github.tommyettinger.colorful.rgb.<a href="com/github/tommyettinger/colorful/rgb/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.rgb">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="member-name-link"><a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html#VERTEX_SIZE">VERTEX_SIZE</a></span> - Static variable in class com.github.tommyettinger.colorful.ycwcm.<a href="com/github/tommyettinger/colorful/ycwcm/ColorfulSprite.html" title="class in com.github.tommyettinger.colorful.ycwcm">ColorfulSprite</a></dt>
 <dd>&nbsp;</dd>
