@@ -10,13 +10,11 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.tommyettinger.colorful.Shaders;
 
 import static com.badlogic.gdx.Gdx.input;
 
@@ -32,7 +30,7 @@ public class RGBTintDemo extends ApplicationAdapter {
     protected Texture screenTexture;
 
     private long lastProcessedTime = 0L;
-    private float red = 0.5f, green = 0.5f, blue = 0.5f, opacity = 1f;
+    private float red = 0.5f, green = 0.5f, blue = 0.5f, contrast = 0.5f;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -97,9 +95,10 @@ public class RGBTintDemo extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         handleInput();
         batch.setProjectionMatrix(screenView.getCamera().combined);
+        colorfulBatch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) {
-            colorfulBatch.setColor(red, green, blue, opacity);
-            colorfulBatch.setTweak(0.5f, 0.5f, 0.5f, 0.5f);
+            colorfulBatch.setColor(red, green, blue, 1f);
+            colorfulBatch.setTweak(0.5f, 0.5f, 0.5f, contrast);
             colorfulBatch.begin();
             colorfulBatch.draw(screenTexture, 0, 0);
             colorfulBatch.end();
@@ -119,15 +118,15 @@ public class RGBTintDemo extends ApplicationAdapter {
     }
 
     public void handleInput() {
-        if (input.isKeyPressed(Input.Keys.P)) // print
-            System.out.println("R=" + red + ",G=" + green + ",B=" + blue);
+        if (input.isKeyPressed(Input.Keys.V)) // view
+            System.out.println("R=" + red + ",G=" + green + ",B=" + blue + ",C=" + contrast);
         else if (input.isKeyPressed(Input.Keys.M))
             load("samples/Mona_Lisa.jpg");
         else if (input.isKeyPressed(Input.Keys.S)) //Sierra Nevada
             load("samples/Among_the_Sierra_Nevada_by_Albert_Bierstadt.jpg");
-        else if (input.isKeyPressed(Input.Keys.B)) // Biva
+        else if (input.isKeyPressed(Input.Keys.P)) // Pond
             load("samples/Painting_by_Henri_Biva.jpg");
-        else if (input.isKeyPressed(Input.Keys.C)) // Color Guard, pixel art cartoon-wargame style
+        else if (input.isKeyPressed(Input.Keys.W)) // Wargame, pixel art cartoon style
             load("samples/Color_Guard.png");
         else if (input.isKeyPressed(Input.Keys.A)) // grayscale palette
             load("samples/Grayscale_Spaceships.png");
@@ -140,16 +139,18 @@ public class RGBTintDemo extends ApplicationAdapter {
             lastProcessedTime = TimeUtils.millis();
             if (input.isKeyPressed(Input.Keys.R)) //light
                 red = MathUtils.clamp(red + (UIUtils.shift() ? -0x3p-7f : 0x3p-7f), 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.RIGHT)) //warm
+            else if (input.isKeyPressed(Input.Keys.G)) //warm
                 green = MathUtils.clamp(green + (UIUtils.shift() ? -0x3p-7f : 0x3p-7f), 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.UP)) //mild
+            else if (input.isKeyPressed(Input.Keys.B)) //mild
                 blue = MathUtils.clamp(blue + (UIUtils.shift() ? -0x3p-7f : 0x3p-7f), 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.C)) //contrast
+                contrast = MathUtils.clamp(contrast + (UIUtils.shift() ? -0x3p-7f : 0x3p-7f), 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.Z)) // zero changes
             {
                 red = 0.5f;
                 green = 0.5f;
                 blue = 0.5f;
-                opacity = 1f;
+                contrast = 0.5f;
             }
         }
     }

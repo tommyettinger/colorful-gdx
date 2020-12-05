@@ -45,13 +45,13 @@ public class SubRandomPaletteGenerator {
         IntArray rgba = new IntArray(limit);
         rgba.add(0);
         rgba.add(0x0B080FFF);
-        rgba.add(0x353336FF);
-        rgba.add(0x555555FF);
-        rgba.add(0x797577FF);
-        rgba.add(0xAAAAAAFF);
-        rgba.add(0xC8C8C8FF);
-        rgba.add(0xE0E0E0FF);
         rgba.add(0xFAF7F0FF);
+        rgba.add(0x797577FF);
+        rgba.add(0x555555FF);
+        rgba.add(0xAAAAAAFF);
+        rgba.add(0x353336FF);
+        rgba.add(0xE0E0E0FF);
+        rgba.add(0xC8C8C8FF);
         int idx = 1, initial = rgba.size;
         while (rgba.size < limit) {
             for (int i = initial; i < 32 && rgba.size < limit; i++) {
