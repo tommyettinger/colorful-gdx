@@ -1,4 +1,4 @@
-package com.github.tommyettinger.colorful.ipt;
+package com.github.tommyettinger.colorful.rgb;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -10,25 +10,23 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.tommyettinger.colorful.Shaders;
 import com.github.tommyettinger.colorful.TrigTools;
+import com.github.tommyettinger.colorful.ipt.Palette;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class IPTChangingTintDemo extends ApplicationAdapter {
+public class RGBChangingTintDemo extends ApplicationAdapter {
 //    public static final int SCREEN_WIDTH = 1531;
 //    public static final int SCREEN_HEIGHT = 862;
     public static final int SCREEN_WIDTH = 808;
     public static final int SCREEN_HEIGHT = 600;
     protected SpriteBatch batch;
+    protected ColorfulBatch colorfulBatch;
     protected Viewport screenView;
     protected Texture screenTexture;
 
-    private ShaderProgram defaultShader;
-    private ShaderProgram shader;
     private float tint = Palette.GRAY;
     private long seed = 1L;
 
@@ -39,7 +37,7 @@ public class IPTChangingTintDemo extends ApplicationAdapter {
         config.setIdleFPS(10);
         config.useVsync(true);
 
-        final IPTChangingTintDemo app = new IPTChangingTintDemo();
+        final RGBChangingTintDemo app = new RGBChangingTintDemo();
         config.setWindowListener(new Lwjgl3WindowAdapter() {
             @Override
             public void filesDropped(String[] files) {
@@ -70,20 +68,21 @@ public class IPTChangingTintDemo extends ApplicationAdapter {
                 height = Math.min(screenTexture.getHeight(), Gdx.graphics.getDisplayMode().height));
         screenView.update(width, height);
         screenView.getCamera().position.set(width * 0.5f, height * 0.5f, 0f);
-        tint = Palette.GRAY;
+        tint = com.github.tommyettinger.colorful.ipt.Palette.GRAY;
         seed = 1L;
     }
 
     @Override
     public void create() {
         batch = new SpriteBatch();
-        defaultShader = SpriteBatch.createDefaultShader();
-        shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderIPT);
-        if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
+        colorfulBatch = new ColorfulBatch();
+
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.enableBlending();
+        colorfulBatch.enableBlending();
+
 
         // if you don't have these files on this absolute path, that's fine, and they will be ignored
 //        load("samples/Painting_by_Henri_Biva.jpg");
@@ -99,14 +98,15 @@ public class IPTChangingTintDemo extends ApplicationAdapter {
         handleInput();
         batch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) {
-            batch.setShader(shader);
+
             float f = seed++ * 0x1p-14f, a = TrigTools.sin_(f + TrigTools.cos_(f * 0.25f - 0.314f)),
                     b = TrigTools.cos_(a + TrigTools.sin_(f - a * 0.5f) + 0.618f),
-                    c = (TrigTools.cos(a + 0.618f) - TrigTools.sin_(b - 0.618f)) * 0.25f;
-            batch.setPackedColor(ColorTools.toEditedFloat(tint, a, b, c, 0f));
+                    c = TrigTools.cos_(TrigTools.atan2_(TrigTools.cos(a + 0.618f), TrigTools.sin_(b - 0.618f))) * 0.25f;
+            colorfulBatch.setPackedColor(ColorTools.toEditedFloat(tint, a, b, c, 0f));
+            colorfulBatch.begin();
+            colorfulBatch.draw(screenTexture, 0, 0);
+            colorfulBatch.end();
             batch.begin();
-            batch.draw(screenTexture, 0, 0);
-            batch.setShader(defaultShader);
             batch.setPackedColor(-0x1.fffffep126f); // packed white
             batch.draw(screenTexture, screenTexture.getWidth(), 0);
             batch.end();
@@ -122,8 +122,8 @@ public class IPTChangingTintDemo extends ApplicationAdapter {
     }
 
     public void handleInput() {
-        if (input.isKeyPressed(Input.Keys.P)) // print
-            System.out.println("I=" + ColorTools.intensity(tint) + ",P=" + ColorTools.protan(tint) + ",T=" + ColorTools.tritan(tint));
+        if (input.isKeyPressed(Input.Keys.V)) // view
+            System.out.println("R=" + ColorTools.red(tint) + ",G=" + ColorTools.green(tint) + ",B=" + ColorTools.blue(tint));
         else if (input.isKeyPressed(Input.Keys.M))
             load("samples/Mona_Lisa.jpg");
         else if (input.isKeyPressed(Input.Keys.S)) //Sierra Nevada
