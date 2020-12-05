@@ -347,7 +347,7 @@ public class ColorTools {
 		float l = x * (1f - 0.5f * d / (x + 1e-10f));
 		float hue2 = Math.abs(z + (w - y) / (6f * d + 1e-10f));
 		float sat2 = (x - l) / (Math.min(l, 1f - l) + 1e-10f);
-		return FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), MathUtils.clamp(saturation + sat2, 0f, 1f), value, opacity);
+		return FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), MathUtils.clamp(saturation + sat2, 0f, 1f), MathUtils.clamp(l + value, 0f, 1f), opacity);
 	}
 
 	/**
