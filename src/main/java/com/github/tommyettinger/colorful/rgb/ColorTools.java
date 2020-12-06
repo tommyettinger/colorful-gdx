@@ -523,22 +523,33 @@ public class ColorTools {
 	}
 
 	/**
-	 * Produces a random packed float color that is always in-gamut and should be uniformly distributed.
+	 * Produces a random packed float color that is always opaque and should be uniformly distributed.
 	 * @param random a Random object (or preferably a subclass of Random, like {@link com.badlogic.gdx.math.RandomXS128})
-	 * @return a packed float color that is always in-gamut
+	 * @return a packed float color that is always opaque
 	 */
 	public static float randomColor(Random random) {
 		final float r = random.nextFloat(), g = random.nextFloat(), b = random.nextFloat();
 		return NumberUtils.intBitsToFloat(0xFE000000
-				| ((int) (b * 255.999f) << 16 & 0xFF0000)
-				| ((int) (g * 255.999f) << 8 & 0xFF00)
-				| ((int) (r * 255.999f) & 0xFF));
+				| ((int) (b * 256f) << 16 & 0xFF0000)
+				| ((int) (g * 256f) << 8 & 0xFF00)
+				| ((int) (r * 256f) & 0xFF));
 	}
 
+	/**
+	 * Limited-use; like {@link #randomColor(Random)} but for cases where you already have three floats (r, g, and b)
+	 * distributed how you want. This can be somewhat useful if you are using a "subrandom" or "quasi-random" sequence,
+	 * like the Halton, Sobol, or R3 sequences, to get 3D points and map them to colors. It can also be useful if you
+	 * want to randomly generate the RGB channels yourself and track the values produced, as you would if you wanted to
+	 * avoid generating too many colors with high blue, for instance.
+	 * @param r red value to use; will be clamped between 0 and 1
+	 * @param g green value to use; will be clamped between 0 and 1
+	 * @param b blue value to use; will be clamped between 0 and 1
+	 * @return a packed float color that is always opaque
+	 */
 	public static float subrandomColor(float r, float g, float b) {
 		return NumberUtils.intBitsToFloat(0xFE000000
-				| ((int) (b * 255.999f) << 16 & 0xFF0000)
-				| ((int) (g * 255.999f) << 8 & 0xFF00)
-				| ((int) (r * 255.999f) & 0xFF));
+				| ((int) MathUtils.clamp(b * 256f, 0, 255.999f) << 16 & 0xFF0000)
+				| ((int) MathUtils.clamp(g * 256f, 0, 255.999f) << 8 & 0xFF00)
+				| ((int) MathUtils.clamp(r * 256f, 0, 255.999f) & 0xFF));
 	}
 }

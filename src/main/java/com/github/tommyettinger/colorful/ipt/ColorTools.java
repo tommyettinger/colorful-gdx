@@ -817,18 +817,32 @@ public class ColorTools {
 		final float ib = 0.23137255f, pb = 0.53333336f - 0.5f, tb = 0.02745098f - 0.5f;
 		final float r = random.nextFloat(), g = random.nextFloat(), b = random.nextFloat();
 		return NumberUtils.intBitsToFloat(0xFE000000
-				| ((int) ((tr * r + tg * g + tb * b) * 127.5f + 127.5f) << 16 & 0xFF0000)
-				| ((int) ((pr * r + pg * g + pb * b) * 127.5f + 127.5f) << 8 & 0xFF00)
-				| ((int)((ir * r + ig * g + ib * b) * 255f) & 0xFF));
+				| ((int) ((tr * r + tg * g + tb * b) * 128f + 128f) << 16 & 0xFF0000)
+				| ((int) ((pr * r + pg * g + pb * b) * 128f + 128f) << 8 & 0xFF00)
+				| ((int) ((ir * r + ig * g + ib * b) * 256f) & 0xFF));
 	}
-
+	/**
+	 * Limited-use; like {@link #randomColor(Random)} but for cases where you already have three floats (r, g, and b)
+	 * distributed how you want. This can be somewhat useful if you are using a "subrandom" or "quasi-random" sequence,
+	 * like the Halton, Sobol, or R3 sequences, to get 3D points and map them to colors. It can also be useful if you
+	 * want to randomly generate the RGB channels yourself and track the values produced, as you would if you wanted to
+	 * avoid generating too many colors with high blue, for instance. This approximately maps the r, g, and b parameters
+	 * to distances on the RGB axes of a rectangular prism, which is stretched and rotated to form the IPT gamut.
+	 * @param r red value to use; will be clamped between 0 and 1
+	 * @param g green value to use; will be clamped between 0 and 1
+	 * @param b blue value to use; will be clamped between 0 and 1
+	 * @return a packed float color that is always opaque
+	 */
 	public static float subrandomColor(float r, float g, float b) {
+		r = MathUtils.clamp(r, 0f, 0.999f);
+		g = MathUtils.clamp(g, 0f, 0.999f);
+		b = MathUtils.clamp(b, 0f, 0.999f);
 		final float ir = 0.1882353f, pr = 0.83137256f - 0.5f, tr = 0.6431373f - 0.5f;
 		final float ig = 0.5764706f, pg = 0.12941177f - 0.5f, tg = 0.827451f - 0.5f;
 		final float ib = 0.23137255f, pb = 0.53333336f - 0.5f, tb = 0.02745098f - 0.5f;
 		return NumberUtils.intBitsToFloat(0xFE000000
 				| ((int) ((tr * r + tg * g + tb * b) * 127.5f + 127.5f) << 16 & 0xFF0000)
 				| ((int) ((pr * r + pg * g + pb * b) * 127.5f + 127.5f) << 8 & 0xFF00)
-				| ((int)((ir * r + ig * g + ib * b) * 255f) & 0xFF));
+				| ((int) ((ir * r + ig * g + ib * b) * 255f) & 0xFF));
 	}
 }

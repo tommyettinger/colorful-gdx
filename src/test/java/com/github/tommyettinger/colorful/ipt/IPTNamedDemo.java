@@ -1,4 +1,4 @@
-package com.github.tommyettinger.colorful.ycwcm;
+package com.github.tommyettinger.colorful.ipt;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -12,13 +12,14 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class NamedDemo extends ApplicationAdapter {
+public class IPTNamedDemo extends ApplicationAdapter {
     //public static final int backgroundColor = Color.rgba8888(Color.DARK_GRAY);
 //    public static final int SCREEN_WIDTH = 1531;
 //    public static final int SCREEN_HEIGHT = 862;
@@ -35,7 +36,7 @@ public class NamedDemo extends ApplicationAdapter {
     private String selectedName;
     private float selected;
 
-    private float luma = 0.5f, warm = 0.5f, mild = 0.5f, contrast = 0.5f;
+    private float inte = 0.5f, prot = 0.5f, trit = 0.5f, contrast = 0.5f;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -45,7 +46,7 @@ public class NamedDemo extends ApplicationAdapter {
         config.useVsync(true);
 //        config.setResizable(false);
 
-        final NamedDemo app = new NamedDemo();
+        final IPTNamedDemo app = new IPTNamedDemo();
         config.setWindowListener(new Lwjgl3WindowAdapter() {
             @Override
             public void filesDropped(String[] files) {
@@ -80,7 +81,7 @@ public class NamedDemo extends ApplicationAdapter {
     @Override
     public void create() {
         Pixmap b = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        b.drawPixel(0, 0, 0x7F7F81FF);
+        b.drawPixel(0, 0, 0x807F7FFF);
         blank = new Texture(b);
         font = new BitmapFont(Gdx.files.internal("font.fnt"));
         font.setColor(1f, 0.5f, 0.5f, 1f);
@@ -123,7 +124,7 @@ public class NamedDemo extends ApplicationAdapter {
         if (screenTexture != null) {
             batch.setPackedColor(selected);
             batch.begin();
-            batch.setTweak(luma, warm, mild, contrast);
+            batch.setTweak(inte, prot, trit, contrast);
             batch.draw(screenTexture, 0, 0);
             int i = -1;
             final float width = screenTexture.getWidth() / 5f, height = screenTexture.getHeight() / 51f;
@@ -131,6 +132,7 @@ public class NamedDemo extends ApplicationAdapter {
                 for (int x = 0; x < 5; x++) {
                     String name = Palette.NAMES_BY_HUE.get(++i);
                     float color = Palette.NAMED.get(name, Palette.WHITE);
+//                    System.out.printf("0x%08X : %s\n", Float.floatToRawIntBits(color), name);
                     batch.setPackedColor(color);
                     batch.draw(blank, screenTexture.getWidth() + width * x, height * (50 - y), width, height);
                 }
@@ -162,14 +164,14 @@ public class NamedDemo extends ApplicationAdapter {
     public void handleInput() {
         if (input.isKeyPressed(Input.Keys.Q) || input.isKeyPressed(Input.Keys.ESCAPE)) //quit
             Gdx.app.exit();
-        else if (input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+        else if (UIUtils.shift()) {
             if (input.isKeyPressed(Input.Keys.M))
                 load("samples/Mona_Lisa.jpg");
             else if (input.isKeyPressed(Input.Keys.S)) //Sierra Nevada
                 load("samples/Among_the_Sierra_Nevada_by_Albert_Bierstadt.jpg");
             else if (input.isKeyPressed(Input.Keys.B)) // Biva
                 load("samples/Painting_by_Henri_Biva.jpg");
-            else if (input.isKeyPressed(Input.Keys.C)) // Color Guard, pixel art cartoon-wargame style
+            else if (input.isKeyPressed(Input.Keys.P)) // Color Guard, pixel art cartoon-wargame style
                 load("samples/Color_Guard.png");
             else if (input.isKeyPressed(Input.Keys.G)) // grayscale palette
                 load("samples/Grayscale_Spaceships.png");
@@ -185,37 +187,37 @@ public class NamedDemo extends ApplicationAdapter {
                 selectedIndex = (selectedIndex + Palette.NAMES_BY_HUE.size - 1) % Palette.NAMES_BY_HUE.size;
                 selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
                 selected = Palette.NAMED.get(selectedName, Palette.GRAY);
-            } else if (input.isKeyPressed(Input.Keys.R)) // random
+            } else if (input.isKeyPressed(Input.Keys.C)) // CHAOS!
             {
                 selectedIndex = MathUtils.random(Palette.NAMES_BY_HUE.size);
                 selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
                 selected = Palette.NAMED.get(selectedName, Palette.GRAY);
             } else if (input.isKeyPressed(Input.Keys.P)) // print
                 System.out.println("Using color " + selectedName
-                        + " with luma="+ ColorTools.luma(selected) + ",warm="+ ColorTools.chromaWarm(selected)
-                        + ",mild="+ ColorTools.chromaMild(selected)+",alpha=1.0 .\nUsing tweak with luma="+luma
-                        + ",warm="+warm + ",mild="+mild+",contrast="+contrast + " .");
+                        + " with inte="+ ColorTools.intensity(selected) + ",prot="+ ColorTools.protan(selected)
+                        + ",trit="+ ColorTools.tritan(selected)+",alpha=1.0 .\nUsing tweak with inte="+ inte
+                        + ",prot="+ prot + ",trit="+ trit +",contrast="+contrast + " .");
             else if (input.isKeyPressed(Input.Keys.L)) //light
-                luma = MathUtils.clamp(luma + 0x3p-7f, 0f, 1f);
+                inte = MathUtils.clamp(inte + 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.D)) //dark
-                luma = MathUtils.clamp(luma - 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.W)) //warm
-                warm = MathUtils.clamp(warm + 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.C)) //cool
-                warm = MathUtils.clamp(warm - 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.M)) //mild
-                mild = MathUtils.clamp(mild + 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.B)) //bold
-                mild = MathUtils.clamp(mild - 0x3p-7f, 0f, 1f);
+                inte = MathUtils.clamp(inte - 0x3p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.R)) //protan up
+                prot = MathUtils.clamp(prot + 0x3p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.G)) //protan down
+                prot = MathUtils.clamp(prot - 0x3p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.Y)) //tritan up
+                trit = MathUtils.clamp(trit + 0x3p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.B)) //tritan down
+                trit = MathUtils.clamp(trit - 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.S)) //sharp contrast
                 contrast = MathUtils.clamp(contrast + 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.F)) //fuzzy contrast
                 contrast = MathUtils.clamp(contrast - 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.BACKSPACE)) //reset
             {
-                luma = 0.5f;
-                warm = 0.5f;
-                mild = 0.5f;
+                inte = 0.5f;
+                prot = 0.5f;
+                trit = 0.5f;
                 contrast = 0.5f;
             }
         }

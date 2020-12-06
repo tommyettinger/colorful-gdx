@@ -1,4 +1,4 @@
-package com.github.tommyettinger.colorful.hsi;
+package com.github.tommyettinger.colorful.hsi.internal;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
