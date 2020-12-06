@@ -146,7 +146,7 @@ public class ColorfulBatch implements Batch {
                 + "void main()\n"
                 + "{\n"
                 + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
-                + "   v_color.rgb -= 0.5;\n"
+                + "   v_color.rgb = v_color.rgb * 0.5 - 0.25;\n"
                 + "   v_color.a = v_color.a * (255.0/254.0);\n"
                 + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
                 + "   v_tweak.a = v_tweak.a * (153.0/127.0) - 0.6;\n" // -0.6 to 0.6 range
@@ -169,8 +169,8 @@ public class ColorfulBatch implements Batch {
                         "void main()\n" +
                         "{\n" +
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "  float adjust = pow(dot(vec3(0.189786, 0.576951, 0.233221), tgt.rgb) + 0.625, v_tweak.a) * v_lightFix;\n" +
-                        "  tgt.rgb = (tgt.rgb * v_tweak.rgb + v_color.rgb) * adjust;\n" +
+                        "  tgt.rgb = (tgt.rgb * v_tweak.rgb + v_color.rgb);\n" +
+                        "  tgt.rgb *= pow(dot(vec3(0.189786, 0.576951, 0.233221), tgt.rgb) + 0.625, v_tweak.a) * v_lightFix;\n" +
                         "  tgt.a *= v_color.a;\n" +
                         "  gl_FragColor = clamp(tgt, 0.0, 1.0);\n" +
                         "}";
