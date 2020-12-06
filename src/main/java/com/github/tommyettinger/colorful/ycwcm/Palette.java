@@ -7,8 +7,7 @@ import com.github.tommyettinger.colorful.FloatColors;
 
 import java.util.Comparator;
 
-import static com.github.tommyettinger.colorful.ycwcm.ColorTools.hue;
-import static com.github.tommyettinger.colorful.ycwcm.ColorTools.luma;
+import static com.github.tommyettinger.colorful.ycwcm.ColorTools.*;
 
 /**
  * A palette of predefined colors as packed YCwCm floats, the kind {@link FloatColors} works with.
@@ -3117,7 +3116,17 @@ public class Palette {
     static {
         NAMES_BY_HUE.sort(new Comparator<String>() {
             public int compare(String o1, String o2) {
-                return Float.compare(hue(NAMED.get(o1, TRANSPARENT)), hue(NAMED.get(o2, TRANSPARENT)));
+                final float c1 = NAMED.get(o1, TRANSPARENT), c2 = NAMED.get(o2, TRANSPARENT);
+                final float s1 = saturation(c1), s2 = saturation(c2);
+                if(s1 <= 0x1p-6f && s2 > 0x1p-6f)
+                    return -1000;
+                else if(s1 > 0x1p-6f && s2 <= 0x1p-6f)
+                    return 1000;
+                else if(s1 <= 0x1p-6f && s2 <= 0x1p-6f)
+                    return (int)Math.signum(luma(c1) - luma(c2));
+                else
+                    return 2 * (int)Math.signum(hue(c1) - hue(c2))
+                            + (int)Math.signum(luma(c1) - luma(c2));
             }
         });
         NAMES_BY_LIGHTNESS.sort(new Comparator<String>() {

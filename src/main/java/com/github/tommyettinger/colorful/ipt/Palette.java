@@ -3116,7 +3116,17 @@ public class Palette {
     static {
         NAMES_BY_HUE.sort(new Comparator<String>() {
             public int compare(String o1, String o2) {
-                return Float.compare(hue(NAMED.get(o1, TRANSPARENT)), hue(NAMED.get(o2, TRANSPARENT)));
+                final float c1 = NAMED.get(o1, TRANSPARENT), c2 = NAMED.get(o2, TRANSPARENT);
+                final float s1 = ColorTools.saturation(c1), s2 = ColorTools.saturation(c2);
+                if(s1 <= 0.05f && s2 > 0.05f)
+                    return -1000;
+                else if(s1 > 0.05f && s2 <= 0.05f)
+                    return 1000;
+                else if(s1 <= 0.05f && s2 <= 0.05f)
+                    return (int)Math.signum(ColorTools.intensity(c1) - ColorTools.intensity(c2));
+                else
+                    return 2 * (int)Math.signum(ColorTools.hue(c1) - ColorTools.hue(c2))
+                            + (int)Math.signum(ColorTools.intensity(c1) - ColorTools.intensity(c2));
             }
         });
         NAMES_BY_LIGHTNESS.sort(new Comparator<String>() {
