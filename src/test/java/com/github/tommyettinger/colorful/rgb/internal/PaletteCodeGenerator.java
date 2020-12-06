@@ -13,9 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import static com.github.tommyettinger.colorful.rgb.ColorTools.fromRGBA8888;
-import static com.github.tommyettinger.colorful.rgb.ColorTools.toRGBA8888;
-
 /**
  * A tool, not a demo, used to generate the data used in Palette and in the javadocs.
  * Created by Tommy Ettinger on 12/8/2019.
@@ -156,7 +153,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                 return c1.key.compareTo(c2.key);
             }
         });
-        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Luma</th>\n<th>Alpha</th>\n<th>Packed</th>\n</tr>\n");
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Light</th>\n<th>Alpha</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
             sb.append(templateTable.replace("Name", sc.key)
@@ -188,7 +185,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                             + (int)Math.signum(ColorTools.lightness(c1.value) - ColorTools.lightness(c2.value));
             }
         });
-        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Luma</th>\n<th>Alpha</th>\n<th>Packed</th>\n</tr>\n");
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Light</th>\n<th>Alpha</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
             sb.append(templateTable.replace("Name", sc.key)
@@ -211,7 +208,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                 return (int)Math.signum(ColorTools.lightness(c1.value) - ColorTools.lightness(c2.value));
             }
         });
-        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Luma</th>\n<th>Alpha</th>\n<th>Packed</th>\n</tr>\n");
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Light</th>\n<th>Alpha</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
             sb.append(templateTable.replace("Name", sc.key)

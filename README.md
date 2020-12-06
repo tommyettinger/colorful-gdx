@@ -1,8 +1,8 @@
 # colorful-gdx
 A libGDX mechanism to manipulate colors in powerful ways
 
-Colorful is a small library that mostly offers some predefined shaders and code for handling colors in a different way
-than normal. Why would you want this? There's several shortcomings of the default SpriteBatch shader's color handling,
+Colorful is a small library that mostly offers some predefined shaders and code for handling colors differently from the
+normal way. Why would you want this? There are several shortcomings of the default SpriteBatch shader's color handling,
 specifically how it handles color tinting with `setColor(float, float, float, float)`:
 
   - You can use the default setColor() to make an image darker, but never lighter.
@@ -12,8 +12,45 @@ specifically how it handles color tinting with `setColor(float, float, float, fl
     reducing red, green, and blue by some percentage each.
 
 We address this in colorful by representing tint colors differently. While there's some support here for HSLC tints
-(hue, saturation, lightness, contrast) via `Shaders.makeBatchHSLC()`, much more of the library is focused on the custom
-YCwCm color space, and a modification of the IPT color space.
+(hue, saturation, lightness, contrast) via `Shaders.makeBatchHSLC()`, much more of the library focuses on three color
+spaces: RGB, YCwCm, and IPT. Most of this library's users will only employ one of these color spaces at a time, and the
+APIs for all the color spaces are extremely similar.
+
+### RGB
+
+RGB is familiar to almost everyone who works with color on computers; it has a red, a green, and a blue channel, plus
+alpha here. The difference between the way an RGB color tint works with a standard libGDX SpriteBatch and the way one
+works here is that a SpriteBatch is neutral at the value `(1.0, 1.0, 1.0, 1.0)` and can only reduce channels as they go
+lower, while here, a ColorfulBatch is neutral at the value `(0.5, 0.5, 0.5, 1.0)` and can lower channels in the same way
+or raise channels if they go above 0.5. Typically, RGB is used with the `com.github.tommyettinger.colorful.rgb` package,
+with the `ColorfulBatch` class replacing `SpriteBatch`. The `ColorTools` class in the same package provides various
+RGB-specific color manipulation, while `FloatColors` in the parent package provides non-specific manipulation of colors
+as packed floats (which are the default here). `Palette` has 256 predefined colors from the DawnBringer Aurora palette,
+which is well-distributed for almost any pixel art or digital painting, as packed floats that have substantial
+documentation; these colors can be accessed with their names via an ObjectFloatMap, `NAMED`, and those names in usefully'
+sorted orders as `NAMES_BY_LIGHTNESS` and `NAMES_BY_HUE`.
+
+Here's an aside about those colors as packed floats. Packed float colors may seem somewhat odd at first, but libGDX
+uses them to represent a color in a way that OpenGL can easily handle. They store almost the same info as an RGBA8888
+int color, except that they never use or set one bit in alpha (so they really only have 7 bits of alpha, the most
+significant ones), and the RGBA bytes are in reversed order. The conversion from int color to packed float color is very
+efficient thanks to how the JVM (and GWT, with a caveat) handle this operation. GWT, used for the HTML backend in
+libGDX, actually defaults to a very slow conversion between int bits and float, but provides a way for libGDX (or other
+libraries) to convert quite efficiently; libGDX does this with its `NumberUtils` class.
+
+`ColorfulBatch` doesn't just provide the option for tints to brighten and darken. It effectively has two batch colors;
+one is multiplicative and is called the "tweak," while the regular color is now additive. The changes from the tweak can
+lower a channel's value if the tweak has a value less than 0.5 for that channel, or can raise its value if the tweak
+has a value greater than 0.5. After the tweak multiplies red, green, and blue, the regular color gets added in (minus
+0.5, so low values in the regular color will subtract from the resulting color). There's standard multiplicative alpha
+in the regular color, and the tweak's alpha channel adjusts lightness contrast (tweak alpha above 0.5 sharpens contrast,
+while tweak alpha below 0.5 makes the image puffy or cloudy). Some games may want to use contrast as a way to highlight
+specific areas, with reduced contrast in "background" regions and heightened contrast in important ones. You can combine
+multiplicative and additive colors creatively to achieve certain effects; while this is easier with the other color
+spaces discussed next, it can be done with RGB as well. Multiplicative colors affect the contribution of the original
+texture color to the resulting color, so if you had some randomly-generated colorful static and wanted to make it look
+like leaves, you could use a tweak of `(0.2f, 0.6f, 0.0f, 0.3f)` and a regular color of `(0.3f, 0.8f, 0.0f, 1.0f)` to at
+least get a bit closer to a leafy background.
 
 ### YCwCm
 
@@ -37,11 +74,9 @@ example of the aesthetic usage, you could move an image into warm or hot hues wh
 when the weather is freezing. When warmth is very high, it is also nice to be able to move mildness up and down, which
 makes the color mimic that of fire (going from red embers to yellow sparks, spending more time near orange flame).
 
-Starting in version 0.2.0, the additive changes that could be applied with vertex colors in the previous version have
-been supplemented with multiplicative changes that allow richer and more involved changes to colors. `ColorfulBatch` has
-a "tweak" that can be applied to colors somewhat-independently of the existing color that can be set with `setColor()`.
-Where `setColor()` changes the additive (or subtractive) luma, chromatic warmth, and chromatic mildness, plus
-multiplicative alpha, `setTweak()` changes:
+The YCwCm `ColorfulBatch` has a tweak color, like the RGB `ColorfulBatch`, that can be applied to colors
+somewhat-independently of the regular color that can be set with `setColor()`. Where `setColor()` changes the additive
+(or subtractive) luma, chromatic warmth, and chromatic mildness, plus multiplicative alpha, `setTweak()` changes:
   - the multiplicative luma (a value from 0.0 to 1.0 that maps to a multiplier from 0.0 to 2.0),
   - multiplicative chromatic warmth and chromatic mildness (two separate values from 0.0 to 1.0 that map to multipliers
     from 0.0 to 2.0, but apply to the current warmth or mildness of a pixel as if they are centered on 0.0, not 0.5),
@@ -50,8 +85,8 @@ multiplicative alpha, `setTweak()` changes:
 
 Some useful things to use the tweak for include:
   - Setting the chromatic tweaks to 0.0 will make the rendered color grayscale.
-    - If the color of a ColorfulBatch isn't gray, then the rendered color will be "green-scale" or some other variation
-      of brightness for an existing color.
+    - If the regular color of a ColorfulBatch isn't gray, then the rendered color will be "green-scale" or some other
+      variation of brightness for an existing color.
   - Setting the chromatic tweaks both to values higher than 0.5 will increase saturation/vividness.
   - You can set the chromatic tweaks separately, with 0.0 warmth but 0.5 mildness making all colors somewhere between
     lime and magenta, and 0.0 mildness but 0.5 warmth making all colors between red-orange and cyan.
@@ -79,15 +114,15 @@ Naming 256 colors, some of them very similar, was not easy, and some choices are
 
 The IPT color space is quite similar to YCwCm in some ways, but should have smoother transitions between hues -- after
 all, [that's what it was created for](https://www.researchgate.net/publication/221677980_Development_and_Testing_of_a_Color_Space_IPT_with_Improved_Hue_Uniformity)
-by Ebner and Fairchild in 1998. It has I (intensity, effectively lightness), P (protan, named after a concept in
-ophthalmology and corresponding to a cyan-to-red axis), and T (tritan, also a medical term and corresponding to a
-blue-to-yellow axis) channels, plus alpha here. In standard IPT, intensity is very similar for most mid-brightness
-colors, but falls off suddenly from about 0.3 to 0 in a range of just 1/14 gray to black. Here, we avoid any
-`Math.pow()` calculations, which evens out the intensity so 1/10 gray has 0.1 intensity. The hue and chroma components
-should be fairly similar, but aren't quite identical. You might want to prefer IPT over YCwCm if you want color
-transitions to look as smooth as possible, and don't mind a tiny bit of extra calculation this needs to do internally.
-Even with the different calculation for intensity/lightness, most colors that are perceptually similar in lightness
-should have similar intensity here.
+by Ebner and Fairchild in 1998. It has I (intensity, effectively lightness), P (protan, named after protanopia, or
+red-green colorblindness, and corresponding to a cyan-to-red axis), and T (tritan, named after tritanopia, another type
+of colorblindness, and corresponding to a blue-to-yellow axis) channels, plus alpha here. In standard IPT, intensity is
+very similar for most mid-brightness colors, but falls off suddenly from about 0.3 to 0 in a range of just 1/14 gray to
+black. Here, we avoid any `Math.pow()` calculations, which evens out the intensity so 1/10 gray has 0.1 intensity. The
+hue and chroma components should be fairly similar, but aren't quite identical. You might want to prefer IPT over YCwCm
+if you want color transitions to look as smooth as possible, and don't mind a tiny bit of extra calculation this needs
+to do internally. Even with the different calculation for intensity/lightness, most colors that are perceptually similar
+in lightness should have similar intensity here.
 
 The `com.github.tommyettinger.colorful.ipt` package has parallels to all the classes in the `ycmcw` package, and the
 `ColorfulBatch`, `ColorfulSprite`, and `Palette` classes work almost identically. For ColorfulBatch, this means there's
@@ -142,12 +177,12 @@ Using the Maven Central dependency is recommended, and Gradle and Maven can both
 
 Gradle dependency:
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.2.2'
+implementation 'com.github.tommyettinger:colorful:0.3.0'
 ```
 
 Gradle dependency if also using GWT to make an HTML application:
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.2.2:sources'
+implementation 'com.github.tommyettinger:colorful:0.3.0:sources'
 ```
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
 ```xml
@@ -159,8 +194,8 @@ If you don't use Gradle, here's the Maven dependency:
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful</artifactId>
-  <version>0.2.2</version>
+  <version>0.3.0</version>
 </dependency>
 ```
 
-If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.2.2).
+If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.3.0).
