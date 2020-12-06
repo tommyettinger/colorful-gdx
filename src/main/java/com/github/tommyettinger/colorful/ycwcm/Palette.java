@@ -3104,8 +3104,8 @@ public class Palette {
     public static final Array<String> NAMES = NAMED.keys().toArray();
     static { NAMES.sort(); }
     /**
-     * All names for colors in this palette, sorted by hue from red to yellow to green to blue. You can fetch the
-     * corresponding packed float color by looking up a name in {@link #NAMED}.
+     * All names for colors in this palette, with grayscale first, then sorted by hue from red to yellow to green to
+     * blue. You can fetch the corresponding packed float color by looking up a name in {@link #NAMED}.
      */
     public static final Array<String> NAMES_BY_HUE = new Array<>(NAMES);
     /**
