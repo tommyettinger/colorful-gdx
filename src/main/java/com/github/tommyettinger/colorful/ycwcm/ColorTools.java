@@ -6,6 +6,8 @@ import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.Shaders;
 
+import java.util.Random;
+
 /**
  * Contains code for manipulating colors as {@code int}, packed {@code float}, and {@link Color} values in the YCwCm
  * color space.
@@ -681,13 +683,13 @@ public class ColorTools {
 	public static boolean inGamut(final float packed)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(packed), y = (decoded & 0xff),
-				cw = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				cm = (((decoded >>> 15 & 0x1fe) - 0xfe) >> 1);
-		final int r = y + (cw * 5 >> 3) - cm;
+				cw = ((decoded >>> 7 & 0x1fe) - 0xff),
+				cm = (((decoded >>> 15 & 0x1fe) - 0xff) / 2);
+		final int r = y + (cw * 5 / 8) - cm;
 		if(r < 0 || r > 255) return false;
-		final int g = y - (cw * 3 >> 3) + cm;
+		final int g = y - (cw * 3 / 8) + cm;
 		if(g < 0 || g > 255) return false;
-		final int b = y - (cw * 3 >> 3) - cm;
+		final int b = y - (cw * 3 / 8) - cm;
 		return (b >= 0) && (b <= 255);
 	}
 	/**
@@ -707,4 +709,20 @@ public class ColorTools {
 		final int b = yi - (cwi * 3 >> 3) - cmi;
 		return (b >= 0) && (b <= 255);
 	}
+	/**
+	 * Produces a random packed float color that is always in-gamut and should be uniformly distributed.
+	 * @param random a Random object (or preferably a subclass of Random, like {@link com.badlogic.gdx.math.RandomXS128})
+	 * @return a random opaque packed float color that is always in-gamut
+	 */
+	public static float randomColor(Random random) {
+		final float yr = +0.375f, wr = +0.5f, mr = +0.0f;
+		final float yg = +0.500f, wg = +0.0f, mg = +0.5f;
+		final float yb = +0.125f, wb = -0.5f, mb = -0.5f;
+		final float r = random.nextFloat(), g = random.nextFloat(), b = random.nextFloat();
+		return NumberUtils.intBitsToFloat(0xFE000000
+				| ((int) ((mr * r + mg * g + mb * b) * 128f + 128f) << 16 & 0xFF0000)
+				| ((int) ((wr * r + wg * g + wb * b) * 128f + 128f) << 8 & 0xFF00)
+				| ((int) ((yr * r + yg * g + yb * b) * 256f) & 0xFF));
+	}
+
 }

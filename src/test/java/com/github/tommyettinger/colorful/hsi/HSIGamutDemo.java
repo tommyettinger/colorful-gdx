@@ -23,7 +23,7 @@ import com.github.tommyettinger.colorful.TrigTools;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class SphereIPTGamutDemo extends ApplicationAdapter {
+public class HSIGamutDemo extends ApplicationAdapter {
     public static final int SCREEN_WIDTH = 512;
     public static final int SCREEN_HEIGHT = 512;
     private SpriteBatch batch;
@@ -40,7 +40,7 @@ public class SphereIPTGamutDemo extends ApplicationAdapter {
         config.setIdleFPS(10);
         config.useVsync(true);
 
-        final SphereIPTGamutDemo app = new SphereIPTGamutDemo();
+        final HSIGamutDemo app = new HSIGamutDemo();
         new Lwjgl3Application(app, config);
     }
 

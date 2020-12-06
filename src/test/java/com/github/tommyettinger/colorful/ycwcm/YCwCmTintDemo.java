@@ -19,7 +19,7 @@ import com.github.tommyettinger.colorful.Shaders;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class TintDemo extends ApplicationAdapter {
+public class YCwCmTintDemo extends ApplicationAdapter {
     //public static final int backgroundColor = Color.rgba8888(Color.DARK_GRAY);
 //    public static final int SCREEN_WIDTH = 1531;
 //    public static final int SCREEN_HEIGHT = 862;
@@ -42,7 +42,7 @@ public class TintDemo extends ApplicationAdapter {
         config.useVsync(true);
 //        config.setResizable(false);
 
-        final TintDemo app = new TintDemo();
+        final YCwCmTintDemo app = new YCwCmTintDemo();
         config.setWindowListener(new Lwjgl3WindowAdapter() {
             @Override
             public void filesDropped(String[] files) {
