@@ -4,10 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FloatColors;
-import com.github.tommyettinger.colorful.TrigTools;
-import com.github.tommyettinger.colorful.ycwcm.Palette;
-
-import java.util.Random;
 
 /**
  * Contains code for manipulating colors as {@code int}, packed {@code float}, and {@link Color} values in the LMS
@@ -60,9 +56,9 @@ public class ColorTools {
 		final float l = reverseTransform((decoded & 0xff) / 255f);
 		final float m = reverseTransform((decoded >>> 8 & 0xff) / 255f);
 		final float s = reverseTransform((decoded >>> 16 & 0xff) / 255f);
-		final int r = MathUtils.clamp((int) ((5.432622f * l + -4.67910f * m + 0.246257f * s) * 256.0), 0, 255);
-		final int g = MathUtils.clamp((int) ((-1.10517f * l + 2.311198f * m + -0.20588f * s) * 256.0), 0, 255);
-		final int b = MathUtils.clamp((int) ((0.028104f * l + -0.19466f * m + 1.166325f * s) * 256.0), 0, 255);
+		final int r = MathUtils.clamp((int) ((5.432622f * l + -4.67910f * m + 0.246257f * s) * 256f), 0, 255);
+		final int g = MathUtils.clamp((int) ((-1.10517f * l + 2.311198f * m + -0.20588f * s) * 256f), 0, 255);
+		final int b = MathUtils.clamp((int) ((0.028104f * l + -0.19466f * m + 1.166325f * s) * 256f), 0, 255);
 		return r << 24 | g << 16 | b << 8 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
 	}
 
@@ -79,13 +75,13 @@ public class ColorTools {
 		final float l = reverseTransform((decoded & 0xff) / 255f);
 		final float m = reverseTransform((decoded >>> 8 & 0xff) / 255f);
 		final float s = reverseTransform((decoded >>> 16 & 0xff) / 255f);
-		final int r = MathUtils.clamp((int) ((5.432622f * l + -4.67910f * m + 0.246257f * s) * 256.0), 0, 255);
-		final int g = MathUtils.clamp((int) ((-1.10517f * l + 2.311198f * m + -0.20588f * s) * 256.0), 0, 255);
-		final int b = MathUtils.clamp((int) ((0.028104f * l + -0.19466f * m + 1.166325f * s) * 256.0), 0, 255);
+		final int r = MathUtils.clamp((int) ((5.432622f * l + -4.67910f * m + 0.246257f * s) * 256f), 0, 255);
+		final int g = MathUtils.clamp((int) ((-1.10517f * l + 2.311198f * m + -0.20588f * s) * 256f), 0, 255);
+		final int b = MathUtils.clamp((int) ((0.028104f * l + -0.19466f * m + 1.166325f * s) * 256f), 0, 255);
 		return NumberUtils.intBitsToFloat(r | g << 8 | b << 16 | (decoded & 0xfe000000));
 	}
 	/**
-	 * Writes an IPT-format packed float color (the format produced by {@link ColorTools#lms(float, float, float, float)})
+	 * Writes an LMS-format packed float color (the format produced by {@link ColorTools#lms(float, float, float, float)})
 	 * into an RGBA8888 Color as used by libGDX (called {@code editing}).
 	 * @param editing a libGDX color that will be filled in-place with an RGBA conversion of {@code packed}
 	 * @param packed a packed float color, as produced by {@link ColorTools#lms(float, float, float, float)}
@@ -105,25 +101,25 @@ public class ColorTools {
 	}
 
 	/**
-	 * Takes a color encoded as an RGBA8888 int and converts to a packed float in the IPT format this uses.
+	 * Takes a color encoded as an RGBA8888 int and converts to a packed float in the LMS format this uses.
 	 * @param rgba an int with the channels (in order) red, green, blue, alpha; should have 8 bits per channel
-	 * @return a packed float as IPT, which this class can use
+	 * @return a packed float as LMS, which this class can use
 	 */
 	public static float fromRGBA8888(final int rgba) {
 		final float r = (rgba >>> 24) * 0x1.010101010101p-8f;
 		final float g = (rgba >>> 16 & 0xFF) * 0x1.010101010101p-8f;
 		final float b = (rgba >>> 8 & 0xFF) * 0x1.010101010101p-8f;
 		return NumberUtils.intBitsToFloat(
-			              MathUtils.clamp((int)((0.189786f * r + 0.576951f * g + 0.233221f * b) * 255.0f + 0.500f), 0, 255)
-						| MathUtils.clamp((int)((0.669665f * r - 0.73741f * g + 0.0681367f * b) * 127.5f + 127.5f), 0, 255) << 8
-						| MathUtils.clamp((int)((0.286498f * r + 0.655205f * g - 0.941748f * b) * 127.5f + 127.5f), 0, 255) << 16
+			              MathUtils.clamp((int) (forwardTransform(0.313921f * r + 0.639468f * g + 0.0465970f * b) * 256f), 0, 255)
+						| MathUtils.clamp((int) (forwardTransform(0.151693f * r + 0.748209f * g + 0.1000044f * b) * 256f), 0, 255) << 8
+						| MathUtils.clamp((int) (forwardTransform(0.017753f * r + 0.109468f * g + 0.8729690f * b) * 256f), 0, 255) << 16
 						| (rgba & 0xFE) << 24);
 	}
 
 	/**
-	 * Takes a color encoded as an RGBA8888 packed float and converts to a packed float in the IPT format this uses.
+	 * Takes a color encoded as an RGBA8888 packed float and converts to a packed float in the LMS format this uses.
 	 * @param packed a packed float in RGBA8888 format, with A in the MSB and R in the LSB
-	 * @return a packed float as IPT, which this class can use
+	 * @return a packed float as LMS, which this class can use
 	 */
 	public static float fromRGBA(final float packed) {
 		final int abgr = NumberUtils.floatToRawIntBits(packed);
@@ -132,38 +128,38 @@ public class ColorTools {
 		final float b = (abgr >>> 16 & 0xFF) * 0x1.010101010101p-8f;
 
 		return NumberUtils.intBitsToFloat(
-				          MathUtils.clamp((int)((0.189786f * r + 0.576951f * g + 0.233221f * b) * 255.999f), 0, 255)
-						| MathUtils.clamp((int)((0.669665f * r - 0.73741f * g + 0.0681367f * b) * 127.5f + 127.5f), 0, 255) << 8
-						| MathUtils.clamp((int)((0.286498f * r + 0.655205f * g - 0.941748f * b) * 127.5f + 127.5f), 0, 255) << 16
+				          MathUtils.clamp((int) (forwardTransform(0.313921f * r + 0.639468f * g + 0.0465970f * b) * 256f), 0, 255)
+						| MathUtils.clamp((int) (forwardTransform(0.151693f * r + 0.748209f * g + 0.1000044f * b) * 256f), 0, 255) << 8
+						| MathUtils.clamp((int) (forwardTransform(0.017753f * r + 0.109468f * g + 0.8729690f * b) * 256f), 0, 255) << 16
 						| (abgr & 0xFE000000));
 	}
 
 	/**
-	 * Takes a libGDX Color that uses RGBA8888 channels and converts to a packed float in the IPT format this uses.
+	 * Takes a libGDX Color that uses RGBA8888 channels and converts to a packed float in the LMS format this uses.
 	 * @param color a libGDX RGBA8888 Color
-	 * @return a packed float as IPT, which this class can use
+	 * @return a packed float as LMS, which this class can use
 	 */
 	public static float fromColor(final Color color) {
 		return NumberUtils.intBitsToFloat(
-			              MathUtils.clamp((int)((0.189786f * color.r + 0.576951f * color.g + 0.233221f * color.b) * 255.0f + 0.500f), 0, 255)
-						| MathUtils.clamp((int)((0.669665f * color.r - 0.73741f * color.g + 0.0681367f * color.b) * 127.5f + 127.5f), 0, 255) << 8
-						| MathUtils.clamp((int)((0.286498f * color.r + 0.655205f * color.g - 0.941748f * color.b) * 127.5f + 127.5f), 0, 255) << 16
+				          MathUtils.clamp((int) (forwardTransform(0.313921f * color.r + 0.639468f * color.g + 0.0465970f * color.b) * 256f), 0, 255)
+						| MathUtils.clamp((int) (forwardTransform(0.151693f * color.r + 0.748209f * color.g + 0.1000044f * color.b) * 256f), 0, 255) << 8
+						| MathUtils.clamp((int) (forwardTransform(0.017753f * color.r + 0.109468f * color.g + 0.8729690f * color.b) * 256f), 0, 255) << 16
 						| ((int)(color.a * 255f) << 24 & 0xFE000000));
 	}
 
 	/**
-	 * Takes RGBA components from 0.0 to 1.0 each and converts to a packed float in the IPT format this uses.
+	 * Takes RGBA components from 0.0 to 1.0 each and converts to a packed float in the LMS format this uses.
 	 * @param r red, from 0.0 to 1.0 (both inclusive)
 	 * @param g green, from 0.0 to 1.0 (both inclusive)
 	 * @param b blue, from 0.0 to 1.0 (both inclusive)
 	 * @param a alpha, from 0.0 to 1.0 (both inclusive)
-	 * @return a packed float as IPT, which this class can use
+	 * @return a packed float as LMS, which this class can use
 	 */
 	public static float fromRGBA(final float r, final float g, final float b, final float a) {
 		return NumberUtils.intBitsToFloat(
-				          MathUtils.clamp((int)((0.189786f * r + 0.576951f * g + 0.233221f * b) * 255.0f + 0.500f), 0, 255)
-						| MathUtils.clamp((int)((0.669665f * r - 0.73741f * g + 0.0681367f * b) * 127.5f + 127.5f), 0, 255) << 8
-						| MathUtils.clamp((int)((0.286498f * r + 0.655205f * g - 0.941748f * b) * 127.5f + 127.5f), 0, 255) << 16
+    				      MathUtils.clamp((int) (forwardTransform(0.313921f * r + 0.639468f * g + 0.0465970f * b) * 256f), 0, 255)
+						| MathUtils.clamp((int) (forwardTransform(0.151693f * r + 0.748209f * g + 0.1000044f * b) * 256f), 0, 255) << 8
+						| MathUtils.clamp((int) (forwardTransform(0.017753f * r + 0.109468f * g + 0.8729690f * b) * 256f), 0, 255) << 16
 						| ((int)(a * 255f) << 24 & 0xFE000000));
 	}
 
@@ -175,10 +171,10 @@ public class ColorTools {
 	public static int redInt(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		return MathUtils.clamp((int) ((0.999779f * i + 1.0709400f * p + 0.324891f * t) * 256.0), 0, 255);
+		final float l = reverseTransform((decoded & 0xff) / 255f);
+		final float m = reverseTransform((decoded >>> 8 & 0xff) / 255f);
+		final float s = reverseTransform((decoded >>> 16 & 0xff) / 255f);
+		return MathUtils.clamp((int) ((5.432622f * l + -4.67910f * m + 0.246257f * s) * 256f), 0, 255);
 	}
 
 	/**
@@ -189,10 +185,10 @@ public class ColorTools {
 	public static int greenInt(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		return MathUtils.clamp((int) ((1.000150f * i - 0.3777440f * p + 0.220439f * t) * 256.0), 0, 255);
+		final float l = reverseTransform((decoded & 0xff) / 255f);
+		final float m = reverseTransform((decoded >>> 8 & 0xff) / 255f);
+		final float s = reverseTransform((decoded >>> 16 & 0xff) / 255f);
+		return MathUtils.clamp((int) ((-1.10517f * l + 2.311198f * m + -0.20588f * s) * 256f), 0, 255);
 	}
 
 	/**
@@ -203,10 +199,10 @@ public class ColorTools {
 	public static int blueInt(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		return MathUtils.clamp((int) ((0.999769f * i + 0.0629496f * p - 0.809638f * t) * 256.0), 0, 255);
+		final float l = reverseTransform((decoded & 0xff) / 255f);
+		final float m = reverseTransform((decoded >>> 8 & 0xff) / 255f);
+		final float s = reverseTransform((decoded >>> 16 & 0xff) / 255f);
+		return MathUtils.clamp((int) ((0.028104f * l + -0.19466f * m + 1.166325f * s) * 256f), 0, 255);
 	}
 
 	/**
@@ -228,10 +224,11 @@ public class ColorTools {
 	public static float red(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		return MathUtils.clamp((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f, 1f);
+		final float l = reverseTransform((decoded & 0xff) / 255f);
+		final float m = reverseTransform((decoded >>> 8 & 0xff) / 255f);
+		final float s = reverseTransform((decoded >>> 16 & 0xff) / 255f);
+
+		return MathUtils.clamp((5.432622f * l + -4.67910f * m + 0.246257f * s), 0f, 1f);
 	}
 
 	/**
@@ -242,10 +239,11 @@ public class ColorTools {
 	public static float green(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		return MathUtils.clamp((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f, 1f);
+		final float l = reverseTransform((decoded & 0xff) / 255f);
+		final float m = reverseTransform((decoded >>> 8 & 0xff) / 255f);
+		final float s = reverseTransform((decoded >>> 16 & 0xff) / 255f);
+
+		return MathUtils.clamp((-1.10517f * l + 2.311198f * m + -0.20588f * s), 0f, 1f);
 	}
 
 	/**
@@ -256,10 +254,10 @@ public class ColorTools {
 	public static float blue(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		return MathUtils.clamp((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f, 1f);
+		final float l = reverseTransform((decoded & 0xff) / 255f);
+		final float m = reverseTransform((decoded >>> 8 & 0xff) / 255f);
+		final float s = reverseTransform((decoded >>> 16 & 0xff) / 255f);
+		return MathUtils.clamp((0.028104f * l + -0.19466f * m + 1.166325f * s), 0f, 1f);
 	}
 
 	/**
@@ -273,7 +271,7 @@ public class ColorTools {
 	}
 
 	/**
-	 * Gets a color as an IPT packed float given floats representing hue, saturation, lightness, and opacity.
+	 * Gets a color as an LMS packed float given floats representing hue, saturation, lightness, and opacity.
 	 * All parameters should normally be between 0 and 1 inclusive, though any hue is tolerated (precision loss may
 	 * affect the color if the hue is too large). A hue of 0 is red, progressively higher hue values go to orange,
 	 * yellow, green, blue, and purple before wrapping around to red as it approaches 1. A saturation of 0 is grayscale,
@@ -303,13 +301,12 @@ public class ColorTools {
 	 */
 	public static float saturation(final float encoded) {
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		final float i = (decoded & 0xff) / 255f;
-		if(Math.abs(i - 0.5) > 0.495f) return 0f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float r = MathUtils.clamp((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f, 1f);
-		final float g = MathUtils.clamp((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f, 1f);
-		final float b = MathUtils.clamp((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f, 1f);
+		final float l = reverseTransform((decoded & 0xff) / 255f);
+		final float m = reverseTransform((decoded >>> 8 & 0xff) / 255f);
+		final float s = reverseTransform((decoded >>> 16 & 0xff) / 255f);
+		final float r = MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f);
+		final float g = MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f);
+		final float b = MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f);
 		float x, y, w;
 		if(g < b) {
 			x = b;
@@ -334,13 +331,12 @@ public class ColorTools {
 
 	public static float lightness(final float encoded) {
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float r = MathUtils.clamp((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f, 1f);
-		final float g = MathUtils.clamp((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f, 1f);
-		final float b = MathUtils.clamp((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f, 1f);
-
+		final float l = reverseTransform((decoded & 0xff) / 255f);
+		final float m = reverseTransform((decoded >>> 8 & 0xff) / 255f);
+		final float s = reverseTransform((decoded >>> 16 & 0xff) / 255f);
+		final float r = MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f);
+		final float g = MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f);
+		final float b = MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f);
 		float x, y, w;
 		if(g < b) {
 			x = b;
@@ -370,12 +366,12 @@ public class ColorTools {
 	 */
 	public static float hue(final float encoded) {
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float r = MathUtils.clamp((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f, 1f);
-		final float g = MathUtils.clamp((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f, 1f);
-		final float b = MathUtils.clamp((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f, 1f);
+		final float l = reverseTransform((decoded & 0xff) / 255f);
+		final float m = reverseTransform((decoded >>> 8 & 0xff) / 255f);
+		final float s = reverseTransform((decoded >>> 16 & 0xff) / 255f);
+		final float r = MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f);
+		final float g = MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f);
+		final float b = MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f);
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
@@ -402,9 +398,8 @@ public class ColorTools {
 	}
 
 	/**
-	 * The "intensity" of the given packed float in IPT format, which is like its lightness; ranges from 0.0f to
-	 * 1.0f . You can edit the intensity of a color with {@link #lighten(float, float)} and
-	 * {@link #darken(float, float)}.
+	 * The "L" signal of the given packed float in LMS format, which is like its lightness; ranges from 0.0f to
+	 * 1.0f . This is approximately meaningless on its own, and only is useful in conjunction with other signals.
 	 *
 	 * @param encoded a color encoded as a packed float, as by {@link #lms(float, float, float, float)}
 	 * @return the intensity value as a float from 0.0f to 1.0f
@@ -415,11 +410,10 @@ public class ColorTools {
 	}
 
 	/**
-	 * The "protan" of the given packed float in IPT format, which when combined with tritan describes the
-	 * hue and saturation of a color; ranges from 0f to 1f . If protan is 0f, the color will be cooler, more green or
-	 * blue; if protan is 1f, the color will be warmer, from magenta to orange. You can edit the protan of a color with
-	 * {@link #protanUp(float, float)} and {@link #protanDown(float, float)}.
-	 * @param encoded a color encoded as a packed float, as by {@link #lms(float, float, float, float)}
+	 * The "M" signal of the given packed float in LMS format, which is like its lightness; ranges from 0.0f to
+	 * 1.0f . This is approximately meaningless on its own, and only is useful in conjunction with other signals.
+	 *
+	 *  @param encoded a color encoded as a packed float, as by {@link #lms(float, float, float, float)}
 	 * @return the protan value as a float from 0.0f to 1.0f
 	 */
 	public static float signalM(final float encoded)
@@ -428,10 +422,9 @@ public class ColorTools {
 	}
 
 	/**
-	 * The "tritan" of the given packed float in IPT format, which when combined with protan describes the
-	 * hue and saturation of a color; ranges from 0f to 1f . If tritan is 0f, the color will be more "artificial", more
-	 * blue or purple; if tritan is 1f, the color will be more "natural", from green to yellow to orange. You can edit
-	 * the tritan of a color with {@link #tritanUp(float, float)} and {@link #tritanDown(float, float)}.
+	 * The "S" signal of the given packed float in LMS format, which is like its lightness; ranges from 0.0f to
+	 * 1.0f . This is approximately meaningless on its own, and only is useful in conjunction with other signals.
+	 *
 	 * @param encoded a color encoded as a packed float, as by {@link #lms(float, float, float, float)}
 	 * @return the tritan value as a float from 0.0f to 1.0f
 	 */
@@ -462,16 +455,14 @@ public class ColorTools {
 	 * @return a float encoding a variation of basis with the given changes
 	 */
 	public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {
-		final int e = NumberUtils.floatToRawIntBits(basis);
-		final float i = MathUtils.clamp(value + (e & 0xff) / 255f, 0f, 1f);
-		opacity = MathUtils.clamp(opacity + (e >>> 24 & 0xfe) * 0x1.020408p-8f, 0f, 1f);
-		if (i <= 0.001f)
-			return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x808000);
-		final float p = ((e >>> 7 & 0x1fe) - 0xff) / 255f;
-		final float t = ((e >>> 15 & 0x1fe) - 0xff) / 255f;
-		final float r = MathUtils.clamp((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f, 1f);
-		final float g = MathUtils.clamp((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f, 1f);
-		final float b = MathUtils.clamp((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f, 1f);
+		final int decoded = NumberUtils.floatToRawIntBits(basis);
+		opacity = MathUtils.clamp(opacity + (decoded >>> 24 & 0xfe) * 0x1.020408p-8f, 0f, 1f);
+		final float l = reverseTransform((decoded & 0xff) / 255f);
+		final float m = reverseTransform((decoded >>> 8 & 0xff) / 255f);
+		final float s = reverseTransform((decoded >>> 16 & 0xff) / 255f);
+		final float r = MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f);
+		final float g = MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f);
+		final float b = MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f);
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
@@ -494,109 +485,10 @@ public class ColorTools {
 			x = r;
 		}
 		float d = x - Math.min(w, y);
+		float li = x * (1f - 0.5f * d / (x + 1e-10f));
 		float hue2 = Math.abs(z + (w - y) / (6f * d + 1e-10f));
-		float sat2 = (x - i) / (Math.min(i, 1f - i) + 1e-10f);
-		return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), MathUtils.clamp(saturation + sat2, 0f, 1f), i, opacity));
-	}
-
-	/**
-	 * Interpolates from the packed float color start towards white by change. While change should be between 0f (return
-	 * start as-is) and 1f (return white), start should be a packed color, as from
-	 * {@link #lms(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
-	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
-	 * white. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and both chroma of start as-is.
-	 * @see #darken(float, float) the counterpart method that darkens a float color
-	 * @param start the starting color as a packed float
-	 * @param change how much to go from start toward white, as a float between 0 and 1; higher means closer to white
-	 * @return a packed float that represents a color between start and white
-	 */
-	public static float lighten(final float start, final float change) {
-		final int s = NumberUtils.floatToRawIntBits(start), i = s & 0xFF, other = s & 0xFEFFFF00;
-		return NumberUtils.intBitsToFloat(((int) (i + (0xFF - i) * change) & 0xFF) | other);
-	}
-
-	/**
-	 * Interpolates from the packed float color start towards black by change. While change should be between 0f (return
-	 * start as-is) and 1f (return black), start should be a packed color, as from
-	 * {@link #lms(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
-	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
-	 * black. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and both chroma of start as-is.
-	 * @see #lighten(float, float) the counterpart method that lightens a float color
-	 * @param start the starting color as a packed float
-	 * @param change how much to go from start toward black, as a float between 0 and 1; higher means closer to black
-	 * @return a packed float that represents a color between start and black
-	 */
-	public static float darken(final float start, final float change) {
-		final int s = NumberUtils.floatToRawIntBits(start), i = s & 0xFF, other = s & 0xFEFFFF00;
-		return NumberUtils.intBitsToFloat(((int) (i * (1f - change)) & 0xFF) | other);
-	}
-
-	/**
-	 * Interpolates from the packed float color start towards a warmer color (orange to magenta) by change. While change
-	 * should be between 0f (return start as-is) and 1f (return fully warmed), start should be a packed color, as from
-	 * {@link #lms(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
-	 * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to
-	 * lerp towards a warmer color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the
-	 * alpha and intensity of start as-is.
-	 * @see #protanDown(float, float) the counterpart method that cools a float color
-	 * @param start the starting color as a packed float
-	 * @param change how much to warm start, as a float between 0 and 1; higher means a warmer result
-	 * @return a packed float that represents a color between start and a warmer color
-	 */
-	public static float protanUp(final float start, final float change) {
-		final int s = NumberUtils.floatToRawIntBits(start), p = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
-		return NumberUtils.intBitsToFloat(((int) (p + (0xFF - p) * change) << 8 & 0xFF00) | other);
-	}
-
-	/**
-	 * Interpolates from the packed float color start towards a cooler color (green to blue) by change. While change
-	 * should be between 0f (return start as-is) and 1f (return fully cooled), start should be a packed color, as from
-	 * {@link #lms(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
-	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
-	 * towards a cooler color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and
-	 * intensity of start as-is.
-	 * @see #protanUp(float, float) the counterpart method that warms a float color
-	 * @param start the starting color as a packed float
-	 * @param change how much to cool start, as a float between 0 and 1; higher means a cooler result
-	 * @return a packed float that represents a color between start and a cooler color
-	 */
-	public static float protanDown(final float start, final float change) {
-		final int s = NumberUtils.floatToRawIntBits(start), p = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
-		return NumberUtils.intBitsToFloat(((int) (p * (1f - change)) & 0xFF) << 8 | other);
-	}
-
-	/**
-	 * Interpolates from the packed float color start towards a "natural" color (between green and orange) by change.
-	 * While change should be between 0f (return start as-is) and 1f (return fully natural), start should be a packed color, as
-	 * from {@link #lms(float, float, float, float)}. This is a good way to reduce allocations of temporary
-	 * Colors, and is a little more efficient and clear than using
-	 * {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards a more natural color. Unlike
-	 * {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and intensity of start as-is.
-	 * @see #tritanDown(float, float) the counterpart method that makes a float color less natural
-	 * @param start the starting color as a packed float
-	 * @param change how much to change start to a natural color, as a float between 0 and 1; higher means a more natural result
-	 * @return a packed float that represents a color between start and a more natural color
-	 */
-	public static float tritanUp(final float start, final float change) {
-		final int s = NumberUtils.floatToRawIntBits(start), t = s >>> 16 & 0xFF, other = s & 0xFE00FFFF;
-		return NumberUtils.intBitsToFloat(((int) (t + (0xFF - t) * change) << 16 & 0xFF0000) | other);
-	}
-
-	/**
-	 * Interpolates from the packed float color start towards an "artificial" color (between blue and purple) by change.
-	 * While change should be between 0f (return start as-is) and 1f (return fully artificial), start should be a packed color, as
-	 * from {@link #lms(float, float, float, float)}. This is a good way to reduce allocations of temporary
-	 * Colors, and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
-	 * towards a more artificial color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the
-	 * alpha and intensity of start as-is.
-	 * @see #tritanUp(float, float) the counterpart method that makes a float color less artificial
-	 * @param start the starting color as a packed float
-	 * @param change how much to change start to a bolder color, as a float between 0 and 1; higher means a more artificial result
-	 * @return a packed float that represents a color between start and a more artificial color
-	 */
-	public static float tritanDown(final float start, final float change) {
-		final int s = NumberUtils.floatToRawIntBits(start), t = s >>> 16 & 0xFF, other = s & 0xFE00FFFF;
-		return NumberUtils.intBitsToFloat(((int) (t * (1f - change)) & 0xFF) << 16 | other);
+		float sat2 = (x - li) / (Math.min(li, 1f - li) + 1e-10f);
+		return FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), MathUtils.clamp(saturation + sat2, 0f, 1f), MathUtils.clamp(li + value, 0f, 1f), opacity);
 	}
 
 	/**
@@ -629,55 +521,6 @@ public class ColorTools {
 	public static float fade(final float start, final float change) {
 		final int s = NumberUtils.floatToRawIntBits(start), opacity = s & 0xFE, other = s & 0x00FFFFFF;
 		return NumberUtils.intBitsToFloat(((int) (opacity * (1f - change)) & 0xFE) << 24 | other);
-	}
-
-	/**
-	 * Given a packed float IPT color {@code mainColor} and another IPT color that it should be made to contrast with,
-	 * gets a packed float IPT color with roughly inverted intnsity but the same chromatic channels and opacity (P and T
-	 * are likely to be clamped if the result gets close to white or black). This won't ever produce black or other very
-	 * dark colors, and also has a gap in the range it produces for intensity values between 0.5 and 0.55. That allows
-	 * most of the colors this method produces to contrast well as a foreground when displayed on a background of
-	 * {@code contrastingColor}, or vice versa. This will leave the intensity unchanged if the chromatic channels of the
-	 * contrastingColor and those of the mainColor are already very different. This has nothing to do with the contrast
-	 * channel of the tweak in ColorfulBatch; where that part of the tweak can make too-similar lightness values further
-	 * apart by just a little, this makes a modification on {@code mainColor} to maximize its lightness difference from
-	 * {@code contrastingColor} without losing its other qualities.
-	 * @param mainColor a packed float color, as produced by {@link #lms(float, float, float, float)}; this is the color that will be adjusted
-	 * @param contrastingColor a packed float color, as produced by {@link #lms(float, float, float, float)}; the adjusted mainColor will contrast with this
-	 * @return a different IPT packed float color, based on mainColor but with potentially very different lightness
-	 */
-	public static float inverseIntensity(final float mainColor, final float contrastingColor)
-	{
-		final int bits = NumberUtils.floatToRawIntBits(mainColor),
-				contrastBits = NumberUtils.floatToRawIntBits(contrastingColor),
-				i = (bits & 0xff),
-				p = (bits >>> 8 & 0xff),
-				t = (bits >>> 16 & 0xff),
-				ci = (contrastBits & 0xff),
-				cp = (contrastBits >>> 8 & 0xff),
-				ct = (contrastBits >>> 16 & 0xff);
-		if((p - cp) * (p - cp) + (t - ct) * (t - ct) >= 0x10000)
-			return mainColor;
-		return lms(ci < 128 ? i * (0.45f / 255f) + 0.55f : 0.5f - i * (0.45f / 255f), p, t, 0x1.0p-8f * (bits >>> 24));
-	}
-
-	/**
-	 * Makes the additive IPT color stored in {@code color} cause less of a change when used as a tint, as if it were
-	 * mixed with neutral gray. When {@code fraction} is 1.0, this returns color unchanged; when fraction is 0.0, it
-	 * returns {@link Palette#GRAY}, and when it is in-between 0.0 and 1.0 it returns something between the two. This is
-	 * meant for things like area of effect abilities that make smaller color changes toward their periphery.
-	 * @param color a color that should have its tinting effect potentially weakened
-	 * @param fraction how much of {@code color} should be kept, from 0.0 to 1.0
-	 * @return an IPT float color between gray and {@code color}
-	 */
-	public static float lessenChange(final float color, float fraction) {
-		final int e = NumberUtils.floatToRawIntBits(color),
-				is = 0x80, ps = 0x80, ts = 0x80, as = 0xFE,
-				ie = (e & 0xFF), pe = (e >>> 8) & 0xFF, te = (e >>> 16) & 0xFF, ae = e >>> 24 & 0xFE;
-		return NumberUtils.intBitsToFloat(((int) (is + fraction * (ie - is)) & 0xFF)
-				| (((int) (ps + fraction * (pe - ps)) & 0xFF) << 8)
-				| (((int) (ts + fraction * (te - ts)) & 0xFF) << 16)
-				| (((int) (as + fraction * (ae - as)) & 0xFE) << 24));
 	}
 
 	/**
@@ -715,133 +558,42 @@ public class ColorTools {
 	}
 
 	/**
-	 * Returns true if the given packed float color, as IPT, is valid to convert losslessly back to RGBA. 
-	 * @param packed a packed float color as IPT
+	 * Returns true if the given packed float color, as LMS, is valid to convert losslessly back to RGBA.
+	 * @param packed a packed float color as LMS
 	 * @return true if the given packed float color can be converted back and forth to RGBA
 	 */
 	public static boolean inGamut(final float packed)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(packed);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float r = 0.999779f * i + 1.0709400f * p + 0.324891f * t;
+		final float l = reverseTransform((decoded & 0xff) / 255f);
+		final float m = reverseTransform((decoded >>> 8 & 0xff) / 255f);
+		final float s = reverseTransform((decoded >>> 16 & 0xff) / 255f);
+		final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;
 		if(r < -0.006f || r > 1.003f) return false;
-		final float g = 1.000150f * i - 0.3777440f * p + 0.220439f * t;
+		final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;
 		if(g < -0.006f || g > 1.003f)
 			return false;
-		final float b = 0.999769f * i + 0.0629496f * p - 0.809638f * t;
+		final float b = 0.028104f * l + -0.19466f * m + 1.166325f * s;
 		return (b >= -0.006f && b <= 1.003f);
 	}
 	/**
-	 * Returns true if the given IPT values are valid to convert losslessly back to RGBA. 
-	 * @param i intensity channel, as a float from 0 to 1
-	 * @param p protan channel, as a float from 0 to 1
-	 * @param t tritan channel, as a float from 0 to 1
+	 * Returns true if the given LMS values are valid to convert losslessly back to RGBA.
+	 * @param l L channel, as a float from 0 to 1
+	 * @param m M channel, as a float from 0 to 1
+	 * @param s S channel, as a float from 0 to 1
 	 * @return true if the given packed float color can be converted back and forth to RGBA
 	 */
-	public static boolean inGamut(float i, float p, float t)
+	public static boolean inGamut(float l, float m, float s)
 	{
-		p = (p - 0.5f) * 2f;
-		t = (t - 0.5f) * 2f;
-		final float r = 0.999779f * i + 1.0709400f * p + 0.324891f * t;
+		l = reverseTransform(l);
+		m = reverseTransform(m);
+		s = reverseTransform(s);
+		final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;
 		if(r < -0.006f || r > 1.003f) return false;
-		final float g = 1.000150f * i - 0.3777440f * p + 0.220439f * t;
+		final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;
 		if(g < -0.006f || g > 1.003f)
 			return false;
-		final float b = 0.999769f * i + 0.0629496f * p - 0.809638f * t;
+		final float b = 0.028104f * l + -0.19466f * m + 1.166325f * s;
 		return (b >= -0.006f && b <= 1.003f);
-	}
-
-	/**
-	 * Converts from a packed float in HSI format to a packed float in IPT format.
-	 * @param packed a packed float in HSI format
-	 * @return a packed float in IPT format
-	 */
-	public static float fromHSI(float packed){
-		final int decoded = NumberUtils.floatToRawIntBits(packed);
-		final float h = (decoded & 0xff) / 255f;
-		final float s = (decoded >>> 8 & 0xff) / 255f;
-		final float i = (decoded >>> 16 & 0xff) / 255f;
-		final float y = TrigTools.cos_(h) * s, z = TrigTools.sin_(h) * s;
-		final float crMid = 0.3481738f * y + 0.104959644f * z;
-		final float crScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(crMid) >>> 31)) * 0.16420607f / -crMid;
-		final float mgMid = 0.122068435f * y + -0.070396f * z;
-		final float mgScale = (i + 0.5f - (NumberUtils.floatToRawIntBits(mgMid) >>> 31)) * -0.16136102f / -mgMid;
-		final float ybMid = 0.020876605f * y + -0.26078433f * z;
-		final float ybScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
-		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
-		final float d = 4f * s * scale / (MathUtils.sin(3.14159f * i) + 0.000001f);
-
-		final float p = y * d;
-		final float t = z * d;
-		return NumberUtils.intBitsToFloat((decoded & 0xFE000000) | ((int) (t * 255) << 16 & 0xFF0000)
-				| ((int) (p * 255) << 8 & 0xFF00) | (decoded >>> 16 & 0xFF));
-	}
-
-	/**
-	 * Converts from hue, saturation, intensity, and alpha components (each ranging from 0 to 1 inclusive) to a packed
-	 * float color in IPT format.
-	 * @param hue hue, from 0 to 1 inclusive; 0 is red, 0.25 is yellow, 0.75 is blue
-	 * @param saturation saturation from 0 (grayscale) to a limit between 0 and 1 depending on intensity (it can be 1 only when intensity is 0.5)
-	 * @param intensity intensity, or lightness, from 0 (black) to 1 (white)
-	 * @param alpha alpha transparency/opacity, from 0 (fully transparent) to 1 (fully opaque)
-	 * @return a packed float in IPT format
-	 */
-	public static float fromHSI(float hue, float saturation, float intensity, float alpha){
-		final float y = TrigTools.cos_(hue) * saturation, z = TrigTools.sin_(hue) * saturation;
-		final float crMid = 0.3481738f * y + 0.104959644f * z;
-		final float crScale = (intensity - 0.5f + (NumberUtils.floatToRawIntBits(crMid) >>> 31)) * 0.16420607f / -crMid;
-		final float mgMid = 0.122068435f * y + -0.070396f * z;
-		final float mgScale = (intensity + 0.5f - (NumberUtils.floatToRawIntBits(mgMid) >>> 31)) * -0.16136102f / -mgMid;
-		final float ybMid = 0.020876605f * y + -0.26078433f * z;
-		final float ybScale = (intensity - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
-		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
-		final float d = 4f * saturation * scale / (MathUtils.sin(3.14159f * intensity) + 0.000001f);
-
-		final float p = y * d;
-		final float t = z * d;
-		return NumberUtils.intBitsToFloat(((int)(alpha * 255) << 24 & 0xFE000000) | ((int) (t * 255) << 16 & 0xFF0000)
-				| ((int) (p * 255) << 8 & 0xFF00) | ((int) (intensity * 255) & 0xFF));
-	}
-
-	/**
-	 * Produces a random packed float color that is always in-gamut and should be uniformly distributed.
-	 * @param random a Random object (or preferably a subclass of Random, like {@link com.badlogic.gdx.math.RandomXS128})
-	 * @return a packed float color that is always in-gamut
-	 */
-	public static float randomColor(Random random) {
-		final float ir = 0.1882353f, pr = 0.83137256f - 0.5f, tr = 0.6431373f - 0.5f;
-		final float ig = 0.5764706f, pg = 0.12941177f - 0.5f, tg = 0.827451f - 0.5f;
-		final float ib = 0.23137255f, pb = 0.53333336f - 0.5f, tb = 0.02745098f - 0.5f;
-		final float r = random.nextFloat(), g = random.nextFloat(), b = random.nextFloat();
-		return NumberUtils.intBitsToFloat(0xFE000000
-				| ((int) ((tr * r + tg * g + tb * b) * 128f + 128f) << 16 & 0xFF0000)
-				| ((int) ((pr * r + pg * g + pb * b) * 128f + 128f) << 8 & 0xFF00)
-				| ((int) ((ir * r + ig * g + ib * b) * 256f) & 0xFF));
-	}
-	/**
-	 * Limited-use; like {@link #randomColor(Random)} but for cases where you already have three floats (r, g, and b)
-	 * distributed how you want. This can be somewhat useful if you are using a "subrandom" or "quasi-random" sequence,
-	 * like the Halton, Sobol, or R3 sequences, to get 3D points and map them to colors. It can also be useful if you
-	 * want to randomly generate the RGB channels yourself and track the values produced, as you would if you wanted to
-	 * avoid generating too many colors with high blue, for instance. This approximately maps the r, g, and b parameters
-	 * to distances on the RGB axes of a rectangular prism, which is stretched and rotated to form the IPT gamut.
-	 * @param r red value to use; will be clamped between 0 and 1
-	 * @param g green value to use; will be clamped between 0 and 1
-	 * @param b blue value to use; will be clamped between 0 and 1
-	 * @return a packed float color that is always opaque
-	 */
-	public static float subrandomColor(float r, float g, float b) {
-		r = MathUtils.clamp(r, 0f, 0.999f);
-		g = MathUtils.clamp(g, 0f, 0.999f);
-		b = MathUtils.clamp(b, 0f, 0.999f);
-		final float ir = 0.1882353f, pr = 0.83137256f - 0.5f, tr = 0.6431373f - 0.5f;
-		final float ig = 0.5764706f, pg = 0.12941177f - 0.5f, tg = 0.827451f - 0.5f;
-		final float ib = 0.23137255f, pb = 0.53333336f - 0.5f, tb = 0.02745098f - 0.5f;
-		return NumberUtils.intBitsToFloat(0xFE000000
-				| ((int) ((tr * r + tg * g + tb * b) * 127.5f + 127.5f) << 16 & 0xFF0000)
-				| ((int) ((pr * r + pg * g + pb * b) * 127.5f + 127.5f) << 8 & 0xFF00)
-				| ((int) ((ir * r + ig * g + ib * b) * 255f) & 0xFF));
 	}
 }
