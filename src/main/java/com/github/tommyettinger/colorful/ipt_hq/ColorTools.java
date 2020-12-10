@@ -389,9 +389,12 @@ public class ColorTools {
 		if(Math.abs(i - 0.5) > 0.495f) return 0f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float r = MathUtils.clamp((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f, 1f);
-		final float g = MathUtils.clamp((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f, 1f);
-		final float b = MathUtils.clamp((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f, 1f);
+		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
+		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
+		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
+		final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
+		final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
 		float x, y, w;
 		if(g < b) {
 			x = b;
@@ -419,9 +422,12 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float r = MathUtils.clamp((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f, 1f);
-		final float g = MathUtils.clamp((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f, 1f);
-		final float b = MathUtils.clamp((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f, 1f);
+		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
+		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
+		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
+		final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
+		final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
 
 		float x, y, w;
 		if(g < b) {
@@ -455,9 +461,12 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float r = MathUtils.clamp((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f, 1f);
-		final float g = MathUtils.clamp((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f, 1f);
-		final float b = MathUtils.clamp((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f, 1f);
+		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
+		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
+		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
+		final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
+		final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
@@ -551,9 +560,12 @@ public class ColorTools {
 			return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x808000);
 		final float p = ((e >>> 7 & 0x1fe) - 0xff) / 255f;
 		final float t = ((e >>> 15 & 0x1fe) - 0xff) / 255f;
-		final float r = MathUtils.clamp((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f, 1f);
-		final float g = MathUtils.clamp((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f, 1f);
-		final float b = MathUtils.clamp((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f, 1f);
+		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
+		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
+		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
+		final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
+		final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
@@ -807,12 +819,15 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float r = 0.999779f * i + 1.0709400f * p + 0.324891f * t;
+		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
+		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
+		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+
+		final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
 		if(r < -0.006f || r > 1.003f) return false;
-		final float g = 1.000150f * i - 0.3777440f * p + 0.220439f * t;
-		if(g < -0.006f || g > 1.003f)
-			return false;
-		final float b = 0.999769f * i + 0.0629496f * p - 0.809638f * t;
+		final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
+		if(g < -0.006f || g > 1.003f) return false;
+		final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
 		return (b >= -0.006f && b <= 1.003f);
 	}
 	/**
@@ -826,65 +841,16 @@ public class ColorTools {
 	{
 		p = (p - 0.5f) * 2f;
 		t = (t - 0.5f) * 2f;
-		final float r = 0.999779f * i + 1.0709400f * p + 0.324891f * t;
+		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
+		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
+		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+
+		final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
 		if(r < -0.006f || r > 1.003f) return false;
-		final float g = 1.000150f * i - 0.3777440f * p + 0.220439f * t;
-		if(g < -0.006f || g > 1.003f)
-			return false;
-		final float b = 0.999769f * i + 0.0629496f * p - 0.809638f * t;
+		final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
+		if(g < -0.006f || g > 1.003f) return false;
+		final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
 		return (b >= -0.006f && b <= 1.003f);
-	}
-
-	/**
-	 * Converts from a packed float in HSI format to a packed float in IPT format.
-	 * @param packed a packed float in HSI format
-	 * @return a packed float in IPT format
-	 */
-	public static float fromHSI(float packed){
-		final int decoded = NumberUtils.floatToRawIntBits(packed);
-		final float h = (decoded & 0xff) / 255f;
-		final float s = (decoded >>> 8 & 0xff) / 255f;
-		final float i = (decoded >>> 16 & 0xff) / 255f;
-		final float y = TrigTools.cos_(h) * s, z = TrigTools.sin_(h) * s;
-		final float crMid = 0.3481738f * y + 0.104959644f * z;
-		final float crScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(crMid) >>> 31)) * 0.16420607f / -crMid;
-		final float mgMid = 0.122068435f * y + -0.070396f * z;
-		final float mgScale = (i + 0.5f - (NumberUtils.floatToRawIntBits(mgMid) >>> 31)) * -0.16136102f / -mgMid;
-		final float ybMid = 0.020876605f * y + -0.26078433f * z;
-		final float ybScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
-		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
-		final float d = 4f * s * scale / (MathUtils.sin(3.14159f * i) + 0.000001f);
-
-		final float p = y * d;
-		final float t = z * d;
-		return NumberUtils.intBitsToFloat((decoded & 0xFE000000) | ((int) (t * 255) << 16 & 0xFF0000)
-				| ((int) (p * 255) << 8 & 0xFF00) | (decoded >>> 16 & 0xFF));
-	}
-
-	/**
-	 * Converts from hue, saturation, intensity, and alpha components (each ranging from 0 to 1 inclusive) to a packed
-	 * float color in IPT format.
-	 * @param hue hue, from 0 to 1 inclusive; 0 is red, 0.25 is yellow, 0.75 is blue
-	 * @param saturation saturation from 0 (grayscale) to a limit between 0 and 1 depending on intensity (it can be 1 only when intensity is 0.5)
-	 * @param intensity intensity, or lightness, from 0 (black) to 1 (white)
-	 * @param alpha alpha transparency/opacity, from 0 (fully transparent) to 1 (fully opaque)
-	 * @return a packed float in IPT format
-	 */
-	public static float fromHSI(float hue, float saturation, float intensity, float alpha){
-		final float y = TrigTools.cos_(hue) * saturation, z = TrigTools.sin_(hue) * saturation;
-		final float crMid = 0.3481738f * y + 0.104959644f * z;
-		final float crScale = (intensity - 0.5f + (NumberUtils.floatToRawIntBits(crMid) >>> 31)) * 0.16420607f / -crMid;
-		final float mgMid = 0.122068435f * y + -0.070396f * z;
-		final float mgScale = (intensity + 0.5f - (NumberUtils.floatToRawIntBits(mgMid) >>> 31)) * -0.16136102f / -mgMid;
-		final float ybMid = 0.020876605f * y + -0.26078433f * z;
-		final float ybScale = (intensity - 0.5f + (NumberUtils.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
-		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
-		final float d = 4f * saturation * scale / (MathUtils.sin(3.14159f * intensity) + 0.000001f);
-
-		final float p = y * d;
-		final float t = z * d;
-		return NumberUtils.intBitsToFloat(((int)(alpha * 255) << 24 & 0xFE000000) | ((int) (t * 255) << 16 & 0xFF0000)
-				| ((int) (p * 255) << 8 & 0xFF00) | ((int) (intensity * 255) & 0xFF));
 	}
 
 	/**
@@ -893,37 +859,14 @@ public class ColorTools {
 	 * @return a packed float color that is always in-gamut
 	 */
 	public static float randomColor(Random random) {
-		final float ir = 0.1882353f, pr = 0.83137256f - 0.5f, tr = 0.6431373f - 0.5f;
-		final float ig = 0.5764706f, pg = 0.12941177f - 0.5f, tg = 0.827451f - 0.5f;
-		final float ib = 0.23137255f, pb = 0.53333336f - 0.5f, tb = 0.02745098f - 0.5f;
-		final float r = random.nextFloat(), g = random.nextFloat(), b = random.nextFloat();
-		return NumberUtils.intBitsToFloat(0xFE000000
-				| ((int) ((tr * r + tg * g + tb * b) * 128f + 128f) << 16 & 0xFF0000)
-				| ((int) ((pr * r + pg * g + pb * b) * 128f + 128f) << 8 & 0xFF00)
-				| ((int) ((ir * r + ig * g + ib * b) * 256f) & 0xFF));
-	}
-	/**
-	 * Limited-use; like {@link #randomColor(Random)} but for cases where you already have three floats (r, g, and b)
-	 * distributed how you want. This can be somewhat useful if you are using a "subrandom" or "quasi-random" sequence,
-	 * like the Halton, Sobol, or R3 sequences, to get 3D points and map them to colors. It can also be useful if you
-	 * want to randomly generate the RGB channels yourself and track the values produced, as you would if you wanted to
-	 * avoid generating too many colors with high blue, for instance. This approximately maps the r, g, and b parameters
-	 * to distances on the RGB axes of a rectangular prism, which is stretched and rotated to form the IPT gamut.
-	 * @param r red value to use; will be clamped between 0 and 1
-	 * @param g green value to use; will be clamped between 0 and 1
-	 * @param b blue value to use; will be clamped between 0 and 1
-	 * @return a packed float color that is always opaque
-	 */
-	public static float subrandomColor(float r, float g, float b) {
-		r = MathUtils.clamp(r, 0f, 0.999f);
-		g = MathUtils.clamp(g, 0f, 0.999f);
-		b = MathUtils.clamp(b, 0f, 0.999f);
-		final float ir = 0.1882353f, pr = 0.83137256f - 0.5f, tr = 0.6431373f - 0.5f;
-		final float ig = 0.5764706f, pg = 0.12941177f - 0.5f, tg = 0.827451f - 0.5f;
-		final float ib = 0.23137255f, pb = 0.53333336f - 0.5f, tb = 0.02745098f - 0.5f;
-		return NumberUtils.intBitsToFloat(0xFE000000
-				| ((int) ((tr * r + tg * g + tb * b) * 127.5f + 127.5f) << 16 & 0xFF0000)
-				| ((int) ((pr * r + pg * g + pb * b) * 127.5f + 127.5f) << 8 & 0xFF00)
-				| ((int) ((ir * r + ig * g + ib * b) * 255f) & 0xFF));
+		float i = random.nextFloat();
+		float p = random.nextFloat();
+		float t = random.nextFloat();
+		while (!inGamut(i, p, t)) {
+			i = random.nextFloat();
+			p = random.nextFloat();
+			t = random.nextFloat();
+		}
+		return ipt(i, p, t, 1f);
 	}
 }
