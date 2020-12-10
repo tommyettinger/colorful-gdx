@@ -242,7 +242,10 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		return MathUtils.clamp((int) ((0.999779f * i + 1.0709400f * p + 0.324891f * t) * 256.0), 0, 255);
+		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
+		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
+		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		return (int)(reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f)) * 255.999f);
 	}
 
 	/**
@@ -256,7 +259,10 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		return MathUtils.clamp((int) ((1.000150f * i - 0.3777440f * p + 0.220439f * t) * 256.0), 0, 255);
+		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
+		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
+		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		return (int)(reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f)) * 255.999f);
 	}
 
 	/**
@@ -270,7 +276,10 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		return MathUtils.clamp((int) ((0.999769f * i + 0.0629496f * p - 0.809638f * t) * 256.0), 0, 255);
+		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
+		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
+		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		return (int)(reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f)) * 255.999f);
 	}
 
 	/**
@@ -295,7 +304,10 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		return MathUtils.clamp((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f, 1f);
+		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
+		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
+		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		return reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
 	}
 
 	/**
@@ -309,7 +321,10 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		return MathUtils.clamp((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f, 1f);
+		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
+		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
+		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		return reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
 	}
 
 	/**
@@ -323,7 +338,10 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		return MathUtils.clamp((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f, 1f);
+		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
+		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
+		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		return reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
 	}
 
 	/**
