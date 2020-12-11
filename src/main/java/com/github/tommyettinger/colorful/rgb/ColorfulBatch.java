@@ -320,6 +320,37 @@ public class ColorfulBatch implements Batch {
                 | (blue << 16 & 0xFF0000) | (green << 8 & 0xFF00) | (red & 0xFF));
     }
 
+    /**
+     * A convenience method that sets both the color (with {@link #setColor(float)}) and the tweak (with
+     * {@link #setTweak(float)}) at the same time.
+     * @param color the additive components and alpha, as a packed float
+     * @param tweak the multiplicative components and contrast, as a packed float
+     */
+    public void setTweakedColor(final float color, final float tweak) {
+        setColor(color);
+        setTweak(tweak);
+    }
+    /**
+     * A convenience method that sets both the color (with {@link #setColor(float, float, float, float)}) and the tweak
+     * (with {@link #setTweak(float, float, float, float)}) at the same time.
+     * @param redAdd additive red channel, from 0 to 1; 0.5 is neutral
+     * @param greenAdd additive green channel, from 0 to 1; 0.5 is neutral
+     * @param blueAdd additive blue channel, from 0 to 1; 0.5 is neutral
+     * @param alphaMul multiplicative alpha channel, from 0 to 1; 1.0 is neutral
+     * @param redMul multiplicative red channel, from 0 to 1; 0.5 is neutral
+     * @param greenMul multiplicative green channel, from 0 to 1; 0.5 is neutral
+     * @param blueMul multiplicative blue channel, from 0 to 1; 0.5 is neutral
+     * @param contrast affects how lightness changes, from 0 (low contrast, cloudy look) to 1 (high contrast, sharpened look); 0.5 is neutral
+     */
+    public void setTweakedColor (final float redAdd, final float greenAdd,
+                                 final float blueAdd, final float alphaMul,
+                                 final float redMul, final float greenMul,
+                                 final float blueMul, final float contrast) {
+        setColor(redAdd, greenAdd, blueAdd, alphaMul);
+        setTweak(redMul, greenMul, blueMul, contrast);
+    }
+
+
     @Override
     public void draw (Texture texture, float x, float y, float originX, float originY, float width, float height, float scaleX,
                       float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY) {
