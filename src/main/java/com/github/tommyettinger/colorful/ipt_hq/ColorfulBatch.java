@@ -176,12 +176,13 @@ public class ColorfulBatch implements Batch {
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                         "  vec3 ipt = mat3(0.40000, 4.45500, 0.80560, 0.40000, -4.8510, 0.35720, 0.20000, 0.39600, -1.1628) *" +
                         "             pow(mat3(0.313921f, 0.151693f, 0.017753f, 0.639468f, 0.748209f, 0.109468f, 0.0465970f, 0.1000044f, 0.8729690f) \n" +
-                        "             * tgt.rgb * tgt.rgb, forward);\n" +
-                        "  ipt.x = pow(ipt.x, v_tweak.a) * v_lightFix * v_tweak.r + v_color.r - 0.5;\n" +
+                        "             * (tgt.rgb * tgt.rgb), forward);\n" +
+                        "  ipt.x = pow(ipt.x, v_tweak.a) * v_lightFix * v_tweak.r + v_color.r - 0.55;\n" +
                         "  ipt.yz = (ipt.yz * v_tweak.gb + v_color.gb - 0.5) * 2.0;\n" +
+                        "  ipt = mat3(1.0, 1.0, 1.0, 0.097569, -0.11388, 0.032615, 0.205226, 0.133217, -0.67689) * ipt;\n" +
                         "  gl_FragColor = vec4(sqrt(clamp(" +
                         "                 mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) *\n" +
-                        "                 pow(mat3(1.0, 1.0, 1.0, 0.097569, -0.11388, 0.032615, 0.205226, 0.133217, -0.67689) * ipt, reverse)," +
+                        "                 (sign(ipt) * pow(abs(ipt), reverse))," +
                         "                 0.0, 1.0)), v_color.a * tgt.a);\n" +
                         "}";
 

@@ -1,4 +1,4 @@
-package com.github.tommyettinger.colorful.ipt;
+package com.github.tommyettinger.colorful.ipt_hq;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -19,7 +19,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class IPTNamedDemo extends ApplicationAdapter {
+public class IPTHQNamedDemo extends ApplicationAdapter {
     public static final int SCREEN_WIDTH = 808;
     public static final int SCREEN_HEIGHT = 600;
     private ColorfulBatch batch;
@@ -42,7 +42,7 @@ public class IPTNamedDemo extends ApplicationAdapter {
         config.useVsync(true);
 //        config.setResizable(false);
 
-        final IPTNamedDemo app = new IPTNamedDemo();
+        final IPTHQNamedDemo app = new IPTHQNamedDemo();
         config.setWindowListener(new Lwjgl3WindowAdapter() {
             @Override
             public void filesDropped(String[] files) {
