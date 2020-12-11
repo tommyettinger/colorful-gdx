@@ -823,12 +823,12 @@ public class ColorTools {
 		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
 		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
 
-		final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
-		if(r < -0.006f || r > 1.003f) return false;
-		final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
-		if(g < -0.006f || g > 1.003f) return false;
-		final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
-		return (b >= -0.006f && b <= 1.003f);
+		final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;
+		if(r < 0f || r > 1.0f) return false;
+		final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;
+		if(g < 0f || g > 1.0f) return false;
+		final float b = 0.028104f * l + -0.19466f * m + 1.166325f * s;
+		return (b >= 0f && b <= 1.0f);
 	}
 	/**
 	 * Returns true if the given IPT values are valid to convert losslessly back to RGBA. 
@@ -845,12 +845,12 @@ public class ColorTools {
 		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
 		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
 
-		final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
-		if(r < -0.006f || r > 1.003f) return false;
-		final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
-		if(g < -0.006f || g > 1.003f) return false;
-		final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
-		return (b >= -0.006f && b <= 1.003f);
+		final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;
+		if(r < 0f || r > 1.0f) return false;
+		final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;
+		if(g < 0f || g > 1.0f) return false;
+		final float b = 0.028104f * l + -0.19466f * m + 1.166325f * s;
+		return (b >= 0f && b <= 1.0f);
 	}
 
 	/**

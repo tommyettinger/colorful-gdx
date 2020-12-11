@@ -1,9 +1,13 @@
-package com.github.tommyettinger.colorful.ipt;
+package com.github.tommyettinger.colorful.ipt_hq;
 
+import com.badlogic.gdx.math.RandomXS128;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.IntArray;
 import com.github.tommyettinger.anim8.PNG8;
 import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.colorful.internal.StringKit;
+
 /* Example output:
 
 {0x00000000, 0x0B080FFF, 0x353336FF, 0x555555FF, 0x797577FF, 0xAAAAAAFF, 0xC8C8C8FF, 0xE0E0E0FF,
@@ -28,33 +32,66 @@ EXPERIMENTAL:
 }
  */
 public class SubRandomPaletteGenerator {
-    public static void main(String[] args) {
-        final int limit = 64;
-        IntArray rgba = new IntArray(limit);
-        rgba.add(0);
-        rgba.add(0x0B080FFF);
-        rgba.add(0xFAF7F0FF);
-        rgba.add(0x797577FF);
-        rgba.add(0x555555FF);
-        rgba.add(0xAAAAAAFF);
-        rgba.add(0x353336FF);
-        rgba.add(0xE0E0E0FF);
-        rgba.add(0xC8C8C8FF);
-        int idx = 1, initial = rgba.size;
-        while (rgba.size < limit) {
-            for (int i = initial; i < 32 && rgba.size < limit; i++) {
-                float color = gaussianColor(idx++, 0.5 * (1.0 - i * i * i * 0x1p-16));
-                if (ColorTools.inGamut(color)) {
-                    rgba.add(ColorTools.toRGBA8888(color));
-                }
-            }
+    private static final int limit = 256;
+    private static IntArray rgba = new IntArray(limit);
+    private static FloatArray ipts = new FloatArray(limit);
+    private static void add(int value){
+        float ipt = ColorTools.fromRGBA8888(value);
+        float i = ColorTools.intensity(ipt), p = ColorTools.protan(ipt), t = ColorTools.tritan(ipt);
+        for (int idx = 0; idx < ipts.size; idx++) {
+            float o = ipts.get(idx);
+            if(Vector3.dst2(i, p, t, ColorTools.intensity(o), ColorTools.protan(o), ColorTools.tritan(o)) < 0.004f)
+                return;
         }
-        StringBuilder sb = new StringBuilder(12 * rgba.size + 34).append('{');
+        rgba.add(value);
+        ipts.add(ipt);
+    }
+    private static void add(float ipt){
+        float i = ColorTools.intensity(ipt), p = ColorTools.protan(ipt), t = ColorTools.tritan(ipt);
+        if(!ColorTools.inGamut(i, p, t))
+            return;
+        for (int idx = 0; idx < ipts.size; idx++) {
+            float o = ipts.get(idx);
+            if(Vector3.dst2(i, p, t, ColorTools.intensity(o), ColorTools.protan(o), ColorTools.tritan(o)) < 0.004f)
+                return;
+        }
+        rgba.add(ColorTools.toRGBA8888(ipt));
+        ipts.add(ipt);
+    }
+    public static void main(String[] args) {
+        rgba.add(0);
+        add(0x0B080FFF);
+        add(0xFAF7F0FF);
+        add(0x797577FF);
+        add(0x555555FF);
+        add(0xAAAAAAFF);
+        add(0x353336FF);
+        add(0xE0E0E0FF);
+        add(0xC8C8C8FF);
+        int idx = 1, initial = rgba.size;
+        RandomXS128 random = new RandomXS128(0xB0BAFE77BA77L, 0xCAFEF00D15BADL);
+        while (rgba.size < limit) {
+            add(ColorTools.randomColor(random));
+//            for (int i = initial; i < 32 && rgba.size < limit; i++) {
+//                float color = gaussianColor(idx++, (1.0 - i * i * i * 0x1p-16));
+//                if (ColorTools.inGamut(color)) {
+//                    rgba.add(ColorTools.toRGBA8888(color));
+//                }
+//            }
+        }
+        StringBuilder sb = new StringBuilder(12 * rgba.size + 35).append("{\n");
         for (int i = 0; i < rgba.size; i++) {
             StringKit.appendHex(sb.append("0x"), rgba.get(i)).append(", ");
             if(7 == (i & 7)) sb.append('\n');
         }
         System.out.println(sb.append('}'));
+//
+//        System.out.println();
+//        for (int i = 0; i < ipts.size; i++) {
+//            float c = ipts.get(i);
+//            System.out.printf("I=%f, P=%f, T=%f, RGBA=%08X\n",
+//                    ColorTools.intensity(c), ColorTools.protan(c), ColorTools.tritan(c), ColorTools.toRGBA8888(c));
+//        }
     }
     public static float haltonColor(int index)
     {
@@ -104,7 +141,8 @@ public class SubRandomPaletteGenerator {
     }
     public static float gaussianColor(int index, double sat)
     {
-        sat *= 0.5;
+//        sat *= 0.5;
+        sat *= 2.5;
         double denominator = 3.0, resY = 0.0, resZ = 0.0,
                 resX = (Integer.reverse(index) >>> 1) * 0x1p-31;
         int n = (index & 0x7fffffff);
@@ -123,10 +161,28 @@ public class SubRandomPaletteGenerator {
             n /= 5;
             denominator *= 5.0;
         }
+//        resY -= 0.5;
+//        resZ -= 0.5;
         return ColorTools.ipt(
-                PaletteReducer.barronSpline((float) resX, 1.25f, 0.5f),//(float) (PNG8.probit(resX) * 2.0 % 0.5 + 0.5),
-                (float) (PNG8.probit(resY) * sat + 0.5),
-                (float) (PNG8.probit(resZ) * sat + 0.5), 1f);
+//                (float)resX,
+//                (float)((resY - 0.5) % sat) + 0.5f,
+//                (float)((resZ - 0.5) % sat) + 0.5f,
+                (float) Math.pow(PNG8.probit(resX) * 2.0 % 0.5 + 0.5, 0.9375),
+//                (float)(resY * resY * resY * sat) + 0.5f,
+//                (float)(resZ * resZ * resZ * sat) + 0.5f,
+//                PaletteReducer.barronSpline((float)resY, 0.5f, 0.5f),
+//                PaletteReducer.barronSpline((float)resZ, 0.5f, 0.5f),
+//                (PaletteReducer.barronSpline((float)resY, 0.5f, 0.5f) - 0.5f) * (float) sat + 0.5f,
+//                (PaletteReducer.barronSpline((float)resZ, 0.5f, 0.5f) - 0.5f) * (float) sat + 0.5f,
+//                (float)resY,
+//                (float)resZ,
+//                PaletteReducer.barronSpline((float) resX, 1.25f, 0.45f),
+//                (float) (PNG8.probit(resX) * 2.0 % 0.5 + 0.5),
+                (float) (PNG8.probit(resY) * sat % 0.5 + 0.5),
+                (float) (PNG8.probit(resZ) * sat % 0.5 + 0.5),
+//                (float) (PNG8.probit(PaletteReducer.barronSpline((float)resY, 1.5f, 0.5f)) * sat + 0.5),
+//                (float) (PNG8.probit(PaletteReducer.barronSpline((float)resZ, 1.5f, 0.5f)) * sat + 0.5),
+                1f);
     }
 
 }
