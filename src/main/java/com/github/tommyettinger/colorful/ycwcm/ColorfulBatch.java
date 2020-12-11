@@ -214,9 +214,16 @@ public class ColorfulBatch implements Batch {
         color = tint.toFloatBits();
     }
 
+    /**
+     * Sets the additive changes to the YCwCm color, as well as the multiplicative change to the alpha.
+     * @param lumaAdd additive luma channel, from 0 to 1; 0.5 is neutral
+     * @param warmAdd additive chromatic warmth channel, from 0 to 1; 0.5 is neutral
+     * @param mildAdd additive chromatic mildness channel, from 0 to 1; 0.5 is neutral
+     * @param alphaMul multiplicative alpha channel, from 0 to 1; 1.0 is neutral
+     */
     @Override
-    public void setColor (float luma, float warm, float mild, float alpha) {
-        color = ColorTools.ycwcm(luma, warm, mild, alpha);
+    public void setColor (float lumaAdd, float warmAdd, float mildAdd, float alphaMul) {
+        color = ColorTools.ycwcm(lumaAdd, warmAdd, mildAdd, alphaMul);
     }
 
     public void setColor (final float color) {
@@ -253,8 +260,15 @@ public class ColorfulBatch implements Batch {
         return color;
     }
 
-    public void setTweak (float luma, float warm, float mild, float contrast) {
-        tweak = ColorTools.ycwcm(luma, warm, mild, contrast);
+    /**
+     * Sets the multiplicative changes to the YCwCm color, along with the contrast.
+     * @param lumaMul multiplicative luma channel, from 0 to 1; 0.5 is neutral
+     * @param warmMul multiplicative chromatic warmth channel, from 0 to 1; 0.5 is neutral
+     * @param mildMul multiplicative chromatic mildness channel, from 0 to 1; 0.5 is neutral
+     * @param contrast affects how lightness changes, from 0 (low contrast, cloudy look) to 1 (high contrast, sharpened look); 0.5 is neutral
+     */
+    public void setTweak (float lumaMul, float warmMul, float mildMul, float contrast) {
+        tweak = ColorTools.ycwcm(lumaMul, warmMul, mildMul, contrast);
     }
 
     public void setTweak (final float tweak) {
@@ -272,6 +286,35 @@ public class ColorfulBatch implements Batch {
     public void setIntTweak(int luma, int warm, int mild, int contrast) {
         tweak = NumberUtils.intBitsToFloat((contrast << 24 & 0xFE000000)
                 | (mild << 16 & 0xFF0000) | (warm << 8 & 0xFF00) | (luma & 0xFF));
+    }
+    /**
+     * A convenience method that sets both the color (with {@link #setColor(float)}) and the tweak (with
+     * {@link #setTweak(float)}) at the same time.
+     * @param color the additive components and alpha, as a packed float
+     * @param tweak the multiplicative components and contrast, as a packed float
+     */
+    public void setTweakedColor(final float color, final float tweak) {
+        setColor(color);
+        setTweak(tweak);
+    }
+    /**
+     * A convenience method that sets both the color (with {@link #setColor(float, float, float, float)}) and the tweak
+     * (with {@link #setTweak(float, float, float, float)}) at the same time.
+     * @param lumaAdd additive luma channel, from 0 to 1; 0.5 is neutral
+     * @param warmAdd additive chromatic warmth channel, from 0 to 1; 0.5 is neutral
+     * @param mildAdd additive chromatic mildness channel, from 0 to 1; 0.5 is neutral
+     * @param alphaMul multiplicative alpha channel, from 0 to 1; 1.0 is neutral
+     * @param lumaMul multiplicative luma channel, from 0 to 1; 0.5 is neutral
+     * @param warmMul multiplicative chromatic warmth channel, from 0 to 1; 0.5 is neutral
+     * @param mildMul multiplicative chromatic mildness channel, from 0 to 1; 0.5 is neutral
+     * @param contrast affects how lightness changes, from 0 (low contrast, cloudy look) to 1 (high contrast, sharpened look); 0.5 is neutral
+     */
+    public void setTweakedColor (final float lumaAdd, final float warmAdd,
+                                 final float mildAdd, final float alphaMul,
+                                 final float lumaMul, final float warmMul,
+                                 final float mildMul, final float contrast) {
+        setColor(lumaAdd, warmAdd, mildAdd, alphaMul);
+        setTweak(lumaMul, warmMul, mildMul, contrast);
     }
 
     @Override

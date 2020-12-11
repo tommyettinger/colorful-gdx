@@ -318,6 +318,37 @@ public class ColorfulBatch implements Batch {
                 | (tritan << 16 & 0xFF0000) | (protan << 8 & 0xFF00) | (intensity & 0xFF));
     }
 
+    /**
+     * A convenience method that sets both the color (with {@link #setColor(float)}) and the tweak (with
+     * {@link #setTweak(float)}) at the same time.
+     * @param color the additive components and alpha, as a packed float
+     * @param tweak the multiplicative components and contrast, as a packed float
+     */
+    public void setTweakedColor(final float color, final float tweak) {
+        setColor(color);
+        setTweak(tweak);
+    }
+
+    /**
+     * A convenience method that sets both the color (with {@link #setColor(float, float, float, float)}) and the tweak
+     * (with {@link #setTweak(float, float, float, float)}) at the same time.
+     * @param intensityAdd like lightness; additive; ranges from 0 (black) to 1 (white)
+     * @param protanAdd cool-to-warm, roughly; additive; ranges from 0 (green/cyan/blue) to 1 (orange/red/purple)
+     * @param tritanAdd artificial-to-natural, very roughly; additive; ranges from 0 (blue/purple) to 1 (green/yellow/orange)
+     * @param alphaMul opacity, from 0 to 1; multiplicative
+     * @param intensityMul like lightness; multiplicative; ranges from 0 (black) to 1 (white)
+     * @param protanMul cool-to-warm, roughly; multiplicative; ranges from 0 (green/cyan/blue) to 1 (orange/red/purple)
+     * @param tritanMul artificial-to-natural, very roughly; multiplicative; ranges from 0 (blue/purple) to 1 (green/yellow/orange)
+     * @param contrast foggy-to-sharp lightness contrast; affects most other components; ranges from 0 (flat, foggy lightness) to 1 (sharp, crisp lightness)
+     */
+    public void setTweakedColor(final float intensityAdd, final float protanAdd,
+                                final float tritanAdd, final float alphaMul,
+                                final float intensityMul, final float protanMul,
+                                final float tritanMul, final float contrast) {
+        setColor(intensityAdd, protanAdd, tritanAdd, alphaMul);
+        setTweak(intensityMul, protanMul, tritanMul, contrast);
+    }
+
     @Override
     public void draw (Texture texture, float x, float y, float originX, float originY, float width, float height, float scaleX,
                       float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY) {
