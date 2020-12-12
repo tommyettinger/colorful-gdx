@@ -31,28 +31,35 @@ EXPERIMENTAL:
 0x745D54FF, 0x89CE42FF, 0xD91AFCFF, 0x2F9CADFF, 0x7C2925FF, 0x91B556FF, 0x07FB0CFF, 0x4C28D0FF,
 }
  */
-public class SubRandomPaletteGenerator {
+public class RandomPaletteGenerator {
     private static final int limit = 256;
-    private static IntArray rgba = new IntArray(limit);
-    private static FloatArray ipts = new FloatArray(limit);
+    private static final IntArray rgba = new IntArray(limit);
+    private static final FloatArray ipts = new FloatArray(limit);
     private static void add(int value){
         float ipt = ColorTools.fromRGBA8888(value);
-        float i = ColorTools.intensity(ipt), p = ColorTools.protan(ipt), t = ColorTools.tritan(ipt);
+        float i = ColorTools.intensity(ipt),
+                p = PaletteReducer.barronSpline(ColorTools.protan(ipt), 0.75f, 0.5f),
+                t = PaletteReducer.barronSpline(ColorTools.tritan(ipt), 0.75f, 0.5f);
+        final double limit = 0.011 - (ipts.size * 0.00002);
         for (int idx = 0; idx < ipts.size; idx++) {
             float o = ipts.get(idx);
-            if(Vector3.dst2(i, p, t, ColorTools.intensity(o), ColorTools.protan(o), ColorTools.tritan(o)) < 0.004f)
+            if(Vector3.dst2(i * 2, p, t, ColorTools.intensity(o) * 2, ColorTools.protan(o), ColorTools.tritan(o)) < limit)
                 return;
         }
         rgba.add(value);
         ipts.add(ipt);
     }
     private static void add(float ipt){
-        float i = ColorTools.intensity(ipt), p = ColorTools.protan(ipt), t = ColorTools.tritan(ipt);
+        float i = ColorTools.intensity(ipt),
+                p = PaletteReducer.barronSpline(ColorTools.protan(ipt), 0.75f, 0.5f),
+                t = PaletteReducer.barronSpline(ColorTools.tritan(ipt), 0.75f, 0.5f);
         if(!ColorTools.inGamut(i, p, t))
             return;
+        ipt = ColorTools.ipt(i, p, t, 1f);
+        final double limit = 0.011 - (ipts.size * 0.00002);
         for (int idx = 0; idx < ipts.size; idx++) {
             float o = ipts.get(idx);
-            if(Vector3.dst2(i, p, t, ColorTools.intensity(o), ColorTools.protan(o), ColorTools.tritan(o)) < 0.004f)
+            if(Vector3.dst2(i * 2, p, t, ColorTools.intensity(o) * 2, ColorTools.protan(o), ColorTools.tritan(o)) < limit)
                 return;
         }
         rgba.add(ColorTools.toRGBA8888(ipt));
@@ -68,8 +75,9 @@ public class SubRandomPaletteGenerator {
         add(0x353336FF);
         add(0xE0E0E0FF);
         add(0xC8C8C8FF);
-        int idx = 1, initial = rgba.size;
-        RandomXS128 random = new RandomXS128(0xB0BAFE77BA77L, 0xCAFEF00D15BADL);
+//        int idx = 1, initial = rgba.size;
+        RandomXS128 random = new RandomXS128(1L);
+//        RandomXS128 random = new RandomXS128(0xB0BAFE77BA77L, 0xCAFEF00D15BADL);
         while (rgba.size < limit) {
             add(ColorTools.randomColor(random));
 //            for (int i = initial; i < 32 && rgba.size < limit; i++) {
