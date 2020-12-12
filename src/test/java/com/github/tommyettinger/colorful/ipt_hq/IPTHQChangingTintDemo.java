@@ -1,4 +1,4 @@
-package com.github.tommyettinger.colorful.ipt;
+package com.github.tommyettinger.colorful.ipt_hq;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -16,11 +16,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.Shaders;
-import com.github.tommyettinger.colorful.TrigTools;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class IPTChangingTintDemo extends ApplicationAdapter {
+public class IPTHQChangingTintDemo extends ApplicationAdapter {
 //    public static final int SCREEN_WIDTH = 1531;
 //    public static final int SCREEN_HEIGHT = 862;
     public static final int SCREEN_WIDTH = 808;
@@ -42,7 +41,7 @@ public class IPTChangingTintDemo extends ApplicationAdapter {
         config.setIdleFPS(10);
         config.useVsync(true);
 
-        final IPTChangingTintDemo app = new IPTChangingTintDemo();
+        final IPTHQChangingTintDemo app = new IPTHQChangingTintDemo();
         config.setWindowListener(new Lwjgl3WindowAdapter() {
             @Override
             public void filesDropped(String[] files) {
@@ -81,7 +80,7 @@ public class IPTChangingTintDemo extends ApplicationAdapter {
     public void create() {
         batch = new SpriteBatch();
         defaultShader = SpriteBatch.createDefaultShader();
-        shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderIPT);
+        shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderIPT_HQ);
         if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
