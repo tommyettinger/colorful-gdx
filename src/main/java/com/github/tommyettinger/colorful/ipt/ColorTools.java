@@ -755,6 +755,61 @@ public class ColorTools {
 	}
 
 	/**
+	 * Iteratively checks whether the given IPT color is in-gamut, and either brings the color closer to 50% gray if it
+	 * isn't in-gamut, or returns it as soon as it is in-gamut.
+	 * @param packed a packed float color in IPT format; often this color is not in-gamut
+	 * @return the first color this finds that is between the given IPT color and 50% gray, and is in-gamut
+	 * @see #inGamut(float) You can use inGamut() if you just want to check whether a color is in-gamut.
+	 */
+	public static float limitToGamut(final float packed) {
+		final int decoded = NumberUtils.floatToRawIntBits(packed);
+		final float i = (decoded & 0xff) / 255f;
+		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		float i2 = i, p2 = p, t2 = t;
+		for (int attempt = 31; attempt >= 0; attempt--) {
+			final float r = 0.999779f * i2 + 1.0709400f * p2 + 0.324891f * t2;
+			final float g = 1.000150f * i2 - 0.3777440f * p2 + 0.220439f * t2;
+			final float b = 0.999769f * i2 + 0.0629496f * p2 - 0.809638f * t2;
+			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
+				break;
+			final float progress = attempt * 0x1p-5f;
+			i2 = MathUtils.lerp(0.5f, i, progress);
+			p2 = MathUtils.lerp(0, p, progress);
+			t2 = MathUtils.lerp(0, t, progress);
+		}
+		return ipt(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
+	}
+
+	/**
+	 * Iteratively checks whether the given IPT color is in-gamut, and either brings the color closer to 50% gray if it
+	 * isn't in-gamut, or returns it as soon as it is in-gamut.
+	 * @param i intensity component; will be clamped between 0 and 1 if it isn't already
+	 * @param p protan component; will be clamped between 0 and 1 if it isn't already
+	 * @param t tritan component; will be clamped between 0 and 1 if it isn't already
+	 * @return the first color this finds that is between the given IPT color and 50% gray, and is in-gamut
+	 * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
+	 */
+	public static float limitToGamut(float i, float p, float t)
+	{
+		float i2 = i = MathUtils.clamp(i, 0f, 1f);
+		float p2 = p = MathUtils.clamp((p - 0.5f) * 2f, -1f, 1f);
+		float t2 = t = MathUtils.clamp((t - 0.5f) * 2f, -1f, 1f);
+		for (int attempt = 31; attempt >= 0; attempt--) {
+			final float r = 0.999779f * i2 + 1.0709400f * p2 + 0.324891f * t2;
+			final float g = 1.000150f * i2 - 0.3777440f * p2 + 0.220439f * t2;
+			final float b = 0.999769f * i2 + 0.0629496f * p2 - 0.809638f * t2;
+			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
+				break;
+			final float progress = attempt * 0x1p-5f;
+			i2 = MathUtils.lerp(0.5f, i, progress);
+			p2 = MathUtils.lerp(0, p, progress);
+			t2 = MathUtils.lerp(0, t, progress);
+		}
+		return ipt(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, 1f);
+	}
+
+	/**
 	 * Converts from a packed float in HSI format to a packed float in IPT format.
 	 * @param packed a packed float in HSI format
 	 * @return a packed float in IPT format

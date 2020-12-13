@@ -701,14 +701,72 @@ public class ColorTools {
 	 */
 	public static boolean inGamut(float y, float cw, float cm)
 	{
-		final int yi = (int)(y * 255.5f), cwi = (int) ((cw - 0.5f) * 511f), cmi = (int) ((cw - 0.5f) * 511f);
-		final int r = yi + (cwi * 5 >> 3) - cmi;
+		final int yi = (int)(y * 255.999f), cwi = (int) ((cw - 0.5f) * 511.999f), cmi = (int) ((cm - 0.5f) * 255.999f);
+		final int r = yi + (cwi * 5 / 8) - cmi;
 		if(r < 0 || r > 255) return false;
-		final int g = yi - (cwi * 3 >> 3) + cmi;
+		final int g = yi - (cwi * 3 / 8) + cmi;
 		if(g < 0 || g > 255) return false;
-		final int b = yi - (cwi * 3 >> 3) - cmi;
+		final int b = yi - (cwi * 3 / 8) - cmi;
 		return (b >= 0) && (b <= 255);
 	}
+
+	/**
+	 * Iteratively checks whether the given YCwCm color is in-gamut, and either brings the color closer to 50% gray if
+	 * it isn't in-gamut, or returns it as soon as it is in-gamut.
+	 * @param packed a packed float color in YCwCm format; often this color is not in-gamut
+	 * @return the first color this finds that is between the given YCwCm color and 50% gray, and is in-gamut
+	 * @see #inGamut(float) You can use inGamut() if you just want to check whether a color is in-gamut.
+	 */
+	public static float limitToGamut(final float packed) {
+		final int decoded = NumberUtils.floatToRawIntBits(packed);
+		final float y = (decoded & 0xff) / 255f;
+		final float cw = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float cm = ((decoded >>> 16 & 0xff) - 127.5f) / 255f;
+		float y2 = y, cw2 = cw, cm2 = cm;
+		for (int attempt = 31; attempt >= 0; attempt--) {
+			final float r = y2 + 0.625f * cw2 - cm2;
+			final float g = y2 - 0.375f * cw2 + cm2;
+			final float b = y2 - 0.375f * cw2 - cm2;
+			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
+				break;
+			final float progress = attempt * 0x1p-5f;
+			y2 = MathUtils.lerp(0.5f, y, progress);
+			cw2 = MathUtils.lerp(0, cw, progress);
+			cm2 = MathUtils.lerp(0, cm, progress);
+		}
+		return ycwcm(y2, cw2 * 0.5f + 0.5f, cm2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
+	}
+
+	/**
+	 * Iteratively checks whether the given YCwCm color is in-gamut, and either brings the color closer to 50% gray if
+	 * it isn't in-gamut, or returns it as soon as it is in-gamut.
+	 * @param y luma component; will be clamped between 0 and 1 if it isn't already
+	 * @param cw chromatic warmth component; will be clamped between 0 and 1 if it isn't already
+	 * @param cm chromatic mildness component; will be clamped between 0 and 1 if it isn't already
+	 * @return the first color this finds that is between the given YCwCm color and 50% gray, and is in-gamut
+	 * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
+	 */
+	public static float limitToGamut(float y, float cw, float cm)
+	{
+		float y2 = y = MathUtils.clamp(y, 0f, 1f);
+		float cw2 = cw = MathUtils.clamp((cw - 0.5f) * 2f, -1f, 1f);
+		float cm2 = cm = MathUtils.clamp((cm - 0.5f) * 2f, -1f, 1f);
+		for (int attempt = 31; attempt >= 0; attempt--) {
+			final float r = y2 + 0.625f * cw2 - cm2;
+			final float g = y2 - 0.375f * cw2 + cm2;
+			final float b = y2 - 0.375f * cw2 - cm2;
+			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
+				break;
+			final float progress = attempt * 0x1p-5f;
+			y2 = MathUtils.lerp(0.5f, y, progress);
+			cw2 = MathUtils.lerp(0, cw, progress);
+			cm2 = MathUtils.lerp(0, cm, progress);
+		}
+		return ycwcm(y2, cw2 * 0.5f + 0.5f, cm2 * 0.5f + 0.5f, 1f);
+	}
+
+
+
 	/**
 	 * Produces a random packed float color that is always in-gamut and should be uniformly distributed.
 	 * @param random a Random object (or preferably a subclass of Random, like {@link com.badlogic.gdx.math.RandomXS128})

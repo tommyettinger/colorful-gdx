@@ -867,16 +867,16 @@ public class ColorTools {
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		float i2 = i, p2 = p, t2 = t;
 		for (int attempt = 31; attempt >= 0; attempt--) {
-			final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-			final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-			final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+			final float l = reverseTransform(i2 + 0.097569f * p2 + 0.205226f * t2);
+			final float m = reverseTransform(i2 + -0.11388f * p2 + 0.133217f * t2);
+			final float s = reverseTransform(i2 + 0.032615f * p2 + -0.67689f * t2);
 
 			final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;
 			final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;
 			final float b = 0.028104f * l + -0.19466f * m + 1.166325f * s;
 			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
 				break;
-			float progress = attempt * 0x1p-5f;
+			final float progress = attempt * 0x1p-5f;
 			i2 = MathUtils.lerp(0.55f, i, progress);
 			p2 = MathUtils.lerp(0, p, progress);
 			t2 = MathUtils.lerp(0, t, progress);
@@ -899,16 +899,16 @@ public class ColorTools {
 		float p2 = p = MathUtils.clamp((p - 0.5f) * 2f, -1f, 1f);
 		float t2 = t = MathUtils.clamp((t - 0.5f) * 2f, -1f, 1f);
 		for (int attempt = 31; attempt >= 0; attempt--) {
-			final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-			final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-			final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+			final float l = reverseTransform(i2 + 0.097569f * p2 + 0.205226f * t2);
+			final float m = reverseTransform(i2 + -0.11388f * p2 + 0.133217f * t2);
+			final float s = reverseTransform(i2 + 0.032615f * p2 + -0.67689f * t2);
 
 			final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;
 			final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;
 			final float b = 0.028104f * l + -0.19466f * m + 1.166325f * s;
 			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
 				break;
-			float progress = attempt * 0x1p-5f;
+			final float progress = attempt * 0x1p-5f;
 			i2 = MathUtils.lerp(0.55f, i, progress);
 			p2 = MathUtils.lerp(0, p, progress);
 			t2 = MathUtils.lerp(0, t, progress);
