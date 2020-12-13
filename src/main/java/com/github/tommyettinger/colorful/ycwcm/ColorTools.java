@@ -777,7 +777,7 @@ public class ColorTools {
 
 	/**
 	 * Iteratively checks whether the given YCwCm color is in-gamut, and either brings the color closer to 50% gray if
-	 * it isn't in-gamut, or returns it as soon as it is in-gamut.
+	 * it isn't in-gamut, or returns it as soon as it is in-gamut. This always produces an opaque color.
 	 * @param y luma component; will be clamped between 0 and 1 if it isn't already
 	 * @param cw chromatic warmth component; will be clamped between 0 and 1 if it isn't already
 	 * @param cm chromatic mildness component; will be clamped between 0 and 1 if it isn't already
