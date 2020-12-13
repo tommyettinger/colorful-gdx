@@ -596,6 +596,44 @@ public class ColorTools {
 	}
 
 	/**
+	 * Brings the chromatic components of {@code start} closer to grayscale by {@code change} (desaturating them). While
+	 * change should be between 0f (return start as-is) and 1f (return fully gray), start should be a packed color, as
+	 * from {@link #ycwcm(float, float, float, float)}. This only changes Cw and Cm; it leaves Y and alpha alone, unlike
+	 * {@link #lessenChange(float, float)}, which usually changes Y.
+	 * @see #enrich(float, float) the counterpart method that makes a float color more saturated
+	 * @param start the starting color as a packed float
+	 * @param change how much to change start to a desaturated color, as a float between 0 and 1; higher means a less saturated result
+	 * @return a packed float that represents a color between start and a desaturated color
+	 */
+	public static float dullen(final float start, final float change) {
+		final int s = NumberUtils.floatToRawIntBits(start);
+		return ycwcm((s & 0xFF) / 255f,
+				((s >>> 8 & 0xFF) / 255f - 0.5f) * (1f - change) + 0.5f,
+				((s >>> 16 & 0xFF) / 255f - 0.5f) * (1f - change) + 0.5f,
+				(s >>> 25) / 127f);
+	}
+
+	/**
+	 * Pushes the chromatic components of {@code start} away from grayscale by change (saturating them). While change
+	 * should be between 0f (return start as-is) and 1f (return maximally saturated), start should be a packed color, as
+	 * from {@link #ycwcm(float, float, float, float)}. This usually changes only Cw and Cm, but higher values for
+	 * {@code change} can force the color out of the gamut, which this corrects using
+	 * {@link #limitToGamut(float, float, float, float)} (and that can change Y somewhat). If the color stays in-gamut,
+	 * then Y won't change; alpha never changes.
+	 * @see #dullen(float, float) the counterpart method that makes a float color less saturated
+	 * @param start the starting color as a packed float
+	 * @param change how much to change start to a saturated color, as a float between 0 and 1; higher means a more saturated result
+	 * @return a packed float that represents a color between start and a saturated color
+	 */
+	public static float enrich(final float start, final float change) {
+		final int s = NumberUtils.floatToRawIntBits(start);
+		return limitToGamut((s & 0xFF) / 255f,
+				((s >>> 8 & 0xFF) / 255f - 0.5f) * (1f + change) + 0.5f,
+				((s >>> 16 & 0xFF) / 255f - 0.5f) * (1f + change) + 0.5f,
+				(s >>> 25) / 127f);
+	}
+
+	/**
 	 * Given a packed float YCwCm color {@code mainColor} and another YCwCm color that it should be made to contrast
 	 * with, gets a packed float YCwCm color with roughly inverted luma but the same chromatic channels and opacity (Cw
 	 * and Cm are likely to be clamped if the result gets close to white or black). This won't ever produce black or
@@ -746,7 +784,21 @@ public class ColorTools {
 	 * @return the first color this finds that is between the given YCwCm color and 50% gray, and is in-gamut
 	 * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
 	 */
-	public static float limitToGamut(float y, float cw, float cm)
+	public static float limitToGamut(float y, float cw, float cm) {
+		return limitToGamut(y, cw, cm, 1f);
+	}
+
+	/**
+	 * Iteratively checks whether the given YCwCm color is in-gamut, and either brings the color closer to 50% gray if
+	 * it isn't in-gamut, or returns it as soon as it is in-gamut.
+	 * @param y luma component; will be clamped between 0 and 1 if it isn't already
+	 * @param cw chromatic warmth component; will be clamped between 0 and 1 if it isn't already
+	 * @param cm chromatic mildness component; will be clamped between 0 and 1 if it isn't already
+	 * @param a alpha component; will be clamped between 0 and 1 if it isn't already
+	 * @return the first color this finds that is between the given YCwCm color and 50% gray, and is in-gamut
+	 * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
+	 */
+	public static float limitToGamut(float y, float cw, float cm, float a)
 	{
 		float y2 = y = MathUtils.clamp(y, 0f, 1f);
 		float cw2 = cw = MathUtils.clamp((cw - 0.5f) * 2f, -1f, 1f);
@@ -762,7 +814,7 @@ public class ColorTools {
 			cw2 = MathUtils.lerp(0, cw, progress);
 			cm2 = MathUtils.lerp(0, cm, progress);
 		}
-		return ycwcm(y2, cw2 * 0.5f + 0.5f, cm2 * 0.5f + 0.5f, 1f);
+		return ycwcm(y2, cw2 * 0.5f + 0.5f, cm2 * 0.5f + 0.5f, MathUtils.clamp(a, 0f, 1f));
 	}
 
 
