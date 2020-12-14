@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 
 import static com.github.tommyettinger.colorful.ipt_hq.ColorTools.fromRGBA8888;
 import static com.github.tommyettinger.colorful.ipt_hq.ColorTools.toRGBA8888;
+import com.github.tommyettinger.colorful.ipt_hq.internal.Palette;
 
 /**
  * A tool, not a demo, used to generate the data used in Palette and in the javadocs.
@@ -35,7 +36,7 @@ public class PaletteCodeGenerator {
 
     public static void main(String[] args) {
         float c;
-        String templateFull = "\n/**\n" +
+        String templateSimple = "\n/**\n" +
                 "* This color constant \"`Name\" has RGBA8888 code {@code `RRGGBBAA}, intensity `INTENS, protan `PROTAN, tritan `TRITAN, alpha `ALPHA, hue `HUE, and saturation `SAT.\n" +
                 "* It can be represented as a packed float with the constant {@code `PACKEDF}.\n" +
                 "* <pre>\n" +
@@ -49,18 +50,18 @@ public class PaletteCodeGenerator {
 
         String data = "";
         try {
-            data = new String(Files.readAllBytes(Paths.get(PaletteCodeGenerator.class.getResource("/AuroraColorData.txt").toURI())));
+            data = new String(Files.readAllBytes(Paths.get(PaletteCodeGenerator.class.getResource("/SimpleColorData.txt").toURI())));
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         String[] lines = StringKit.split(data, "\n"), rec = new String[3];
-        StringBuilder sb = new StringBuilder(100000).append("public static final ObjectFloatMap<String> NAMED = new ObjectFloatMap<String>(").append(lines.length).append(");\n")
-                .append("public static final FloatArray LIST = new FloatArray(").append(lines.length).append(");\n");
+        StringBuilder sb = new StringBuilder(100000).append("public static final ObjectFloatOrderedMap<String> NAMED = new ObjectFloatOrderedMap<String>(").append(lines.length).append(");\n")
+                .append("public static final FloatList LIST = new FloatList(").append(lines.length).append(");\n");
 
         for (int i = 0; i < lines.length; i++) {
             tabSplit(rec, lines[i]);
             c = fromRGBA8888(StringKit.intFromHex(rec[1]));
-            sb.append(templateFull.replace("`Name", rec[2])
+            sb.append(templateSimple.replace("`Name", rec[2])
                     .replace("`NAME", rec[0])
                     .replace("`RRGGBBAA", rec[1])
                     .replace("FEDCBA", rec[1].substring(0, 6))
@@ -78,7 +79,7 @@ public class PaletteCodeGenerator {
             );
         }
         try {
-            Files.write(Paths.get("ColorOutputIPT_HQ.txt"), sb.toString().getBytes(StandardCharsets.UTF_8));
+            Files.write(Paths.get("ColorOutputSimpleIPT_HQ.txt"), sb.toString().getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -106,7 +107,7 @@ public class PaletteCodeGenerator {
         }
         sb.append("</table>\n</body>\n</html>");
         try {
-            Files.write(Paths.get("ColorTableIPT_HQ.html"), sb.toString().getBytes(StandardCharsets.UTF_8));
+            Files.write(Paths.get("ColorTableSimpleIPT_HQ.html"), sb.toString().getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -141,7 +142,7 @@ public class PaletteCodeGenerator {
         }
         sb.append("</table>\n</body>\n</html>");
         try {
-            Files.write(Paths.get("ColorTableHueIPT_HQ.html"), sb.toString().getBytes(StandardCharsets.UTF_8));
+            Files.write(Paths.get("ColorTableSimpleHueIPT_HQ.html"), sb.toString().getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -165,7 +166,7 @@ public class PaletteCodeGenerator {
         }
         sb.append("</table>\n</body>\n</html>");
         try {
-            Files.write(Paths.get("ColorTableValueIPT_HQ.html"), sb.toString().getBytes(StandardCharsets.UTF_8));
+            Files.write(Paths.get("ColorTableSimpleValueIPT_HQ.html"), sb.toString().getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }
