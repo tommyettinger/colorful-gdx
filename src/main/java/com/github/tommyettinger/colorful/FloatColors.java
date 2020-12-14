@@ -169,4 +169,53 @@ public class FloatColors {
                 | as);
     }
 
+    /**
+     * Returns a 1:1 mix of color0 and color1. All colors should use the same color space.
+     * This is the same as calling {@link #lerpFloatColors(float, float, float)} with a change of 0.5.
+     * @param color0 the first color to mix, as a packed float color
+     * @param color1 the second color to mix, as a packed float color
+     * @return an even mix of all colors given, as a packed float color
+     */
+    public static float mix(float color0, float color1) {
+        return lerpFloatColors(color0, color1, 0.5f);
+    }
+
+    /**
+     * Returns a 1:1:1 mix of color0, color1, and color2. All colors should use the same color space.
+     * @param color0 the first color to mix, as a packed float color
+     * @param color1 the second color to mix, as a packed float color
+     * @param color2 the third color to mix, as a packed float color
+     * @return an even mix of all colors given, as a packed float color
+     */
+    public static float mix(float color0, float color1, float color2) {
+        return lerpFloatColors(lerpFloatColors(color0, color1, 0.5f), color2, 0.33333f);
+    }
+
+    /**
+     * Returns a 1:1:1:1 mix of color0, color1, color2, and color3. All colors should use the same color space.
+     * @param color0 the first color to mix, as a packed float color
+     * @param color1 the second color to mix, as a packed float color
+     * @param color2 the third color to mix, as a packed float color
+     * @param color3 the fourth color to mix, as a packed float color
+     * @return an even mix of all colors given, as a packed float color
+     */
+    public static float mix(float color0, float color1, float color2, float color3) {
+        return lerpFloatColors(lerpFloatColors(lerpFloatColors(color0, color1, 0.5f), color2, 0.33333f), color3, 0.25f);
+    }
+
+    /**
+     * Given several colors, this gets an even mix of all colors in equal measure.
+     * If {@code colors} is null or has no items, this returns 0f (usually transparent in most color spaces).
+     * @param colors an array or varargs of packed float colors; all should use the same color space
+     * @return an even mix of all colors given, as a packed float color
+     */
+    public static float mix(float... colors) {
+        if(colors == null || colors.length == 0)
+            return 0f; // transparent, usually
+        float result = colors[0];
+        for (int i = 1; i < colors.length; i++) {
+            result = lerpFloatColors(result, colors[i], 1f / (i + 1f));
+        }
+        return result;
+    }
 }
