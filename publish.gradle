@@ -1,7 +1,7 @@
 modifyPom {
     project {
-        name 'colorful-gdx'
-        description 'A libGDX Batch that can manipulate colors in powerful ways.'
+        name 'colorful'
+        description 'Tools to manipulate color spaces in useful ways.'
         url 'https://github.com/tommyettinger/colorful-gdx'
         inceptionYear '2019'
 
