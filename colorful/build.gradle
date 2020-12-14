@@ -1,0 +1,22 @@
+[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+eclipse.project.name = project.name
+
+sourceSets.test.resources.srcDirs += [ file('src/test/resources').path ]
+
+javadoc.destinationDir = file('../docs/apidocs')
+
+dependencies {
+    api "com.github.tommyettinger:jdkgdxds:$jdkgdxdsVersion"
+    api "com.badlogicgames.gdx:gdx:$gdxVersion"
+    testImplementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+    testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    testImplementation 'com.github.tommyettinger:anim8-gdx:0.2.3'
+    testImplementation "junit:junit:4.13.1"
+}
+
+jar {
+    archiveBaseName.set(project.name)
+    manifest {
+        attributes 'Implementation-Title': projectName, 'Implementation-Version': archiveVersion
+    }
+}
