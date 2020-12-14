@@ -21,8 +21,6 @@ configure(subprojects) {
     apply plugin: 'com.bmuschko.nexus'
     apply plugin: 'eclipse'
     apply plugin: 'idea'
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
     compileJava {
         options.incremental = true
     }

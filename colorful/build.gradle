@@ -2,6 +2,8 @@
 eclipse.project.name = project.name
 
 sourceSets.test.resources.srcDirs += [ file('src/test/resources').path ]
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 javadoc.destinationDir = file('../docs/colorful/apidocs')
 
