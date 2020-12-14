@@ -3,13 +3,10 @@ eclipse.project.name = project.name
 
 sourceSets.test.resources.srcDirs += [ file('src/test/resources').path ]
 
-javadoc.destinationDir = file('../docs/colorful/apidocs')
+javadoc.destinationDir = file('../docs/colorful-pure/apidocs')
 
 dependencies {
-    api "com.badlogicgames.gdx:gdx:$gdxVersion"
-    testImplementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
-    testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-    testImplementation 'com.github.tommyettinger:anim8-gdx:0.2.3'
+    api "com.github.tommyettinger:jdkgdxds:$jdkgdxdsVersion"
     testImplementation "junit:junit:4.13.1"
 }
 

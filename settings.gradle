@@ -1,2 +1,1 @@
-include 'colorful'
-
+include 'colorful', 'colorful-pure'
