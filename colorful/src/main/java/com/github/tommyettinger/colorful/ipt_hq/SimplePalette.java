@@ -712,11 +712,11 @@ public class SimplePalette {
                     if (len > 1 && term.charAt(1) == 'i') {
                         switch (len) {
                             case 7:
-                                saturation += 0.125f;
+                                saturation += 0.2f;
                             case 6:
-                                saturation += 0.125f;
+                                saturation += 0.2f;
                             case 4:
-                                saturation += 0.125f;
+                                saturation += 0.2f;
                                 break;
                             default:
                                 mixing.add(TRANSPARENT);
@@ -743,11 +743,11 @@ public class SimplePalette {
                     } else if (len > 1 && term.charAt(1) == 'u') {
                         switch (len) {
                             case 7:
-                                saturation -= 0.125f;
+                                saturation -= 0.2f;
                             case 6:
-                                saturation -= 0.125f;
+                                saturation -= 0.2f;
                             case 4:
-                                saturation -= 0.125f;
+                                saturation -= 0.2f;
                                 break;
                             default:
                                 mixing.add(TRANSPARENT);
