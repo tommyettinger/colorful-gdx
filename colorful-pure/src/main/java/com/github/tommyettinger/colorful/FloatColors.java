@@ -230,6 +230,8 @@ public class FloatColors {
      * Given several colors, this gets an even mix of all colors in equal measure.
      * If {@code colors} is null or has no items, this returns 0f (usually transparent in most color spaces).
      * @param colors an array or varargs of packed float colors; all should use the same color space
+     * @param offset the index of the first item in {@code colors} to use
+     * @param size how many items from {@code colors} to use
      * @return an even mix of all colors given, as a packed float color
      */
     public static float mix(float[] colors, int offset, int size) {
