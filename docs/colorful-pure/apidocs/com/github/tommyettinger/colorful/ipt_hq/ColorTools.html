@@ -854,8 +854,12 @@ float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards white by change. While change should be between 0f (return
  start as-is) and 1f (return white), start should be a packed color, as from
  <a href="#ipt(float,float,float,float)"><code>ipt(float, float, float, float)</code></a>. This is a good way to reduce allocations of temporary Colors, and
- is a little more efficient and clear than using <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a> to lerp towards
- white. Unlike <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a>, this keeps the alpha and both chroma of start as-is.</div>
+ is a little more efficient and clear than using <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a> to lerp
+ towards white. Unlike <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a>, this keeps the alpha and both
+ chroma of start as-is. This method does not necessarily keep the resulting color in-gamut; after performing some
+ changes with this or other component-editing methods (like <a href="#protanUp(float,float)"><code>protanUp(float, float)</code></a> or
+ <a href="#tritanDown(float,float)"><code>tritanDown(float, float)</code></a>), you may want to call <a href="#limitToGamut(float)"><code>limitToGamut(float)</code></a> to make sure the color can
+ be rendered correctly.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>start</code> - the starting color as a packed float</dd>
@@ -875,8 +879,12 @@ float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards black by change. While change should be between 0f (return
  start as-is) and 1f (return black), start should be a packed color, as from
  <a href="#ipt(float,float,float,float)"><code>ipt(float, float, float, float)</code></a>. This is a good way to reduce allocations of temporary Colors, and
- is a little more efficient and clear than using <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a> to lerp towards
- black. Unlike <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a>, this keeps the alpha and both chroma of start as-is.</div>
+ is a little more efficient and clear than using <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a> to lerp
+ towards white. Unlike <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a>, this keeps the alpha and both
+ chroma of start as-is. This method does not necessarily keep the resulting color in-gamut; after performing some
+ changes with this or other component-editing methods (like <a href="#protanUp(float,float)"><code>protanUp(float, float)</code></a> or
+ <a href="#tritanDown(float,float)"><code>tritanDown(float, float)</code></a>), you may want to call <a href="#limitToGamut(float)"><code>limitToGamut(float)</code></a> to make sure the color can
+ be rendered correctly.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>start</code> - the starting color as a packed float</dd>
@@ -898,7 +906,10 @@ float&nbsp;change)</span></div>
  <a href="#ipt(float,float,float,float)"><code>ipt(float, float, float, float)</code></a>. This is a good way to reduce allocations of temporary Colors,
  and is a little more efficient and clear than using <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a> to
  lerp towards a warmer color. Unlike <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a>, this keeps the
- alpha and intensity of start as-is.</div>
+ alpha and intensity of start as-is.
+ This method does not necessarily keep the resulting color in-gamut; after performing some changes with this or
+ other component-editing methods (like <a href="#lighten(float,float)"><code>lighten(float, float)</code></a> or <a href="#tritanDown(float,float)"><code>tritanDown(float, float)</code></a>), you
+ may want to call <a href="#limitToGamut(float)"><code>limitToGamut(float)</code></a> to make sure the color can be rendered correctly.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>start</code> - the starting color as a packed float</dd>
@@ -920,7 +931,10 @@ float&nbsp;change)</span></div>
  <a href="#ipt(float,float,float,float)"><code>ipt(float, float, float, float)</code></a>. This is a good way to reduce allocations of temporary Colors, and
  is a little more efficient and clear than using <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a> to lerp
  towards a cooler color. Unlike <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a>, this keeps the alpha and
- intensity of start as-is.</div>
+ intensity of start as-is.
+ This method does not necessarily keep the resulting color in-gamut; after performing some changes with this or
+ other component-editing methods (like <a href="#lighten(float,float)"><code>lighten(float, float)</code></a> or <a href="#tritanDown(float,float)"><code>tritanDown(float, float)</code></a>), you
+ may want to call <a href="#limitToGamut(float)"><code>limitToGamut(float)</code></a> to make sure the color can be rendered correctly.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>start</code> - the starting color as a packed float</dd>
@@ -942,7 +956,10 @@ float&nbsp;change)</span></div>
  from <a href="#ipt(float,float,float,float)"><code>ipt(float, float, float, float)</code></a>. This is a good way to reduce allocations of temporary
  Colors, and is a little more efficient and clear than using
  <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a> to lerp towards a more natural color. Unlike
- <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a>, this keeps the alpha and intensity of start as-is.</div>
+ <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a>, this keeps the alpha and intensity of start as-is.
+ This method does not necessarily keep the resulting color in-gamut; after performing some changes with this or
+ other component-editing methods (like <a href="#protanUp(float,float)"><code>protanUp(float, float)</code></a> or <a href="#darken(float,float)"><code>darken(float, float)</code></a>), you
+ may want to call <a href="#limitToGamut(float)"><code>limitToGamut(float)</code></a> to make sure the color can be rendered correctly.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>start</code> - the starting color as a packed float</dd>
@@ -964,7 +981,10 @@ float&nbsp;change)</span></div>
  from <a href="#ipt(float,float,float,float)"><code>ipt(float, float, float, float)</code></a>. This is a good way to reduce allocations of temporary
  Colors, and is a little more efficient and clear than using <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a> to lerp
  towards a more artificial color. Unlike <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a>, this keeps the
- alpha and intensity of start as-is.</div>
+ alpha and intensity of start as-is.
+ This method does not necessarily keep the resulting color in-gamut; after performing some changes with this or
+ other component-editing methods (like <a href="#protanUp(float,float)"><code>protanUp(float, float)</code></a> or <a href="#darken(float,float)"><code>darken(float, float)</code></a>), you
+ may want to call <a href="#limitToGamut(float)"><code>limitToGamut(float)</code></a> to make sure the color can be rendered correctly.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>start</code> - the starting color as a packed float</dd>
@@ -984,8 +1004,8 @@ float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards that color made opaque by change. While change should be
  between 0f (return start as-is) and 1f (return start with full alpha), start should be a packed color, as from
  <a href="#ipt(float,float,float,float)"><code>ipt(float, float, float, float)</code></a>. This is a good way to reduce allocations of temporary Colors, and
- is a little more efficient and clear than using <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a> to lerp towards
- transparent. This won't change the intensity, protan, or tritan of the color.</div>
+ is a little more efficient and clear than using <a href="../FloatColors.html#lerpFloatColors(float,float,float)"><code>FloatColors.lerpFloatColors(float, float, float)</code></a> to lerp
+ towards transparent. This won't change the intensity, protan, or tritan of the color.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>start</code> - the starting color as a packed float</dd>
