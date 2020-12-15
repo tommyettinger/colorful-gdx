@@ -225,4 +225,20 @@ public class FloatColors {
         }
         return result;
     }
+
+    /**
+     * Given several colors, this gets an even mix of all colors in equal measure.
+     * If {@code colors} is null or has no items, this returns 0f (usually transparent in most color spaces).
+     * @param colors an array or varargs of packed float colors; all should use the same color space
+     * @return an even mix of all colors given, as a packed float color
+     */
+    public static float mix(float[] colors, int offset, int size) {
+        if(colors == null || colors.length < offset + size || offset < 0 || size <= 0)
+            return 0f; // transparent, usually
+        float result = colors[offset];
+        for (int i = offset + 1, o = offset + size, denom = 2; i < o; i++, denom++) {
+            result = lerpFloatColors(result, colors[i], 1f / denom);
+        }
+        return result;
+    }
 }

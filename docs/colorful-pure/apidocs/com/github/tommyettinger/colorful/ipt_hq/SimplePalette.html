@@ -15,7 +15,13 @@
 <script type="text/javascript" src="../../../../../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="class-declaration-page">
-<script type="text/javascript">var pathtoroot = "../../../../../";
+<script type="text/javascript">var data = {"i0":9};
+var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
+var altColor = "alt-color";
+var rowColor = "row-color";
+var tableTab = "table-tab";
+var activeTableTab = "active-table-tab";
+var pathtoroot = "../../../../../";
 loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
@@ -49,7 +55,7 @@ loadScripts(document, 'script');</script>
 <li>Detail:&nbsp;</li>
 <li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
-<li>Method</li>
+<li><a href="#method.detail">Method</a></li>
 </ul>
 </div>
 <div class="nav-list-search"><label for="search">SEARCH:</label>
@@ -518,6 +524,29 @@ extends java.lang.Object</pre>
 <li>
 <section class="method-summary" id="method.summary">
 <h2>Method Summary</h2>
+<div class="member-summary" id="method-summary-table">
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" id="t0" class="active-table-tab">All Methods</button><button role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" id="t1" class="table-tab" onclick="show(1);">Static Methods</button><button role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" id="t4" class="table-tab" onclick="show(8);">Concrete Methods</button></div>
+<div id="method-summary-table.tabpanel" role="tabpanel">
+<table class="summary-table" aria-labelledby="t0">
+<thead>
+<tr>
+<th class="col-first" scope="col">Modifier and Type</th>
+<th class="col-second" scope="col">Method</th>
+<th class="col-last" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="alt-color" id="i0">
+<td class="col-first"><code>static float</code></td>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#parseDescription(java.lang.String)">parseDescription</a></span>&#8203;(java.lang.String&nbsp;description)</code></th>
+<td class="col-last">
+<div class="block">Parses a color description and returns the approximate color it describes, as a packed float color.</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="inherited-list">
 <h3 id="methods.inherited.from.class.java.lang.Object">Methods inherited from class&nbsp;java.lang.Object</h3>
 <code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></div>
@@ -1435,6 +1464,38 @@ extends java.lang.Object</pre>
 </ul>
 </section>
 </li>
+<!-- ============ METHOD DETAIL ========== -->
+<li>
+<section class="method-details" id="method.detail">
+<h2>Method Details</h2>
+<ul class="member-list">
+<li>
+<section class="detail" id="parseDescription(java.lang.String)">
+<h3>parseDescription</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name">parseDescription</span>&#8203;(<span class="parameters">java.lang.String&nbsp;description)</span></div>
+<div class="block">Parses a color description and returns the approximate color it describes, as a packed float color.
+ Color descriptions consist of one or more lower-case words, separated by non-alphabetical characters (typically
+ spaces and/or hyphens). Any word that is the name of a color in this SimplePalette will be looked up in
+ <a href="#NAMED"><code>NAMED</code></a> and tracked; if there is more than one of these color name words, the colors will be mixed using
+ <a href="../FloatColors.html#mix(float%5B%5D,int,int)"><code>FloatColors.mix(float[], int, int)</code></a>, or if there is just one color name word, then the corresponding color
+ will be used. The special adjectives "light" and "dark" change the intensity of the described color; likewise,
+ "rich" and "dull" change the saturation (the difference of the chromatic channels from grayscale). All of these
+ adjectives can have "-er" or "-est" appended to make their effect twice or three times as strong. If a color name
+ or adjective is invalid, it is considered the same as adding the color <a href="#TRANSPARENT"><code>TRANSPARENT</code></a>.
+ <br>
+ Examples of valid descriptions include "blue", "dark green", "duller red", "peach pink", "indigo purple mauve",
+ and "lightest richer apricot-olive".</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>description</code> - a color description, as a lower-case String matching the above format</dd>
+<dt>Returns:</dt>
+<dd>a packed float color as described</dd>
+</dl>
+</section>
+</li>
+</ul>
+</section>
+</li>
 </ul>
 </section>
 <!-- ========= END OF CLASS DATA ========= -->
@@ -1467,7 +1528,7 @@ extends java.lang.Object</pre>
 <li>Detail:&nbsp;</li>
 <li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
-<li>Method</li>
+<li><a href="#method.detail">Method</a></li>
 </ul>
 </div>
 </div>
