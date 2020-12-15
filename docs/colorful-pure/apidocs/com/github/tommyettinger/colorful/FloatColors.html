@@ -15,7 +15,7 @@
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="class-declaration-page">
-<script type="text/javascript">var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9};
+<script type="text/javascript">var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "alt-color";
 var rowColor = "row-color";
@@ -172,13 +172,22 @@ float&nbsp;change)</code></th>
 </tr>
 <tr class="row-color" id="i5">
 <td class="col-first"><code>static float</code></td>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#mix(float%5B%5D,int,int)">mix</a></span>&#8203;(float[]&nbsp;colors,
+int&nbsp;offset,
+int&nbsp;size)</code></th>
+<td class="col-last">
+<div class="block">Given several colors, this gets an even mix of all colors in equal measure.</div>
+</td>
+</tr>
+<tr class="alt-color" id="i6">
+<td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#mix(float,float)">mix</a></span>&#8203;(float&nbsp;color0,
 float&nbsp;color1)</code></th>
 <td class="col-last">
 <div class="block">Returns a 1:1 mix of color0 and color1.</div>
 </td>
 </tr>
-<tr class="alt-color" id="i6">
+<tr class="row-color" id="i7">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#mix(float,float,float)">mix</a></span>&#8203;(float&nbsp;color0,
 float&nbsp;color1,
@@ -187,7 +196,7 @@ float&nbsp;color2)</code></th>
 <div class="block">Returns a 1:1:1 mix of color0, color1, and color2.</div>
 </td>
 </tr>
-<tr class="row-color" id="i7">
+<tr class="alt-color" id="i8">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#mix(float,float,float,float)">mix</a></span>&#8203;(float&nbsp;color0,
 float&nbsp;color1,
@@ -197,7 +206,7 @@ float&nbsp;color3)</code></th>
 <div class="block">Returns a 1:1:1:1 mix of color0, color1, color2, and color3.</div>
 </td>
 </tr>
-<tr class="alt-color" id="i8">
+<tr class="row-color" id="i9">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#multiplyAlpha(float,float)">multiplyAlpha</a></span>&#8203;(float&nbsp;encodedColor,
 float&nbsp;alpha)</code></th>
@@ -207,7 +216,7 @@ float&nbsp;alpha)</code></th>
  has its own alpha multiplied by <code>alpha</code>, without constructing any objects along the way.</div>
 </td>
 </tr>
-<tr class="row-color" id="i9">
+<tr class="alt-color" id="i10">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#rgb2hsl(float)">rgb2hsl</a></span>&#8203;(float&nbsp;rgba)</code></th>
 <td class="col-last">
@@ -215,7 +224,7 @@ float&nbsp;alpha)</code></th>
  which isn't one of the regular formats this supports but can be useful for conversions.</div>
 </td>
 </tr>
-<tr class="alt-color" id="i10">
+<tr class="row-color" id="i11">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#rgb2hsl(float,float,float,float)">rgb2hsl</a></span>&#8203;(float&nbsp;r,
 float&nbsp;g,
@@ -227,7 +236,7 @@ float&nbsp;a)</code></th>
  conversions.</div>
 </td>
 </tr>
-<tr class="row-color" id="i11">
+<tr class="alt-color" id="i12">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#setAlpha(float,float)">setAlpha</a></span>&#8203;(float&nbsp;encodedColor,
 float&nbsp;alpha)</code></th>
@@ -475,6 +484,22 @@ float&nbsp;color3)</span></div>
 <section class="detail" id="mix(float...)">
 <h3>mix</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name">mix</span>&#8203;(<span class="parameters">float...&nbsp;colors)</span></div>
+<div class="block">Given several colors, this gets an even mix of all colors in equal measure.
+ If <code>colors</code> is null or has no items, this returns 0f (usually transparent in most color spaces).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>colors</code> - an array or varargs of packed float colors; all should use the same color space</dd>
+<dt>Returns:</dt>
+<dd>an even mix of all colors given, as a packed float color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="mix(float[],int,int)">
+<h3>mix</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name">mix</span>&#8203;(<span class="parameters">float[]&nbsp;colors,
+int&nbsp;offset,
+int&nbsp;size)</span></div>
 <div class="block">Given several colors, this gets an even mix of all colors in equal measure.
  If <code>colors</code> is null or has no items, this returns 0f (usually transparent in most color spaces).</div>
 <dl class="notes">

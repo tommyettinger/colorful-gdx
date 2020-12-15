@@ -1,5 +1,6 @@
 package com.github.tommyettinger.colorful.ipt_hq;
 
+import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.ds.FloatList;
 import com.github.tommyettinger.ds.ObjectFloatOrderedMap;
 import com.github.tommyettinger.ds.ObjectList;
@@ -664,5 +665,115 @@ public class SimplePalette {
                 return Float.compare(intensity(NAMED.get(o1)), intensity(NAMED.get(o2)));
             }
         });
+    }
+
+    private static final FloatList mixing = new FloatList(4);
+
+    /**
+     * Parses a color description and returns the approximate color it describes, as a packed float color.
+     * Color descriptions consist of one or more lower-case words, separated by non-alphabetical characters (typically
+     * spaces and/or hyphens). Any word that is the name of a color in this SimplePalette will be looked up in
+     * {@link #NAMED} and tracked; if there is more than one of these color name words, the colors will be mixed using
+     * {@link FloatColors#mix(float[], int, int)}, or if there is just one color name word, then the corresponding color
+     * will be used. The special adjectives "light" and "dark" change the intensity of the described color; likewise,
+     * "rich" and "dull" change the saturation (the difference of the chromatic channels from grayscale). All of these
+     * adjectives can have "-er" or "-est" appended to make their effect twice or three times as strong. If a color name
+     * or adjective is invalid, it is considered the same as adding the color {@link #TRANSPARENT}.
+     * <br>
+     * Examples of valid descriptions include "blue", "dark green", "duller red", "peach pink", "indigo purple mauve",
+     * and "lightest richer apricot-olive".
+     * @param description a color description, as a lower-case String matching the above format
+     * @return a packed float color as described
+     */
+    public static float parseDescription(final String description) {
+        float intensity = 0f, saturation = 0f;
+        final String[] terms = description.split("[^a-zA-Z]+");
+        mixing.clear();
+        for(String term : terms) {
+            if (term == null || term.isEmpty()) continue;
+            final int len = term.length();
+            switch (term.charAt(0)) {
+                case 'l':
+                    if (len > 2 && term.charAt(2) == 'g') {
+                        switch (len) {
+                            case 8:
+                                intensity += 0.125f;
+                            case 7:
+                                intensity += 0.125f;
+                            case 5:
+                                intensity += 0.125f;
+                                break;
+                            default:
+                                mixing.add(TRANSPARENT);
+                                break;
+                        }
+                    } else {
+                        mixing.add(NAMED.get(term));
+                    }
+                    break;
+                case 'r':
+                    if (len > 1 && term.charAt(1) == 'i') {
+                        switch (len) {
+                            case 7:
+                                saturation += 0.125f;
+                            case 6:
+                                saturation += 0.125f;
+                            case 4:
+                                saturation += 0.125f;
+                                break;
+                            default:
+                                mixing.add(TRANSPARENT);
+                                break;
+                        }
+                    } else {
+                        mixing.add(NAMED.get(term));
+                    }
+                    break;
+                case 'd':
+                    if (len > 1 && term.charAt(1) == 'a') {
+                        switch (len) {
+                            case 7:
+                                intensity -= 0.125f;
+                            case 6:
+                                intensity -= 0.125f;
+                            case 4:
+                                intensity -= 0.125f;
+                                break;
+                            default:
+                                mixing.add(TRANSPARENT);
+                                break;
+                        }
+                    } else if (len > 1 && term.charAt(1) == 'u') {
+                        switch (len) {
+                            case 7:
+                                saturation -= 0.125f;
+                            case 6:
+                                saturation -= 0.125f;
+                            case 4:
+                                saturation -= 0.125f;
+                                break;
+                            default:
+                                mixing.add(TRANSPARENT);
+                                break;
+                        }
+                    } else {
+                        mixing.add(NAMED.get(term));
+                    }
+                    break;
+                default:
+                    mixing.add(NAMED.get(term));
+                    break;
+            }
+        }
+        float result = FloatColors.mix(mixing.items, 0, mixing.size());
+
+        if(intensity > 0) result = ColorTools.lighten(result, intensity);
+        else if(intensity < 0) result = ColorTools.darken(result, -intensity);
+
+        if(saturation > 0) result = ColorTools.enrich(result, saturation);
+        else if(saturation < 0) result = ColorTools.limitToGamut(ColorTools.dullen(result, -saturation));
+        else result = ColorTools.limitToGamut(result);
+
+        return result;
     }
 }
