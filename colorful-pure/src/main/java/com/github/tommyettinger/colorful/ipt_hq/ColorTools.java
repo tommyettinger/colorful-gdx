@@ -551,8 +551,13 @@ public class ColorTools {
 	 * Interpolates from the packed float color start towards white by change. While change should be between 0f (return
 	 * start as-is) and 1f (return white), start should be a packed color, as from
 	 * {@link #ipt(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
-	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
-	 * white. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and both chroma of start as-is.
+	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
+	 * towards white. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and both
+	 * chroma of start as-is. This method does not necessarily keep the resulting color in-gamut; after performing some
+	 * changes with this or other component-editing methods (like {@link #protanUp(float, float)} or
+	 * {@link #tritanDown(float, float)}), you may want to call {@link #limitToGamut(float)} to make sure the color can
+	 * be rendered correctly.
+	 *
 	 * @see #darken(float, float) the counterpart method that darkens a float color
 	 * @param start the starting color as a packed float
 	 * @param change how much to go from start toward white, as a float between 0 and 1; higher means closer to white
@@ -567,8 +572,13 @@ public class ColorTools {
 	 * Interpolates from the packed float color start towards black by change. While change should be between 0f (return
 	 * start as-is) and 1f (return black), start should be a packed color, as from
 	 * {@link #ipt(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
-	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
-	 * black. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and both chroma of start as-is.
+	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
+	 * towards white. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and both
+	 * chroma of start as-is. This method does not necessarily keep the resulting color in-gamut; after performing some
+	 * changes with this or other component-editing methods (like {@link #protanUp(float, float)} or
+	 * {@link #tritanDown(float, float)}), you may want to call {@link #limitToGamut(float)} to make sure the color can
+	 * be rendered correctly.
+	 *
 	 * @see #lighten(float, float) the counterpart method that lightens a float color
 	 * @param start the starting color as a packed float
 	 * @param change how much to go from start toward black, as a float between 0 and 1; higher means closer to black
@@ -586,6 +596,10 @@ public class ColorTools {
 	 * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to
 	 * lerp towards a warmer color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the
 	 * alpha and intensity of start as-is.
+	 * This method does not necessarily keep the resulting color in-gamut; after performing some changes with this or
+	 * other component-editing methods (like {@link #lighten(float, float)} or {@link #tritanDown(float, float)}), you
+	 * may want to call {@link #limitToGamut(float)} to make sure the color can be rendered correctly.
+	 *
 	 * @see #protanDown(float, float) the counterpart method that cools a float color
 	 * @param start the starting color as a packed float
 	 * @param change how much to warm start, as a float between 0 and 1; higher means a warmer result
@@ -603,6 +617,10 @@ public class ColorTools {
 	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
 	 * towards a cooler color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and
 	 * intensity of start as-is.
+	 * This method does not necessarily keep the resulting color in-gamut; after performing some changes with this or
+	 * other component-editing methods (like {@link #lighten(float, float)} or {@link #tritanDown(float, float)}), you
+	 * may want to call {@link #limitToGamut(float)} to make sure the color can be rendered correctly.
+	 *
 	 * @see #protanUp(float, float) the counterpart method that warms a float color
 	 * @param start the starting color as a packed float
 	 * @param change how much to cool start, as a float between 0 and 1; higher means a cooler result
@@ -620,6 +638,10 @@ public class ColorTools {
 	 * Colors, and is a little more efficient and clear than using
 	 * {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards a more natural color. Unlike
 	 * {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and intensity of start as-is.
+	 * This method does not necessarily keep the resulting color in-gamut; after performing some changes with this or
+	 * other component-editing methods (like {@link #protanUp(float, float)} or {@link #darken(float, float)}), you
+	 * may want to call {@link #limitToGamut(float)} to make sure the color can be rendered correctly.
+	 *
 	 * @see #tritanDown(float, float) the counterpart method that makes a float color less natural
 	 * @param start the starting color as a packed float
 	 * @param change how much to change start to a natural color, as a float between 0 and 1; higher means a more natural result
@@ -637,6 +659,10 @@ public class ColorTools {
 	 * Colors, and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
 	 * towards a more artificial color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the
 	 * alpha and intensity of start as-is.
+	 * This method does not necessarily keep the resulting color in-gamut; after performing some changes with this or
+	 * other component-editing methods (like {@link #protanUp(float, float)} or {@link #darken(float, float)}), you
+	 * may want to call {@link #limitToGamut(float)} to make sure the color can be rendered correctly.
+	 *
 	 * @see #tritanUp(float, float) the counterpart method that makes a float color less artificial
 	 * @param start the starting color as a packed float
 	 * @param change how much to change start to a bolder color, as a float between 0 and 1; higher means a more artificial result
@@ -651,8 +677,8 @@ public class ColorTools {
 	 * Interpolates from the packed float color start towards that color made opaque by change. While change should be
 	 * between 0f (return start as-is) and 1f (return start with full alpha), start should be a packed color, as from
 	 * {@link #ipt(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
-	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
-	 * transparent. This won't change the intensity, protan, or tritan of the color.
+	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
+	 * towards transparent. This won't change the intensity, protan, or tritan of the color.
 	 * @see #fade(float, float) the counterpart method that makes a float color more translucent
 	 * @param start the starting color as a packed float
 	 * @param change how much to go from start toward opaque, as a float between 0 and 1; higher means closer to opaque
