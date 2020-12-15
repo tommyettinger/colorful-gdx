@@ -50,7 +50,7 @@ public class PaletteCodeGenerator {
 
         String data = "";
         try {
-            data = new String(Files.readAllBytes(Paths.get(PaletteCodeGenerator.class.getResource("/SimpleColorData.txt").toURI())));
+            data = new String(Files.readAllBytes(Paths.get(PaletteCodeGenerator.class.getResource("/ColorData.txt").toURI())));
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
@@ -79,7 +79,7 @@ public class PaletteCodeGenerator {
             );
         }
         try {
-            Files.write(Paths.get("ColorOutputSimpleIPT_HQ.txt"), sb.toString().getBytes(StandardCharsets.UTF_8));
+            Files.write(Paths.get("ColorOutputFullIPT_HQ.txt"), sb.toString().getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -107,7 +107,7 @@ public class PaletteCodeGenerator {
         }
         sb.append("</table>\n</body>\n</html>");
         try {
-            Files.write(Paths.get("ColorTableSimpleIPT_HQ.html"), sb.toString().getBytes(StandardCharsets.UTF_8));
+            Files.write(Paths.get("ColorTableFullIPT_HQ.html"), sb.toString().getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -142,7 +142,7 @@ public class PaletteCodeGenerator {
         }
         sb.append("</table>\n</body>\n</html>");
         try {
-            Files.write(Paths.get("ColorTableSimpleHueIPT_HQ.html"), sb.toString().getBytes(StandardCharsets.UTF_8));
+            Files.write(Paths.get("ColorTableFullHueIPT_HQ.html"), sb.toString().getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -166,7 +166,7 @@ public class PaletteCodeGenerator {
         }
         sb.append("</table>\n</body>\n</html>");
         try {
-            Files.write(Paths.get("ColorTableSimpleValueIPT_HQ.html"), sb.toString().getBytes(StandardCharsets.UTF_8));
+            Files.write(Paths.get("ColorTableFullValueIPT_HQ.html"), sb.toString().getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }
