@@ -290,7 +290,7 @@ public class SimplePalette {
     static { NAMED.put("cinnamon", -0x1.634104p126F); LIST.add(-0x1.634104p126F); }
 
     /**
-     * This color constant "sepia" has RGBA8888 code {@code 8F573BFF}, intensity 0.42352942, protan 0.57254905, tritan 0.5882353, alpha 1.0, hue 0.056629464, and saturation 0.3289587.
+     * This color constant "brown" has RGBA8888 code {@code 8F573BFF}, intensity 0.42352942, protan 0.57254905, tritan 0.5882353, alpha 1.0, hue 0.056629464, and saturation 0.3289587.
      * It can be represented as a packed float with the constant {@code -0x1.2d24d8p126F}.
      * <pre>
      * <font style='background-color: #8F573B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8F573B; color: #000000'>&nbsp;@&nbsp;</font>
@@ -298,8 +298,8 @@ public class SimplePalette {
      * <font style='background-color: #8F573B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8F573B; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SEPIA = -0x1.2d24d8p126F;
-    static { NAMED.put("sepia", -0x1.2d24d8p126F); LIST.add(-0x1.2d24d8p126F); }
+    public static final float BROWN = -0x1.2d24d8p126F;
+    static { NAMED.put("brown", -0x1.2d24d8p126F); LIST.add(-0x1.2d24d8p126F); }
 
     /**
      * This color constant "apricot" has RGBA8888 code {@code FFA828FF}, intensity 0.68235296, protan 0.5803922, tritan 0.7490196, alpha 1.0, hue 0.09959209, and saturation 0.8424464.
