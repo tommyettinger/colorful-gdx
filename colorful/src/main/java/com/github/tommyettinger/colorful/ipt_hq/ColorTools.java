@@ -10,11 +10,11 @@ import com.github.tommyettinger.colorful.ycwcm.Palette;
 import java.util.Random;
 
 /**
- * Contains code for manipulating colors as {@code int}, packed {@code float}, and {@link Color} values in the IPT
- * color space. IPT has more perceptually-uniform handling of hue than some other color spaces, like YCwCm, and even
- * though the version here gives up the complex exponential adjustments to various components that the original IPT
- * paper used, it still is pretty good at preserving perceptual lightness. In most regards, this is a more
- * thoroughly-constructed color space than YCwCm, but YCwCm may still be useful because of how it maps to aesthetic
+ * Contains code for manipulating colors as {@code int} and packed {@code float} values in the IPT color space.
+ * IPT has more perceptually-uniform handling of hue than some other color spaces, like YCwCm, and this version goes
+ * further than {@link com.github.tommyettinger.colorful.ipt the IPT package} by performing gamma correction and all the
+ * complex exponential adjustments to various components that the original IPT paper used. In most regards, this is a
+ * more thoroughly-constructed color space than YCwCm, but YCwCm may still be useful because of how it maps to aesthetic
  * components of color. See {@link #ipt(float, float, float, float)} for docs on the I, P, and T channels.
  */
 public class ColorTools {
@@ -34,7 +34,11 @@ public class ColorTools {
 	 * This method bit-masks the resulting color's byte values, so any values can technically be given to this as
 	 * intensity, protan, and tritan, but they will only be reversible from the returned float color to the original I,
 	 * P, and T values if the original values were in the range that {@link #intensity(float)}, {@link #protan(float)},
-	 * and {@link #tritan(float)} return.
+	 * and {@link #tritan(float)} return. You can use {@link #inGamut(float, float, float)} to check if a given set of
+	 * I, P, and T values is in-gamut, that is, it can be converted to and from an RGB color without going out of the
+	 * valid range. If you just want to enforce that a color is in-gamut, you can use
+	 * {@link #limitToGamut(float, float, float, float)}, which takes the same parameters this method does, or
+	 * {@link #limitToGamut(float)} if you already have a packed float color that could be out-of-gamut.
 	 *
 	 * @param intens     0f to 1f, intensity or I component of IPT, with 0.5f meaning "no change" and 1f brightening
 	 * @param protan     0f to 1f, protan or P component of IPT, with 1f more orange, red, or magenta

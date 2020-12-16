@@ -1,4 +1,10 @@
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+modifyPom{
+    project{
+        name = project.name
+    }
+}
+
 eclipse.project.name = project.name
 
 sourceSets.test.resources.srcDirs += [ file('src/test/resources').path ]
