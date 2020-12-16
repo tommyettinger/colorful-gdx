@@ -128,6 +128,27 @@ The `com.github.tommyettinger.colorful.ipt` package has parallels to all the cla
 `ColorfulBatch`, `ColorfulSprite`, and `Palette` classes work almost identically. For ColorfulBatch, this means there's
 an additive color, and a multiplicative "tweak," plus multiplicative alpha in the color and contrast in the tweak.
 
+### IPT_HQ and Describing Colors
+
+This library provides two variants on IPT; the above version in the `com.github.tommyettinger.colorful.ipt` package is
+simpler to compute, while a newer version in the `com.github.tommyettinger.colorful.ipt_hq` package is more faithful to
+Ebner's and Fairchild's paper, and gauges the lightness of colors much more accurately. To get a sense of whether you
+should use IPT or IPT_HQ, you can compare these palette lists, which are sorted by lightness:
+[the above simpler IPT list](https://tommyettinger.github.io/colorful-gdx/ColorTableValueIPT.html), and
+[the more-involved IPT_HQ list](https://tommyettinger.github.io/colorful-gdx/ColorTableValueIPT_HQ.html).
+IPT has some odd jumps in lightness for red and blue, while IPT_HQ has all perceptually-dark colors in the start of its
+list. Using IPT_HQ involves some extra operations that aren't always especially fast, especially when on the GPU, and
+they need to be calculated on many fragments. The IPT_HQ shader is still branch-less and isn't much longer than the IPT
+shader, so the performance dip is likely to be small.
+
+The `ipt_hq` package has an analogue to everything in the `ipt` package, plus an extra palette, `SimplePalette`, with a
+key extra feature. You can use the `SimplePalette.parseDescription(String)` method to describe a color with a
+combination of one or more (clearly-named) color names and optionally with adjectives like "light", "dull", "darker", or
+"richest". The predefined colors in SimplePalette can be previewed in
+[this list alphabetically](https://tommyettinger.github.io/colorful-gdx/ColorTableSimpleIPT_HQ.html),
+[this list by hue](https://tommyettinger.github.io/colorful-gdx/ColorTableSimpleHueIPT_HQ.html), or
+[this list by lightness](https://tommyettinger.github.io/colorful-gdx/ColorTableSimpleValueIPT_HQ.html).
+
 ### HSLC
 
 HSLC doesn't allow changing alpha, so it may be unsuitable for some tasks, but it does allow smooth hue rotations across
@@ -139,6 +160,18 @@ closer to grayscale. Raising lightness (stored in the blue channel) will make co
 than the original color if lightness is greater than 0.5), while lowering it will make colors darker. Contrast affects
 how rapidly the lightness in input colors changes, so when contrast is high, even slightly different mid-range colors
 will have stark lightness differences, while when contrast is low, most lightness will be in the mid-range.
+
+### colorful vs. colorful-pure
+
+Starting with version 0.4.0, there are two similar, but not identical, sub-projects in this repo: colorful, which will
+probably be used more frequently, and colorful-pure, which is more specialized. You want colorful if you already depend
+on libGDX (currently on version 1.9.12 or higher); it has the useful `ColorfulBatch` and `ColorfulSprite` classes, and
+can convert to and from libGDX `Color` objects. If you have a server project, or some other kind of project that doesn't
+have a dependency on libGDX, then you might want colorful-pure instead. Instead of libGDX, colorful-pure depends on
+[jdkgdxds](https://github.com/tommyettinger/jdkgdxds) for its primitive-backed data structures, and needs Java 8 or
+higher (colorful needs Java 7 or higher). Both colorful and colorful-pure produce compatible packed float colors when
+they use the same color space, and even though their `Palette` classes use different data structures, the colors in
+those palettes are the same.
 
 ## Samples
 
@@ -175,14 +208,14 @@ Tinting with the Palette color `THISTLE`, but using a tweak with about 0.75 luma
 
 Using the Maven Central dependency is recommended, and Gradle and Maven can both depend on this library using that repository.
 
-Gradle dependency:
+Gradle dependency (`implementation` should be changed to `api` if any other dependencies use `api`):
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.3.1'
+implementation 'com.github.tommyettinger:colorful:0.4.0'
 ```
 
 Gradle dependency if also using GWT to make an HTML application:
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.3.1:sources'
+implementation 'com.github.tommyettinger:colorful:0.4.0:sources'
 ```
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
 ```xml
@@ -194,8 +227,33 @@ If you don't use Gradle, here's the Maven dependency:
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful</artifactId>
-  <version>0.3.1</version>
+  <version>0.4.0</version>
 </dependency>
 ```
 
-If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.3.1).
+Using colorful-pure is similar:
+
+Gradle dependency (`implementation` should be changed to `api` if any other dependencies use `api`):
+```groovy
+implementation 'com.github.tommyettinger:colorful-pure:0.4.0'
+```
+
+Gradle dependency if also using GWT to make an HTML application:
+```groovy
+implementation 'com.github.tommyettinger:colorful-pure:0.4.0:sources'
+```
+And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
+```xml
+<inherits name="com.github.tommyettinger.colorful.pure.colorful_pure" />
+```
+
+If you don't use Gradle, here's the Maven dependency:
+```xml
+<dependency>
+  <groupId>com.github.tommyettinger</groupId>
+  <artifactId>colorful-pure</artifactId>
+  <version>0.4.0</version>
+</dependency>
+```
+
+If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.4.0).

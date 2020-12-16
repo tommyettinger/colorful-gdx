@@ -2,7 +2,6 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
-        jcenter()
     }
     dependencies {
         classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
@@ -19,6 +18,7 @@ apply from: 'publish.gradle'
 configure(subprojects) {
     apply plugin: 'java-library'
     apply plugin: 'com.bmuschko.nexus'
+    apply from: '../publish.gradle'
     apply plugin: 'eclipse'
     apply plugin: 'idea'
     compileJava {
@@ -27,18 +27,23 @@ configure(subprojects) {
 }
 
 def projectName = 'colorful-parent'
-version '0.4.0-SNAPSHOT'
+modifyPom{
+    project{
+        name = projectName
+    }
+}
+version '0.4.0'
 group 'com.github.tommyettinger'
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 subprojects {
     version = "$parent.version"
+    group = parent.group
     ext.projectName = 'colorful'
     repositories {
         mavenCentral()
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-        jcenter()
     }
     javadoc.options.source("15")
     javadoc.destinationDir = file("../docs/$name/apidocs")
