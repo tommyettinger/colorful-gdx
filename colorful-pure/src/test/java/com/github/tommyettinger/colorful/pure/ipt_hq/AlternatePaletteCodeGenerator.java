@@ -3,7 +3,6 @@ package com.github.tommyettinger.colorful.pure.ipt_hq;
 import com.github.tommyettinger.colorful.pure.internal.StringKit;
 import com.github.tommyettinger.colorful.pure.ipt_hq.internal.AlternatePalette;
 import com.github.tommyettinger.ds.ObjectIntOrderedMap;
-import com.github.tommyettinger.ds.ObjectIntOrderedMap;
 import com.github.tommyettinger.ds.support.BitConversion;
 
 import java.io.IOException;
@@ -40,6 +39,7 @@ public class AlternatePaletteCodeGenerator {
         int ci;
         String templateSimple = "\n/**\n" +
                 "* This color constant \"`Name\" has RGBA8888 code {@code `RRGGBBAA}, intensity `INTENS, protan `PROTAN, tritan `TRITAN, alpha `ALPHA, hue `HUE, and saturation `SAT.\n" +
+                "* It has the encoded IPT value `PACKED .\n" +
                 "* <pre>\n" +
                 "* <font style='background-color: #FEDCBA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FEDCBA; color: #000000'>&nbsp;@&nbsp;</font>\n" +
                 "* <font style='background-color: #FEDCBA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FEDCBA'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FEDCBA'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FEDCBA'>&nbsp;@&nbsp;</font><font style='background-color: #FEDCBA; color: #888888'>&nbsp;@&nbsp;</font>\n" +
@@ -61,7 +61,8 @@ public class AlternatePaletteCodeGenerator {
 
         for (int i = 0; i < lines.length; i++) {
             tabSplit(rec, lines[i]);
-            c = fromRGBA8888(ci = StringKit.intFromHex(rec[1]));
+            c = fromRGBA8888(StringKit.intFromHex(rec[1]));
+            ci = BitConversion.floatToRawIntBits(c);
             sb.append(templateSimple.replace("`Name", rec[2])
                     .replace("`NAME", rec[0])
                     .replace("`RRGGBBAA", rec[1])
@@ -72,10 +73,9 @@ public class AlternatePaletteCodeGenerator {
                     .replace("`ALPHA", Float.toString(ColorTools.alpha(c)))
                     .replace("`HUE", Float.toString(ColorTools.hue(c)))
                     .replace("`SAT", Float.toString(ColorTools.saturation(c)))
-                    .replace("`PACKED", "0x" + rec[1])
+                    .replace("`PACKED", "0x" + StringKit.hex(ci))
             );
-            System.out.println(rec[2] + " : correct RGBA=" + rec[1] + ", decoded RGBA=" + StringKit.hex(toRGBA8888(c)) + ", raw=" + StringKit.hex(BitConversion.floatToRawIntBits(c))
-//                    + ", decoded hue=" + ColorTools.hue(c) + ", decoded saturation=" + ColorTools.saturation(c) + ", decoded lightness=" + ColorTools.lightness(c)
+            System.out.println(rec[2] + " : correct RGBA=" + rec[1] + ", decoded RGBA=" + StringKit.hex(toRGBA8888(c)) + ", raw=" + StringKit.hex(ci)
                     + ", decoded intens=" + ColorTools.intensity(c) + ", decoded protan=" + (ColorTools.protan(c)*2f-1f) + ", decoded tritan=" + (ColorTools.tritan(c)*2f-1f)
             );
         }
@@ -85,19 +85,20 @@ public class AlternatePaletteCodeGenerator {
             e.printStackTrace();
         }
 
-        String templateTable = "<tr>\n<td style='background-color: #FEDCBA;'></td>\n<td>Name</td>\n<td>0x`RGBA8888</td>\n<td>`INTENS</td>\n<td>`PROTAN</td>\n<td>`TRITAN</td>\n<td>`ALPH</td>\n<td>`HUE</td>\n<td>`SAT</td>\n</tr>\n";
+        String templateTable = "<tr>\n<td style='background-color: #FEDCBA;'></td>\n<td>Name</td>\n<td>0x`RGBA8888</td>\n<td>`INTENS</td>\n<td>`PROTAN</td>\n<td>`TRITAN</td>\n<td>`ALPH</td>\n<td>`HUE</td>\n<td>`SAT</td>\n<td>0x`PACK</td>\n</tr>\n";
         final int size = AlternatePalette.NAMED.size();
         ObjectIntOrderedMap<String> PAL = new ObjectIntOrderedMap<>(AlternatePalette.NAMED);
 
         sb.setLength(0);
         PAL.sort(null);
-        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Intens</th>\n<th>Protan</th>\n<th>Tritan</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n</tr>\n");
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Intens</th>\n<th>Protan</th>\n<th>Tritan</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectIntOrderedMap.Entry<String> sc : PAL) {
             ci = sc.value;
-            c = ColorTools.fromRGBA8888(ci);
+            c = BitConversion.intBitsToFloat(ci);
+            int rgba = ColorTools.toRGBA8888(c);
             sb.append(templateTable.replace("Name", sc.key)
-                    .replace("`RGBA8888", StringKit.hex(ci))
-                    .replace("FEDCBA", StringKit.hex(ci).substring(0, 6))
+                    .replace("`RGBA8888", StringKit.hex(rgba))
+                    .replace("FEDCBA", StringKit.hex(rgba).substring(0, 6))
                     .replace("`HUE", Float.toString(ColorTools.hue(c)))
                     .replace("`SAT", Float.toString(ColorTools.saturation(c)))
                     .replace("`INTENS", Float.toString(ColorTools.intensity(c)))
@@ -131,10 +132,11 @@ public class AlternatePaletteCodeGenerator {
         sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Intens</th>\n<th>Protan</th>\n<th>Tritan</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectIntOrderedMap.Entry<String> sc : PAL) {
             ci = sc.value;
-            c = ColorTools.fromRGBA8888(ci);
+            c = BitConversion.intBitsToFloat(ci);
+            int rgba = ColorTools.toRGBA8888(c);
             sb.append(templateTable.replace("Name", sc.key)
-                    .replace("`RGBA8888", StringKit.hex(ci))
-                    .replace("FEDCBA", StringKit.hex(ci).substring(0, 6))
+                    .replace("`RGBA8888", StringKit.hex(rgba))
+                    .replace("FEDCBA", StringKit.hex(rgba).substring(0, 6))
                     .replace("`HUE", Float.toString(ColorTools.hue(c)))
                     .replace("`SAT", Float.toString(ColorTools.saturation(c)))
                     .replace("`INTENS", Float.toString(ColorTools.intensity(c)))
@@ -156,10 +158,11 @@ public class AlternatePaletteCodeGenerator {
         sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Intens</th>\n<th>Protan</th>\n<th>Tritan</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectIntOrderedMap.Entry<String> sc : PAL) {
             ci = sc.value;
-            c = ColorTools.fromRGBA8888(ci);
+            c = BitConversion.intBitsToFloat(ci);
+            int rgba = ColorTools.toRGBA8888(c);
             sb.append(templateTable.replace("Name", sc.key)
-                    .replace("`RGBA8888", StringKit.hex(ci))
-                    .replace("FEDCBA", StringKit.hex(ci).substring(0, 6))
+                    .replace("`RGBA8888", StringKit.hex(rgba))
+                    .replace("FEDCBA", StringKit.hex(rgba).substring(0, 6))
                     .replace("`HUE", Float.toString(ColorTools.hue(c)))
                     .replace("`SAT", Float.toString(ColorTools.saturation(c)))
                     .replace("`INTENS", Float.toString(ColorTools.intensity(c)))

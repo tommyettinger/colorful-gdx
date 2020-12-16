@@ -7,7 +7,15 @@ import com.github.tommyettinger.ds.ObjectList;
 
 import java.util.Comparator;
 
-import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.*;
+import static com.github.tommyettinger.colorful.pure.FloatColors.mix;
+import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.darken;
+import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.dullen;
+import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.enrich;
+import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.hue;
+import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.intensity;
+import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.lighten;
+import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.limitToGamut;
+import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.saturation;
 
 /**
  * A palette of predefined colors as packed IPT floats, the kind {@link ColorTools} works with.
@@ -765,14 +773,14 @@ public class SimplePalette {
                     break;
             }
         }
-        float result = FloatColors.mix(mixing.items, 0, mixing.size());
+        float result = mix(mixing.items, 0, mixing.size());
 
-        if(intensity > 0) result = ColorTools.lighten(result, intensity);
-        else if(intensity < 0) result = ColorTools.darken(result, -intensity);
+        if(intensity > 0) result = lighten(result, intensity);
+        else if(intensity < 0) result = darken(result, -intensity);
 
-        if(saturation > 0) result = ColorTools.enrich(result, saturation);
-        else if(saturation < 0) result = ColorTools.limitToGamut(ColorTools.dullen(result, -saturation));
-        else result = ColorTools.limitToGamut(result);
+        if(saturation > 0) result = enrich(result, saturation);
+        else if(saturation < 0) result = limitToGamut(dullen(result, -saturation));
+        else result = limitToGamut(result);
 
         return result;
     }

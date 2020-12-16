@@ -370,9 +370,6 @@ public class ColorTools {
 			x = r;
 		}
 		return x - Math.min(w, y);
-//		float d = x - Math.min(w, y);
-//		float li = x * (1f - 0.5f * d / (x + 1e-10f));
-//		return (x - li); // (Math.min(li, 1f - li) + 1e-10f);
 	}
 
 	public static float lightness(final float encoded) {
