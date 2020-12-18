@@ -758,20 +758,20 @@ public class MathTools {
         }
     }
     public static int clamp (int value, int min, int max) {
-        if (value < min) return min;
-        if (value > max) return max;
+        if (value <= min) return min;
+        if (value >= max) return max;
         return value;
     }
 
     public static long clamp (long value, long min, long max) {
-        if (value < min) return min;
-        if (value > max) return max;
+        if (value <= min) return min;
+        if (value >= max) return max;
         return value;
     }
 
     public static float clamp (float value, float min, float max) {
-        if (value < min) return min;
-        if (value > max) return max;
+        if (value <= min) return min;
+        if (value >= max) return max;
         return value;
     }
     /**
@@ -780,7 +780,7 @@ public class MathTools {
      * @param toValue ending float value; can be any finite float
      * @param progress how far the interpolation should go, between 0 (equal to fromValue) and 1 (equal to toValue)
      */
-    public static float lerp (float fromValue, float toValue, float progress) {
+    public static float lerp (final float fromValue, final float toValue, final float progress) {
         return fromValue + (toValue - fromValue) * progress;
     }
 
