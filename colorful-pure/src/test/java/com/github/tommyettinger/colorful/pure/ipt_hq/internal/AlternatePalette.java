@@ -1,29 +1,26 @@
 package com.github.tommyettinger.colorful.pure.ipt_hq.internal;
 
-import com.github.tommyettinger.colorful.pure.FloatColors;
-import com.github.tommyettinger.colorful.pure.MathTools;
-import com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools;
 import com.github.tommyettinger.ds.*;
-import com.github.tommyettinger.ds.support.BitConversion;
-
-import java.util.Comparator;
-
-import static com.github.tommyettinger.colorful.pure.FloatColors.mix;
-import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.*;
 
 /**
- * A palette of predefined colors as packed IPT floats, the kind {@link ColorTools} works with.
- * You can access colors by their constant name, such as {@code OCEAN_BLUE}, by the {@link #NAMED} map using
- * {@code NAMED.get("Ocean Blue", 0f)}, or by index in the FloatArray called {@link #LIST}. Note that to access a float
- * color from NAMED, you need to give a default value if the name is not found; {@code 0f} is a good default because it
- * will not occur in a valid IPT color. You can access the names in a specific order with {@link #NAMES} (which is
- * alphabetical), {@link #NAMES_BY_HUE} (which is sorted by the hue of the matching color, from red to yellow to blue
- * (with gray around here) to purple to red again), or {@link #NAMES_BY_LIGHTNESS} (which is sorted by the intensity of
- * the matching color, from darkest to lightest). Having a name lets you look up the matching color in {@link #NAMED}.
- * <br>
- * Created by Tommy Ettinger on 10/13/2020.
+ * A palette of predefined colors as packed IPT ints, and tools for obtaining IPT int colors from a description.
+ * You can access colors by their constant name, such as {@code cactus}, by the {@link #NAMED} map using
+ * {@code NAMED.get("cactus")}, by getting a color by its name's position in alphabetical order with
+ * {@code NAMED.getAt(12)}, or by index in the IntList called {@link #LIST}. When accessing a color with
+ * {@link ObjectIntOrderedMap#get(Object)}, if the name is not found, get() will return {@link #TRANSPARENT}. If you
+ * want to control the not-found value, you can use {@link ObjectIntOrderedMap#getOrDefault(Object, int)}. You can
+ * access the names in a specific order with {@link #NAMES} (which is alphabetical), {@link #NAMES_BY_HUE} (which is
+ * sorted by the hue of the matching color, from red to yellow to blue (with gray around here) to purple to red again),
+ * or {@link #NAMES_BY_LIGHTNESS} (which is sorted by the intensity of the matching color, from darkest to lightest).
+ * Having a name lets you look up the matching color in {@link #NAMED}. You can also modify or re-order NAMED if you
+ * want to, such as to add more named colors.
  */
-public class AlternatePalette {
+public final class AlternatePalette {
+    /**
+     * No need to extend this.
+     */
+    private AlternatePalette() {
+    }
     public static final ObjectIntOrderedMap<String> NAMED = new ObjectIntOrderedMap<String>(50);
     public static final IntList LIST = new IntList(50);
 
@@ -850,6 +847,16 @@ public class AlternatePalette {
     public static final ObjectList<String> NAMES_BY_LIGHTNESS = new ObjectList<>(NAMES);
 
     /**
+     *  Linearly interpolates between fromValue to toValue on progress position.
+     * @param fromValue starting float value; can be any finite float
+     * @param toValue ending float value; can be any finite float
+     * @param progress how far the interpolation should go, between 0 (equal to fromValue) and 1 (equal to toValue)
+     */
+    public static float lerp (final float fromValue, final float toValue, final float progress) {
+        return fromValue + (toValue - fromValue) * progress;
+    }
+
+    /**
      * Used when converting from RGB to IPT, as an intermediate step.
      *
      * @param component one of the LMS channels to be converted to LMS Prime
@@ -903,9 +910,9 @@ public class AlternatePalette {
         final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
         final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
         final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-        final int r = (int)(reverseGamma(MathTools.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f)) * 255.999f);
-        final int g = (int)(reverseGamma(MathTools.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f)) * 255.999f);
-        final int b = (int)(reverseGamma(MathTools.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f)) * 255.999f);
+        final int r = (int)(reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f)) * 255.999f);
+        final int g = (int)(reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f)) * 255.999f);
+        final int b = (int)(reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f)) * 255.999f);
         return r << 24 | g << 16 | b << 8 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
     }
 
@@ -923,9 +930,9 @@ public class AlternatePalette {
         final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
         final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
         final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-        final float r = reverseGamma(MathTools.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
-        final float g = reverseGamma(MathTools.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
-        final float b = reverseGamma(MathTools.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
+        final float r = reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f));
+        final float g = reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f));
+        final float b = reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f));
         float x, y, w;
         if (g < b) {
             x = b;
@@ -958,9 +965,9 @@ public class AlternatePalette {
         final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
         final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
         final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-        final float r = reverseGamma(MathTools.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
-        final float g = reverseGamma(MathTools.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
-        final float b = reverseGamma(MathTools.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
+        final float r = reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f));
+        final float g = reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f));
+        final float b = reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f));
         float x, y, z, w;
         if (g < b) {
             x = b;
@@ -1075,9 +1082,9 @@ public class AlternatePalette {
             if (r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
             final float progress = attempt * 0x1p-5f;
-            i2 = MathTools.lerp(0.55f, i, progress);
-            p2 = MathTools.lerp(0, p, progress);
-            t2 = MathTools.lerp(0, t, progress);
+            i2 = lerp(0.55f, i, progress);
+            p2 = lerp(0, p, progress);
+            t2 = lerp(0, t, progress);
         }
         return ((packed & 0xFE000000) | ((int) (t2 * 127.999f + 128f) << 16)
                 | ((int) (p2 * 127.999f + 128f) << 8) | ((int) (i2 * 255.999f)));
