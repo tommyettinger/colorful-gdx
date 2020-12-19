@@ -117,7 +117,7 @@ public class AlternatePaletteCodeGenerator {
 
         sb.setLength(0);
         PAL.sortByValue((int ci1, int ci2) -> {
-            float c1 = ColorTools.fromRGBA8888(ci1), c2 = ColorTools.fromRGBA8888(ci2);
+            float c1 = BitConversion.intBitsToFloat(ci1), c2 = BitConversion.intBitsToFloat(ci2);
             float s1 = ColorTools.saturation(c1), s2 = ColorTools.saturation(c2);
             if (s1 <= 0.05f && s2 > 0.05f)
                 return -1000;
@@ -154,7 +154,7 @@ public class AlternatePaletteCodeGenerator {
         }
 
         sb.setLength(0);
-        PAL.sortByValue((int c1, int c2) -> (int)Math.signum(ColorTools.intensity(ColorTools.fromRGBA8888(c1)) - ColorTools.intensity(ColorTools.fromRGBA8888(c2))));
+        PAL.sortByValue((int c1, int c2) -> (int)Math.signum(ColorTools.intensity(BitConversion.intBitsToFloat(c1)) - ColorTools.intensity(BitConversion.intBitsToFloat(c2))));
         sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Intens</th>\n<th>Protan</th>\n<th>Tritan</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectIntOrderedMap.Entry<String> sc : PAL) {
             ci = sc.value;
