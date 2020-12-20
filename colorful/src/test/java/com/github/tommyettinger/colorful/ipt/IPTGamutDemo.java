@@ -109,9 +109,9 @@ public class IPTGamutDemo extends ApplicationAdapter {
 //        // 24 is how many frames per second the animated GIF should play back at.
         gif.write(Gdx.files.local("IPTGamut.gif"), pixmaps, 24);
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
-//        AnimatedPNG png = new AnimatedPNG();
+        AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
-//        png.write(Gdx.files.local("IPTGamut.png"), pixmaps, 24);
+        png.write(Gdx.files.local("IPTGamut.png"), pixmaps, 24);
 
     }
 
