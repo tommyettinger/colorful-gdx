@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.anim8.AnimatedGif;
+import com.github.tommyettinger.anim8.AnimatedPNG;
 import com.github.tommyettinger.anim8.Dithered;
 import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.colorful.TrigTools;
@@ -122,9 +123,9 @@ public class HSIGamutDemo extends ApplicationAdapter {
 //        // 24 is how many frames per second the animated GIF should play back at.
         gif.write(Gdx.files.local("SphereIPTGamut.gif"), pixmaps, 24);
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
-//        AnimatedPNG png = new AnimatedPNG();
-//// 24 is how many frames per second the animated PNG should play back at.
-//        png.write(Gdx.files.local("SphereIPTGamut.png"), pixmaps, 24);
+        AnimatedPNG png = new AnimatedPNG();
+// 24 is how many frames per second the animated PNG should play back at.
+        png.write(Gdx.files.local("SphereIPTGamut.png"), pixmaps, 24);
     }
 
 

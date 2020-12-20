@@ -107,7 +107,7 @@ public class IPTHQGamutDemo extends ApplicationAdapter {
             // this gets a screenshot of the current window and adds it to the Array of Pixmap.
             pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         }
-        /*
+
 //// AnimatedGif is from anim8; this code uses the predefined DawnBringer Aurora palette, which has 255 colors
 //// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
         AnimatedGif gif = new AnimatedGif();
@@ -123,7 +123,7 @@ public class IPTHQGamutDemo extends ApplicationAdapter {
         AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
         png.write(Gdx.files.local("IPTHQGamut.png"), pixmaps, 24);
-*/
+
     }
 
 
