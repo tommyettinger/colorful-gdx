@@ -685,8 +685,11 @@ public class SimplePalette {
      * {@link FloatColors#mix(float[], int, int)}, or if there is just one color name word, then the corresponding color
      * will be used. The special adjectives "light" and "dark" change the intensity of the described color; likewise,
      * "rich" and "dull" change the saturation (the difference of the chromatic channels from grayscale). All of these
-     * adjectives can have "-er" or "-est" appended to make their effect twice or three times as strong. If a color name
-     * or adjective is invalid, it is considered the same as adding the color {@link #TRANSPARENT}.
+     * adjectives can have "-er" or "-est" appended to make their effect twice or three times as strong. Technically,
+     * the chars appended to an adjective don't matter, only their count, so "lightaa" is the same as "lighter" and
+     * "richcat" is the same as "richest". There's an unofficial fourth level as well, used when any 4 characters are
+     * appended to an adjective (as in "darkmost"); it has four times the effect of the original adjective. If a color
+     * name or adjective is invalid, it is considered the same as adding the color {@link #TRANSPARENT}.
      * <br>
      * Examples of valid descriptions include "blue", "dark green", "duller red", "peach pink", "indigo purple mauve",
      * and "lightest richer apricot-olive".
@@ -704,6 +707,8 @@ public class SimplePalette {
                 case 'l':
                     if (len > 2 && term.charAt(2) == 'g') {
                         switch (len) {
+                            case 9:
+                                intensity += 0.125f;
                             case 8:
                                 intensity += 0.125f;
                             case 7:
@@ -722,6 +727,8 @@ public class SimplePalette {
                 case 'r':
                     if (len > 1 && term.charAt(1) == 'i') {
                         switch (len) {
+                            case 8:
+                                saturation += 0.2f;
                             case 7:
                                 saturation += 0.2f;
                             case 6:
@@ -740,6 +747,8 @@ public class SimplePalette {
                 case 'd':
                     if (len > 1 && term.charAt(1) == 'a') {
                         switch (len) {
+                            case 8:
+                                intensity -= 0.125f;
                             case 7:
                                 intensity -= 0.125f;
                             case 6:
@@ -753,6 +762,8 @@ public class SimplePalette {
                         }
                     } else if (len > 1 && term.charAt(1) == 'u') {
                         switch (len) {
+                            case 8:
+                                saturation -= 0.2f;
                             case 7:
                                 saturation -= 0.2f;
                             case 6:
