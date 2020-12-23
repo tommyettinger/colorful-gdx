@@ -8,14 +8,7 @@ import com.github.tommyettinger.ds.ObjectList;
 import java.util.Comparator;
 
 import static com.github.tommyettinger.colorful.pure.FloatColors.mix;
-import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.darken;
-import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.dullen;
-import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.enrich;
-import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.hue;
-import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.intensity;
-import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.lighten;
-import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.limitToGamut;
-import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.saturation;
+import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.*;
 
 /**
  * A palette of predefined colors as packed IPT floats, the kind {@link ColorTools} works with.
@@ -648,6 +641,11 @@ public class SimplePalette {
      */
     public static final ObjectList<String> NAMES_BY_HUE = new ObjectList<>(NAMES);
     /**
+     * The packed IPT float colors that correspond to items in {@link #NAMES_BY_HUE}, with the same order.
+     */
+    public static final FloatList COLORS_BY_HUE = new FloatList(NAMES_BY_HUE.size());
+
+    /**
      * All names for colors in this palette, sorted by lightness from black to white. You can fetch the
      * corresponding packed float color by looking up a name in {@link #NAMED}.
      */
@@ -657,6 +655,8 @@ public class SimplePalette {
             public int compare(String o1, String o2) {
                 final float c1 = NAMED.get(o1), c2 = NAMED.get(o2);
                 final float s1 = saturation(c1), s2 = saturation(c2);
+                if(alphaInt(c1) < 128) return -10000;
+                else if(alphaInt(c2) < 128) return 10000;
                 if(s1 <= 0x1p-6f && s2 > 0x1p-6f)
                     return -1000;
                 else if(s1 > 0x1p-6f && s2 <= 0x1p-6f)
@@ -668,6 +668,9 @@ public class SimplePalette {
                             + (int)Math.signum(intensity(c1) - intensity(c2));
             }
         });
+        for(String name : NAMES_BY_HUE) {
+            COLORS_BY_HUE.add(NAMED.get(name));
+        }
         NAMES_BY_LIGHTNESS.sort(new Comparator<String>() {
             public int compare(String o1, String o2) {
                 return Float.compare(intensity(NAMED.get(o1)), intensity(NAMED.get(o2)));
@@ -795,4 +798,45 @@ public class SimplePalette {
 
         return result;
     }
+
+    public static String bestMatch(final float ipt_hq, int mixCount) {
+        mixCount = Math.max(1, mixCount);
+        double bestDistance = Double.POSITIVE_INFINITY;
+        final int paletteSize = NAMES_BY_HUE.size(), colorTries = (int)Math.pow(paletteSize, mixCount), totalTries = colorTries * 81;
+        final float targetI = ColorTools.intensity(ipt_hq), targetP = ColorTools.protan(ipt_hq), targetT = ColorTools.tritan(ipt_hq);
+        final String[] lightAdjectives = {"darkmost ", "darkest ", "darker ", "dark ", "", "light ", "lighter ", "lightest ", "lightmost "};
+        final String[] satAdjectives = {"dullmost ", "dullest ", "duller ", "dull ", "", "rich ", "richer ", "richest ", "richmost "};
+        mixing.clear();
+        for (int i = 0; i < mixCount; i++) {
+            mixing.add(COLORS_BY_HUE.get(0));
+        }
+        int bestCode = 0;
+        for (int c = 0; c < totalTries; c++) {
+            for (int i = 0, e = 1; i < mixCount; i++, e *= paletteSize) {
+                mixing.set(i, COLORS_BY_HUE.get((c / e) % paletteSize));
+            }
+            int intensity = (c / colorTries) % 9 - 4, saturation = c / (colorTries * 9) - 4;
+
+            float result = FloatColors.mix(mixing.items, 0, mixCount);
+            if(intensity > 0) result = ColorTools.lighten(result, intensity);
+            else if(intensity < 0) result = ColorTools.darken(result, -intensity);
+
+            if(saturation > 0) result = ColorTools.enrich(result, saturation);
+            else if(saturation < 0) result = ColorTools.limitToGamut(ColorTools.dullen(result, -saturation));
+            else result = ColorTools.limitToGamut(result);
+
+            float dI = ColorTools.intensity(result) - targetI, dP = ColorTools.protan(result) - targetP, dT = ColorTools.tritan(result) - targetT;
+            if(bestDistance > (bestDistance = Math.min(dI * dI * 3.0 + dP * dP + dT * dT, bestDistance)))
+                bestCode = c;
+        }
+
+        StringBuilder description = new StringBuilder(lightAdjectives[(bestCode / colorTries) % 9] + satAdjectives[bestCode / (colorTries * 9)]);
+        for (int i = 0, e = 1; i < mixCount; e *= paletteSize) {
+            description.append(NAMES_BY_HUE.get((bestCode / e) % paletteSize));
+            if(++i < mixCount)
+                description.append(' ');
+        }
+        return description.toString();
+    }
+
 }

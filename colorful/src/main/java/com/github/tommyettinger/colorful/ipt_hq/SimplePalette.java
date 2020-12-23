@@ -290,7 +290,7 @@ public class SimplePalette {
     static { NAMED.put("cinnamon", -0x1.634104p126F); LIST.add(-0x1.634104p126F); }
 
     /**
-     * This color constant "sepia" has RGBA8888 code {@code 8F573BFF}, intensity 0.42352942, protan 0.57254905, tritan 0.5882353, alpha 1.0, hue 0.056629464, and saturation 0.3289587.
+     * This color constant "brown" has RGBA8888 code {@code 8F573BFF}, intensity 0.42352942, protan 0.57254905, tritan 0.5882353, alpha 1.0, hue 0.056629464, and saturation 0.3289587.
      * It can be represented as a packed float with the constant {@code -0x1.2d24d8p126F}.
      * <pre>
      * <font style='background-color: #8F573B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8F573B; color: #000000'>&nbsp;@&nbsp;</font>
@@ -298,8 +298,8 @@ public class SimplePalette {
      * <font style='background-color: #8F573B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8F573B; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SEPIA = -0x1.2d24d8p126F;
-    static { NAMED.put("sepia", -0x1.2d24d8p126F); LIST.add(-0x1.2d24d8p126F); }
+    public static final float BROWN = -0x1.2d24d8p126F;
+    static { NAMED.put("brown", -0x1.2d24d8p126F); LIST.add(-0x1.2d24d8p126F); }
 
     /**
      * This color constant "apricot" has RGBA8888 code {@code FFA828FF}, intensity 0.68235296, protan 0.5803922, tritan 0.7490196, alpha 1.0, hue 0.09959209, and saturation 0.8424464.
@@ -636,6 +636,8 @@ public class SimplePalette {
      * blue. You can fetch the corresponding packed float color by looking up a name in {@link #NAMED}.
      */
     public static final Array<String> NAMES_BY_HUE = new Array<>(NAMES);
+
+    public static final FloatArray COLORS_BY_HUE = new FloatArray(NAMES_BY_HUE.size);
     /**
      * All names for colors in this palette, sorted by lightness from black to white. You can fetch the
      * corresponding packed float color by looking up a name in {@link #NAMED}.
@@ -646,7 +648,9 @@ public class SimplePalette {
             public int compare(String o1, String o2) {
                 final float c1 = NAMED.get(o1, TRANSPARENT), c2 = NAMED.get(o2, TRANSPARENT);
                 final float s1 = ColorTools.saturation(c1), s2 = ColorTools.saturation(c2);
-                if(s1 <= 0.05f && s2 > 0.05f)
+                if(alphaInt(c1) < 128) return -10000;
+                else if(alphaInt(c2) < 128) return 10000;
+                else if(s1 <= 0.05f && s2 > 0.05f)
                     return -1000;
                 else if(s1 > 0.05f && s2 <= 0.05f)
                     return 1000;
@@ -657,6 +661,9 @@ public class SimplePalette {
                             + (int)Math.signum(ColorTools.intensity(c1) - ColorTools.intensity(c2));
             }
         });
+        for(String name : NAMES_BY_HUE) {
+            COLORS_BY_HUE.add(NAMED.get(name, TRANSPARENT));
+        }
         NAMES_BY_LIGHTNESS.sort(new Comparator<String>() {
             public int compare(String o1, String o2) {
                 return Float.compare(intensity(NAMED.get(o1, TRANSPARENT)), intensity(NAMED.get(o2, TRANSPARENT)));
@@ -783,5 +790,45 @@ public class SimplePalette {
         else result = ColorTools.limitToGamut(result);
 
         return result;
+    }
+
+    public static String bestMatch(final float ipt_hq, int mixCount) {
+        mixCount = Math.max(1, mixCount);
+        double bestDistance = Double.POSITIVE_INFINITY;
+        final int paletteSize = NAMES_BY_HUE.size, colorTries = (int)Math.pow(paletteSize, mixCount), totalTries = colorTries * 81;
+        final float targetI = ColorTools.intensity(ipt_hq), targetP = ColorTools.protan(ipt_hq), targetT = ColorTools.tritan(ipt_hq);
+        final String[] lightAdjectives = {"darkmost ", "darkest ", "darker ", "dark ", "", "light ", "lighter ", "lightest ", "lightmost "};
+        final String[] satAdjectives = {"dullmost ", "dullest ", "duller ", "dull ", "", "rich ", "richer ", "richest ", "richmost "};
+        mixing.clear();
+        for (int i = 0; i < mixCount; i++) {
+            mixing.add(COLORS_BY_HUE.get(0));
+        }
+        int bestCode = 0;
+        for (int c = 0; c < totalTries; c++) {
+            for (int i = 0, e = 1; i < mixCount; i++, e *= paletteSize) {
+                mixing.set(i, COLORS_BY_HUE.get((c / e) % paletteSize));
+            }
+            int intensity = (c / colorTries) % 9 - 4, saturation = c / (colorTries * 9) - 4;
+
+            float result = FloatColors.mix(mixing.items, 0, mixCount);
+            if(intensity > 0) result = ColorTools.lighten(result, intensity);
+            else if(intensity < 0) result = ColorTools.darken(result, -intensity);
+
+            if(saturation > 0) result = ColorTools.enrich(result, saturation);
+            else if(saturation < 0) result = ColorTools.limitToGamut(ColorTools.dullen(result, -saturation));
+            else result = ColorTools.limitToGamut(result);
+
+            float dI = ColorTools.intensity(result) - targetI, dP = ColorTools.protan(result) - targetP, dT = ColorTools.tritan(result) - targetT;
+            if(bestDistance > (bestDistance = Math.min(dI * dI * 3.0 + dP * dP + dT * dT, bestDistance)))
+                bestCode = c;
+        }
+
+        StringBuilder description = new StringBuilder(lightAdjectives[(bestCode / colorTries) % 9] + satAdjectives[bestCode / (colorTries * 9)]);
+        for (int i = 0, e = 1; i < mixCount; e *= paletteSize) {
+            description.append(NAMES_BY_HUE.get((bestCode / e) % paletteSize));
+            if(++i < mixCount)
+                description.append(' ');
+        }
+        return description.toString();
     }
 }
