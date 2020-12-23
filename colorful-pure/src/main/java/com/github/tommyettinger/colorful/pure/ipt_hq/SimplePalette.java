@@ -799,23 +799,42 @@ public class SimplePalette {
         return result;
     }
 
+    private static final ObjectList<String> namesByHue = new ObjectList<>(NAMES_BY_HUE);
+    private static final FloatList colorsByHue = new FloatList(COLORS_BY_HUE);
+    static {
+        int trn = namesByHue.indexOf("transparent");
+        namesByHue.removeAt(trn);
+        colorsByHue.removeAt(trn);
+    }
+
+    /**
+     * Given a color as a packed IPT_HQ float, this finds the closest description it can to match the given color while
+     * using at most {@code mixCount} colors to mix in. You should only use small numbers for mixCount, like 1 to 3;
+     * this can take quite a while to run otherwise. This returns a String description that can be passed to
+     * {@link #parseDescription(String)}. It is likely that this will use very contrasting colors if mixCount is 2 or
+     * greater and the color to match is desaturated or brownish.
+     * @param ipt_hq a packed IPT_HQ float color to attempt to match
+     * @param mixCount how many color names this will use in the returned description
+     * @return a description that can be fed to {@link #parseDescription(String)} to get a similar color
+     */
     public static String bestMatch(final float ipt_hq, int mixCount) {
         mixCount = Math.max(1, mixCount);
         double bestDistance = Double.POSITIVE_INFINITY;
-        final int paletteSize = NAMES_BY_HUE.size(), colorTries = (int)Math.pow(paletteSize, mixCount), totalTries = colorTries * 81;
+        final int paletteSize = namesByHue.size(), colorTries = (int)Math.pow(paletteSize, mixCount), totalTries = colorTries * 81;
         final float targetI = ColorTools.intensity(ipt_hq), targetP = ColorTools.protan(ipt_hq), targetT = ColorTools.tritan(ipt_hq);
         final String[] lightAdjectives = {"darkmost ", "darkest ", "darker ", "dark ", "", "light ", "lighter ", "lightest ", "lightmost "};
         final String[] satAdjectives = {"dullmost ", "dullest ", "duller ", "dull ", "", "rich ", "richer ", "richest ", "richmost "};
         mixing.clear();
         for (int i = 0; i < mixCount; i++) {
-            mixing.add(COLORS_BY_HUE.get(0));
+            mixing.add(colorsByHue.get(0));
         }
         int bestCode = 0;
         for (int c = 0; c < totalTries; c++) {
             for (int i = 0, e = 1; i < mixCount; i++, e *= paletteSize) {
-                mixing.set(i, COLORS_BY_HUE.get((c / e) % paletteSize));
+                mixing.set(i, colorsByHue.get((c / e) % paletteSize));
             }
-            int intensity = (c / colorTries) % 9 - 4, saturation = c / (colorTries * 9) - 4;
+            int idxI = ((c / colorTries) % 9 - 4), idxS = (c / (colorTries * 9) - 4);
+            float intensity = idxI * 0.125f, saturation = idxS * 0.2f;
 
             float result = FloatColors.mix(mixing.items, 0, mixCount);
             if(intensity > 0) result = ColorTools.lighten(result, intensity);
@@ -832,7 +851,7 @@ public class SimplePalette {
 
         StringBuilder description = new StringBuilder(lightAdjectives[(bestCode / colorTries) % 9] + satAdjectives[bestCode / (colorTries * 9)]);
         for (int i = 0, e = 1; i < mixCount; e *= paletteSize) {
-            description.append(NAMES_BY_HUE.get((bestCode / e) % paletteSize));
+            description.append(namesByHue.get((bestCode / e) % paletteSize));
             if(++i < mixCount)
                 description.append(' ');
         }
