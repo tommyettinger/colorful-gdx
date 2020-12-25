@@ -660,7 +660,7 @@ public class ColorTools {
 				cMild = (contrastBits >>> 16 & 0xff);
 		if((warm - cWarm) * (warm - cWarm) + (mild - cMild) * (mild - cMild) >= 0x10000)
 			return mainColor;
-		return ycwcm(cLuma < 128 ? luma * (0.45f / 255f) + 0.55f : 0.5f - luma * (0.45f / 255f), warm, mild, 0x1.010102p-8f * (bits >>> 24));
+		return ycwcm(cLuma < 128 ? luma * (0.45f / 255f) + 0.55f : 0.5f - luma * (0.45f / 255f), warm / 255f, mild / 255f, 0x1.010102p-8f * (bits >>> 24));
 	}
 
 	/**
