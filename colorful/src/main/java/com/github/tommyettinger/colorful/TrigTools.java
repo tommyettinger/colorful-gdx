@@ -146,74 +146,7 @@ public class TrigTools {
         radians *= 2f - radians;
         return radians * (-0.775f - 0.225f * radians) * ((floor & 2) - 1);
     }
-    /**
-     * A fairly-close approximation of {@link Math#sin(double)} that can be significantly faster (between 8x and 80x
-     * faster sin() calls in benchmarking, and both takes and returns floats; if you have access to libGDX, you should
-     * consider its more-precise and sometimes-faster MathUtils.sinDeg() method. Because this method doesn't rely on a
-     * lookup table, where libGDX's MathUtils does, applications that have a bottleneck on memory may perform better
-     * with this method than with MathUtils. Takes one angle in degrees,
-     * which may technically be any float (but this will lose precision on fairly large floats, such as those that are
-     * larger than {@link Integer#MAX_VALUE}, because those floats themselves will lose precision at that scale). This
-     * is closely related to a cubic sway, but the shape of the output when graphed is almost identical to
-     * sin(). The difference between the result of this method and {@link Math#sin(double)} should be under 0.0011 at
-     * all points between -360 and 360, with an average difference of about 0.0005; not all points have been checked for
-     * potentially higher errors, though.
-     * <br>
-     * The error for this float version is extremely close to the double version, {@link #sin(double)}, so you should
-     * choose based on what type you have as input and/or want to return rather than on quality concerns. Coercion
-     * between float and double takes about as long as this method normally takes to run (or longer), so if you have
-     * floats you should usually use methods that take floats (or return floats, if assigning the result to a float),
-     * and likewise for doubles.
-     * <br>
-     * The technique for sine approximation is mostly from
-     * <a href="https://web.archive.org/web/20080228213915/http://devmaster.net/forums/showthread.php?t=5784">this archived DevMaster thread</a>,
-     * with credit to "Nick". Changes have been made to accelerate wrapping from any float to the valid input range.
-     * @param degrees an angle in degrees as a float, often from 0 to 360, though not required to be.
-     * @return the sine of the given angle, as a float between -1f and 1f (both inclusive)
-     */
-    public static float sinDegrees(float degrees)
-    {
-        degrees = degrees * 0.011111111111111112f;
-        final int floor = (degrees >= 0.0 ? (int) degrees : (int) degrees - 1) & -2;
-        degrees -= floor;
-        degrees *= 2f - degrees;
-        return degrees * (-0.775f - 0.225f * degrees) * ((floor & 2) - 1);
-    }
 
-    /**
-     * A fairly-close approximation of {@link Math#cos(double)} that can be significantly faster (between 8x and 80x
-     * faster cos() calls in benchmarking, and both takes and returns floats; if you have access to libGDX, you should
-     * consider its more-precise and sometimes-faster MathUtils.cosDeg() method. Because this method doesn't rely on a
-     * lookup table, where libGDX's MathUtils does, applications that have a bottleneck on memory may perform better
-     * with this method than with MathUtils. Takes one angle in degrees,
-     * which may technically be any float (but this will lose precision on fairly large floats, such as those that are
-     * larger than {@link Integer#MAX_VALUE}, because those floats themselves will lose precision at that scale). This
-     * is closely related to a cubic sway, but the shape of the output when graphed is almost identical to
-     * cos(). The difference between the result of this method and {@link Math#cos(double)} should be under 0.0011 at
-     * all points between -360 and 360, with an average difference of about 0.0005; not all points have been checked for
-     * potentially higher errors, though.
-     * <br>
-     * The error for this float version is extremely close to the double version, {@link #cos(double)}, so you should
-     * choose based on what type you have as input and/or want to return rather than on quality concerns. Coercion
-     * between float and double takes about as long as this method normally takes to run (or longer), so if you have
-     * floats you should usually use methods that take floats (or return floats, if assigning the result to a float),
-     * and likewise for doubles.
-     * <br>
-     * The technique for cosine approximation is mostly from
-     * <a href="https://web.archive.org/web/20080228213915/http://devmaster.net/forums/showthread.php?t=5784">this archived DevMaster thread</a>,
-     * with credit to "Nick". Changes have been made to accelerate wrapping from any float to the valid input range.
-     * @param degrees an angle in degrees as a float, often from 0 to pi * 2, though not required to be.
-     * @return the cosine of the given angle, as a float between -1f and 1f (both inclusive)
-     */
-    public static float cosDegrees(float degrees)
-    {
-        degrees = degrees * 0.011111111111111112f + 1f;
-        final int floor = (degrees >= 0.0 ? (int) degrees : (int) degrees - 1) & -2;
-        degrees -= floor;
-        degrees *= 2f - degrees;
-        return degrees * (-0.775f - 0.225f * degrees) * ((floor & 2) - 1);
-    }
-    
     /**
      * A variation on {@link Math#sin(double)} that takes its input as a fraction of a turn instead of in radians; one
      * turn is equal to 360 degrees or two*PI radians. This can be useful as a building block for other measurements;
@@ -564,49 +497,6 @@ public class TrigTools {
         if (invert) z = 90 - z;
         if (x < 0) z = 180 - z;
         return y < 0 ? 360 - z : z;
-    }
-
-    /**
-     * Arc sine approximation with very low error, using an algorithm from the 1955 research study
-     * "Approximations for Digital Computers," by RAND Corporation (this is sheet 35's algorithm, which is the fastest
-     * and least precise). This method is usually much faster than {@link Math#asin(double)}, but is somewhat less
-     * precise than Math's implementation. It is currently much more precise than libGDX's approximation in their
-     * MathUtils, and is a little faster.
-     * @param x an input to the inverse sine function, from -1 to 1 inclusive
-     * @return an output from the inverse sine function, from PI/-2.0 to PI/2.0 inclusive.
-     */
-    public static float asin(final float x) {
-        final float x2 = x * x;
-        final float x3 = x * x2;
-        if (x >= 0f) {
-            return 1.5707963267948966f - (float) Math.sqrt(1f - x) *
-                    (1.5707288f - 0.2121144f * x + 0.0742610f * x2 - 0.0187293f * x3);
-        }
-        else {
-            return -1.5707964f + (float) Math.sqrt(1f + x) *
-                    (1.5707288f + 0.2121144f * x + 0.0742610f * x2 + 0.0187293f * x3);
-        }
-    }
-    /**
-     * Arc cosine approximation with very low error, using an algorithm from the 1955 research study
-     * "Approximations for Digital Computers," by RAND Corporation (this is sheet 35's algorithm, which is the fastest
-     * and least precise). This method is usually much faster than {@link Math#acos(double)}, but is somewhat less
-     * precise than Math's implementation. It is currently much more precise than libGDX's approximation in their
-     * MathUtils, and is a little faster.
-     * <br>
-     * Accuracy: absolute error 0.000028450, relative error -0.000000011, max error 0.000067548 .
-     * @param x an input to the inverse cosine function, from -1 to 1 inclusive
-     * @return an output from the inverse cosine function, from 0 to PI inclusive.
-     */
-    public static float acos(final float x) {
-        final float x2 = x * x;
-        final float x3 = x * x2;
-        if (x >= 0f) {
-            return (float) Math.sqrt(1f - x) * (1.5707288f - 0.2121144f * x + 0.0742610f * x2 - 0.0187293f * x3);
-        }
-        else {
-            return 3.14159265358979323846f - (float) Math.sqrt(1f + x) * (1.5707288f + 0.2121144f * x + 0.0742610f * x2 + 0.0187293f * x3);
-        }
     }
 
     /**

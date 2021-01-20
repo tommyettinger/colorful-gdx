@@ -10,6 +10,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.colorful.TrigTools;
@@ -101,7 +102,7 @@ public class RGBChangingTintDemo extends ApplicationAdapter {
 
             float f = seed++ * 0x1p-14f, a = TrigTools.sin_(f + TrigTools.cos_(f * 0.25f - 0.314f)),
                     b = TrigTools.cos_(a + TrigTools.sin_(f - a * 0.5f) + 0.618f),
-                    c = TrigTools.cos_(TrigTools.atan2_(TrigTools.cos(a + 0.618f), TrigTools.sin_(b - 0.618f))) * 0.25f;
+                    c = TrigTools.cos_(TrigTools.atan2_(MathUtils.cos(a + 0.618f), TrigTools.sin_(b - 0.618f))) * 0.25f;
             colorfulBatch.setPackedColor(ColorTools.toEditedFloat(tint, a, b, c, 0f));
             colorfulBatch.begin();
             colorfulBatch.draw(screenTexture, 0, 0);

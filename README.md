@@ -186,7 +186,7 @@ Tinting with black as the color makes it much darker, but keeps very colorful ar
 Tinting with white as the color makes it much lighter, which isn't possible with the default SpriteBatch shader and color representation.
 ![Tinting with white](https://i.imgur.com/AiycJSn.png)
 
-It's a common request to be able to make a Sprite or other texture flash red when a character is hurt; you can tint with the predefined color `Palette.FRESH_BLOOD` to tint any image to vivid red (including images that have `0.0f` in their red channel).
+It's a common request to be able to make a Sprite or other texture flash red when a character is hurt; you can tint with the predefined color `Palette.RED` to tint any image to vivid red (including images that have `0.0f` in their red channel).
 ![Tinting with red](https://i.imgur.com/gRaLsAL.png)
 
 Tinting with gray, but using a tweak with 0.0 for chromatic warmth and mildness makes the image grayscale.
@@ -210,12 +210,12 @@ Using the Maven Central dependency is recommended, and Gradle and Maven can both
 
 Gradle dependency (`implementation` should be changed to `api` if any other dependencies use `api`):
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.4.0'
+implementation 'com.github.tommyettinger:colorful:0.4.1'
 ```
 
 Gradle dependency if also using GWT to make an HTML application:
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.4.0:sources'
+implementation 'com.github.tommyettinger:colorful:0.4.1:sources'
 ```
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
 ```xml
@@ -227,7 +227,7 @@ If you don't use Gradle, here's the Maven dependency:
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful</artifactId>
-  <version>0.4.0</version>
+  <version>0.4.1</version>
 </dependency>
 ```
 
@@ -235,12 +235,12 @@ Using colorful-pure is similar:
 
 Gradle dependency (`implementation` should be changed to `api` if any other dependencies use `api`):
 ```groovy
-implementation 'com.github.tommyettinger:colorful-pure:0.4.0'
+implementation 'com.github.tommyettinger:colorful-pure:0.4.1'
 ```
 
 Gradle dependency if also using GWT to make an HTML application:
 ```groovy
-implementation 'com.github.tommyettinger:colorful-pure:0.4.0:sources'
+implementation 'com.github.tommyettinger:colorful-pure:0.4.1:sources'
 ```
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
 ```xml
@@ -252,8 +252,8 @@ If you don't use Gradle, here's the Maven dependency:
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful-pure</artifactId>
-  <version>0.4.0</version>
+  <version>0.4.1</version>
 </dependency>
 ```
 
-If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.4.0).
+If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.4.1).
