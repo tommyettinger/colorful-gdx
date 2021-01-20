@@ -414,16 +414,16 @@ public class ColorTools {
 	 */
 	public static float saturation(final float encoded) {
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		final float i = (decoded & 0xff) / 255f;
-		if(Math.abs(i - 0.5) > 0.495f) return 0f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = cube(i + 0.097569f * p + 0.205226f * t);
-		final float m = cube(i + -0.11388f * p + 0.133217f * t);
-		final float s = cube(i + 0.032615f * p + -0.67689f * t);
-		final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
-		final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
-		final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
+		final float L = (decoded & 0xff) / 255f;
+		if(Math.abs(L - 0.5) > 0.495f) return 0f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+		final float r = reverseGamma(MathUtils.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f));
+		final float g = reverseGamma(MathUtils.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f));
+		final float b = reverseGamma(MathUtils.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f));
 		float x, y, w;
 		if(g < b) {
 			x = b;
@@ -448,16 +448,15 @@ public class ColorTools {
 
 	public static float lightness(final float encoded) {
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = cube(i + 0.097569f * p + 0.205226f * t);
-		final float m = cube(i + -0.11388f * p + 0.133217f * t);
-		final float s = cube(i + 0.032615f * p + -0.67689f * t);
-		final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
-		final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
-		final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
-
+		final float L = (decoded & 0xff) / 255f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+		final float r = reverseGamma(MathUtils.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f));
+		final float g = reverseGamma(MathUtils.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f));
+		final float b = reverseGamma(MathUtils.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f));
 		float x, y, w;
 		if(g < b) {
 			x = b;
@@ -487,15 +486,15 @@ public class ColorTools {
 	 */
 	public static float hue(final float encoded) {
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = cube(i + 0.097569f * p + 0.205226f * t);
-		final float m = cube(i + -0.11388f * p + 0.133217f * t);
-		final float s = cube(i + 0.032615f * p + -0.67689f * t);
-		final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
-		final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
-		final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
+		final float L = (decoded & 0xff) / 255f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+		final float r = reverseGamma(MathUtils.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f));
+		final float g = reverseGamma(MathUtils.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f));
+		final float b = reverseGamma(MathUtils.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f));
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
@@ -537,7 +536,7 @@ public class ColorTools {
 	 * The "A" channel of the given packed float in Oklab format, which when combined with the B channel describes the
 	 * hue and saturation of a color; ranges from 0f to 1f . If A is 0f, the color will be cooler, more green or
 	 * blue; if A is 1f, the color will be warmer, from magenta to orange. You can edit the A of a color with
-	 * {@link #protanUp(float, float)} and {@link #protanDown(float, float)}.
+	 * {@link #raiseA(float, float)} and {@link #lowerA(float, float)}.
 	 * @param encoded a color encoded as a packed float, as by {@link #oklab(float, float, float, float)}
 	 * @return the A value as a float from 0.0f to 1.0f
 	 */
@@ -550,7 +549,7 @@ public class ColorTools {
 	 * The "B" channel of the given packed float in Oklab format, which when combined with the A channel describes the
 	 * hue and saturation of a color; ranges from 0f to 1f . If B is 0f, the color will be more "artificial", more
 	 * blue or purple; if B is 1f, the color will be more "natural", from green to yellow to orange. You can edit
-	 * the B of a color with {@link #tritanUp(float, float)} and {@link #tritanDown(float, float)}.
+	 * the B of a color with {@link #raiseB(float, float)} and {@link #lowerB(float, float)}.
 	 * @param encoded a color encoded as a packed float, as by {@link #oklab(float, float, float, float)}
 	 * @return the B value as a float from 0.0f to 1.0f
 	 */
@@ -564,7 +563,7 @@ public class ColorTools {
 	 * opacity adjusted by the specified amounts. Takes floats representing the amounts of change to apply to hue,
 	 * saturation, value, and opacity; these can be between -1f and 1f. Returns a float that can be used as a packed or
 	 * encoded color with methods like {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)}. The float is
-	 * likely to be different than the result of {@link #oklab(float, float, float, float)} unless hue saturation,
+	 * likely to be different than the result of {@link #oklab(float, float, float, float)} unless hue, saturation,
 	 * value, and opacity are all 0. This won't allocate any objects.
 	 * <br>
 	 * The parameters this takes all specify additive changes for a color component, clamping the final values so they
@@ -581,19 +580,19 @@ public class ColorTools {
 	 * @return a float encoding a variation of basis with the given changes
 	 */
 	public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {
-		final int e = NumberUtils.floatToRawIntBits(basis);
-		final float i = MathUtils.clamp(value + (e & 0xff) / 255f, 0f, 1f);
-		opacity = MathUtils.clamp(opacity + (e >>> 24 & 0xfe) * 0x1.020408p-8f, 0f, 1f);
-		if (i <= 0.001f)
+		final int decoded = NumberUtils.floatToRawIntBits(basis);
+		final float L = MathUtils.clamp(value + (decoded & 0xff) / 255f, 0f, 1f);
+		opacity = MathUtils.clamp(opacity + (decoded >>> 24 & 0xfe) * 0x1.020408p-8f, 0f, 1f);
+		if (L <= 0.001f)
 			return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x808000);
-		final float p = ((e >>> 7 & 0x1fe) - 0xff) / 255f;
-		final float t = ((e >>> 15 & 0x1fe) - 0xff) / 255f;
-		final float l = cube(i + 0.097569f * p + 0.205226f * t);
-		final float m = cube(i + -0.11388f * p + 0.133217f * t);
-		final float s = cube(i + 0.032615f * p + -0.67689f * t);
-		final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
-		final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
-		final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+		final float r = reverseGamma(MathUtils.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f));
+		final float g = reverseGamma(MathUtils.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f));
+		final float b = reverseGamma(MathUtils.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f));
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
@@ -617,8 +616,8 @@ public class ColorTools {
 		}
 		float d = x - Math.min(w, y);
 		float hue2 = Math.abs(z + (w - y) / (6f * d + 1e-10f));
-		float sat2 = (x - i) / (Math.min(i, 1f - i) + 1e-10f);
-		return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), MathUtils.clamp(saturation + sat2, 0f, 1f), i, opacity));
+		float sat2 = (x - L) / (Math.min(L, 1f - L) + 1e-10f);
+		return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), MathUtils.clamp(saturation + sat2, 0f, 1f), L, opacity));
 	}
 
 	/**
@@ -660,12 +659,12 @@ public class ColorTools {
 	 * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to
 	 * lerp towards a warmer color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the
 	 * alpha and intensity of start as-is.
-	 * @see #protanDown(float, float) the counterpart method that cools a float color
+	 * @see #lowerA(float, float) the counterpart method that cools a float color
 	 * @param start the starting color as a packed float
 	 * @param change how much to warm start, as a float between 0 and 1; higher means a warmer result
 	 * @return a packed float that represents a color between start and a warmer color
 	 */
-	public static float protanUp(final float start, final float change) {
+	public static float raiseA(final float start, final float change) {
 		final int s = NumberUtils.floatToRawIntBits(start), p = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
 		return NumberUtils.intBitsToFloat(((int) (p + (0xFF - p) * change) << 8 & 0xFF00) | other);
 	}
@@ -677,12 +676,12 @@ public class ColorTools {
 	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
 	 * towards a cooler color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and
 	 * intensity of start as-is.
-	 * @see #protanUp(float, float) the counterpart method that warms a float color
+	 * @see #raiseA(float, float) the counterpart method that warms a float color
 	 * @param start the starting color as a packed float
 	 * @param change how much to cool start, as a float between 0 and 1; higher means a cooler result
 	 * @return a packed float that represents a color between start and a cooler color
 	 */
-	public static float protanDown(final float start, final float change) {
+	public static float lowerA(final float start, final float change) {
 		final int s = NumberUtils.floatToRawIntBits(start), p = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
 		return NumberUtils.intBitsToFloat(((int) (p * (1f - change)) & 0xFF) << 8 | other);
 	}
@@ -694,12 +693,12 @@ public class ColorTools {
 	 * Colors, and is a little more efficient and clear than using
 	 * {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards a more natural color. Unlike
 	 * {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and intensity of start as-is.
-	 * @see #tritanDown(float, float) the counterpart method that makes a float color less natural
+	 * @see #lowerB(float, float) the counterpart method that makes a float color less natural
 	 * @param start the starting color as a packed float
 	 * @param change how much to change start to a natural color, as a float between 0 and 1; higher means a more natural result
 	 * @return a packed float that represents a color between start and a more natural color
 	 */
-	public static float tritanUp(final float start, final float change) {
+	public static float raiseB(final float start, final float change) {
 		final int s = NumberUtils.floatToRawIntBits(start), t = s >>> 16 & 0xFF, other = s & 0xFE00FFFF;
 		return NumberUtils.intBitsToFloat(((int) (t + (0xFF - t) * change) << 16 & 0xFF0000) | other);
 	}
@@ -711,12 +710,12 @@ public class ColorTools {
 	 * Colors, and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
 	 * towards a more artificial color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the
 	 * alpha and intensity of start as-is.
-	 * @see #tritanUp(float, float) the counterpart method that makes a float color less artificial
+	 * @see #raiseB(float, float) the counterpart method that makes a float color less artificial
 	 * @param start the starting color as a packed float
 	 * @param change how much to change start to a bolder color, as a float between 0 and 1; higher means a more artificial result
 	 * @return a packed float that represents a color between start and a more artificial color
 	 */
-	public static float tritanDown(final float start, final float change) {
+	public static float lowerB(final float start, final float change) {
 		final int s = NumberUtils.floatToRawIntBits(start), t = s >>> 16 & 0xFF, other = s & 0xFE00FFFF;
 		return NumberUtils.intBitsToFloat(((int) (t * (1f - change)) & 0xFF) << 16 | other);
 	}
@@ -726,7 +725,7 @@ public class ColorTools {
 	 * between 0f (return start as-is) and 1f (return start with full alpha), start should be a packed color, as from
 	 * {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
 	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
-	 * transparent. This won't change the intensity, protan, or tritan of the color.
+	 * transparent. This won't change the L, A, or B of the color.
 	 * @see #fade(float, float) the counterpart method that makes a float color more translucent
 	 * @param start the starting color as a packed float
 	 * @param change how much to go from start toward opaque, as a float between 0 and 1; higher means closer to opaque
@@ -742,7 +741,7 @@ public class ColorTools {
 	 * (return start as-is) and 1f (return the color with 0 alpha), start should be a packed color, as from
 	 * {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
 	 * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
-	 * transparent. This won't change the intensity, protan, or tritan of the color.
+	 * transparent. This won't change the L, A, or B of the color.
 	 * @see #blot(float, float) the counterpart method that makes a float color more opaque
 	 * @param start the starting color as a packed float
 	 * @param change how much to go from start toward transparent, as a float between 0 and 1; higher means closer to transparent
@@ -756,8 +755,8 @@ public class ColorTools {
 	/**
 	 * Brings the chromatic components of {@code start} closer to grayscale by {@code change} (desaturating them). While
 	 * change should be between 0f (return start as-is) and 1f (return fully gray), start should be a packed color, as
-	 * from {@link #oklab(float, float, float, float)}. This only changes Cw and Cm; it leaves Y and alpha alone, unlike
-	 * {@link #lessenChange(float, float)}, which usually changes Y.
+	 * from {@link #oklab(float, float, float, float)}. This only changes A and B; it leaves L and alpha alone, unlike
+	 * {@link #lessenChange(float, float)}, which usually changes L.
 	 * @see #enrich(float, float) the counterpart method that makes a float color more saturated
 	 * @param start the starting color as a packed float
 	 * @param change how much to change start to a desaturated color, as a float between 0 and 1; higher means a less saturated result
@@ -774,10 +773,10 @@ public class ColorTools {
 	/**
 	 * Pushes the chromatic components of {@code start} away from grayscale by change (saturating them). While change
 	 * should be between 0f (return start as-is) and 1f (return maximally saturated), start should be a packed color, as
-	 * from {@link #oklab(float, float, float, float)}. This usually changes only Cw and Cm, but higher values for
+	 * from {@link #oklab(float, float, float, float)}. This usually changes only A and B, but higher values for
 	 * {@code change} can force the color out of the gamut, which this corrects using
-	 * {@link #limitToGamut(float, float, float, float)} (and that can change Y somewhat). If the color stays in-gamut,
-	 * then Y won't change; alpha never changes.
+	 * {@link #limitToGamut(float, float, float, float)} (and that can change L somewhat). If the color stays in-gamut,
+	 * then L won't change; alpha never changes.
 	 * @see #dullen(float, float) the counterpart method that makes a float color less saturated
 	 * @param start the starting color as a packed float
 	 * @param change how much to change start to a saturated color, as a float between 0 and 1; higher means a more saturated result
@@ -793,52 +792,54 @@ public class ColorTools {
 
 
 	/**
-	 * Given a packed float IPT color {@code mainColor} and another IPT color that it should be made to contrast with,
-	 * gets a packed float IPT color with roughly inverted intnsity but the same chromatic channels and opacity (P and T
+	 * Given a packed float Oklab color {@code mainColor} and another Oklab color that it should be made to contrast with,
+	 * gets a packed float Oklab color with roughly inverted L but the same chromatic channels and opacity (A and B
 	 * are likely to be clamped if the result gets close to white or black). This won't ever produce black or other very
-	 * dark colors, and also has a gap in the range it produces for intensity values between 0.5 and 0.55. That allows
+	 * dark colors, and also has a gap in the range it produces for L values between 0.5 and 0.55. That allows
 	 * most of the colors this method produces to contrast well as a foreground when displayed on a background of
-	 * {@code contrastingColor}, or vice versa. This will leave the intensity unchanged if the chromatic channels of the
+	 * {@code contrastingColor}, or vice versa. This will leave the L unchanged if the chromatic channels of the
 	 * contrastingColor and those of the mainColor are already very different. This has nothing to do with the contrast
 	 * channel of the tweak in ColorfulBatch; where that part of the tweak can make too-similar lightness values further
 	 * apart by just a little, this makes a modification on {@code mainColor} to maximize its lightness difference from
 	 * {@code contrastingColor} without losing its other qualities.
-	 * @param mainColor a packed float color, as produced by {@link #oklab(float, float, float, float)}; this is the color that will be adjusted
-	 * @param contrastingColor a packed float color, as produced by {@link #oklab(float, float, float, float)}; the adjusted mainColor will contrast with this
-	 * @return a different IPT packed float color, based on mainColor but with potentially very different lightness
+	 * @param mainColor a packed float color, as produced by {@link #oklab(float, float, float, float)};
+	 *                     this is the color that will be adjusted
+	 * @param contrastingColor a packed float color, as produced by {@link #oklab(float, float, float, float)};
+	 *                            the adjusted mainColor will contrast with this
+	 * @return a different Oklab packed float color, based on mainColor but with potentially very different lightness
 	 */
-	public static float inverseIntensity(final float mainColor, final float contrastingColor)
+	public static float inverseLightness(final float mainColor, final float contrastingColor)
 	{
 		final int bits = NumberUtils.floatToRawIntBits(mainColor),
 				contrastBits = NumberUtils.floatToRawIntBits(contrastingColor),
-				i = (bits & 0xff),
-				p = (bits >>> 8 & 0xff),
-				t = (bits >>> 16 & 0xff),
-				ci = (contrastBits & 0xff),
-				cp = (contrastBits >>> 8 & 0xff),
-				ct = (contrastBits >>> 16 & 0xff);
-		if((p - cp) * (p - cp) + (t - ct) * (t - ct) >= 0x10000)
+				L = (bits & 0xff),
+				A = (bits >>> 8 & 0xff),
+				B = (bits >>> 16 & 0xff),
+				cL = (contrastBits & 0xff),
+				cA = (contrastBits >>> 8 & 0xff),
+				cB = (contrastBits >>> 16 & 0xff);
+		if((A - cA) * (A - cA) + (B - cB) * (B - cB) >= 0x10000)
 			return mainColor;
-		return oklab(ci < 128 ? i * (0.45f / 255f) + 0.55f : 0.5f - i * (0.45f / 255f), p / 255f, t / 255f, 0x1.0p-8f * (bits >>> 24));
+		return NumberUtils.intBitsToFloat((bits & 0xFEFFFF00) | (int) (cL < 128 ? L * 0.45f + 140 : 127 - L * 0.45f));
 	}
 
 	/**
-	 * Makes the additive IPT color stored in {@code color} cause less of a change when used as a tint, as if it were
+	 * Makes the additive Oklab color stored in {@code color} cause less of a change when used as a tint, as if it were
 	 * mixed with neutral gray. When {@code fraction} is 1.0, this returns color unchanged; when fraction is 0.0, it
 	 * returns {@link Palette#GRAY}, and when it is in-between 0.0 and 1.0 it returns something between the two. This is
 	 * meant for things like area of effect abilities that make smaller color changes toward their periphery.
 	 * @param color a color that should have its tinting effect potentially weakened
 	 * @param fraction how much of {@code color} should be kept, from 0.0 to 1.0
-	 * @return an IPT float color between gray and {@code color}
+	 * @return an Oklab float color between gray and {@code color}
 	 */
 	public static float lessenChange(final float color, float fraction) {
 		final int e = NumberUtils.floatToRawIntBits(color),
-				is = 0x80, ps = 0x80, ts = 0x80, as = 0xFE,
-				ie = (e & 0xFF), pe = (e >>> 8) & 0xFF, te = (e >>> 16) & 0xFF, ae = e >>> 24 & 0xFE;
-		return NumberUtils.intBitsToFloat(((int) (is + fraction * (ie - is)) & 0xFF)
-				| (((int) (ps + fraction * (pe - ps)) & 0xFF) << 8)
-				| (((int) (ts + fraction * (te - ts)) & 0xFF) << 16)
-				| (((int) (as + fraction * (ae - as)) & 0xFE) << 24));
+				sL = 0x80, sA = 0x80, sB = 0x80, sAlpha = 0xFE,
+				eL = (e & 0xFF), eA = (e >>> 8) & 0xFF, eB = (e >>> 16) & 0xFF, eAlpha = e >>> 24 & 0xFE;
+		return NumberUtils.intBitsToFloat(((int) (sL + fraction * (eL - sL)) & 0xFF)
+				| (((int) (sA + fraction * (eA - sA)) & 0xFF) << 8)
+				| (((int) (sB + fraction * (eB - sB)) & 0xFF) << 16)
+				| (((int) (sAlpha + fraction * (eAlpha - sAlpha)) & 0xFE) << 24));
 	}
 
 	/**
@@ -876,7 +877,7 @@ public class ColorTools {
 	}
 
 	/**
-	 * Returns true if the given packed float color, as IPT, is valid to convert losslessly back to RGBA. 
+	 * Returns true if the given packed float color, as IPT, is valid to convert losslessly back to RGBA.
 	 * @param packed a packed float color as IPT
 	 * @return true if the given packed float color can be converted back and forth to RGBA
 	 */
@@ -898,7 +899,7 @@ public class ColorTools {
 		return (b >= 0f && b <= 1.0f);
 	}
 	/**
-	 * Returns true if the given IPT values are valid to convert losslessly back to RGBA. 
+	 * Returns true if the given IPT values are valid to convert losslessly back to RGBA.
 	 * @param i intensity channel, as a float from 0 to 1
 	 * @param p protan channel, as a float from 0 to 1
 	 * @param t tritan channel, as a float from 0 to 1
