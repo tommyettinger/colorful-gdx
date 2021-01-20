@@ -2,7 +2,6 @@ package com.github.tommyettinger.colorful.pure.ipt_hq;
 
 import com.github.tommyettinger.colorful.pure.FloatColors;
 import com.github.tommyettinger.colorful.pure.MathTools;
-import com.github.tommyettinger.colorful.pure.ycwcm.Palette;
 import com.github.tommyettinger.ds.support.BitConversion;
 
 import java.util.Random;

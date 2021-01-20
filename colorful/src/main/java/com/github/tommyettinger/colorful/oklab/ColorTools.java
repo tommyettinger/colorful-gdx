@@ -1,72 +1,97 @@
-package com.github.tommyettinger.colorful.ipt_hq;
+package com.github.tommyettinger.colorful.oklab;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.Shaders;
+import com.github.tommyettinger.colorful.ycwcm.Palette;
 
 import java.util.Random;
 
 /**
- * Contains code for manipulating colors as {@code int} and packed {@code float} values in the IPT color space.
- * IPT has more perceptually-uniform handling of hue than some other color spaces, like YCwCm, and this version goes
- * further than {@link com.github.tommyettinger.colorful.ipt the IPT package} by performing gamma correction and all the
- * complex exponential adjustments to various components that the original IPT paper used. In most regards, this is a
- * more thoroughly-constructed color space than YCwCm, but YCwCm may still be useful because of how it maps to aesthetic
- * components of color. See {@link #ipt(float, float, float, float)} for docs on the I, P, and T channels.
+ * Contains code for manipulating colors as {@code int} and packed {@code float} values in the Oklab color space.
+ * Oklab is a very new color space that builds on the same foundation as IPT, but seems to be better-calibrated for
+ * uniform lightness and colorfulness, instead of just the emphasis on uniform hue that IPT has.
+ * Here's <a href="https://bottosson.github.io/posts/oklab/">Ottosson's original post introducing Oklab</>.
+ * So far, <a href="https://raphlinus.github.io/color/2021/01/18/oklab-critique.html">it stood up to analysis by Raph
+ * Levien</a>, and seems to be gaining fans quickly.
  */
 public class ColorTools {
 	/**
-	 * Gets a packed float representation of a color given as 4 float components, here, I (intensity or lightness), P
-	 * (protan, a chromatic component ranging from greenish to reddish), T (tritan, a chromatic component ranging from
-	 * bluish to yellowish), and A (alpha or opacity). As long as you use a batch with {@link Shaders#fragmentShaderIPT}
-	 * as its shader, colors passed with {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)} will be
-	 * interpreted as IPT. Intensity should be between 0 and 1, inclusive, with 0 used for very dark colors (almost only
-	 * black), and 1 used for very light colors (almost only white). Protan and tritan range from 0.0 to 1.0, with
-	 * grayscale results when both are about 0.5. There's some aesthetic value in changing just one chroma value. When
-	 * protan is high and tritan is low, the color is more purple/magenta, when both are low it is more bluish, when
-	 * tritan is high and protan is low, the color tends to be greenish, and when both are high it tends to be orange.
-	 * When warm and mild are both near 0.5f, the color is closer to gray.  Alpha is the multiplicative opacity of the
-	 * color, and acts like RGBA's alpha.
+	 * Gets a packed float representation of a color given as 4 float components, here, L (luminance or lightness), A
+	 * (a chromatic component ranging from greenish to reddish, called protan in IPT), B (a chromatic component ranging
+	 * from bluish to yellowish, called tritan in IPT), and alpha (or opacity). As long as you use a batch with
+	 * {@link Shaders#fragmentShaderOklab} as its shader, colors passed with
+	 * {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)} will be interpreted as Oklab. L should be
+	 * between 0 and 1, inclusive, with 0 used for very dark colors (almost only black), and 1 used for very light
+	 * colors (almost only white). A and B range from 0.0 to 1.0, with grayscale results when both are about 0.5.
+	 * There's some aesthetic value in changing just one chroma value. When A is high and B is low, the color is more
+	 * purple/magenta, when both are low it is more bluish, when B is high and A is low, the color tends to be greenish,
+	 * and when both are high it tends to be orange. When A and B are both near 0.5f, the color is closer to gray.
+	 * Alpha is the multiplicative opacity of the color, and acts like RGBA's alpha.
 	 * <br>
 	 * This method bit-masks the resulting color's byte values, so any values can technically be given to this as
-	 * intensity, protan, and tritan, but they will only be reversible from the returned float color to the original I,
-	 * P, and T values if the original values were in the range that {@link #intensity(float)}, {@link #protan(float)},
+	 * L, A, and B, but they will only be reversible from the returned float color to the original L,
+	 * A, and B values if the original values were in the range that {@link #intensity(float)}, {@link #protan(float)},
 	 * and {@link #tritan(float)} return. You can use {@link #inGamut(float, float, float)} to check if a given set of
-	 * I, P, and T values is in-gamut, that is, it can be converted to and from an RGB color without going out of the
+	 * L, A, and B values is in-gamut, that is, it can be converted to and from an RGB color without going out of the
 	 * valid range. If you just want to enforce that a color is in-gamut, you can use
 	 * {@link #limitToGamut(float, float, float, float)}, which takes the same parameters this method does, or
 	 * {@link #limitToGamut(float)} if you already have a packed float color that could be out-of-gamut.
 	 *
-	 * @param intens     0f to 1f, intensity or I component of IPT, with 0.5f meaning "no change" and 1f brightening
-	 * @param protan     0f to 1f, protan or P component of IPT, with 1f more orange, red, or magenta
-	 * @param tritan     0f to 1f, tritan or T component of IPT, with 1f more green, yellow, or red
-	 * @param alpha      0f to 1f, 0f makes the color transparent and 1f makes it opaque 
+	 * @param l     0f to 1f, lightness or L component of Oklab, with 0.5f meaning "no change" and 1f brightening
+	 * @param a     0f to 1f, protan or A component of Oklab, with 1f more orange, red, or magenta
+	 * @param b     0f to 1f, tritan or B component of Oklab, with 1f more green, yellow, or red
+	 * @param alpha 0f to 1f, 0f makes the color transparent and 1f makes it opaque
 	 * @return a float encoding a color with the given properties
 	 */
-	public static float ipt(float intens, float protan, float tritan, float alpha) {
-		return NumberUtils.intBitsToFloat(((int) (alpha * 255) << 24 & 0xFE000000) | ((int) (tritan * 255) << 16 & 0xFF0000)
-				| ((int) (protan * 255) << 8 & 0xFF00) | ((int) (intens * 255) & 0xFF));
+	public static float oklab(float l, float a, float b, float alpha) {
+		return NumberUtils.intBitsToFloat(((int) (alpha * 255) << 24 & 0xFE000000) | ((int) (b * 255) << 16 & 0xFF0000)
+				| ((int) (a * 255) << 8 & 0xFF00) | ((int) (l * 255) & 0xFF));
 	}
 
 
 	/**
-	 * Used when converting from RGB to IPT, as an intermediate step.
-	 * @param component one of the LMS channels to be converted to LMS Prime
-	 * @return an LMS Prime channel value, which can be converted to IPT
+	 * An approximation of the cube-root function for float inputs and outputs.
+	 * This can be about twice as fast as {@link Math#cbrt(double)}. It
+	 * correctly returns negative results when given negative inputs.
+	 * <br>
+	 * Has very low relative error (less than 1E-9) when inputs are uniformly
+	 * distributed between -512 and 512, and absolute mean error of less than
+	 * 1E-6 in the same scenario. Uses a bit-twiddling method similar to one
+	 * presented in Hacker's Delight and also used in early 3D graphics (see
+	 * https://en.wikipedia.org/wiki/Fast_inverse_square_root for more, but
+	 * this code approximates cbrt(x) and not 1/sqrt(x)). This specific code
+	 * was originally by Marc B. Reynolds, posted in his "Stand-alone-junk"
+	 * repo: https://github.com/Marc-B-Reynolds/Stand-alone-junk/blob/master/src/Posts/ballcube.c#L182-L197 .
+	 * <br>
+	 * This is used when converting from RGB to Oklab, as an intermediate step.
+	 * @param x any finite float to find the cube root of
+	 * @return the cube root of x, approximated
 	 */
-	private static float forwardTransform(final float component) {
-		return (float)Math.pow(component, 0.43f);
+	private static float cbrt(float x) {
+		int ix = NumberUtils.floatToRawIntBits(x);
+		final int sign = ix & 0x80000000;
+		ix &= 0x7FFFFFFF;
+		final float x0 = x;
+		ix = (ix>>>2) + (ix>>>4);
+		ix += (ix>>>4);
+		ix = ix + (ix>>>8) + 0x2A5137A0 | sign;
+		x  = NumberUtils.intBitsToFloat(ix);
+		x  = 0.33333334f*(2f * x + x0/(x*x));
+		x  = 0.33333334f*(2f * x + x0/(x*x));
+		return x;
 	}
 
 	/**
-	 * Used when converting from IPT to RGB, as an intermediate step.
-	 * @param component one of the LMS Prime channels to be converted to LMS
+	 * Used when converting from Oklab to RGB, as an intermediate step.
+	 * Really just {@code x * x * x}.
+	 * @param x one of the LMS Prime channels to be converted to LMS
 	 * @return an LMS channel value, which can be converted to RGB
 	 */
-	private static float reverseTransform(final float component) {
-		return Math.copySign((float)Math.pow(Math.abs(component), 2.3256f), component);
+	private static float cube(final float x) {
+		return x * x * x;
 	}
 
 	/**
@@ -89,52 +114,52 @@ public class ColorTools {
 
 
 	/**
-	 * Converts a packed float color in the format produced by {@link ColorTools#ipt(float, float, float, float)} to an RGBA8888 int.
+	 * Converts a packed float color in the format produced by {@link ColorTools#oklab(float, float, float, float)} to an RGBA8888 int.
 	 * This format of int can be used with Pixmap and in some other places in libGDX.
-	 * @param packed a packed float color, as produced by {@link ColorTools#ipt(float, float, float, float)}
+	 * @param packed a packed float color, as produced by {@link ColorTools#oklab(float, float, float, float)}
 	 * @return an RGBA8888 int color
 	 */
 	public static int toRGBA8888(final float packed)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(packed);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-		final int r = (int)(reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f)) * 255.999f);
-		final int g = (int)(reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f)) * 255.999f);
-		final int b = (int)(reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f)) * 255.999f);
+		final float L = (decoded & 0xff) / 255f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+		final int r = (int)(reverseGamma(MathUtils.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f)) * 255.999f);
+		final int g = (int)(reverseGamma(MathUtils.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f)) * 255.999f);
+		final int b = (int)(reverseGamma(MathUtils.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f)) * 255.999f);
 		return r << 24 | g << 16 | b << 8 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
 	}
 
 	/**
-	 * Converts a packed float color in the format produced by {@link ColorTools#ipt(float, float, float, float)}
+	 * Converts a packed float color in the format produced by {@link ColorTools#oklab(float, float, float, float)}
 	 * to a packed float in RGBA format.
 	 * This format of float can be used with the standard SpriteBatch and in some other places in libGDX.
-	 * @param packed a packed float color, as produced by {@link ColorTools#ipt(float, float, float, float)}
+	 * @param packed a packed float color, as produced by {@link ColorTools#oklab(float, float, float, float)}
 	 * @return a packed float color as RGBA
 	 */
 	public static float toRGBA(final float packed)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(packed);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-		final int r = (int)(reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f)) * 255.999f);
-		final int g = (int)(reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f)) * 255.999f);
-		final int b = (int)(reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f)) * 255.999f);
+		final float L = (decoded & 0xff) / 255f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+		final int r = (int)(reverseGamma(MathUtils.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f)) * 255.999f);
+		final int g = (int)(reverseGamma(MathUtils.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f)) * 255.999f);
+		final int b = (int)(reverseGamma(MathUtils.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f)) * 255.999f);
 		return NumberUtils.intBitsToFloat(r | g << 8 | b << 16 | (decoded & 0xfe000000));
 	}
 	/**
-	 * Writes an IPT-format packed float color (the format produced by {@link ColorTools#ipt(float, float, float, float)})
+	 * Writes an IPT-format packed float color (the format produced by {@link ColorTools#oklab(float, float, float, float)})
 	 * into an RGBA8888 Color as used by libGDX (called {@code editing}).
 	 * @param editing a libGDX color that will be filled in-place with an RGBA conversion of {@code packed}
-	 * @param packed a packed float color, as produced by {@link ColorTools#ipt(float, float, float, float)}
+	 * @param packed a packed float color, as produced by {@link ColorTools#oklab(float, float, float, float)}
 	 * @return an RGBA8888 int color
 	 */
 	public static Color toColor(Color editing, final float packed)
@@ -143,9 +168,9 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		final float l = cube(i + 0.097569f * p + 0.205226f * t);
+		final float m = cube(i + -0.11388f * p + 0.133217f * t);
+		final float s = cube(i + 0.032615f * p + -0.67689f * t);
 		editing.r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
 		editing.g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
 		editing.b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
@@ -162,9 +187,9 @@ public class ColorTools {
 		final float r = forwardGamma((rgba >>> 24) * 0x1.010101010101p-8f);
 		final float g = forwardGamma((rgba >>> 16 & 0xFF) * 0x1.010101010101p-8f);
 		final float b = forwardGamma((rgba >>> 8 & 0xFF) * 0x1.010101010101p-8f);
-		final float l = forwardTransform(0.313921f * r + 0.639468f * g + 0.0465970f * b);
-		final float m = forwardTransform(0.151693f * r + 0.748209f * g + 0.1000044f * b);
-		final float s = forwardTransform(0.017753f * r + 0.109468f * g + 0.8729690f * b);
+		final float l = cbrt(0.313921f * r + 0.639468f * g + 0.0465970f * b);
+		final float m = cbrt(0.151693f * r + 0.748209f * g + 0.1000044f * b);
+		final float s = cbrt(0.017753f * r + 0.109468f * g + 0.8729690f * b);
 		return NumberUtils.intBitsToFloat(
 			              MathUtils.clamp((int)((0.4000f * l + 0.4000f * m + 0.2000f * s       ) * 255.999f), 0, 255)
 						| MathUtils.clamp((int)((2.2275f * l - 2.4255f * m + 0.1980f * s + 0.5f) * 255.999f), 0, 255) << 8
@@ -182,9 +207,9 @@ public class ColorTools {
 		final float r = forwardGamma((abgr & 0xFF) * 0x1.010101010101p-8f);
 		final float g = forwardGamma((abgr >>> 8 & 0xFF) * 0x1.010101010101p-8f);
 		final float b = forwardGamma((abgr >>> 16 & 0xFF) * 0x1.010101010101p-8f);
-		final float l = forwardTransform(0.313921f * r + 0.639468f * g + 0.0465970f * b);
-		final float m = forwardTransform(0.151693f * r + 0.748209f * g + 0.1000044f * b);
-		final float s = forwardTransform(0.017753f * r + 0.109468f * g + 0.8729690f * b);
+		final float l = cbrt(0.313921f * r + 0.639468f * g + 0.0465970f * b);
+		final float m = cbrt(0.151693f * r + 0.748209f * g + 0.1000044f * b);
+		final float s = cbrt(0.017753f * r + 0.109468f * g + 0.8729690f * b);
 		return NumberUtils.intBitsToFloat(
 			              MathUtils.clamp((int)((0.4000f * l + 0.4000f * m + 0.2000f * s       ) * 255.999f), 0, 255)
 						| MathUtils.clamp((int)((2.2275f * l - 2.4255f * m + 0.1980f * s + 0.5f) * 255.999f), 0, 255) << 8
@@ -201,9 +226,9 @@ public class ColorTools {
 		final float r = forwardGamma(color.r);
 		final float g = forwardGamma(color.g);
 		final float b = forwardGamma(color.b);
-		final float l = forwardTransform(0.313921f * r + 0.639468f * g + 0.0465970f * b);
-		final float m = forwardTransform(0.151693f * r + 0.748209f * g + 0.1000044f * b);
-		final float s = forwardTransform(0.017753f * r + 0.109468f * g + 0.8729690f * b);
+		final float l = cbrt(0.313921f * r + 0.639468f * g + 0.0465970f * b);
+		final float m = cbrt(0.151693f * r + 0.748209f * g + 0.1000044f * b);
+		final float s = cbrt(0.017753f * r + 0.109468f * g + 0.8729690f * b);
 		return NumberUtils.intBitsToFloat(
 				          MathUtils.clamp((int)((0.4000f * l + 0.4000f * m + 0.2000f * s       ) * 255.999f), 0, 255)
 						| MathUtils.clamp((int)((2.2275f * l - 2.4255f * m + 0.1980f * s + 0.5f) * 255.999f), 0, 255) << 8
@@ -223,9 +248,9 @@ public class ColorTools {
 		r = forwardGamma(r);
 		g = forwardGamma(g);
 		b = forwardGamma(b);
-		final float l = forwardTransform(0.313921f * r + 0.639468f * g + 0.0465970f * b);
-		final float m = forwardTransform(0.151693f * r + 0.748209f * g + 0.1000044f * b);
-		final float s = forwardTransform(0.017753f * r + 0.109468f * g + 0.8729690f * b);
+		final float l = cbrt(0.313921f * r + 0.639468f * g + 0.0465970f * b);
+		final float m = cbrt(0.151693f * r + 0.748209f * g + 0.1000044f * b);
+		final float s = cbrt(0.017753f * r + 0.109468f * g + 0.8729690f * b);
 		return NumberUtils.intBitsToFloat(
 				          MathUtils.clamp((int)((0.4000f * l + 0.4000f * m + 0.2000f * s       ) * 255.999f), 0, 255)
 						| MathUtils.clamp((int)((2.2275f * l - 2.4255f * m + 0.1980f * s + 0.5f) * 255.999f), 0, 255) << 8
@@ -235,7 +260,7 @@ public class ColorTools {
 
 	/**
 	 * Gets the red channel value of the given encoded color, as an int ranging from 0 to 255, inclusive.
-	 * @param encoded a color as a packed float that can be obtained by {@link #ipt(float, float, float, float)}
+	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
 	 * @return an int from 0 to 255, inclusive, representing the red channel value of the given encoded color
 	 */
 	public static int redInt(final float encoded)
@@ -244,15 +269,15 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		final float l = cube(i + 0.097569f * p + 0.205226f * t);
+		final float m = cube(i + -0.11388f * p + 0.133217f * t);
+		final float s = cube(i + 0.032615f * p + -0.67689f * t);
 		return (int)(reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f)) * 255.999f);
 	}
 
 	/**
 	 * Gets the green channel value of the given encoded color, as an int ranging from 0 to 255, inclusive.
-	 * @param encoded a color as a packed float that can be obtained by {@link #ipt(float, float, float, float)}
+	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
 	 * @return an int from 0 to 255, inclusive, representing the green channel value of the given encoded color
 	 */
 	public static int greenInt(final float encoded)
@@ -261,15 +286,15 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		final float l = cube(i + 0.097569f * p + 0.205226f * t);
+		final float m = cube(i + -0.11388f * p + 0.133217f * t);
+		final float s = cube(i + 0.032615f * p + -0.67689f * t);
 		return (int)(reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f)) * 255.999f);
 	}
 
 	/**
 	 * Gets the blue channel value of the given encoded color, as an int ranging from 0 to 255, inclusive.
-	 * @param encoded a color as a packed float that can be obtained by {@link #ipt(float, float, float, float)}
+	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
 	 * @return an int from 0 to 255, inclusive, representing the blue channel value of the given encoded color
 	 */
 	public static int blueInt(final float encoded)
@@ -278,16 +303,16 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		final float l = cube(i + 0.097569f * p + 0.205226f * t);
+		final float m = cube(i + -0.11388f * p + 0.133217f * t);
+		final float s = cube(i + 0.032615f * p + -0.67689f * t);
 		return (int)(reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f)) * 255.999f);
 	}
 
 	/**
 	 * Gets the alpha channel value of the given encoded color, as an even int ranging from 0 to 254, inclusive. Because
 	 * of how alpha is stored in libGDX, no odd-number values are possible for alpha.
-	 * @param encoded a color as a packed float that can be obtained by {@link #ipt(float, float, float, float)}
+	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
 	 * @return an even int from 0 to 254, inclusive, representing the alpha channel value of the given encoded color
 	 */
 	public static int alphaInt(final float encoded)
@@ -297,7 +322,7 @@ public class ColorTools {
 
 	/**
 	 * Gets the red channel value of the given encoded color, as a float from 0.0f to 1.0f, inclusive.
-	 * @param encoded a color as a packed float that can be obtained by {@link #ipt(float, float, float, float)}
+	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
 	 * @return a float from 0.0f to 1.0f, inclusive, representing the red channel value of the given encoded color
 	 */
 	public static float red(final float encoded)
@@ -306,15 +331,15 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		final float l = cube(i + 0.097569f * p + 0.205226f * t);
+		final float m = cube(i + -0.11388f * p + 0.133217f * t);
+		final float s = cube(i + 0.032615f * p + -0.67689f * t);
 		return reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
 	}
 
 	/**
 	 * Gets the green channel value of the given encoded color, as a float from 0.0f to 1.0f, inclusive.
-	 * @param encoded a color as a packed float that can be obtained by {@link #ipt(float, float, float, float)}
+	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
 	 * @return a float from 0.0f to 1.0f, inclusive, representing the green channel value of the given encoded color
 	 */
 	public static float green(final float encoded)
@@ -323,15 +348,15 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		final float l = cube(i + 0.097569f * p + 0.205226f * t);
+		final float m = cube(i + -0.11388f * p + 0.133217f * t);
+		final float s = cube(i + 0.032615f * p + -0.67689f * t);
 		return reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
 	}
 
 	/**
 	 * Gets the blue channel value of the given encoded color, as a float from 0.0f to 1.0f, inclusive.
-	 * @param encoded a color as a packed float that can be obtained by {@link #ipt(float, float, float, float)}
+	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
 	 * @return a float from 0.0f to 1.0f, inclusive, representing the blue channel value of the given encoded color
 	 */
 	public static float blue(final float encoded)
@@ -340,15 +365,15 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		final float l = cube(i + 0.097569f * p + 0.205226f * t);
+		final float m = cube(i + -0.11388f * p + 0.133217f * t);
+		final float s = cube(i + 0.032615f * p + -0.67689f * t);
 		return reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
 	}
 
 	/**
 	 * Gets the alpha channel value of the given encoded color, as a float from 0.0f to 1.0f, inclusive.
-	 * @param encoded a color as a packed float that can be obtained by {@link #ipt(float, float, float, float)}
+	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
 	 * @return a float from 0.0f to 1.0f, inclusive, representing the alpha channel value of the given encoded color
 	 */
 	public static float alpha(final float encoded)
@@ -382,7 +407,7 @@ public class ColorTools {
 
 	/**
 	 * Gets the saturation of the given encoded color, as a float ranging from 0.0f to 1.0f, inclusive.
-	 * @param encoded a color as a packed float that can be obtained by {@link #ipt(float, float, float, float)}
+	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
 	 * @return the saturation of the color from 0.0 (a grayscale color; inclusive) to 1.0 (a bright color, inclusive)
 	 */
 	public static float saturation(final float encoded) {
@@ -391,9 +416,9 @@ public class ColorTools {
 		if(Math.abs(i - 0.5) > 0.495f) return 0f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		final float l = cube(i + 0.097569f * p + 0.205226f * t);
+		final float m = cube(i + -0.11388f * p + 0.133217f * t);
+		final float s = cube(i + 0.032615f * p + -0.67689f * t);
 		final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
 		final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
 		final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
@@ -424,9 +449,9 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		final float l = cube(i + 0.097569f * p + 0.205226f * t);
+		final float m = cube(i + -0.11388f * p + 0.133217f * t);
+		final float s = cube(i + 0.032615f * p + -0.67689f * t);
 		final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
 		final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
 		final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
@@ -454,7 +479,7 @@ public class ColorTools {
 	/**
 	 * Gets the hue of the given encoded color, as a float from 0f (inclusive, red and approaching orange if increased)
 	 * to 1f (exclusive, red and approaching purple if decreased).
-	 * @param encoded a color as a packed float that can be obtained by {@link #ipt(float, float, float, float)}
+	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
 	 * @return The hue of the color from 0.0 (red, inclusive) towards orange, then yellow, and
 	 * eventually to purple before looping back to almost the same red (1.0, exclusive)
 	 */
@@ -463,9 +488,9 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		final float l = cube(i + 0.097569f * p + 0.205226f * t);
+		final float m = cube(i + -0.11388f * p + 0.133217f * t);
+		final float s = cube(i + 0.032615f * p + -0.67689f * t);
 		final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
 		final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
 		final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
@@ -499,7 +524,7 @@ public class ColorTools {
 	 * 1.0f . You can edit the intensity of a color with {@link #lighten(float, float)} and
 	 * {@link #darken(float, float)}.
 	 *
-	 * @param encoded a color encoded as a packed float, as by {@link #ipt(float, float, float, float)}
+	 * @param encoded a color encoded as a packed float, as by {@link #oklab(float, float, float, float)}
 	 * @return the intensity value as a float from 0.0f to 1.0f
 	 */
 	public static float intensity(final float encoded)
@@ -512,7 +537,7 @@ public class ColorTools {
 	 * hue and saturation of a color; ranges from 0f to 1f . If protan is 0f, the color will be cooler, more green or
 	 * blue; if protan is 1f, the color will be warmer, from magenta to orange. You can edit the protan of a color with
 	 * {@link #protanUp(float, float)} and {@link #protanDown(float, float)}.
-	 * @param encoded a color encoded as a packed float, as by {@link #ipt(float, float, float, float)}
+	 * @param encoded a color encoded as a packed float, as by {@link #oklab(float, float, float, float)}
 	 * @return the protan value as a float from 0.0f to 1.0f
 	 */
 	public static float protan(final float encoded)
@@ -525,7 +550,7 @@ public class ColorTools {
 	 * hue and saturation of a color; ranges from 0f to 1f . If tritan is 0f, the color will be more "artificial", more
 	 * blue or purple; if tritan is 1f, the color will be more "natural", from green to yellow to orange. You can edit
 	 * the tritan of a color with {@link #tritanUp(float, float)} and {@link #tritanDown(float, float)}.
-	 * @param encoded a color encoded as a packed float, as by {@link #ipt(float, float, float, float)}
+	 * @param encoded a color encoded as a packed float, as by {@link #oklab(float, float, float, float)}
 	 * @return the tritan value as a float from 0.0f to 1.0f
 	 */
 	public static float tritan(final float encoded)
@@ -538,7 +563,7 @@ public class ColorTools {
 	 * opacity adjusted by the specified amounts. Takes floats representing the amounts of change to apply to hue,
 	 * saturation, value, and opacity; these can be between -1f and 1f. Returns a float that can be used as a packed or
 	 * encoded color with methods like {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)}. The float is
-	 * likely to be different than the result of {@link #ipt(float, float, float, float)} unless hue saturation,
+	 * likely to be different than the result of {@link #oklab(float, float, float, float)} unless hue saturation,
 	 * value, and opacity are all 0. This won't allocate any objects.
 	 * <br>
 	 * The parameters this takes all specify additive changes for a color component, clamping the final values so they
@@ -562,9 +587,9 @@ public class ColorTools {
 			return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x808000);
 		final float p = ((e >>> 7 & 0x1fe) - 0xff) / 255f;
 		final float t = ((e >>> 15 & 0x1fe) - 0xff) / 255f;
-		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		final float l = cube(i + 0.097569f * p + 0.205226f * t);
+		final float m = cube(i + -0.11388f * p + 0.133217f * t);
+		final float s = cube(i + 0.032615f * p + -0.67689f * t);
 		final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
 		final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
 		final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
@@ -598,7 +623,7 @@ public class ColorTools {
 	/**
 	 * Interpolates from the packed float color start towards white by change. While change should be between 0f (return
 	 * start as-is) and 1f (return white), start should be a packed color, as from
-	 * {@link #ipt(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
+	 * {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
 	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
 	 * white. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and both chroma of start as-is.
 	 * @see #darken(float, float) the counterpart method that darkens a float color
@@ -614,7 +639,7 @@ public class ColorTools {
 	/**
 	 * Interpolates from the packed float color start towards black by change. While change should be between 0f (return
 	 * start as-is) and 1f (return black), start should be a packed color, as from
-	 * {@link #ipt(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
+	 * {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
 	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
 	 * black. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and both chroma of start as-is.
 	 * @see #lighten(float, float) the counterpart method that lightens a float color
@@ -630,7 +655,7 @@ public class ColorTools {
 	/**
 	 * Interpolates from the packed float color start towards a warmer color (orange to magenta) by change. While change
 	 * should be between 0f (return start as-is) and 1f (return fully warmed), start should be a packed color, as from
-	 * {@link #ipt(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
+	 * {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
 	 * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to
 	 * lerp towards a warmer color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the
 	 * alpha and intensity of start as-is.
@@ -647,7 +672,7 @@ public class ColorTools {
 	/**
 	 * Interpolates from the packed float color start towards a cooler color (green to blue) by change. While change
 	 * should be between 0f (return start as-is) and 1f (return fully cooled), start should be a packed color, as from
-	 * {@link #ipt(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
+	 * {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
 	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
 	 * towards a cooler color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and
 	 * intensity of start as-is.
@@ -664,7 +689,7 @@ public class ColorTools {
 	/**
 	 * Interpolates from the packed float color start towards a "natural" color (between green and orange) by change.
 	 * While change should be between 0f (return start as-is) and 1f (return fully natural), start should be a packed color, as
-	 * from {@link #ipt(float, float, float, float)}. This is a good way to reduce allocations of temporary
+	 * from {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary
 	 * Colors, and is a little more efficient and clear than using
 	 * {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards a more natural color. Unlike
 	 * {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and intensity of start as-is.
@@ -681,7 +706,7 @@ public class ColorTools {
 	/**
 	 * Interpolates from the packed float color start towards an "artificial" color (between blue and purple) by change.
 	 * While change should be between 0f (return start as-is) and 1f (return fully artificial), start should be a packed color, as
-	 * from {@link #ipt(float, float, float, float)}. This is a good way to reduce allocations of temporary
+	 * from {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary
 	 * Colors, and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
 	 * towards a more artificial color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the
 	 * alpha and intensity of start as-is.
@@ -698,7 +723,7 @@ public class ColorTools {
 	/**
 	 * Interpolates from the packed float color start towards that color made opaque by change. While change should be
 	 * between 0f (return start as-is) and 1f (return start with full alpha), start should be a packed color, as from
-	 * {@link #ipt(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
+	 * {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
 	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
 	 * transparent. This won't change the intensity, protan, or tritan of the color.
 	 * @see #fade(float, float) the counterpart method that makes a float color more translucent
@@ -714,7 +739,7 @@ public class ColorTools {
 	/**
 	 * Interpolates from the packed float color start towards transparent by change. While change should be between 0
 	 * (return start as-is) and 1f (return the color with 0 alpha), start should be a packed color, as from
-	 * {@link #ipt(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
+	 * {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
 	 * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
 	 * transparent. This won't change the intensity, protan, or tritan of the color.
 	 * @see #blot(float, float) the counterpart method that makes a float color more opaque
@@ -730,7 +755,7 @@ public class ColorTools {
 	/**
 	 * Brings the chromatic components of {@code start} closer to grayscale by {@code change} (desaturating them). While
 	 * change should be between 0f (return start as-is) and 1f (return fully gray), start should be a packed color, as
-	 * from {@link #ipt(float, float, float, float)}. This only changes Cw and Cm; it leaves Y and alpha alone, unlike
+	 * from {@link #oklab(float, float, float, float)}. This only changes Cw and Cm; it leaves Y and alpha alone, unlike
 	 * {@link #lessenChange(float, float)}, which usually changes Y.
 	 * @see #enrich(float, float) the counterpart method that makes a float color more saturated
 	 * @param start the starting color as a packed float
@@ -739,7 +764,7 @@ public class ColorTools {
 	 */
 	public static float dullen(final float start, final float change) {
 		final int s = NumberUtils.floatToRawIntBits(start);
-		return ipt((s & 0xFF) / 255f,
+		return oklab((s & 0xFF) / 255f,
 				((s >>> 8 & 0xFF) / 255f - 0.5f) * (1f - change) + 0.5f,
 				((s >>> 16 & 0xFF) / 255f - 0.5f) * (1f - change) + 0.5f,
 				(s >>> 25) / 127f);
@@ -748,7 +773,7 @@ public class ColorTools {
 	/**
 	 * Pushes the chromatic components of {@code start} away from grayscale by change (saturating them). While change
 	 * should be between 0f (return start as-is) and 1f (return maximally saturated), start should be a packed color, as
-	 * from {@link #ipt(float, float, float, float)}. This usually changes only Cw and Cm, but higher values for
+	 * from {@link #oklab(float, float, float, float)}. This usually changes only Cw and Cm, but higher values for
 	 * {@code change} can force the color out of the gamut, which this corrects using
 	 * {@link #limitToGamut(float, float, float, float)} (and that can change Y somewhat). If the color stays in-gamut,
 	 * then Y won't change; alpha never changes.
@@ -777,8 +802,8 @@ public class ColorTools {
 	 * channel of the tweak in ColorfulBatch; where that part of the tweak can make too-similar lightness values further
 	 * apart by just a little, this makes a modification on {@code mainColor} to maximize its lightness difference from
 	 * {@code contrastingColor} without losing its other qualities.
-	 * @param mainColor a packed float color, as produced by {@link #ipt(float, float, float, float)}; this is the color that will be adjusted
-	 * @param contrastingColor a packed float color, as produced by {@link #ipt(float, float, float, float)}; the adjusted mainColor will contrast with this
+	 * @param mainColor a packed float color, as produced by {@link #oklab(float, float, float, float)}; this is the color that will be adjusted
+	 * @param contrastingColor a packed float color, as produced by {@link #oklab(float, float, float, float)}; the adjusted mainColor will contrast with this
 	 * @return a different IPT packed float color, based on mainColor but with potentially very different lightness
 	 */
 	public static float inverseIntensity(final float mainColor, final float contrastingColor)
@@ -793,7 +818,7 @@ public class ColorTools {
 				ct = (contrastBits >>> 16 & 0xff);
 		if((p - cp) * (p - cp) + (t - ct) * (t - ct) >= 0x10000)
 			return mainColor;
-		return ipt(ci < 128 ? i * (0.45f / 255f) + 0.55f : 0.5f - i * (0.45f / 255f), p / 255f, t / 255f, 0x1.0p-8f * (bits >>> 24));
+		return oklab(ci < 128 ? i * (0.45f / 255f) + 0.55f : 0.5f - i * (0.45f / 255f), p / 255f, t / 255f, 0x1.0p-8f * (bits >>> 24));
 	}
 
 	/**
@@ -824,7 +849,7 @@ public class ColorTools {
 	 * generated color, and each of those channels can go up or down by the given variance as long as the total distance
 	 * isn't greater than the variance (this considers P and T extra-wide, going from -1 to 1, while I goes from 0 to 1,
 	 * but only internally for measuring distance).
-	 * @param color a packed float color, as produced by {@link #ipt(float, float, float, float)}
+	 * @param color a packed float color, as produced by {@link #oklab(float, float, float, float)}
 	 * @param seed a long seed that should be different on each call; should not be 0
 	 * @param variance max amount of difference between the given color and the generated color; always less than 1
 	 * @return a generated packed float color that should be at least somewhat different from {@code color}
@@ -860,9 +885,9 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		final float l = cube(i + 0.097569f * p + 0.205226f * t);
+		final float m = cube(i + -0.11388f * p + 0.133217f * t);
+		final float s = cube(i + 0.032615f * p + -0.67689f * t);
 
 		final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;
 		if(r < 0f || r > 1.0f) return false;
@@ -882,9 +907,9 @@ public class ColorTools {
 	{
 		p = (p - 0.5f) * 2f;
 		t = (t - 0.5f) * 2f;
-		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
+		final float l = cube(i + 0.097569f * p + 0.205226f * t);
+		final float m = cube(i + -0.11388f * p + 0.133217f * t);
+		final float s = cube(i + 0.032615f * p + -0.67689f * t);
 
 		final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;
 		if(r < 0f || r > 1.0f) return false;
@@ -908,9 +933,9 @@ public class ColorTools {
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		float i2 = i, p2 = p, t2 = t;
 		for (int attempt = 31; attempt >= 0; attempt--) {
-			final float l = reverseTransform(i2 + 0.097569f * p2 + 0.205226f * t2);
-			final float m = reverseTransform(i2 + -0.11388f * p2 + 0.133217f * t2);
-			final float s = reverseTransform(i2 + 0.032615f * p2 + -0.67689f * t2);
+			final float l = cube(i2 + 0.097569f * p2 + 0.205226f * t2);
+			final float m = cube(i2 + -0.11388f * p2 + 0.133217f * t2);
+			final float s = cube(i2 + 0.032615f * p2 + -0.67689f * t2);
 
 			final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;
 			final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;
@@ -922,7 +947,7 @@ public class ColorTools {
 			p2 = MathUtils.lerp(0, p, progress);
 			t2 = MathUtils.lerp(0, t, progress);
 		}
-		return ipt(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
+		return oklab(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
 	}
 
 	/**
@@ -953,9 +978,9 @@ public class ColorTools {
 		float t2 = t = MathUtils.clamp((t - 0.5f) * 2f, -1f, 1f);
 		a = MathUtils.clamp(a, 0f, 1f);
 		for (int attempt = 31; attempt >= 0; attempt--) {
-			final float l = reverseTransform(i2 + 0.097569f * p2 + 0.205226f * t2);
-			final float m = reverseTransform(i2 + -0.11388f * p2 + 0.133217f * t2);
-			final float s = reverseTransform(i2 + 0.032615f * p2 + -0.67689f * t2);
+			final float l = cube(i2 + 0.097569f * p2 + 0.205226f * t2);
+			final float m = cube(i2 + -0.11388f * p2 + 0.133217f * t2);
+			final float s = cube(i2 + 0.032615f * p2 + -0.67689f * t2);
 
 			final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;
 			final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;
@@ -967,7 +992,7 @@ public class ColorTools {
 			p2 = MathUtils.lerp(0, p, progress);
 			t2 = MathUtils.lerp(0, t, progress);
 		}
-		return ipt(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, 1f);
+		return oklab(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, 1f);
 	}
 
 	/**
@@ -984,6 +1009,6 @@ public class ColorTools {
 			p = random.nextFloat();
 			t = random.nextFloat();
 		}
-		return ipt(i, p, t, 1f);
+		return oklab(i, p, t, 1f);
 	}
 }
