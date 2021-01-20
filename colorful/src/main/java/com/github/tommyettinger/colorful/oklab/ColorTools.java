@@ -156,7 +156,7 @@ public class ColorTools {
 		return NumberUtils.intBitsToFloat(r | g << 8 | b << 16 | (decoded & 0xfe000000));
 	}
 	/**
-	 * Writes an IPT-format packed float color (the format produced by {@link ColorTools#oklab(float, float, float, float)})
+	 * Writes an Oklab-format packed float color (the format produced by {@link ColorTools#oklab(float, float, float, float)})
 	 * into an RGBA8888 Color as used by libGDX (called {@code editing}).
 	 * @param editing a libGDX color that will be filled in-place with an RGBA conversion of {@code packed}
 	 * @param packed a packed float color, as produced by {@link ColorTools#oklab(float, float, float, float)}
@@ -179,9 +179,9 @@ public class ColorTools {
 	}
 
 	/**
-	 * Takes a color encoded as an RGBA8888 int and converts to a packed float in the IPT format this uses.
+	 * Takes a color encoded as an RGBA8888 int and converts to a packed float in the Oklab format this uses.
 	 * @param rgba an int with the channels (in order) red, green, blue, alpha; should have 8 bits per channel
-	 * @return a packed float as IPT, which this class can use
+	 * @return a packed float as Oklab, which this class can use
 	 */
 	public static float fromRGBA8888(final int rgba) {
 		final float r = forwardGamma((rgba >>> 24) * 0x1.010101010101p-8f);
@@ -200,9 +200,9 @@ public class ColorTools {
 	}
 
 	/**
-	 * Takes a color encoded as an RGBA8888 packed float and converts to a packed float in the IPT format this uses.
+	 * Takes a color encoded as an RGBA8888 packed float and converts to a packed float in the Oklab format this uses.
 	 * @param packed a packed float in RGBA8888 format, with A in the MSB and R in the LSB
-	 * @return a packed float as IPT, which this class can use
+	 * @return a packed float as Oklab, which this class can use
 	 */
 	public static float fromRGBA(final float packed) {
 		final int abgr = NumberUtils.floatToRawIntBits(packed);
@@ -220,9 +220,9 @@ public class ColorTools {
 	}
 
 	/**
-	 * Takes a libGDX Color that uses RGBA8888 channels and converts to a packed float in the IPT format this uses.
+	 * Takes a libGDX Color that uses RGBA8888 channels and converts to a packed float in the Oklab format this uses.
 	 * @param color a libGDX RGBA8888 Color
-	 * @return a packed float as IPT, which this class can use
+	 * @return a packed float as Oklab, which this class can use
 	 */
 	public static float fromColor(final Color color) {
 		final float r = forwardGamma(color.r);
@@ -239,12 +239,12 @@ public class ColorTools {
 	}
 
 	/**
-	 * Takes RGBA components from 0.0 to 1.0 each and converts to a packed float in the IPT format this uses.
+	 * Takes RGBA components from 0.0 to 1.0 each and converts to a packed float in the Oklab format this uses.
 	 * @param r red, from 0.0 to 1.0 (both inclusive)
 	 * @param g green, from 0.0 to 1.0 (both inclusive)
 	 * @param b blue, from 0.0 to 1.0 (both inclusive)
 	 * @param a alpha, from 0.0 to 1.0 (both inclusive)
-	 * @return a packed float as IPT, which this class can use
+	 * @return a packed float as Oklab, which this class can use
 	 */
 	public static float fromRGBA(float r, float g, float b, final float a) {
 		r = forwardGamma(r);
@@ -384,7 +384,7 @@ public class ColorTools {
 	}
 
 	/**
-	 * Gets a color as an IPT packed float given floats representing hue, saturation, lightness, and opacity.
+	 * Gets a color as an Oklab packed float given floats representing hue, saturation, lightness, and opacity.
 	 * All parameters should normally be between 0 and 1 inclusive, though any hue is tolerated (precision loss may
 	 * affect the color if the hue is too large). A hue of 0 is red, progressively higher hue values go to orange,
 	 * yellow, green, blue, and purple before wrapping around to red as it approaches 1. A saturation of 0 is grayscale,
@@ -658,7 +658,7 @@ public class ColorTools {
 	 * {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
 	 * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to
 	 * lerp towards a warmer color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the
-	 * alpha and intensity of start as-is.
+	 * alpha and L of start as-is.
 	 * @see #lowerA(float, float) the counterpart method that cools a float color
 	 * @param start the starting color as a packed float
 	 * @param change how much to warm start, as a float between 0 and 1; higher means a warmer result
@@ -675,7 +675,7 @@ public class ColorTools {
 	 * {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
 	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
 	 * towards a cooler color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and
-	 * intensity of start as-is.
+	 * L of start as-is.
 	 * @see #raiseA(float, float) the counterpart method that warms a float color
 	 * @param start the starting color as a packed float
 	 * @param change how much to cool start, as a float between 0 and 1; higher means a cooler result
@@ -692,7 +692,7 @@ public class ColorTools {
 	 * from {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary
 	 * Colors, and is a little more efficient and clear than using
 	 * {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards a more natural color. Unlike
-	 * {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and intensity of start as-is.
+	 * {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and L of start as-is.
 	 * @see #lowerB(float, float) the counterpart method that makes a float color less natural
 	 * @param start the starting color as a packed float
 	 * @param change how much to change start to a natural color, as a float between 0 and 1; higher means a more natural result
@@ -709,7 +709,7 @@ public class ColorTools {
 	 * from {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary
 	 * Colors, and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
 	 * towards a more artificial color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the
-	 * alpha and intensity of start as-is.
+	 * alpha and L of start as-is.
 	 * @see #raiseB(float, float) the counterpart method that makes a float color less artificial
 	 * @param start the starting color as a packed float
 	 * @param change how much to change start to a bolder color, as a float between 0 and 1; higher means a more artificial result
@@ -847,9 +847,9 @@ public class ColorTools {
 	 * {@code variance} (such as 0.05 to 0.25) between the given color and what this can return. The {@code seed} should
 	 * be different each time this is called, and can be obtained from a random number generator to make the colors more
 	 * random, or can be incremented on each call. If the seed is only incremented or decremented, then this shouldn't
-	 * produce two similar colors in a row unless variance is very small. The variance affects the I, P, and T of the
+	 * produce two similar colors in a row unless variance is very small. The variance affects the L, A, and B of the
 	 * generated color, and each of those channels can go up or down by the given variance as long as the total distance
-	 * isn't greater than the variance (this considers P and T extra-wide, going from -1 to 1, while I goes from 0 to 1,
+	 * isn't greater than the variance (this considers A and B extra-wide, going from -1 to 1, while L goes from 0 to 1,
 	 * but only internally for measuring distance).
 	 * @param color a packed float color, as produced by {@link #oklab(float, float, float, float)}
 	 * @param seed a long seed that should be different on each call; should not be 0
@@ -858,9 +858,9 @@ public class ColorTools {
 	 */
 	public static float randomEdit(final float color, long seed, final float variance) {
 		final int decoded = NumberUtils.floatToRawIntBits(color);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float L = (decoded & 0xff) / 255f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float limit = variance * variance;
 		float dist, x, y, z;
 		for (int j = 0; j < 50; j++) {
@@ -869,7 +869,7 @@ public class ColorTools {
 			z = (((seed * 0x8CB92BA72F3D8DD7L >>> 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;
 			seed += 0x9E3779B97F4A7C15L;
 			dist = x * x + y * y + z * z;
-			if(dist <= limit && inGamut(x += i, y = (p + y) * 0.5f + 0.5f, z = (t + z) * 0.5f + 0.5f))
+			if(dist <= limit && inGamut(x += L, y = (A + y) * 0.5f + 0.5f, z = (B + z) * 0.5f + 0.5f))
 				return NumberUtils.intBitsToFloat((decoded & 0xFE000000) | ((int)(z * 255.5f) << 16 & 0xFF0000)
 					| ((int)(y * 255.5f) << 8 & 0xFF00) | (int)(x * 255.5f));
 		}
@@ -877,108 +877,108 @@ public class ColorTools {
 	}
 
 	/**
-	 * Returns true if the given packed float color, as IPT, is valid to convert losslessly back to RGBA.
-	 * @param packed a packed float color as IPT
+	 * Returns true if the given packed float color, as Oklab, is valid to convert losslessly back to RGBA.
+	 * @param packed a packed float color as Oklab
 	 * @return true if the given packed float color can be converted back and forth to RGBA
 	 */
 	public static boolean inGamut(final float packed)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(packed);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = cube(i + 0.097569f * p + 0.205226f * t);
-		final float m = cube(i + -0.11388f * p + 0.133217f * t);
-		final float s = cube(i + 0.032615f * p + -0.67689f * t);
+		final float L = (decoded & 0xff) / 255f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
 
-		final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;
+		final float r = reverseGamma(MathUtils.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f));
 		if(r < 0f || r > 1.0f) return false;
-		final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;
+		final float g = reverseGamma(MathUtils.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f));
 		if(g < 0f || g > 1.0f) return false;
-		final float b = 0.028104f * l + -0.19466f * m + 1.166325f * s;
+		final float b = reverseGamma(MathUtils.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f));
 		return (b >= 0f && b <= 1.0f);
 	}
 	/**
-	 * Returns true if the given IPT values are valid to convert losslessly back to RGBA.
-	 * @param i intensity channel, as a float from 0 to 1
-	 * @param p protan channel, as a float from 0 to 1
-	 * @param t tritan channel, as a float from 0 to 1
+	 * Returns true if the given Oklab values are valid to convert losslessly back to RGBA.
+	 * @param L lightness channel, as a float from 0 to 1
+	 * @param A green-to-red chromatic channel, as a float from 0 to 1
+	 * @param B blue-to-yellow chromatic channel, as a float from 0 to 1
 	 * @return true if the given packed float color can be converted back and forth to RGBA
 	 */
-	public static boolean inGamut(float i, float p, float t)
+	public static boolean inGamut(float L, float A, float B)
 	{
-		p = (p - 0.5f) * 2f;
-		t = (t - 0.5f) * 2f;
-		final float l = cube(i + 0.097569f * p + 0.205226f * t);
-		final float m = cube(i + -0.11388f * p + 0.133217f * t);
-		final float s = cube(i + 0.032615f * p + -0.67689f * t);
+		A = (A - 0.5f) * 2f;
+		B = (B - 0.5f) * 2f;
+		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
 
-		final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;
+		final float r = reverseGamma(MathUtils.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f));
 		if(r < 0f || r > 1.0f) return false;
-		final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;
+		final float g = reverseGamma(MathUtils.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f));
 		if(g < 0f || g > 1.0f) return false;
-		final float b = 0.028104f * l + -0.19466f * m + 1.166325f * s;
+		final float b = reverseGamma(MathUtils.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f));
 		return (b >= 0f && b <= 1.0f);
 	}
 
 	/**
-	 * Iteratively checks whether the given IPT color is in-gamut, and either brings the color closer to 50% gray if it
+	 * Iteratively checks whether the given Oklab color is in-gamut, and either brings the color closer to 50% gray if it
 	 * isn't in-gamut, or returns it as soon as it is in-gamut.
-	 * @param packed a packed float color in IPT format; often this color is not in-gamut
-	 * @return the first color this finds that is between the given IPT color and 50% gray, and is in-gamut
+	 * @param packed a packed float color in Oklab format; often this color is not in-gamut
+	 * @return the first color this finds that is between the given Oklab color and 50% gray, and is in-gamut
 	 * @see #inGamut(float) You can use inGamut() if you just want to check whether a color is in-gamut.
 	 */
 	public static float limitToGamut(final float packed) {
 		final int decoded = NumberUtils.floatToRawIntBits(packed);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		float i2 = i, p2 = p, t2 = t;
+		final float L = (decoded & 0xff) / 255f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		float L2 = L, A2 = A, B2 = B;
 		for (int attempt = 31; attempt >= 0; attempt--) {
-			final float l = cube(i2 + 0.097569f * p2 + 0.205226f * t2);
-			final float m = cube(i2 + -0.11388f * p2 + 0.133217f * t2);
-			final float s = cube(i2 + 0.032615f * p2 + -0.67689f * t2);
+			final float l = cube(L2 + 0.3963377774f * A2 + 0.2158037573f * B2);
+			final float m = cube(L2 - 0.1055613458f * A2 - 0.0638541728f * B2);
+			final float s = cube(L2 - 0.0894841775f * A2 - 1.2914855480f * B2);
 
-			final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;
-			final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;
-			final float b = 0.028104f * l + -0.19466f * m + 1.166325f * s;
+			final float r = reverseGamma(MathUtils.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f));
+			final float g = reverseGamma(MathUtils.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f));
+			final float b = reverseGamma(MathUtils.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f));
 			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
 				break;
 			final float progress = attempt * 0x1p-5f;
-			i2 = MathUtils.lerp(0.55f, i, progress);
-			p2 = MathUtils.lerp(0, p, progress);
-			t2 = MathUtils.lerp(0, t, progress);
+			L2 = MathUtils.lerp(0.55f, L, progress); //TODO: Verify what the middle-gray L value is
+			A2 = MathUtils.lerp(0, A, progress);
+			B2 = MathUtils.lerp(0, B, progress);
 		}
-		return oklab(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
+		return oklab(L2, A2 * 0.5f + 0.5f, B2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
 	}
 
 	/**
-	 * Iteratively checks whether the given IPT color is in-gamut, and either brings the color closer to 50% gray if it
+	 * Iteratively checks whether the given Oklab color is in-gamut, and either brings the color closer to 50% gray if it
 	 * isn't in-gamut, or returns it as soon as it is in-gamut. This always produces an opaque color.
-	 * @param i intensity component; will be clamped between 0 and 1 if it isn't already
-	 * @param p protan component; will be clamped between 0 and 1 if it isn't already
-	 * @param t tritan component; will be clamped between 0 and 1 if it isn't already
-	 * @return the first color this finds that is between the given IPT color and 50% gray, and is in-gamut
+	 * @param L lightness component; will be clamped between 0 and 1 if it isn't already
+	 * @param A green-to-red chromatic component; will be clamped between 0 and 1 if it isn't already
+	 * @param B blue-to-yellow chromatic component; will be clamped between 0 and 1 if it isn't already
+	 * @return the first color this finds that is between the given Oklab color and 50% gray, and is in-gamut
 	 * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
 	 */
-	public static float limitToGamut(float i, float p, float t) {
-		return limitToGamut(i, p, t, 1f);
+	public static float limitToGamut(float L, float A, float B) {
+		return limitToGamut(L, A, B, 1f);
 	}
 	/**
-	 * Iteratively checks whether the given IPT color is in-gamut, and either brings the color closer to 50% gray if it
+	 * Iteratively checks whether the given Oklab color is in-gamut, and either brings the color closer to 50% gray if it
 	 * isn't in-gamut, or returns it as soon as it is in-gamut.
-	 * @param i intensity component; will be clamped between 0 and 1 if it isn't already
-	 * @param p protan component; will be clamped between 0 and 1 if it isn't already
-	 * @param t tritan component; will be clamped between 0 and 1 if it isn't already
-	 * @param a alpha component; will be clamped between 0 and 1 if it isn't already
-	 * @return the first color this finds that is between the given IPT color and 50% gray, and is in-gamut
+	 * @param L lightness component; will be clamped between 0 and 1 if it isn't already
+	 * @param A green-to-red chromatic component; will be clamped between 0 and 1 if it isn't already
+	 * @param B blue-to-yellow chromatic component; will be clamped between 0 and 1 if it isn't already
+	 * @param alpha alpha component; will be clamped between 0 and 1 if it isn't already
+	 * @return the first color this finds that is between the given Oklab color and 50% gray, and is in-gamut
 	 * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
 	 */
-	public static float limitToGamut(float i, float p, float t, float a) {
-		float i2 = i = MathUtils.clamp(i, 0f, 1f);
-		float p2 = p = MathUtils.clamp((p - 0.5f) * 2f, -1f, 1f);
-		float t2 = t = MathUtils.clamp((t - 0.5f) * 2f, -1f, 1f);
-		a = MathUtils.clamp(a, 0f, 1f);
+	public static float limitToGamut(float L, float A, float B, float alpha) {
+		float i2 = L = MathUtils.clamp(L, 0f, 1f);
+		float p2 = A = MathUtils.clamp((A - 0.5f) * 2f, -1f, 1f);
+		float t2 = B = MathUtils.clamp((B - 0.5f) * 2f, -1f, 1f);
+		alpha = MathUtils.clamp(alpha, 0f, 1f);
 		for (int attempt = 31; attempt >= 0; attempt--) {
 			final float l = cube(i2 + 0.097569f * p2 + 0.205226f * t2);
 			final float m = cube(i2 + -0.11388f * p2 + 0.133217f * t2);
@@ -990,27 +990,27 @@ public class ColorTools {
 			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
 				break;
 			final float progress = attempt * 0x1p-5f;
-			i2 = MathUtils.lerp(0.55f, i, progress);
-			p2 = MathUtils.lerp(0, p, progress);
-			t2 = MathUtils.lerp(0, t, progress);
+			i2 = MathUtils.lerp(0.55f, L, progress);
+			p2 = MathUtils.lerp(0, A, progress);
+			t2 = MathUtils.lerp(0, B, progress);
 		}
 		return oklab(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, 1f);
 	}
 
 	/**
-	 * Produces a random packed float color that is always in-gamut and should be uniformly distributed.
+	 * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.
 	 * @param random a Random object (preferably a subclass of Random, like {@link com.badlogic.gdx.math.RandomXS128})
 	 * @return a packed float color that is always in-gamut
 	 */
 	public static float randomColor(Random random) {
-		float i = random.nextFloat();
-		float p = random.nextFloat();
-		float t = random.nextFloat();
-		while (!inGamut(i, p, t)) {
-			i = random.nextFloat();
-			p = random.nextFloat();
-			t = random.nextFloat();
+		float L = random.nextFloat();
+		float A = random.nextFloat();
+		float B = random.nextFloat();
+		while (!inGamut(L, A, B)) {
+			L = random.nextFloat();
+			A = random.nextFloat();
+			B = random.nextFloat();
 		}
-		return oklab(i, p, t, 1f);
+		return oklab(L, A, B, 1f);
 	}
 }
