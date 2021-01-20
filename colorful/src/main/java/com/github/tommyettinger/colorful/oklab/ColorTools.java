@@ -194,8 +194,8 @@ public class ColorTools {
 
 		return NumberUtils.intBitsToFloat(
 			              MathUtils.clamp((int)((0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s       ) * 255.999f), 0, 255)
-						| MathUtils.clamp((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s + 0.5f) * 255.999f), 0, 255) << 8
-						| MathUtils.clamp((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s + 0.5f) * 255.999f), 0, 255) << 16
+						| MathUtils.clamp((int)((0.9889992500f * l - 1.2142961000f * m + 0.2252968500f * s + 0.5f) * 255.999f), 0, 255) << 8
+						| MathUtils.clamp((int)((0.0129520185f * l + 0.3913858800f * m - 0.4043378800f * s + 0.5f) * 255.999f), 0, 255) << 16
 						| (rgba & 0xFE) << 24);
 	}
 
@@ -214,10 +214,15 @@ public class ColorTools {
 		final float s = cbrt(0.0883097947f * r + 0.2818474174f * g + 0.6302613616f * b);
 		return NumberUtils.intBitsToFloat(
 				          MathUtils.clamp((int)((0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s       ) * 255.999f), 0, 255)
-						| MathUtils.clamp((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s + 0.5f) * 255.999f), 0, 255) << 8
-						| MathUtils.clamp((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s + 0.5f) * 255.999f), 0, 255) << 16
+						| MathUtils.clamp((int)((0.9889992500f * l - 1.2142961000f * m + 0.2252968500f * s + 0.5f) * 255.999f), 0, 255) << 8
+						| MathUtils.clamp((int)((0.0129520185f * l + 0.3913858800f * m - 0.4043378800f * s + 0.5f) * 255.999f), 0, 255) << 16
 						| (abgr & 0xFE000000));
 	}
+
+	// original multipliers for LMS when obtaining the non-shrunken A and B values:
+	//+0.2104542553 +0.7936177850 -0.0040720468
+	//+1.9779984951 -2.4285922050 +0.4505937099
+	//+0.0259040371 +0.7827717662 -0.8086757660
 
 	/**
 	 * Takes a libGDX Color that uses RGBA8888 channels and converts to a packed float in the Oklab format this uses.
@@ -233,8 +238,8 @@ public class ColorTools {
 		final float s = cbrt(0.0883097947f * r + 0.2818474174f * g + 0.6302613616f * b);
 		return NumberUtils.intBitsToFloat(
 				          MathUtils.clamp((int)((0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s       ) * 255.999f), 0, 255)
-						| MathUtils.clamp((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s + 0.5f) * 255.999f), 0, 255) << 8
-						| MathUtils.clamp((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s + 0.5f) * 255.999f), 0, 255) << 16
+						| MathUtils.clamp((int)((0.9889992500f * l - 1.2142961000f * m + 0.2252968500f * s + 0.5f) * 255.999f), 0, 255) << 8
+						| MathUtils.clamp((int)((0.0129520185f * l + 0.3913858800f * m - 0.4043378800f * s + 0.5f) * 255.999f), 0, 255) << 16
 						| ((int)(color.a * 255f) << 24 & 0xFE000000));
 	}
 
@@ -255,8 +260,8 @@ public class ColorTools {
 		final float s = cbrt(0.0883097947f * r + 0.2818474174f * g + 0.6302613616f * b);
 		return NumberUtils.intBitsToFloat(
 				          MathUtils.clamp((int)((0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s       ) * 255.999f), 0, 255)
-						| MathUtils.clamp((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s + 0.5f) * 255.999f), 0, 255) << 8
-						| MathUtils.clamp((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s + 0.5f) * 255.999f), 0, 255) << 16
+						| MathUtils.clamp((int)((0.9889992500f * l - 1.2142961000f * m + 0.2252968500f * s + 0.5f) * 255.999f), 0, 255) << 8
+						| MathUtils.clamp((int)((0.0129520185f * l + 0.3913858800f * m - 0.4043378800f * s + 0.5f) * 255.999f), 0, 255) << 16
 						| ((int)(a * 255f) << 24 & 0xFE000000));
 	}
 
