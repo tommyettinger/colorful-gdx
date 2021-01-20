@@ -33,8 +33,8 @@ public class ColorTools {
 	 * <br>
 	 * This method bit-masks the resulting color's byte values, so any values can technically be given to this as
 	 * L, A, and B, but they will only be reversible from the returned float color to the original L,
-	 * A, and B values if the original values were in the range that {@link #intensity(float)}, {@link #protan(float)},
-	 * and {@link #tritan(float)} return. You can use {@link #inGamut(float, float, float)} to check if a given set of
+	 * A, and B values if the original values were in the range that {@link #channelL(float)}, {@link #channelA(float)},
+	 * and {@link #channelB(float)} return. You can use {@link #inGamut(float, float, float)} to check if a given set of
 	 * L, A, and B values is in-gamut, that is, it can be converted to and from an RGB color without going out of the
 	 * valid range. If you just want to enforce that a color is in-gamut, you can use
 	 * {@link #limitToGamut(float, float, float, float)}, which takes the same parameters this method does, or
@@ -268,13 +268,13 @@ public class ColorTools {
 	public static int redInt(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = cube(i + 0.097569f * p + 0.205226f * t);
-		final float m = cube(i + -0.11388f * p + 0.133217f * t);
-		final float s = cube(i + 0.032615f * p + -0.67689f * t);
-		return (int)(reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f)) * 255.999f);
+		final float L = (decoded & 0xff) / 255f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+		return (int)(reverseGamma(MathUtils.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f)) * 255.999f);
 	}
 
 	/**
@@ -285,13 +285,13 @@ public class ColorTools {
 	public static int greenInt(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = cube(i + 0.097569f * p + 0.205226f * t);
-		final float m = cube(i + -0.11388f * p + 0.133217f * t);
-		final float s = cube(i + 0.032615f * p + -0.67689f * t);
-		return (int)(reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f)) * 255.999f);
+		final float L = (decoded & 0xff) / 255f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+		return (int)(reverseGamma(MathUtils.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f)) * 255.999f);
 	}
 
 	/**
@@ -302,13 +302,13 @@ public class ColorTools {
 	public static int blueInt(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = cube(i + 0.097569f * p + 0.205226f * t);
-		final float m = cube(i + -0.11388f * p + 0.133217f * t);
-		final float s = cube(i + 0.032615f * p + -0.67689f * t);
-		return (int)(reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f)) * 255.999f);
+		final float L = (decoded & 0xff) / 255f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+		return (int)(reverseGamma(MathUtils.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f)) * 255.999f);
 	}
 
 	/**
@@ -330,13 +330,13 @@ public class ColorTools {
 	public static float red(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = cube(i + 0.097569f * p + 0.205226f * t);
-		final float m = cube(i + -0.11388f * p + 0.133217f * t);
-		final float s = cube(i + 0.032615f * p + -0.67689f * t);
-		return reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
+		final float L = (decoded & 0xff) / 255f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+		return reverseGamma(MathUtils.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f));
 	}
 
 	/**
@@ -347,13 +347,13 @@ public class ColorTools {
 	public static float green(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = cube(i + 0.097569f * p + 0.205226f * t);
-		final float m = cube(i + -0.11388f * p + 0.133217f * t);
-		final float s = cube(i + 0.032615f * p + -0.67689f * t);
-		return reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
+		final float L = (decoded & 0xff) / 255f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+		return reverseGamma(MathUtils.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f));
 	}
 
 	/**
@@ -364,13 +364,13 @@ public class ColorTools {
 	public static float blue(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		final float i = (decoded & 0xff) / 255f;
-		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float l = cube(i + 0.097569f * p + 0.205226f * t);
-		final float m = cube(i + -0.11388f * p + 0.133217f * t);
-		final float s = cube(i + 0.032615f * p + -0.67689f * t);
-		return reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
+		final float L = (decoded & 0xff) / 255f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+		return reverseGamma(MathUtils.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f));
 	}
 
 	/**
@@ -522,40 +522,39 @@ public class ColorTools {
 	}
 
 	/**
-	 * The "intensity" of the given packed float in IPT format, which is like its lightness; ranges from 0.0f to
-	 * 1.0f . You can edit the intensity of a color with {@link #lighten(float, float)} and
-	 * {@link #darken(float, float)}.
+	 * The "L" channel of the given packed float in Oklab format, which is its lightness; ranges from 0.0f to
+	 * 1.0f . You can edit the L of a color with {@link #lighten(float, float)} and {@link #darken(float, float)}.
 	 *
 	 * @param encoded a color encoded as a packed float, as by {@link #oklab(float, float, float, float)}
-	 * @return the intensity value as a float from 0.0f to 1.0f
+	 * @return the L value as a float from 0.0f to 1.0f
 	 */
-	public static float intensity(final float encoded)
+	public static float channelL(final float encoded)
 	{
 		return (NumberUtils.floatToRawIntBits(encoded) & 0xff) / 255f;
 	}
 
 	/**
-	 * The "protan" of the given packed float in IPT format, which when combined with tritan describes the
-	 * hue and saturation of a color; ranges from 0f to 1f . If protan is 0f, the color will be cooler, more green or
-	 * blue; if protan is 1f, the color will be warmer, from magenta to orange. You can edit the protan of a color with
+	 * The "A" channel of the given packed float in Oklab format, which when combined with the B channel describes the
+	 * hue and saturation of a color; ranges from 0f to 1f . If A is 0f, the color will be cooler, more green or
+	 * blue; if A is 1f, the color will be warmer, from magenta to orange. You can edit the A of a color with
 	 * {@link #protanUp(float, float)} and {@link #protanDown(float, float)}.
 	 * @param encoded a color encoded as a packed float, as by {@link #oklab(float, float, float, float)}
-	 * @return the protan value as a float from 0.0f to 1.0f
+	 * @return the A value as a float from 0.0f to 1.0f
 	 */
-	public static float protan(final float encoded)
+	public static float channelA(final float encoded)
 	{
 		return ((NumberUtils.floatToRawIntBits(encoded) >>> 8 & 0xff)) / 255f;
 	}
 
 	/**
-	 * The "tritan" of the given packed float in IPT format, which when combined with protan describes the
-	 * hue and saturation of a color; ranges from 0f to 1f . If tritan is 0f, the color will be more "artificial", more
-	 * blue or purple; if tritan is 1f, the color will be more "natural", from green to yellow to orange. You can edit
-	 * the tritan of a color with {@link #tritanUp(float, float)} and {@link #tritanDown(float, float)}.
+	 * The "B" channel of the given packed float in Oklab format, which when combined with the A channel describes the
+	 * hue and saturation of a color; ranges from 0f to 1f . If B is 0f, the color will be more "artificial", more
+	 * blue or purple; if B is 1f, the color will be more "natural", from green to yellow to orange. You can edit
+	 * the B of a color with {@link #tritanUp(float, float)} and {@link #tritanDown(float, float)}.
 	 * @param encoded a color encoded as a packed float, as by {@link #oklab(float, float, float, float)}
-	 * @return the tritan value as a float from 0.0f to 1.0f
+	 * @return the B value as a float from 0.0f to 1.0f
 	 */
-	public static float tritan(final float encoded)
+	public static float channelB(final float encoded)
 	{
 		return ((NumberUtils.floatToRawIntBits(encoded) >>> 16 & 0xff)) / 255f;
 	}
