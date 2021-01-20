@@ -300,7 +300,7 @@ public class Shaders {
                     "{\n" +
                     "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                     "  vec3 ipt = mat3(0.40000, 4.45500, 0.80560, 0.40000, -4.8510, 0.35720, 0.20000, 0.39600, -1.1628) *" +
-                    "             pow(mat3(0.313921f, 0.151693f, 0.017753f, 0.639468f, 0.748209f, 0.109468f, 0.0465970f, 0.1000044f, 0.8729690f) \n" +
+                    "             pow(mat3(0.313921, 0.151693, 0.017753, 0.639468, 0.748209, 0.109468, 0.0465970, 0.1000044, 0.8729690) \n" +
                     "             * (tgt.rgb * tgt.rgb), forward);\n" +
                     "  ipt += v_color.rgb - 0.5;\n" +
                     "  ipt.x = clamp(ipt.x, 0.0, 1.0);\n" +
@@ -308,6 +308,35 @@ public class Shaders {
                     "  gl_FragColor = vec4(sqrt(clamp(" +
                     "                 mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) *\n" +
                     "                 (sign(ipt) * pow(abs(ipt), reverse))," +
+                    "                 0.0, 1.0)), v_color.a * tgt.a);\n" +
+                    "}";
+
+    /**
+     * Just like {@link #fragmentShaderIPT_HQ}, but uses the Oklab color space instead of the very similar IPT_HQ one.
+     */
+    public static String fragmentShaderOklab =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "const vec3 forward = vec3(1.0 / 3.0);\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +
+                    "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +
+                    "             * (tgt.rgb * tgt.rgb), forward);\n" +
+                    "  lab += v_color.rgb - 0.5;\n" +
+                    "  lab.x = clamp(lab.x, 0.0, 1.0);\n" +
+                    "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +
+                    "  gl_FragColor = vec4(sqrt(clamp(" +
+                    "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +
+                    "                 (lab * lab * lab)," +
                     "                 0.0, 1.0)), v_color.a * tgt.a);\n" +
                     "}";
 
@@ -326,9 +355,9 @@ public class Shaders {
         + "uniform mat4 u_projTrans;\n"
         + "varying vec4 v_color;\n"
         + "varying vec2 v_texCoords;\n"
-        + "const vec3 yellow  = vec3( 0.16155326f,0.020876605f,-0.26078433f );\n"
-        + "const vec3 magenta = vec3(-0.16136102f,0.122068435f,-0.070396f   );\n"
-        + "const vec3 cyan    = vec3( 0.16420607f,0.3481738f,   0.104959644f);\n"
+        + "const vec3 yellow  = vec3( 0.16155326,0.020876605,-0.26078433 );\n"
+        + "const vec3 magenta = vec3(-0.16136102,0.122068435,-0.070396   );\n"
+        + "const vec3 cyan    = vec3( 0.16420607,0.3481738,   0.104959644);\n"
         + "void main()\n"
         + "{\n"
         + "    v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
@@ -446,7 +475,7 @@ public class Shaders {
 
 //                    "    return asin((sqrt(hue * 0.9375 + 0.0625) - 0.25) * 2.666 - 1.0) * 0.318309886 + 0.5;\n" +
 
-//                    "    return sqrt(sin((hue - 0.5) * 3.14159274) * 0.5f + 0.5f);\n" +
+//                    "    return sqrt(sin((hue - 0.5) * 3.14159274) * 0.5 + 0.5);\n" +
 //                    "    return pow(hue, 0.5625);\n" +
 //                    "    return sqrt(hue);\n" +
                     "    return (sqrt(hue + 0.050625) - 0.225) * 1.25;\n" +
