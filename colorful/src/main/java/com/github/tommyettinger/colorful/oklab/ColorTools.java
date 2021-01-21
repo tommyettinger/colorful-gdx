@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.Shaders;
-import com.github.tommyettinger.colorful.ycwcm.Palette;
 
 import java.util.Random;
 
@@ -963,7 +962,7 @@ public class ColorTools {
 			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
 				break;
 			final float progress = attempt * 0x1p-5f;
-			L2 = MathUtils.lerp(0.55f, L, progress); //TODO: Verify what the middle-gray L value is
+			L2 = MathUtils.lerp(0.63f, L, progress);
 			A2 = MathUtils.lerp(0, A, progress);
 			B2 = MathUtils.lerp(0, B, progress);
 		}
@@ -1008,7 +1007,7 @@ public class ColorTools {
 			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
 				break;
 			final float progress = attempt * 0x1p-5f;
-			L2 = MathUtils.lerp(0.55f, L, progress);
+			L2 = MathUtils.lerp(0.63f, L, progress);
 			A2 = MathUtils.lerp(0, A, progress);
 			B2 = MathUtils.lerp(0, B, progress);
 		}
