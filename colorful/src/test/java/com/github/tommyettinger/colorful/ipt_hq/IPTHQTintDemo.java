@@ -32,7 +32,7 @@ public class IPTHQTintDemo extends ApplicationAdapter {
     private long lastProcessedTime = 0L;
     private ShaderProgram defaultShader;
     private ShaderProgram shader;
-    private float intens = 0.5f, protan = 0.5f, tritan = 0.5f, opacity = 1f;
+    private float intens = 0.55f, protan = 0.5f, tritan = 0.5f, opacity = 1f;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -101,7 +101,7 @@ public class IPTHQTintDemo extends ApplicationAdapter {
         batch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) {
             batch.setShader(shader);
-            batch.setColor(intens, protan, tritan, opacity);
+            batch.setColor(intens=MathUtils.clamp(intens,0f,1f), protan=MathUtils.clamp(protan,0f,1f), tritan=MathUtils.clamp(tritan,0f,1f), opacity);
             batch.begin();
             batch.draw(screenTexture, 0, 0);
             batch.setShader(defaultShader);
@@ -142,20 +142,32 @@ public class IPTHQTintDemo extends ApplicationAdapter {
                 return;
             lastProcessedTime = TimeUtils.millis();
             if (input.isKeyPressed(Input.Keys.L)) //light
-                intens = MathUtils.clamp(intens + 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.D)) //dark
-                intens = MathUtils.clamp(intens - 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.RIGHT)) //warm
-                protan = MathUtils.clamp(protan + 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.LEFT)) //cool
-                protan = MathUtils.clamp(protan - 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.UP)) //mild
-                tritan = MathUtils.clamp(tritan + 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.DOWN)) // bold
-                tritan = MathUtils.clamp(tritan - 0x3p-7f, 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.R)) // reset
             {
-                intens = 0.5f;
+//                if (ColorTools.inGamut(intens + 0x3p-7f, protan, tritan))
+                    intens += 0x3p-7f;
+            } else if (input.isKeyPressed(Input.Keys.D)) //dark
+            {
+//                if (ColorTools.inGamut(intens - 0x3p-7f, protan, tritan))
+                    intens -= 0x3p-7f;
+            } else if (input.isKeyPressed(Input.Keys.RIGHT)) //raise protan
+            {
+//                if (ColorTools.inGamut(intens, protan + 0x3p-7f, tritan))
+                    protan += 0x3p-7f;
+            } else if (input.isKeyPressed(Input.Keys.LEFT)) //lower protan
+            {
+//                if (ColorTools.inGamut(intens, protan - 0x3p-7f, tritan))
+                    protan -= 0x3p-7f;
+            } else if (input.isKeyPressed(Input.Keys.UP)) //raise tritan
+            {
+//                if (ColorTools.inGamut(intens, protan, tritan + 0x3p-7f))
+                    tritan += 0x3p-7f;
+            } else if (input.isKeyPressed(Input.Keys.DOWN)) //lower tritan
+            {
+//                if (ColorTools.inGamut(intens, protan, tritan - 0x3p-7f))
+                    tritan -= 0x3p-7f;
+            } else if (input.isKeyPressed(Input.Keys.R)) // reset
+            {
+                intens = 0.55f;
                 protan = 0.5f;
                 tritan = 0.5f;
                 opacity = 1f;

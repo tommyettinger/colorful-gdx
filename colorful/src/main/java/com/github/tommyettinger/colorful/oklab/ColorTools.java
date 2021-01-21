@@ -919,24 +919,24 @@ public class ColorTools {
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
 
 		final float r = +4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s;
-		if(r < 0f || r > 1.0f) {
-			System.out.println("r out of gamut: " + r);
-			return false;
-		}
-//		if(r < 0f || r > 1.0f) return false;
+//		if(r < 0f || r > 1.0f) {
+//			System.out.println("r out of gamut: " + r);
+//			return false;
+//		}
+		if(r < 0f || r > 1.0f) return false;
 		final float g = -1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s;
-		if(g < 0f || g > 1.0f) {
-			System.out.println("g out of gamut: " + g);
-			return false;
-		}
-//		if(g < 0f || g > 1.0f) return false;
+//		if(g < 0f || g > 1.0f) {
+//			System.out.println("g out of gamut: " + g);
+//			return false;
+//		}
+		if(g < 0f || g > 1.0f) return false;
 		final float b = -0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s;
-		if(b < 0f || b > 1.0f) {
-			System.out.println("b out of gamut: " + b);
-			return false;
-		}
-		return true;
-//		return (b >= 0f && b <= 1.0f);
+//		if(b < 0f || b > 1.0f) {
+//			System.out.println("b out of gamut: " + b);
+//			return false;
+//		}
+//		return true;
+		return (b >= 0f && b <= 1.0f);
 	}
 
 	/**
