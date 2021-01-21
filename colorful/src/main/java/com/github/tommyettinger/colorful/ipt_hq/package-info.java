@@ -10,8 +10,11 @@
  * {@link com.github.tommyettinger.colorful.ipt IPT package} if your usage doesn't need the higher quality and can
  * benefit from a fast approximation of IPT.
  * <br>
- * This also supports color descriptions via the {@link com.github.tommyettinger.colorful.ipt_hq.SimplePalette} class.
- * These allow using Strings to describe colors by mixing base pigments and applying transformations to them.
+ * This package is unique in that it has the {@link com.github.tommyettinger.colorful.ipt_hq.SimplePalette} class,
+ * which offers a method to describe colors by mixing named pigments and applying adjustments, using human-friendly
+ * syntax ({@link com.github.tommyettinger.colorful.ipt_hq.SimplePalette#parseDescription(java.lang.String)}).
+ * IPT_HQ was chosen for SimplePalette because mixing predefined colors is much more accurate and intuitive with this
+ * type of IPT than with, say, RGB or YCwCm.
  * <br>
  * <ul>
  * <li><a href="https://tommyettinger.github.io/colorful-gdx/ColorTableValueIPT_HQ.html">Palette by value</a></li>
