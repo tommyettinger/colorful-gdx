@@ -13,7 +13,7 @@ import java.util.Random;
  * Contains code for manipulating colors as {@code int} and packed {@code float} values in the Oklab color space.
  * Oklab is a very new color space that builds on the same foundation as IPT, but seems to be better-calibrated for
  * uniform lightness and colorfulness, instead of just the emphasis on uniform hue that IPT has.
- * Here's <a href="https://bottosson.github.io/posts/oklab/">Ottosson's original post introducing Oklab</>.
+ * Here's <a href="https://bottosson.github.io/posts/oklab/">Ottosson's original post introducing Oklab</a>.
  * So far, <a href="https://raphlinus.github.io/color/2021/01/18/oklab-critique.html">it stood up to analysis by Raph
  * Levien</a>, and seems to be gaining fans quickly.
  */

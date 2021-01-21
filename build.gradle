@@ -32,7 +32,7 @@ modifyPom{
         name = projectName
     }
 }
-version '0.5.0-SNAPSHOT'
+version '0.4.2'
 group 'com.github.tommyettinger'
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
@@ -45,9 +45,6 @@ subprojects {
         mavenCentral()
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     }
-    javadoc.options.source("15")
-    javadoc.destinationDir = file("../docs/$name/apidocs")
-
 }
 
 // Disable JDK 8's doclint

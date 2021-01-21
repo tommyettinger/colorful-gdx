@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.IntArray;
+import com.github.tommyettinger.anim8.OtherMath;
 import com.github.tommyettinger.anim8.PNG8;
 import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.colorful.internal.StringKit;
@@ -85,8 +86,8 @@ public class RandomPaletteGenerator {
     private static void add(int value){
         float ipt = ColorTools.fromRGBA8888(value);
         float i = ColorTools.intensity(ipt),
-                p = PaletteReducer.barronSpline(ColorTools.protan(ipt), 0.75f, 0.5f),
-                t = PaletteReducer.barronSpline(ColorTools.tritan(ipt), 0.75f, 0.5f);
+                p = OtherMath.barronSpline(ColorTools.protan(ipt), 0.75f, 0.5f),
+                t = OtherMath.barronSpline(ColorTools.tritan(ipt), 0.75f, 0.5f);
         final double limit = 0.011 - (ipts.size * 0.00002);
         for (int idx = 0; idx < ipts.size; idx++) {
             float o = ipts.get(idx);
@@ -197,8 +198,8 @@ public class RandomPaletteGenerator {
             denominator *= 5.0;
         }
         return ColorTools.ipt((float) resX,
-                (float) (PNG8.probit(resY) % 0.5 + 0.5),
-                (float) (PNG8.probit(resZ) % 0.5 + 0.5), 1f);
+                (float) (OtherMath.probit(resY) % 0.5 + 0.5),
+                (float) (OtherMath.probit(resZ) % 0.5 + 0.5), 1f);
     }
     public static float gaussianColor(int index, double sat)
     {
@@ -228,7 +229,7 @@ public class RandomPaletteGenerator {
 //                (float)resX,
 //                (float)((resY - 0.5) % sat) + 0.5f,
 //                (float)((resZ - 0.5) % sat) + 0.5f,
-                (float) Math.pow(PNG8.probit(resX) * 2.0 % 0.5 + 0.5, 0.9375),
+                (float) Math.pow(OtherMath.probit(resX) * 2.0 % 0.5 + 0.5, 0.9375),
 //                (float)(resY * resY * resY * sat) + 0.5f,
 //                (float)(resZ * resZ * resZ * sat) + 0.5f,
 //                PaletteReducer.barronSpline((float)resY, 0.5f, 0.5f),
@@ -239,8 +240,8 @@ public class RandomPaletteGenerator {
 //                (float)resZ,
 //                PaletteReducer.barronSpline((float) resX, 1.25f, 0.45f),
 //                (float) (PNG8.probit(resX) * 2.0 % 0.5 + 0.5),
-                (float) (PNG8.probit(resY) * sat % 0.5 + 0.5),
-                (float) (PNG8.probit(resZ) * sat % 0.5 + 0.5),
+                (float) (OtherMath.probit(resY) * sat % 0.5 + 0.5),
+                (float) (OtherMath.probit(resZ) * sat % 0.5 + 0.5),
 //                (float) (PNG8.probit(PaletteReducer.barronSpline((float)resY, 1.5f, 0.5f)) * sat + 0.5),
 //                (float) (PNG8.probit(PaletteReducer.barronSpline((float)resZ, 1.5f, 0.5f)) * sat + 0.5),
                 1f);
