@@ -1,6 +1,7 @@
 package com.github.tommyettinger.colorful.ipt;
 
 import com.badlogic.gdx.utils.IntArray;
+import com.github.tommyettinger.anim8.OtherMath;
 import com.github.tommyettinger.anim8.PNG8;
 import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.colorful.internal.StringKit;
@@ -99,8 +100,8 @@ public class SubRandomPaletteGenerator {
             denominator *= 5.0;
         }
         return ColorTools.ipt((float) resX,
-                (float) (PNG8.probit(resY) % 0.5 + 0.5),
-                (float) (PNG8.probit(resZ) % 0.5 + 0.5), 1f);
+                (float) (OtherMath.probit(resY) % 0.5 + 0.5),
+                (float) (OtherMath.probit(resZ) % 0.5 + 0.5), 1f);
     }
     public static float gaussianColor(int index, double sat)
     {
@@ -124,9 +125,9 @@ public class SubRandomPaletteGenerator {
             denominator *= 5.0;
         }
         return ColorTools.ipt(
-                PaletteReducer.barronSpline((float) resX, 1.25f, 0.5f),//(float) (PNG8.probit(resX) * 2.0 % 0.5 + 0.5),
-                (float) (PNG8.probit(resY) * sat + 0.5),
-                (float) (PNG8.probit(resZ) * sat + 0.5), 1f);
+                OtherMath.barronSpline((float) resX, 1.25f, 0.5f),//(float) (PNG8.probit(resX) * 2.0 % 0.5 + 0.5),
+                (float) (OtherMath.probit(resY) * sat + 0.5),
+                (float) (OtherMath.probit(resZ) * sat + 0.5), 1f);
     }
 
 }

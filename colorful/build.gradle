@@ -11,12 +11,18 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 javadoc.destinationDir = file('../docs/colorful/apidocs')
+javadoc.options.source("7")
+((StandardJavadocDocletOptions)javadoc.options).linkSource(true)
+((StandardJavadocDocletOptions)javadoc.options).noTimestamp(true)
+((StandardJavadocDocletOptions)javadoc.options).use(true)
+((StandardJavadocDocletOptions)javadoc.options).bottom("Copyright &#169; Tommy Ettinger 2020-2021. All rights reserved. Are you a copyright lawyer? If so, I want you to think, are you actually helping people, or just wasting their time? Maybe do some pro bono work for a cause that matters?")
+javadoc.setExecutable("${System.env.JAVA_HOME}/bin/javadoc")
 
 dependencies {
     api "com.badlogicgames.gdx:gdx:$gdxVersion"
     testImplementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
     testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-    testImplementation 'com.github.tommyettinger:anim8-gdx:0.2.4'
+    testImplementation 'com.github.tommyettinger:anim8-gdx:0.2.5'
     testImplementation "junit:junit:4.13.1"
 }
 
