@@ -967,7 +967,7 @@ public class ColorTools {
 			p2 = MathUtils.lerp(0, p, progress);
 			t2 = MathUtils.lerp(0, t, progress);
 		}
-		return ipt(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, 1f);
+		return ipt(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, a);
 	}
 
 	/**

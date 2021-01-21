@@ -896,11 +896,11 @@ public class ColorTools {
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
 
-		final float r = reverseGamma(MathUtils.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f));
+		final float r = +4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s;
 		if(r < 0f || r > 1.0f) return false;
-		final float g = reverseGamma(MathUtils.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f));
+		final float g = -1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s;
 		if(g < 0f || g > 1.0f) return false;
-		final float b = reverseGamma(MathUtils.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f));
+		final float b = -0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s;
 		return (b >= 0f && b <= 1.0f);
 	}
 	/**
@@ -918,12 +918,25 @@ public class ColorTools {
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
 
-		final float r = reverseGamma(MathUtils.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f));
-		if(r < 0f || r > 1.0f) return false;
-		final float g = reverseGamma(MathUtils.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f));
-		if(g < 0f || g > 1.0f) return false;
-		final float b = reverseGamma(MathUtils.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f));
-		return (b >= 0f && b <= 1.0f);
+		final float r = +4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s;
+		if(r < 0f || r > 1.0f) {
+			System.out.println("r out of gamut: " + r);
+			return false;
+		}
+//		if(r < 0f || r > 1.0f) return false;
+		final float g = -1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s;
+		if(g < 0f || g > 1.0f) {
+			System.out.println("g out of gamut: " + g);
+			return false;
+		}
+//		if(g < 0f || g > 1.0f) return false;
+		final float b = -0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s;
+		if(b < 0f || b > 1.0f) {
+			System.out.println("b out of gamut: " + b);
+			return false;
+		}
+		return true;
+//		return (b >= 0f && b <= 1.0f);
 	}
 
 	/**
@@ -944,9 +957,9 @@ public class ColorTools {
 			final float m = cube(L2 - 0.1055613458f * A2 - 0.0638541728f * B2);
 			final float s = cube(L2 - 0.0894841775f * A2 - 1.2914855480f * B2);
 
-			final float r = reverseGamma(MathUtils.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f));
-			final float g = reverseGamma(MathUtils.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f));
-			final float b = reverseGamma(MathUtils.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f));
+			final float r = +4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s;
+			final float g = -1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s;
+			final float b = -0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s;
 			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
 				break;
 			final float progress = attempt * 0x1p-5f;
@@ -980,26 +993,26 @@ public class ColorTools {
 	 * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
 	 */
 	public static float limitToGamut(float L, float A, float B, float alpha) {
-		float i2 = L = MathUtils.clamp(L, 0f, 1f);
-		float p2 = A = MathUtils.clamp((A - 0.5f) * 2f, -1f, 1f);
-		float t2 = B = MathUtils.clamp((B - 0.5f) * 2f, -1f, 1f);
+		float L2 = L = MathUtils.clamp(L, 0f, 1f);
+		float A2 = A = MathUtils.clamp((A - 0.5f) * 2f, -1f, 1f);
+		float B2 = B = MathUtils.clamp((B - 0.5f) * 2f, -1f, 1f);
 		alpha = MathUtils.clamp(alpha, 0f, 1f);
 		for (int attempt = 31; attempt >= 0; attempt--) {
-			final float l = cube(i2 + 0.097569f * p2 + 0.205226f * t2);
-			final float m = cube(i2 + -0.11388f * p2 + 0.133217f * t2);
-			final float s = cube(i2 + 0.032615f * p2 + -0.67689f * t2);
+			final float l = cube(L2 + 0.3963377774f * A2 + 0.2158037573f * B2);
+			final float m = cube(L2 - 0.1055613458f * A2 - 0.0638541728f * B2);
+			final float s = cube(L2 - 0.0894841775f * A2 - 1.2914855480f * B2);
 
-			final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;
-			final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;
-			final float b = 0.028104f * l + -0.19466f * m + 1.166325f * s;
+			final float r = +4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s;
+			final float g = -1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s;
+			final float b = -0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s;
 			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
 				break;
 			final float progress = attempt * 0x1p-5f;
-			i2 = MathUtils.lerp(0.55f, L, progress);
-			p2 = MathUtils.lerp(0, A, progress);
-			t2 = MathUtils.lerp(0, B, progress);
+			L2 = MathUtils.lerp(0.55f, L, progress);
+			A2 = MathUtils.lerp(0, A, progress);
+			B2 = MathUtils.lerp(0, B, progress);
 		}
-		return oklab(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, 1f);
+		return oklab(L2, A2 * 0.5f + 0.5f, B2 * 0.5f + 0.5f, alpha);
 	}
 
 	/**
