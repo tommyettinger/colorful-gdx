@@ -30,8 +30,8 @@ public class ColorTools {
 	 * grayscale results when both are about 0.5. There's some aesthetic value in changing just one chroma value. When
 	 * protan is high and tritan is low, the color is more purple/magenta, when both are low it is more bluish, when
 	 * tritan is high and protan is low, the color tends to be greenish, and when both are high it tends to be orange.
-	 * When warm and mild are both near 0.5f, the color is closer to gray.  Alpha is the multiplicative opacity of the
-	 * color, and acts like RGBA's alpha.
+	 * When protan and tritan are both near 0.5f, the color is closer to gray.  Alpha is the multiplicative opacity of
+	 * the color, and acts like RGBA's alpha.
 	 * <br>
 	 * This method bit-masks the resulting color's byte values, so any values can technically be given to this as
 	 * intensity, protan, and tritan, but they will only be reversible from the returned float color to the original I,
@@ -635,8 +635,8 @@ public class ColorTools {
 	/**
 	 * Brings the chromatic components of {@code start} closer to grayscale by {@code change} (desaturating them). While
 	 * change should be between 0f (return start as-is) and 1f (return fully gray), start should be a packed color, as
-	 * from {@link #ipt(float, float, float, float)}. This only changes Cw and Cm; it leaves Y and alpha alone, unlike
-	 * {@link #lessenChange(float, float)}, which usually changes Y.
+	 * from {@link #ipt(float, float, float, float)}. This only changes protan and tritan; it leaves intensity and alpha
+	 * alone, unlike {@link #lessenChange(float, float)}, which usually changes intensity.
 	 * @see #enrich(float, float) the counterpart method that makes a float color more saturated
 	 * @param start the starting color as a packed float
 	 * @param change how much to change start to a desaturated color, as a float between 0 and 1; higher means a less saturated result
@@ -653,10 +653,10 @@ public class ColorTools {
 	/**
 	 * Pushes the chromatic components of {@code start} away from grayscale by change (saturating them). While change
 	 * should be between 0f (return start as-is) and 1f (return maximally saturated), start should be a packed color, as
-	 * from {@link #ipt(float, float, float, float)}. This usually changes only Cw and Cm, but higher values for
+	 * from {@link #ipt(float, float, float, float)}. This usually changes only protan and tritan, but higher values for
 	 * {@code change} can force the color out of the gamut, which this corrects using
-	 * {@link #limitToGamut(float, float, float, float)} (and that can change Y somewhat). If the color stays in-gamut,
-	 * then Y won't change; alpha never changes.
+	 * {@link #limitToGamut(float, float, float, float)} (and that can change intensity somewhat). If the color stays
+	 * in-gamut, then intensity won't change; alpha never changes.
 	 * @see #dullen(float, float) the counterpart method that makes a float color less saturated
 	 * @param start the starting color as a packed float
 	 * @param change how much to change start to a saturated color, as a float between 0 and 1; higher means a more saturated result

@@ -9,5 +9,14 @@
  * <a href="https://tommyettinger.github.io/colorful-gdx/ColorTableValueIPT_HQ.html">IPT_HQ here</a>). You can use the
  * {@link com.github.tommyettinger.colorful.ipt IPT package} if your usage doesn't need the higher quality and can
  * benefit from a fast approximation of IPT.
+ * <br>
+ * This also supports color descriptions via the {@link com.github.tommyettinger.colorful.ipt_hq.SimplePalette} class.
+ * These allow using Strings to describe colors by mixing base pigments and applying transformations to them.
+ * <br>
+ * <ul>
+ * <li><a href="https://tommyettinger.github.io/colorful-gdx/ColorTableValueIPT_HQ.html">Palette by value</a></li>
+ * <li><a href="https://tommyettinger.github.io/colorful-gdx/ColorTableHueIPT_HQ.html">Palette by hue</a></li>
+ * <li><a href="https://tommyettinger.github.io/colorful-gdx/ColorTableIPT_HQ.html">Palette by name</a></li>
+ * </ul>
  */
 package com.github.tommyettinger.colorful.ipt_hq;

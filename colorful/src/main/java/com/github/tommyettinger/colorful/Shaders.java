@@ -274,7 +274,9 @@ public class Shaders {
                     "{\n" +
                     "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                     "    vec3 ipt = (mat3(0.189786, 0.669665 , 0.286498, 0.576951, -0.73741 , 0.655205, 0.233221, 0.0681367, -0.941748)\n" +
-                    "         * (tgt.rgb)) + v_color.rgb - 0.5;\n" +
+                    "         * (tgt.rgb)) + v_color.xyz - 0.5;\n" +
+                    "    ipt.x = clamp(ipt.x, 0.0, 1.0);\n" +
+                    "    ipt.yz = clamp(ipt.yz, -1.0, 1.0);\n" +
                     "    vec3 back = mat3(0.999779, 1.00015, 0.999769, 1.07094, -0.377744, 0.0629496, 0.324891, 0.220439, -0.809638) * ipt;\n" +
                     "    gl_FragColor = vec4(clamp(back, 0.0, 1.0), v_color.a * tgt.a);\n" +
                     "}";
@@ -302,9 +304,8 @@ public class Shaders {
                     "  vec3 ipt = mat3(0.40000, 4.45500, 0.80560, 0.40000, -4.8510, 0.35720, 0.20000, 0.39600, -1.1628) *" +
                     "             pow(mat3(0.313921, 0.151693, 0.017753, 0.639468, 0.748209, 0.109468, 0.0465970, 0.1000044, 0.8729690) \n" +
                     "             * (tgt.rgb * tgt.rgb), forward);\n" +
-//                    "  ipt = ipt + v_color.rgb - 0.5;\n" +
-                    "  ipt.x = clamp(ipt.x + v_color.r - 0.55, 0.0, 1.0);\n" +
-                    "  ipt.yz = clamp(ipt.yz + v_color.gb - 0.5, -1.0, 1.0);\n" +
+                    "  ipt.x = clamp(ipt.x + v_color.x - 0.55, 0.0, 1.0);\n" +
+                    "  ipt.yz = clamp(ipt.yz + v_color.yz - 0.5, -1.0, 1.0);\n" +
                     "  ipt = mat3(1.0, 1.0, 1.0, 0.097569, -0.11388, 0.032615, 0.205226, 0.133217, -0.67689) * ipt;\n" +
                     "  gl_FragColor = vec4(sqrt(clamp(" +
                     "                 mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) *\n" +
