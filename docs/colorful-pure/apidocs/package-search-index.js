@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.github.tommyettinger.colorful.pure"},{"l":"com.github.tommyettinger.colorful.pure.ipt"},{"l":"com.github.tommyettinger.colorful.pure.ipt_hq"},{"l":"com.github.tommyettinger.colorful.pure.rgb"},{"l":"com.github.tommyettinger.colorful.pure.ycwcm"}];updateSearchResults();

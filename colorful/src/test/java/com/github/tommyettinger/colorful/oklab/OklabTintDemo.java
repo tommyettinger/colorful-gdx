@@ -100,7 +100,7 @@ public class OklabTintDemo extends ApplicationAdapter {
         batch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) {
             batch.setShader(shader);
-            batch.setColor(L, A, B, opacity);
+            batch.setColor(L=MathUtils.clamp(L, 0f, 1f), A=MathUtils.clamp(A, 0f, 1f), B=MathUtils.clamp(B, 0f, 1f), opacity);
             batch.begin();
             batch.draw(screenTexture, 0, 0);
             batch.setShader(defaultShader);
@@ -142,22 +142,28 @@ public class OklabTintDemo extends ApplicationAdapter {
             lastProcessedTime = TimeUtils.millis();
             if (input.isKeyPressed(Input.Keys.L)) //light
             {
-                if (ColorTools.inGamut(L + 0x3p-7f, A, B)) L += 0x3p-7f;
+//                if (ColorTools.inGamut(L + 0x3p-7f, A, B))
+                    L += 0x3p-7f;
             } else if (input.isKeyPressed(Input.Keys.D)) //dark
             {
-                if (ColorTools.inGamut(L - 0x3p-7f, A, B)) L -= 0x3p-7f;
+//                if (ColorTools.inGamut(L - 0x3p-7f, A, B))
+                    L -= 0x3p-7f;
             } else if (input.isKeyPressed(Input.Keys.RIGHT)) //raise A
             {
-                if (ColorTools.inGamut(L, A + 0x3p-7f, B)) A += 0x3p-7f;
+//                if (ColorTools.inGamut(L, A + 0x3p-7f, B))
+                    A += 0x3p-7f;
             } else if (input.isKeyPressed(Input.Keys.LEFT)) //lower A
             {
-                if (ColorTools.inGamut(L, A - 0x3p-7f, B)) A -= 0x3p-7f;
+//                if (ColorTools.inGamut(L, A - 0x3p-7f, B))
+                    A -= 0x3p-7f;
             } else if (input.isKeyPressed(Input.Keys.UP)) //raise B
             {
-                if (ColorTools.inGamut(L, A, B + 0x3p-7f)) B += 0x3p-7f;
+//                if (ColorTools.inGamut(L, A, B + 0x3p-7f))
+                    B += 0x3p-7f;
             } else if (input.isKeyPressed(Input.Keys.DOWN)) //lower B
             {
-                if (ColorTools.inGamut(L, A, B - 0x3p-7f)) B -= 0x3p-7f;
+//                if (ColorTools.inGamut(L, A, B - 0x3p-7f))
+                    B -= 0x3p-7f;
             } else if (input.isKeyPressed(Input.Keys.R)) // reset
             {
                 L = 0.5f;
