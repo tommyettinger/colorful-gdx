@@ -210,12 +210,12 @@ Using the Maven Central dependency is recommended, and Gradle and Maven can both
 
 Gradle dependency (`implementation` should be changed to `api` if any other dependencies use `api`):
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.4.1'
+implementation 'com.github.tommyettinger:colorful:0.4.2'
 ```
 
 Gradle dependency if also using GWT to make an HTML application:
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.4.1:sources'
+implementation 'com.github.tommyettinger:colorful:0.4.2:sources'
 ```
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
 ```xml
@@ -227,7 +227,7 @@ If you don't use Gradle, here's the Maven dependency:
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful</artifactId>
-  <version>0.4.1</version>
+  <version>0.4.2</version>
 </dependency>
 ```
 
@@ -235,12 +235,12 @@ Using colorful-pure is similar:
 
 Gradle dependency (`implementation` should be changed to `api` if any other dependencies use `api`):
 ```groovy
-implementation 'com.github.tommyettinger:colorful-pure:0.4.1'
+implementation 'com.github.tommyettinger:colorful-pure:0.4.2'
 ```
 
 Gradle dependency if also using GWT to make an HTML application:
 ```groovy
-implementation 'com.github.tommyettinger:colorful-pure:0.4.1:sources'
+implementation 'com.github.tommyettinger:colorful-pure:0.4.2:sources'
 ```
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
 ```xml
@@ -252,8 +252,8 @@ If you don't use Gradle, here's the Maven dependency:
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful-pure</artifactId>
-  <version>0.4.1</version>
+  <version>0.4.2</version>
 </dependency>
 ```
 
-If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.4.1).
+If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.4.2).
