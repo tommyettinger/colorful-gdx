@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.NumberUtils;
 
+import java.nio.Buffer;
+
 /**
  * A substitute for {@link com.badlogic.gdx.graphics.g2d.SpriteBatch} that adds an additional attribute to store an
  * extra color's worth of channels, used to modify the RGB channels of a color by multiplication (called the "tweak")
@@ -1188,6 +1190,7 @@ public class ColorfulBatch implements Batch {
         this.idx = idx + 24;
     }
 
+    @SuppressWarnings("RedundantCast") // These casts are absolutely not redundant! Java 9 changed Buffer ABI.
     @Override
     public void flush () {
         if (idx == 0) return;
@@ -1201,8 +1204,8 @@ public class ColorfulBatch implements Batch {
         lastTexture.bind();
         Mesh mesh = this.mesh;
         mesh.setVertices(vertices, 0, idx);
-        mesh.getIndicesBuffer().position(0);
-        mesh.getIndicesBuffer().limit(count);
+        ((Buffer)mesh.getIndicesBuffer()).position(0);
+        ((Buffer)mesh.getIndicesBuffer()).limit(count);
 
         if (blendingDisabled) {
             Gdx.gl.glDisable(GL20.GL_BLEND);
