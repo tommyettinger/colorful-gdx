@@ -6,5 +6,11 @@
  * easily than lower values with the same saturation) channels. This color space is simple to calculate, and the
  * presence of both luma and chromatic warmth gives some aesthetic freedom in tinting colors, but its luma calculation
  * isn't as good as {@link com.github.tommyettinger.colorful.pure.ipt_hq IPT_HQ}'s intensity.
+ * <br>
+ * <ul>
+ * <li><a href="https://tommyettinger.github.io/colorful-gdx/ColorTableValueYCwCm.html">Palette by value</a></li>
+ * <li><a href="https://tommyettinger.github.io/colorful-gdx/ColorTableHueYCwCm.html">Palette by hue</a></li>
+ * <li><a href="https://tommyettinger.github.io/colorful-gdx/ColorTableYCwCm.html">Palette by name</a></li>
+ * </ul>
  */
 package com.github.tommyettinger.colorful.pure.ycwcm;

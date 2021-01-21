@@ -11,9 +11,15 @@
  * benefit from a fast approximation of IPT.
  * <br>
  * This package is unique in that it has the {@link com.github.tommyettinger.colorful.pure.ipt_hq.SimplePalette} class,
- * which offers a method to describe colors by way of analogy, and that humans can read and write
- * ({@link com.github.tommyettinger.colorful.pure.ipt_hq.SimplePalette#parseDescription(java.lang.String)}). IPT_HQ was
- * chosen for SimplePalette because mixing predefined colors is much more accurate and intuitive with this type of IPT
- * than with, say, RGB or YCwCm.
+ * which offers a method to describe colors by mixing named pigments and applying adjustments, using human-friendly
+ * syntax ({@link com.github.tommyettinger.colorful.pure.ipt_hq.SimplePalette#parseDescription(java.lang.String)}).
+ * IPT_HQ was chosen for SimplePalette because mixing predefined colors is much more accurate and intuitive with this
+ * type of IPT than with, say, RGB or YCwCm.
+ * <br>
+ * <ul>
+ * <li><a href="https://tommyettinger.github.io/colorful-gdx/ColorTableValueIPT_HQ.html">Palette by value</a></li>
+ * <li><a href="https://tommyettinger.github.io/colorful-gdx/ColorTableHueIPT_HQ.html">Palette by hue</a></li>
+ * <li><a href="https://tommyettinger.github.io/colorful-gdx/ColorTableIPT_HQ.html">Palette by name</a></li>
+ * </ul>
  */
 package com.github.tommyettinger.colorful.pure.ipt_hq;
