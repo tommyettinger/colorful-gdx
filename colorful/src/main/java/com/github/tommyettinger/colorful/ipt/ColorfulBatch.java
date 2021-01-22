@@ -15,7 +15,7 @@ import java.nio.Buffer;
 /**
  * A substitute for {@link com.badlogic.gdx.graphics.g2d.SpriteBatch} that adds an additional attribute to store an
  * extra color's worth of channels, used to modify the intensity and chromatic channels of a color by multiplication
- * (calle the "tweak") while the primary color affects the color additively (just called the color, often drawn from
+ * (called the "tweak") while the primary color affects the color additively (just called the color, often drawn from
  * {@link Palette} or generated with {@link ColorTools}). This ColorfulBatch uses the IPT color space where SpriteBatch
  * normally uses RGBA, which means that in the batch color, r maps to additive intensity, g maps to additive protan, b
  * maps to additive tritan, and a maps to multiplicative alpha. Additive values cause no change when they are 0.5, but
