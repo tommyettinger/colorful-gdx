@@ -1,4 +1,4 @@
-package com.github.tommyettinger.colorful.ipt_hq;
+package com.github.tommyettinger.colorful.oklab;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
@@ -14,25 +14,22 @@ import java.nio.Buffer;
 
 /**
  * A substitute for {@link com.badlogic.gdx.graphics.g2d.SpriteBatch} that adds an additional attribute to store an
- * extra color's worth of channels, used to modify the intensity and chromatic channels of a color by multiplication
- * (called the "tweak") while the primary color affects the color additively (just called the color, often drawn from
- * {@link Palette} or generated with {@link ColorTools}). This ColorfulBatch uses the IPT (HQ) color space where
- * SpriteBatch normally uses RGBA, which means that in the batch color, r maps to additive intensity, g maps to additive
- * protan, b maps to additive tritan, and a maps to multiplicative alpha. Additive values cause no change when they are
- * 0.5, but cause a sharp increase at 1.0 and a sharp decrease at 0.0. In the tweak, r maps to multiplicative intensity,
- * g maps to multiplicative protan, b maps to multiplicative tritan, and a maps to "exponential-like" contrast. Like
- * with the additive values, 0.5 causes no change for multiplicative values, but you can think of the existing color as
- * being temporarily shifted down by 0.5 for each of the IPT channels, so each IPT channel's range is -0.5 to 0.5 before
- * being multiplied by the corresponding tweak value (times 2.0, which means multiplicative tweak values less than 0.5
- * make colors closer to grayscale and values greater than 0.5 make colors more vibrant) and then shifted back to its
- * prior range. Contrast is a special value; 0.5 still means "no change," but lower values will make intensity changes
- * less distinct between similar colors, while higher values will "sharpen" the changes in intensity.
+ * extra color's worth of channels, used to modify the L, A, and B channels of a color by multiplication (called the
+ * "tweak") while the primary color affects the color additively (just called the color, often drawn from
+ * {@link Palette} or generated with {@link ColorTools}). This ColorfulBatch uses the Oklab color space where
+ * SpriteBatch normally uses RGBA, which means that in the batch color, red maps to additive L (lightness), green maps
+ * to additive A (green-to-red), blue maps to additive B (violet-to-yellow), and alpha continues to be multiplicative
+ * alpha. Additive values cause no change when they are 0.5, but cause a sharp increase at 1.0 and a sharp decrease at
+ * 0.0. In the tweak, red maps to multiplicative L, green maps to multiplicative A, blue maps to multiplicative B, and
+ * alpha maps to "exponential-like" contrast. Like with the additive values, 0.5 causes no change for multiplicative
+ * values, but you can think of the existing color as being temporarily shifted down by 0.5 for each of the LAB
+ * channels, so each LAB channel's range is -0.5 to 0.5 before being multiplied by the corresponding tweak value (times
+ * 2.0, which means multiplicative tweak values for A and B that are less than 0.5 make colors closer to grayscale and
+ * values greater than 0.5 make colors more vibrant) and then shifted back to its prior range. Contrast is a special
+ * value; 0.5 still means "no change," but lower values will make L changes less distinct between similar colors, while
+ * higher values will "sharpen" the changes in L.
  * <br>
- * This is different from the {@link com.github.tommyettinger.colorful.ipt.ColorfulBatch} class in the ipt package; this
- * class gamma-corrects colors (with a gamma of 2.0 for simplicity's sake) and uses a power of 0.43 or 1.0/0.43 for some
- * operations internally whereas the non-HQ version doesn't use any exponentiation. The HQ is short for High Quality.
- * <br>
- * Created by Tommy Ettinger on 12/14/2019.
+ * Created by Tommy Ettinger on 1/21/2021.
  */
 public class ColorfulBatch implements Batch {
     public static final int SPRITE_SIZE = 24;
@@ -62,14 +59,14 @@ public class ColorfulBatch implements Batch {
     private boolean ownsShader;
 
     protected float color = Palette.GRAY;
-    private final Color tempColor = new Color(0.5f, 0.5f, 0.5f, 1f);
+    private final Color tempColor = new Color(0.6313726f, 0.5019608f, 0.49803922f, 1f); // LAB from Palette.GRAY
 
     /**
      * A constant packed float that can be assigned to this ColorfulBatch's tweak with {@link #setTweak(float)} to make
      * all of the tweak adjustments virtually imperceptible. When this is set as the tweak, it won't change the
-     * intensity multiplier or intensity contrast, and it won't change either chromatic value multiplier.
+     * L multiplier or contrast, and it won't change the A multiplier or the B multiplier.
      */
-    public static final float TWEAK_RESET = ColorTools.ipt(0.5f, 0.5f, 0.5f, 0.5f);
+    public static final float TWEAK_RESET = ColorTools.oklab(0.5f, 0.5f, 0.5f, 0.5f);
     protected float tweak = TWEAK_RESET;
 
     /** Number of render calls since the last {@link #begin()}. **/
@@ -152,10 +149,10 @@ public class ColorfulBatch implements Batch {
                 + "void main()\n"
                 + "{\n"
                 + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
-                + "   v_color.a = v_color.a * (255.0/254.0);\n"
+                + "   v_color.w = v_color.w * (255.0/254.0);\n"
                 + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
-                + "   v_tweak.a = pow(v_tweak.a * (255.0/254.0) + 0.5, 1.709);\n"
-                + "   v_lightFix = 1.0 + pow(v_tweak.a, 1.41421356);\n"
+                + "   v_tweak.w = pow(v_tweak.w * (255.0/254.0) + 0.5, 1.709);\n"
+                + "   v_lightFix = 1.0 + pow(v_tweak.w, 1.41421356);\n"
                 + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
                 + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
                 + "}\n";
@@ -171,20 +168,19 @@ public class ColorfulBatch implements Batch {
                         "varying LOWP vec4 v_tweak;\n" +
                         "varying float v_lightFix;\n" +
                         "uniform sampler2D u_texture;\n" +
-                        "const vec3 forward = vec3(0.43);\n" +
-                        "const vec3 reverse = vec3(1.0 / 0.43);\n" +
+                        "const vec3 forward = vec3(1.0 / 3.0);\n" +
                         "void main()\n" +
                         "{\n" +
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "  vec3 ipt = mat3(0.40000, 4.45500, 0.80560, 0.40000, -4.8510, 0.35720, 0.20000, 0.39600, -1.1628) *" +
-                        "             pow(mat3(0.313921f, 0.151693f, 0.017753f, 0.639468f, 0.748209f, 0.109468f, 0.0465970f, 0.1000044f, 0.8729690f) \n" +
+                        "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +
+                        "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +
                         "             * (tgt.rgb * tgt.rgb), forward);\n" +
-                        "  ipt.x = clamp(pow(ipt.x, v_tweak.a) * v_lightFix * v_tweak.r + v_color.r - 0.55, 0.0, 1.0);\n" +
-                        "  ipt.yz = clamp((ipt.yz * v_tweak.gb + v_color.gb - 0.5) * 2.0, -1.0, 1.0);\n" +
-                        "  ipt = mat3(1.0, 1.0, 1.0, 0.097569, -0.11388, 0.032615, 0.205226, 0.133217, -0.67689) * ipt;\n" +
+                        "  lab.x = clamp(pow(lab.x, v_tweak.w) * v_lightFix * v_tweak.x + v_color.x - 0.63, 0.0, 1.0);\n" +
+                        "  lab.yz = clamp((lab.yz * v_tweak.yz + v_color.yz - 0.5) * 2.0, -1.0, 1.0);\n" +
+                        "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +
                         "  gl_FragColor = vec4(sqrt(clamp(" +
-                        "                 mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) *\n" +
-                        "                 (sign(ipt) * pow(abs(ipt), reverse))," +
+                        "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +
+                        "                 (lab * lab * lab)," +
                         "                 0.0, 1.0)), v_color.a * tgt.a);\n" +
                         "}";
 
@@ -227,18 +223,18 @@ public class ColorfulBatch implements Batch {
     }
 
     /**
-     * Sets the color to the result of {@link ColorTools#ipt(float, float, float, float)} on the same arguments.
-     * For the IPT parameters, 0.5f is a neutral value (causing no change), while for alpha, 1.0f is a neutral
-     * value. For IPT, higher values will add to the corresponding channel, while lower values will subtract from it.
-     * @see ColorTools#ipt(float, float, float, float) 
-     * @param intensity like lightness; additive; ranges from 0 (black) to 1 (white)
-     * @param protan cool-to-warm, roughly; additive; ranges from 0 (green/cyan/blue) to 1 (orange/red/purple)
-     * @param tritan artificial-to-natural, very roughly; additive; ranges from 0 (blue/purple) to 1 (green/yellow/orange)
+     * Sets the color to the result of {@link ColorTools#oklab(float, float, float, float)} on the same arguments.
+     * For the L/A/B parameters, 0.5f is a neutral value (causing no change), while for alpha, 1.0f is a neutral
+     * value. For L/A/B, higher values will add to the corresponding channel, while lower values will subtract from it.
+     * @see ColorTools#oklab(float, float, float, float)
+     * @param L like lightness; additive; ranges from 0 (black) to 1 (white)
+     * @param A cool-to-warm, roughly; additive; ranges from 0 (green/cyan/blue) to 1 (orange/red/purple)
+     * @param B artificial-to-natural, very roughly; additive; ranges from 0 (blue/purple) to 1 (green/yellow/orange)
      * @param alpha opacity, from 0 to 1; multiplicative
      */
     @Override
-    public void setColor (float intensity, float protan, float tritan, float alpha) {
-        color = ColorTools.ipt(intensity, protan, tritan, alpha);
+    public void setColor (float L, float A, float B, float alpha) {
+        color = ColorTools.oklab(L, A, B, alpha);
     }
 
     public void setColor (final float color) {
@@ -250,18 +246,18 @@ public class ColorfulBatch implements Batch {
     }
 
     /**
-     * Sets the color with the given IPT and A parameters from 0 to 255.
-     * For the IPT parameters, 127 or 128 is a neutral value (causing no change), while for alpha, 255 is a neutral
-     * value. For IPT, higher values will add to the corresponding channel, while lower values will subtract from it.
-     * @see ColorTools#ipt(float, float, float, float) 
-     * @param intensity like lightness; additive; ranges from 0 (black) to 255 (white)
-     * @param protan cool-to-warm, roughly; additive; ranges from 0 (green/cyan/blue) to 255 (orange/red/purple)
-     * @param tritan artificial-to-natural, very roughly; additive; ranges from 0 (blue/purple) to 255 (green/yellow/orange)
+     * Sets the color with the given L/A/B and A parameters from 0 to 255.
+     * For the L/A/B parameters, 127 or 128 is a neutral value (causing no change), while for alpha, 255 is a neutral
+     * value. For L/A/B, higher values will add to the corresponding channel, while lower values will subtract from it.
+     * @see ColorTools#oklab(float, float, float, float)
+     * @param L like lightness; additive; ranges from 0 (black) to 255 (white)
+     * @param A cool-to-warm, roughly; additive; ranges from 0 (green/cyan/blue) to 255 (orange/red/purple)
+     * @param B artificial-to-natural, very roughly; additive; ranges from 0 (blue/purple) to 255 (green/yellow/orange)
      * @param alpha opacity, from 0 to 255 (254 is equivalent, since the lowest bit is discarded); multiplicative
      */
-    public void setIntColor(int intensity, int protan, int tritan, int alpha) {
+    public void setIntColor(int L, int A, int B, int alpha) {
         color = NumberUtils.intBitsToFloat((alpha << 24 & 0xFE000000)
-                | (tritan << 16 & 0xFF0000) | (protan << 8 & 0xFF00) | (intensity & 0xFF));
+                | (B << 16 & 0xFF0000) | (A << 8 & 0xFF00) | (L & 0xFF));
     }
 
     @Override
@@ -288,13 +284,13 @@ public class ColorfulBatch implements Batch {
     /**
      * Sets the multiplicative and contrast parts of the shader's color changes. 0.5 is a neutral value that should have
      * minimal effect on the image; using {@code (0.5f, 0.5f, 0.5f, 0.5f)} will effectively remove the tweak.
-     * @param intensity like lightness; multiplicative; ranges from 0 (black) to 1 (white)
-     * @param protan cool-to-warm, roughly; multiplicative; ranges from 0 (green and red are removed) to 1 (green-ness or red-ness is emphasized)
-     * @param tritan artificial-to-natural, very roughly; multiplicative; ranges from 0 (blue and yellow are removed) to 1 (blue-ness or yellow-ness is emphasized)
+     * @param L like lightness; multiplicative; ranges from 0 (sets lightness to 0) to 1 (doubles lightness)
+     * @param A cool-to-warm, roughly; multiplicative; ranges from 0 (green and red are removed) to 1 (green-ness or red-ness is emphasized)
+     * @param B artificial-to-natural, very roughly; multiplicative; ranges from 0 (blue and yellow are removed) to 1 (blue-ness or yellow-ness is emphasized)
      * @param contrast affects how lightness changes; ranges from 0 (low contrast, cloudy look) to 1 (high contrast, sharpened look) 
      */
-    public void setTweak (float intensity, float protan, float tritan, float contrast) {
-        tweak = ColorTools.ipt(intensity, protan, tritan, contrast);
+    public void setTweak (float L, float A, float B, float contrast) {
+        tweak = ColorTools.oklab(L, A, B, contrast);
     }
 
     public void setTweak (final float tweak) {
@@ -306,12 +302,12 @@ public class ColorfulBatch implements Batch {
     }
 
     /**
-     * Takes the tweak as an int in the format: intensity (8 bits), protan (8 bits), tritan (8 bits), contrast (7 bits),
-     * (1 ignored bit at the end). An example would be 0x7820206E, which slightly darkens (with intensity 0x78, slightly
-     * below the halfway point of 0x80), significantly reduces colorfulness with protan and tritan multipliers of 0x20
+     * Takes the tweak as an int in the format: L (8 bits), A (8 bits), B (8 bits), contrast (7 bits),
+     * (1 ignored bit at the end). An example would be 0x7820206E, which slightly darkens (with L 0x78, slightly
+     * below the halfway point of 0x80), significantly reduces colorfulness with A and B multipliers of 0x20
      * (closer to 0, so most colors will be almost grayscale), and slightly reduces contrast (with contrast and the
      * ignored bit as 0x6E, which is less than the halfway point).
-     * @param tweak the tweak to use as an integer, with intensity in the most significant bits and contrast in least
+     * @param tweak the tweak to use as an integer, with L in the most significant bits and contrast in least
      */
     public void setIntTweak(final int tweak) {
         this.tweak = NumberUtils.intBitsToFloat(Integer.reverseBytes(tweak & -2));
@@ -320,19 +316,19 @@ public class ColorfulBatch implements Batch {
     /**
      * Sets the multiplicative and contrast parts of the shader's color changes. 127 is a neutral value that should have
      * minimal effect on the image; using {@code (127, 127, 127, 127)} will effectively remove the tweak.
-     * @param intensity like lightness; multiplicative; ranges from 0 (black) to 255 (white)
-     * @param protan cool-to-warm, roughly; multiplicative; ranges from 0 (green and red are removed) to 255 (green-ness or red-ness is emphasized)
-     * @param tritan artificial-to-natural, very roughly; multiplicative; ranges from 0 (blue and yellow are removed) to 255 (blue-ness or yellow-ness is emphasized)
+     * @param L like lightness; multiplicative; ranges from 0 (black) to 255 (white)
+     * @param A cool-to-warm, roughly; multiplicative; ranges from 0 (green and red are removed) to 255 (green-ness or red-ness is emphasized)
+     * @param B artificial-to-natural, very roughly; multiplicative; ranges from 0 (blue and yellow are removed) to 255 (blue-ness or yellow-ness is emphasized)
      * @param contrast affects how lightness changes; ranges from 0 (low contrast, cloudy look) to 255 (high contrast, sharpened look) 
      */
-    public void setIntTweak(int intensity, int protan, int tritan, int contrast) {
+    public void setIntTweak(int L, int A, int B, int contrast) {
         tweak = NumberUtils.intBitsToFloat((contrast << 24 & 0xFE000000)
-                | (tritan << 16 & 0xFF0000) | (protan << 8 & 0xFF00) | (intensity & 0xFF));
+                | (B << 16 & 0xFF0000) | (A << 8 & 0xFF00) | (L & 0xFF));
     }
 
     /**
      * A convenience method that sets both the color (with {@link #setColor(float)}) and the tweak (with
-     * {@link #setTweak(float)}) at the same time.
+     * {@link #setTweak(float)}) at the same time, using two packed floats.
      * @param color the additive components and alpha, as a packed float
      * @param tweak the multiplicative components and contrast, as a packed float
      */
@@ -344,21 +340,21 @@ public class ColorfulBatch implements Batch {
     /**
      * A convenience method that sets both the color (with {@link #setColor(float, float, float, float)}) and the tweak
      * (with {@link #setTweak(float, float, float, float)}) at the same time.
-     * @param intensityAdd like lightness; additive; ranges from 0 (black) to 1 (white)
-     * @param protanAdd cool-to-warm, roughly; additive; ranges from 0 (green/cyan/blue) to 1 (orange/red/purple)
-     * @param tritanAdd artificial-to-natural, very roughly; additive; ranges from 0 (blue/purple) to 1 (green/yellow/orange)
-     * @param alphaMul opacity, from 0 to 1; multiplicative
-     * @param intensityMul like lightness; multiplicative; ranges from 0 (black) to 1 (white)
-     * @param protanMul cool-to-warm, roughly; multiplicative; ranges from 0 (green/cyan/blue) to 1 (orange/red/purple)
-     * @param tritanMul artificial-to-natural, very roughly; multiplicative; ranges from 0 (blue/purple) to 1 (green/yellow/orange)
+     * @param addL like lightness; additive; ranges from 0 (black) to 1 (white)
+     * @param addA cool-to-warm, roughly; additive; ranges from 0 (green/cyan/blue) to 1 (orange/red/purple)
+     * @param addB artificial-to-natural, very roughly; additive; ranges from 0 (blue/purple) to 1 (green/yellow/orange)
+     * @param mulAlpha opacity, from 0 to 1; multiplicative
+     * @param mulL like lightness; multiplicative; ranges from 0 (sets all L to 0) to 1 (doubles the image's L)
+     * @param mulA cool-to-warm, roughly; multiplicative; ranges from 0 (green/cyan/blue) to 1 (orange/red/purple)
+     * @param mulB artificial-to-natural, very roughly; multiplicative; ranges from 0 (blue/purple) to 1 (green/yellow/orange)
      * @param contrast foggy-to-sharp lightness contrast; affects most other components; ranges from 0 (flat, foggy lightness) to 1 (sharp, crisp lightness)
      */
-    public void setTweakedColor(final float intensityAdd, final float protanAdd,
-                                final float tritanAdd, final float alphaMul,
-                                final float intensityMul, final float protanMul,
-                                final float tritanMul, final float contrast) {
-        setColor(intensityAdd, protanAdd, tritanAdd, alphaMul);
-        setTweak(intensityMul, protanMul, tritanMul, contrast);
+    public void setTweakedColor(final float addL, final float addA,
+                                final float addB, final float mulAlpha,
+                                final float mulL, final float mulA,
+                                final float mulB, final float contrast) {
+        setColor(addL, addA, addB, mulAlpha);
+        setTweak(mulL, mulA, mulB, contrast);
     }
 
     @Override
