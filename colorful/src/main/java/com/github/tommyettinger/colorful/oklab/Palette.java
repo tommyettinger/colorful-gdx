@@ -3,12 +3,8 @@ package com.github.tommyettinger.colorful.oklab;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.ObjectFloatMap;
-import com.github.tommyettinger.colorful.oklab.ColorTools;
 
 import java.util.Comparator;
-
-import static com.github.tommyettinger.colorful.oklab.ColorTools.hue;
-import static com.github.tommyettinger.colorful.oklab.ColorTools.channelL;
 
 /**
  * A palette of predefined colors as packed IPT floats, the kind {@link ColorTools} works with.
@@ -3117,12 +3113,24 @@ public class Palette {
     static {
         NAMES_BY_HUE.sort(new Comparator<String>() {
             public int compare(String o1, String o2) {
-                return Float.compare(hue(NAMED.get(o1, TRANSPARENT)), hue(NAMED.get(o2, TRANSPARENT)));
+                final float c1 = NAMED.get(o1, TRANSPARENT), c2 = NAMED.get(o2, TRANSPARENT);
+                if(ColorTools.alphaInt(c1) < 128) return -10000;
+                else if(ColorTools.alphaInt(c2) < 128) return 10000;
+                final float s1 = ColorTools.saturation(c1), s2 = ColorTools.saturation(c2);
+                if(s1 <= 0.05f && s2 > 0.05f)
+                    return -1000;
+                else if(s1 > 0.05f && s2 <= 0.05f)
+                    return 1000;
+                else if(s1 <= 0.05f && s2 <= 0.05f)
+                    return (int)Math.signum(ColorTools.channelL(c1) - ColorTools.channelL(c2));
+                else
+                    return 2 * (int)Math.signum(ColorTools.hue(c1) - ColorTools.hue(c2))
+                            + (int)Math.signum(ColorTools.channelL(c1) - ColorTools.channelL(c2));
             }
         });
         NAMES_BY_LIGHTNESS.sort(new Comparator<String>() {
             public int compare(String o1, String o2) {
-                return Float.compare(channelL(NAMED.get(o1, TRANSPARENT)), channelL(NAMED.get(o2, TRANSPARENT)));
+                return Float.compare(ColorTools.channelL(NAMED.get(o1, TRANSPARENT)), ColorTools.channelL(NAMED.get(o2, TRANSPARENT)));
             }
         });
     }
