@@ -289,15 +289,25 @@ public class DescriptionMatcher extends ApplicationAdapter {
             float value = BIOME_COLOR_TABLE[i];
             Label lab = new Label(key, skin);
             tab.add(lab).growX().padLeft(10f);
+            float described = SimplePalette.parseDescription(SimplePalette.bestMatch(value, 1));
+            Label diff = new Label(String.format("%2.4f", difference(value, described)), skin);
+            tab.add(diff).padLeft(2).padRight(2).left();
             Image original = new Image(skin, "white");
             original.getColor().set(ColorTools.toRGBA8888(value));
             tab.add(original).growX().growY();
             Image altered = new Image(skin, "white");
-            altered.getColor().set(ColorTools.toRGBA8888(SimplePalette.parseDescription(SimplePalette.bestMatch(value, 1))));
+            altered.getColor().set(ColorTools.toRGBA8888(described));
             tab.add(altered).growX().growY().row();
         }
         stage.getRoot().addActor(tab);
         input.setInputProcessor(stage);
+    }
+
+    private float difference(float left, float right) {
+        final float i = (ColorTools.intensity(left) - ColorTools.intensity(right)) * 2f;
+        final float p = ColorTools.protan(left) - ColorTools.protan(right);
+        final float t = ColorTools.tritan(left) - ColorTools.tritan(right);
+        return (float) Math.sqrt(i * i + p * p + t * t);
     }
 
 

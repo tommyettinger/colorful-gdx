@@ -518,16 +518,16 @@ public class SimplePalette {
     static { NAMED.put("turquoise", -0x1.fadf9cp125F); LIST.add(-0x1.fadf9cp125F); }
 
     /**
-     * This color constant "sky" has RGBA8888 code {@code 86CFEBFF}, L 0.8352941, A 0.47058824, B 0.4745098, alpha 1.0, hue 0.54298013, and saturation 0.39657837.
-     * It can be represented as a packed float with the constant {@code -0x1.f2f1aap125F}.
+     * This color constant "sky" has RGBA8888 code {@code 10C0E0FF}, L 0.7607843, A 0.44313726, B 0.4627451, alpha 1.0, hue 0.5243008, and saturation 0.88374835.
+     * It can be represented as a packed float with the constant {@code -0x1.ece384p125F}.
      * <pre>
-     * <font style='background-color: #86CFEB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #86CFEB; color: #000000'>&nbsp;@&nbsp;</font>
-     * <font style='background-color: #86CFEB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #86CFEB'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #86CFEB'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #86CFEB'>&nbsp;@&nbsp;</font><font style='background-color: #86CFEB; color: #888888'>&nbsp;@&nbsp;</font>
-     * <font style='background-color: #86CFEB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #86CFEB; color: #ffffff'>&nbsp;@&nbsp;</font>
+     * <font style='background-color: #10C0E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #10C0E0; color: #000000'>&nbsp;@&nbsp;</font>
+     * <font style='background-color: #10C0E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #10C0E0'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #10C0E0'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #10C0E0'>&nbsp;@&nbsp;</font><font style='background-color: #10C0E0; color: #888888'>&nbsp;@&nbsp;</font>
+     * <font style='background-color: #10C0E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #10C0E0; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SKY = -0x1.f2f1aap125F;
-    static { NAMED.put("sky", -0x1.f2f1aap125F); LIST.add(-0x1.f2f1aap125F); }
+    public static final float SKY = -0x1.ece384p125F;
+    static { NAMED.put("sky", -0x1.ece384p125F); LIST.add(-0x1.ece384p125F); }
 
     /**
      * This color constant "cobalt" has RGBA8888 code {@code 0046ABFF}, L 0.44705883, A 0.48235294, B 0.41568628, alpha 1.0, hue 0.5974748, and saturation 0.66283107.
@@ -542,16 +542,16 @@ public class SimplePalette {
     static { NAMED.put("cobalt", -0x1.d4f6e4p125F); LIST.add(-0x1.d4f6e4p125F); }
 
     /**
-     * This color constant "denim" has RGBA8888 code {@code 2870DDFF}, L 0.5882353, A 0.48235294, B 0.41568628, alpha 1.0, hue 0.60358393, and saturation 0.6857292.
-     * It can be represented as a packed float with the constant {@code -0x1.d4f72cp125F}.
+     * This color constant "denim" has RGBA8888 code {@code 3088B8FF}, L 0.62352943, A 0.46666667, B 0.45490196, alpha 1.0, hue 0.557327, and saturation 0.55407006.
+     * It can be represented as a packed float with the constant {@code -0x1.e8ef3ep125F}.
      * <pre>
-     * <font style='background-color: #2870DD;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #2870DD; color: #000000'>&nbsp;@&nbsp;</font>
-     * <font style='background-color: #2870DD;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #2870DD'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #2870DD'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #2870DD'>&nbsp;@&nbsp;</font><font style='background-color: #2870DD; color: #888888'>&nbsp;@&nbsp;</font>
-     * <font style='background-color: #2870DD;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #2870DD; color: #ffffff'>&nbsp;@&nbsp;</font>
+     * <font style='background-color: #3088B8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3088B8; color: #000000'>&nbsp;@&nbsp;</font>
+     * <font style='background-color: #3088B8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #3088B8'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #3088B8'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #3088B8'>&nbsp;@&nbsp;</font><font style='background-color: #3088B8; color: #888888'>&nbsp;@&nbsp;</font>
+     * <font style='background-color: #3088B8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3088B8; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float DENIM = -0x1.d4f72cp125F;
-    static { NAMED.put("denim", -0x1.d4f72cp125F); LIST.add(-0x1.d4f72cp125F); }
+    public static final float DENIM = -0x1.e8ef3ep125F;
+    static { NAMED.put("denim", -0x1.e8ef3ep125F); LIST.add(-0x1.e8ef3ep125F); }
 
     /**
      * This color constant "navy" has RGBA8888 code {@code 000080FF}, L 0.28627452, A 0.49019608, B 0.4, alpha 1.0, hue 0.67378676, and saturation 0.50898576.
@@ -724,13 +724,13 @@ public class SimplePalette {
                     if (len > 1 && term.charAt(1) == 'i') {
                         switch (len) {
                             case 8:
-                                saturation += 0.15f;
+                                saturation += 0.2f;
                             case 7:
-                                saturation += 0.15f;
+                                saturation += 0.2f;
                             case 6:
-                                saturation += 0.15f;
+                                saturation += 0.2f;
                             case 4:
-                                saturation += 0.15f;
+                                saturation += 0.2f;
                                 break;
                             default:
                                 mixing.add(TRANSPARENT);
@@ -744,13 +744,13 @@ public class SimplePalette {
                     if (len > 1 && term.charAt(1) == 'a') {
                         switch (len) {
                             case 8:
-                                intensity -= 0.2f;
+                                intensity -= 0.15f;
                             case 7:
-                                intensity -= 0.2f;
+                                intensity -= 0.15f;
                             case 6:
-                                intensity -= 0.2f;
+                                intensity -= 0.15f;
                             case 4:
-                                intensity -= 0.2f;
+                                intensity -= 0.15f;
                                 break;
                             default:
                                 mixing.add(TRANSPARENT);
@@ -759,13 +759,13 @@ public class SimplePalette {
                     } else if (len > 1 && term.charAt(1) == 'u') {
                         switch (len) {
                             case 8:
-                                saturation -= 0.1f;
+                                saturation -= 0.2f;
                             case 7:
-                                saturation -= 0.1f;
+                                saturation -= 0.2f;
                             case 6:
-                                saturation -= 0.1f;
+                                saturation -= 0.2f;
                             case 4:
-                                saturation -= 0.1f;
+                                saturation -= 0.2f;
                                 break;
                             default:
                                 mixing.add(TRANSPARENT);
@@ -812,7 +812,7 @@ public class SimplePalette {
         mixCount = Math.max(1, mixCount);
         double bestDistance = Double.POSITIVE_INFINITY;
         final int paletteSize = namesByHue.size, colorTries = (int)Math.pow(paletteSize, mixCount), totalTries = colorTries * 81;
-        final float targetI = ColorTools.channelL(oklab), targetP = ColorTools.channelA(oklab), targetT = ColorTools.channelB(oklab);
+        final float targetL = ColorTools.channelL(oklab), targetA = ColorTools.channelA(oklab), targetB = ColorTools.channelB(oklab);
         final String[] lightAdjectives = {"darkmost ", "darkest ", "darker ", "dark ", "", "light ", "lighter ", "lightest ", "lightmost "};
         final String[] satAdjectives = {"dullmost ", "dullest ", "duller ", "dull ", "", "rich ", "richer ", "richest ", "richmost "};
         mixing.clear();
@@ -825,18 +825,18 @@ public class SimplePalette {
                 mixing.set(i, colorsByHue.get((c / e) % paletteSize));
             }
             int idxI = ((c / colorTries) % 9 - 4), idxS = (c / (colorTries * 9) - 4);
-            float intensity = idxI * 0.125f, saturation = idxS * 0.2f;
+//            float intensity = idxI * 0.125f, saturation = idxS * 0.2f;
 
             float result = FloatColors.mix(mixing.items, 0, mixCount);
-            if(intensity > 0) result = ColorTools.lighten(result, intensity);
-            else if(intensity < 0) result = ColorTools.darken(result, -intensity);
+            if(idxI > 0) result = ColorTools.lighten(result, 0.125f * idxI);
+            else if(idxI < 0) result = ColorTools.darken(result, -0.15f * idxI);
 
-            if(saturation > 0) result = ColorTools.enrich(result, saturation);
-            else if(saturation < 0) result = ColorTools.limitToGamut(ColorTools.dullen(result, -saturation));
+            if(idxS > 0) result = ColorTools.limitToGamut(ColorTools.enrich(result, 0.2f * idxS));
+            else if(idxS < 0) result = ColorTools.dullen(result, -0.2f * idxS);
             else result = ColorTools.limitToGamut(result);
 
-            float dI = (result) - targetI, dP = ColorTools.channelA(result) - targetP, dT = ColorTools.channelB(result) - targetT;
-            if(bestDistance > (bestDistance = Math.min(dI * dI * 3.0 + dP * dP + dT * dT, bestDistance)))
+            float dL = ColorTools.channelL(result) - targetL, dA = ColorTools.channelA(result) - targetA, dB = ColorTools.channelB(result) - targetB;
+            if(bestDistance > (bestDistance = Math.min(dL * dL * 0.5f + dA * dA + dB * dB, bestDistance)))
                 bestCode = c;
         }
 
