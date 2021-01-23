@@ -63,10 +63,10 @@ public class RandomPaletteGenerator {
     }
     private static void add(float oklab){
         float L = ColorTools.channelL(oklab),
-                A = ColorTools.channelA(oklab),
-                B = ColorTools.channelB(oklab);
-//                A = OtherMath.barronSpline(ColorTools.channelA(oklab), 0.75f, 0.5f),
-//                B = OtherMath.barronSpline(ColorTools.channelB(oklab), 0.75f, 0.5f);
+//                A = ColorTools.channelA(oklab),
+//                B = ColorTools.channelB(oklab);
+                A = OtherMath.barronSpline(ColorTools.channelA(oklab), 0.75f, 0.5f),
+                B = OtherMath.barronSpline(ColorTools.channelB(oklab), 0.75f, 0.5f);
         if(!ColorTools.inGamut(L, A, B))
             return;
         oklab = ColorTools.oklab(L, A, B, 1f);
