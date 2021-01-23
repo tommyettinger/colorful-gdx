@@ -810,7 +810,7 @@ public class SimplePalette {
      */
     public static String bestMatch(final float oklab, int mixCount) {
         mixCount = Math.max(1, mixCount);
-        double bestDistance = Double.POSITIVE_INFINITY;
+        float bestDistance = Float.POSITIVE_INFINITY;
         final int paletteSize = namesByHue.size, colorTries = (int)Math.pow(paletteSize, mixCount), totalTries = colorTries * 81;
         final float targetL = ColorTools.channelL(oklab), targetA = ColorTools.channelA(oklab), targetB = ColorTools.channelB(oklab);
         final String[] lightAdjectives = {"darkmost ", "darkest ", "darker ", "dark ", "", "light ", "lighter ", "lightest ", "lightmost "};
