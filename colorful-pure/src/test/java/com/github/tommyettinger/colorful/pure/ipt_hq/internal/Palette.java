@@ -518,16 +518,16 @@ public class Palette {
     static { NAMED.put("turquoise", -0x1.eeb98cp125F); LIST.add(-0x1.eeb98cp125F); }
 
     /**
-     * This color constant "sky" has RGBA8888 code {@code 86CFEBFF}, intensity 0.81960785, protan 0.42745098, tritan 0.42352942, alpha 1.0, hue 0.54665047, and saturation 0.39086533.
-     * It can be represented as a packed float with the constant {@code -0x1.d8dba2p125F}.
+     * This color constant "sky" has RGBA8888 code {@code 10C0E0FF}, intensity 0.74509805, protan 0.37254903, tritan 0.39607844, alpha 1.0, hue 0.5261176, and saturation 0.78614056.
+     * It can be represented as a packed float with the constant {@code -0x1.cabf7cp125F}.
      * <pre>
-     * <font style='background-color: #86CFEB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #86CFEB; color: #000000'>&nbsp;@&nbsp;</font>
-     * <font style='background-color: #86CFEB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #86CFEB'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #86CFEB'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #86CFEB'>&nbsp;@&nbsp;</font><font style='background-color: #86CFEB; color: #888888'>&nbsp;@&nbsp;</font>
-     * <font style='background-color: #86CFEB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #86CFEB; color: #ffffff'>&nbsp;@&nbsp;</font>
+     * <font style='background-color: #10C0E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #10C0E0; color: #000000'>&nbsp;@&nbsp;</font>
+     * <font style='background-color: #10C0E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #10C0E0'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #10C0E0'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #10C0E0'>&nbsp;@&nbsp;</font><font style='background-color: #10C0E0; color: #888888'>&nbsp;@&nbsp;</font>
+     * <font style='background-color: #10C0E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #10C0E0; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SKY = -0x1.d8dba2p125F;
-    static { NAMED.put("sky", -0x1.d8dba2p125F); LIST.add(-0x1.d8dba2p125F); }
+    public static final float SKY = -0x1.cabf7cp125F;
+    static { NAMED.put("sky", -0x1.cabf7cp125F); LIST.add(-0x1.cabf7cp125F); }
 
     /**
      * This color constant "cobalt" has RGBA8888 code {@code 0046ABFF}, intensity 0.4117647, protan 0.43137255, tritan 0.3019608, alpha 1.0, hue 0.5979607, and saturation 0.6710433.
@@ -542,16 +542,16 @@ public class Palette {
     static { NAMED.put("cobalt", -0x1.9adcd2p125F); LIST.add(-0x1.9adcd2p125F); }
 
     /**
-     * This color constant "denim" has RGBA8888 code {@code 2870DDFF}, intensity 0.5647059, protan 0.42352942, tritan 0.28627452, alpha 1.0, hue 0.60051996, and saturation 0.71609116.
-     * It can be represented as a packed float with the constant {@code -0x1.92d92p125F}.
+     * This color constant "denim" has RGBA8888 code {@code 3088B8FF}, intensity 0.58431375, protan 0.41960785, tritan 0.38431373, alpha 1.0, hue 0.5597165, and saturation 0.5275199.
+     * It can be represented as a packed float with the constant {@code -0x1.c4d72ap125F}.
      * <pre>
-     * <font style='background-color: #2870DD;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #2870DD; color: #000000'>&nbsp;@&nbsp;</font>
-     * <font style='background-color: #2870DD;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #2870DD'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #2870DD'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #2870DD'>&nbsp;@&nbsp;</font><font style='background-color: #2870DD; color: #888888'>&nbsp;@&nbsp;</font>
-     * <font style='background-color: #2870DD;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #2870DD; color: #ffffff'>&nbsp;@&nbsp;</font>
+     * <font style='background-color: #3088B8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3088B8; color: #000000'>&nbsp;@&nbsp;</font>
+     * <font style='background-color: #3088B8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #3088B8'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #3088B8'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #3088B8'>&nbsp;@&nbsp;</font><font style='background-color: #3088B8; color: #888888'>&nbsp;@&nbsp;</font>
+     * <font style='background-color: #3088B8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3088B8; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float DENIM = -0x1.92d92p125F;
-    static { NAMED.put("denim", -0x1.92d92p125F); LIST.add(-0x1.92d92p125F); }
+    public static final float DENIM = -0x1.c4d72ap125F;
+    static { NAMED.put("denim", -0x1.c4d72ap125F); LIST.add(-0x1.c4d72ap125F); }
 
     /**
      * This color constant "navy" has RGBA8888 code {@code 000080FF}, intensity 0.24313726, protan 0.43529412, tritan 0.29411766, alpha 1.0, hue 0.67328644, and saturation 0.49774668.
