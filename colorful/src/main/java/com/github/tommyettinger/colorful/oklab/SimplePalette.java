@@ -704,13 +704,13 @@ public class SimplePalette {
                     if (len > 2 && term.charAt(2) == 'g') {
                         switch (len) {
                             case 9:
-                                intensity += 0.1f;
+                                intensity += 0.125f;
                             case 8:
-                                intensity += 0.1f;
+                                intensity += 0.125f;
                             case 7:
-                                intensity += 0.1f;
+                                intensity += 0.125f;
                             case 5:
-                                intensity += 0.1f;
+                                intensity += 0.125f;
                                 break;
                             default:
                                 mixing.add(TRANSPARENT);
@@ -724,13 +724,13 @@ public class SimplePalette {
                     if (len > 1 && term.charAt(1) == 'i') {
                         switch (len) {
                             case 8:
-                                saturation += 0.125f;
+                                saturation += 0.15f;
                             case 7:
-                                saturation += 0.125f;
+                                saturation += 0.15f;
                             case 6:
-                                saturation += 0.125f;
+                                saturation += 0.15f;
                             case 4:
-                                saturation += 0.125f;
+                                saturation += 0.15f;
                                 break;
                             default:
                                 mixing.add(TRANSPARENT);
@@ -744,13 +744,13 @@ public class SimplePalette {
                     if (len > 1 && term.charAt(1) == 'a') {
                         switch (len) {
                             case 8:
-                                intensity -= 0.1375f;
+                                intensity -= 0.2f;
                             case 7:
-                                intensity -= 0.1375f;
+                                intensity -= 0.2f;
                             case 6:
-                                intensity -= 0.1375f;
+                                intensity -= 0.2f;
                             case 4:
-                                intensity -= 0.1375f;
+                                intensity -= 0.2f;
                                 break;
                             default:
                                 mixing.add(TRANSPARENT);
