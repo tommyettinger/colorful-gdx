@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-package com.github.tommyettinger.colorful.rgb;
+package com.github.tommyettinger.colorful.oklab;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -23,7 +23,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.github.tommyettinger.colorful.FloatColors;
 
-import static com.github.tommyettinger.colorful.rgb.ColorfulBatch.*;
+import static com.github.tommyettinger.colorful.oklab.ColorfulBatch.*;
 
 /** Holds the geometry, color, and texture information for drawing 2D sprites using {@link ColorfulBatch}. A ColorfulSprite has a position and a
  * size given as width and height. The position is relative to the origin of the coordinate system specified via
@@ -320,9 +320,9 @@ public class ColorfulSprite extends TextureRegion {
 	}
 
 	/** Sets the color used to tint this sprite. Default is {@link Palette#GRAY}, which makes no changes to the color.
-	 * Use {@link ColorTools#rgb(float, float, float, float)} or a predefined color from {@link Palette} if you
+	 * Use {@link ColorTools#oklab(float, float, float, float)} or a predefined color from {@link Palette} if you
 	 * don't have a color currently.
-	 * @param color the packed float color used to add red, green, and blue to the current sprite, as well as the multiplier for alpha
+	 * @param color the packed float color used to add to the L/A/B channels of the current sprite, as well as the multiplier for alpha
 	 */
 	public void setColor (final float color) {
 		float[] vertices = this.vertices;
@@ -335,10 +335,10 @@ public class ColorfulSprite extends TextureRegion {
 	/** Sets the color used to tint this sprite and the tweak that affects how that color will be treated.
 	 * Default color is {@link Palette#GRAY}, which makes no changes to the color, and default tweak is
 	 * {@link ColorfulBatch#TWEAK_RESET}, which resets any changes to the tweak back to a neutral state. You can easily
-	 * get a tweak value with {@link ColorTools#rgb(float, float, float, float)}, just using the last parameter
+	 * get a tweak value with {@link ColorTools#oklab(float, float, float, float)}, just using the last parameter
 	 * to represent contrast.
-	 * @param color the packed float color used to add red, green, and blue to the current sprite, as well as the multiplier for alpha
-	 * @param tweak the packed float used to multiply red, green, and blue, as well as the setting for contrast   
+	 * @param color the packed float color used to add to the L/A/B channels of the current sprite, as well as the multiplier for alpha
+	 * @param tweak the packed float used to multiply the L/A/B channels, as well as the setting for contrast
 	 */
 	public void setTweakedColor (final float color, final float tweak) {
 		float[] vertices = this.vertices;
@@ -355,21 +355,20 @@ public class ColorfulSprite extends TextureRegion {
 	/** Sets the color used to tint this sprite and the tweak that affects how that color will be treated.
 	 * Default color is {@link Palette#GRAY}, which makes no changes to the color, and default tweak is
 	 * {@link ColorfulBatch#TWEAK_RESET}, which resets any changes to the tweak back to a neutral state. You can easily
-	 * get a tweak value with {@link ColorTools#rgb(float, float, float, float)}, just using the last parameter
+	 * get a tweak value with {@link ColorTools#oklab(float, float, float, float)}, just using the last parameter
 	 * to represent contrast.
-	 * @param redAdd how much red to add; darkest is 0f, neutral is 0.5f, lightest is 1f
-	 * @param greenAdd how much green to add; darkest is 0f, neutral is 0.5f, lightest is 1f
-	 * @param blueAdd how much blue to add; darkest is 0f, neutral is 0.5f, lightest is 1f
-	 * @param alphaMul how much to multiply alpha by; fully transparent is 0f, neutral is 1f
-	 * @param redMul how much source red should be multiplied by; eliminates at 0f, neutral is 0.5f, emphasizes at 1f
-	 * @param greenMul how much source green should be multiplied by; eliminates at 0f, neutral is 0.5f, emphasizes at 1f
-	 * @param blueMul how much source blue should be multiplied by; eliminates at 0f, neutral is 0.5f, emphasizes at 1f
+	 * @param addL how much lightness to add; darkest is 0f, neutral is 0.5f, lightest is 1f
+	 * @param addA how much to add on the cyan/red axis; more cyan is 0f, neutral is 0.5f, more red is 1f
+	 * @param addB how much to add on the blue/yellow axis; more blue is 0f, neutral is 0.5f, more yellow is 1f
+	 * @param mulAlpha how much to multiply alpha by; fully transparent is 0f, neutral is 1f
+	 * @param mulL how much source lightness should be multiplied by; darkest is 0f, neutral is 0.5f, lightest is 1f
+	 * @param mulA how much the source's cyan/red axis should be multiplied by; no cyan/red is 0f, neutral is 0.5f, max cyan/red is 1f
+	 * @param mulB how much the source's blue/yellow axis should be multiplied by; no blue/yellow is 0f, neutral is 0.5f, max blue/yellow is 1f
 	 * @param contrast how to affect the curvature of lightness in the source; 0f makes lightness very even, 0.5f doesn't change lightness, and 1f makes light colors lighter and dark colors darker
 	 */
-	public void setTweakedColor (float redAdd, float greenAdd, float blueAdd, float alphaMul,
-								 float redMul, float greenMul, float blueMul, float contrast) {
-		final float color = ColorTools.rgb(redAdd, greenAdd, blueAdd, alphaMul),
-				tweak = ColorTools.rgb(redMul, greenMul, blueMul, contrast);
+	public void setTweakedColor (float addL, float addA, float addB, float mulAlpha, float mulL, float mulA, float mulB, float contrast) {
+		final float color = ColorTools.oklab(addL, addA, addB, mulAlpha),
+				tweak = ColorTools.oklab(mulL, mulA, mulB, contrast);
 		float[] vertices = this.vertices;
 		vertices[C1] = color;
 		vertices[C2] = color;
@@ -383,9 +382,9 @@ public class ColorfulSprite extends TextureRegion {
 
 	/** Sets the tweak that affects how the rendered color will be treated.
 	 * Default tweak is {@link ColorfulBatch#TWEAK_RESET}, which resets any changes to the tweak back to a neutral
-	 * state. You can easily get a tweak value with {@link ColorTools#rgb(float, float, float, float)}, just
+	 * state. You can easily get a tweak value with {@link ColorTools#oklab(float, float, float, float)}, just
 	 * using the last parameter to represent contrast.
-	 * @param tweak the packed float used to multiply red, green, and blue, as well as the setting for contrast   
+	 * @param tweak the packed float used to multiply the L/A/B channels, as well as the setting for contrast
 	 */
 	public void setTweak (final float tweak) {
 		float[] vertices = this.vertices;
@@ -396,11 +395,12 @@ public class ColorfulSprite extends TextureRegion {
 	}
 
 	/**
-	 * Sets the additive color of the sprite using the given RGBA Color.
+	 * Given an RGBA8888 Color from libGDX, this converts that to an Oklab color as a packed float and sets the color of
+	 * the sprite using that.
 	 * @param color a libGDX RGBA8888 Color
 	 */
 	public void setColor (Color color) {
-		setColor(color.toFloatBits());
+		setColor(ColorTools.fromColor(color));
 	}
 
 	/** Sets the alpha portion of the color used to tint this sprite. */
@@ -414,8 +414,8 @@ public class ColorfulSprite extends TextureRegion {
 	}
 
 	/** @see #setColor(float) */
-	public void setColor (float red, float green, float blue, float alpha) {
-		final float color = ColorTools.rgb(red, green, blue, alpha);
+	public void setColor (float L, float A, float B, float alpha) {
+		final float color = ColorTools.oklab(L, A, B, alpha);
 		final float[] vertices = this.vertices;
 		vertices[C1] = color;
 		vertices[C2] = color;
@@ -424,8 +424,8 @@ public class ColorfulSprite extends TextureRegion {
 	}
 
 	/** @see #setTweak(float) */
-	public void setTweak (float red, float green, float blue, float contrast) {
-		final float tweak = ColorTools.rgb(red, green, blue, contrast);
+	public void setTweak (float L, float A, float B, float contrast) {
+		final float tweak = ColorTools.oklab(L, A, B, contrast);
 		final float[] vertices = this.vertices;
 		vertices[C1] = tweak;
 		vertices[C2] = tweak;
@@ -693,7 +693,7 @@ public class ColorfulSprite extends TextureRegion {
 
 	/** Returns the color of this sprite. If the returned instance is manipulated, {@link #setColor(float)} must be called
 	 * afterward.
-	 * @return a packed float color used to add red, green, and blue to the current sprite, as well as the multiplier for alpha
+	 * @return a packed float color used to add to the L/A/B channels of the current sprite, as well as the multiplier for alpha
 	 */
 	public float getColor () {
 		return vertices[C1];
@@ -701,7 +701,7 @@ public class ColorfulSprite extends TextureRegion {
 
 	/**
 	 * Returns the multiplicative color tweaks used by this sprite, as a packed float with the same format as a color.
-	 * @return a packed float used to multiply red, green, and blue, as well as the setting for contrast   
+	 * @return a packed float used to multiply the L/A/B channels, as well as the setting for contrast
 	 */
 	public float getColorTweak () {
 		return vertices[T1];

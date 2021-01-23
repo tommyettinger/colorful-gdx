@@ -423,7 +423,7 @@ public class ColorfulSprite extends TextureRegion {
 		vertices[C4] = color;
 	}
 
-	/** @see #setColor(float) */
+	/** @see #setTweak(float) */
 	public void setTweak (float intensity, float protan, float tritan, float contrast) {
 		final float tweak = ColorTools.ipt(intensity, protan, tritan, contrast);
 		final float[] vertices = this.vertices;

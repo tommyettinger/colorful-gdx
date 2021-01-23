@@ -273,6 +273,11 @@ public class ColorfulBatch implements Batch {
         tweak = ColorTools.ycwcm(lumaMul, warmMul, mildMul, contrast);
     }
 
+    /**
+     * Sets the tweak using a single packed YCwCm float.
+     * @see #setTweak(float, float, float, float)
+     * @param tweak a packed YCwCm float, with contrast instead of alpha
+     */
     public void setTweak (final float tweak) {
         this.tweak = tweak;
     }
