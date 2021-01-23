@@ -810,7 +810,7 @@ public class SimplePalette {
      */
     public static String bestMatch(final float ipt_hq, int mixCount) {
         mixCount = Math.max(1, mixCount);
-        double bestDistance = Double.POSITIVE_INFINITY;
+        float bestDistance = Float.POSITIVE_INFINITY;
         final int paletteSize = namesByHue.size, colorTries = (int)Math.pow(paletteSize, mixCount), totalTries = colorTries * 81;
         final float targetI = ColorTools.intensity(ipt_hq), targetP = ColorTools.protan(ipt_hq), targetT = ColorTools.tritan(ipt_hq);
         final String[] lightAdjectives = {"darkmost ", "darkest ", "darker ", "dark ", "", "light ", "lighter ", "lightest ", "lightmost "};
@@ -836,7 +836,7 @@ public class SimplePalette {
             else result = ColorTools.limitToGamut(result);
 
             float dI = ColorTools.intensity(result) - targetI, dP = ColorTools.protan(result) - targetP, dT = ColorTools.tritan(result) - targetT;
-            if(bestDistance > (bestDistance = Math.min(dI * dI * 3.0 + dP * dP + dT * dT, bestDistance)))
+            if(bestDistance > (bestDistance = Math.min(dI * dI * 3f + dP * dP + dT * dT, bestDistance)))
                 bestCode = c;
         }
 

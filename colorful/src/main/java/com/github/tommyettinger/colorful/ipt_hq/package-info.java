@@ -10,11 +10,14 @@
  * {@link com.github.tommyettinger.colorful.ipt IPT package} if your usage doesn't need the higher quality and can
  * benefit from a fast approximation of IPT.
  * <br>
- * This package is unique in that it has the {@link com.github.tommyettinger.colorful.ipt_hq.SimplePalette} class,
- * which offers a method to describe colors by mixing named pigments and applying adjustments, using human-friendly
- * syntax ({@link com.github.tommyettinger.colorful.ipt_hq.SimplePalette#parseDescription(java.lang.String)}).
- * IPT_HQ was chosen for SimplePalette because mixing predefined colors is much more accurate and intuitive with this
- * type of IPT than with, say, RGB or YCwCm.
+ * This package is almost unique in that it has the {@link com.github.tommyettinger.colorful.ipt_hq.SimplePalette}
+ * class, which offers a method to describe colors by mixing named pigments and applying adjustments, using
+ * human-friendly syntax
+ * ({@link com.github.tommyettinger.colorful.ipt_hq.SimplePalette#parseDescription(java.lang.String)}). IPT_HQ was
+ * chosen for SimplePalette because mixing predefined colors is much more accurate and intuitive with this type of IPT
+ * than with, say, RGB or YCwCm. Oklab also has a SimplePalette class
+ * ({@link com.github.tommyettinger.colorful.oklab.SimplePalette}), and in some cases it may have even better color
+ * mixing than IPT_HQ.
  * <br>
  * <ul>
  * <li><a href="https://tommyettinger.github.io/colorful-gdx/ColorTableValueIPT_HQ.html">Palette by value</a></li>

@@ -12,5 +12,15 @@
  * Here's <a href="https://bottosson.github.io/posts/oklab/">Björn Ottosson's original post introducing Oklab</a>.
  * So far, <a href="https://raphlinus.github.io/color/2021/01/18/oklab-critique.html">it stood up to analysis by Raph
  * Levien</a>, and seems to be gaining fans quickly. Oklab does especially well on smooth gradients.
+ * <br>
+ * This package offers a {@link com.github.tommyettinger.colorful.oklab.SimplePalette} class like the one in the ipt_hq
+ * package, and compatible with the same descriptions (though the resulting colors will be a little different). Both
+ * IPT_HQ and Oklab are very good at mixing colors evenly, with Oklab probably a little better at it.
+ * <br>
+ * <ul>
+ * <li><a href="https://tommyettinger.github.io/colorful-gdx/ColorTableValueOklab.html">Palette by value</a></li>
+ * <li><a href="https://tommyettinger.github.io/colorful-gdx/ColorTableHueOklab.html">Palette by hue</a></li>
+ * <li><a href="https://tommyettinger.github.io/colorful-gdx/ColorTableOklab.html">Palette by name</a></li>
+ * </ul>
  */
 package com.github.tommyettinger.colorful.oklab;
