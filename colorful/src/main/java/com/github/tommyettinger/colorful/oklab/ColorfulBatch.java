@@ -292,7 +292,11 @@ public class ColorfulBatch implements Batch {
     public void setTweak (float L, float A, float B, float contrast) {
         tweak = ColorTools.oklab(L, A, B, contrast);
     }
-
+    /**
+     * Sets the tweak using a single packed Oklab float.
+     * @see #setTweak(float, float, float, float)
+     * @param tweak a packed Oklab float, with contrast instead of alpha
+     */
     public void setTweak (final float tweak) {
         this.tweak = tweak;
     }

@@ -297,6 +297,11 @@ public class ColorfulBatch implements Batch {
         tweak = ColorTools.ipt(intensity, protan, tritan, contrast);
     }
 
+    /**
+     * Sets the tweak using a single packed IPT float.
+     * @see #setTweak(float, float, float, float)
+     * @param tweak a packed IPT float, with contrast instead of alpha
+     */
     public void setTweak (final float tweak) {
         this.tweak = tweak;
     }

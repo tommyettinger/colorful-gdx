@@ -287,7 +287,11 @@ public class ColorfulBatch implements Batch {
     public void setTweak (float red, float green, float blue, float contrast) {
         tweak = ColorTools.rgb(red, green, blue, contrast);
     }
-
+    /**
+     * Sets the tweak using a single packed RGB float.
+     * @see #setTweak(float, float, float, float)
+     * @param tweak a packed RGB float, with contrast instead of alpha
+     */
     public void setTweak (final float tweak) {
         this.tweak = tweak;
     }
