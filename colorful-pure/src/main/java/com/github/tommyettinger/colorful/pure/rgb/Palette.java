@@ -3119,6 +3119,8 @@ public class Palette {
         NAMES_BY_HUE.sort(new Comparator<String>() {
             public int compare(String o1, String o2) {
                 final float c1 = NAMED.get(o1), c2 = NAMED.get(o2);
+                if (ColorTools.alphaInt(c1) < 128) return -10000;
+                else if (ColorTools.alphaInt(c2) < 128) return 10000;
                 final float s1 = ColorTools.saturation(c1), s2 = ColorTools.saturation(c2);
                 if(s1 <= 0x1p-6f && s2 > 0x1p-6f)
                     return -1000;

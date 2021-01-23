@@ -3128,25 +3128,27 @@
 <span class="source-line-no">3116</span><span id="line.3116">        NAMES_BY_HUE.sort(new Comparator&lt;String&gt;() {</span>
 <span class="source-line-no">3117</span><span id="line.3117">            public int compare(String o1, String o2) {</span>
 <span class="source-line-no">3118</span><span id="line.3118">                final float c1 = NAMED.get(o1, TRANSPARENT), c2 = NAMED.get(o2, TRANSPARENT);</span>
-<span class="source-line-no">3119</span><span id="line.3119">                final float s1 = ColorTools.saturation(c1), s2 = ColorTools.saturation(c2);</span>
-<span class="source-line-no">3120</span><span id="line.3120">                if(s1 &lt;= 0.05f &amp;&amp; s2 &gt; 0.05f)</span>
-<span class="source-line-no">3121</span><span id="line.3121">                    return -1000;</span>
-<span class="source-line-no">3122</span><span id="line.3122">                else if(s1 &gt; 0.05f &amp;&amp; s2 &lt;= 0.05f)</span>
-<span class="source-line-no">3123</span><span id="line.3123">                    return 1000;</span>
-<span class="source-line-no">3124</span><span id="line.3124">                else if(s1 &lt;= 0.05f &amp;&amp; s2 &lt;= 0.05f)</span>
-<span class="source-line-no">3125</span><span id="line.3125">                    return (int)Math.signum(ColorTools.intensity(c1) - ColorTools.intensity(c2));</span>
-<span class="source-line-no">3126</span><span id="line.3126">                else</span>
-<span class="source-line-no">3127</span><span id="line.3127">                    return 2 * (int)Math.signum(ColorTools.hue(c1) - ColorTools.hue(c2))</span>
-<span class="source-line-no">3128</span><span id="line.3128">                            + (int)Math.signum(ColorTools.intensity(c1) - ColorTools.intensity(c2));</span>
-<span class="source-line-no">3129</span><span id="line.3129">            }</span>
-<span class="source-line-no">3130</span><span id="line.3130">        });</span>
-<span class="source-line-no">3131</span><span id="line.3131">        NAMES_BY_LIGHTNESS.sort(new Comparator&lt;String&gt;() {</span>
-<span class="source-line-no">3132</span><span id="line.3132">            public int compare(String o1, String o2) {</span>
-<span class="source-line-no">3133</span><span id="line.3133">                return Float.compare(intensity(NAMED.get(o1, TRANSPARENT)), intensity(NAMED.get(o2, TRANSPARENT)));</span>
-<span class="source-line-no">3134</span><span id="line.3134">            }</span>
-<span class="source-line-no">3135</span><span id="line.3135">        });</span>
-<span class="source-line-no">3136</span><span id="line.3136">    }</span>
-<span class="source-line-no">3137</span><span id="line.3137">}</span>
+<span class="source-line-no">3119</span><span id="line.3119">                if(ColorTools.alphaInt(c1) &lt; 128) return -10000;</span>
+<span class="source-line-no">3120</span><span id="line.3120">                else if(ColorTools.alphaInt(c2) &lt; 128) return 10000;</span>
+<span class="source-line-no">3121</span><span id="line.3121">                final float s1 = ColorTools.saturation(c1), s2 = ColorTools.saturation(c2);</span>
+<span class="source-line-no">3122</span><span id="line.3122">                if(s1 &lt;= 0.05f &amp;&amp; s2 &gt; 0.05f)</span>
+<span class="source-line-no">3123</span><span id="line.3123">                    return -1000;</span>
+<span class="source-line-no">3124</span><span id="line.3124">                else if(s1 &gt; 0.05f &amp;&amp; s2 &lt;= 0.05f)</span>
+<span class="source-line-no">3125</span><span id="line.3125">                    return 1000;</span>
+<span class="source-line-no">3126</span><span id="line.3126">                else if(s1 &lt;= 0.05f &amp;&amp; s2 &lt;= 0.05f)</span>
+<span class="source-line-no">3127</span><span id="line.3127">                    return (int)Math.signum(ColorTools.intensity(c1) - ColorTools.intensity(c2));</span>
+<span class="source-line-no">3128</span><span id="line.3128">                else</span>
+<span class="source-line-no">3129</span><span id="line.3129">                    return 2 * (int)Math.signum(ColorTools.hue(c1) - ColorTools.hue(c2))</span>
+<span class="source-line-no">3130</span><span id="line.3130">                            + (int)Math.signum(ColorTools.intensity(c1) - ColorTools.intensity(c2));</span>
+<span class="source-line-no">3131</span><span id="line.3131">            }</span>
+<span class="source-line-no">3132</span><span id="line.3132">        });</span>
+<span class="source-line-no">3133</span><span id="line.3133">        NAMES_BY_LIGHTNESS.sort(new Comparator&lt;String&gt;() {</span>
+<span class="source-line-no">3134</span><span id="line.3134">            public int compare(String o1, String o2) {</span>
+<span class="source-line-no">3135</span><span id="line.3135">                return Float.compare(intensity(NAMED.get(o1, TRANSPARENT)), intensity(NAMED.get(o2, TRANSPARENT)));</span>
+<span class="source-line-no">3136</span><span id="line.3136">            }</span>
+<span class="source-line-no">3137</span><span id="line.3137">        });</span>
+<span class="source-line-no">3138</span><span id="line.3138">    }</span>
+<span class="source-line-no">3139</span><span id="line.3139">}</span>
 
 
 
