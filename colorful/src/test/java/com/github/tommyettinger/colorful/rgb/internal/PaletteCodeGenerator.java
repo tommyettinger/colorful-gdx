@@ -173,6 +173,8 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         Collections.sort(PAL, new Comparator<ObjectFloatMap.Entry<String>>() {
             @Override
             public int compare(ObjectFloatMap.Entry<String> c1, ObjectFloatMap.Entry<String> c2) {
+                if (ColorTools.alphaInt(c1.value) < 128) return -10000;
+                else if (ColorTools.alphaInt(c2.value) < 128) return 10000;
                 float s1 = ColorTools.saturation(c1.value), s2 = ColorTools.saturation(c2.value);
                 if(s1 <= 0x1p-6f && s2 > 0x1p-6f)
                     return -1000;

@@ -117,6 +117,8 @@ public class AlternatePaletteCodeGenerator {
 
         sb.setLength(0);
         PAL.sortByValue((int ci1, int ci2) -> {
+            if (ColorTools.alphaInt(ci1) < 128) return -10000;
+            else if (ColorTools.alphaInt(ci2) < 128) return 10000;
             float c1 = BitConversion.intBitsToFloat(ci1), c2 = BitConversion.intBitsToFloat(ci2);
             float s1 = ColorTools.saturation(c1), s2 = ColorTools.saturation(c2);
             if (s1 <= 0.05f && s2 > 0.05f)

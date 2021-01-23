@@ -114,17 +114,19 @@ public class PaletteCodeGenerator {
 
         sb.setLength(0);
         PAL.sortByValue((float c1, float c2) -> {
-                float s1 = ColorTools.saturation(c1), s2 = ColorTools.saturation(c2);
-                if(s1 <= 0.05f && s2 > 0.05f)
-                    return -1000;
-                else if(s1 > 0.05f && s2 <= 0.05f)
-                    return 1000;
-                else if(s1 <= 0.05f && s2 <= 0.05f)
-                    return (int)Math.signum(ColorTools.intensity(c1) - ColorTools.intensity(c2));
-                else
-                    return 2 * (int)Math.signum(ColorTools.hue(c1) - ColorTools.hue(c2))
-                            + (int)Math.signum(ColorTools.intensity(c1) - ColorTools.intensity(c2));
-            });
+            if (ColorTools.alphaInt(c1) < 128) return -10000;
+            else if (ColorTools.alphaInt(c2) < 128) return 10000;
+            float s1 = ColorTools.saturation(c1), s2 = ColorTools.saturation(c2);
+            if (s1 <= 0.05f && s2 > 0.05f)
+                return -1000;
+            else if (s1 > 0.05f && s2 <= 0.05f)
+                return 1000;
+            else if (s1 <= 0.05f && s2 <= 0.05f)
+                return (int) Math.signum(ColorTools.intensity(c1) - ColorTools.intensity(c2));
+            else
+                return 2 * (int) Math.signum(ColorTools.hue(c1) - ColorTools.hue(c2))
+                        + (int) Math.signum(ColorTools.intensity(c1) - ColorTools.intensity(c2));
+        });
         sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Intens</th>\n<th>Protan</th>\n<th>Tritan</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectFloatOrderedMap.Entry<String> sc : PAL) {
             c = sc.value;
