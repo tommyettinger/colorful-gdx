@@ -350,6 +350,25 @@ public class ColorTools {
 	}
 
 	/**
+	 * Gets the "chroma" or "colorfulness" of a given Oklab color. Chroma is similar to saturation in that grayscale
+	 * values have 0 saturation and 0 chroma, while brighter colors have high saturation and chroma. The difference is
+	 * that colors that are perceptually more-colorful have higher chroma that colors that are perceptually
+	 * less-colorful, regardless of hue, whereas saturation changes its range depending on how colorful a value can be
+	 * at its hue. That is, the most saturated color always has a saturation of 1, but if that color isn't perceptually
+	 * very colorful, it could have a chroma that is somewhat lower than 1. I don't yet know the range of this function,
+	 * other than it can't be negative, grayscale values have 0 chroma, and the most colorful values should be near 1,
+	 * maybe as high as the square root of 2.
+	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
+	 * @return a non-negative float that represents how colorful the given value is
+	 */
+	public static float chroma(final float encoded) {
+		final int decoded = BitConversion.floatToRawIntBits(encoded);
+		final float a = ((decoded >>> 7 & 0x1FE) - 255) / 255f;
+		final float b = ((decoded >>> 15 & 0x1FE) - 255) / 255f;
+		return (float) Math.sqrt(a * a + b * b);
+	}
+
+	/**
 	 * Gets a color as an Oklab packed float given floats representing hue, saturation, lightness, and opacity.
 	 * All parameters should normally be between 0 and 1 inclusive, though any hue is tolerated (precision loss may
 	 * affect the color if the hue is too large). A hue of 0 is red, progressively higher hue values go to orange,
@@ -374,7 +393,8 @@ public class ColorTools {
 	}
 
 	/**
-	 * Gets the saturation of the given encoded color, as a float ranging from 0.0f to 1.0f, inclusive.
+	 * Gets the saturation of the given encoded color as HSL would calculate it, as a float ranging from 0.0f to 1.0f,
+	 * inclusive. This is different from {@link #chroma(float)}; see that method's documentation for details.
 	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
 	 * @return the saturation of the color from 0.0 (a grayscale color; inclusive) to 1.0 (a bright color, inclusive)
 	 */
@@ -407,11 +427,14 @@ public class ColorTools {
 			x = r;
 		}
 		return x - Math.min(w, y);
-//		float d = x - Math.min(w, y);
-//		float li = x * (1f - 0.5f * d / (x + 1e-10f));
-//		return (x - li); // (Math.min(li, 1f - li) + 1e-10f);
 	}
 
+	/**
+	 * Defined as per HSL; normally you only need {@link #channelL(float)} to get accurate lightness for Oklab.
+	 * This ranges from 0.0f (black) to 1.0f (white).
+	 * @param encoded a packed float Oklab color
+	 * @return the lightness of the given color as HSL would calculate it
+	 */
 	public static float lightness(final float encoded) {
 		final int decoded = BitConversion.floatToRawIntBits(encoded);
 		final float L = (decoded & 0xff) / 255f;
