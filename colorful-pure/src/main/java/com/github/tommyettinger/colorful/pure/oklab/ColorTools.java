@@ -51,7 +51,6 @@ public class ColorTools {
 				| ((int) (a * 255) << 8 & 0xFF00) | ((int) (l * 255) & 0xFF));
 	}
 
-
 	/**
 	 * An approximation of the cube-root function for float inputs and outputs.
 	 * This can be about twice as fast as {@link Math#cbrt(double)}. It
@@ -113,7 +112,6 @@ public class ColorTools {
 	private static float reverseGamma(final float component) {
 		return (float)Math.sqrt(component);
 	}
-
 
 	/**
 	 * Converts a packed float color in the format produced by {@link ColorTools#oklab(float, float, float, float)} to an RGBA8888 int.
