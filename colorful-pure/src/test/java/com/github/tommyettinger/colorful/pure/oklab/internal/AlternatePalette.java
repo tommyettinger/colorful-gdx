@@ -3,19 +3,20 @@ package com.github.tommyettinger.colorful.pure.oklab.internal;
 import com.github.tommyettinger.ds.IntList;
 import com.github.tommyettinger.ds.ObjectIntOrderedMap;
 import com.github.tommyettinger.ds.ObjectList;
+import com.github.tommyettinger.ds.support.BitConversion;
 
 /**
- * A palette of predefined colors as packed IPT ints, and tools for obtaining IPT int colors from a description.
+ * A palette of predefined colors as packed Oklab ints, and tools for obtaining Oklab int colors from a description.
  * You can access colors by their constant name, such as {@code cactus}, by the {@link #NAMED} map using
  * {@code NAMED.get("cactus")}, by getting a color by its name's position in alphabetical order with
  * {@code NAMED.getAt(12)}, or by index in the IntList called {@link #LIST}. When accessing a color with
  * {@link ObjectIntOrderedMap#get(Object)}, if the name is not found, get() will return {@link #TRANSPARENT}. If you
  * want to control the not-found value, you can use {@link ObjectIntOrderedMap#getOrDefault(Object, int)}. You can
  * access the names in a specific order with {@link #NAMES} (which is alphabetical), {@link #NAMES_BY_HUE} (which is
- * sorted by the hue of the matching color, from red to yellow to blue (with gray around here) to purple to red again),
- * or {@link #NAMES_BY_LIGHTNESS} (which is sorted by the intensity of the matching color, from darkest to lightest).
- * Having a name lets you look up the matching color in {@link #NAMED}. You can also modify or re-order NAMED if you
- * want to, such as to add more named colors.
+ * sorted by the hue of the matching color, with all grayscale colors at the start, then from red to yellow to blue to
+ * purple to red again), or {@link #NAMES_BY_LIGHTNESS} (which is sorted by the L channel of the matching color, from
+ * darkest to lightest). Having a name lets you look up the matching color in {@link #NAMED}. You can also modify or
+ * re-order NAMED if you want to, such as to add more named colors.
  */
 public final class AlternatePalette {
     /**
@@ -659,28 +660,50 @@ public final class AlternatePalette {
     }
 
     /**
-     * Used when converting from RGB to IPT, as an intermediate step.
-     *
-     * @param component one of the LMS channels to be converted to LMS Prime
-     * @return an LMS Prime channel value, which can be converted to IPT
+     * An approximation of the cube-root function for float inputs and outputs.
+     * This can be about twice as fast as {@link Math#cbrt(double)}. It
+     * correctly returns negative results when given negative inputs.
+     * <br>
+     * Has very low relative error (less than 1E-9) when inputs are uniformly
+     * distributed between -512 and 512, and absolute mean error of less than
+     * 1E-6 in the same scenario. Uses a bit-twiddling method similar to one
+     * presented in Hacker's Delight and also used in early 3D graphics (see
+     * https://en.wikipedia.org/wiki/Fast_inverse_square_root for more, but
+     * this code approximates cbrt(x) and not 1/sqrt(x)). This specific code
+     * was originally by Marc B. Reynolds, posted in his "Stand-alone-junk"
+     * repo: https://github.com/Marc-B-Reynolds/Stand-alone-junk/blob/master/src/Posts/ballcube.c#L182-L197 .
+     * <br>
+     * This is used when converting from RGB to Oklab, as an intermediate step.
+     * @param x any finite float to find the cube root of
+     * @return the cube root of x, approximated
      */
-    private static float forwardTransform(final float component) {
-        return (float) Math.pow(component, 0.43f);
+    private static float cbrt(float x) {
+        int ix = BitConversion.floatToRawIntBits(x);
+        final int sign = ix & 0x80000000;
+        ix &= 0x7FFFFFFF;
+        final float x0 = x;
+        ix = (ix>>>2) + (ix>>>4);
+        ix += (ix>>>4);
+        ix = ix + (ix>>>8) + 0x2A5137A0 | sign;
+        x  = BitConversion.intBitsToFloat(ix);
+        x  = 0.33333334f*(2f * x + x0/(x*x));
+        x  = 0.33333334f*(2f * x + x0/(x*x));
+        return x;
     }
 
     /**
-     * Used when converting from IPT to RGB, as an intermediate step.
-     *
-     * @param component one of the LMS Prime channels to be converted to LMS
+     * Used when converting from Oklab to RGB, as an intermediate step.
+     * Really just {@code x * x * x}.
+     * @param x one of the LMS Prime channels to be converted to LMS
      * @return an LMS channel value, which can be converted to RGB
      */
-    private static float reverseTransform(final float component) {
-        return Math.copySign((float) Math.pow(Math.abs(component), 2.3256f), component);
+    private static float cube(final float x) {
+        return x * x * x;
     }
 
     /**
      * Used when given non-linear sRGB inputs to make them linear, approximating with gamma 2.0.
-     *
+     * Really just {@code component * component}.
      * @param component any non-linear channel of a color, to be made linear
      * @return a linear version of component
      */
@@ -690,231 +713,193 @@ public final class AlternatePalette {
 
     /**
      * Used to return from a linear, gamma-corrected input to an sRGB, non-linear output, using gamma 2.0.
-     *
+     * Really just gets the square root of component, as a float.
      * @param component a linear channel of a color, to be made non-linear
      * @return a non-linear version of component
      */
     private static float reverseGamma(final float component) {
-        return (float) Math.sqrt(component);
+        return (float)Math.sqrt(component);
     }
 
     /**
-     * Converts a packed IPT int color in the format used by constants in this class to an RGBA8888 int.
+     * Converts a packed Oklab int color in the format used by constants in this class to an RGBA8888 int.
      * This format of int can be used with Pixmap and in some other places in libGDX.
-     * @param decoded a packed float color, as from a constant in this class
+     * @param oklab a packed float color, as from a constant in this class
      * @return an RGBA8888 int color
      */
-    public static int toRGBA8888(final int decoded)
+    public static int toRGBA8888(final int oklab)
     {
-        final float i = (decoded & 0xff) / 255f;
-        final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-        final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-        final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-        final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-        final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-        final int r = (int)(reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f)) * 255.999f);
-        final int g = (int)(reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f)) * 255.999f);
-        final int b = (int)(reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f)) * 255.999f);
-        return r << 24 | g << 16 | b << 8 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
+        final float L = (oklab & 0xff) / 255f;
+        final float A = ((oklab >>> 8 & 0xff) - 127.5f) / 127.5f;
+        final float B = ((oklab >>> 16 & 0xff) - 127.5f) / 127.5f;
+        final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+        final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+        final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+        final int r = (int)(reverseGamma(Math.min(Math.max(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f), 1f)) * 255.999f);
+        final int g = (int)(reverseGamma(Math.min(Math.max(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f), 1f)) * 255.999f);
+        final int b = (int)(reverseGamma(Math.min(Math.max(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f), 1f)) * 255.999f);
+        return r << 24 | g << 16 | b << 8 | (oklab & 0xfe000000) >>> 24 | oklab >>> 31;
     }
 
     /**
-     * Gets the saturation of the given encoded color, as a float ranging from 0.0f to 1.0f, inclusive.
+     * Gets the chroma or "colorfulness" of the given encoded color, as a non-negative float.
      *
-     * @param iptColor a color as an IPT int that can be obtained from any of the constants in this class.
-     * @return the saturation of the color from 0.0 (a grayscale color; inclusive) to 1.0 (a bright color, inclusive)
+     * @param oklab a color as an Oklab int that can be obtained from any of the constants in this class.
+     * @return the chroma of the color from 0.0 (a grayscale color; inclusive) to at-most the square root of 2 (but probably lower; a bright color)
      */
-    public static float saturation(final int iptColor) {
-        final float i = (iptColor & 0xff) / 255f;
-        if (Math.abs(i - 0.5) > 0.495f) return 0f;
-        final float p = ((iptColor >>> 8 & 0xff) - 127.5f) / 127.5f;
-        final float t = ((iptColor >>> 16 & 0xff) - 127.5f) / 127.5f;
-        final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-        final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-        final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-        final float r = reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f));
-        final float g = reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f));
-        final float b = reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f));
-        float x, y, w;
-        if (g < b) {
-            x = b;
-            y = g;
-        } else {
-            x = g;
-            y = b;
-        }
-        if (r < x) {
-            w = r;
-        } else {
-            w = x;
-            x = r;
-        }
-        return x - Math.min(w, y);
+    public static float chroma(final int oklab) {
+        final float a = ((oklab >>> 7 & 0x1FE) - 255) / 255f;
+        final float b = ((oklab >>> 15 & 0x1FE) - 255) / 255f;
+        return (float) Math.sqrt(a * a + b * b);
     }
 
     /**
      * Gets the hue of the given encoded color, as a float from 0f (inclusive, red and approaching orange if increased)
-     * to 1f (exclusive, red and approaching purple if decreased).
+     * to 1f (exclusive, red and approaching purple if decreased). This is not exactly the same as HSL's or HSV's hue.
      *
-     * @param iptColor a color as an IPT int that can be obtained from any of the constants in this class.
+     * @param oklab a color as an Oklab int that can be obtained from any of the constants in this class.
      * @return The hue of the color from 0.0 (red, inclusive) towards orange, then yellow, and
      * eventually to purple before looping back to almost the same red (1.0, exclusive)
      */
-    public static float hue(final int iptColor) {
-        final float i = (iptColor & 0xff) / 255f;
-        final float p = ((iptColor >>> 8 & 0xff) - 127.5f) / 127.5f;
-        final float t = ((iptColor >>> 16 & 0xff) - 127.5f) / 127.5f;
-        final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
-        final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
-        final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-        final float r = reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f));
-        final float g = reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f));
-        final float b = reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f));
-        float x, y, z, w;
-        if (g < b) {
-            x = b;
-            y = g;
-            z = -1f;
-            w = 2f / 3f;
-        } else {
-            x = g;
-            y = b;
-            z = 0f;
-            w = -1f / 3f;
-        }
-        if (r < x) {
-            z = w;
-            w = r;
-        } else {
-            w = x;
-            x = r;
-        }
-        float d = x - Math.min(w, y);
-        return Math.abs(z + (w - y) / (6f * d + 1e-10f));
+    public static float hue(final int oklab) {
+        final float a = ((oklab >>> 7 & 0x1FE) - 255) / 255f;
+        final float b = ((oklab >>> 15 & 0x1FE) - 255) / 255f;
+        // atan2_(y, x) , but inlined so this has no external dependencies other than jdkgdxds
+        if(a == 0.0 && b >= 0.0) return 0f;
+        float ay = Math.abs(a), ax = Math.abs(b);
+        boolean invert = ay > ax;
+        float z = invert ? ax/ay : ay/ax;
+        z = (((((0.022520265292560102f) * z) - (0.054640279287594046f)) * z - (0.0025821297967229097f)) * z + (0.1597659389184251f)) * z - (0.000025146481008519463f);
+        if(invert) z = 0.25f - z;
+        if(b < 0) z = 0.5f - z;
+        return a < 0 ? (int)(1+z) - z : z;
+
     }
 
     /**
-     * Interpolates from the packed IPT int color s towards white by change. While change should be between 0f (return
-     * s as-is) and 1f (return white), s should be a packed color, as from a constant here. This method does not
-     * necessarily keep the resulting color in-gamut; after performing some changes with this or other component-editing
-     * methods, you may want to call {@link #limitToGamut(int)} to make sure the color can be rendered correctly.
+     * Interpolates from the packed Oklab int color oklab towards white by change. While change should be between 0f
+     * (return oklab as-is) and 1f (return white), oklab should be a packed color, as from a constant here. This method
+     * does not necessarily keep the resulting color in-gamut; after performing some changes with this or other
+     * component-editing methods, you may want to call {@link #limitToGamut(int)} to make sure the color can be rendered
+     * correctly.
      *
-     * @param s      the starting color as an IPT int
-     * @param change how much to go from start toward white, as a float between 0 and 1; higher means closer to white
-     * @return a packed IPT int that represents a color between start and white
+     * @param oklab      the starting color as an Oklab int
+     * @param change how much to go from oklab toward white, as a float between 0 and 1; higher means closer to white
+     * @return a packed Oklab int that represents a color between start and white
      * @see #darken(int, float) the counterpart method that darkens a float color
      */
-    public static int lighten(final int s, final float change) {
-        final int i = s & 255, other = s & 0xFEFFFF00;
-        return (((int) (i + (255 - i) * change) & 255) | other);
+    public static int lighten(final int oklab, final float change) {
+        final int L = oklab & 255, other = oklab & 0xFEFFFF00;
+        return (((int) (L + (255 - L) * change) & 255) | other);
     }
 
     /**
-     * Interpolates from the packed IPT int color s towards black by change. While change should be between 0f (return
-     * s as-is) and 1f (return black), s should be a packed color, as from a constant here. This method does not
-     * necessarily keep the resulting color in-gamut; after performing some changes with this or other component-editing
-     * methods, you may want to call {@link #limitToGamut(int)} to make sure the color can be rendered correctly.
+     * Interpolates from the packed Oklab int color oklab towards black by change. While change should be between 0f
+     * (return oklab as-is) and 1f (return black), oklab should be a packed color, as from a constant here. This method
+     * does not necessarily keep the resulting color in-gamut; after performing some changes with this or other
+     * component-editing methods, you may want to call {@link #limitToGamut(int)} to make sure the color can be rendered
+     * correctly.
      *
-     * @param s      the starting color as a packed float
-     * @param change how much to go from start toward black, as a float between 0 and 1; higher means closer to black
+     * @param oklab      the starting color as a packed float
+     * @param change how much to go from oklab toward black, as a float between 0 and 1; higher means closer to black
      * @return a packed float that represents a color between start and black
      * @see #lighten(int, float) the counterpart method that lightens a float color
      */
-    public static int darken(final int s, final float change) {
-        final int i = s & 255, other = s & 0xFEFFFF00;
+    public static int darken(final int oklab, final float change) {
+        final int i = oklab & 255, other = oklab & 0xFEFFFF00;
         return (((int) (i * (1f - change)) & 255) | other);
     }
 
     /**
-     * Brings the chromatic components of {@code s} closer to grayscale by {@code change} (desaturating them). While
-     * change should be between 0f (return s as-is) and 1f (return fully gray), s should be a packed IPT int color, as
-     * from a constant in this class.
+     * Brings the chromatic components of {@code oklab} closer to grayscale by {@code change} (desaturating them). While
+     * change should be between 0f (return oklab as-is) and 1f (return fully gray), oklab should be a packed Oklab int
+     * color, as from a constant in this class.
      *
-     * @param s      the starting color as a packed IPT int
-     * @param change how much to change start to a desaturated color, as a float between 0 and 1; higher means a less saturated result
+     * @param oklab      the starting color as a packed Oklab int
+     * @param change how much to change oklab to a desaturated color, as a float between 0 and 1; higher means a less saturated result
      * @return a packed float that represents a color between start and a desaturated color
-     * @see #enrich(int, float) the counterpart method that makes an IPT int color more saturated
+     * @see #enrich(int, float) the counterpart method that makes an Oklab int color more saturated
      */
-    public static int dullen(final int s, final float change) {
-        return (s & 255) |
-                (int) (((s >>> 8 & 255) - 127.5f) * (1f - change) + 127.5f) << 8 |
-                (int) (((s >>> 16 & 255) - 127.5f) * (1f - change) + 127.5f) << 16 |
-                (s & 0xFE000000);
+    public static int dullen(final int oklab, final float change) {
+        return
+                (int) (((oklab >>> 8 & 255) - 127.5f) * (1f - change) + 127.5f) << 8 |
+                (int) (((oklab >>> 16 & 255) - 127.5f) * (1f - change) + 127.5f) << 16 |
+                (oklab & 0xFE0000FF);
     }
 
     /**
-     * Pushes the chromatic components of {@code start} away from grayscale by change (saturating them). While change
-     * should be between 0f (return start as-is) and 1f (return maximally saturated), start should be a packed color, as
-     * from a constant in this class. This usually changes only Cw and Cm, but higher values for {@code change} can
-     * force the color out of the gamut, which this corrects using {@link #limitToGamut(int)} (and that can change Y
-     * somewhat). If the color stays in-gamut, then Y won't change; alpha never changes.
+     * Pushes the chromatic components of {@code oklab} away from grayscale by change (saturating them). While change
+     * should be between 0f (return oklab as-is) and 1f (return maximally saturated), oklab should be a packed color, as
+     * from a constant in this class. This usually changes only A and B, but higher values for {@code change} can
+     * force the color out of the gamut, which this corrects using {@link #limitToGamut(int)} (and that can change L
+     * somewhat). If the color stays in-gamut, then L won't change; alpha never changes.
      *
-     * @param s      the starting color as a packed float
-     * @param change how much to change start to a saturated color, as a float between 0 and 1; higher means a more saturated result
+     * @param oklab      the starting color as a packed float
+     * @param change how much to change oklab to a saturated color, as a float between 0 and 1; higher means a more saturated result
      * @return a packed float that represents a color between start and a saturated color
      * @see #dullen(int, float) the counterpart method that makes a float color less saturated
      */
-    public static int enrich(final int s, final float change) {
-        return limitToGamut((s & 255) |
-                (int) (((s >>> 8 & 255) - 127.5f) * (1f - change) + 127.5f) << 8 |
-                (int) (((s >>> 16 & 255) - 127.5f) * (1f - change) + 127.5f) << 16 |
-                (s & 0xFE000000));
+    public static int enrich(final int oklab, final float change) {
+        return limitToGamut(
+                (int) (((oklab >>> 8 & 255) - 127.5f) * (1f - change) + 127.5f) << 8 |
+                (int) (((oklab >>> 16 & 255) - 127.5f) * (1f - change) + 127.5f) << 16 |
+                (oklab & 0xFE0000FF));
     }
 
     /**
-     * Iteratively checks whether the given IPT color is in-gamut, and either brings the color closer to 50% gray if it
+     * Iteratively checks whether the given Oklab color is in-gamut, and either brings the color closer to 50% gray if it
      * isn't in-gamut, or returns it as soon as it is in-gamut.
      *
-     * @param packed a packed IPT int color; often this color is not in-gamut
-     * @return the first color this finds that is between the given IPT color and 50% gray, and is in-gamut
+     * @param oklab a packed Oklab int color; often this color is not in-gamut
+     * @return the first color this finds that is between the given Oklab color and 50% gray, and is in-gamut
      */
-    public static int limitToGamut(final int packed) {
-        final float i = (packed & 0xff) / 255f;
-        final float p = ((packed >>> 8 & 0xff) - 127.5f) / 127.5f;
-        final float t = ((packed >>> 16 & 0xff) - 127.5f) / 127.5f;
-        float i2 = i, p2 = p, t2 = t;
+    public static int limitToGamut(final int oklab) {
+        final float L = (oklab & 0xff) / 255f;
+        final float A = ((oklab >>> 8 & 0xff) - 127.5f) / 127.5f;
+        final float B = ((oklab >>> 16 & 0xff) - 127.5f) / 127.5f;
+        float L2 = L, A2 = A, B2 = B;
         for (int attempt = 31; attempt >= 0; attempt--) {
-            final float l = reverseTransform(i2 + 0.097569f * p2 + 0.205226f * t2);
-            final float m = reverseTransform(i2 + -0.11388f * p2 + 0.133217f * t2);
-            final float s = reverseTransform(i2 + 0.032615f * p2 + -0.67689f * t2);
+            final float l = cube(L2 + 0.3963377774f * A2 + 0.2158037573f * B2);
+            final float m = cube(L2 - 0.1055613458f * A2 - 0.0638541728f * B2);
+            final float s = cube(L2 - 0.0894841775f * A2 - 1.2914855480f * B2);
 
-            final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;
-            final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;
-            final float b = 0.028104f * l + -0.19466f * m + 1.166325f * s;
-            if (r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
+            final float r = +4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s;
+            final float g = -1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s;
+            final float b = -0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s;
+            if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
             final float progress = attempt * 0x1p-5f;
-            i2 = lerp(0.55f, i, progress);
-            p2 = lerp(0, p, progress);
-            t2 = lerp(0, t, progress);
+            L2 = lerp(0.63f, L, progress);
+            A2 = lerp(0, A, progress);
+            B2 = lerp(0, B, progress);
         }
-        return ((packed & 0xFE000000) | ((int) (t2 * 127.999f + 128f) << 16)
-                | ((int) (p2 * 127.999f + 128f) << 8) | ((int) (i2 * 255.999f)));
+        return ((oklab & 0xFE000000) | ((int) (B2 * 127.999f + 128f) << 16)
+                | ((int) (A2 * 127.999f + 128f) << 8) | ((int) (L2 * 255.999f)));
     }
 
     /**
-     * Interpolates from the packed float color start towards end by change. Both start and end should be packed IPT
+     * Interpolates from the packed float color start towards end by change. Both start and end should be packed Oklab
      * ints, and change can be between 0f (keep start) and 1f (only use end). This is a good way to reduce allocations
      * of temporary Colors.
      *
      * @param s      the starting color as a packed float
      * @param e      the end/target color as a packed float
      * @param change how much to go from start toward end, as a float between 0 and 1; higher means closer to end
-     * @return a packed IPT int that represents a color between start and end
+     * @return a packed Oklab int that represents a color between start and end
      */
     public static int lerpIntColors(final int s, final int e, final float change) {
         final int
-                ys = (s & 0xFF), cws = (s >>> 8) & 0xFF, cms = (s >>> 16) & 0xFF, as = s >>> 24 & 0xFE,
-                ye = (e & 0xFF), cwe = (e >>> 8) & 0xFF, cme = (e >>> 16) & 0xFF, ae = e >>> 24 & 0xFE;
-        return (((int) (ys + change * (ye - ys)) & 0xFF)
-                | (((int) (cws + change * (cwe - cws)) & 0xFF) << 8)
-                | (((int) (cms + change * (cme - cms)) & 0xFF) << 16)
-                | (((int) (as + change * (ae - as)) & 0xFE) << 24));
+                sL = (s & 0xFF), sA = (s >>> 8) & 0xFF, sB = (s >>> 16) & 0xFF, sAlpha = s >>> 24 & 0xFE,
+                eL = (e & 0xFF), eA = (e >>> 8) & 0xFF, eB = (e >>> 16) & 0xFF, eAlpha = e >>> 24 & 0xFE;
+        return (((int) (sL + change * (eL - sL)) & 0xFF)
+                | (((int) (sA + change * (eA - sA)) & 0xFF) << 8)
+                | (((int) (sB + change * (eB - sB)) & 0xFF) << 16)
+                | (((int) (sAlpha + change * (eAlpha - sAlpha)) & 0xFE) << 24));
     }
 
     /**
      * Given several colors, this gets an even mix of all colors in equal measure.
-     * If {@code colors} is null or has no items, this returns 0f (usually transparent in most color spaces).
+     * If {@code colors} is null or has no items, this returns {@link #TRANSPARENT}.
      *
      * @param colors an array or varargs of packed float colors; all should use the same color space
      * @param offset the index of the first item in {@code colors} to use
@@ -935,7 +920,10 @@ public final class AlternatePalette {
     static {
         NAMES_BY_HUE.sort((o1, o2) -> {
             final int c1 = NAMED.get(o1), c2 = NAMED.get(o2);
-            final float s1 = saturation(c1), s2 = saturation(c2);
+            if((c1 & 0x80) == 0) return -10000;
+            else if((c2 & 0x80) == 0) return 10000;
+
+            final float s1 = chroma(c1), s2 = chroma(c2);
             if (s1 <= 0x1p-6f && s2 > 0x1p-6f)
                 return -1000;
             else if (s1 > 0x1p-6f && s2 <= 0x1p-6f)
@@ -943,7 +931,7 @@ public final class AlternatePalette {
             else if (s1 <= 0x1p-6f && s2 <= 0x1p-6f)
                 return (c1 & 255) - (c2 & 255);
             else
-                return 256 * (int) Math.signum(hue(c1) - hue(c2))
+                return ((int) Math.signum(hue(c1) - hue(c2)) << 8)
                         + (c1 & 255) - (c2 & 255);
         });
         NAMES_BY_LIGHTNESS.sort((o1, o2) -> (NAMED.get(o1) & 255) - (NAMED.get(o2) & 255));
@@ -953,21 +941,24 @@ public final class AlternatePalette {
     private static final IntList mixing = new IntList(4);
 
     /**
-     * Parses a color description and returns the approximate color it describes, as a packed IPT int color.
+     * Parses a color description and returns the approximate color it describes, as a packed Oklab int color.
      * Color descriptions consist of one or more lower-case words, separated by non-alphabetical characters (typically
-     * spaces and/or hyphens). Any word that is the name of a color in this palette will be looked up in
+     * spaces and/or hyphens). Any word that is the name of a color in this SimplePalette will be looked up in
      * {@link #NAMED} and tracked; if there is more than one of these color name words, the colors will be mixed using
      * {@link #mix(int[], int, int)}, or if there is just one color name word, then the corresponding color
      * will be used. The special adjectives "light" and "dark" change the intensity of the described color; likewise,
      * "rich" and "dull" change the saturation (the difference of the chromatic channels from grayscale). All of these
-     * adjectives can have "-er" or "-est" appended to make their effect twice or three times as strong. If a color name
-     * or adjective is invalid, it is considered the same as adding the color {@link #TRANSPARENT}.
+     * adjectives can have "-er" or "-est" appended to make their effect twice or three times as strong. Technically,
+     * the chars appended to an adjective don't matter, only their count, so "lightaa" is the same as "lighter" and
+     * "richcat" is the same as "richest". There's an unofficial fourth level as well, used when any 4 characters are
+     * appended to an adjective (as in "darkmost"); it has four times the effect of the original adjective. If a color
+     * name or adjective is invalid, it is considered the same as adding the color {@link #TRANSPARENT}.
      * <br>
      * Examples of valid descriptions include "blue", "dark green", "duller red", "peach pink", "indigo purple mauve",
      * and "lightest richer apricot-olive".
      *
      * @param description a color description, as a lower-case String matching the above format
-     * @return a packed IPT int color as described
+     * @return a packed Oklab int color as described
      */
     public static int parseDescription(final String description) {
         float intensity = 0f, saturation = 0f;
@@ -980,6 +971,8 @@ public final class AlternatePalette {
                 case 'l':
                     if (len > 2 && term.charAt(2) == 'g') {
                         switch (len) {
+                            case 9:
+                                intensity += 0.125f;
                             case 8:
                                 intensity += 0.125f;
                             case 7:
@@ -998,6 +991,8 @@ public final class AlternatePalette {
                 case 'r':
                     if (len > 1 && term.charAt(1) == 'i') {
                         switch (len) {
+                            case 8:
+                                saturation += 0.2f;
                             case 7:
                                 saturation += 0.2f;
                             case 6:
@@ -1016,6 +1011,8 @@ public final class AlternatePalette {
                 case 'd':
                     if (len > 1 && term.charAt(1) == 'a') {
                         switch (len) {
+                            case 8:
+                                intensity -= 0.125f;
                             case 7:
                                 intensity -= 0.125f;
                             case 6:
@@ -1029,6 +1026,8 @@ public final class AlternatePalette {
                         }
                     } else if (len > 1 && term.charAt(1) == 'u') {
                         switch (len) {
+                            case 8:
+                                saturation -= 0.2f;
                             case 7:
                                 saturation -= 0.2f;
                             case 6:
