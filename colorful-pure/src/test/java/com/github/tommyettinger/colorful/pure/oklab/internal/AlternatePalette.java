@@ -742,7 +742,12 @@ public final class AlternatePalette {
     }
 
     /**
-     * Gets the chroma or "colorfulness" of the given encoded color, as a non-negative float.
+     * Gets the chroma or "colorfulness" of the given encoded color, as a non-negative float. This is like the
+     * saturation component of HSL or HSV, but where saturation is always 1.0 when a color is the most colorful possible
+     * given its combination of hue and lightness, chroma can be lower if the most colorful possible value isn't as
+     * colorful as some other combination. This means chroma has a smaller range of values when L is high or low, and a
+     * larger range when L is near 0.45 to 0.65, roughly, because high and low L approach white and black, respectively,
+     * while mid-range L values are the most colorful.
      *
      * @param oklab a color as an Oklab int that can be obtained from any of the constants in this class.
      * @return the chroma of the color from 0.0 (a grayscale color; inclusive) to at-most the square root of 2 (but probably lower; a bright color)
@@ -887,7 +892,7 @@ public final class AlternatePalette {
      * @param change how much to go from start toward end, as a float between 0 and 1; higher means closer to end
      * @return a packed Oklab int that represents a color between start and end
      */
-    public static int lerpIntColors(final int s, final int e, final float change) {
+    public static int lerpColors(final int s, final int e, final float change) {
         final int
                 sL = (s & 0xFF), sA = (s >>> 8) & 0xFF, sB = (s >>> 16) & 0xFF, sAlpha = s >>> 24 & 0xFE,
                 eL = (e & 0xFF), eA = (e >>> 8) & 0xFF, eB = (e >>> 16) & 0xFF, eAlpha = e >>> 24 & 0xFE;
@@ -911,7 +916,7 @@ public final class AlternatePalette {
             return TRANSPARENT;
         int result = colors[offset];
         for (int i = offset + 1, o = offset + size, denom = 2; i < o; i++, denom++) {
-            result = lerpIntColors(result, colors[i], 1f / denom);
+            result = lerpColors(result, colors[i], 1f / denom);
         }
         return result;
     }
@@ -1012,13 +1017,13 @@ public final class AlternatePalette {
                     if (len > 1 && term.charAt(1) == 'a') {
                         switch (len) {
                             case 8:
-                                intensity -= 0.125f;
+                                intensity -= 0.15f;
                             case 7:
-                                intensity -= 0.125f;
+                                intensity -= 0.15f;
                             case 6:
-                                intensity -= 0.125f;
+                                intensity -= 0.15f;
                             case 4:
-                                intensity -= 0.125f;
+                                intensity -= 0.15f;
                                 break;
                             default:
                                 mixing.add(TRANSPARENT);

@@ -52,9 +52,9 @@ public class OklabGamutDemo extends ApplicationAdapter {
     @Override
     public void create() {
         startTime = TimeUtils.millis();
-        Pixmap b = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        b.drawPixel(0, 0, 0x7F7F81FF);
-        blank = new Texture(b);
+        Pixmap blank = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        blank.drawPixel(0, 0, 0x7F7F81FF);
+        this.blank = new Texture(blank);
         font = new BitmapFont(Gdx.files.internal("font.fnt"));
         font.setColor(1f, 0.5f, 0.5f, 1f);
 //        batch = Shaders.makeBatch(1.25f); // experimenting with slightly higher contrast
@@ -95,6 +95,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.enableBlending();
+/*
         final int frameCount = 120;
         Array<Pixmap> pixmaps = new Array<>(frameCount);
         for (int i = 0; i < frameCount; i++) {
@@ -119,7 +120,94 @@ public class OklabGamutDemo extends ApplicationAdapter {
         AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
         png.write(Gdx.files.local("OklabGamut.png"), pixmaps, 24);
+*/
+        float minA = 1000f, minB = 1000f, maxA = -1000f, maxB = -1000f, ok, A, B;
+        int c = 0xFF;
+        for (int r = 0; r < 256; r++, c += 0x01000000) {
+            int c2 = c;
+            for (int g = 0; g < 256; g++, c2 += 0x00010000) {
+                ok = ColorTools.fromRGBA8888(c2);
+                A = ColorTools.channelA(ok);
+                B = ColorTools.channelB(ok);
+                minA = Math.min(A, minA);
+                minB = Math.min(B, minB);
+                maxA = Math.max(A, maxA);
+                maxB = Math.max(B, maxB);
+            }
+        }
+        c = 0xFFFF;
+        for (int r = 0; r < 256; r++, c += 0x01000000) {
+            int c2 = c;
+            for (int g = 0; g < 256; g++, c2 += 0x00010000) {
+                ok = ColorTools.fromRGBA8888(c2);
+                A = ColorTools.channelA(ok);
+                B = ColorTools.channelB(ok);
+                minA = Math.min(A, minA);
+                minB = Math.min(B, minB);
+                maxA = Math.max(A, maxA);
+                maxB = Math.max(B, maxB);
+            }
+        }
+        c = 0xFF;
+        for (int r = 0; r < 256; r++, c += 0x01000000) {
+            int c2 = c;
+            for (int b = 0; b < 256; b++, c2 += 0x00000100) {
+                ok = ColorTools.fromRGBA8888(c2);
+                A = ColorTools.channelA(ok);
+                B = ColorTools.channelB(ok);
+                minA = Math.min(A, minA);
+                minB = Math.min(B, minB);
+                maxA = Math.max(A, maxA);
+                maxB = Math.max(B, maxB);
+            }
+        }
+        c = 0xFF00FF;
+        for (int r = 0; r < 256; r++, c += 0x01000000) {
+            int c2 = c;
+            for (int b = 0; b < 256; b++, c2 += 0x00000100) {
+                ok = ColorTools.fromRGBA8888(c2);
+                A = ColorTools.channelA(ok);
+                B = ColorTools.channelB(ok);
+                minA = Math.min(A, minA);
+                minB = Math.min(B, minB);
+                maxA = Math.max(A, maxA);
+                maxB = Math.max(B, maxB);
+            }
+        }
+        c = 0xFF;
+        for (int g = 0; g < 256; g++, c += 0x00010000) {
+            int c2 = c;
+            for (int b = 0; b < 256; b++, c2 += 0x00000100) {
+                ok = ColorTools.fromRGBA8888(c2);
+                A = ColorTools.channelA(ok);
+                B = ColorTools.channelB(ok);
+                minA = Math.min(A, minA);
+                minB = Math.min(B, minB);
+                maxA = Math.max(A, maxA);
+                maxB = Math.max(B, maxB);
+            }
+        }
+        c = 0xFF0000FF;
+        for (int g = 0; g < 256; g++, c += 0x00010000) {
+            int c2 = c;
+            for (int b = 0; b < 256; b++, c2 += 0x00000100) {
+                ok = ColorTools.fromRGBA8888(c2);
+                A = ColorTools.channelA(ok);
+                B = ColorTools.channelB(ok);
+                minA = Math.min(A, minA);
+                minB = Math.min(B, minB);
+                maxA = Math.max(A, maxA);
+                maxB = Math.max(B, maxB);
+            }
+        }
+        System.out.printf("minimum A: %1.5f\nmaximum A: %1.5f\nminimum B: %1.5f\nmaximum B: %1.5f\n",
+                minA * 2 - 1, maxA * 2 - 1, minB * 2 - 1, maxB * 2 - 1);
 
+        ////Prints:
+        //minimum A: -0.23137
+        //maximum A: 0.27843
+        //minimum B: -0.30980
+        //maximum B: 0.20000
     }
 
 
