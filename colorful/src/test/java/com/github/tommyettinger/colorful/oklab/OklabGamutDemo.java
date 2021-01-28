@@ -201,7 +201,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
             }
         }
         System.out.printf("minimum A: %1.5f\nmaximum A: %1.5f\nminimum B: %1.5f\nmaximum B: %1.5f\n",
-                minA * 2 - 1, maxA * 2 - 1, minB * 2 - 1, maxB * 2 - 1);
+                minA - 0.5f, maxA - 0.5f, minB - 0.5f, maxB - 0.5f);
 
         ////Prints:
         //minimum A: -0.23137
