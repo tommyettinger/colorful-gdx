@@ -758,21 +758,15 @@ public class MathTools {
         }
     }
     public static int clamp (int value, int min, int max) {
-        if (value <= min) return min;
-        if (value >= max) return max;
-        return value;
+        return Math.max(min, Math.min(value, max));
     }
 
     public static long clamp (long value, long min, long max) {
-        if (value <= min) return min;
-        if (value >= max) return max;
-        return value;
+        return Math.max(min, Math.min(value, max));
     }
 
     public static float clamp (float value, float min, float max) {
-        if (value <= min) return min;
-        if (value >= max) return max;
-        return value;
+        return Math.max(min, Math.min(value, max));
     }
     /**
      *  Linearly interpolates between fromValue to toValue on progress position.

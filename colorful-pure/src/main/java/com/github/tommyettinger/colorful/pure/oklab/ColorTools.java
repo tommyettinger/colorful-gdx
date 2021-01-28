@@ -12,8 +12,10 @@ import java.util.Random;
  * uniform lightness and colorfulness, instead of just the emphasis on uniform hue that IPT has. Relative to IPT, Oklab
  * has a noticeably smaller range in chromatic channels (IPT's protan and tritan can range past 0.8 or as low as 0.35,
  * but the similar A and B channels in Oklab don't stray past about 0.65 at the upper end, if that), but it does this so
- * the difference between two Oklab colors is just the Euclidean distance between their components (though because of
- * what colorful does, A and B should be multiplied by 2).
+ * the difference between two Oklab colors is just the Euclidean distance between their components. A slight difference
+ * between Oklab and IPT here is that IPT shrinks the chromatic channels to store their -1 to 1 range in a color float's
+ * 0 to 1 range, then offsets the shrunken range from -0.5 to 0.5, to 0 to 1; Oklab does not need to shrink the range,
+ * and only offsets it in the same way (both just add 0.5).
  * <br>
  * Here's <a href="https://bottosson.github.io/posts/oklab/">Björn Ottosson's original post introducing Oklab</a>.
  * So far, <a href="https://raphlinus.github.io/color/2021/01/18/oklab-critique.html">it stood up to analysis by Raph
@@ -171,9 +173,9 @@ public class ColorTools {
 		final float s = cbrt(0.0883097947f * r + 0.2818474174f * g + 0.6302613616f * b);
 
 		return BitConversion.intBitsToFloat(
-			              MathTools.clamp((int)((0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s       ) * 255.999f), 0, 255)
-						| MathTools.clamp((int)((0.9889992500f * l - 1.2142961000f * m + 0.2252968500f * s + 0.5f) * 255.999f), 0, 255) << 8
-						| MathTools.clamp((int)((0.0129520185f * l + 0.3913858800f * m - 0.4043378800f * s + 0.5f) * 255.999f), 0, 255) << 16
+				          MathTools.clamp((int)((0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s       ) * 255.999f), 0, 255)
+						| MathTools.clamp((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s + 0.5f) * 255.999f), 0, 255) << 8
+						| MathTools.clamp((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s + 0.5f) * 255.999f), 0, 255) << 16
 						| (rgba & 0xFE) << 24);
 	}
 
@@ -192,8 +194,8 @@ public class ColorTools {
 		final float s = cbrt(0.0883097947f * r + 0.2818474174f * g + 0.6302613616f * b);
 		return BitConversion.intBitsToFloat(
 				          MathTools.clamp((int)((0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s       ) * 255.999f), 0, 255)
-						| MathTools.clamp((int)((0.9889992500f * l - 1.2142961000f * m + 0.2252968500f * s + 0.5f) * 255.999f), 0, 255) << 8
-						| MathTools.clamp((int)((0.0129520185f * l + 0.3913858800f * m - 0.4043378800f * s + 0.5f) * 255.999f), 0, 255) << 16
+						| MathTools.clamp((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s + 0.5f) * 255.999f), 0, 255) << 8
+						| MathTools.clamp((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s + 0.5f) * 255.999f), 0, 255) << 16
 						| (abgr & 0xFE000000));
 	}
 
@@ -201,6 +203,11 @@ public class ColorTools {
 	//+0.2104542553 +0.7936177850 -0.0040720468
 	//+1.9779984951 -2.4285922050 +0.4505937099
 	//+0.0259040371 +0.7827717662 -0.8086757660
+
+	// shrunken multipliers:
+	//+0.2104542553 +0.7936177850 -0.0040720468
+	//+0.9889992500 -1.2142961000 +0.2252968500
+	//+0.0129520185 +0.3913858800 -0.4043378800
 
 	/**
 	 * Takes RGBA components from 0.0 to 1.0 each and converts to a packed float in the Oklab format this uses.
@@ -219,8 +226,8 @@ public class ColorTools {
 		final float s = cbrt(0.0883097947f * r + 0.2818474174f * g + 0.6302613616f * b);
 		return BitConversion.intBitsToFloat(
 				          MathTools.clamp((int)((0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s       ) * 255.999f), 0, 255)
-						| MathTools.clamp((int)((0.9889992500f * l - 1.2142961000f * m + 0.2252968500f * s + 0.5f) * 255.999f), 0, 255) << 8
-						| MathTools.clamp((int)((0.0129520185f * l + 0.3913858800f * m - 0.4043378800f * s + 0.5f) * 255.999f), 0, 255) << 16
+						| MathTools.clamp((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s + 0.5f) * 255.999f), 0, 255) << 8
+						| MathTools.clamp((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s + 0.5f) * 255.999f), 0, 255) << 16
 						| ((int)(a * 255f) << 24 & 0xFE000000));
 	}
 
