@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -208,6 +209,19 @@ public class OklabGamutDemo extends ApplicationAdapter {
         //maximum A: 0.27843
         //minimum B: -0.30980
         //maximum B: 0.20000
+
+//        float color = ColorTools.oklab(0.625f, 0.625f, 0.625f, 1f);
+        float color = SimplePalette.APRICOT; //FFA828FF, L 0.8156863, A 0.52156866, B 0.5764706,
+        System.out.printf("%02X, %02X, %02X\n", ColorTools.redInt(color), ColorTools.greenInt(color), ColorTools.blueInt(color));
+        System.out.printf("%1.4f, %1.4f, %1.4f\n", ColorTools.channelL(color), ColorTools.channelA(color), ColorTools.channelB(color));
+        System.out.println("To RGBA...");
+        float rgba = ColorTools.toRGBA(color);
+        int abgr = NumberUtils.floatToRawIntBits(rgba);
+        System.out.printf("%02X, %02X, %02X\n", abgr & 0xFF, abgr >>> 8 & 0xFF, abgr >>> 16 & 0xFF);
+        System.out.println("And back...");
+        color = ColorTools.fromRGBA(rgba);
+        System.out.printf("%02X, %02X, %02X\n", ColorTools.redInt(color), ColorTools.greenInt(color), ColorTools.blueInt(color));
+        System.out.printf("%1.4f, %1.4f, %1.4f\n", ColorTools.channelL(color), ColorTools.channelA(color), ColorTools.channelB(color));
     }
 
 
