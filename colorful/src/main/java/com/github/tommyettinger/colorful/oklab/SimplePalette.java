@@ -836,7 +836,7 @@ public class SimplePalette {
             else result = ColorTools.limitToGamut(result);
 
             float dL = ColorTools.channelL(result) - targetL, dA = ColorTools.channelA(result) - targetA, dB = ColorTools.channelB(result) - targetB;
-            if(bestDistance > (bestDistance = Math.min(dL * dL * 0.5f + dA * dA + dB * dB, bestDistance)))
+            if(bestDistance > (bestDistance = Math.min(dL * dL + dA * dA + dB * dB, bestDistance)))
                 bestCode = c;
         }
 
