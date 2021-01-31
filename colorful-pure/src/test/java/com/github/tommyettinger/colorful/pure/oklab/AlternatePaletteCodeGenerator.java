@@ -93,6 +93,7 @@ public class AlternatePaletteCodeGenerator {
         PAL.sort(null);
         sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Intens</th>\n<th>Protan</th>\n<th>Tritan</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectIntOrderedMap.Entry<String> sc : PAL) {
+            assert sc.key != null;
             ci = sc.value;
             c = BitConversion.intBitsToFloat(ci);
             int rgba = ColorTools.toRGBA8888(c);
@@ -133,6 +134,7 @@ public class AlternatePaletteCodeGenerator {
         });
         sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Intens</th>\n<th>Protan</th>\n<th>Tritan</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectIntOrderedMap.Entry<String> sc : PAL) {
+            assert sc.key != null;
             ci = sc.value;
             c = BitConversion.intBitsToFloat(ci);
             int rgba = ColorTools.toRGBA8888(c);
@@ -159,6 +161,7 @@ public class AlternatePaletteCodeGenerator {
         PAL.sortByValue((int c1, int c2) -> (int)Math.signum(ColorTools.channelL(BitConversion.intBitsToFloat(c1)) - ColorTools.channelL(BitConversion.intBitsToFloat(c2))));
         sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>Intens</th>\n<th>Protan</th>\n<th>Tritan</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectIntOrderedMap.Entry<String> sc : PAL) {
+            assert sc.key != null;
             ci = sc.value;
             c = BitConversion.intBitsToFloat(ci);
             int rgba = ColorTools.toRGBA8888(c);

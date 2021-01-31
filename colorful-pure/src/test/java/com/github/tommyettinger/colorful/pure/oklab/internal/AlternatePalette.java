@@ -1,5 +1,8 @@
 package com.github.tommyettinger.colorful.pure.oklab.internal;
 
+import com.github.tommyettinger.colorful.pure.FloatColors;
+import com.github.tommyettinger.colorful.pure.oklab.ColorTools;
+import com.github.tommyettinger.ds.FloatList;
 import com.github.tommyettinger.ds.IntList;
 import com.github.tommyettinger.ds.ObjectIntOrderedMap;
 import com.github.tommyettinger.ds.ObjectList;
@@ -52,112 +55,112 @@ public final class AlternatePalette {
     static { NAMED.put("black", 0xfe7f7f00); LIST.add(0xfe7f7f00); }
 
     /**
-     * This color constant "gray" has RGBA8888 code {@code 808080FF}, L 0.6313726, A 0.5019608, B 0.49803922, alpha 1.0, hue 0.78102106, and saturation 0.013032079.
-     * It has the encoded Oklab value 0xfe7f80a1 .
+     * This color constant "gray" has RGBA8888 code {@code 808080FF}, L 0.6313726, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.54913926, and saturation 0.023115247.
+     * It has the encoded Oklab value 0xfe7f7fa1 .
      * <pre>
      * <font style='background-color: #808080;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #808080; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #808080;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #808080'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #808080'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #808080'>&nbsp;@&nbsp;</font><font style='background-color: #808080; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #808080;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #808080; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int GRAY = 0xfe7f80a1;
-    static { NAMED.put("gray", 0xfe7f80a1); LIST.add(0xfe7f80a1); }
+    public static final int GRAY = 0xfe7f7fa1;
+    static { NAMED.put("gray", 0xfe7f7fa1); LIST.add(0xfe7f7fa1); }
 
     /**
-     * This color constant "silver" has RGBA8888 code {@code B6B6B6FF}, L 0.8, A 0.5019608, B 0.49803922, alpha 1.0, hue 0.7816417, and saturation 0.014609158.
-     * It has the encoded Oklab value 0xfe7f80cc .
+     * This color constant "silver" has RGBA8888 code {@code B6B6B6FF}, L 0.8, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.5489059, and saturation 0.025921047.
+     * It has the encoded Oklab value 0xfe7f7fcc .
      * <pre>
      * <font style='background-color: #B6B6B6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B6B6B6; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #B6B6B6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #B6B6B6'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #B6B6B6'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #B6B6B6'>&nbsp;@&nbsp;</font><font style='background-color: #B6B6B6; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #B6B6B6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B6B6B6; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int SILVER = 0xfe7f80cc;
-    static { NAMED.put("silver", 0xfe7f80cc); LIST.add(0xfe7f80cc); }
+    public static final int SILVER = 0xfe7f7fcc;
+    static { NAMED.put("silver", 0xfe7f7fcc); LIST.add(0xfe7f7fcc); }
 
     /**
-     * This color constant "white" has RGBA8888 code {@code FFFFFFFF}, L 1.0, A 0.5019608, B 0.49803922, alpha 1.0, hue 0.8333333, and saturation 0.0.
-     * It has the encoded Oklab value 0xfe7f80ff .
+     * This color constant "white" has RGBA8888 code {@code FFFFFFFF}, L 1.0, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.5, and saturation 0.0.
+     * It has the encoded Oklab value 0xfe7f7fff .
      * <pre>
      * <font style='background-color: #FFFFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFFFFF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFFFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFFFFF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFFFFF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFFFFF'>&nbsp;@&nbsp;</font><font style='background-color: #FFFFFF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFFFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFFFFF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int WHITE = 0xfe7f80ff;
-    static { NAMED.put("white", 0xfe7f80ff); LIST.add(0xfe7f80ff); }
+    public static final int WHITE = 0xfe7f7fff;
+    static { NAMED.put("white", 0xfe7f7fff); LIST.add(0xfe7f7fff); }
 
     /**
-     * This color constant "red" has RGBA8888 code {@code FF0000FF}, L 0.627451, A 0.6117647, B 0.5647059, alpha 1.0, hue 0.0, and saturation 0.99985.
-     * It has the encoded Oklab value 0xfe909ca0 .
+     * This color constant "red" has RGBA8888 code {@code FF0000FF}, L 0.627451, A 0.6117647, B 0.56078434, alpha 1.0, hue 0.9965429, and saturation 0.94052595.
+     * It has the encoded Oklab value 0xfe8f9ca0 .
      * <pre>
      * <font style='background-color: #FF0000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF0000; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF0000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FF0000'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FF0000'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FF0000'>&nbsp;@&nbsp;</font><font style='background-color: #FF0000; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF0000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF0000; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int RED = 0xfe909ca0;
-    static { NAMED.put("red", 0xfe909ca0); LIST.add(0xfe909ca0); }
+    public static final int RED = 0xfe8f9ca0;
+    static { NAMED.put("red", 0xfe8f9ca0); LIST.add(0xfe8f9ca0); }
 
     /**
-     * This color constant "orange" has RGBA8888 code {@code FF7F00FF}, L 0.74509805, A 0.54901963, B 0.5764706, alpha 1.0, hue 0.08329613, and saturation 0.99937195.
-     * It has the encoded Oklab value 0xfe938cbe .
+     * This color constant "orange" has RGBA8888 code {@code FF7F00FF}, L 0.74509805, A 0.54901963, B 0.57254905, alpha 1.0, hue 0.07449477, and saturation 0.88500965.
+     * It has the encoded Oklab value 0xfe928cbe .
      * <pre>
      * <font style='background-color: #FF7F00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF7F00; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF7F00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FF7F00'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FF7F00'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FF7F00'>&nbsp;@&nbsp;</font><font style='background-color: #FF7F00; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF7F00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF7F00; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int ORANGE = 0xfe938cbe;
-    static { NAMED.put("orange", 0xfe938cbe); LIST.add(0xfe938cbe); }
+    public static final int ORANGE = 0xfe928cbe;
+    static { NAMED.put("orange", 0xfe928cbe); LIST.add(0xfe928cbe); }
 
     /**
-     * This color constant "yellow" has RGBA8888 code {@code FFFF00FF}, L 0.96862745, A 0.4627451, B 0.6, alpha 1.0, hue 0.16763347, and saturation 1.0.
-     * It has the encoded Oklab value 0xfe9976f7 .
+     * This color constant "yellow" has RGBA8888 code {@code FFFF00FF}, L 0.96862745, A 0.4627451, B 0.59607846, alpha 1.0, hue 0.16986547, and saturation 0.85278344.
+     * It has the encoded Oklab value 0xfe9876f7 .
      * <pre>
      * <font style='background-color: #FFFF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFFF00; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFFF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFFF00'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFFF00'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFFF00'>&nbsp;@&nbsp;</font><font style='background-color: #FFFF00; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFFF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFFF00; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int YELLOW = 0xfe9976f7;
-    static { NAMED.put("yellow", 0xfe9976f7); LIST.add(0xfe9976f7); }
+    public static final int YELLOW = 0xfe9876f7;
+    static { NAMED.put("yellow", 0xfe9876f7); LIST.add(0xfe9876f7); }
 
     /**
-     * This color constant "green" has RGBA8888 code {@code 00FF00FF}, L 0.8666667, A 0.38431373, B 0.5882353, alpha 1.0, hue 0.33707184, and saturation 0.92914987.
-     * It has the encoded Oklab value 0xfe9662dd .
+     * This color constant "green" has RGBA8888 code {@code 00FF00FF}, L 0.8666667, A 0.38039216, B 0.5882353, alpha 1.0, hue 0.3486388, and saturation 1.0.
+     * It has the encoded Oklab value 0xfe9661dd .
      * <pre>
      * <font style='background-color: #00FF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00FF00; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #00FF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #00FF00'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #00FF00'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #00FF00'>&nbsp;@&nbsp;</font><font style='background-color: #00FF00; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #00FF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00FF00; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int GREEN = 0xfe9662dd;
-    static { NAMED.put("green", 0xfe9662dd); LIST.add(0xfe9662dd); }
+    public static final int GREEN = 0xfe9661dd;
+    static { NAMED.put("green", 0xfe9661dd); LIST.add(0xfe9661dd); }
 
     /**
-     * This color constant "blue" has RGBA8888 code {@code 0000FFFF}, L 0.4509804, A 0.48235294, B 0.34509805, alpha 1.0, hue 0.6595863, and saturation 0.99431187.
-     * It has the encoded Oklab value 0xfe587b73 .
+     * This color constant "blue" has RGBA8888 code {@code 0000FFFF}, L 0.4509804, A 0.48235294, B 0.34117648, alpha 1.0, hue 0.6666667, and saturation 1.0.
+     * It has the encoded Oklab value 0xfe577b73 .
      * <pre>
      * <font style='background-color: #0000FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0000FF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #0000FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #0000FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #0000FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #0000FF'>&nbsp;@&nbsp;</font><font style='background-color: #0000FF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #0000FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0000FF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int BLUE = 0xfe587b73;
-    static { NAMED.put("blue", 0xfe587b73); LIST.add(0xfe587b73); }
+    public static final int BLUE = 0xfe577b73;
+    static { NAMED.put("blue", 0xfe577b73); LIST.add(0xfe577b73); }
 
     /**
-     * This color constant "indigo" has RGBA8888 code {@code 520FE0FF}, L 0.46666667, A 0.53333336, B 0.37254903, alpha 1.0, hue 0.716119, and saturation 0.7940526.
-     * It has the encoded Oklab value 0xfe5f8877 .
+     * This color constant "indigo" has RGBA8888 code {@code 520FE0FF}, L 0.46666667, A 0.53333336, B 0.36862746, alpha 1.0, hue 0.71970063, and saturation 0.8475976.
+     * It has the encoded Oklab value 0xfe5e8877 .
      * <pre>
      * <font style='background-color: #520FE0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #520FE0; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #520FE0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #520FE0'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #520FE0'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #520FE0'>&nbsp;@&nbsp;</font><font style='background-color: #520FE0; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #520FE0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #520FE0; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int INDIGO = 0xfe5f8877;
-    static { NAMED.put("indigo", 0xfe5f8877); LIST.add(0xfe5f8877); }
+    public static final int INDIGO = 0xfe5e8877;
+    static { NAMED.put("indigo", 0xfe5e8877); LIST.add(0xfe5e8877); }
 
     /**
      * This color constant "violet" has RGBA8888 code {@code 9040EFFF}, L 0.5882353, A 0.56078434, B 0.39607844, alpha 1.0, hue 0.7400259, and saturation 0.69078076.
@@ -172,124 +175,124 @@ public final class AlternatePalette {
     static { NAMED.put("violet", 0xfe658f96); LIST.add(0xfe658f96); }
 
     /**
-     * This color constant "purple" has RGBA8888 code {@code C000FFFF}, L 0.61960787, A 0.60784316, B 0.39215687, alpha 1.0, hue 0.79172784, and saturation 0.9814291.
-     * It has the encoded Oklab value 0xfe649b9e .
+     * This color constant "purple" has RGBA8888 code {@code C000FFFF}, L 0.61960787, A 0.60784316, B 0.3882353, alpha 1.0, hue 0.79168844, and saturation 1.0.
+     * It has the encoded Oklab value 0xfe639b9e .
      * <pre>
      * <font style='background-color: #C000FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C000FF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C000FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #C000FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #C000FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #C000FF'>&nbsp;@&nbsp;</font><font style='background-color: #C000FF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C000FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C000FF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int PURPLE = 0xfe649b9e;
-    static { NAMED.put("purple", 0xfe649b9e); LIST.add(0xfe649b9e); }
+    public static final int PURPLE = 0xfe639b9e;
+    static { NAMED.put("purple", 0xfe639b9e); LIST.add(0xfe639b9e); }
 
     /**
-     * This color constant "brown" has RGBA8888 code {@code 8F573BFF}, L 0.54509807, A 0.5294118, B 0.53333336, alpha 1.0, hue 0.055619232, and saturation 0.34235206.
-     * It has the encoded Oklab value 0xfe88878b .
+     * This color constant "brown" has RGBA8888 code {@code 8F573BFF}, L 0.54509807, A 0.5254902, B 0.5294118, alpha 1.0, hue 0.05623632, and saturation 0.29972398.
+     * It has the encoded Oklab value 0xfe87868b .
      * <pre>
      * <font style='background-color: #8F573B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8F573B; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #8F573B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #8F573B'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #8F573B'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #8F573B'>&nbsp;@&nbsp;</font><font style='background-color: #8F573B; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #8F573B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8F573B; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int BROWN = 0xfe88878b;
-    static { NAMED.put("brown", 0xfe88878b); LIST.add(0xfe88878b); }
+    public static final int BROWN = 0xfe87868b;
+    static { NAMED.put("brown", 0xfe87868b); LIST.add(0xfe87868b); }
 
     /**
-     * This color constant "pink" has RGBA8888 code {@code FFA0E0FF}, L 0.8352941, A 0.5568628, B 0.47843137, alpha 1.0, hue 0.8876901, and saturation 0.3618992.
-     * It has the encoded Oklab value 0xfe7a8ed5 .
+     * This color constant "pink" has RGBA8888 code {@code FFA0E0FF}, L 0.8352941, A 0.5568628, B 0.4745098, alpha 1.0, hue 0.87488794, and saturation 0.35551316.
+     * It has the encoded Oklab value 0xfe798ed5 .
      * <pre>
      * <font style='background-color: #FFA0E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFA0E0; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFA0E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFA0E0'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFA0E0'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFA0E0'>&nbsp;@&nbsp;</font><font style='background-color: #FFA0E0; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFA0E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFA0E0; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int PINK = 0xfe7a8ed5;
-    static { NAMED.put("pink", 0xfe7a8ed5); LIST.add(0xfe7a8ed5); }
+    public static final int PINK = 0xfe798ed5;
+    static { NAMED.put("pink", 0xfe798ed5); LIST.add(0xfe798ed5); }
 
     /**
-     * This color constant "magenta" has RGBA8888 code {@code F500F5FF}, L 0.68235296, A 0.63529414, B 0.41568628, alpha 1.0, hue 0.83222985, and saturation 0.9689435.
-     * It has the encoded Oklab value 0xfe6aa2ae .
+     * This color constant "magenta" has RGBA8888 code {@code F500F5FF}, L 0.68235296, A 0.6313726, B 0.41568628, alpha 1.0, hue 0.82959664, and saturation 0.9094021.
+     * It has the encoded Oklab value 0xfe6aa1ae .
      * <pre>
      * <font style='background-color: #F500F5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F500F5; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #F500F5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #F500F5'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #F500F5'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #F500F5'>&nbsp;@&nbsp;</font><font style='background-color: #F500F5; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #F500F5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F500F5; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int MAGENTA = 0xfe6aa2ae;
-    static { NAMED.put("magenta", 0xfe6aa2ae); LIST.add(0xfe6aa2ae); }
+    public static final int MAGENTA = 0xfe6aa1ae;
+    static { NAMED.put("magenta", 0xfe6aa1ae); LIST.add(0xfe6aa1ae); }
 
     /**
-     * This color constant "brick" has RGBA8888 code {@code D5524AFF}, L 0.6313726, A 0.57254905, B 0.5372549, alpha 1.0, hue 0.011065567, and saturation 0.55564904.
-     * It has the encoded Oklab value 0xfe8992a1 .
+     * This color constant "brick" has RGBA8888 code {@code D5524AFF}, L 0.6313726, A 0.5686275, B 0.53333336, alpha 1.0, hue 0.008957353, and saturation 0.512173.
+     * It has the encoded Oklab value 0xfe8891a1 .
      * <pre>
      * <font style='background-color: #D5524A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D5524A; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #D5524A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #D5524A'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #D5524A'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #D5524A'>&nbsp;@&nbsp;</font><font style='background-color: #D5524A; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #D5524A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D5524A; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int BRICK = 0xfe8992a1;
-    static { NAMED.put("brick", 0xfe8992a1); LIST.add(0xfe8992a1); }
+    public static final int BRICK = 0xfe8891a1;
+    static { NAMED.put("brick", 0xfe8891a1); LIST.add(0xfe8891a1); }
 
     /**
-     * This color constant "ember" has RGBA8888 code {@code F55A32FF}, L 0.68235296, A 0.5764706, B 0.5568628, alpha 1.0, hue 0.033700597, and saturation 0.7658372.
-     * It has the encoded Oklab value 0xfe8e93ae .
+     * This color constant "ember" has RGBA8888 code {@code F55A32FF}, L 0.68235296, A 0.57254905, B 0.5568628, alpha 1.0, hue 0.037140083, and saturation 0.75178295.
+     * It has the encoded Oklab value 0xfe8e92ae .
      * <pre>
      * <font style='background-color: #F55A32;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F55A32; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #F55A32;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #F55A32'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #F55A32'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #F55A32'>&nbsp;@&nbsp;</font><font style='background-color: #F55A32; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #F55A32;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F55A32; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int EMBER = 0xfe8e93ae;
-    static { NAMED.put("ember", 0xfe8e93ae); LIST.add(0xfe8e93ae); }
+    public static final int EMBER = 0xfe8e92ae;
+    static { NAMED.put("ember", 0xfe8e92ae); LIST.add(0xfe8e92ae); }
 
     /**
-     * This color constant "salmon" has RGBA8888 code {@code FF6262FF}, L 0.7137255, A 0.58431375, B 0.53333336, alpha 1.0, hue 0.9967152, and saturation 0.61534655.
-     * It has the encoded Oklab value 0xfe8895b6 .
+     * This color constant "salmon" has RGBA8888 code {@code FF6262FF}, L 0.7137255, A 0.5803922, B 0.53333336, alpha 1.0, hue 9.369861E-5, and saturation 0.5919734.
+     * It has the encoded Oklab value 0xfe8894b6 .
      * <pre>
      * <font style='background-color: #FF6262;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF6262; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF6262;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FF6262'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FF6262'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FF6262'>&nbsp;@&nbsp;</font><font style='background-color: #FF6262; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF6262;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF6262; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int SALMON = 0xfe8895b6;
-    static { NAMED.put("salmon", 0xfe8895b6); LIST.add(0xfe8895b6); }
+    public static final int SALMON = 0xfe8894b6;
+    static { NAMED.put("salmon", 0xfe8894b6); LIST.add(0xfe8894b6); }
 
     /**
-     * This color constant "chocolate" has RGBA8888 code {@code 683818FF}, L 0.41960785, A 0.5254902, B 0.5372549, alpha 1.0, hue 0.0701116, and saturation 0.32688692.
-     * It has the encoded Oklab value 0xfe89866b .
+     * This color constant "chocolate" has RGBA8888 code {@code 683818FF}, L 0.41960785, A 0.5254902, B 0.53333336, alpha 1.0, hue 0.06347794, and saturation 0.2938226.
+     * It has the encoded Oklab value 0xfe88866b .
      * <pre>
      * <font style='background-color: #683818;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #683818; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #683818;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #683818'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #683818'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #683818'>&nbsp;@&nbsp;</font><font style='background-color: #683818; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #683818;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #683818; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int CHOCOLATE = 0xfe89866b;
-    static { NAMED.put("chocolate", 0xfe89866b); LIST.add(0xfe89866b); }
+    public static final int CHOCOLATE = 0xfe88866b;
+    static { NAMED.put("chocolate", 0xfe88866b); LIST.add(0xfe88866b); }
 
     /**
-     * This color constant "tan" has RGBA8888 code {@code D2B48CFF}, L 0.80784315, A 0.5058824, B 0.5294118, alpha 1.0, hue 0.10020151, and saturation 0.2705797.
-     * It has the encoded Oklab value 0xfe8781ce .
+     * This color constant "tan" has RGBA8888 code {@code D2B48CFF}, L 0.80784315, A 0.5058824, B 0.5254902, alpha 1.0, hue 0.09748065, and saturation 0.23781472.
+     * It has the encoded Oklab value 0xfe8681ce .
      * <pre>
      * <font style='background-color: #D2B48C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D2B48C; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #D2B48C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #D2B48C'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #D2B48C'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #D2B48C'>&nbsp;@&nbsp;</font><font style='background-color: #D2B48C; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #D2B48C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D2B48C; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int TAN = 0xfe8781ce;
-    static { NAMED.put("tan", 0xfe8781ce); LIST.add(0xfe8781ce); }
+    public static final int TAN = 0xfe8681ce;
+    static { NAMED.put("tan", 0xfe8681ce); LIST.add(0xfe8681ce); }
 
     /**
-     * This color constant "bronze" has RGBA8888 code {@code CE8E31FF}, L 0.7176471, A 0.5176471, B 0.5647059, alpha 1.0, hue 0.09839826, and saturation 0.6379665.
-     * It has the encoded Oklab value 0xfe9084b7 .
+     * This color constant "bronze" has RGBA8888 code {@code CE8E31FF}, L 0.7176471, A 0.5137255, B 0.56078434, alpha 1.0, hue 0.10091105, and saturation 0.5744981.
+     * It has the encoded Oklab value 0xfe8f83b7 .
      * <pre>
      * <font style='background-color: #CE8E31;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #CE8E31; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #CE8E31;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #CE8E31'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #CE8E31'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #CE8E31'>&nbsp;@&nbsp;</font><font style='background-color: #CE8E31; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #CE8E31;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #CE8E31; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int BRONZE = 0xfe9084b7;
-    static { NAMED.put("bronze", 0xfe9084b7); LIST.add(0xfe9084b7); }
+    public static final int BRONZE = 0xfe8f83b7;
+    static { NAMED.put("bronze", 0xfe8f83b7); LIST.add(0xfe8f83b7); }
 
     /**
      * This color constant "cinnamon" has RGBA8888 code {@code D2691DFF}, L 0.654902, A 0.54509807, B 0.56078434, alpha 1.0, hue 0.06806485, and saturation 0.69029737.
@@ -316,112 +319,112 @@ public final class AlternatePalette {
     static { NAMED.put("apricot", 0xfe9385d0); LIST.add(0xfe9385d0); }
 
     /**
-     * This color constant "peach" has RGBA8888 code {@code FFBF81FF}, L 0.8666667, A 0.52156866, B 0.54509807, alpha 1.0, hue 0.08081777, and saturation 0.48548955.
-     * It has the encoded Oklab value 0xfe8b85dd .
+     * This color constant "peach" has RGBA8888 code {@code FFBF81FF}, L 0.8666667, A 0.5176471, B 0.54509807, alpha 1.0, hue 0.08507312, and saturation 0.47791255.
+     * It has the encoded Oklab value 0xfe8b84dd .
      * <pre>
      * <font style='background-color: #FFBF81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFBF81; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFBF81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFBF81'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFBF81'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFBF81'>&nbsp;@&nbsp;</font><font style='background-color: #FFBF81; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFBF81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFBF81; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int PEACH = 0xfe8b85dd;
-    static { NAMED.put("peach", 0xfe8b85dd); LIST.add(0xfe8b85dd); }
+    public static final int PEACH = 0xfe8b84dd;
+    static { NAMED.put("peach", 0xfe8b84dd); LIST.add(0xfe8b84dd); }
 
     /**
-     * This color constant "pear" has RGBA8888 code {@code D3E330FF}, L 0.8862745, A 0.4627451, B 0.58431375, alpha 1.0, hue 0.1798214, and saturation 0.6954162.
-     * It has the encoded Oklab value 0xfe9576e2 .
+     * This color constant "pear" has RGBA8888 code {@code D3E330FF}, L 0.8862745, A 0.45882353, B 0.58431375, alpha 1.0, hue 0.18681404, and saturation 0.7025431.
+     * It has the encoded Oklab value 0xfe9575e2 .
      * <pre>
      * <font style='background-color: #D3E330;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D3E330; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #D3E330;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #D3E330'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #D3E330'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #D3E330'>&nbsp;@&nbsp;</font><font style='background-color: #D3E330; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #D3E330;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D3E330; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int PEAR = 0xfe9576e2;
-    static { NAMED.put("pear", 0xfe9576e2); LIST.add(0xfe9576e2); }
+    public static final int PEAR = 0xfe9575e2;
+    static { NAMED.put("pear", 0xfe9575e2); LIST.add(0xfe9575e2); }
 
     /**
-     * This color constant "saffron" has RGBA8888 code {@code FFD510FF}, L 0.89411765, A 0.49019608, B 0.5921569, alpha 1.0, hue 0.1395091, and saturation 1.0.
-     * It has the encoded Oklab value 0xfe977de4 .
+     * This color constant "saffron" has RGBA8888 code {@code FFD510FF}, L 0.89411765, A 0.4862745, B 0.5882353, alpha 1.0, hue 0.14080147, and saturation 0.84424806.
+     * It has the encoded Oklab value 0xfe967ce4 .
      * <pre>
      * <font style='background-color: #FFD510;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFD510; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFD510;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFD510'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFD510'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFD510'>&nbsp;@&nbsp;</font><font style='background-color: #FFD510; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFD510;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFD510; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int SAFFRON = 0xfe977de4;
-    static { NAMED.put("saffron", 0xfe977de4); LIST.add(0xfe977de4); }
+    public static final int SAFFRON = 0xfe967ce4;
+    static { NAMED.put("saffron", 0xfe967ce4); LIST.add(0xfe967ce4); }
 
     /**
-     * This color constant "butter" has RGBA8888 code {@code FFF288FF}, L 0.95686275, A 0.4862745, B 0.56078434, alpha 1.0, hue 0.15062101, and saturation 0.47962755.
-     * It has the encoded Oklab value 0xfe8f7cf4 .
+     * This color constant "butter" has RGBA8888 code {@code FFF288FF}, L 0.95686275, A 0.4862745, B 0.5568628, alpha 1.0, hue 0.15134035, and saturation 0.44521707.
+     * It has the encoded Oklab value 0xfe8e7cf4 .
      * <pre>
      * <font style='background-color: #FFF288;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFF288; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFF288;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFF288'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFF288'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFF288'>&nbsp;@&nbsp;</font><font style='background-color: #FFF288; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFF288;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFF288; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int BUTTER = 0xfe8f7cf4;
-    static { NAMED.put("butter", 0xfe8f7cf4); LIST.add(0xfe8f7cf4); }
+    public static final int BUTTER = 0xfe8e7cf4;
+    static { NAMED.put("butter", 0xfe8e7cf4); LIST.add(0xfe8e7cf4); }
 
     /**
-     * This color constant "chartreuse" has RGBA8888 code {@code C8FF41FF}, L 0.9372549, A 0.44313726, B 0.58431375, alpha 1.0, hue 0.21586737, and saturation 0.72023785.
-     * It has the encoded Oklab value 0xfe9571ef .
+     * This color constant "chartreuse" has RGBA8888 code {@code C8FF41FF}, L 0.9372549, A 0.4392157, B 0.58431375, alpha 1.0, hue 0.22184636, and saturation 0.71951014.
+     * It has the encoded Oklab value 0xfe9570ef .
      * <pre>
      * <font style='background-color: #C8FF41;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C8FF41; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C8FF41;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #C8FF41'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #C8FF41'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #C8FF41'>&nbsp;@&nbsp;</font><font style='background-color: #C8FF41; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C8FF41;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C8FF41; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int CHARTREUSE = 0xfe9571ef;
-    static { NAMED.put("chartreuse", 0xfe9571ef); LIST.add(0xfe9571ef); }
+    public static final int CHARTREUSE = 0xfe9570ef;
+    static { NAMED.put("chartreuse", 0xfe9570ef); LIST.add(0xfe9570ef); }
 
     /**
-     * This color constant "cactus" has RGBA8888 code {@code 30A000FF}, L 0.6431373, A 0.41960785, B 0.5686275, alpha 1.0, hue 0.28555417, and saturation 0.629906.
-     * It has the encoded Oklab value 0xfe916ba4 .
+     * This color constant "cactus" has RGBA8888 code {@code 30A000FF}, L 0.6431373, A 0.41960785, B 0.5647059, alpha 1.0, hue 0.30874372, and saturation 0.5568283.
+     * It has the encoded Oklab value 0xfe906ba4 .
      * <pre>
      * <font style='background-color: #30A000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #30A000; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #30A000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #30A000'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #30A000'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #30A000'>&nbsp;@&nbsp;</font><font style='background-color: #30A000; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #30A000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #30A000; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int CACTUS = 0xfe916ba4;
-    static { NAMED.put("cactus", 0xfe916ba4); LIST.add(0xfe916ba4); }
+    public static final int CACTUS = 0xfe906ba4;
+    static { NAMED.put("cactus", 0xfe906ba4); LIST.add(0xfe906ba4); }
 
     /**
-     * This color constant "lime" has RGBA8888 code {@code 93D300FF}, L 0.8117647, A 0.43529412, B 0.58431375, alpha 1.0, hue 0.21905005, and saturation 0.8326634.
-     * It has the encoded Oklab value 0xfe956fcf .
+     * This color constant "lime" has RGBA8888 code {@code 93D300FF}, L 0.8117647, A 0.43529412, B 0.5803922, alpha 1.0, hue 0.23129159, and saturation 0.71080446.
+     * It has the encoded Oklab value 0xfe946fcf .
      * <pre>
      * <font style='background-color: #93D300;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #93D300; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #93D300;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #93D300'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #93D300'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #93D300'>&nbsp;@&nbsp;</font><font style='background-color: #93D300; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #93D300;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #93D300; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int LIME = 0xfe956fcf;
-    static { NAMED.put("lime", 0xfe956fcf); LIST.add(0xfe956fcf); }
+    public static final int LIME = 0xfe946fcf;
+    static { NAMED.put("lime", 0xfe946fcf); LIST.add(0xfe946fcf); }
 
     /**
-     * This color constant "olive" has RGBA8888 code {@code 818000FF}, L 0.6117647, A 0.47843137, B 0.5647059, alpha 1.0, hue 0.16300507, and saturation 0.51102835.
-     * It has the encoded Oklab value 0xfe907a9c .
+     * This color constant "olive" has RGBA8888 code {@code 818000FF}, L 0.6117647, A 0.4745098, B 0.56078434, alpha 1.0, hue 0.17558604, and saturation 0.43590918.
+     * It has the encoded Oklab value 0xfe8f799c .
      * <pre>
      * <font style='background-color: #818000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #818000; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #818000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #818000'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #818000'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #818000'>&nbsp;@&nbsp;</font><font style='background-color: #818000; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #818000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #818000; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int OLIVE = 0xfe907a9c;
-    static { NAMED.put("olive", 0xfe907a9c); LIST.add(0xfe907a9c); }
+    public static final int OLIVE = 0xfe8f799c;
+    static { NAMED.put("olive", 0xfe8f799c); LIST.add(0xfe8f799c); }
 
     /**
-     * This color constant "fern" has RGBA8888 code {@code 4E7942FF}, L 0.56078434, A 0.4627451, B 0.53333336, alpha 1.0, hue 0.29281187, and saturation 0.22294939.
-     * It has the encoded Oklab value 0xfe88768f .
+     * This color constant "fern" has RGBA8888 code {@code 4E7942FF}, L 0.56078434, A 0.4627451, B 0.5294118, alpha 1.0, hue 0.31559366, and saturation 0.20097598.
+     * It has the encoded Oklab value 0xfe87768f .
      * <pre>
      * <font style='background-color: #4E7942;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #4E7942; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #4E7942;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #4E7942'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #4E7942'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #4E7942'>&nbsp;@&nbsp;</font><font style='background-color: #4E7942; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #4E7942;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #4E7942; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int FERN = 0xfe88768f;
-    static { NAMED.put("fern", 0xfe88768f); LIST.add(0xfe88768f); }
+    public static final int FERN = 0xfe87768f;
+    static { NAMED.put("fern", 0xfe87768f); LIST.add(0xfe87768f); }
 
     /**
      * This color constant "moss" has RGBA8888 code {@code 204608FF}, L 0.3764706, A 0.45882353, B 0.5372549, alpha 1.0, hue 0.28017563, and saturation 0.23527473.
@@ -448,28 +451,28 @@ public final class AlternatePalette {
     static { NAMED.put("celery", 0xfe8f6be6); LIST.add(0xfe8f6be6); }
 
     /**
-     * This color constant "sage" has RGBA8888 code {@code ABE3C5FF}, L 0.88235295, A 0.47058824, B 0.50980395, alpha 1.0, hue 0.41000646, and saturation 0.20943856.
-     * It has the encoded Oklab value 0xfe8278e1 .
+     * This color constant "sage" has RGBA8888 code {@code ABE3C5FF}, L 0.88235295, A 0.46666667, B 0.50980395, alpha 1.0, hue 0.41779384, and saturation 0.24272788.
+     * It has the encoded Oklab value 0xfe8277e1 .
      * <pre>
      * <font style='background-color: #ABE3C5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABE3C5; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #ABE3C5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #ABE3C5'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #ABE3C5'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #ABE3C5'>&nbsp;@&nbsp;</font><font style='background-color: #ABE3C5; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #ABE3C5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABE3C5; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int SAGE = 0xfe8278e1;
-    static { NAMED.put("sage", 0xfe8278e1); LIST.add(0xfe8278e1); }
+    public static final int SAGE = 0xfe8277e1;
+    static { NAMED.put("sage", 0xfe8277e1); LIST.add(0xfe8277e1); }
 
     /**
-     * This color constant "jade" has RGBA8888 code {@code 3FBF3FFF}, L 0.7294118, A 0.41960785, B 0.56078434, alpha 1.0, hue 0.33044574, and saturation 0.5049489.
-     * It has the encoded Oklab value 0xfe8f6bba .
+     * This color constant "jade" has RGBA8888 code {@code 3FBF3FFF}, L 0.7294118, A 0.41568628, B 0.5568628, alpha 1.0, hue 0.3623353, and saturation 0.57830364.
+     * It has the encoded Oklab value 0xfe8e6aba .
      * <pre>
      * <font style='background-color: #3FBF3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3FBF3F; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #3FBF3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #3FBF3F'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #3FBF3F'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #3FBF3F'>&nbsp;@&nbsp;</font><font style='background-color: #3FBF3F; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #3FBF3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3FBF3F; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int JADE = 0xfe8f6bba;
-    static { NAMED.put("jade", 0xfe8f6bba); LIST.add(0xfe8f6bba); }
+    public static final int JADE = 0xfe8e6aba;
+    static { NAMED.put("jade", 0xfe8e6aba); LIST.add(0xfe8e6aba); }
 
     /**
      * This color constant "cyan" has RGBA8888 code {@code 00FFFFFF}, L 0.90588236, A 0.42352942, B 0.47843137, alpha 1.0, hue 0.5, and saturation 1.0.
@@ -508,16 +511,16 @@ public final class AlternatePalette {
     static { NAMED.put("teal", 0xfe7c7391); LIST.add(0xfe7c7391); }
 
     /**
-     * This color constant "turquoise" has RGBA8888 code {@code 2ED6C9FF}, L 0.80784315, A 0.43529412, B 0.49019608, alpha 1.0, hue 0.48884976, and saturation 0.65942806.
-     * It has the encoded Oklab value 0xfe7d6fce .
+     * This color constant "turquoise" has RGBA8888 code {@code 2ED6C9FF}, L 0.80784315, A 0.43137255, B 0.49019608, alpha 1.0, hue 0.48925468, and saturation 0.7674718.
+     * It has the encoded Oklab value 0xfe7d6ece .
      * <pre>
      * <font style='background-color: #2ED6C9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #2ED6C9; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #2ED6C9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #2ED6C9'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #2ED6C9'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #2ED6C9'>&nbsp;@&nbsp;</font><font style='background-color: #2ED6C9; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #2ED6C9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #2ED6C9; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int TURQUOISE = 0xfe7d6fce;
-    static { NAMED.put("turquoise", 0xfe7d6fce); LIST.add(0xfe7d6fce); }
+    public static final int TURQUOISE = 0xfe7d6ece;
+    static { NAMED.put("turquoise", 0xfe7d6ece); LIST.add(0xfe7d6ece); }
 
     /**
      * This color constant "sky" has RGBA8888 code {@code 10C0E0FF}, L 0.7607843, A 0.44313726, B 0.4627451, alpha 1.0, hue 0.5243008, and saturation 0.88374835.
@@ -532,16 +535,16 @@ public final class AlternatePalette {
     static { NAMED.put("sky", 0xfe7671c2); LIST.add(0xfe7671c2); }
 
     /**
-     * This color constant "cobalt" has RGBA8888 code {@code 0046ABFF}, L 0.44705883, A 0.48235294, B 0.41568628, alpha 1.0, hue 0.5974748, and saturation 0.66283107.
-     * It has the encoded Oklab value 0xfe6a7b72 .
+     * This color constant "cobalt" has RGBA8888 code {@code 0046ABFF}, L 0.44705883, A 0.48235294, B 0.4117647, alpha 1.0, hue 0.6005195, and saturation 0.6801619.
+     * It has the encoded Oklab value 0xfe697b72 .
      * <pre>
      * <font style='background-color: #0046AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0046AB; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #0046AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #0046AB'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #0046AB'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #0046AB'>&nbsp;@&nbsp;</font><font style='background-color: #0046AB; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #0046AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0046AB; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int COBALT = 0xfe6a7b72;
-    static { NAMED.put("cobalt", 0xfe6a7b72); LIST.add(0xfe6a7b72); }
+    public static final int COBALT = 0xfe697b72;
+    static { NAMED.put("cobalt", 0xfe697b72); LIST.add(0xfe697b72); }
 
     /**
      * This color constant "denim" has RGBA8888 code {@code 3088B8FF}, L 0.62352943, A 0.46666667, B 0.45490196, alpha 1.0, hue 0.557327, and saturation 0.55407006.
@@ -556,40 +559,40 @@ public final class AlternatePalette {
     static { NAMED.put("denim", 0xfe74779f); LIST.add(0xfe74779f); }
 
     /**
-     * This color constant "navy" has RGBA8888 code {@code 000080FF}, L 0.28627452, A 0.49019608, B 0.4, alpha 1.0, hue 0.67378676, and saturation 0.50898576.
-     * It has the encoded Oklab value 0xfe667d49 .
+     * This color constant "navy" has RGBA8888 code {@code 000080FF}, L 0.28627452, A 0.4862745, B 0.4, alpha 1.0, hue 0.6633139, and saturation 0.509886.
+     * It has the encoded Oklab value 0xfe667c49 .
      * <pre>
      * <font style='background-color: #000080;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000080; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #000080;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000080'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #000080'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #000080'>&nbsp;@&nbsp;</font><font style='background-color: #000080; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #000080;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000080; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int NAVY = 0xfe667d49;
-    static { NAMED.put("navy", 0xfe667d49); LIST.add(0xfe667d49); }
+    public static final int NAVY = 0xfe667c49;
+    static { NAMED.put("navy", 0xfe667c49); LIST.add(0xfe667c49); }
 
     /**
-     * This color constant "lavender" has RGBA8888 code {@code B991FFFF}, L 0.7607843, A 0.5372549, B 0.43529412, alpha 1.0, hue 0.72807103, and saturation 0.432445.
-     * It has the encoded Oklab value 0xfe6f89c2 .
+     * This color constant "lavender" has RGBA8888 code {@code B991FFFF}, L 0.7607843, A 0.53333336, B 0.43529412, alpha 1.0, hue 0.7186765, and saturation 0.42370677.
+     * It has the encoded Oklab value 0xfe6f88c2 .
      * <pre>
      * <font style='background-color: #B991FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B991FF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #B991FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #B991FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #B991FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #B991FF'>&nbsp;@&nbsp;</font><font style='background-color: #B991FF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #B991FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B991FF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int LAVENDER = 0xfe6f89c2;
-    static { NAMED.put("lavender", 0xfe6f89c2); LIST.add(0xfe6f89c2); }
+    public static final int LAVENDER = 0xfe6f88c2;
+    static { NAMED.put("lavender", 0xfe6f88c2); LIST.add(0xfe6f88c2); }
 
     /**
-     * This color constant "plum" has RGBA8888 code {@code BE0DC6FF}, L 0.58431375, A 0.6117647, B 0.42745098, alpha 1.0, hue 0.8285094, and saturation 0.7125119.
-     * It has the encoded Oklab value 0xfe6d9c95 .
+     * This color constant "plum" has RGBA8888 code {@code BE0DC6FF}, L 0.58431375, A 0.6117647, B 0.42352942, alpha 1.0, hue 0.82369447, and saturation 0.75267494.
+     * It has the encoded Oklab value 0xfe6c9c95 .
      * <pre>
      * <font style='background-color: #BE0DC6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BE0DC6; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #BE0DC6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #BE0DC6'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #BE0DC6'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #BE0DC6'>&nbsp;@&nbsp;</font><font style='background-color: #BE0DC6; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #BE0DC6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BE0DC6; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int PLUM = 0xfe6d9c95;
-    static { NAMED.put("plum", 0xfe6d9c95); LIST.add(0xfe6d9c95); }
+    public static final int PLUM = 0xfe6c9c95;
+    static { NAMED.put("plum", 0xfe6c9c95); LIST.add(0xfe6c9c95); }
 
     /**
      * This color constant "mauve" has RGBA8888 code {@code AB73ABFF}, L 0.6627451, A 0.5411765, B 0.47058824, alpha 1.0, hue 0.8225035, and saturation 0.22910339.
@@ -604,28 +607,28 @@ public final class AlternatePalette {
     static { NAMED.put("mauve", 0xfe788aa9); LIST.add(0xfe788aa9); }
 
     /**
-     * This color constant "rose" has RGBA8888 code {@code E61E78FF}, L 0.6156863, A 0.61960787, B 0.49803922, alpha 1.0, hue 0.92429245, and saturation 0.8028879.
-     * It has the encoded Oklab value 0xfe7f9e9d .
+     * This color constant "rose" has RGBA8888 code {@code E61E78FF}, L 0.6156863, A 0.6156863, B 0.49411765, alpha 1.0, hue 0.9223609, and saturation 0.7501173.
+     * It has the encoded Oklab value 0xfe7e9d9d .
      * <pre>
      * <font style='background-color: #E61E78;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E61E78; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E61E78;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #E61E78'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #E61E78'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #E61E78'>&nbsp;@&nbsp;</font><font style='background-color: #E61E78; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E61E78;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E61E78; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int ROSE = 0xfe7f9e9d;
-    static { NAMED.put("rose", 0xfe7f9e9d); LIST.add(0xfe7f9e9d); }
+    public static final int ROSE = 0xfe7e9d9d;
+    static { NAMED.put("rose", 0xfe7e9d9d); LIST.add(0xfe7e9d9d); }
 
     /**
-     * This color constant "raspberry" has RGBA8888 code {@code 911437FF}, L 0.44705883, A 0.58431375, B 0.5176471, alpha 1.0, hue 0.9525147, and saturation 0.5178973.
-     * It has the encoded Oklab value 0xfe849572 .
+     * This color constant "raspberry" has RGBA8888 code {@code 911437FF}, L 0.44705883, A 0.5803922, B 0.5137255, alpha 1.0, hue 0.9529095, and saturation 0.46955392.
+     * It has the encoded Oklab value 0xfe839472 .
      * <pre>
      * <font style='background-color: #911437;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #911437; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #911437;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #911437'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #911437'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #911437'>&nbsp;@&nbsp;</font><font style='background-color: #911437; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #911437;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #911437; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final int RASPBERRY = 0xfe849572;
-    static { NAMED.put("raspberry", 0xfe849572); LIST.add(0xfe849572); }
+    public static final int RASPBERRY = 0xfe839472;
+    static { NAMED.put("raspberry", 0xfe839472); LIST.add(0xfe839472); }
 
     /**
      * All names for colors in this palette, in alphabetical order. You can fetch the corresponding packed float color
@@ -643,6 +646,10 @@ public final class AlternatePalette {
      * blue. You can fetch the corresponding packed float color by looking up a name in {@link #NAMED}.
      */
     public static final ObjectList<String> NAMES_BY_HUE = new ObjectList<>(NAMES);
+    /**
+     * The packed Oklab float colors that correspond to items in {@link #NAMES_BY_HUE}, with the same order.
+     */
+    public static final IntList COLORS_BY_HUE = new IntList(NAMES_BY_HUE.size());
     /**
      * All names for colors in this palette, sorted by lightness from black to white. You can fetch the
      * corresponding packed float color by looking up a name in {@link #NAMED}.
@@ -939,6 +946,9 @@ public final class AlternatePalette {
                 return ((int) Math.signum(hue(c1) - hue(c2)) << 8)
                         + (c1 & 255) - (c2 & 255);
         });
+        for(String name : NAMES_BY_HUE) {
+            COLORS_BY_HUE.add(NAMED.get(name));
+        }
         NAMES_BY_LIGHTNESS.sort((o1, o2) -> (NAMED.get(o1) & 255) - (NAMED.get(o2) & 255));
     }
 
@@ -1063,5 +1073,62 @@ public final class AlternatePalette {
         else result = limitToGamut(result);
 
         return result;
+    }
+
+    private static final ObjectList<String> namesByHue = new ObjectList<>(NAMES_BY_HUE);
+    private static final IntList colorsByHue = new IntList(COLORS_BY_HUE);
+    static {
+        int trn = namesByHue.indexOf("transparent");
+        namesByHue.removeAt(trn);
+        colorsByHue.removeAt(trn);
+    }
+    /**
+     * Given a color as a packed Oklab float, this finds the closest description it can to match the given color while
+     * using at most {@code mixCount} colors to mix in. You should only use small numbers for mixCount, like 1 to 3;
+     * this can take quite a while to run otherwise. This returns a String description that can be passed to
+     * {@link #parseDescription(String)}. It is likely that this will use very contrasting colors if mixCount is 2 or
+     * greater and the color to match is desaturated or brownish.
+     * @param oklab a packed Oklab float color to attempt to match
+     * @param mixCount how many color names this will use in the returned description
+     * @return a description that can be fed to {@link #parseDescription(String)} to get a similar color
+     */
+    public static String bestMatch(final int oklab, int mixCount) {
+        mixCount = Math.max(1, mixCount);
+        long bestDistance = Long.MAX_VALUE;
+        final int paletteSize = namesByHue.size(), colorTries = (int)Math.pow(paletteSize, mixCount), totalTries = colorTries * 81;
+        final int targetL = oklab >>> 24, targetA = oklab >>> 16 & 255, targetB = oklab >>> 8 & 255;
+        final String[] lightAdjectives = {"darkmost ", "darkest ", "darker ", "dark ", "", "light ", "lighter ", "lightest ", "lightmost "};
+        final String[] satAdjectives = {"dullmost ", "dullest ", "duller ", "dull ", "", "rich ", "richer ", "richest ", "richmost "};
+        mixing.clear();
+        for (int i = 0; i < mixCount; i++) {
+            mixing.add(colorsByHue.get(0));
+        }
+        int bestCode = 0;
+        for (int c = 0; c < totalTries; c++) {
+            for (int i = 0, e = 1; i < mixCount; i++, e *= paletteSize) {
+                mixing.set(i, colorsByHue.get((c / e) % paletteSize));
+            }
+            int idxI = ((c / colorTries) % 9 - 4), idxS = (c / (colorTries * 9) - 4);
+
+            int result = mix(mixing.items, 0, mixCount);
+            if(idxI > 0) result = lighten(result, 0.125f * idxI);
+            else if(idxI < 0) result = darken(result, -0.15f * idxI);
+
+            if(idxS > 0) result = limitToGamut(enrich(result, 0.2f * idxS));
+            else if(idxS < 0) result = dullen(result, -0.2f * idxS);
+            else result = limitToGamut(result);
+
+            long dL = (result >>> 24) - targetL, dA = (result >>> 16 & 255) - targetA, dB = (result >>> 8 & 255) - targetB;
+            if(bestDistance > (bestDistance = Math.min(dL * dL + dA * dA + dB * dB, bestDistance)))
+                bestCode = c;
+        }
+
+        StringBuilder description = new StringBuilder(lightAdjectives[(bestCode / colorTries) % 9] + satAdjectives[bestCode / (colorTries * 9)]);
+        for (int i = 0, e = 1; i < mixCount; e *= paletteSize) {
+            description.append(namesByHue.get((bestCode / e) % paletteSize));
+            if(++i < mixCount)
+                description.append(' ');
+        }
+        return description.toString();
     }
 }
