@@ -226,7 +226,7 @@
 <span class="source-line-no">214</span><span id="line.214">     */</span>
 <span class="source-line-no">215</span><span id="line.215">    public static SpriteBatch makeBatch(final float contrast)</span>
 <span class="source-line-no">216</span><span id="line.216">    {</span>
-<span class="source-line-no">217</span><span id="line.217">        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShaderHigherContrast.replace("   1.375   ", Float.toString(MathUtils.clamp(contrast, 0.01f, 10f))));</span>
+<span class="source-line-no">217</span><span id="line.217">        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShaderHigherContrast.replace("   1.375   ", Float.toString(Math.min(Math.max(contrast, 0.01f), 10f))));</span>
 <span class="source-line-no">218</span><span id="line.218">        if(!shader.isCompiled())</span>
 <span class="source-line-no">219</span><span id="line.219">            throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());</span>
 <span class="source-line-no">220</span><span id="line.220">        return new SpriteBatch(1000, shader);</span>

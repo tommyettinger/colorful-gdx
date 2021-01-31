@@ -64,9 +64,9 @@
 <span class="source-line-no">052</span><span id="line.52">                final int decoded = NumberUtils.floatToRawIntBits(packed), y = (decoded &amp; 0xff),</span>
 <span class="source-line-no">053</span><span id="line.53">                                cw = ((decoded &gt;&gt;&gt; 7 &amp; 0x1fe) - 0xfe),</span>
 <span class="source-line-no">054</span><span id="line.54">                                cm = (((decoded &gt;&gt;&gt; 15 &amp; 0x1fe) - 0xfe) &gt;&gt; 1);</span>
-<span class="source-line-no">055</span><span id="line.55">                return MathUtils.clamp(y + (cw * 5 &gt;&gt; 3) - cm, 0, 0xFF) &lt;&lt; 24</span>
-<span class="source-line-no">056</span><span id="line.56">                                | MathUtils.clamp(y - (cw * 3 &gt;&gt; 3) + cm, 0, 0xFF) &lt;&lt; 16</span>
-<span class="source-line-no">057</span><span id="line.57">                                | MathUtils.clamp(y - (cw * 3 &gt;&gt; 3) - cm, 0, 0xFF) &lt;&lt; 8</span>
+<span class="source-line-no">055</span><span id="line.55">                return Math.min(Math.max(y + (cw * 5 &gt;&gt; 3) - cm, 0), 0xFF) &lt;&lt; 24</span>
+<span class="source-line-no">056</span><span id="line.56">                                | Math.min(Math.max(y - (cw * 3 &gt;&gt; 3) + cm, 0), 0xFF) &lt;&lt; 16</span>
+<span class="source-line-no">057</span><span id="line.57">                                | Math.min(Math.max(y - (cw * 3 &gt;&gt; 3) - cm, 0), 0xFF) &lt;&lt; 8</span>
 <span class="source-line-no">058</span><span id="line.58">                                | (decoded &amp; 0xfe000000) &gt;&gt;&gt; 24 | decoded &gt;&gt;&gt; 31;</span>
 <span class="source-line-no">059</span><span id="line.59">        }</span>
 <span class="source-line-no">060</span><span id="line.60"></span>
@@ -82,9 +82,9 @@
 <span class="source-line-no">070</span><span id="line.70">                final int decoded = NumberUtils.floatToRawIntBits(packed), y = (decoded &amp; 0xff),</span>
 <span class="source-line-no">071</span><span id="line.71">                                cw = ((decoded &gt;&gt;&gt; 7 &amp; 0x1fe) - 0xfe),</span>
 <span class="source-line-no">072</span><span id="line.72">                                cm = (((decoded &gt;&gt;&gt; 15 &amp; 0x1fe) - 0xfe) &gt;&gt; 1);</span>
-<span class="source-line-no">073</span><span id="line.73">                return NumberUtils.intBitsToFloat(MathUtils.clamp(y + (cw * 5 &gt;&gt; 3) - cm, 0, 0xFF)</span>
-<span class="source-line-no">074</span><span id="line.74">                                | MathUtils.clamp(y - (cw * 3 &gt;&gt; 3) + cm, 0, 0xFF) &lt;&lt; 8</span>
-<span class="source-line-no">075</span><span id="line.75">                                | MathUtils.clamp(y - (cw * 3 &gt;&gt; 3) - cm, 0, 0xFF) &lt;&lt; 16</span>
+<span class="source-line-no">073</span><span id="line.73">                return NumberUtils.intBitsToFloat(Math.min(Math.max(y + (cw * 5 &gt;&gt; 3) - cm, 0), 0xFF)</span>
+<span class="source-line-no">074</span><span id="line.74">                                | Math.min(Math.max(y - (cw * 3 &gt;&gt; 3) + cm, 0), 0xFF) &lt;&lt; 8</span>
+<span class="source-line-no">075</span><span id="line.75">                                | Math.min(Math.max(y - (cw * 3 &gt;&gt; 3) - cm, 0), 0xFF) &lt;&lt; 16</span>
 <span class="source-line-no">076</span><span id="line.76">                                | (decoded &amp; 0xfe000000));</span>
 <span class="source-line-no">077</span><span id="line.77">        }</span>
 <span class="source-line-no">078</span><span id="line.78"></span>
@@ -192,7 +192,7 @@
 <span class="source-line-no">180</span><span id="line.180">        public static float red(final float encoded)</span>
 <span class="source-line-no">181</span><span id="line.181">        {</span>
 <span class="source-line-no">182</span><span id="line.182">                final int decoded = NumberUtils.floatToRawIntBits(encoded);</span>
-<span class="source-line-no">183</span><span id="line.183">                return MathUtils.clamp((decoded &amp; 0xff) * 0x1.010102p-8f + ((decoded &gt;&gt;&gt; 8 &amp; 0xff) - 127.5f) * (0x1.414142p-9f) - ((decoded &gt;&gt;&gt; 16 &amp; 0xff) - 127.5f) * 0x1.010102p-9f, 0f, 1f);</span>
+<span class="source-line-no">183</span><span id="line.183">                return Math.min(Math.max((decoded &amp; 0xff) * 0x1.010102p-8f + ((decoded &gt;&gt;&gt; 8 &amp; 0xff) - 127.5f) * (0x1.414142p-9f) - ((decoded &gt;&gt;&gt; 16 &amp; 0xff) - 127.5f) * 0x1.010102p-9f, 0f), 1f);</span>
 <span class="source-line-no">184</span><span id="line.184">        }</span>
 <span class="source-line-no">185</span><span id="line.185"></span>
 <span class="source-line-no">186</span><span id="line.186">        /**</span>
@@ -203,7 +203,7 @@
 <span class="source-line-no">191</span><span id="line.191">        public static float green(final float encoded)</span>
 <span class="source-line-no">192</span><span id="line.192">        {</span>
 <span class="source-line-no">193</span><span id="line.193">                final int decoded = NumberUtils.floatToRawIntBits(encoded);</span>
-<span class="source-line-no">194</span><span id="line.194">                return MathUtils.clamp((decoded &amp; 0xff) * 0x1.010102p-8f - (((decoded &gt;&gt;&gt; 8 &amp; 0xff) - 127.5f) * 0x1.818184p-10f) + ((decoded &gt;&gt;&gt; 16 &amp; 0xff) - 127.5f) * 0x1.010102p-9f, 0f, 1f);</span>
+<span class="source-line-no">194</span><span id="line.194">                return Math.min(Math.max((decoded &amp; 0xff) * 0x1.010102p-8f - (((decoded &gt;&gt;&gt; 8 &amp; 0xff) - 127.5f) * 0x1.818184p-10f) + ((decoded &gt;&gt;&gt; 16 &amp; 0xff) - 127.5f) * 0x1.010102p-9f, 0f), 1f);</span>
 <span class="source-line-no">195</span><span id="line.195">        }</span>
 <span class="source-line-no">196</span><span id="line.196"></span>
 <span class="source-line-no">197</span><span id="line.197">        /**</span>
@@ -214,7 +214,7 @@
 <span class="source-line-no">202</span><span id="line.202">        public static float blue(final float encoded)</span>
 <span class="source-line-no">203</span><span id="line.203">        {</span>
 <span class="source-line-no">204</span><span id="line.204">                final int decoded = NumberUtils.floatToRawIntBits(encoded);</span>
-<span class="source-line-no">205</span><span id="line.205">                return MathUtils.clamp((decoded &amp; 0xff) * 0x1.010102p-8f - (((decoded &gt;&gt;&gt; 8 &amp; 0xff) - 127.5f) * 0x1.818184p-10f) - ((decoded &gt;&gt;&gt; 16 &amp; 0xff) - 127.5f) * 0x1.010102p-9f, 0f, 1f);</span>
+<span class="source-line-no">205</span><span id="line.205">                return Math.min(Math.max((decoded &amp; 0xff) * 0x1.010102p-8f - (((decoded &gt;&gt;&gt; 8 &amp; 0xff) - 127.5f) * 0x1.818184p-10f) - ((decoded &gt;&gt;&gt; 16 &amp; 0xff) - 127.5f) * 0x1.010102p-9f, 0f), 1f);</span>
 <span class="source-line-no">206</span><span id="line.206">        }</span>
 <span class="source-line-no">207</span><span id="line.207"></span>
 <span class="source-line-no">208</span><span id="line.208">        /**</span>
@@ -261,9 +261,9 @@
 <span class="source-line-no">249</span><span id="line.249">                final int decoded = NumberUtils.floatToRawIntBits(encoded), lu = (decoded &amp; 0xff),</span>
 <span class="source-line-no">250</span><span id="line.250">                                cw = ((decoded &gt;&gt;&gt; 7 &amp; 0x1fe) - 0xfe),</span>
 <span class="source-line-no">251</span><span id="line.251">                                cm = (((decoded &gt;&gt;&gt; 15 &amp; 0x1fe) - 0xfe) &gt;&gt; 1);</span>
-<span class="source-line-no">252</span><span id="line.252">                final float r = MathUtils.clamp(lu + (cw * 5 &gt;&gt; 3) - cm, 0, 0xFF) * 0x1.010102p-8f;</span>
-<span class="source-line-no">253</span><span id="line.253">                final float g = MathUtils.clamp(lu - (cw * 3 &gt;&gt; 3) + cm, 0, 0xFF) * 0x1.010102p-8f;</span>
-<span class="source-line-no">254</span><span id="line.254">                final float b =  MathUtils.clamp(lu - (cw * 3 &gt;&gt; 3) - cm, 0, 0xFF) * 0x1.010102p-8f;</span>
+<span class="source-line-no">252</span><span id="line.252">                final float r = Math.min(Math.max(lu + (cw * 5 &gt;&gt; 3) - cm, 0), 0xFF) * 0x1.010102p-8f;</span>
+<span class="source-line-no">253</span><span id="line.253">                final float g = Math.min(Math.max(lu - (cw * 3 &gt;&gt; 3) + cm, 0), 0xFF) * 0x1.010102p-8f;</span>
+<span class="source-line-no">254</span><span id="line.254">                final float b =  Math.min(Math.max(lu - (cw * 3 &gt;&gt; 3) - cm, 0), 0xFF) * 0x1.010102p-8f;</span>
 <span class="source-line-no">255</span><span id="line.255">                float x, y, w;</span>
 <span class="source-line-no">256</span><span id="line.256">                if(g &lt; b) {</span>
 <span class="source-line-no">257</span><span id="line.257">                        x = b;</span>
@@ -289,9 +289,9 @@
 <span class="source-line-no">277</span><span id="line.277">                final int decoded = NumberUtils.floatToRawIntBits(encoded), lu = (decoded &amp; 0xff),</span>
 <span class="source-line-no">278</span><span id="line.278">                                cw = ((decoded &gt;&gt;&gt; 7 &amp; 0x1fe) - 0xfe),</span>
 <span class="source-line-no">279</span><span id="line.279">                                cm = (((decoded &gt;&gt;&gt; 15 &amp; 0x1fe) - 0xfe) &gt;&gt; 1);</span>
-<span class="source-line-no">280</span><span id="line.280">                final float r = MathUtils.clamp(lu + (cw * 5 &gt;&gt; 3) - cm, 0, 0xFF) * 0x1.010102p-8f;</span>
-<span class="source-line-no">281</span><span id="line.281">                final float g = MathUtils.clamp(lu - (cw * 3 &gt;&gt; 3) + cm, 0, 0xFF) * 0x1.010102p-8f;</span>
-<span class="source-line-no">282</span><span id="line.282">                final float b =  MathUtils.clamp(lu - (cw * 3 &gt;&gt; 3) - cm, 0, 0xFF) * 0x1.010102p-8f;</span>
+<span class="source-line-no">280</span><span id="line.280">                final float r = Math.min(Math.max(lu + (cw * 5 &gt;&gt; 3) - cm, 0), 0xFF) * 0x1.010102p-8f;</span>
+<span class="source-line-no">281</span><span id="line.281">                final float g = Math.min(Math.max(lu - (cw * 3 &gt;&gt; 3) + cm, 0), 0xFF) * 0x1.010102p-8f;</span>
+<span class="source-line-no">282</span><span id="line.282">                final float b =  Math.min(Math.max(lu - (cw * 3 &gt;&gt; 3) - cm, 0), 0xFF) * 0x1.010102p-8f;</span>
 <span class="source-line-no">283</span><span id="line.283">                float x, y, w;</span>
 <span class="source-line-no">284</span><span id="line.284">                if(g &lt; b) {</span>
 <span class="source-line-no">285</span><span id="line.285">                        x = b;</span>
@@ -323,9 +323,9 @@
 <span class="source-line-no">311</span><span id="line.311">                final int decoded = NumberUtils.floatToRawIntBits(encoded), lu = (decoded &amp; 0xff),</span>
 <span class="source-line-no">312</span><span id="line.312">                                cw = ((decoded &gt;&gt;&gt; 7 &amp; 0x1fe) - 0xfe),</span>
 <span class="source-line-no">313</span><span id="line.313">                                cm = (((decoded &gt;&gt;&gt; 15 &amp; 0x1fe) - 0xfe) &gt;&gt; 1);</span>
-<span class="source-line-no">314</span><span id="line.314">                final float r = MathUtils.clamp(lu + (cw * 5 &gt;&gt; 3) - cm, 0, 0xFF) * 0x1.010102p-8f;</span>
-<span class="source-line-no">315</span><span id="line.315">                final float g = MathUtils.clamp(lu - (cw * 3 &gt;&gt; 3) + cm, 0, 0xFF) * 0x1.010102p-8f;</span>
-<span class="source-line-no">316</span><span id="line.316">                final float b =  MathUtils.clamp(lu - (cw * 3 &gt;&gt; 3) - cm, 0, 0xFF) * 0x1.010102p-8f;</span>
+<span class="source-line-no">314</span><span id="line.314">                final float r = Math.min(Math.max(lu + (cw * 5 &gt;&gt; 3) - cm, 0), 0xFF) * 0x1.010102p-8f;</span>
+<span class="source-line-no">315</span><span id="line.315">                final float g = Math.min(Math.max(lu - (cw * 3 &gt;&gt; 3) + cm, 0), 0xFF) * 0x1.010102p-8f;</span>
+<span class="source-line-no">316</span><span id="line.316">                final float b =  Math.min(Math.max(lu - (cw * 3 &gt;&gt; 3) - cm, 0), 0xFF) * 0x1.010102p-8f;</span>
 <span class="source-line-no">317</span><span id="line.317">                float x, y, z, w;</span>
 <span class="source-line-no">318</span><span id="line.318">                if(g &lt; b) {</span>
 <span class="source-line-no">319</span><span id="line.319">                        x = b;</span>
@@ -437,16 +437,16 @@
 <span class="source-line-no">425</span><span id="line.425">         */</span>
 <span class="source-line-no">426</span><span id="line.426">        public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {</span>
 <span class="source-line-no">427</span><span id="line.427">                final int e = NumberUtils.floatToRawIntBits(basis);</span>
-<span class="source-line-no">428</span><span id="line.428">                value = MathUtils.clamp(value + (e &amp; 0xff) * 0x1.010102p-8f, 0f, 1f);</span>
-<span class="source-line-no">429</span><span id="line.429">                opacity = MathUtils.clamp(opacity + (e &gt;&gt;&gt; 24 &amp; 0xfe) * 0x1.020408p-8f, 0f, 1f);</span>
+<span class="source-line-no">428</span><span id="line.428">                value = Math.min(Math.max(value + (e &amp; 0xff) * 0x1.010102p-8f, 0f), 1f);</span>
+<span class="source-line-no">429</span><span id="line.429">                opacity = Math.min(Math.max(opacity + (e &gt;&gt;&gt; 24 &amp; 0xfe) * 0x1.020408p-8f, 0f), 1f);</span>
 <span class="source-line-no">430</span><span id="line.430">                if (value &lt;= 0.001f)</span>
 <span class="source-line-no">431</span><span id="line.431">                        return NumberUtils.intBitsToFloat((((int) (opacity * 255f) &lt;&lt; 24) &amp; 0xFE000000) | 0x7F7F00);</span>
 <span class="source-line-no">432</span><span id="line.432">                final int lu = (e &amp; 0xff);</span>
 <span class="source-line-no">433</span><span id="line.433">                final int cw = ((e &gt;&gt;&gt; 7 &amp; 0x1fe) - 0xfe);</span>
 <span class="source-line-no">434</span><span id="line.434">                final int cm = (((e &gt;&gt;&gt; 15 &amp; 0x1fe) - 0xfe) &gt;&gt; 1);</span>
-<span class="source-line-no">435</span><span id="line.435">                final float r = MathUtils.clamp(lu + (cw * 5 &gt;&gt; 3) - cm, 0, 0xFF) * 0x1.010102p-8f;</span>
-<span class="source-line-no">436</span><span id="line.436">                final float g = MathUtils.clamp(lu - (cw * 3 &gt;&gt; 3) + cm, 0, 0xFF) * 0x1.010102p-8f;</span>
-<span class="source-line-no">437</span><span id="line.437">                final float b = MathUtils.clamp(lu - (cw * 3 &gt;&gt; 3) - cm, 0, 0xFF) * 0x1.010102p-8f;</span>
+<span class="source-line-no">435</span><span id="line.435">                final float r = Math.min(Math.max(lu + (cw * 5 &gt;&gt; 3) - cm, 0), 0xFF) * 0x1.010102p-8f;</span>
+<span class="source-line-no">436</span><span id="line.436">                final float g = Math.min(Math.max(lu - (cw * 3 &gt;&gt; 3) + cm, 0), 0xFF) * 0x1.010102p-8f;</span>
+<span class="source-line-no">437</span><span id="line.437">                final float b = Math.min(Math.max(lu - (cw * 3 &gt;&gt; 3) - cm, 0), 0xFF) * 0x1.010102p-8f;</span>
 <span class="source-line-no">438</span><span id="line.438">                float x, y, z, w;</span>
 <span class="source-line-no">439</span><span id="line.439">                if(g &lt; b) {</span>
 <span class="source-line-no">440</span><span id="line.440">                        x = b;</span>
@@ -472,7 +472,7 @@
 <span class="source-line-no">460</span><span id="line.460">                float l = x * (1f - 0.5f * d / (x + 1e-10f));</span>
 <span class="source-line-no">461</span><span id="line.461">                float hue2 = Math.abs(z + (w - y) / (6f * d + 1e-10f));</span>
 <span class="source-line-no">462</span><span id="line.462">                float sat2 = (x - l) / (Math.min(l, 1f - l) + 1e-10f);</span>
-<span class="source-line-no">463</span><span id="line.463">                return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), MathUtils.clamp(saturation + sat2, 0f, 1f), value, opacity));</span>
+<span class="source-line-no">463</span><span id="line.463">                return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), Math.min(Math.max(saturation + sat2, 0f), 1f), value, opacity));</span>
 <span class="source-line-no">464</span><span id="line.464">        }</span>
 <span class="source-line-no">465</span><span id="line.465"></span>
 <span class="source-line-no">466</span><span id="line.466">        /**</span>
@@ -721,8 +721,8 @@
 <span class="source-line-no">709</span><span id="line.709">                        seed += 0x9E3779B97F4A7C15L;</span>
 <span class="source-line-no">710</span><span id="line.710">                        dist = a * a + b * b + c * c;</span>
 <span class="source-line-no">711</span><span id="line.711">                }</span>
-<span class="source-line-no">712</span><span id="line.712">                return NumberUtils.intBitsToFloat((decoded &amp; 0xFE000000) | ((int)(MathUtils.clamp(cm + c, -1, 1) * 127.5f + 128f) &lt;&lt; 16 &amp; 0xFF0000)</span>
-<span class="source-line-no">713</span><span id="line.713">                                | ((int)(MathUtils.clamp(cw + b, -1, 1) * 127.5f + 128f) &lt;&lt; 8 &amp; 0xFF00) | (int)(MathUtils.clamp(y + a, 0, 1) * 255f));</span>
+<span class="source-line-no">712</span><span id="line.712">                return NumberUtils.intBitsToFloat((decoded &amp; 0xFE000000) | ((int)(Math.min(Math.max(cm + c, -1), 1) * 127.5f + 128f) &lt;&lt; 16 &amp; 0xFF0000)</span>
+<span class="source-line-no">713</span><span id="line.713">                                | ((int)(Math.min(Math.max(cw + b, -1), 1) * 127.5f + 128f) &lt;&lt; 8 &amp; 0xFF00) | (int)(Math.min(Math.max(y + a, 0), 1) * 255f));</span>
 <span class="source-line-no">714</span><span id="line.714">        }</span>
 <span class="source-line-no">715</span><span id="line.715"></span>
 <span class="source-line-no">716</span><span id="line.716">        /**</span>
@@ -812,9 +812,9 @@
 <span class="source-line-no">800</span><span id="line.800">         */</span>
 <span class="source-line-no">801</span><span id="line.801">        public static float limitToGamut(float y, float cw, float cm, float a)</span>
 <span class="source-line-no">802</span><span id="line.802">        {</span>
-<span class="source-line-no">803</span><span id="line.803">                float y2 = y = MathUtils.clamp(y, 0f, 1f);</span>
-<span class="source-line-no">804</span><span id="line.804">                float cw2 = cw = MathUtils.clamp((cw - 0.5f) * 2f, -1f, 1f);</span>
-<span class="source-line-no">805</span><span id="line.805">                float cm2 = cm = MathUtils.clamp((cm - 0.5f) * 2f, -1f, 1f);</span>
+<span class="source-line-no">803</span><span id="line.803">                float y2 = y = Math.min(Math.max(y, 0f), 1f);</span>
+<span class="source-line-no">804</span><span id="line.804">                float cw2 = cw = Math.min(Math.max((cw - 0.5f) * 2f, -1f), 1f);</span>
+<span class="source-line-no">805</span><span id="line.805">                float cm2 = cm = Math.min(Math.max((cm - 0.5f) * 2f, -1f), 1f);</span>
 <span class="source-line-no">806</span><span id="line.806">                for (int attempt = 31; attempt &gt;= 0; attempt--) {</span>
 <span class="source-line-no">807</span><span id="line.807">                        final float r = y2 + 0.625f * cw2 - cm2;</span>
 <span class="source-line-no">808</span><span id="line.808">                        final float g = y2 - 0.375f * cw2 + cm2;</span>
@@ -826,7 +826,7 @@
 <span class="source-line-no">814</span><span id="line.814">                        cw2 = MathUtils.lerp(0, cw, progress);</span>
 <span class="source-line-no">815</span><span id="line.815">                        cm2 = MathUtils.lerp(0, cm, progress);</span>
 <span class="source-line-no">816</span><span id="line.816">                }</span>
-<span class="source-line-no">817</span><span id="line.817">                return ycwcm(y2, cw2 * 0.5f + 0.5f, cm2 * 0.5f + 0.5f, MathUtils.clamp(a, 0f, 1f));</span>
+<span class="source-line-no">817</span><span id="line.817">                return ycwcm(y2, cw2 * 0.5f + 0.5f, cm2 * 0.5f + 0.5f, Math.min(Math.max(a, 0f), 1f));</span>
 <span class="source-line-no">818</span><span id="line.818">        }</span>
 <span class="source-line-no">819</span><span id="line.819"></span>
 <span class="source-line-no">820</span><span id="line.820"></span>

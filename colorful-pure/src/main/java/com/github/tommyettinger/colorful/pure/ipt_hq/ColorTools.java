@@ -99,9 +99,9 @@ public class ColorTools {
 		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
 		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
 		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-		final int r = (int)(reverseGamma(MathTools.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f)) * 255.999f);
-		final int g = (int)(reverseGamma(MathTools.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f)) * 255.999f);
-		final int b = (int)(reverseGamma(MathTools.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f)) * 255.999f);
+		final int r = (int)(reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f)) * 255.999f);
+		final int g = (int)(reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f)) * 255.999f);
+		final int b = (int)(reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f)) * 255.999f);
 		return r << 24 | g << 16 | b << 8 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
 	}
 
@@ -121,9 +121,9 @@ public class ColorTools {
 		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
 		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
 		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-		final int r = (int)(reverseGamma(MathTools.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f)) * 255.999f);
-		final int g = (int)(reverseGamma(MathTools.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f)) * 255.999f);
-		final int b = (int)(reverseGamma(MathTools.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f)) * 255.999f);
+		final int r = (int)(reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f)) * 255.999f);
+		final int g = (int)(reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f)) * 255.999f);
+		final int b = (int)(reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f)) * 255.999f);
 		return BitConversion.intBitsToFloat(r | g << 8 | b << 16 | (decoded & 0xfe000000));
 	}
 
@@ -140,9 +140,9 @@ public class ColorTools {
 		final float m = forwardTransform(0.151693f * r + 0.748209f * g + 0.1000044f * b);
 		final float s = forwardTransform(0.017753f * r + 0.109468f * g + 0.8729690f * b);
 		return BitConversion.intBitsToFloat(
-			              MathTools.clamp((int)((0.4000f * l + 0.4000f * m + 0.2000f * s       ) * 255.999f), 0, 255)
-						| MathTools.clamp((int)((2.2275f * l - 2.4255f * m + 0.1980f * s + 0.5f) * 255.999f), 0, 255) << 8
-						| MathTools.clamp((int)((0.4028f * l + 0.1786f * m - 0.5814f * s + 0.5f) * 255.999f), 0, 255) << 16
+			              Math.min(Math.max((int)((0.4000f * l + 0.4000f * m + 0.2000f * s       ) * 255.999f), 0), 255)
+						| Math.min(Math.max((int)((2.2275f * l - 2.4255f * m + 0.1980f * s + 0.5f) * 255.999f), 0), 255) << 8
+						| Math.min(Math.max((int)((0.4028f * l + 0.1786f * m - 0.5814f * s + 0.5f) * 255.999f), 0), 255) << 16
 						| (rgba & 0xFE) << 24);
 	}
 
@@ -160,9 +160,9 @@ public class ColorTools {
 		final float m = forwardTransform(0.151693f * r + 0.748209f * g + 0.1000044f * b);
 		final float s = forwardTransform(0.017753f * r + 0.109468f * g + 0.8729690f * b);
 		return BitConversion.intBitsToFloat(
-			              MathTools.clamp((int)((0.4000f * l + 0.4000f * m + 0.2000f * s       ) * 255.999f), 0, 255)
-						| MathTools.clamp((int)((2.2275f * l - 2.4255f * m + 0.1980f * s + 0.5f) * 255.999f), 0, 255) << 8
-						| MathTools.clamp((int)((0.4028f * l + 0.1786f * m - 0.5814f * s + 0.5f) * 255.999f), 0, 255) << 16
+			              Math.min(Math.max((int)((0.4000f * l + 0.4000f * m + 0.2000f * s       ) * 255.999f), 0), 255)
+						| Math.min(Math.max((int)((2.2275f * l - 2.4255f * m + 0.1980f * s + 0.5f) * 255.999f), 0), 255) << 8
+						| Math.min(Math.max((int)((0.4028f * l + 0.1786f * m - 0.5814f * s + 0.5f) * 255.999f), 0), 255) << 16
 						| (abgr & 0xFE000000));
 	}
 
@@ -182,9 +182,9 @@ public class ColorTools {
 		final float m = forwardTransform(0.151693f * r + 0.748209f * g + 0.1000044f * b);
 		final float s = forwardTransform(0.017753f * r + 0.109468f * g + 0.8729690f * b);
 		return BitConversion.intBitsToFloat(
-				          MathTools.clamp((int)((0.4000f * l + 0.4000f * m + 0.2000f * s       ) * 255.999f), 0, 255)
-						| MathTools.clamp((int)((2.2275f * l - 2.4255f * m + 0.1980f * s + 0.5f) * 255.999f), 0, 255) << 8
-						| MathTools.clamp((int)((0.4028f * l + 0.1786f * m - 0.5814f * s + 0.5f) * 255.999f), 0, 255) << 16
+				          Math.min(Math.max((int)((0.4000f * l + 0.4000f * m + 0.2000f * s       ) * 255.999f), 0), 255)
+						| Math.min(Math.max((int)((2.2275f * l - 2.4255f * m + 0.1980f * s + 0.5f) * 255.999f), 0), 255) << 8
+						| Math.min(Math.max((int)((0.4028f * l + 0.1786f * m - 0.5814f * s + 0.5f) * 255.999f), 0), 255) << 16
 						| ((int)(a * 255f) << 24 & 0xFE000000));
 	}
 
@@ -202,7 +202,7 @@ public class ColorTools {
 		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
 		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
 		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-		return (int)(reverseGamma(MathTools.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f)) * 255.999f);
+		return (int)(reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f)) * 255.999f);
 	}
 
 	/**
@@ -219,7 +219,7 @@ public class ColorTools {
 		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
 		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
 		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-		return (int)(reverseGamma(MathTools.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f)) * 255.999f);
+		return (int)(reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f)) * 255.999f);
 	}
 
 	/**
@@ -236,7 +236,7 @@ public class ColorTools {
 		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
 		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
 		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-		return (int)(reverseGamma(MathTools.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f)) * 255.999f);
+		return (int)(reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f)) * 255.999f);
 	}
 
 	/**
@@ -264,7 +264,7 @@ public class ColorTools {
 		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
 		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
 		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-		return reverseGamma(MathTools.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
+		return reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f));
 	}
 
 	/**
@@ -281,7 +281,7 @@ public class ColorTools {
 		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
 		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
 		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-		return reverseGamma(MathTools.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
+		return reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f));
 	}
 
 	/**
@@ -298,7 +298,7 @@ public class ColorTools {
 		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
 		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
 		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-		return reverseGamma(MathTools.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
+		return reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f));
 	}
 
 	/**
@@ -349,9 +349,9 @@ public class ColorTools {
 		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
 		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
 		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-		final float r = reverseGamma(MathTools.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
-		final float g = reverseGamma(MathTools.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
-		final float b = reverseGamma(MathTools.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
+		final float r = reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f));
+		final float g = reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f));
+		final float b = reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f));
 		float x, y, w;
 		if(g < b) {
 			x = b;
@@ -379,9 +379,9 @@ public class ColorTools {
 		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
 		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
 		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-		final float r = reverseGamma(MathTools.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
-		final float g = reverseGamma(MathTools.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
-		final float b = reverseGamma(MathTools.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
+		final float r = reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f));
+		final float g = reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f));
+		final float b = reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f));
 
 		float x, y, w;
 		if(g < b) {
@@ -418,9 +418,9 @@ public class ColorTools {
 		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
 		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
 		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-		final float r = reverseGamma(MathTools.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
-		final float g = reverseGamma(MathTools.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
-		final float b = reverseGamma(MathTools.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
+		final float r = reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f));
+		final float g = reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f));
+		final float b = reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f));
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
@@ -508,8 +508,8 @@ public class ColorTools {
 	 */
 	public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {
 		final int e = BitConversion.floatToRawIntBits(basis);
-		final float i = MathTools.clamp(value + (e & 0xff) / 255f, 0f, 1f);
-		opacity = MathTools.clamp(opacity + (e >>> 24 & 0xfe) * 0x1.020408p-8f, 0f, 1f);
+		final float i = Math.min(Math.max(value + (e & 0xff) / 255f, 0f), 1f);
+		opacity = Math.min(Math.max(opacity + (e >>> 24 & 0xfe) * 0x1.020408p-8f, 0f), 1f);
 		if (i <= 0.001f)
 			return BitConversion.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x808000);
 		final float p = ((e >>> 7 & 0x1fe) - 0xff) / 255f;
@@ -517,9 +517,9 @@ public class ColorTools {
 		final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);
 		final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);
 		final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);
-		final float r = reverseGamma(MathTools.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));
-		final float g = reverseGamma(MathTools.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));
-		final float b = reverseGamma(MathTools.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));
+		final float r = reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f));
+		final float g = reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f));
+		final float b = reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f));
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
@@ -544,7 +544,7 @@ public class ColorTools {
 		float d = x - Math.min(w, y);
 		float hue2 = Math.abs(z + (w - y) / (6f * d + 1e-10f));
 		float sat2 = (x - i) / (Math.min(i, 1f - i) + 1e-10f);
-		return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), MathTools.clamp(saturation + sat2, 0f, 1f), i, opacity));
+		return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), Math.min(Math.max(saturation + sat2, 0f), 1f), i, opacity));
 	}
 
 	/**
@@ -926,10 +926,10 @@ public class ColorTools {
 	 * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
 	 */
 	public static float limitToGamut(float i, float p, float t, float a) {
-		float i2 = i = MathTools.clamp(i, 0f, 1f);
-		float p2 = p = MathTools.clamp((p - 0.5f) * 2f, -1f, 1f);
-		float t2 = t = MathTools.clamp((t - 0.5f) * 2f, -1f, 1f);
-		a = MathTools.clamp(a, 0f, 1f);
+		float i2 = i = Math.min(Math.max(i, 0f), 1f);
+		float p2 = p = Math.min(Math.max((p - 0.5f) * 2f, -1f), 1f);
+		float t2 = t = Math.min(Math.max((t - 0.5f) * 2f, -1f), 1f);
+		a = Math.min(Math.max(a, 0f), 1f);
 		for (int attempt = 31; attempt >= 0; attempt--) {
 			final float l = reverseTransform(i2 + 0.097569f * p2 + 0.205226f * t2);
 			final float m = reverseTransform(i2 + -0.11388f * p2 + 0.133217f * t2);

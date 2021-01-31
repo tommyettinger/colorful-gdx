@@ -78,9 +78,9 @@
 <span class="source-line-no">066</span><span id="line.66">         */</span>
 <span class="source-line-no">067</span><span id="line.67">        public static float fromRGBA(final float r, final float g, final float b, final float a) {</span>
 <span class="source-line-no">068</span><span id="line.68">                return BitConversion.intBitsToFloat(</span>
-<span class="source-line-no">069</span><span id="line.69">                                          MathTools.clamp((int)(r * 255.0f + 0.500f), 0, 255)</span>
-<span class="source-line-no">070</span><span id="line.70">                                                | MathTools.clamp((int)(g * 255.0f + 0.500f), 0, 255) &lt;&lt; 8</span>
-<span class="source-line-no">071</span><span id="line.71">                                                | MathTools.clamp((int)(b * 255.0f + 0.500f), 0, 255) &lt;&lt; 16</span>
+<span class="source-line-no">069</span><span id="line.69">                                          Math.min(Math.max((int)(r * 255.0f + 0.500f), 0), 255)</span>
+<span class="source-line-no">070</span><span id="line.70">                                                | Math.min(Math.max((int)(g * 255.0f + 0.500f), 0), 255) &lt;&lt; 8</span>
+<span class="source-line-no">071</span><span id="line.71">                                                | Math.min(Math.max((int)(b * 255.0f + 0.500f), 0), 255) &lt;&lt; 16</span>
 <span class="source-line-no">072</span><span id="line.72">                                                | ((int)(a * 255f) &lt;&lt; 24 &amp; 0xFE000000));</span>
 <span class="source-line-no">073</span><span id="line.73">        }</span>
 <span class="source-line-no">074</span><span id="line.74"></span>
@@ -304,7 +304,7 @@
 <span class="source-line-no">292</span><span id="line.292">         */</span>
 <span class="source-line-no">293</span><span id="line.293">        public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {</span>
 <span class="source-line-no">294</span><span id="line.294">                final int decoded = BitConversion.floatToRawIntBits(basis);</span>
-<span class="source-line-no">295</span><span id="line.295">                opacity = MathTools.clamp(opacity + (decoded &gt;&gt;&gt; 24 &amp; 0xfe) * 0x1.020408p-8f, 0f, 1f);</span>
+<span class="source-line-no">295</span><span id="line.295">                opacity = Math.min(Math.max(opacity + (decoded &gt;&gt;&gt; 24 &amp; 0xfe) * 0x1.020408p-8f, 0f), 1f);</span>
 <span class="source-line-no">296</span><span id="line.296">                final float r = (decoded &amp; 0xff) / 255f;</span>
 <span class="source-line-no">297</span><span id="line.297">                final float g = (decoded &gt;&gt;&gt; 8 &amp; 0xff) / 255f;</span>
 <span class="source-line-no">298</span><span id="line.298">                final float b = (decoded &gt;&gt;&gt; 16 &amp; 0xff) / 255f;</span>
@@ -333,7 +333,7 @@
 <span class="source-line-no">321</span><span id="line.321">                float l = x * (1f - 0.5f * d / (x + 1e-10f));</span>
 <span class="source-line-no">322</span><span id="line.322">                float hue2 = Math.abs(z + (w - y) / (6f * d + 1e-10f));</span>
 <span class="source-line-no">323</span><span id="line.323">                float sat2 = (x - l) / (Math.min(l, 1f - l) + 1e-10f);</span>
-<span class="source-line-no">324</span><span id="line.324">                return FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), MathTools.clamp(saturation + sat2, 0f, 1f), MathTools.clamp(l + value, 0f, 1f), opacity);</span>
+<span class="source-line-no">324</span><span id="line.324">                return FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), Math.min(Math.max(saturation + sat2, 0f), 1f), Math.min(Math.max(l + value, 0f), 1f), opacity);</span>
 <span class="source-line-no">325</span><span id="line.325">        }</span>
 <span class="source-line-no">326</span><span id="line.326"></span>
 <span class="source-line-no">327</span><span id="line.327">        /**</span>
@@ -436,12 +436,12 @@
 <span class="source-line-no">424</span><span id="line.424">                                cr = (contrastBits &amp; 0xff),</span>
 <span class="source-line-no">425</span><span id="line.425">                                cg = (contrastBits &gt;&gt;&gt; 8 &amp; 0xff),</span>
 <span class="source-line-no">426</span><span id="line.426">                                cb = (contrastBits &gt;&gt;&gt; 16 &amp; 0xff),</span>
-<span class="source-line-no">427</span><span id="line.427">                                i = MathTools.clamp((int) ((0.189786f * r + 0.576951f * g + 0.233221f * b) * 255.999f), 0, 255),</span>
-<span class="source-line-no">428</span><span id="line.428">                                p = MathTools.clamp((int) ((0.669665f * r - 0.73741f * g + 0.0681367f * b) * 127.5f + 127.5f), 0, 255),</span>
-<span class="source-line-no">429</span><span id="line.429">                                t = MathTools.clamp((int) ((0.286498f * r + 0.655205f * g - 0.941748f * b) * 127.5f + 127.5f), 0, 255),</span>
-<span class="source-line-no">430</span><span id="line.430">                                ci = MathTools.clamp((int) ((0.189786f * cr + 0.576951f * cg + 0.233221f * cb) * 255.999f), 0, 255),</span>
-<span class="source-line-no">431</span><span id="line.431">                                cp = MathTools.clamp((int) ((0.669665f * cr - 0.73741f * cg + 0.0681367f * cb) * 127.5f + 127.5f), 0, 255),</span>
-<span class="source-line-no">432</span><span id="line.432">                                ct = MathTools.clamp((int) ((0.286498f * cr + 0.655205f * cg - 0.941748f * cb) * 127.5f + 127.5f), 0, 255);</span>
+<span class="source-line-no">427</span><span id="line.427">                                i = Math.min(Math.max((int) ((0.189786f * r + 0.576951f * g + 0.233221f * b) * 255.999f), 0), 255),</span>
+<span class="source-line-no">428</span><span id="line.428">                                p = Math.min(Math.max((int) ((0.669665f * r - 0.73741f * g + 0.0681367f * b) * 127.5f + 127.5f), 0), 255),</span>
+<span class="source-line-no">429</span><span id="line.429">                                t = Math.min(Math.max((int) ((0.286498f * r + 0.655205f * g - 0.941748f * b) * 127.5f + 127.5f), 0), 255),</span>
+<span class="source-line-no">430</span><span id="line.430">                                ci = Math.min(Math.max((int) ((0.189786f * cr + 0.576951f * cg + 0.233221f * cb) * 255.999f), 0), 255),</span>
+<span class="source-line-no">431</span><span id="line.431">                                cp = Math.min(Math.max((int) ((0.669665f * cr - 0.73741f * cg + 0.0681367f * cb) * 127.5f + 127.5f), 0), 255),</span>
+<span class="source-line-no">432</span><span id="line.432">                                ct = Math.min(Math.max((int) ((0.286498f * cr + 0.655205f * cg - 0.941748f * cb) * 127.5f + 127.5f), 0), 255);</span>
 <span class="source-line-no">433</span><span id="line.433"></span>
 <span class="source-line-no">434</span><span id="line.434">                if((p - cp) * (p - cp) + (t - ct) * (t - ct) &gt;= 0x10000)</span>
 <span class="source-line-no">435</span><span id="line.435">                        return mainColor;</span>
@@ -534,9 +534,9 @@
 <span class="source-line-no">522</span><span id="line.522">         */</span>
 <span class="source-line-no">523</span><span id="line.523">        public static float subrandomColor(float r, float g, float b) {</span>
 <span class="source-line-no">524</span><span id="line.524">                return BitConversion.intBitsToFloat(0xFE000000</span>
-<span class="source-line-no">525</span><span id="line.525">                                | ((int) MathTools.clamp(b * 256f, 0, 255.999f) &lt;&lt; 16 &amp; 0xFF0000)</span>
-<span class="source-line-no">526</span><span id="line.526">                                | ((int) MathTools.clamp(g * 256f, 0, 255.999f) &lt;&lt; 8 &amp; 0xFF00)</span>
-<span class="source-line-no">527</span><span id="line.527">                                | ((int) MathTools.clamp(r * 256f, 0, 255.999f) &amp; 0xFF));</span>
+<span class="source-line-no">525</span><span id="line.525">                                | ((int) Math.min(Math.max(b * 256f, 0), 255.999f) &lt;&lt; 16 &amp; 0xFF0000)</span>
+<span class="source-line-no">526</span><span id="line.526">                                | ((int) Math.min(Math.max(g * 256f, 0), 255.999f) &lt;&lt; 8 &amp; 0xFF00)</span>
+<span class="source-line-no">527</span><span id="line.527">                                | ((int) Math.min(Math.max(r * 256f, 0), 255.999f) &amp; 0xFF));</span>
 <span class="source-line-no">528</span><span id="line.528">        }</span>
 <span class="source-line-no">529</span><span id="line.529">}</span>
 

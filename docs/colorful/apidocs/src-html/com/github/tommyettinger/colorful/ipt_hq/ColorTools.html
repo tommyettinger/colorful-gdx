@@ -115,9 +115,9 @@
 <span class="source-line-no">103</span><span id="line.103">                final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);</span>
 <span class="source-line-no">104</span><span id="line.104">                final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);</span>
 <span class="source-line-no">105</span><span id="line.105">                final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);</span>
-<span class="source-line-no">106</span><span id="line.106">                final int r = (int)(reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f)) * 255.999f);</span>
-<span class="source-line-no">107</span><span id="line.107">                final int g = (int)(reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f)) * 255.999f);</span>
-<span class="source-line-no">108</span><span id="line.108">                final int b = (int)(reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f)) * 255.999f);</span>
+<span class="source-line-no">106</span><span id="line.106">                final int r = (int)(reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f)) * 255.999f);</span>
+<span class="source-line-no">107</span><span id="line.107">                final int g = (int)(reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f)) * 255.999f);</span>
+<span class="source-line-no">108</span><span id="line.108">                final int b = (int)(reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f)) * 255.999f);</span>
 <span class="source-line-no">109</span><span id="line.109">                return r &lt;&lt; 24 | g &lt;&lt; 16 | b &lt;&lt; 8 | (decoded &amp; 0xfe000000) &gt;&gt;&gt; 24 | decoded &gt;&gt;&gt; 31;</span>
 <span class="source-line-no">110</span><span id="line.110">        }</span>
 <span class="source-line-no">111</span><span id="line.111"></span>
@@ -137,9 +137,9 @@
 <span class="source-line-no">125</span><span id="line.125">                final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);</span>
 <span class="source-line-no">126</span><span id="line.126">                final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);</span>
 <span class="source-line-no">127</span><span id="line.127">                final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);</span>
-<span class="source-line-no">128</span><span id="line.128">                final int r = (int)(reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f)) * 255.999f);</span>
-<span class="source-line-no">129</span><span id="line.129">                final int g = (int)(reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f)) * 255.999f);</span>
-<span class="source-line-no">130</span><span id="line.130">                final int b = (int)(reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f)) * 255.999f);</span>
+<span class="source-line-no">128</span><span id="line.128">                final int r = (int)(reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f)) * 255.999f);</span>
+<span class="source-line-no">129</span><span id="line.129">                final int g = (int)(reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f)) * 255.999f);</span>
+<span class="source-line-no">130</span><span id="line.130">                final int b = (int)(reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f)) * 255.999f);</span>
 <span class="source-line-no">131</span><span id="line.131">                return NumberUtils.intBitsToFloat(r | g &lt;&lt; 8 | b &lt;&lt; 16 | (decoded &amp; 0xfe000000));</span>
 <span class="source-line-no">132</span><span id="line.132">        }</span>
 <span class="source-line-no">133</span><span id="line.133">        /**</span>
@@ -158,9 +158,9 @@
 <span class="source-line-no">146</span><span id="line.146">                final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);</span>
 <span class="source-line-no">147</span><span id="line.147">                final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);</span>
 <span class="source-line-no">148</span><span id="line.148">                final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);</span>
-<span class="source-line-no">149</span><span id="line.149">                editing.r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));</span>
-<span class="source-line-no">150</span><span id="line.150">                editing.g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));</span>
-<span class="source-line-no">151</span><span id="line.151">                editing.b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));</span>
+<span class="source-line-no">149</span><span id="line.149">                editing.r = reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f));</span>
+<span class="source-line-no">150</span><span id="line.150">                editing.g = reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f));</span>
+<span class="source-line-no">151</span><span id="line.151">                editing.b = reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f));</span>
 <span class="source-line-no">152</span><span id="line.152">                editing.a = (decoded &gt;&gt;&gt; 25) * 0x1.020408p-7f; // this is 1/127 as a float</span>
 <span class="source-line-no">153</span><span id="line.153">                return editing.clamp();</span>
 <span class="source-line-no">154</span><span id="line.154">        }</span>
@@ -178,9 +178,9 @@
 <span class="source-line-no">166</span><span id="line.166">                final float m = forwardTransform(0.151693f * r + 0.748209f * g + 0.1000044f * b);</span>
 <span class="source-line-no">167</span><span id="line.167">                final float s = forwardTransform(0.017753f * r + 0.109468f * g + 0.8729690f * b);</span>
 <span class="source-line-no">168</span><span id="line.168">                return NumberUtils.intBitsToFloat(</span>
-<span class="source-line-no">169</span><span id="line.169">                                      MathUtils.clamp((int)((0.4000f * l + 0.4000f * m + 0.2000f * s       ) * 255.999f), 0, 255)</span>
-<span class="source-line-no">170</span><span id="line.170">                                                | MathUtils.clamp((int)((2.2275f * l - 2.4255f * m + 0.1980f * s + 0.5f) * 255.999f), 0, 255) &lt;&lt; 8</span>
-<span class="source-line-no">171</span><span id="line.171">                                                | MathUtils.clamp((int)((0.4028f * l + 0.1786f * m - 0.5814f * s + 0.5f) * 255.999f), 0, 255) &lt;&lt; 16</span>
+<span class="source-line-no">169</span><span id="line.169">                                      Math.min(Math.max((int)((0.4000f * l + 0.4000f * m + 0.2000f * s       ) * 255.999f), 0), 255)</span>
+<span class="source-line-no">170</span><span id="line.170">                                                | Math.min(Math.max((int)((2.2275f * l - 2.4255f * m + 0.1980f * s + 0.5f) * 255.999f), 0), 255) &lt;&lt; 8</span>
+<span class="source-line-no">171</span><span id="line.171">                                                | Math.min(Math.max((int)((0.4028f * l + 0.1786f * m - 0.5814f * s + 0.5f) * 255.999f), 0), 255) &lt;&lt; 16</span>
 <span class="source-line-no">172</span><span id="line.172">                                                | (rgba &amp; 0xFE) &lt;&lt; 24);</span>
 <span class="source-line-no">173</span><span id="line.173">        }</span>
 <span class="source-line-no">174</span><span id="line.174"></span>
@@ -198,9 +198,9 @@
 <span class="source-line-no">186</span><span id="line.186">                final float m = forwardTransform(0.151693f * r + 0.748209f * g + 0.1000044f * b);</span>
 <span class="source-line-no">187</span><span id="line.187">                final float s = forwardTransform(0.017753f * r + 0.109468f * g + 0.8729690f * b);</span>
 <span class="source-line-no">188</span><span id="line.188">                return NumberUtils.intBitsToFloat(</span>
-<span class="source-line-no">189</span><span id="line.189">                                      MathUtils.clamp((int)((0.4000f * l + 0.4000f * m + 0.2000f * s       ) * 255.999f), 0, 255)</span>
-<span class="source-line-no">190</span><span id="line.190">                                                | MathUtils.clamp((int)((2.2275f * l - 2.4255f * m + 0.1980f * s + 0.5f) * 255.999f), 0, 255) &lt;&lt; 8</span>
-<span class="source-line-no">191</span><span id="line.191">                                                | MathUtils.clamp((int)((0.4028f * l + 0.1786f * m - 0.5814f * s + 0.5f) * 255.999f), 0, 255) &lt;&lt; 16</span>
+<span class="source-line-no">189</span><span id="line.189">                                      Math.min(Math.max((int)((0.4000f * l + 0.4000f * m + 0.2000f * s       ) * 255.999f), 0), 255)</span>
+<span class="source-line-no">190</span><span id="line.190">                                                | Math.min(Math.max((int)((2.2275f * l - 2.4255f * m + 0.1980f * s + 0.5f) * 255.999f), 0), 255) &lt;&lt; 8</span>
+<span class="source-line-no">191</span><span id="line.191">                                                | Math.min(Math.max((int)((0.4028f * l + 0.1786f * m - 0.5814f * s + 0.5f) * 255.999f), 0), 255) &lt;&lt; 16</span>
 <span class="source-line-no">192</span><span id="line.192">                                                | (abgr &amp; 0xFE000000));</span>
 <span class="source-line-no">193</span><span id="line.193">        }</span>
 <span class="source-line-no">194</span><span id="line.194"></span>
@@ -217,9 +217,9 @@
 <span class="source-line-no">205</span><span id="line.205">                final float m = forwardTransform(0.151693f * r + 0.748209f * g + 0.1000044f * b);</span>
 <span class="source-line-no">206</span><span id="line.206">                final float s = forwardTransform(0.017753f * r + 0.109468f * g + 0.8729690f * b);</span>
 <span class="source-line-no">207</span><span id="line.207">                return NumberUtils.intBitsToFloat(</span>
-<span class="source-line-no">208</span><span id="line.208">                                          MathUtils.clamp((int)((0.4000f * l + 0.4000f * m + 0.2000f * s       ) * 255.999f), 0, 255)</span>
-<span class="source-line-no">209</span><span id="line.209">                                                | MathUtils.clamp((int)((2.2275f * l - 2.4255f * m + 0.1980f * s + 0.5f) * 255.999f), 0, 255) &lt;&lt; 8</span>
-<span class="source-line-no">210</span><span id="line.210">                                                | MathUtils.clamp((int)((0.4028f * l + 0.1786f * m - 0.5814f * s + 0.5f) * 255.999f), 0, 255) &lt;&lt; 16</span>
+<span class="source-line-no">208</span><span id="line.208">                                          Math.min(Math.max((int)((0.4000f * l + 0.4000f * m + 0.2000f * s       ) * 255.999f), 0), 255)</span>
+<span class="source-line-no">209</span><span id="line.209">                                                | Math.min(Math.max((int)((2.2275f * l - 2.4255f * m + 0.1980f * s + 0.5f) * 255.999f), 0), 255) &lt;&lt; 8</span>
+<span class="source-line-no">210</span><span id="line.210">                                                | Math.min(Math.max((int)((0.4028f * l + 0.1786f * m - 0.5814f * s + 0.5f) * 255.999f), 0), 255) &lt;&lt; 16</span>
 <span class="source-line-no">211</span><span id="line.211">                                                | ((int)(color.a * 255f) &lt;&lt; 24 &amp; 0xFE000000));</span>
 <span class="source-line-no">212</span><span id="line.212">        }</span>
 <span class="source-line-no">213</span><span id="line.213"></span>
@@ -239,9 +239,9 @@
 <span class="source-line-no">227</span><span id="line.227">                final float m = forwardTransform(0.151693f * r + 0.748209f * g + 0.1000044f * b);</span>
 <span class="source-line-no">228</span><span id="line.228">                final float s = forwardTransform(0.017753f * r + 0.109468f * g + 0.8729690f * b);</span>
 <span class="source-line-no">229</span><span id="line.229">                return NumberUtils.intBitsToFloat(</span>
-<span class="source-line-no">230</span><span id="line.230">                                          MathUtils.clamp((int)((0.4000f * l + 0.4000f * m + 0.2000f * s       ) * 255.999f), 0, 255)</span>
-<span class="source-line-no">231</span><span id="line.231">                                                | MathUtils.clamp((int)((2.2275f * l - 2.4255f * m + 0.1980f * s + 0.5f) * 255.999f), 0, 255) &lt;&lt; 8</span>
-<span class="source-line-no">232</span><span id="line.232">                                                | MathUtils.clamp((int)((0.4028f * l + 0.1786f * m - 0.5814f * s + 0.5f) * 255.999f), 0, 255) &lt;&lt; 16</span>
+<span class="source-line-no">230</span><span id="line.230">                                          Math.min(Math.max((int)((0.4000f * l + 0.4000f * m + 0.2000f * s       ) * 255.999f), 0), 255)</span>
+<span class="source-line-no">231</span><span id="line.231">                                                | Math.min(Math.max((int)((2.2275f * l - 2.4255f * m + 0.1980f * s + 0.5f) * 255.999f), 0), 255) &lt;&lt; 8</span>
+<span class="source-line-no">232</span><span id="line.232">                                                | Math.min(Math.max((int)((0.4028f * l + 0.1786f * m - 0.5814f * s + 0.5f) * 255.999f), 0), 255) &lt;&lt; 16</span>
 <span class="source-line-no">233</span><span id="line.233">                                                | ((int)(a * 255f) &lt;&lt; 24 &amp; 0xFE000000));</span>
 <span class="source-line-no">234</span><span id="line.234">        }</span>
 <span class="source-line-no">235</span><span id="line.235"></span>
@@ -259,7 +259,7 @@
 <span class="source-line-no">247</span><span id="line.247">                final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);</span>
 <span class="source-line-no">248</span><span id="line.248">                final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);</span>
 <span class="source-line-no">249</span><span id="line.249">                final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);</span>
-<span class="source-line-no">250</span><span id="line.250">                return (int)(reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f)) * 255.999f);</span>
+<span class="source-line-no">250</span><span id="line.250">                return (int)(reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f)) * 255.999f);</span>
 <span class="source-line-no">251</span><span id="line.251">        }</span>
 <span class="source-line-no">252</span><span id="line.252"></span>
 <span class="source-line-no">253</span><span id="line.253">        /**</span>
@@ -276,7 +276,7 @@
 <span class="source-line-no">264</span><span id="line.264">                final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);</span>
 <span class="source-line-no">265</span><span id="line.265">                final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);</span>
 <span class="source-line-no">266</span><span id="line.266">                final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);</span>
-<span class="source-line-no">267</span><span id="line.267">                return (int)(reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f)) * 255.999f);</span>
+<span class="source-line-no">267</span><span id="line.267">                return (int)(reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f)) * 255.999f);</span>
 <span class="source-line-no">268</span><span id="line.268">        }</span>
 <span class="source-line-no">269</span><span id="line.269"></span>
 <span class="source-line-no">270</span><span id="line.270">        /**</span>
@@ -293,7 +293,7 @@
 <span class="source-line-no">281</span><span id="line.281">                final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);</span>
 <span class="source-line-no">282</span><span id="line.282">                final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);</span>
 <span class="source-line-no">283</span><span id="line.283">                final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);</span>
-<span class="source-line-no">284</span><span id="line.284">                return (int)(reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f)) * 255.999f);</span>
+<span class="source-line-no">284</span><span id="line.284">                return (int)(reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f)) * 255.999f);</span>
 <span class="source-line-no">285</span><span id="line.285">        }</span>
 <span class="source-line-no">286</span><span id="line.286"></span>
 <span class="source-line-no">287</span><span id="line.287">        /**</span>
@@ -321,7 +321,7 @@
 <span class="source-line-no">309</span><span id="line.309">                final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);</span>
 <span class="source-line-no">310</span><span id="line.310">                final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);</span>
 <span class="source-line-no">311</span><span id="line.311">                final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);</span>
-<span class="source-line-no">312</span><span id="line.312">                return reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));</span>
+<span class="source-line-no">312</span><span id="line.312">                return reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f));</span>
 <span class="source-line-no">313</span><span id="line.313">        }</span>
 <span class="source-line-no">314</span><span id="line.314"></span>
 <span class="source-line-no">315</span><span id="line.315">        /**</span>
@@ -338,7 +338,7 @@
 <span class="source-line-no">326</span><span id="line.326">                final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);</span>
 <span class="source-line-no">327</span><span id="line.327">                final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);</span>
 <span class="source-line-no">328</span><span id="line.328">                final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);</span>
-<span class="source-line-no">329</span><span id="line.329">                return reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));</span>
+<span class="source-line-no">329</span><span id="line.329">                return reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f));</span>
 <span class="source-line-no">330</span><span id="line.330">        }</span>
 <span class="source-line-no">331</span><span id="line.331"></span>
 <span class="source-line-no">332</span><span id="line.332">        /**</span>
@@ -355,7 +355,7 @@
 <span class="source-line-no">343</span><span id="line.343">                final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);</span>
 <span class="source-line-no">344</span><span id="line.344">                final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);</span>
 <span class="source-line-no">345</span><span id="line.345">                final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);</span>
-<span class="source-line-no">346</span><span id="line.346">                return reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));</span>
+<span class="source-line-no">346</span><span id="line.346">                return reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f));</span>
 <span class="source-line-no">347</span><span id="line.347">        }</span>
 <span class="source-line-no">348</span><span id="line.348"></span>
 <span class="source-line-no">349</span><span id="line.349">        /**</span>
@@ -406,9 +406,9 @@
 <span class="source-line-no">394</span><span id="line.394">                final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);</span>
 <span class="source-line-no">395</span><span id="line.395">                final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);</span>
 <span class="source-line-no">396</span><span id="line.396">                final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);</span>
-<span class="source-line-no">397</span><span id="line.397">                final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));</span>
-<span class="source-line-no">398</span><span id="line.398">                final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));</span>
-<span class="source-line-no">399</span><span id="line.399">                final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));</span>
+<span class="source-line-no">397</span><span id="line.397">                final float r = reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f));</span>
+<span class="source-line-no">398</span><span id="line.398">                final float g = reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f));</span>
+<span class="source-line-no">399</span><span id="line.399">                final float b = reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f));</span>
 <span class="source-line-no">400</span><span id="line.400">                float x, y, w;</span>
 <span class="source-line-no">401</span><span id="line.401">                if(g &lt; b) {</span>
 <span class="source-line-no">402</span><span id="line.402">                        x = b;</span>
@@ -439,9 +439,9 @@
 <span class="source-line-no">427</span><span id="line.427">                final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);</span>
 <span class="source-line-no">428</span><span id="line.428">                final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);</span>
 <span class="source-line-no">429</span><span id="line.429">                final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);</span>
-<span class="source-line-no">430</span><span id="line.430">                final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));</span>
-<span class="source-line-no">431</span><span id="line.431">                final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));</span>
-<span class="source-line-no">432</span><span id="line.432">                final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));</span>
+<span class="source-line-no">430</span><span id="line.430">                final float r = reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f));</span>
+<span class="source-line-no">431</span><span id="line.431">                final float g = reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f));</span>
+<span class="source-line-no">432</span><span id="line.432">                final float b = reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f));</span>
 <span class="source-line-no">433</span><span id="line.433"></span>
 <span class="source-line-no">434</span><span id="line.434">                float x, y, w;</span>
 <span class="source-line-no">435</span><span id="line.435">                if(g &lt; b) {</span>
@@ -478,9 +478,9 @@
 <span class="source-line-no">466</span><span id="line.466">                final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);</span>
 <span class="source-line-no">467</span><span id="line.467">                final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);</span>
 <span class="source-line-no">468</span><span id="line.468">                final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);</span>
-<span class="source-line-no">469</span><span id="line.469">                final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));</span>
-<span class="source-line-no">470</span><span id="line.470">                final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));</span>
-<span class="source-line-no">471</span><span id="line.471">                final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));</span>
+<span class="source-line-no">469</span><span id="line.469">                final float r = reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f));</span>
+<span class="source-line-no">470</span><span id="line.470">                final float g = reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f));</span>
+<span class="source-line-no">471</span><span id="line.471">                final float b = reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f));</span>
 <span class="source-line-no">472</span><span id="line.472">                float x, y, z, w;</span>
 <span class="source-line-no">473</span><span id="line.473">                if(g &lt; b) {</span>
 <span class="source-line-no">474</span><span id="line.474">                        x = b;</span>
@@ -568,8 +568,8 @@
 <span class="source-line-no">556</span><span id="line.556">         */</span>
 <span class="source-line-no">557</span><span id="line.557">        public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {</span>
 <span class="source-line-no">558</span><span id="line.558">                final int e = NumberUtils.floatToRawIntBits(basis);</span>
-<span class="source-line-no">559</span><span id="line.559">                final float i = MathUtils.clamp(value + (e &amp; 0xff) / 255f, 0f, 1f);</span>
-<span class="source-line-no">560</span><span id="line.560">                opacity = MathUtils.clamp(opacity + (e &gt;&gt;&gt; 24 &amp; 0xfe) * 0x1.020408p-8f, 0f, 1f);</span>
+<span class="source-line-no">559</span><span id="line.559">                final float i = Math.min(Math.max(value + (e &amp; 0xff) / 255f, 0f), 1f);</span>
+<span class="source-line-no">560</span><span id="line.560">                opacity = Math.min(Math.max(opacity + (e &gt;&gt;&gt; 24 &amp; 0xfe) * 0x1.020408p-8f, 0f), 1f);</span>
 <span class="source-line-no">561</span><span id="line.561">                if (i &lt;= 0.001f)</span>
 <span class="source-line-no">562</span><span id="line.562">                        return NumberUtils.intBitsToFloat((((int) (opacity * 255f) &lt;&lt; 24) &amp; 0xFE000000) | 0x808000);</span>
 <span class="source-line-no">563</span><span id="line.563">                final float p = ((e &gt;&gt;&gt; 7 &amp; 0x1fe) - 0xff) / 255f;</span>
@@ -577,9 +577,9 @@
 <span class="source-line-no">565</span><span id="line.565">                final float l = reverseTransform(i + 0.097569f * p + 0.205226f * t);</span>
 <span class="source-line-no">566</span><span id="line.566">                final float m = reverseTransform(i + -0.11388f * p + 0.133217f * t);</span>
 <span class="source-line-no">567</span><span id="line.567">                final float s = reverseTransform(i + 0.032615f * p + -0.67689f * t);</span>
-<span class="source-line-no">568</span><span id="line.568">                final float r = reverseGamma(MathUtils.clamp(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f, 1f));</span>
-<span class="source-line-no">569</span><span id="line.569">                final float g = reverseGamma(MathUtils.clamp(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f, 1f));</span>
-<span class="source-line-no">570</span><span id="line.570">                final float b = reverseGamma(MathUtils.clamp(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f, 1f));</span>
+<span class="source-line-no">568</span><span id="line.568">                final float r = reverseGamma(Math.min(Math.max(5.432622f * l + -4.67910f * m + 0.246257f * s, 0f), 1f));</span>
+<span class="source-line-no">569</span><span id="line.569">                final float g = reverseGamma(Math.min(Math.max(-1.10517f * l + 2.311198f * m + -0.20588f * s, 0f), 1f));</span>
+<span class="source-line-no">570</span><span id="line.570">                final float b = reverseGamma(Math.min(Math.max(0.028104f * l + -0.19466f * m + 1.166325f * s, 0f), 1f));</span>
 <span class="source-line-no">571</span><span id="line.571">                float x, y, z, w;</span>
 <span class="source-line-no">572</span><span id="line.572">                if(g &lt; b) {</span>
 <span class="source-line-no">573</span><span id="line.573">                        x = b;</span>
@@ -604,7 +604,7 @@
 <span class="source-line-no">592</span><span id="line.592">                float d = x - Math.min(w, y);</span>
 <span class="source-line-no">593</span><span id="line.593">                float hue2 = Math.abs(z + (w - y) / (6f * d + 1e-10f));</span>
 <span class="source-line-no">594</span><span id="line.594">                float sat2 = (x - i) / (Math.min(i, 1f - i) + 1e-10f);</span>
-<span class="source-line-no">595</span><span id="line.595">                return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), MathUtils.clamp(saturation + sat2, 0f, 1f), i, opacity));</span>
+<span class="source-line-no">595</span><span id="line.595">                return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), Math.min(Math.max(saturation + sat2, 0f), 1f), i, opacity));</span>
 <span class="source-line-no">596</span><span id="line.596">        }</span>
 <span class="source-line-no">597</span><span id="line.597"></span>
 <span class="source-line-no">598</span><span id="line.598">        /**</span>
@@ -960,10 +960,10 @@
 <span class="source-line-no">948</span><span id="line.948">         * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.</span>
 <span class="source-line-no">949</span><span id="line.949">         */</span>
 <span class="source-line-no">950</span><span id="line.950">        public static float limitToGamut(float i, float p, float t, float a) {</span>
-<span class="source-line-no">951</span><span id="line.951">                float i2 = i = MathUtils.clamp(i, 0f, 1f);</span>
-<span class="source-line-no">952</span><span id="line.952">                float p2 = p = MathUtils.clamp((p - 0.5f) * 2f, -1f, 1f);</span>
-<span class="source-line-no">953</span><span id="line.953">                float t2 = t = MathUtils.clamp((t - 0.5f) * 2f, -1f, 1f);</span>
-<span class="source-line-no">954</span><span id="line.954">                a = MathUtils.clamp(a, 0f, 1f);</span>
+<span class="source-line-no">951</span><span id="line.951">                float i2 = i = Math.min(Math.max(i, 0f), 1f);</span>
+<span class="source-line-no">952</span><span id="line.952">                float p2 = p = Math.min(Math.max((p - 0.5f) * 2f, -1f), 1f);</span>
+<span class="source-line-no">953</span><span id="line.953">                float t2 = t = Math.min(Math.max((t - 0.5f) * 2f, -1f), 1f);</span>
+<span class="source-line-no">954</span><span id="line.954">                a = Math.min(Math.max(a, 0f), 1f);</span>
 <span class="source-line-no">955</span><span id="line.955">                for (int attempt = 31; attempt &gt;= 0; attempt--) {</span>
 <span class="source-line-no">956</span><span id="line.956">                        final float l = reverseTransform(i2 + 0.097569f * p2 + 0.205226f * t2);</span>
 <span class="source-line-no">957</span><span id="line.957">                        final float m = reverseTransform(i2 + -0.11388f * p2 + 0.133217f * t2);</span>

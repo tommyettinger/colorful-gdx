@@ -66,9 +66,9 @@ public class ColorTools {
 	 */
 	public static float fromRGBA(final float r, final float g, final float b, final float a) {
 		return BitConversion.intBitsToFloat(
-				          MathTools.clamp((int)(r * 255.0f + 0.500f), 0, 255)
-						| MathTools.clamp((int)(g * 255.0f + 0.500f), 0, 255) << 8
-						| MathTools.clamp((int)(b * 255.0f + 0.500f), 0, 255) << 16
+				          Math.min(Math.max((int)(r * 255.0f + 0.500f), 0), 255)
+						| Math.min(Math.max((int)(g * 255.0f + 0.500f), 0), 255) << 8
+						| Math.min(Math.max((int)(b * 255.0f + 0.500f), 0), 255) << 16
 						| ((int)(a * 255f) << 24 & 0xFE000000));
 	}
 
@@ -292,7 +292,7 @@ public class ColorTools {
 	 */
 	public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {
 		final int decoded = BitConversion.floatToRawIntBits(basis);
-		opacity = MathTools.clamp(opacity + (decoded >>> 24 & 0xfe) * 0x1.020408p-8f, 0f, 1f);
+		opacity = Math.min(Math.max(opacity + (decoded >>> 24 & 0xfe) * 0x1.020408p-8f, 0f), 1f);
 		final float r = (decoded & 0xff) / 255f;
 		final float g = (decoded >>> 8 & 0xff) / 255f;
 		final float b = (decoded >>> 16 & 0xff) / 255f;
@@ -321,7 +321,7 @@ public class ColorTools {
 		float l = x * (1f - 0.5f * d / (x + 1e-10f));
 		float hue2 = Math.abs(z + (w - y) / (6f * d + 1e-10f));
 		float sat2 = (x - l) / (Math.min(l, 1f - l) + 1e-10f);
-		return FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), MathTools.clamp(saturation + sat2, 0f, 1f), MathTools.clamp(l + value, 0f, 1f), opacity);
+		return FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), Math.min(Math.max(saturation + sat2, 0f), 1f), Math.min(Math.max(l + value, 0f), 1f), opacity);
 	}
 
 	/**
@@ -424,12 +424,12 @@ public class ColorTools {
 				cr = (contrastBits & 0xff),
 				cg = (contrastBits >>> 8 & 0xff),
 				cb = (contrastBits >>> 16 & 0xff),
-				i = MathTools.clamp((int) ((0.189786f * r + 0.576951f * g + 0.233221f * b) * 255.999f), 0, 255),
-				p = MathTools.clamp((int) ((0.669665f * r - 0.73741f * g + 0.0681367f * b) * 127.5f + 127.5f), 0, 255),
-				t = MathTools.clamp((int) ((0.286498f * r + 0.655205f * g - 0.941748f * b) * 127.5f + 127.5f), 0, 255),
-				ci = MathTools.clamp((int) ((0.189786f * cr + 0.576951f * cg + 0.233221f * cb) * 255.999f), 0, 255),
-				cp = MathTools.clamp((int) ((0.669665f * cr - 0.73741f * cg + 0.0681367f * cb) * 127.5f + 127.5f), 0, 255),
-				ct = MathTools.clamp((int) ((0.286498f * cr + 0.655205f * cg - 0.941748f * cb) * 127.5f + 127.5f), 0, 255);
+				i = Math.min(Math.max((int) ((0.189786f * r + 0.576951f * g + 0.233221f * b) * 255.999f), 0), 255),
+				p = Math.min(Math.max((int) ((0.669665f * r - 0.73741f * g + 0.0681367f * b) * 127.5f + 127.5f), 0), 255),
+				t = Math.min(Math.max((int) ((0.286498f * r + 0.655205f * g - 0.941748f * b) * 127.5f + 127.5f), 0), 255),
+				ci = Math.min(Math.max((int) ((0.189786f * cr + 0.576951f * cg + 0.233221f * cb) * 255.999f), 0), 255),
+				cp = Math.min(Math.max((int) ((0.669665f * cr - 0.73741f * cg + 0.0681367f * cb) * 127.5f + 127.5f), 0), 255),
+				ct = Math.min(Math.max((int) ((0.286498f * cr + 0.655205f * cg - 0.941748f * cb) * 127.5f + 127.5f), 0), 255);
 
 		if((p - cp) * (p - cp) + (t - ct) * (t - ct) >= 0x10000)
 			return mainColor;
@@ -522,8 +522,8 @@ public class ColorTools {
 	 */
 	public static float subrandomColor(float r, float g, float b) {
 		return BitConversion.intBitsToFloat(0xFE000000
-				| ((int) MathTools.clamp(b * 256f, 0, 255.999f) << 16 & 0xFF0000)
-				| ((int) MathTools.clamp(g * 256f, 0, 255.999f) << 8 & 0xFF00)
-				| ((int) MathTools.clamp(r * 256f, 0, 255.999f) & 0xFF));
+				| ((int) Math.min(Math.max(b * 256f, 0), 255.999f) << 16 & 0xFF0000)
+				| ((int) Math.min(Math.max(g * 256f, 0), 255.999f) << 8 & 0xFF00)
+				| ((int) Math.min(Math.max(r * 256f, 0), 255.999f) & 0xFF));
 	}
 }

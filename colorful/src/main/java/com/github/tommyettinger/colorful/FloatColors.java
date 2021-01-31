@@ -31,11 +31,11 @@ public class FloatColors {
      * @return an RGBA-format packed float
      */
     public static float hsl2rgb(final float h, final float s, final float l, final float a){
-        float x = MathUtils.clamp(Math.abs(h * 6f - 3f) - 1f, 0f, 1f), y = h + (2f / 3f), z = h + (1f / 3f);
+        float x = Math.min(Math.max(Math.abs(h * 6f - 3f) - 1f, 0f), 1f), y = h + (2f / 3f), z = h + (1f / 3f);
         y -= (int)y;
         z -= (int)z;
-        y = MathUtils.clamp(Math.abs(y * 6f - 3f) - 1f, 0f, 1f);
-        z = MathUtils.clamp(Math.abs(z * 6f - 3f) - 1f, 0f, 1f);
+        y = Math.min(Math.max(Math.abs(y * 6f - 3f) - 1f, 0f), 1f);
+        z = Math.min(Math.max(Math.abs(z * 6f - 3f) - 1f, 0f), 1f);
         float v = (l + s * Math.min(l, 1f - l));
         float d = 2f * (1f - l / (v + 1e-10f));
         return Color.toFloatBits(v * MathUtils.lerp(1f, x, d), v * MathUtils.lerp(1f, y, d), v * MathUtils.lerp(1f, z, d), a);
@@ -104,7 +104,7 @@ public class FloatColors {
     public static float multiplyAlpha(final float encodedColor, final float alpha) {
         final int bits = NumberUtils.floatToRawIntBits(encodedColor);
         return NumberUtils.intBitsToFloat(bits & 0xFFFFFF
-                | (MathUtils.clamp((int) ((bits >>> 24) * alpha), 0, 255) << 24 & 0xFE000000));
+                | (Math.min(Math.max((int) ((bits >>> 24) * alpha), 0), 255) << 24 & 0xFE000000));
     }
 
     /**
@@ -120,7 +120,7 @@ public class FloatColors {
      */
     public static float setAlpha(final float encodedColor, final float alpha) {
         return NumberUtils.intBitsToFloat(NumberUtils.floatToRawIntBits(encodedColor) & 0xFFFFFF
-                | (MathUtils.clamp((int) (255f * alpha), 0, 255) << 24 & 0xFE000000));
+                | (Math.min(Math.max((int) (255f * alpha), 0), 255) << 24 & 0xFE000000));
     }
 
     /**
