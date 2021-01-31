@@ -54,9 +54,9 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final int r = MathTools.clamp((int) ((0.999779f * i + 1.0709400f * p + 0.324891f * t) * 256.0), 0, 255);
-		final int g = MathTools.clamp((int) ((1.000150f * i - 0.3777440f * p + 0.220439f * t) * 256.0), 0, 255);
-		final int b = MathTools.clamp((int) ((0.999769f * i + 0.0629496f * p - 0.809638f * t) * 256.0), 0, 255);
+		final int r = Math.min(Math.max((int) ((0.999779f * i + 1.0709400f * p + 0.324891f * t) * 256.0), 0), 255);
+		final int g = Math.min(Math.max((int) ((1.000150f * i - 0.3777440f * p + 0.220439f * t) * 256.0), 0), 255);
+		final int b = Math.min(Math.max((int) ((0.999769f * i + 0.0629496f * p - 0.809638f * t) * 256.0), 0), 255);
 		return r << 24 | g << 16 | b << 8 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
 	}
 
@@ -73,9 +73,9 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final int r = MathTools.clamp((int) ((0.999779f * i + 1.0709400f * p + 0.324891f * t) * 256.0), 0, 255);
-		final int g = MathTools.clamp((int) ((1.000150f * i - 0.3777440f * p + 0.220439f * t) * 256.0), 0, 255);
-		final int b = MathTools.clamp((int) ((0.999769f * i + 0.0629496f * p - 0.809638f * t) * 256.0), 0, 255);
+		final int r = Math.min(Math.max((int) ((0.999779f * i + 1.0709400f * p + 0.324891f * t) * 256.0), 0), 255);
+		final int g = Math.min(Math.max((int) ((1.000150f * i - 0.3777440f * p + 0.220439f * t) * 256.0), 0), 255);
+		final int b = Math.min(Math.max((int) ((0.999769f * i + 0.0629496f * p - 0.809638f * t) * 256.0), 0), 255);
 		return BitConversion.intBitsToFloat(r | g << 8 | b << 16 | (decoded & 0xfe000000));
 	}
 
@@ -89,9 +89,9 @@ public class ColorTools {
 		final float g = (rgba >>> 16 & 0xFF) * 0x1.010101010101p-8f;
 		final float b = (rgba >>> 8 & 0xFF) * 0x1.010101010101p-8f;
 		return BitConversion.intBitsToFloat(
-			              MathTools.clamp((int)((0.189786f * r + 0.576951f * g + 0.233221f * b) * 255.0f + 0.500f), 0, 255)
-						| MathTools.clamp((int)((0.669665f * r - 0.73741f * g + 0.0681367f * b) * 127.5f + 127.5f), 0, 255) << 8
-						| MathTools.clamp((int)((0.286498f * r + 0.655205f * g - 0.941748f * b) * 127.5f + 127.5f), 0, 255) << 16
+			              Math.min(Math.max((int)((0.189786f * r + 0.576951f * g + 0.233221f * b) * 255.0f + 0.500f), 0), 255)
+						| Math.min(Math.max((int)((0.669665f * r - 0.73741f * g + 0.0681367f * b) * 127.5f + 127.5f), 0), 255) << 8
+						| Math.min(Math.max((int)((0.286498f * r + 0.655205f * g - 0.941748f * b) * 127.5f + 127.5f), 0), 255) << 16
 						| (rgba & 0xFE) << 24);
 	}
 
@@ -107,9 +107,9 @@ public class ColorTools {
 		final float b = (abgr >>> 16 & 0xFF) * 0x1.010101010101p-8f;
 
 		return BitConversion.intBitsToFloat(
-				          MathTools.clamp((int)((0.189786f * r + 0.576951f * g + 0.233221f * b) * 255.999f), 0, 255)
-						| MathTools.clamp((int)((0.669665f * r - 0.73741f * g + 0.0681367f * b) * 127.5f + 127.5f), 0, 255) << 8
-						| MathTools.clamp((int)((0.286498f * r + 0.655205f * g - 0.941748f * b) * 127.5f + 127.5f), 0, 255) << 16
+				          Math.min(Math.max((int)((0.189786f * r + 0.576951f * g + 0.233221f * b) * 255.999f), 0), 255)
+						| Math.min(Math.max((int)((0.669665f * r - 0.73741f * g + 0.0681367f * b) * 127.5f + 127.5f), 0), 255) << 8
+						| Math.min(Math.max((int)((0.286498f * r + 0.655205f * g - 0.941748f * b) * 127.5f + 127.5f), 0), 255) << 16
 						| (abgr & 0xFE000000));
 	}
 
@@ -123,9 +123,9 @@ public class ColorTools {
 	 */
 	public static float fromRGBA(final float r, final float g, final float b, final float a) {
 		return BitConversion.intBitsToFloat(
-				          MathTools.clamp((int)((0.189786f * r + 0.576951f * g + 0.233221f * b) * 255.0f + 0.500f), 0, 255)
-						| MathTools.clamp((int)((0.669665f * r - 0.73741f * g + 0.0681367f * b) * 127.5f + 127.5f), 0, 255) << 8
-						| MathTools.clamp((int)((0.286498f * r + 0.655205f * g - 0.941748f * b) * 127.5f + 127.5f), 0, 255) << 16
+				          Math.min(Math.max((int)((0.189786f * r + 0.576951f * g + 0.233221f * b) * 255.0f + 0.500f), 0), 255)
+						| Math.min(Math.max((int)((0.669665f * r - 0.73741f * g + 0.0681367f * b) * 127.5f + 127.5f), 0), 255) << 8
+						| Math.min(Math.max((int)((0.286498f * r + 0.655205f * g - 0.941748f * b) * 127.5f + 127.5f), 0), 255) << 16
 						| ((int)(a * 255f) << 24 & 0xFE000000));
 	}
 
@@ -140,7 +140,7 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		return MathTools.clamp((int) ((0.999779f * i + 1.0709400f * p + 0.324891f * t) * 256.0), 0, 255);
+		return Math.min(Math.max((int) ((0.999779f * i + 1.0709400f * p + 0.324891f * t) * 256.0), 0), 255);
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		return MathTools.clamp((int) ((1.000150f * i - 0.3777440f * p + 0.220439f * t) * 256.0), 0, 255);
+		return Math.min(Math.max((int) ((1.000150f * i - 0.3777440f * p + 0.220439f * t) * 256.0), 0), 255);
 	}
 
 	/**
@@ -168,7 +168,7 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		return MathTools.clamp((int) ((0.999769f * i + 0.0629496f * p - 0.809638f * t) * 256.0), 0, 255);
+		return Math.min(Math.max((int) ((0.999769f * i + 0.0629496f * p - 0.809638f * t) * 256.0), 0), 255);
 	}
 
 	/**
@@ -193,7 +193,7 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		return MathTools.clamp((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f, 1f);
+		return Math.min(Math.max((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f), 1f);
 	}
 
 	/**
@@ -207,7 +207,7 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		return MathTools.clamp((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f, 1f);
+		return Math.min(Math.max((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f), 1f);
 	}
 
 	/**
@@ -221,7 +221,7 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		return MathTools.clamp((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f, 1f);
+		return Math.min(Math.max((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f), 1f);
 	}
 
 	/**
@@ -269,9 +269,9 @@ public class ColorTools {
 		if(Math.abs(i - 0.5) > 0.495f) return 0f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float r = MathTools.clamp((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f, 1f);
-		final float g = MathTools.clamp((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f, 1f);
-		final float b = MathTools.clamp((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f, 1f);
+		final float r = Math.min(Math.max((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f), 1f);
+		final float g = Math.min(Math.max((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f), 1f);
+		final float b = Math.min(Math.max((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f), 1f);
 		float x, y, w;
 		if(g < b) {
 			x = b;
@@ -299,9 +299,9 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float r = MathTools.clamp((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f, 1f);
-		final float g = MathTools.clamp((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f, 1f);
-		final float b = MathTools.clamp((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f, 1f);
+		final float r = Math.min(Math.max((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f), 1f);
+		final float g = Math.min(Math.max((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f), 1f);
+		final float b = Math.min(Math.max((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f), 1f);
 
 		float x, y, w;
 		if(g < b) {
@@ -335,9 +335,9 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final float r = MathTools.clamp((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f, 1f);
-		final float g = MathTools.clamp((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f, 1f);
-		final float b = MathTools.clamp((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f, 1f);
+		final float r = Math.min(Math.max((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f), 1f);
+		final float g = Math.min(Math.max((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f), 1f);
+		final float b = Math.min(Math.max((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f), 1f);
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
@@ -425,15 +425,15 @@ public class ColorTools {
 	 */
 	public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {
 		final int e = BitConversion.floatToRawIntBits(basis);
-		final float i = MathTools.clamp(value + (e & 0xff) / 255f, 0f, 1f);
-		opacity = MathTools.clamp(opacity + (e >>> 24 & 0xfe) * 0x1.020408p-8f, 0f, 1f);
+		final float i = Math.min(Math.max(value + (e & 0xff) / 255f, 0f), 1f);
+		opacity = Math.min(Math.max(opacity + (e >>> 24 & 0xfe) * 0x1.020408p-8f, 0f), 1f);
 		if (i <= 0.001f)
 			return BitConversion.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x808000);
 		final float p = ((e >>> 7 & 0x1fe) - 0xff) / 255f;
 		final float t = ((e >>> 15 & 0x1fe) - 0xff) / 255f;
-		final float r = MathTools.clamp((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f, 1f);
-		final float g = MathTools.clamp((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f, 1f);
-		final float b = MathTools.clamp((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f, 1f);
+		final float r = Math.min(Math.max((0.999779f * i + 1.0709400f * p + 0.324891f * t), 0f), 1f);
+		final float g = Math.min(Math.max((1.000150f * i - 0.3777440f * p + 0.220439f * t), 0f), 1f);
+		final float b = Math.min(Math.max((0.999769f * i + 0.0629496f * p - 0.809638f * t), 0f), 1f);
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
@@ -458,7 +458,7 @@ public class ColorTools {
 		float d = x - Math.min(w, y);
 		float hue2 = Math.abs(z + (w - y) / (6f * d + 1e-10f));
 		float sat2 = (x - i) / (Math.min(i, 1f - i) + 1e-10f);
-		return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), MathTools.clamp(saturation + sat2, 0f, 1f), i, opacity));
+		return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), Math.min(Math.max(saturation + sat2, 0f), 1f), i, opacity));
 	}
 
 	/**
@@ -803,10 +803,10 @@ public class ColorTools {
 	 * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
 	 */
 	public static float limitToGamut(float i, float p, float t, float a) {
-		float i2 = i = MathTools.clamp(i, 0f, 1f);
-		float p2 = p = MathTools.clamp((p - 0.5f) * 2f, -1f, 1f);
-		float t2 = t = MathTools.clamp((t - 0.5f) * 2f, -1f, 1f);
-		a = MathTools.clamp(a, 0f, 1f);
+		float i2 = i = Math.min(Math.max(i, 0f), 1f);
+		float p2 = p = Math.min(Math.max((p - 0.5f) * 2f, -1f), 1f);
+		float t2 = t = Math.min(Math.max((t - 0.5f) * 2f, -1f), 1f);
+		a = Math.min(Math.max(a, 0f), 1f);
 		for (int attempt = 31; attempt >= 0; attempt--) {
 			final float r = 0.999779f * i2 + 1.0709400f * p2 + 0.324891f * t2;
 			final float g = 1.000150f * i2 - 0.3777440f * p2 + 0.220439f * t2;
@@ -901,9 +901,9 @@ public class ColorTools {
 	 * @return a packed float color that is always opaque
 	 */
 	public static float subrandomColor(float r, float g, float b) {
-		r = MathTools.clamp(r, 0f, 0.999f);
-		g = MathTools.clamp(g, 0f, 0.999f);
-		b = MathTools.clamp(b, 0f, 0.999f);
+		r = Math.min(Math.max(r, 0f), 0.999f);
+		g = Math.min(Math.max(g, 0f), 0.999f);
+		b = Math.min(Math.max(b, 0f), 0.999f);
 		final float ir = 0.1882353f, pr = 0.83137256f - 0.5f, tr = 0.6431373f - 0.5f;
 		final float ig = 0.5764706f, pg = 0.12941177f - 0.5f, tg = 0.827451f - 0.5f;
 		final float ib = 0.23137255f, pb = 0.53333336f - 0.5f, tb = 0.02745098f - 0.5f;

@@ -43,11 +43,11 @@
 <span class="source-line-no">031</span><span id="line.31">     * @return an RGBA-format packed float</span>
 <span class="source-line-no">032</span><span id="line.32">     */</span>
 <span class="source-line-no">033</span><span id="line.33">    public static float hsl2rgb(final float h, final float s, final float l, final float a){</span>
-<span class="source-line-no">034</span><span id="line.34">        float x = MathUtils.clamp(Math.abs(h * 6f - 3f) - 1f, 0f, 1f), y = h + (2f / 3f), z = h + (1f / 3f);</span>
+<span class="source-line-no">034</span><span id="line.34">        float x = Math.min(Math.max(Math.abs(h * 6f - 3f) - 1f, 0f), 1f), y = h + (2f / 3f), z = h + (1f / 3f);</span>
 <span class="source-line-no">035</span><span id="line.35">        y -= (int)y;</span>
 <span class="source-line-no">036</span><span id="line.36">        z -= (int)z;</span>
-<span class="source-line-no">037</span><span id="line.37">        y = MathUtils.clamp(Math.abs(y * 6f - 3f) - 1f, 0f, 1f);</span>
-<span class="source-line-no">038</span><span id="line.38">        z = MathUtils.clamp(Math.abs(z * 6f - 3f) - 1f, 0f, 1f);</span>
+<span class="source-line-no">037</span><span id="line.37">        y = Math.min(Math.max(Math.abs(y * 6f - 3f) - 1f, 0f), 1f);</span>
+<span class="source-line-no">038</span><span id="line.38">        z = Math.min(Math.max(Math.abs(z * 6f - 3f) - 1f, 0f), 1f);</span>
 <span class="source-line-no">039</span><span id="line.39">        float v = (l + s * Math.min(l, 1f - l));</span>
 <span class="source-line-no">040</span><span id="line.40">        float d = 2f * (1f - l / (v + 1e-10f));</span>
 <span class="source-line-no">041</span><span id="line.41">        return Color.toFloatBits(v * MathUtils.lerp(1f, x, d), v * MathUtils.lerp(1f, y, d), v * MathUtils.lerp(1f, z, d), a);</span>
@@ -116,7 +116,7 @@
 <span class="source-line-no">104</span><span id="line.104">    public static float multiplyAlpha(final float encodedColor, final float alpha) {</span>
 <span class="source-line-no">105</span><span id="line.105">        final int bits = NumberUtils.floatToRawIntBits(encodedColor);</span>
 <span class="source-line-no">106</span><span id="line.106">        return NumberUtils.intBitsToFloat(bits &amp; 0xFFFFFF</span>
-<span class="source-line-no">107</span><span id="line.107">                | (MathUtils.clamp((int) ((bits &gt;&gt;&gt; 24) * alpha), 0, 255) &lt;&lt; 24 &amp; 0xFE000000));</span>
+<span class="source-line-no">107</span><span id="line.107">                | (Math.min(Math.max((int) ((bits &gt;&gt;&gt; 24) * alpha), 0), 255) &lt;&lt; 24 &amp; 0xFE000000));</span>
 <span class="source-line-no">108</span><span id="line.108">    }</span>
 <span class="source-line-no">109</span><span id="line.109"></span>
 <span class="source-line-no">110</span><span id="line.110">    /**</span>
@@ -132,7 +132,7 @@
 <span class="source-line-no">120</span><span id="line.120">     */</span>
 <span class="source-line-no">121</span><span id="line.121">    public static float setAlpha(final float encodedColor, final float alpha) {</span>
 <span class="source-line-no">122</span><span id="line.122">        return NumberUtils.intBitsToFloat(NumberUtils.floatToRawIntBits(encodedColor) &amp; 0xFFFFFF</span>
-<span class="source-line-no">123</span><span id="line.123">                | (MathUtils.clamp((int) (255f * alpha), 0, 255) &lt;&lt; 24 &amp; 0xFE000000));</span>
+<span class="source-line-no">123</span><span id="line.123">                | (Math.min(Math.max((int) (255f * alpha), 0), 255) &lt;&lt; 24 &amp; 0xFE000000));</span>
 <span class="source-line-no">124</span><span id="line.124">    }</span>
 <span class="source-line-no">125</span><span id="line.125"></span>
 <span class="source-line-no">126</span><span id="line.126">    /**</span>

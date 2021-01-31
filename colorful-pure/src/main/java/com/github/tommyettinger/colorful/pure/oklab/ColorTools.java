@@ -130,9 +130,9 @@ public class ColorTools {
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
-		final int r = (int)(reverseGamma(MathTools.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f)) * 255.999f);
-		final int g = (int)(reverseGamma(MathTools.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f)) * 255.999f);
-		final int b = (int)(reverseGamma(MathTools.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f)) * 255.999f);
+		final int r = (int)(reverseGamma(Math.min(Math.max(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f), 1f)) * 255.999f);
+		final int g = (int)(reverseGamma(Math.min(Math.max(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f), 1f)) * 255.999f);
+		final int b = (int)(reverseGamma(Math.min(Math.max(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f), 1f)) * 255.999f);
 		return r << 24 | g << 16 | b << 8 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
 	}
 
@@ -152,9 +152,9 @@ public class ColorTools {
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
-		final int r = (int)(reverseGamma(MathTools.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f)) * 255.999f);
-		final int g = (int)(reverseGamma(MathTools.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f)) * 255.999f);
-		final int b = (int)(reverseGamma(MathTools.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f)) * 255.999f);
+		final int r = (int)(reverseGamma(Math.min(Math.max(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f), 1f)) * 255.999f);
+		final int g = (int)(reverseGamma(Math.min(Math.max(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f), 1f)) * 255.999f);
+		final int b = (int)(reverseGamma(Math.min(Math.max(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f), 1f)) * 255.999f);
 		return BitConversion.intBitsToFloat(r | g << 8 | b << 16 | (decoded & 0xfe000000));
 	}
 
@@ -173,9 +173,9 @@ public class ColorTools {
 		final float s = cbrt(0.0883097947f * r + 0.2818474174f * g + 0.6302613616f * b);
 
 		return BitConversion.intBitsToFloat(
-				          MathTools.clamp((int)((0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s       ) * 255.999f), 0, 255)
-						| MathTools.clamp((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s + 0.5f) * 255.999f), 0, 255) << 8
-						| MathTools.clamp((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s + 0.5f) * 255.999f), 0, 255) << 16
+				          Math.min(Math.max((int)((0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s       ) * 255.999f), 0), 255)
+						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s + 0.5f) * 255.999f), 0), 255) << 8
+						| Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s + 0.5f) * 255.999f), 0), 255) << 16
 						| (rgba & 0xFE) << 24);
 	}
 
@@ -193,9 +193,9 @@ public class ColorTools {
 		final float m = cbrt(0.2118591070f * r + 0.6807189584f * g + 0.1074065790f * b);
 		final float s = cbrt(0.0883097947f * r + 0.2818474174f * g + 0.6302613616f * b);
 		return BitConversion.intBitsToFloat(
-				          MathTools.clamp((int)((0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s       ) * 255.999f), 0, 255)
-						| MathTools.clamp((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s + 0.5f) * 255.999f), 0, 255) << 8
-						| MathTools.clamp((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s + 0.5f) * 255.999f), 0, 255) << 16
+				          Math.min(Math.max((int)((0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s       ) * 255.999f), 0), 255)
+						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s + 0.5f) * 255.999f), 0), 255) << 8
+						| Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s + 0.5f) * 255.999f), 0), 255) << 16
 						| (abgr & 0xFE000000));
 	}
 
@@ -225,9 +225,9 @@ public class ColorTools {
 		final float m = cbrt(0.2118591070f * r + 0.6807189584f * g + 0.1074065790f * b);
 		final float s = cbrt(0.0883097947f * r + 0.2818474174f * g + 0.6302613616f * b);
 		return BitConversion.intBitsToFloat(
-				          MathTools.clamp((int)((0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s       ) * 255.999f), 0, 255)
-						| MathTools.clamp((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s + 0.5f) * 255.999f), 0, 255) << 8
-						| MathTools.clamp((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s + 0.5f) * 255.999f), 0, 255) << 16
+				          Math.min(Math.max((int)((0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s       ) * 255.999f), 0), 255)
+						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s + 0.5f) * 255.999f), 0), 255) << 8
+						| Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s + 0.5f) * 255.999f), 0), 255) << 16
 						| ((int)(a * 255f) << 24 & 0xFE000000));
 	}
 
@@ -245,7 +245,7 @@ public class ColorTools {
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
-		return (int)(reverseGamma(MathTools.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f)) * 255.999f);
+		return (int)(reverseGamma(Math.min(Math.max(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f), 1f)) * 255.999f);
 	}
 
 	/**
@@ -262,7 +262,7 @@ public class ColorTools {
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
-		return (int)(reverseGamma(MathTools.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f)) * 255.999f);
+		return (int)(reverseGamma(Math.min(Math.max(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f), 1f)) * 255.999f);
 	}
 
 	/**
@@ -279,7 +279,7 @@ public class ColorTools {
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
-		return (int)(reverseGamma(MathTools.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f)) * 255.999f);
+		return (int)(reverseGamma(Math.min(Math.max(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f), 1f)) * 255.999f);
 	}
 
 	/**
@@ -307,7 +307,7 @@ public class ColorTools {
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
-		return reverseGamma(MathTools.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f));
+		return reverseGamma(Math.min(Math.max(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f), 1f));
 	}
 
 	/**
@@ -324,7 +324,7 @@ public class ColorTools {
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
-		return reverseGamma(MathTools.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f));
+		return reverseGamma(Math.min(Math.max(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f), 1f));
 	}
 
 	/**
@@ -341,7 +341,7 @@ public class ColorTools {
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
-		return reverseGamma(MathTools.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f));
+		return reverseGamma(Math.min(Math.max(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f), 1f));
 	}
 
 	/**
@@ -412,9 +412,9 @@ public class ColorTools {
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
-		final float r = reverseGamma(MathTools.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f));
-		final float g = reverseGamma(MathTools.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f));
-		final float b = reverseGamma(MathTools.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f));
+		final float r = reverseGamma(Math.min(Math.max(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f), 1f));
+		final float g = reverseGamma(Math.min(Math.max(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f), 1f));
+		final float b = reverseGamma(Math.min(Math.max(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f), 1f));
 		float x, y, w;
 		if(g < b) {
 			x = b;
@@ -448,9 +448,9 @@ public class ColorTools {
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
-		final float r = reverseGamma(MathTools.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f));
-		final float g = reverseGamma(MathTools.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f));
-		final float b = reverseGamma(MathTools.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f));
+		final float r = reverseGamma(Math.min(Math.max(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f), 1f));
+		final float g = reverseGamma(Math.min(Math.max(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f), 1f));
+		final float b = reverseGamma(Math.min(Math.max(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f), 1f));
 		float x, y, w;
 		if(g < b) {
 			x = b;
@@ -486,9 +486,9 @@ public class ColorTools {
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
-		final float r = reverseGamma(MathTools.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f));
-		final float g = reverseGamma(MathTools.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f));
-		final float b = reverseGamma(MathTools.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f));
+		final float r = reverseGamma(Math.min(Math.max(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f), 1f));
+		final float g = reverseGamma(Math.min(Math.max(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f), 1f));
+		final float b = reverseGamma(Math.min(Math.max(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f), 1f));
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
@@ -575,8 +575,8 @@ public class ColorTools {
 	 */
 	public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {
 		final int decoded = BitConversion.floatToRawIntBits(basis);
-		final float L = MathTools.clamp(value + (decoded & 0xff) / 255f, 0f, 1f);
-		opacity = MathTools.clamp(opacity + (decoded >>> 24 & 0xfe) * 0x1.020408p-8f, 0f, 1f);
+		final float L = Math.min(Math.max(value + (decoded & 0xff) / 255f, 0f), 1f);
+		opacity = Math.min(Math.max(opacity + (decoded >>> 24 & 0xfe) * 0x1.020408p-8f, 0f), 1f);
 		if (L <= 0.001f)
 			return BitConversion.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x808000);
 		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
@@ -584,9 +584,9 @@ public class ColorTools {
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
-		final float r = reverseGamma(MathTools.clamp(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f, 1f));
-		final float g = reverseGamma(MathTools.clamp(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f, 1f));
-		final float b = reverseGamma(MathTools.clamp(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f, 1f));
+		final float r = reverseGamma(Math.min(Math.max(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f), 1f));
+		final float g = reverseGamma(Math.min(Math.max(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f), 1f));
+		final float b = reverseGamma(Math.min(Math.max(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f), 1f));
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
@@ -611,7 +611,7 @@ public class ColorTools {
 		float d = x - Math.min(w, y);
 		float hue2 = Math.abs(z + (w - y) / (6f * d + 1e-10f));
 		float sat2 = (x - L) / (Math.min(L, 1f - L) + 1e-10f);
-		return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), MathTools.clamp(saturation + sat2, 0f, 1f), L, opacity));
+		return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), Math.min(Math.max(saturation + sat2, 0f), 1f), L, opacity));
 	}
 
 	/**
@@ -982,10 +982,10 @@ public class ColorTools {
 	 * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
 	 */
 	public static float limitToGamut(float L, float A, float B, float alpha) {
-		float L2 = L = MathTools.clamp(L, 0f, 1f);
-		float A2 = A = MathTools.clamp((A - 0.5f) * 2f, -1f, 1f);
-		float B2 = B = MathTools.clamp((B - 0.5f) * 2f, -1f, 1f);
-		alpha = MathTools.clamp(alpha, 0f, 1f);
+		float L2 = L = Math.min(Math.max(L, 0f), 1f);
+		float A2 = A = Math.min(Math.max((A - 0.5f) * 2f, -1f), 1f);
+		float B2 = B = Math.min(Math.max((B - 0.5f) * 2f, -1f), 1f);
+		alpha = Math.min(Math.max(alpha, 0f), 1f);
 		for (int attempt = 31; attempt >= 0; attempt--) {
 			final float l = cube(L2 + 0.3963377774f * A2 + 0.2158037573f * B2);
 			final float m = cube(L2 - 0.1055613458f * A2 - 0.0638541728f * B2);

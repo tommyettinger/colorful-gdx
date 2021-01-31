@@ -769,34 +769,18 @@
 <span class="source-line-no">757</span><span id="line.757">            return (n &lt; 0.0f) ? 0.5f - r : r;</span>
 <span class="source-line-no">758</span><span id="line.758">        }</span>
 <span class="source-line-no">759</span><span id="line.759">    }</span>
-<span class="source-line-no">760</span><span id="line.760">    public static int clamp (int value, int min, int max) {</span>
-<span class="source-line-no">761</span><span id="line.761">        if (value &lt;= min) return min;</span>
-<span class="source-line-no">762</span><span id="line.762">        if (value &gt;= max) return max;</span>
-<span class="source-line-no">763</span><span id="line.763">        return value;</span>
-<span class="source-line-no">764</span><span id="line.764">    }</span>
-<span class="source-line-no">765</span><span id="line.765"></span>
-<span class="source-line-no">766</span><span id="line.766">    public static long clamp (long value, long min, long max) {</span>
-<span class="source-line-no">767</span><span id="line.767">        if (value &lt;= min) return min;</span>
-<span class="source-line-no">768</span><span id="line.768">        if (value &gt;= max) return max;</span>
-<span class="source-line-no">769</span><span id="line.769">        return value;</span>
-<span class="source-line-no">770</span><span id="line.770">    }</span>
-<span class="source-line-no">771</span><span id="line.771"></span>
-<span class="source-line-no">772</span><span id="line.772">    public static float clamp (float value, float min, float max) {</span>
-<span class="source-line-no">773</span><span id="line.773">        if (value &lt;= min) return min;</span>
-<span class="source-line-no">774</span><span id="line.774">        if (value &gt;= max) return max;</span>
-<span class="source-line-no">775</span><span id="line.775">        return value;</span>
-<span class="source-line-no">776</span><span id="line.776">    }</span>
-<span class="source-line-no">777</span><span id="line.777">    /**</span>
-<span class="source-line-no">778</span><span id="line.778">     *  Linearly interpolates between fromValue to toValue on progress position.</span>
-<span class="source-line-no">779</span><span id="line.779">     * @param fromValue starting float value; can be any finite float</span>
-<span class="source-line-no">780</span><span id="line.780">     * @param toValue ending float value; can be any finite float</span>
-<span class="source-line-no">781</span><span id="line.781">     * @param progress how far the interpolation should go, between 0 (equal to fromValue) and 1 (equal to toValue)</span>
-<span class="source-line-no">782</span><span id="line.782">     */</span>
-<span class="source-line-no">783</span><span id="line.783">    public static float lerp (final float fromValue, final float toValue, final float progress) {</span>
-<span class="source-line-no">784</span><span id="line.784">        return fromValue + (toValue - fromValue) * progress;</span>
-<span class="source-line-no">785</span><span id="line.785">    }</span>
-<span class="source-line-no">786</span><span id="line.786"></span>
-<span class="source-line-no">787</span><span id="line.787">}</span>
+<span class="source-line-no">760</span><span id="line.760"></span>
+<span class="source-line-no">761</span><span id="line.761">    /**</span>
+<span class="source-line-no">762</span><span id="line.762">     *  Linearly interpolates between fromValue to toValue on progress position.</span>
+<span class="source-line-no">763</span><span id="line.763">     * @param fromValue starting float value; can be any finite float</span>
+<span class="source-line-no">764</span><span id="line.764">     * @param toValue ending float value; can be any finite float</span>
+<span class="source-line-no">765</span><span id="line.765">     * @param progress how far the interpolation should go, between 0 (equal to fromValue) and 1 (equal to toValue)</span>
+<span class="source-line-no">766</span><span id="line.766">     */</span>
+<span class="source-line-no">767</span><span id="line.767">    public static float lerp (final float fromValue, final float toValue, final float progress) {</span>
+<span class="source-line-no">768</span><span id="line.768">        return fromValue + (toValue - fromValue) * progress;</span>
+<span class="source-line-no">769</span><span id="line.769">    }</span>
+<span class="source-line-no">770</span><span id="line.770"></span>
+<span class="source-line-no">771</span><span id="line.771">}</span>
 
 
 
