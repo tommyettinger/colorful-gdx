@@ -5,8 +5,6 @@ import com.github.tommyettinger.ds.FloatList;
 import com.github.tommyettinger.ds.ObjectFloatOrderedMap;
 import com.github.tommyettinger.ds.ObjectList;
 
-import java.util.Comparator;
-
 import static com.github.tommyettinger.colorful.pure.FloatColors.mix;
 import static com.github.tommyettinger.colorful.pure.oklab.ColorTools.*;
 
