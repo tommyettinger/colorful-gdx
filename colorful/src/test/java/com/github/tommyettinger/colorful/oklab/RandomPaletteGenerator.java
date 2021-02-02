@@ -174,12 +174,12 @@ public class RandomPaletteGenerator {
         float L = ColorTools.channelL(oklab),
 //                A = ColorTools.channelA(oklab),
 //                B = ColorTools.channelB(oklab);
-                A = OtherMath.barronSpline(ColorTools.channelA(oklab), 0.625f, 0.5f),
-                B = OtherMath.barronSpline(ColorTools.channelB(oklab), 0.625f, 0.5f);
+                A = OtherMath.barronSpline(ColorTools.channelA(oklab), 0.5f, 0.5f),
+                B = OtherMath.barronSpline(ColorTools.channelB(oklab), 0.5f, 0.5f);
         if(!ColorTools.inGamut(L, A, B))
             return;
         oklab = ColorTools.oklab(L, A, B, 1f);
-        final double limit = 0.00275 - (labs.size * 0.000006);
+        final double limit = 0.00275 - (labs.size * 0.0000055);
         for (int idx = 0; idx < labs.size; idx++) {
             float o = labs.get(idx),
                     d = Vector3.dst2(L, A, B, ColorTools.channelL(o), ColorTools.channelA(o), ColorTools.channelB(o));
@@ -192,14 +192,32 @@ public class RandomPaletteGenerator {
     }
     public static void main(String[] args) {
         rgba.add(0);
-        add(0x010101FF);
-        add(0xFEFEFEFF);
-        add(0x777777FF);
-        add(0x555555FF);
+//        add(0x010101FF);
+//        add(0xFEFEFEFF);
+//        add(0x777777FF);
+//        add(0x555555FF);
+//        add(0xAAAAAAFF);
+//        add(0x333333FF);
+//        add(0xE0E0E0FF);
+//        add(0xC8C8C8FF);
+
+        add(0x000000FF);
+        add(0xFFFFFFFF);
+        add(0x888888FF);
+        add(0x444444FF);
+        add(0xCCCCCCFF);
+        add(0x222222FF);
         add(0xAAAAAAFF);
+        add(0x666666FF);
+        add(0xEEEEEEFF);
+        add(0x111111FF);
+        add(0x999999FF);
+        add(0x555555FF);
+        add(0xDDDDDDFF);
         add(0x333333FF);
-        add(0xE0E0E0FF);
-        add(0xC8C8C8FF);
+        add(0xBBBBBBFF);
+        add(0x777777FF);
+
 //        int idx = 1, initial = rgba.size;
         int idx = 1;
         RandomXS128 random = new RandomXS128(1L);
