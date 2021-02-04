@@ -968,8 +968,10 @@ public class ColorTools {
 		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final int idx = (decoded & 0xff) << 8 | (int)(256f * TrigTools.atan2_(B, A));
-		return (GAMUT_DATA[idx] & 0xFF) * 0x1p-8f >= (float) Math.sqrt(A * A + B * B);
-
+		return GAMUT_DATA[idx] * 0x1p-8f >= (float) Math.sqrt(A * A + B * B);
+	}
+//	public static boolean inGamut(final float packed)
+//	{
 //		final float L = (decoded & 0xff) / 255f;
 //		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 //		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
@@ -983,7 +985,7 @@ public class ColorTools {
 //		if(g < 0f || g > 1.0f) return false;
 //		final float b = -0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s;
 //		return (b >= 0f && b <= 1.0f);
-	}
+//  }
 	/**
 	 * Returns true if the given Oklab values are valid to convert losslessly back to RGBA.
 	 * @param L lightness channel, as a float from 0 to 1
@@ -996,8 +998,10 @@ public class ColorTools {
 		A = (A - 0.5f) * 2f;
 		B = (B - 0.5f) * 2f;
 		final int idx = ((int)(L * 0x1p16f) & 0xFF00) | (int)(0x1p8f * TrigTools.atan2_(B, A));
-		return (GAMUT_DATA[idx] & 0xFF) * 0x1p-8f >= (float) Math.sqrt(A * A + B * B);
-
+		return GAMUT_DATA[idx] * 0x1p-8f >= (float) Math.sqrt(A * A + B * B);
+	}
+//	public static boolean inGamut(float L, float A, float B)
+//	{
 //		A = (A - 0.5f) * 2f;
 //		B = (B - 0.5f) * 2f;
 //		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
@@ -1010,8 +1014,7 @@ public class ColorTools {
 //		if(g < 0f || g > 1.0f) return false;
 //		final float b = -0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s;
 //		return (b >= 0f && b <= 1.0f);
-	}
-
+//  }
 	/**
 	 * Gets the color with the same L as the Oklab color stored in the given packed float, but the furthest A
 	 * B from gray possible for that lightness while keeping the same hue as the given color. This is very
@@ -1026,7 +1029,7 @@ public class ColorTools {
 		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float hue = TrigTools.atan2_(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
-		final float dist = (GAMUT_DATA[idx] & 0xFF) * 0x1p-8f;
+		final float dist = GAMUT_DATA[idx] * 0x1p-8f;
 		return NumberUtils.intBitsToFloat(
 				(decoded & 0xFE0000FF) |
 						(int) (TrigTools.cos_(hue) * dist * 127.999f + 127.999f) << 8 |
@@ -1052,7 +1055,7 @@ public class ColorTools {
 		final float B2 = (B - 0.5f) * 2f;
 		final float hue = TrigTools.atan2_(B2, A2);
 		final int idx = (int) (L * 255.999f) << 8 | (int) (256f * hue);
-		final float dist = (GAMUT_DATA[idx] & 0xFF) * 0x1p-8f;
+		final float dist = GAMUT_DATA[idx] * 0x1p-8f;
 		return NumberUtils.intBitsToFloat(
 				(int) (alpha * 127.999f) << 25 |
 						(int) (TrigTools.sin_(hue) * dist * 127.999f + 127.999f) << 16 |
@@ -1072,14 +1075,15 @@ public class ColorTools {
 		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float hue = TrigTools.atan2_(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
-		final float dist = (GAMUT_DATA[idx] & 0xFF) * 0x1p-8f;
+		final float dist = GAMUT_DATA[idx] * 0x1p-8f;
 		if (dist >= (float) Math.sqrt(A * A + B * B))
 			return packed;
 		return NumberUtils.intBitsToFloat(
 				(decoded & 0xFE0000FF) |
 						(int) (TrigTools.cos_(hue) * dist * 127.999f + 127.999f) << 8 |
 						(int) (TrigTools.sin_(hue) * dist * 127.999f + 127.999f) << 16);
-
+	}
+//  public static float limitToGamut(final float packed) {
 //		final int decoded = NumberUtils.floatToRawIntBits(packed);
 //		final float L = (decoded & 0xff) / 255f;
 //		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
@@ -1101,8 +1105,7 @@ public class ColorTools {
 //			B2 = MathUtils.lerp(0, B, progress);
 //		}
 //		return oklab(L2, A2 * 0.5f + 0.5f, B2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
-	}
-
+//  }
 	/**
 	 * Checks whether the given Oklab color is in-gamut; if it isn't in-gamut, brings the color just inside
 	 * the gamut at the same lightness, or if it is already in-gamut, returns the color as-is. This always produces
@@ -1135,7 +1138,7 @@ public class ColorTools {
 		final float B2 = (B - 0.5f) * 2f;
 		final float hue = TrigTools.atan2_(B2, A2);
 		final int idx = (int) (L * 255.999f) << 8 | (int)(256f * hue);
-		final float dist = (GAMUT_DATA[idx] & 0xFF) * 0x1p-8f;
+		final float dist = GAMUT_DATA[idx] * 0x1p-8f;
 		if(dist >= (float) Math.sqrt(A2 * A2 + B2 * B2))
 			return oklab(L, A, B, alpha);
 		return NumberUtils.intBitsToFloat(
@@ -1143,7 +1146,9 @@ public class ColorTools {
 						(int) (TrigTools.sin_(hue) * dist * 127.999f + 127.999f) << 16 |
 						(int) (TrigTools.cos_(hue) * dist * 127.999f + 127.999f) << 8 |
 						(int) (L * 255.999f));
+	}
 
+//	public static float limitToGamut(float L, float A, float B, float alpha) {
 //		float L2 = L = Math.min(Math.max(L, 0f), 1f);
 //		float A2 = A = Math.min(Math.max((A - 0.5f) * 2f, -1f), 1f);
 //		float B2 = B = Math.min(Math.max((B - 0.5f) * 2f, -1f), 1f);
@@ -1164,8 +1169,8 @@ public class ColorTools {
 //			B2 = MathUtils.lerp(0, B, progress);
 //		}
 //		return oklab(L2, A2 * 0.5f + 0.5f, B2 * 0.5f + 0.5f, alpha);
-	}
-
+//  }
+	
 	/**
 	 * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.
 	 * @param random a Random object (preferably a subclass of Random, like {@link com.badlogic.gdx.math.RandomXS128})
