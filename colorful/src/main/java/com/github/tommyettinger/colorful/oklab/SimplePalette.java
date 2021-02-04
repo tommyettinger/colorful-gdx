@@ -733,11 +733,11 @@ public class SimplePalette {
                                 saturation += 0.2f;
                                 break;
                             default:
-                                mixing.add(TRANSPARENT);
+                                mixing.add(0f);
                                 break;
                         }
                     } else {
-                        mixing.add(NAMED.get(term, TRANSPARENT));
+                        mixing.add(NAMED.get(term, 0f));
                     }
                     break;
                 case 'd':
@@ -753,7 +753,7 @@ public class SimplePalette {
                                 intensity -= 0.15f;
                                 break;
                             default:
-                                mixing.add(TRANSPARENT);
+                                mixing.add(0f);
                                 break;
                         }
                     } else if (len > 1 && term.charAt(1) == 'u') {
@@ -768,25 +768,26 @@ public class SimplePalette {
                                 saturation -= 0.2f;
                                 break;
                             default:
-                                mixing.add(TRANSPARENT);
+                                mixing.add(0f);
                                 break;
                         }
                     } else {
-                        mixing.add(NAMED.get(term, TRANSPARENT));
+                        mixing.add(NAMED.get(term, 0f));
                     }
                     break;
                 default:
-                    mixing.add(NAMED.get(term, TRANSPARENT));
+                    mixing.add(NAMED.get(term, 0f));
                     break;
             }
         }
         float result = FloatColors.mix(mixing.items, 0, mixing.size);
+        if(result == 0f) return result;
 
         if(intensity > 0) result = ColorTools.lighten(result, intensity);
         else if(intensity < 0) result = ColorTools.darken(result, -intensity);
 
-        if(saturation > 0) result = ColorTools.enrich(result, saturation);
-        else if(saturation < 0) result = ColorTools.limitToGamut(ColorTools.dullen(result, -saturation));
+        if(saturation > 0) result = ColorTools.limitToGamut(ColorTools.enrich(result, saturation));
+        else if(saturation < 0) result = (ColorTools.dullen(result, -saturation));
         else result = ColorTools.limitToGamut(result);
 
         return result;
