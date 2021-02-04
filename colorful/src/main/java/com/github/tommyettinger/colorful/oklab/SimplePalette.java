@@ -786,8 +786,8 @@ public class SimplePalette {
         if(intensity > 0) result = ColorTools.lighten(result, intensity);
         else if(intensity < 0) result = ColorTools.darken(result, -intensity);
 
-        if(saturation > 0) result = ColorTools.limitToGamut(ColorTools.enrich(result, saturation));
-        else if(saturation < 0) result = (ColorTools.dullen(result, -saturation));
+        if(saturation > 0) result = (ColorTools.enrich(result, saturation));
+        else if(saturation < 0) result = ColorTools.limitToGamut(ColorTools.dullen(result, -saturation));
         else result = ColorTools.limitToGamut(result);
 
         return result;
