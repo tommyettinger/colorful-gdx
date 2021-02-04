@@ -815,10 +815,9 @@ public class ColorTools {
 	/**
 	 * Pushes the chromatic components of {@code start} away from grayscale by change (saturating them). While change
 	 * should be between 0f (return start as-is) and 1f (return maximally saturated), start should be a packed color, as
-	 * from {@link #oklab(float, float, float, float)}. This usually changes only A and B, but higher values for
-	 * {@code change} can force the color out of the gamut, which this corrects using
-	 * {@link #limitToGamut(float, float, float, float)} (and that can change L somewhat). If the color stays in-gamut,
-	 * then L won't change; alpha never changes.
+	 * from {@link #oklab(float, float, float, float)}. This changes only A and B. Higher values for {@code change} can
+	 * force the color out of the gamut, which this corrects using {@link #limitToGamut(float, float, float, float)}.
+	 * The alpha never changes.
 	 * @see #dullen(float, float) the counterpart method that makes a float color less saturated
 	 * @param start the starting color as a packed float
 	 * @param change how much to change start to a saturated color, as a float between 0 and 1; higher means a more saturated result
@@ -985,10 +984,57 @@ public class ColorTools {
 	}
 
 	/**
-	 * Iteratively checks whether the given Oklab color is in-gamut, and either brings the color closer to 50% gray if it
-	 * isn't in-gamut, or returns it as soon as it is in-gamut.
+	 * Gets the color with the same L as the Oklab color stored in the given packed float, but the furthest A
+	 * B from gray possible for that lightness while keeping the same hue as the given color. This is very
+	 * similar to calling {@link #enrich(float, float)} with a very large {@code change} value.
+	 * @param packed a packed float color in Oklab format; does not need to be in-gamut
+	 * @return the color that is as far from grayscale as this can get while keeping the L and hue of packed
+	 * @see #limitToGamut(float) You can use limitToGamut() if you only want max saturation for out-of-gamut colors.
+	 */
+	public static float maximizeSaturation(final float packed) {
+		final int decoded = NumberUtils.floatToRawIntBits(packed);
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float hue = TrigTools.atan2_(B, A);
+		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
+		final float dist = (GAMUT_DATA[idx] & 0xFF) * 0x1p-8f;
+		return NumberUtils.intBitsToFloat(
+				(decoded & 0xFE0000FF) |
+						(int) (TrigTools.cos_(hue) * dist * 127.999f + 127.999f) << 8 |
+						(int) (TrigTools.sin_(hue) * dist * 127.999f + 127.999f) << 16);
+	}
+	/**
+	 * Gets the color with the same L as the Oklab color stored in the given packed float, but the furthest A
+	 * B from gray possible for that lightness while keeping the same hue as the given color. This is very
+	 * similar to calling {@link #enrich(float, float)} with a very large {@code change} value.
+	 * @param L lightness component; will be clamped between 0 and 1 if it isn't already
+	 * @param A green-to-red chromatic component; will be clamped between 0 and 1 if it isn't already
+	 * @param B blue-to-yellow chromatic component; will be clamped between 0 and 1 if it isn't already
+	 * @param alpha alpha component; will be clamped between 0 and 1 if it isn't already
+	 * @return the color that is as far from grayscale as this can get while keeping the L and hue of packed
+	 * @see #limitToGamut(float, float, float, float) You can use limitToGamut() if you only want max saturation for out-of-gamut colors.
+	 */
+	public static float maximizeSaturation(float L, float A, float B, float alpha) {
+		L = Math.min(Math.max(L, 0f), 1f);
+		A = Math.min(Math.max(A, 0f), 1f);
+		B = Math.min(Math.max(B, 0f), 1f);
+		alpha = Math.min(Math.max(alpha, 0f), 1f);
+		final float A2 = (A - 0.5f) * 2f;
+		final float B2 = (B - 0.5f) * 2f;
+		final float hue = TrigTools.atan2_(B2, A2);
+		final int idx = (int) (L * 255.999f) << 8 | (int) (256f * hue);
+		final float dist = (GAMUT_DATA[idx] & 0xFF) * 0x1p-8f;
+		return NumberUtils.intBitsToFloat(
+				(int) (alpha * 127.999f) << 25 |
+						(int) (TrigTools.sin_(hue) * dist * 127.999f + 127.999f) << 16 |
+						(int) (TrigTools.cos_(hue) * dist * 127.999f + 127.999f) << 8 |
+						(int) (L * 255.999f));
+	}
+	/**
+	 * Checks whether the given Oklab color is in-gamut; if it isn't in-gamut, brings the color just inside
+	 * the gamut at the same lightness, or if it is already in-gamut, returns the color as-is.
 	 * @param packed a packed float color in Oklab format; often this color is not in-gamut
-	 * @return the first color this finds that is between the given Oklab color and 50% gray, and is in-gamut
+	 * @return the first color this finds that is in-gamut, as if it was moving toward a grayscale color with the same L
 	 * @see #inGamut(float) You can use inGamut() if you just want to check whether a color is in-gamut.
 	 */
 	public static float limitToGamut(final float packed) {
@@ -996,13 +1042,13 @@ public class ColorTools {
 		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float hue = TrigTools.atan2_(B, A);
-		final int idx = (decoded & 0xff) << 8 | (int)(256f * hue);
+		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
 		final float dist = (GAMUT_DATA[idx] & 0xFF) * 0x1p-8f;
-		if(dist >= (float) Math.sqrt(A * A + B * B))
+		if (dist >= (float) Math.sqrt(A * A + B * B))
 			return packed;
 		return NumberUtils.intBitsToFloat(
 				(decoded & 0xFE0000FF) |
-				(int) (TrigTools.cos_(hue) * dist * 127.999f + 127.999f) << 8 |
+						(int) (TrigTools.cos_(hue) * dist * 127.999f + 127.999f) << 8 |
 						(int) (TrigTools.sin_(hue) * dist * 127.999f + 127.999f) << 16);
 
 //		final int decoded = NumberUtils.floatToRawIntBits(packed);
@@ -1029,31 +1075,33 @@ public class ColorTools {
 	}
 
 	/**
-	 * Iteratively checks whether the given Oklab color is in-gamut, and either brings the color closer to 50% gray if it
-	 * isn't in-gamut, or returns it as soon as it is in-gamut. This always produces an opaque color.
+	 * Checks whether the given Oklab color is in-gamut; if it isn't in-gamut, brings the color just inside
+	 * the gamut at the same lightness, or if it is already in-gamut, returns the color as-is. This always produces
+	 * an opaque color.
 	 * @param L lightness component; will be clamped between 0 and 1 if it isn't already
 	 * @param A green-to-red chromatic component; will be clamped between 0 and 1 if it isn't already
 	 * @param B blue-to-yellow chromatic component; will be clamped between 0 and 1 if it isn't already
-	 * @return the first color this finds that is between the given Oklab color and 50% gray, and is in-gamut
+	 * @return the first color this finds that is in-gamut, as if it was moving toward a grayscale color with the same L
 	 * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
 	 */
 	public static float limitToGamut(float L, float A, float B) {
 		return limitToGamut(L, A, B, 1f);
 	}
 	/**
-	 * Iteratively checks whether the given Oklab color is in-gamut, and either brings the color closer to 50% gray if it
-	 * isn't in-gamut, or returns it as soon as it is in-gamut.
+	 * Checks whether the given Oklab color is in-gamut; if it isn't in-gamut, brings the color just inside
+	 * the gamut at the same lightness, or if it is already in-gamut, returns the color as-is.
 	 * @param L lightness component; will be clamped between 0 and 1 if it isn't already
 	 * @param A green-to-red chromatic component; will be clamped between 0 and 1 if it isn't already
 	 * @param B blue-to-yellow chromatic component; will be clamped between 0 and 1 if it isn't already
 	 * @param alpha alpha component; will be clamped between 0 and 1 if it isn't already
-	 * @return the first color this finds that is between the given Oklab color and 50% gray, and is in-gamut
+	 * @return the first color this finds that is in-gamut, as if it was moving toward a grayscale color with the same L
 	 * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
 	 */
 	public static float limitToGamut(float L, float A, float B, float alpha) {
 		L = Math.min(Math.max(L, 0f), 1f);
 		A = Math.min(Math.max(A, 0f), 1f);
 		B = Math.min(Math.max(B, 0f), 1f);
+		alpha = Math.min(Math.max(alpha, 0f), 1f);
 		final float A2 = (A - 0.5f) * 2f;
 		final float B2 = (B - 0.5f) * 2f;
 		final float hue = TrigTools.atan2_(B2, A2);
