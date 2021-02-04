@@ -18,7 +18,7 @@ public class GamutWriter extends ApplicationAdapter {
 
     public void create() {
         byte[] all = new byte[65536];
-        int idx = 0;
+        int idx = 0, largestDist = -1;
         for (int light = 0; light < 256; light++) {
             double L = light * 0x1p-8;
             PER_HUE:
@@ -30,13 +30,15 @@ public class GamutWriter extends ApplicationAdapter {
                     if(inGamut(L, A, B))
                     {
                         all[idx++] = (byte) dist;
+                        largestDist = Math.max(largestDist, dist);
                         continue PER_HUE;
                     }
                 }
                 System.out.println("Problem at light " + light + " angle " + angle);
             }
         }
-        System.out.println(idx);
+        System.out.println("Assigned " + idx + " distances");
+        System.out.println("largest distance: " + largestDist);
         Gdx.files.local("OklabGamut.dat").writeBytes(all, false);
         Gdx.app.exit();
     }
