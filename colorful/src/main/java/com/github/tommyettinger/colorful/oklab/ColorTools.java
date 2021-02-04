@@ -929,6 +929,35 @@ public class ColorTools {
 	}
 
 	/**
+	 * Given a 1D int index between 0 and 65535 (both inclusive), this treats the 1D index as two parts (lightness and
+	 * hue angle, both from 0 to 255) and gets the distance from grayscale to the edge of the gamut at that lightness
+	 * and hue. The index can be constructed from a lightness value {@code L} from 0 to 255, and a hue value {@code H}
+	 * from 0 to 255 with: {@code (L << 8 | H)} or the simpler equivalent {@code (L * 256 + H)}. These assume L and H
+	 * have been limited to the 0 to 255 range already. This does not bounds-check index. Because hue is not typically
+	 * measured between 0 and 255, getting that value is a bit different; you can use
+	 * {@link TrigTools#atan2_(float, float)} (with an Oklab color's B for y, then its A for x) and multiply it by 256
+	 * to get H.
+	 * <br>
+	 * The distance this returns is a byte between 0 and 82 (both inclusive), as the Euclidean distance from the center
+	 * grayscale value at the lightness in the index, to the edge of the gamut at the same lightness, along the hue in
+	 * the index. This is measured in a space from -1 to 1 for both A and B, with the 0 in the center meaning grayscale,
+	 * and multiplied by 256 to get a meaningful byte value. To return to the A and B values Oklab uses here, you would
+	 * need to use some trigonometry on the hue (if it's in the 0 to 1 range, you can call
+	 * {@link TrigTools#cos_(float)} on the hue to almost get A, and {@link TrigTools#sin_(float)} to almost get B),
+	 * then multiply each of those by the distance, divide each by 256.0, and add 0.5.
+	 * <br>
+	 * Only intended for the narrow cases where external code needs read-only access to the internal Oklab gamut data.
+	 * The gamut data is quite large (the Oklab ColorTools file is 236 KB at the time of writing, while the IPT_HQ
+	 * ColorTools file is just 56 KB, with the main difference being the sizable exact gamut), so it's better to have
+	 * direct read access to it without being able to accidentally rewrite it.
+	 * @param index must be between 0 and 65535; the upper 8 bits are lightness and the lower 8 are hue angle.
+	 * @return a byte (always between 0 and 82, inclusive) representing the Euclidean distance between a grayscale value and the most saturated value possible, using the above measurements
+	 */
+	public static byte getRawGamutValue(int index){
+		return GAMUT_DATA[index];
+	}
+
+	/**
 	 * Returns true if the given packed float color, as Oklab, is valid to convert losslessly back to RGBA.
 	 * @param packed a packed float color as Oklab
 	 * @return true if the given packed float color can be converted back and forth to RGBA
