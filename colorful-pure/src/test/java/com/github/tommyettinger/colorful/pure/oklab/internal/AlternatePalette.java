@@ -1102,7 +1102,6 @@ public final class AlternatePalette {
         NAMES_BY_LIGHTNESS.sort((o1, o2) -> (NAMED.get(o1) & 255) - (NAMED.get(o2) & 255));
     }
 
-
     private static final IntList mixing = new IntList(4);
 
     /**

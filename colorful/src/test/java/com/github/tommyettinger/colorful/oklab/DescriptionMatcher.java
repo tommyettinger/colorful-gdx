@@ -32,9 +32,9 @@ public class DescriptionMatcher extends ApplicationAdapter {
             "Ice",    "River",        "River",          "River",               "River",              "River",              //RIVERS
             "Ice",    "Lake",         "Lake",           "Lake",                "Lake",               "Lake",               //LAKES
             "Ocean",  "Ocean",        "Ocean",          "Ocean",               "Ocean",              "Ocean",              //OCEAN
-            "Empty",                                                                                                       //SPACE
+            "Space",  "Moon",         "Cavern",         "Cavern",              "Exotic",             "Volcano"             //STRANGE
     };
-    public static final float[] BIOME_COLOR_TABLE = new float[61], BIOME_DARK_COLOR_TABLE = new float[61];
+    public static final float[] BIOME_COLOR_TABLE = new float[66], BIOME_DARK_COLOR_TABLE = new float[66];
 
     static  {
 
@@ -127,7 +127,11 @@ public class DescriptionMatcher extends ApplicationAdapter {
                 Rocky                  = 11,
                 Shallow                = 12,
                 Ocean                  = 13,
-                Empty                  = 14;
+                Space                  = 14,
+                Moon                   = 15,
+                Cavern                 = 16,
+                Exotic                 = 17,
+                Volcano                = 18;
 
         float iceColor = ColorTools.fromRGBA8888(240 << 24 | 248 << 16 | 255 << 8 | 255);
         float desertColor = ColorTools.fromRGBA8888(248 << 24 | 229 << 16 | 180 << 8 | 255);
@@ -141,7 +145,11 @@ public class DescriptionMatcher extends ApplicationAdapter {
         float woodlandColor = ColorTools.fromRGBA8888(92 << 24 | 160 << 16 | 70 << 8 | 255);
         float rockyColor = ColorTools.fromRGBA8888(171 << 24 | 175 << 16 | 145 << 8 | 255);
         float beachColor = ColorTools.fromRGBA8888(255 << 24 | 235 << 16 | 180 << 8 | 255);
-        float emptyColor = ColorTools.fromRGBA8888(34 << 24 | 32 << 16 | 52 << 8 | 255);
+        float spaceColor = ColorTools.fromRGBA8888(34 << 24 | 32 << 16 | 52 << 8 | 255);
+        float moonColor = SimplePalette.parseDescription("lighter silver");
+        float cavernColor = SimplePalette.parseDescription("darker dullest chocolate");
+        float exoticColor = SimplePalette.parseDescription("lighter richest raspberry");
+        float volcanoColor = SimplePalette.parseDescription("dark ember");
         float deepColor = ColorTools.fromRGBA8888(0 << 24 | 42 << 16 | 88 << 8 | 255);
         float shallowColor = ColorTools.fromRGBA8888(20 << 24 | 145 << 16 | 197 << 8 | 255);
 
@@ -160,7 +168,11 @@ public class DescriptionMatcher extends ApplicationAdapter {
                 rockyColor,
                 shallowColor,
                 deepColor,
-                emptyColor
+                spaceColor,
+                moonColor,
+                cavernColor,
+                exoticColor,
+                volcanoColor,
         };
 
         float[] BIOME_TABLE = {
@@ -175,10 +187,10 @@ public class DescriptionMatcher extends ApplicationAdapter {
                 Ice+0.3f,   Shallow+0.9f, Shallow+0.75f,       Shallow+0.6f,             Shallow+0.5f,            Shallow+0.4f,            //RIVERS
                 Ice+0.2f,   Shallow+0.9f, Shallow+0.65f,       Shallow+0.5f,             Shallow+0.4f,            Shallow+0.3f,            //LAKES
                 Ocean+0.9f, Ocean+0.75f,  Ocean+0.6f,          Ocean+0.45f,              Ocean+0.3f,              Ocean+0.15f,             //OCEANS
-                Empty                                                                                                                      //SPACE
+                Space+0.5f, Moon+0.6f,    Cavern+0.2f,         Cavern+0.45f,             Exotic+0.4f,             Volcano+0.55f,           //STRANGE
         };
          float b, diff;
-            for (int i = 0; i < 60; i++) {
+            for (int i = 0; i < 66; i++) {
                 b = BIOME_TABLE[i];
                 diff = ((b % 1.0f) - 0.48f) * 0.27f;
                 BIOME_COLOR_TABLE[i] = b = (diff >= 0)
@@ -186,7 +198,6 @@ public class DescriptionMatcher extends ApplicationAdapter {
                         : ColorTools.darken(biomeColors[(int)b], -diff);
                 BIOME_DARK_COLOR_TABLE[i] = ColorTools.darken(b, 0.08f);
             }
-            BIOME_COLOR_TABLE[60] = BIOME_DARK_COLOR_TABLE[60] = emptyColor;
 
 //
 //        viewer.put(n++, ColorTools.fromRGBA8888(0xF1F8FFFF));
@@ -307,8 +318,8 @@ public class DescriptionMatcher extends ApplicationAdapter {
 
     private float difference(float left, float right) {
         final float i = ColorTools.channelL(left) - ColorTools.channelL(right);
-        final float p = (ColorTools.channelA(left) - ColorTools.channelA(right)) * 2f;
-        final float t = (ColorTools.channelB(left) - ColorTools.channelB(right)) * 2f;
+        final float p = (ColorTools.channelA(left) - ColorTools.channelA(right));
+        final float t = (ColorTools.channelB(left) - ColorTools.channelB(right));
         return (float) Math.sqrt(i * i + p * p + t * t);
     }
 
