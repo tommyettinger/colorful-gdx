@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.OrderedMap;
 import static com.badlogic.gdx.Gdx.input;
 
 public class DescriptionMatcher extends ApplicationAdapter {
-    public static final OrderedMap<Integer, Float> viewer = new OrderedMap<>(53);
+    public static final OrderedMap<String, Float> viewer = new OrderedMap<>(53);
     public static final String[] heat = "COLDEST, COLDER, COLD, HOT, HOTTER, HOTTEST".split(", ");
     public static final String[] moisture = "DRIEST, DRIER, DRY, WET, WETTER, WETTEST, COAST, RIVER, LAKE, OCEAN, STRANGE".split(", ");
     public static final String[] biomeTable = {
@@ -199,7 +199,11 @@ public class DescriptionMatcher extends ApplicationAdapter {
                 BIOME_DARK_COLOR_TABLE[i] = ColorTools.darken(b, 0.08f);
             }
 
-//
+//        for (int i = 0; i < BIOME_COLOR_TABLE.length; i++) {
+//            System.out.printf("new Biome(%s, %s, \"%s\", \"%s\"),\n", heat[i % 6], moisture[i / 6], biomeTable[i], SimplePalette.bestMatch(BIOME_COLOR_TABLE[i], 1));
+//        }
+
+
 //        viewer.put(n++, ColorTools.fromRGBA8888(0xF1F8FFFF));
 //        viewer.put(n++, ColorTools.fromRGBA8888(0xF0F8FFFF));
 //        viewer.put(n++, ColorTools.fromRGBA8888(0xA6D27EFF));
@@ -262,15 +266,10 @@ public class DescriptionMatcher extends ApplicationAdapter {
 //        viewer.put(n++, ColorTools.fromRGBA8888(0x002550FF));
 //        viewer.put(n++, ColorTools.fromRGBA8888(0x222034FF));
 
-//        for(OrderedMap.Entry<String, Float> e : viewer){
-//        for(OrderedMap.Entry<Integer, Float> e : viewer){
-        for (int i = 0; i < BIOME_COLOR_TABLE.length; i++) {
-////            if(i % 6 == 0) System.out.println("new Biome[]{");
-            System.out.printf("new Biome(%s, %s, \"%s\", \"%s\"),\n", heat[i % 6], moisture[i / 6], biomeTable[i], SimplePalette.bestMatch(BIOME_COLOR_TABLE[i], 1));
-////            if(i % 6 == 5) System.out.println("},");
-//            System.out.printf(" | (long)parseDescription(\"%s\") << 32);\n", SimplePalette.bestMatch(e.value, 1));
-//            System.out.printf("%s: 0x%08X -> %s\n", e.key, ColorTools.toRGBA8888(e.value), SimplePalette.bestMatch(e.value, 1));
+        for(OrderedMap.Entry<String, Float> e : viewer){
+            System.out.printf(" | (long)parseDescription(\"%s\") << 32);\n", SimplePalette.bestMatch(e.value, 1));
         }
+
     }
     public static final int SCREEN_WIDTH = 808;
     public static final int SCREEN_HEIGHT = 950;
