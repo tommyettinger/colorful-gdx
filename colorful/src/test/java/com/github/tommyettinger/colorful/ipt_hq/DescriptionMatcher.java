@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.OrderedMap;
 
 import static com.badlogic.gdx.Gdx.input;
-import static com.github.tommyettinger.colorful.ipt_hq.FullPalette.*;
 
 public class DescriptionMatcher extends ApplicationAdapter {
     public static final OrderedMap<Integer, Float> viewer = new OrderedMap<>(53);
