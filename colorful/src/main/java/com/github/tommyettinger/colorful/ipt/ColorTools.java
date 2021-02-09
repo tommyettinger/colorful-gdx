@@ -494,9 +494,10 @@ public class ColorTools {
 			x = r;
 		}
 		float d = x - Math.min(w, y);
+		float light = x * (1f - 0.5f * d / (x + 1e-10f));
 		float hue2 = Math.abs(z + (w - y) / (6f * d + 1e-10f));
-		float sat2 = (x - i) / (Math.min(i, 1f - i) + 1e-10f);
-		return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), Math.min(Math.max(saturation + sat2, 0f), 1f), i, opacity));
+		float sat2 = (x - light) / (Math.min(light, 1f - light) + 1e-10f);
+		return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), Math.min(Math.max(saturation + sat2, 0f), 1f), light, opacity));
 	}
 
 	/**
