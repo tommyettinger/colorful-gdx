@@ -214,6 +214,10 @@ public class OklabGamutDemo extends ApplicationAdapter {
         float color = SimplePalette.APRICOT; //FFA828FF, L 0.8156863, A 0.52156866, B 0.5764706,
         System.out.printf("%02X, %02X, %02X\n", ColorTools.redInt(color), ColorTools.greenInt(color), ColorTools.blueInt(color));
         System.out.printf("%1.4f, %1.4f, %1.4f\n", ColorTools.channelL(color), ColorTools.channelA(color), ColorTools.channelB(color));
+        System.out.println("Edit by 0...");
+        color = ColorTools.toEditedFloat(color, 0f, 0f, 0f, 0f);
+        System.out.printf("%02X, %02X, %02X\n", ColorTools.redInt(color), ColorTools.greenInt(color), ColorTools.blueInt(color));
+        System.out.printf("%1.4f, %1.4f, %1.4f\n", ColorTools.channelL(color), ColorTools.channelA(color), ColorTools.channelB(color));
         System.out.println("To RGBA...");
         float rgba = ColorTools.toRGBA(color);
         int abgr = NumberUtils.floatToRawIntBits(rgba);

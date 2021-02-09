@@ -1,7 +1,6 @@
 package com.github.tommyettinger.colorful.oklab;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.Shaders;
@@ -657,9 +656,10 @@ public class ColorTools {
 			x = r;
 		}
 		float d = x - Math.min(w, y);
+		float light = x * (1f - 0.5f * d / (x + 1e-10f));
 		float hue2 = Math.abs(z + (w - y) / (6f * d + 1e-10f));
-		float sat2 = (x - L) / (Math.min(L, 1f - L) + 1e-10f);
-		return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), Math.min(Math.max(saturation + sat2, 0f), 1f), L, opacity));
+		float sat2 = (x - light) / (Math.min(light, 1f - light) + 1e-10f);
+		return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), Math.min(Math.max(saturation + sat2, 0f), 1f), light, opacity));
 	}
 
 	/**

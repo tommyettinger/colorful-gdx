@@ -12,9 +12,10 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.OrderedMap;
 
 import static com.badlogic.gdx.Gdx.input;
+import static com.github.tommyettinger.colorful.ipt_hq.FullPalette.*;
 
 public class DescriptionMatcher extends ApplicationAdapter {
-    public static final OrderedMap<Integer, Float> viewer = new OrderedMap<>(53);
+    public static final OrderedMap<String, Float> viewer = new OrderedMap<>(53);
     public static final String[] heat = "COLDEST, COLDER, COLD, HOT, HOTTER, HOTTEST".split(", ");
     public static final String[] moisture = "DRIEST, DRIER, DRY, WET, WETTER, WETTEST, COAST, RIVER, LAKE, OCEAN, STRANGE".split(", ");
     public static final String[] biomeTable = {
@@ -35,61 +36,61 @@ public class DescriptionMatcher extends ApplicationAdapter {
 
     static  {
 
-//        viewer.put("snow path", ColorTools.toEditedFloat(ALICE_BLUE, 0.0f, -0.2f, -0.15f, 0f));
-//        viewer.put("dirt path", ColorTools.toEditedFloat(CLOVE_BROWN, -0.005f, -0.275f, 0.17f, 0f));
-//        viewer.put("sand path", ColorTools.toEditedFloat(CW_PALE_ORANGE, 0.05f, -0.17f, -0.075f, 0f));
-//        viewer.put("grass path", ColorTools.toEditedFloat(AURORA_DUSTY_GREEN, 0.0f, -0.15f, -0.1f, 0f));
-//        viewer.put("stone path", ColorTools.toEditedFloat(AURORA_CHIPPED_GRANITE, -0.09f, -0.05f, 0.1f, 0f));
-//        viewer.put("wooden bridge", ColorTools.toEditedFloat(BRUSHWOOD_DYED, 0.0f, -0.275f, 0.05f, 0f));
-//
-//        viewer.put("ice ledge", ColorTools.toEditedFloat(PALE_CORNFLOWER_BLUE, 0.0f, -0.1f, 0.1f, 0f));
-//        viewer.put("dirt ledge", ColorTools.toEditedFloat(CLOVE_BROWN, -0.005f, -0.175f, -0.18f, 0f));
-//        viewer.put("sand ledge", ColorTools.toEditedFloat(CW_PALE_ORANGE, 0.05f, -0.15f, -0.125f, 0f));
-//        viewer.put("grass ledge", ColorTools.toEditedFloat(AURORA_DUSTY_GREEN, 0.0f, -0.025f, -0.45f, 0f));
-//        viewer.put("stone ledge", ColorTools.toEditedFloat(AURORA_CHIPPED_GRANITE, -0.07f, -0.1f, -0.25f, 0f));
-//
-//        viewer.put("snow", ColorTools.toEditedFloat(ALICE_BLUE, 0f, 0f, 0f, 0f));
-//        viewer.put("ice", ColorTools.toEditedFloat(PALE_CORNFLOWER_BLUE, 0f, 0f, 0.3f, 0f));
-//        viewer.put("dirt", ColorTools.toEditedFloat(CLOVE_BROWN, -0.005f, -0.075f, 0.02f, 0f));
-//        viewer.put("pebbles", ColorTools.toEditedFloat(AURORA_WET_STONE, 0.0f, 0.0f, 0.0f, 0f));
-//        viewer.put("dry grass", ColorTools.toEditedFloat(CW_FADED_BROWN, 0.06f, 0.05f, 0.05f, 0f));
-//        viewer.put("fresh water", ColorTools.toEditedFloat(AURORA_BLUE_EYE, 0f, 0f, 0f, 0f));
-//        viewer.put("salt water", ColorTools.toEditedFloat(AURORA_PRUSSIAN_BLUE, 0f, 0f, 0f, 0f));
-//        viewer.put("sand", ColorTools.toEditedFloat(CW_PALE_ORANGE, 0.05f, -0.05f, 0.075f, 0f));
-//        viewer.put("leaves", ColorTools.toEditedFloat(CHINESE_TEA_YELLOW, 0.02f, -0.025f, 0.0f, 0f));
-//        viewer.put("grass", ColorTools.toEditedFloat(AURORA_DUSTY_GREEN, 0.0f, 0.075f, -0.25f, 0f));
-//        viewer.put("mud", ColorTools.toEditedFloat(DB_EARTH, 0.03f, -0.15f, -0.03f, 0f));
-//        viewer.put("moss", ColorTools.toEditedFloat(AURORA_FERN_GREEN, 0f, 0.0f, 0.0f, 0f));
-//        viewer.put("rubble", ColorTools.toEditedFloat(AURORA_CHIPPED_GRANITE, -0.07f, 0.0f, -0.05f, 0f));
-//        viewer.put("empty space", ColorTools.toEditedFloat(DB_INK, 0f, 0f, 0f, 0f));
-//        viewer.put("snow mound", ColorTools.toEditedFloat(ALICE_BLUE, 0f, 0.05f, -0.1f, 0f));
-//        viewer.put("icy divot", ColorTools.toEditedFloat(ALICE_BLUE, 0.05f, 0.075f, 0.06f, 0f));
-//        viewer.put("powder snowdrift", ColorTools.toEditedFloat(ALICE_BLUE, 0.0f, 0.0f, -0.07f, 0f));
-//        viewer.put("hillock", ColorTools.toEditedFloat(CW_DRAB_BROWN, 0.1f, -0.05f, 0.25f, 0f));
-//        viewer.put("animal burrow", ColorTools.toEditedFloat(AURORA_ARMY_GREEN, 0.05f, 0.0f, -0.05f, 0f));
-//        viewer.put("small bush 1", ColorTools.toEditedFloat(AURORA_AVOCADO, -0.055f, -0.025f, -0.225f, 0f));
-//        viewer.put("large bush 1", ColorTools.toEditedFloat(AURORA_FOREST_GLEN, -0.055f, -0.125f, -0.225f, 0f));
-//        viewer.put("evergreen tree 1", ColorTools.toEditedFloat(PINE_GREEN, -0.13f, -0.03f, -0.05f, 0f));
-//        viewer.put("evergreen tree 2", ColorTools.toEditedFloat(AURORA_EUCALYPTUS, -0.035f, -0.045f, -0.75f, 0f));
-//        viewer.put("small cactus 1", ColorTools.toEditedFloat(AURORA_FROG_GREEN, 0.035f, 0.065f, -0.06f, 0f));
-//        viewer.put("large cactus 1", ColorTools.toEditedFloat(AURORA_MARSH, 0.04f, 0.11f, -0.03f, 0f));
-//        viewer.put("succulent 1", ColorTools.toEditedFloat(CW_FLUSH_JADE, -0.045f, -0.1f, 0.0f, 0f));
-//        viewer.put("seashell 1", ColorTools.toEditedFloat(CW_LIGHT_APRICOT, 0.0f, -0.095f, 0.07f, 0f));
-//        viewer.put("seashell 2", ColorTools.toEditedFloat(CW_PALE_RED, 0.0f, -0.2f, 0.1f, 0f));
-//        viewer.put("seashell 3", ColorTools.toEditedFloat(CW_PALE_YELLOW, 0.0f, 0.02f, 0.05f, 0f));
-//        viewer.put("seashell 4", ColorTools.toEditedFloat(CW_PALE_VIOLET, 0.0f, -0.080f, 0.11f, 0f));
-//        viewer.put("driftwood", ColorTools.toEditedFloat(AURORA_DRIFTWOOD, 0.0f, -0.25f, 0.04f, 0f));
-//        viewer.put("boulder", ColorTools.toEditedFloat(AURORA_SLOW_CREEK, 0.0f, -0.01f, 0.0f, 0f));
-//        viewer.put("deciduous tree 1", ColorTools.toEditedFloat(AURORA_AVOCADO, -0.065f, 0.0f, -0.3f, 0f));
-//        viewer.put("small bush 2", ColorTools.toEditedFloat(AURORA_WOODLANDS, -0.045f, -0.05f, -0.025f, 0f));
-//        viewer.put("deciduous tree 2", ColorTools.toEditedFloat(AURORA_IVY_GREEN, -0.02f, 0.0f, 0.0f, 0f));
-//        viewer.put("deciduous tree 3", ColorTools.toEditedFloat(AURORA_ASPARAGUS, -0.015f, 0.055f, 0.02f, 0f));
-//        viewer.put("large bush 2", ColorTools.toEditedFloat(AURORA_VIRIDIAN, -0.03f, -0.05f, 0.03f, 0f));
-//        viewer.put("tropical tree 1", ColorTools.toEditedFloat(AURORA_FLORAL_FOAM, -0.05f, 0.025f, 0.075f, 0f));
-//        viewer.put("tropical tree 2", ColorTools.toEditedFloat(AURORA_MAIDENHAIR_FERN, 0.0f, 0.0f, 0.02f, 0f));
-//        viewer.put("large bush 3", ColorTools.toEditedFloat(AURORA_KELLY_GREEN, 0.0f, 0.025f, 0.02f, 0f));
-//        viewer.put("tropical tree 3", ColorTools.toEditedFloat(AURORA_SOFT_TEAL, -0.15f, -0.07f, -0.03f, 0f));
-//        viewer.put("tropical tree 4", ColorTools.toEditedFloat(AURORA_PRASE, -0.04f, -0.02f, -0.02f, 0f));
+        viewer.put("snow path", ColorTools.toEditedFloat(ALICE_BLUE, 0.0f, -0.2f, -0.15f, 0f));
+        viewer.put("dirt path", ColorTools.toEditedFloat(CLOVE_BROWN, -0.005f, -0.275f, 0.17f, 0f));
+        viewer.put("sand path", ColorTools.toEditedFloat(CW_PALE_ORANGE, 0.05f, -0.17f, -0.075f, 0f));
+        viewer.put("grass path", ColorTools.toEditedFloat(AURORA_DUSTY_GREEN, 0.0f, -0.15f, -0.1f, 0f));
+        viewer.put("stone path", ColorTools.toEditedFloat(AURORA_CHIPPED_GRANITE, -0.09f, -0.05f, 0.1f, 0f));
+        viewer.put("wooden bridge", ColorTools.toEditedFloat(BRUSHWOOD_DYED, 0.0f, -0.275f, 0.05f, 0f));
+
+        viewer.put("ice ledge", ColorTools.toEditedFloat(PALE_CORNFLOWER_BLUE, 0.0f, -0.1f, 0.1f, 0f));
+        viewer.put("dirt ledge", ColorTools.toEditedFloat(CLOVE_BROWN, -0.005f, -0.175f, -0.18f, 0f));
+        viewer.put("sand ledge", ColorTools.toEditedFloat(CW_PALE_ORANGE, 0.05f, -0.15f, -0.125f, 0f));
+        viewer.put("grass ledge", ColorTools.toEditedFloat(AURORA_DUSTY_GREEN, 0.0f, -0.025f, -0.45f, 0f));
+        viewer.put("stone ledge", ColorTools.toEditedFloat(AURORA_CHIPPED_GRANITE, -0.07f, -0.1f, -0.25f, 0f));
+
+        viewer.put("snow", ColorTools.toEditedFloat(ALICE_BLUE, 0f, 0f, 0f, 0f));
+        viewer.put("ice", ColorTools.toEditedFloat(PALE_CORNFLOWER_BLUE, 0f, 0f, 0.3f, 0f));
+        viewer.put("dirt", ColorTools.toEditedFloat(CLOVE_BROWN, -0.005f, -0.075f, 0.02f, 0f));
+        viewer.put("pebbles", ColorTools.toEditedFloat(AURORA_WET_STONE, 0.0f, 0.0f, 0.0f, 0f));
+        viewer.put("dry grass", ColorTools.toEditedFloat(CW_FADED_BROWN, 0.06f, 0.05f, 0.05f, 0f));
+        viewer.put("fresh water", ColorTools.toEditedFloat(AURORA_BLUE_EYE, 0f, 0f, 0f, 0f));
+        viewer.put("salt water", ColorTools.toEditedFloat(AURORA_PRUSSIAN_BLUE, 0f, 0f, 0f, 0f));
+        viewer.put("sand", ColorTools.toEditedFloat(CW_PALE_ORANGE, 0.05f, -0.05f, 0.075f, 0f));
+        viewer.put("leaves", ColorTools.toEditedFloat(CHINESE_TEA_YELLOW, 0.02f, -0.025f, 0.0f, 0f));
+        viewer.put("grass", ColorTools.toEditedFloat(AURORA_DUSTY_GREEN, 0.0f, 0.075f, -0.25f, 0f));
+        viewer.put("mud", ColorTools.toEditedFloat(DB_EARTH, 0.03f, -0.15f, -0.03f, 0f));
+        viewer.put("moss", ColorTools.toEditedFloat(AURORA_FERN_GREEN, 0f, 0.0f, 0.0f, 0f));
+        viewer.put("rubble", ColorTools.toEditedFloat(AURORA_CHIPPED_GRANITE, -0.07f, 0.0f, -0.05f, 0f));
+        viewer.put("empty space", ColorTools.toEditedFloat(DB_INK, 0f, 0f, 0f, 0f));
+        viewer.put("snow mound", ColorTools.toEditedFloat(ALICE_BLUE, 0f, 0.05f, -0.1f, 0f));
+        viewer.put("icy divot", ColorTools.toEditedFloat(ALICE_BLUE, 0.05f, 0.075f, 0.06f, 0f));
+        viewer.put("powder snowdrift", ColorTools.toEditedFloat(ALICE_BLUE, 0.0f, 0.0f, -0.07f, 0f));
+        viewer.put("hillock", ColorTools.toEditedFloat(CW_DRAB_BROWN, 0.1f, -0.05f, 0.25f, 0f));
+        viewer.put("animal burrow", ColorTools.toEditedFloat(AURORA_ARMY_GREEN, 0.05f, 0.0f, -0.05f, 0f));
+        viewer.put("small bush 1", ColorTools.toEditedFloat(AURORA_AVOCADO, -0.055f, -0.025f, -0.225f, 0f));
+        viewer.put("large bush 1", ColorTools.toEditedFloat(AURORA_FOREST_GLEN, -0.055f, -0.125f, -0.225f, 0f));
+        viewer.put("evergreen tree 1", ColorTools.toEditedFloat(PINE_GREEN, -0.13f, -0.03f, -0.05f, 0f));
+        viewer.put("evergreen tree 2", ColorTools.toEditedFloat(AURORA_EUCALYPTUS, -0.035f, -0.045f, -0.75f, 0f));
+        viewer.put("small cactus 1", ColorTools.toEditedFloat(AURORA_FROG_GREEN, 0.035f, 0.065f, -0.06f, 0f));
+        viewer.put("large cactus 1", ColorTools.toEditedFloat(AURORA_MARSH, 0.04f, 0.11f, -0.03f, 0f));
+        viewer.put("succulent 1", ColorTools.toEditedFloat(CW_FLUSH_JADE, -0.045f, -0.1f, 0.0f, 0f));
+        viewer.put("seashell 1", ColorTools.toEditedFloat(CW_LIGHT_APRICOT, 0.0f, -0.095f, 0.07f, 0f));
+        viewer.put("seashell 2", ColorTools.toEditedFloat(CW_PALE_RED, 0.0f, -0.2f, 0.1f, 0f));
+        viewer.put("seashell 3", ColorTools.toEditedFloat(CW_PALE_YELLOW, 0.0f, 0.02f, 0.05f, 0f));
+        viewer.put("seashell 4", ColorTools.toEditedFloat(CW_PALE_VIOLET, 0.0f, -0.080f, 0.11f, 0f));
+        viewer.put("driftwood", ColorTools.toEditedFloat(AURORA_DRIFTWOOD, 0.0f, -0.25f, 0.04f, 0f));
+        viewer.put("boulder", ColorTools.toEditedFloat(AURORA_SLOW_CREEK, 0.0f, -0.01f, 0.0f, 0f));
+        viewer.put("deciduous tree 1", ColorTools.toEditedFloat(AURORA_AVOCADO, -0.065f, 0.0f, -0.3f, 0f));
+        viewer.put("small bush 2", ColorTools.toEditedFloat(AURORA_WOODLANDS, -0.045f, -0.05f, -0.025f, 0f));
+        viewer.put("deciduous tree 2", ColorTools.toEditedFloat(AURORA_IVY_GREEN, -0.02f, 0.0f, 0.0f, 0f));
+        viewer.put("deciduous tree 3", ColorTools.toEditedFloat(AURORA_ASPARAGUS, -0.015f, 0.055f, 0.02f, 0f));
+        viewer.put("large bush 2", ColorTools.toEditedFloat(AURORA_VIRIDIAN, -0.03f, -0.05f, 0.03f, 0f));
+        viewer.put("tropical tree 1", ColorTools.toEditedFloat(AURORA_FLORAL_FOAM, -0.05f, 0.025f, 0.075f, 0f));
+        viewer.put("tropical tree 2", ColorTools.toEditedFloat(AURORA_MAIDENHAIR_FERN, 0.0f, 0.0f, 0.02f, 0f));
+        viewer.put("large bush 3", ColorTools.toEditedFloat(AURORA_KELLY_GREEN, 0.0f, 0.025f, 0.02f, 0f));
+        viewer.put("tropical tree 3", ColorTools.toEditedFloat(AURORA_SOFT_TEAL, -0.15f, -0.07f, -0.03f, 0f));
+        viewer.put("tropical tree 4", ColorTools.toEditedFloat(AURORA_PRASE, -0.04f, -0.02f, -0.02f, 0f));
 
 //        viewer.put("ice", ColorTools.fromRGBA8888(240 << 24 | 248 << 16 | 255 << 8 | 255));
 //        viewer.put("desert", ColorTools.fromRGBA8888(248 << 24 | 229 << 16 | 180 << 8 | 255));
@@ -248,14 +249,13 @@ public class DescriptionMatcher extends ApplicationAdapter {
 //        viewer.put(n++, ColorTools.fromRGBA8888(0x002550FF));
 //        viewer.put(n++, ColorTools.fromRGBA8888(0x222034FF));
 
-//        for(OrderedMap.Entry<String, Float> e : viewer){
-//        for(OrderedMap.Entry<Integer, Float> e : viewer){
-        for (int i = 0; i < BIOME_COLOR_TABLE.length; i++) {
-////            if(i % 6 == 0) System.out.println("new Biome[]{");
-            System.out.printf("new Biome(%s, %s, \"%s\", \"%s\"),\n", heat[i % 6], moisture[i / 6], biomeTable[i], SimplePalette.bestMatch(BIOME_COLOR_TABLE[i], 1));
-////            if(i % 6 == 5) System.out.println("},");
-//            System.out.printf(" | (long)parseDescription(\"%s\") << 32);\n", SimplePalette.bestMatch(e.value, 1));
-//            System.out.printf("%s: 0x%08X -> %s\n", e.key, ColorTools.toRGBA8888(e.value), SimplePalette.bestMatch(e.value, 1));
+//        for (int i = 0; i < BIOME_COLOR_TABLE.length; i++) {
+//            System.out.printf("new Biome(%s, %s, \"%s\", \"%s\"),\n", heat[i % 6], moisture[i / 6], biomeTable[i], SimplePalette.bestMatch(BIOME_COLOR_TABLE[i], 1));
+//        }
+
+        //// uses String-to-Float viewer at top
+        for(OrderedMap.Entry<String, Float> e : viewer){
+            System.out.printf(" | (long)describe(\"%s\") << 32);\n", com.github.tommyettinger.colorful.oklab.SimplePalette.bestMatch(e.value, 1));
         }
     }
     public static final int SCREEN_WIDTH = 808;
@@ -282,10 +282,9 @@ public class DescriptionMatcher extends ApplicationAdapter {
         Table tab = new Table(skin);
         tab.align(Align.center);
         tab.setFillParent(true);
-//        for(OrderedMap.Entry<String, Float> entry : viewer){
-        for (int i = 0; i < BIOME_COLOR_TABLE.length; i++) {
-            String key = biomeTable[i];
-            float value = BIOME_COLOR_TABLE[i];
+        for(OrderedMap.Entry<String, Float> entry : viewer) {
+            String key = entry.key;
+            float value = entry.value;
             Label lab = new Label(key, skin);
             tab.add(lab).growX().padLeft(10f);
             float described = SimplePalette.parseDescription(SimplePalette.bestMatch(value, 1));
@@ -298,6 +297,21 @@ public class DescriptionMatcher extends ApplicationAdapter {
             altered.getColor().set(ColorTools.toRGBA8888(described));
             tab.add(altered).growX().growY().row();
         }
+//        for (int i = 0; i < BIOME_COLOR_TABLE.length; i++) {
+//            String key = biomeTable[i];
+//            float value = BIOME_COLOR_TABLE[i];
+//            Label lab = new Label(key, skin);
+//            tab.add(lab).growX().padLeft(10f);
+//            float described = SimplePalette.parseDescription(SimplePalette.bestMatch(value, 1));
+//            Label diff = new Label(String.format("%2.4f", difference(value, described)), skin);
+//            tab.add(diff).padLeft(2).padRight(2).left();
+//            Image original = new Image(skin, "white");
+//            original.getColor().set(ColorTools.toRGBA8888(value));
+//            tab.add(original).growX().growY();
+//            Image altered = new Image(skin, "white");
+//            altered.getColor().set(ColorTools.toRGBA8888(described));
+//            tab.add(altered).growX().growY().row();
+//        }
         stage.getRoot().addActor(tab);
         input.setInputProcessor(stage);
     }
