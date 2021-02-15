@@ -441,6 +441,40 @@ public class ColorTools {
 	}
 
 	/**
+	 * Given a packed float RGBA color {@code mainColor} and another RGBA color that it should be made to contrast
+	 * with, gets a packed float RGBA color with lightness that should be quite different from
+	 * {@code contrastingColor}'s lightness, but the same chromatic channels and opacity. This allows most of the colors
+	 * this method produces to contrast well as a foreground when displayed on a background of {@code contrastingColor},
+	 * or vice versa. This goes through Oklab as an intermediate step, so lightness is in terms of Oklab's L channel.
+	 * <br>
+	 * This is similar to {@link #inverseIntensity(float, float)}, but is considerably simpler, and this method will
+	 * change the lightness of mainColor when the two given colors have close lightness but distant chroma. Because it
+	 * averages the original lightness of mainColor with the modified one, this tends to produce softer color changes.
+	 * @param mainColor a packed RGBA float color; this is the color that will be adjusted
+	 * @param contrastingColor a packed RGBA float color; the adjusted mainColor will contrast with the lightness of this
+	 * @return a different packed RGBA float color, based on mainColor but typically with different lightness
+	 */
+	public static float differentiateLightness(final float mainColor, final float contrastingColor)
+	{
+		final int main = BitConversion.floatToRawIntBits(com.github.tommyettinger.colorful.pure.oklab.ColorTools.fromRGBA(mainColor)),
+				contrast = BitConversion.floatToRawIntBits(com.github.tommyettinger.colorful.pure.oklab.ColorTools.fromRGBA(contrastingColor));
+		return com.github.tommyettinger.colorful.pure.oklab.ColorTools.toRGBA(BitConversion.intBitsToFloat((main & 0xFEFFFF00) | (contrast + 128 & 0xFF) + (main & 0xFF) >>> 1));
+	}
+
+	/**
+	 * Pretty simple; adds 0.5 to the given color's lightness (calculated by converting it to Oklab internally) and
+	 * wraps it around if it would go above 1.0, then averages that with the original lightness. This means light colors
+	 * become darker, and dark colors become lighter, with almost all results in the middle-range of possible lightness.
+	 * @param mainColor a packed RGBA float color
+	 * @return a different packed RGBA float color, with its lightness channel changed and limited to the correct gamut
+	 */
+	public static float offsetLightness(final float mainColor) {
+		final int oklab = BitConversion.floatToRawIntBits(mainColor);
+		return com.github.tommyettinger.colorful.pure.oklab.ColorTools.toRGBA(BitConversion.intBitsToFloat((oklab & 0xFEFFFF00) | (oklab + 128 & 0xFF) + (oklab & 0xFF) >>> 1));
+	}
+
+
+	/**
 	 * Makes the additive RGBA color stored in {@code color} cause less of a change when used as a tint, as if it were
 	 * mixed with neutral gray. When {@code fraction} is 1.0, this returns color unchanged; when fraction is 0.0, it
 	 * returns {@link Palette#GRAY}, and when it is in-between 0.0 and 1.0 it returns something between the two. This is

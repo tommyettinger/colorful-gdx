@@ -776,6 +776,38 @@ public class ColorTools {
 	}
 
 	/**
+	 * Given a packed float IPT_HQ color {@code mainColor} and another IPT_HQ color that it should be made to contrast
+	 * with, gets a packed float IPT_HQ color with I that should be quite different from {@code contrastingColor}'s I,
+	 * but the same chromatic channels and opacity (A and B are likely to be clamped if the result gets close to white
+	 * or black). This allows most of the colors this method produces to contrast well as a foreground when displayed on
+	 * a background of {@code contrastingColor}, or vice versa.
+	 * <br>
+	 * This is similar to {@link #inverseIntensity(float, float)}, but is considerably simpler, and this method will
+	 * change the lightness of mainColor when the two given colors have close lightness but distant chroma. Because it
+	 * averages the original I of mainColor with the modified one, this tends to not produce harsh color changes.
+	 * @param mainColor a packed IPT_HQ float color; this is the color that will be adjusted
+	 * @param contrastingColor a packed IPT_HQ float color; the adjusted mainColor will contrast with the I of this
+	 * @return a different packed IPT_HQ float color, based on mainColor but typically with different lightness
+	 */
+	public static float differentiateIntensity(final float mainColor, final float contrastingColor)
+	{
+		final int main = BitConversion.floatToRawIntBits(mainColor), contrast = BitConversion.floatToRawIntBits(contrastingColor);
+		return limitToGamut(BitConversion.intBitsToFloat((main & 0xFEFFFF00) | (contrast + 128 & 0xFF) + (main & 0xFF) >>> 1));
+	}
+
+	/**
+	 * Pretty simple; adds 0.5 to the given color's I and wraps it around if it would go above 1.0, then averages that
+	 * with the original I. This means light colors become darker, and dark colors become lighter, with almost all
+	 * results in the middle-range of possible lightness.
+	 * @param mainColor a packed IPT_HQ float color
+	 * @return a different packed IPT_HQ float color, with its I channel changed and limited to the correct gamut
+	 */
+	public static float offsetIntensity(final float mainColor) {
+		final int decoded = BitConversion.floatToRawIntBits(mainColor);
+		return limitToGamut(BitConversion.intBitsToFloat((decoded & 0xFEFFFF00) | (decoded + 128 & 0xFF) + (decoded & 0xFF) >>> 1));
+	}
+
+	/**
 	 * Makes the additive IPT color stored in {@code color} cause less of a change when used as a tint, as if it were
 	 * mixed with neutral gray. When {@code fraction} is 1.0, this returns color unchanged; when fraction is 0.0, it
 	 * returns {@link Palette#GRAY}, and when it is in-between 0.0 and 1.0 it returns something between the two. This is

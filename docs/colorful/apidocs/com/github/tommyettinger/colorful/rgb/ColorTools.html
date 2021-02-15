@@ -15,7 +15,7 @@
 <script type="text/javascript" src="../../../../../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="class-declaration-page">
-<script type="text/javascript">var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9,"i19":9,"i20":9,"i21":9,"i22":9,"i23":9,"i24":9,"i25":9,"i26":9,"i27":9};
+<script type="text/javascript">var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9,"i19":9,"i20":9,"i21":9,"i22":9,"i23":9,"i24":9,"i25":9,"i26":9,"i27":9,"i28":9,"i29":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "alt-color";
 var rowColor = "row-color";
@@ -177,13 +177,23 @@ float&nbsp;change)</code></th>
 </tr>
 <tr class="alt-color" id="i6">
 <td class="col-first"><code>static float</code></td>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#differentiateLightness(float,float)">differentiateLightness</a></span>&#8203;(float&nbsp;mainColor,
+float&nbsp;contrastingColor)</code></th>
+<td class="col-last">
+<div class="block">Given a packed float RGBA color <code>mainColor</code> and another RGBA color that it should be made to contrast
+ with, gets a packed float RGBA color with lightness that should be quite different from
+ <code>contrastingColor</code>'s lightness, but the same chromatic channels and opacity.</div>
+</td>
+</tr>
+<tr class="row-color" id="i7">
+<td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#fade(float,float)">fade</a></span>&#8203;(float&nbsp;start,
 float&nbsp;change)</code></th>
 <td class="col-last">
 <div class="block">Interpolates from the packed float color start towards transparent by change.</div>
 </td>
 </tr>
-<tr class="row-color" id="i7">
+<tr class="alt-color" id="i8">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#floatGetHSL(float,float,float,float)">floatGetHSL</a></span>&#8203;(float&nbsp;hue,
 float&nbsp;saturation,
@@ -193,14 +203,14 @@ float&nbsp;opacity)</code></th>
 <div class="block">Gets a color as an RGBA packed float given floats representing hue, saturation, lightness, and opacity.</div>
 </td>
 </tr>
-<tr class="alt-color" id="i8">
+<tr class="row-color" id="i9">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#fromColor(com.badlogic.gdx.graphics.Color)">fromColor</a></span>&#8203;(com.badlogic.gdx.graphics.Color&nbsp;color)</code></th>
 <td class="col-last">
 <div class="block">Takes a libGDX Color that uses RGBA8888 channels and converts to a packed float in the RGB format this uses.</div>
 </td>
 </tr>
-<tr class="row-color" id="i9">
+<tr class="alt-color" id="i10">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#fromRGBA(float,float,float,float)">fromRGBA</a></span>&#8203;(float&nbsp;r,
 float&nbsp;g,
@@ -210,28 +220,28 @@ float&nbsp;a)</code></th>
 <div class="block">Takes RGBA components from 0.0 to 1.0 each and converts to a packed float in the RGBA format this uses.</div>
 </td>
 </tr>
-<tr class="alt-color" id="i10">
+<tr class="row-color" id="i11">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#fromRGBA8888(int)">fromRGBA8888</a></span>&#8203;(int&nbsp;rgba)</code></th>
 <td class="col-last">
 <div class="block">Takes a color encoded as an RGBA8888 int and converts to a packed float in the RGB format this uses.</div>
 </td>
 </tr>
-<tr class="row-color" id="i11">
+<tr class="alt-color" id="i12">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#green(float)">green</a></span>&#8203;(float&nbsp;encoded)</code></th>
 <td class="col-last">
 <div class="block">Gets the green channel value of the given encoded color, as a float from 0.0f to 1.0f, inclusive.</div>
 </td>
 </tr>
-<tr class="alt-color" id="i12">
+<tr class="row-color" id="i13">
 <td class="col-first"><code>static int</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#greenInt(float)">greenInt</a></span>&#8203;(float&nbsp;encoded)</code></th>
 <td class="col-last">
 <div class="block">Gets the green channel value of the given encoded color, as an int ranging from 0 to 255, inclusive.</div>
 </td>
 </tr>
-<tr class="row-color" id="i13">
+<tr class="alt-color" id="i14">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#hue(float)">hue</a></span>&#8203;(float&nbsp;encoded)</code></th>
 <td class="col-last">
@@ -239,7 +249,7 @@ float&nbsp;a)</code></th>
  to 1f (exclusive, red and approaching purple if decreased).</div>
 </td>
 </tr>
-<tr class="alt-color" id="i14">
+<tr class="row-color" id="i15">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#inverseIntensity(float,float)">inverseIntensity</a></span>&#8203;(float&nbsp;mainColor,
 float&nbsp;contrastingColor)</code></th>
@@ -250,7 +260,7 @@ float&nbsp;contrastingColor)</code></th>
  white or black.</div>
 </td>
 </tr>
-<tr class="row-color" id="i15">
+<tr class="alt-color" id="i16">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#lessenChange(float,float)">lessenChange</a></span>&#8203;(float&nbsp;color,
 float&nbsp;fraction)</code></th>
@@ -259,7 +269,7 @@ float&nbsp;fraction)</code></th>
  mixed with neutral gray.</div>
 </td>
 </tr>
-<tr class="alt-color" id="i16">
+<tr class="row-color" id="i17">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#lighten(float,float)">lighten</a></span>&#8203;(float&nbsp;start,
 float&nbsp;change)</code></th>
@@ -267,19 +277,27 @@ float&nbsp;change)</code></th>
 <div class="block">Interpolates from the packed float color start towards white by change.</div>
 </td>
 </tr>
-<tr class="row-color" id="i17">
+<tr class="alt-color" id="i18">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#lightness(float)">lightness</a></span>&#8203;(float&nbsp;encoded)</code></th>
 <td class="col-last">&nbsp;</td>
 </tr>
-<tr class="alt-color" id="i18">
+<tr class="row-color" id="i19">
+<td class="col-first"><code>static float</code></td>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#offsetLightness(float)">offsetLightness</a></span>&#8203;(float&nbsp;mainColor)</code></th>
+<td class="col-last">
+<div class="block">Pretty simple; adds 0.5 to the given color's lightness (calculated by converting it to Oklab internally) and
+ wraps it around if it would go above 1.0, then averages that with the original lightness.</div>
+</td>
+</tr>
+<tr class="alt-color" id="i20">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#randomColor(java.util.Random)">randomColor</a></span>&#8203;(java.util.Random&nbsp;random)</code></th>
 <td class="col-last">
 <div class="block">Produces a random packed float color that is always opaque and should be uniformly distributed.</div>
 </td>
 </tr>
-<tr class="row-color" id="i19">
+<tr class="row-color" id="i21">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#randomEdit(float,long,float)">randomEdit</a></span>&#8203;(float&nbsp;color,
 long&nbsp;seed,
@@ -289,21 +307,21 @@ float&nbsp;variance)</code></th>
  <code>variance</code> (such as 0.05 to 0.25) between the given color and what this can return.</div>
 </td>
 </tr>
-<tr class="alt-color" id="i20">
+<tr class="alt-color" id="i22">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#red(float)">red</a></span>&#8203;(float&nbsp;encoded)</code></th>
 <td class="col-last">
 <div class="block">Gets the red channel value of the given encoded color, as a float from 0.0f to 1.0f, inclusive.</div>
 </td>
 </tr>
-<tr class="row-color" id="i21">
+<tr class="row-color" id="i23">
 <td class="col-first"><code>static int</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#redInt(float)">redInt</a></span>&#8203;(float&nbsp;encoded)</code></th>
 <td class="col-last">
 <div class="block">Gets the red channel value of the given encoded color, as an int ranging from 0 to 255, inclusive.</div>
 </td>
 </tr>
-<tr class="alt-color" id="i22">
+<tr class="alt-color" id="i24">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#rgb(float,float,float,float)">rgb</a></span>&#8203;(float&nbsp;red,
 float&nbsp;green,
@@ -314,14 +332,14 @@ float&nbsp;alpha)</code></th>
  and A (alpha or opacity).</div>
 </td>
 </tr>
-<tr class="row-color" id="i23">
+<tr class="row-color" id="i25">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#saturation(float)">saturation</a></span>&#8203;(float&nbsp;encoded)</code></th>
 <td class="col-last">
 <div class="block">Gets the saturation of the given encoded color, as a float ranging from 0.0f to 1.0f, inclusive.</div>
 </td>
 </tr>
-<tr class="alt-color" id="i24">
+<tr class="alt-color" id="i26">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#subrandomColor(float,float,float)">subrandomColor</a></span>&#8203;(float&nbsp;r,
 float&nbsp;g,
@@ -331,7 +349,7 @@ float&nbsp;b)</code></th>
  distributed how you want.</div>
 </td>
 </tr>
-<tr class="row-color" id="i25">
+<tr class="row-color" id="i27">
 <td class="col-first"><code>static com.badlogic.gdx.graphics.Color</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#toColor(com.badlogic.gdx.graphics.Color,float)">toColor</a></span>&#8203;(com.badlogic.gdx.graphics.Color&nbsp;editing,
 float&nbsp;packed)</code></th>
@@ -340,7 +358,7 @@ float&nbsp;packed)</code></th>
  into an RGBA8888 Color as used by libGDX (called <code>editing</code>).</div>
 </td>
 </tr>
-<tr class="alt-color" id="i26">
+<tr class="alt-color" id="i28">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#toEditedFloat(float,float,float,float,float)">toEditedFloat</a></span>&#8203;(float&nbsp;basis,
 float&nbsp;hue,
@@ -352,7 +370,7 @@ float&nbsp;opacity)</code></th>
  opacity adjusted by the specified amounts.</div>
 </td>
 </tr>
-<tr class="row-color" id="i27">
+<tr class="row-color" id="i29">
 <td class="col-first"><code>static int</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#toRGBA8888(float)">toRGBA8888</a></span>&#8203;(float&nbsp;packed)</code></th>
 <td class="col-last">
@@ -802,9 +820,47 @@ float&nbsp;contrastingColor)</span></div>
 </section>
 </li>
 <li>
+<section class="detail" id="differentiateLightness(float,float)">
+<h3>differentiateLightness</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.482">differentiateLightness</a></span>&#8203;(<span class="parameters">float&nbsp;mainColor,
+float&nbsp;contrastingColor)</span></div>
+<div class="block">Given a packed float RGBA color <code>mainColor</code> and another RGBA color that it should be made to contrast
+ with, gets a packed float RGBA color with lightness that should be quite different from
+ <code>contrastingColor</code>'s lightness, but the same chromatic channels and opacity. This allows most of the colors
+ this method produces to contrast well as a foreground when displayed on a background of <code>contrastingColor</code>,
+ or vice versa. This goes through Oklab as an intermediate step, so lightness is in terms of Oklab's L channel.
+ <br>
+ This is similar to <a href="#inverseIntensity(float,float)"><code>inverseIntensity(float, float)</code></a>, but is considerably simpler, and this method will
+ change the lightness of mainColor when the two given colors have close lightness but distant chroma. Because it
+ averages the original lightness of mainColor with the modified one, this tends to produce softer color changes.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>mainColor</code> - a packed RGBA float color; this is the color that will be adjusted</dd>
+<dd><code>contrastingColor</code> - a packed RGBA float color; the adjusted mainColor will contrast with the lightness of this</dd>
+<dt>Returns:</dt>
+<dd>a different packed RGBA float color, based on mainColor but typically with different lightness</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="offsetLightness(float)">
+<h3>offsetLightness</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.496">offsetLightness</a></span>&#8203;(<span class="parameters">float&nbsp;mainColor)</span></div>
+<div class="block">Pretty simple; adds 0.5 to the given color's lightness (calculated by converting it to Oklab internally) and
+ wraps it around if it would go above 1.0, then averages that with the original lightness. This means light colors
+ become darker, and dark colors become lighter, with almost all results in the middle-range of possible lightness.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>mainColor</code> - a packed RGBA float color</dd>
+<dt>Returns:</dt>
+<dd>a different packed RGBA float color, with its lightness channel changed and limited to the correct gamut</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="lessenChange(float,float)">
 <h3>lessenChange</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.477">lessenChange</a></span>&#8203;(<span class="parameters">float&nbsp;color,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.510">lessenChange</a></span>&#8203;(<span class="parameters">float&nbsp;color,
 float&nbsp;fraction)</span></div>
 <div class="block">Makes the additive RGBA color stored in <code>color</code> cause less of a change when used as a tint, as if it were
  mixed with neutral gray. When <code>fraction</code> is 1.0, this returns color unchanged; when fraction is 0.0, it
@@ -822,7 +878,7 @@ float&nbsp;fraction)</span></div>
 <li>
 <section class="detail" id="randomEdit(float,long,float)">
 <h3>randomEdit</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.501">randomEdit</a></span>&#8203;(<span class="parameters">float&nbsp;color,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.534">randomEdit</a></span>&#8203;(<span class="parameters">float&nbsp;color,
 long&nbsp;seed,
 float&nbsp;variance)</span></div>
 <div class="block">Makes a quasi-randomly-edited variant on the given <code>color</code>, allowing typically a small amount of
@@ -845,7 +901,7 @@ float&nbsp;variance)</span></div>
 <li>
 <section class="detail" id="randomColor(java.util.Random)">
 <h3>randomColor</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.529">randomColor</a></span>&#8203;(<span class="parameters">java.util.Random&nbsp;random)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.562">randomColor</a></span>&#8203;(<span class="parameters">java.util.Random&nbsp;random)</span></div>
 <div class="block">Produces a random packed float color that is always opaque and should be uniformly distributed.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -858,7 +914,7 @@ float&nbsp;variance)</span></div>
 <li>
 <section class="detail" id="subrandomColor(float,float,float)">
 <h3>subrandomColor</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.548">subrandomColor</a></span>&#8203;(<span class="parameters">float&nbsp;r,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.581">subrandomColor</a></span>&#8203;(<span class="parameters">float&nbsp;r,
 float&nbsp;g,
 float&nbsp;b)</span></div>
 <div class="block">Limited-use; like <a href="#randomColor(java.util.Random)"><code>randomColor(Random)</code></a> but for cases where you already have three floats (r, g, and b)
