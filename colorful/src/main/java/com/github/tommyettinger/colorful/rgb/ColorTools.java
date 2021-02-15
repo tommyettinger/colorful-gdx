@@ -342,11 +342,11 @@ public class ColorTools {
 			w = x;
 			x = r;
 		}
-		float d = x - Math.min(w, y);
-		float light = x * (1f - 0.5f * d / (x + 1e-10f));
-		float hue2 = Math.abs(z + (w - y) / (6f * d + 1e-10f));
-		float sat2 = (x - light) / (Math.min(light, 1f - light) + 1e-10f);
-		return FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), Math.min(Math.max(saturation + sat2, 0f), 1f), Math.min(Math.max(light + value, 0f), 1f), opacity);
+		final float d = x - Math.min(w, y);
+		final float light = x * (1f - 0.5f * d / (x + 1e-10f));
+		hue += Math.abs(z + (w - y) / (6f * d + 1e-10f)) + 1f;
+		saturation += (x - light) / (Math.min(light, 1f - light) + 1e-10f);
+		return FloatColors.hsl2rgb(hue - (int)hue, Math.min(Math.max(saturation, 0f), 1f), light, opacity);
 	}
 
 	/**

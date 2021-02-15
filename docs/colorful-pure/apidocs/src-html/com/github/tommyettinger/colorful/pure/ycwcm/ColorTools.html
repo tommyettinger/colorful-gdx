@@ -451,11 +451,11 @@
 <span class="source-line-no">439</span><span id="line.439">                        w = x;</span>
 <span class="source-line-no">440</span><span id="line.440">                        x = r;</span>
 <span class="source-line-no">441</span><span id="line.441">                }</span>
-<span class="source-line-no">442</span><span id="line.442">                float d = x - Math.min(w, y);</span>
-<span class="source-line-no">443</span><span id="line.443">                float l = x * (1f - 0.5f * d / (x + 1e-10f));</span>
-<span class="source-line-no">444</span><span id="line.444">                float hue2 = Math.abs(z + (w - y) / (6f * d + 1e-10f));</span>
-<span class="source-line-no">445</span><span id="line.445">                float sat2 = (x - l) / (Math.min(l, 1f - l) + 1e-10f);</span>
-<span class="source-line-no">446</span><span id="line.446">                return fromRGBA(FloatColors.hsl2rgb(hue2 + hue + 1 - (int)(hue2 + hue + 1), Math.min(Math.max(saturation + sat2, 0f), 1f), value, opacity));</span>
+<span class="source-line-no">442</span><span id="line.442">                final float d = x - Math.min(w, y);</span>
+<span class="source-line-no">443</span><span id="line.443">                final float light = x * (1f - 0.5f * d / (x + 1e-10f));</span>
+<span class="source-line-no">444</span><span id="line.444">                hue += Math.abs(z + (w - y) / (6f * d + 1e-10f)) + 1f;</span>
+<span class="source-line-no">445</span><span id="line.445">                saturation += (x - light) / (Math.min(light, 1f - light) + 1e-10f);</span>
+<span class="source-line-no">446</span><span id="line.446">                return fromRGBA(FloatColors.hsl2rgb(hue - (int)hue, Math.min(Math.max(saturation, 0f), 1f), light, opacity));</span>
 <span class="source-line-no">447</span><span id="line.447">        }</span>
 <span class="source-line-no">448</span><span id="line.448"></span>
 <span class="source-line-no">449</span><span id="line.449">        /**</span>
