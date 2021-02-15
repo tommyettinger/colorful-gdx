@@ -133,6 +133,9 @@ public class ColorfulBatch implements Batch {
             shader = defaultShader;
     }
 
+    //// Previous shader used the IPT recommendation for intensity as its lightness calculation:
+    //  "  tgt.rgb *= pow(dot(vec3(0.189786, 0.576951, 0.233221), tgt.rgb) + 0.625, v_tweak.a) * v_lightFix;\n" +
+    //// It also didn't use sqrt() or any non-linearity.
     /** Returns a new instance of the default shader used by ColorfulBatch for GL2 when no shader is specified. */
     public static ShaderProgram createDefaultShader () {
         String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
@@ -172,7 +175,7 @@ public class ColorfulBatch implements Batch {
                         "{\n" +
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                         "  tgt.rgb = (tgt.rgb * v_tweak.rgb + v_color.rgb);\n" +
-                        "  tgt.rgb *= pow(dot(vec3(0.189786, 0.576951, 0.233221), tgt.rgb) + 0.625, v_tweak.a) * v_lightFix;\n" +
+                        "  tgt.rgb *= pow(sqrt(dot(vec3(0.2627, 0.6780, 0.0593), tgt.rgb)) + 0.5, v_tweak.a) * v_lightFix;\n" +
                         "  tgt.a *= v_color.a;\n" +
                         "  gl_FragColor = clamp(tgt, 0.0, 1.0);\n" +
                         "}";

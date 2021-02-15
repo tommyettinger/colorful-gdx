@@ -198,10 +198,11 @@ public class DescriptionMatcher extends ApplicationAdapter {
                 BIOME_DARK_COLOR_TABLE[i] = ColorTools.darken(b, 0.08f);
             }
 
-//        for (int i = 0; i < BIOME_COLOR_TABLE.length; i++) {
-//            System.out.printf("new Biome(%s, %s, \"%s\", \"%s\"),\n", heat[i % 6], moisture[i / 6], biomeTable[i], SimplePalette.bestMatch(BIOME_COLOR_TABLE[i], 1));
-//        }
+        for (int i = 0; i < BIOME_COLOR_TABLE.length; i++) {
+            System.out.printf("new Biome(%s, %s, \"%s\", \"%s\"),\n", heat[i % 6], moisture[i / 6], biomeTable[i], SimplePalette.bestMatch(BIOME_COLOR_TABLE[i], 1));
+        }
 
+        System.out.println();
 
 //        viewer.put(n++, ColorTools.fromRGBA8888(0xF1F8FFFF));
 //        viewer.put(n++, ColorTools.fromRGBA8888(0xF0F8FFFF));
