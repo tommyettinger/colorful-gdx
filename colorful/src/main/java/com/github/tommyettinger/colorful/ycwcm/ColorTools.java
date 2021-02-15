@@ -664,6 +664,38 @@ public class ColorTools {
 	}
 
 	/**
+	 * Given a packed float YCwCm color {@code mainColor} and another YCwCm color that it should be made to contrast
+	 * with, gets a packed float YCwCm color with Y that should be quite different from {@code contrastingColor}'s Y,
+	 * but the same chromatic channels and opacity (Cw and Cm are likely to be clamped if the result gets close to white
+	 * or black). This allows most of the colors this method produces to contrast well as a foreground when displayed on
+	 * a background of {@code contrastingColor}, or vice versa.
+	 * <br>
+	 * This is similar to {@link #inverseLuma(float, float)}, but is considerably simpler, and this method will
+	 * change the lightness of mainColor when the two given colors have close lightness but distant chroma. Because it
+	 * averages the original Y of mainColor with the modified one, this tends to not produce harsh color changes.
+	 * @param mainColor a packed YCwCm float color; this is the color that will be adjusted
+	 * @param contrastingColor a packed YCwCm float color; the adjusted mainColor will contrast with the Y of this
+	 * @return a different packed YCwCm float color, based on mainColor but typically with different lightness
+	 */
+	public static float differentiateLuma(final float mainColor, final float contrastingColor)
+	{
+		final int main = NumberUtils.floatToRawIntBits(mainColor), contrast = NumberUtils.floatToRawIntBits(contrastingColor);
+		return limitToGamut(NumberUtils.intBitsToFloat((main & 0xFEFFFF00) | (contrast + 128 & 0xFF) + (main & 0xFF) >>> 1));
+	}
+
+	/**
+	 * Pretty simple; adds 0.5 to the given color's Y and wraps it around if it would go above 1.0, then averages that
+	 * with the original Y. This means light colors become darker, and dark colors become lighter, with almost all
+	 * results in the middle-range of possible lightness.
+	 * @param mainColor a packed YCwCm float color
+	 * @return a different packed YCwCm float color, with its Y channel changed and limited to the correct gamut
+	 */
+	public static float offsetLuma(final float mainColor) {
+		final int decoded = NumberUtils.floatToRawIntBits(mainColor);
+		return limitToGamut(NumberUtils.intBitsToFloat((decoded & 0xFEFFFF00) | (decoded + 128 & 0xFF) + (decoded & 0xFF) >>> 1));
+	}
+
+	/**
 	 * Makes the additive YCwCm color stored in {@code color} cause less of a change when used as a tint, as if it were
 	 * mixed with neutral gray. When {@code fraction} is 1.0, this returns color unchanged; when fraction is 0.0, it
 	 * returns {@link Palette#GRAY}, and when it is in-between 0.0 and 1.0 it returns something between the two. This is

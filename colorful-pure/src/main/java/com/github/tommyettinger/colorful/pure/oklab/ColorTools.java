@@ -56,30 +56,34 @@ public class ColorTools {
 
 	/**
 	 * An approximation of the cube-root function for float inputs and outputs.
-	 * This can be about twice as fast as {@link Math#cbrt(double)}. It
-	 * correctly returns negative results when given negative inputs.
+	 * This can be about twice as fast as {@link Math#cbrt(double)}. This
+	 * version does not tolerate negative inputs, because in the narrow use
+	 * case it has in this class, it never is given negative inputs.
 	 * <br>
 	 * Has very low relative error (less than 1E-9) when inputs are uniformly
-	 * distributed between -512 and 512, and absolute mean error of less than
+	 * distributed between 0 and 512, and absolute mean error of less than
 	 * 1E-6 in the same scenario. Uses a bit-twiddling method similar to one
 	 * presented in Hacker's Delight and also used in early 3D graphics (see
 	 * https://en.wikipedia.org/wiki/Fast_inverse_square_root for more, but
 	 * this code approximates cbrt(x) and not 1/sqrt(x)). This specific code
 	 * was originally by Marc B. Reynolds, posted in his "Stand-alone-junk"
 	 * repo: https://github.com/Marc-B-Reynolds/Stand-alone-junk/blob/master/src/Posts/ballcube.c#L182-L197 .
+	 * It's worth noting that while hardware instructions for finding the
+	 * square root of a float have gotten extremely fast, the same is not
+	 * true for the cube root (which has to allow negative inputs), so while
+	 * the bit-twiddling inverse square root is no longer a beneficial
+	 * optimization on current hardware, this does seem to help.
 	 * <br>
 	 * This is used when converting from RGB to Oklab, as an intermediate step.
-	 * @param x any finite float to find the cube root of
+	 * @param x any non-negative finite float to find the cube root of
 	 * @return the cube root of x, approximated
 	 */
-	private static float cbrt(float x) {
+	private static float cbrtPositive(float x) {
 		int ix = BitConversion.floatToRawIntBits(x);
-		final int sign = ix & 0x80000000;
-		ix &= 0x7FFFFFFF;
 		final float x0 = x;
 		ix = (ix>>>2) + (ix>>>4);
 		ix += (ix>>>4);
-		ix = ix + (ix>>>8) + 0x2A5137A0 | sign;
+		ix += (ix>>>8) + 0x2A5137A0;
 		x  = BitConversion.intBitsToFloat(ix);
 		x  = 0.33333334f*(2f * x + x0/(x*x));
 		x  = 0.33333334f*(2f * x + x0/(x*x));
@@ -169,9 +173,9 @@ public class ColorTools {
 		final float g = forwardGamma((rgba >>> 16 & 0xFF) * 0x1.010101010101p-8f);
 		final float b = forwardGamma((rgba >>> 8 & 0xFF) * 0x1.010101010101p-8f);
 
-		final float l = cbrt(0.4121656120f * r + 0.5362752080f * g + 0.0514575653f * b);
-		final float m = cbrt(0.2118591070f * r + 0.6807189584f * g + 0.1074065790f * b);
-		final float s = cbrt(0.0883097947f * r + 0.2818474174f * g + 0.6302613616f * b);
+		final float l = cbrtPositive(0.4121656120f * r + 0.5362752080f * g + 0.0514575653f * b);
+		final float m = cbrtPositive(0.2118591070f * r + 0.6807189584f * g + 0.1074065790f * b);
+		final float s = cbrtPositive(0.0883097947f * r + 0.2818474174f * g + 0.6302613616f * b);
 
 		return BitConversion.intBitsToFloat(
 			              Math.min(Math.max((int)((0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s) * 255.999f         ), 0), 255)
@@ -190,9 +194,9 @@ public class ColorTools {
 		final float r = forwardGamma((abgr & 0xFF) * 0x1.010101010101p-8f);
 		final float g = forwardGamma((abgr >>> 8 & 0xFF) * 0x1.010101010101p-8f);
 		final float b = forwardGamma((abgr >>> 16 & 0xFF) * 0x1.010101010101p-8f);
-		final float l = cbrt(0.4121656120f * r + 0.5362752080f * g + 0.0514575653f * b);
-		final float m = cbrt(0.2118591070f * r + 0.6807189584f * g + 0.1074065790f * b);
-		final float s = cbrt(0.0883097947f * r + 0.2818474174f * g + 0.6302613616f * b);
+		final float l = cbrtPositive(0.4121656120f * r + 0.5362752080f * g + 0.0514575653f * b);
+		final float m = cbrtPositive(0.2118591070f * r + 0.6807189584f * g + 0.1074065790f * b);
+		final float s = cbrtPositive(0.0883097947f * r + 0.2818474174f * g + 0.6302613616f * b);
 		return BitConversion.intBitsToFloat(
 			              Math.min(Math.max((int)((0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s) * 255.999f         ), 0), 255)
 						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 127.999f + 127.5f), 0), 255) << 8
@@ -222,9 +226,9 @@ public class ColorTools {
 		r = forwardGamma(r);
 		g = forwardGamma(g);
 		b = forwardGamma(b);
-		final float l = cbrt(0.4121656120f * r + 0.5362752080f * g + 0.0514575653f * b);
-		final float m = cbrt(0.2118591070f * r + 0.6807189584f * g + 0.1074065790f * b);
-		final float s = cbrt(0.0883097947f * r + 0.2818474174f * g + 0.6302613616f * b);
+		final float l = cbrtPositive(0.4121656120f * r + 0.5362752080f * g + 0.0514575653f * b);
+		final float m = cbrtPositive(0.2118591070f * r + 0.6807189584f * g + 0.1074065790f * b);
+		final float s = cbrtPositive(0.0883097947f * r + 0.2818474174f * g + 0.6302613616f * b);
 		return BitConversion.intBitsToFloat(
 				          Math.min(Math.max((int)((0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s) * 255.999f         ), 0), 255)
 						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 127.999f + 127.5f), 0), 255) << 8
@@ -817,6 +821,38 @@ public class ColorTools {
 		if((A - cA) * (A - cA) + (B - cB) * (B - cB) >= 0x10000)
 			return mainColor;
 		return BitConversion.intBitsToFloat((bits & 0xFEFFFF00) | (int) (cL < 128 ? L * 0.45f + 140 : 127 - L * 0.45f));
+	}
+	
+	/**
+	 * Given a packed float Oklab color {@code mainColor} and another Oklab color that it should be made to contrast
+	 * with, gets a packed float Oklab color with L that should be quite different from {@code contrastingColor}'s L,
+	 * but the same chromatic channels and opacity (A and B are likely to be clamped if the result gets close to white
+	 * or black). This allows most of the colors this method produces to contrast well as a foreground when displayed on
+	 * a background of {@code contrastingColor}, or vice versa.
+	 * <br>
+	 * This is similar to {@link #inverseLightness(float, float)}, but is considerably simpler, and this method will
+	 * change the lightness of mainColor when the two given colors have close lightness but distant chroma. Because it
+	 * averages the original L of mainColor with the modified one, this tends to not produce harsh color changes.
+	 * @param mainColor a packed Oklab float color; this is the color that will be adjusted
+	 * @param contrastingColor a packed Oklab float color; the adjusted mainColor will contrast with the L of this
+	 * @return a different packed Oklab float color, based on mainColor but typically with different lightness
+	 */
+	public static float differentiateLightness(final float mainColor, final float contrastingColor)
+	{
+		final int main = BitConversion.floatToRawIntBits(mainColor), contrast = BitConversion.floatToRawIntBits(contrastingColor);
+		return limitToGamut(BitConversion.intBitsToFloat((main & 0xFEFFFF00) | (contrast + 128 & 0xFF) + (main & 0xFF) >>> 1));
+	}
+
+	/**
+	 * Pretty simple; adds 0.5 to the given color's L and wraps it around if it would go above 1.0, then averages that
+	 * with the original L. This means light colors become darker, and dark colors become lighter, with almost all
+	 * results in the middle-range of possible lightness.
+	 * @param mainColor a packed Oklab float color
+	 * @return a different packed Oklab float color, with its L channel changed and limited to the correct gamut
+	 */
+	public static float offsetLightness(final float mainColor) {
+		final int oklab = BitConversion.floatToRawIntBits(mainColor);
+		return limitToGamut(BitConversion.intBitsToFloat((oklab & 0xFEFFFF00) | (oklab + 128 & 0xFF) + (oklab & 0xFF) >>> 1));
 	}
 
 	/**
