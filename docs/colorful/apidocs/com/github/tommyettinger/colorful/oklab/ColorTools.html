@@ -81,7 +81,7 @@ loadScripts(document, 'script');</script>
 </div>
 <section class="description">
 <hr>
-<pre>public class <a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.28">ColorTools</a>
+<pre>public class <a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.27">ColorTools</a>
 extends java.lang.Object</pre>
 <div class="block">Contains code for manipulating colors as <code>int</code> and packed <code>float</code> values in the Oklab color space.
  Oklab is a very new color space that builds on the same foundation as IPT, but seems to be better-calibrated for
@@ -547,7 +547,7 @@ float&nbsp;opacity)</code></th>
 <li>
 <section class="detail" id="&lt;init&gt;()">
 <h3>ColorTools</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.28">ColorTools</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.27">ColorTools</a></span>()</div>
 </section>
 </li>
 </ul>
@@ -561,7 +561,7 @@ float&nbsp;opacity)</code></th>
 <li>
 <section class="detail" id="oklab(float,float,float,float)">
 <h3>oklab</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.57">oklab</a></span>&#8203;(<span class="parameters">float&nbsp;l,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.56">oklab</a></span>&#8203;(<span class="parameters">float&nbsp;l,
 float&nbsp;a,
 float&nbsp;b,
 float&nbsp;alpha)</span></div>
@@ -599,7 +599,7 @@ float&nbsp;alpha)</span></div>
 <li>
 <section class="detail" id="toRGBA8888(float)">
 <h3>toRGBA8888</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.132">toRGBA8888</a></span>&#8203;(<span class="parameters">float&nbsp;packed)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.131">toRGBA8888</a></span>&#8203;(<span class="parameters">float&nbsp;packed)</span></div>
 <div class="block">Converts a packed float color in the format produced by <a href="#oklab(float,float,float,float)"><code>oklab(float, float, float, float)</code></a> to an RGBA8888 int.
  This format of int can be used with Pixmap and in some other places in libGDX.</div>
 <dl class="notes">
@@ -613,7 +613,7 @@ float&nbsp;alpha)</span></div>
 <li>
 <section class="detail" id="toRGBA(float)">
 <h3>toRGBA</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.154">toRGBA</a></span>&#8203;(<span class="parameters">float&nbsp;packed)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.153">toRGBA</a></span>&#8203;(<span class="parameters">float&nbsp;packed)</span></div>
 <div class="block">Converts a packed float color in the format produced by <a href="#oklab(float,float,float,float)"><code>oklab(float, float, float, float)</code></a>
  to a packed float in RGBA format.
  This format of float can be used with the standard SpriteBatch and in some other places in libGDX.</div>
@@ -628,7 +628,7 @@ float&nbsp;alpha)</span></div>
 <li>
 <section class="detail" id="toColor(com.badlogic.gdx.graphics.Color,float)">
 <h3>toColor</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.Color</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.175">toColor</a></span>&#8203;(<span class="parameters">com.badlogic.gdx.graphics.Color&nbsp;editing,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.Color</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.174">toColor</a></span>&#8203;(<span class="parameters">com.badlogic.gdx.graphics.Color&nbsp;editing,
 float&nbsp;packed)</span></div>
 <div class="block">Writes an Oklab-format packed float color (the format produced by <a href="#oklab(float,float,float,float)"><code>oklab(float, float, float, float)</code></a>)
  into an RGBA8888 Color as used by libGDX (called <code>editing</code>).</div>
@@ -644,7 +644,7 @@ float&nbsp;packed)</span></div>
 <li>
 <section class="detail" id="fromRGBA8888(int)">
 <h3>fromRGBA8888</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.196">fromRGBA8888</a></span>&#8203;(<span class="parameters">int&nbsp;rgba)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.195">fromRGBA8888</a></span>&#8203;(<span class="parameters">int&nbsp;rgba)</span></div>
 <div class="block">Takes a color encoded as an RGBA8888 int and converts to a packed float in the Oklab format this uses.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -657,7 +657,7 @@ float&nbsp;packed)</span></div>
 <li>
 <section class="detail" id="fromRGBA(float)">
 <h3>fromRGBA</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.217">fromRGBA</a></span>&#8203;(<span class="parameters">float&nbsp;packed)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.216">fromRGBA</a></span>&#8203;(<span class="parameters">float&nbsp;packed)</span></div>
 <div class="block">Takes a color encoded as an RGBA8888 packed float and converts to a packed float in the Oklab format this uses.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -670,7 +670,7 @@ float&nbsp;packed)</span></div>
 <li>
 <section class="detail" id="fromColor(com.badlogic.gdx.graphics.Color)">
 <h3>fromColor</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.247">fromColor</a></span>&#8203;(<span class="parameters">com.badlogic.gdx.graphics.Color&nbsp;color)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.246">fromColor</a></span>&#8203;(<span class="parameters">com.badlogic.gdx.graphics.Color&nbsp;color)</span></div>
 <div class="block">Takes a libGDX Color that uses RGBA8888 channels and converts to a packed float in the Oklab format this uses.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -683,7 +683,7 @@ float&nbsp;packed)</span></div>
 <li>
 <section class="detail" id="fromRGBA(float,float,float,float)">
 <h3>fromRGBA</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.269">fromRGBA</a></span>&#8203;(<span class="parameters">float&nbsp;r,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.268">fromRGBA</a></span>&#8203;(<span class="parameters">float&nbsp;r,
 float&nbsp;g,
 float&nbsp;b,
 float&nbsp;a)</span></div>
@@ -702,7 +702,7 @@ float&nbsp;a)</span></div>
 <li>
 <section class="detail" id="redInt(float)">
 <h3>redInt</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.288">redInt</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.287">redInt</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
 <div class="block">Gets the red channel value of the given encoded color, as an int ranging from 0 to 255, inclusive.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -715,7 +715,7 @@ float&nbsp;a)</span></div>
 <li>
 <section class="detail" id="greenInt(float)">
 <h3>greenInt</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.305">greenInt</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.304">greenInt</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
 <div class="block">Gets the green channel value of the given encoded color, as an int ranging from 0 to 255, inclusive.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -728,7 +728,7 @@ float&nbsp;a)</span></div>
 <li>
 <section class="detail" id="blueInt(float)">
 <h3>blueInt</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.322">blueInt</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.321">blueInt</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
 <div class="block">Gets the blue channel value of the given encoded color, as an int ranging from 0 to 255, inclusive.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -741,7 +741,7 @@ float&nbsp;a)</span></div>
 <li>
 <section class="detail" id="alphaInt(float)">
 <h3>alphaInt</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.340">alphaInt</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.339">alphaInt</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
 <div class="block">Gets the alpha channel value of the given encoded color, as an even int ranging from 0 to 254, inclusive. Because
  of how alpha is stored in libGDX, no odd-number values are possible for alpha.</div>
 <dl class="notes">
@@ -755,7 +755,7 @@ float&nbsp;a)</span></div>
 <li>
 <section class="detail" id="red(float)">
 <h3>red</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.350">red</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.349">red</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
 <div class="block">Gets the red channel value of the given encoded color, as a float from 0.0f to 1.0f, inclusive.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -768,7 +768,7 @@ float&nbsp;a)</span></div>
 <li>
 <section class="detail" id="green(float)">
 <h3>green</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.367">green</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.366">green</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
 <div class="block">Gets the green channel value of the given encoded color, as a float from 0.0f to 1.0f, inclusive.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -781,7 +781,7 @@ float&nbsp;a)</span></div>
 <li>
 <section class="detail" id="blue(float)">
 <h3>blue</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.384">blue</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.383">blue</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
 <div class="block">Gets the blue channel value of the given encoded color, as a float from 0.0f to 1.0f, inclusive.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -794,7 +794,7 @@ float&nbsp;a)</span></div>
 <li>
 <section class="detail" id="alpha(float)">
 <h3>alpha</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.401">alpha</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.400">alpha</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
 <div class="block">Gets the alpha channel value of the given encoded color, as a float from 0.0f to 1.0f, inclusive.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -807,7 +807,7 @@ float&nbsp;a)</span></div>
 <li>
 <section class="detail" id="chroma(float)">
 <h3>chroma</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.418">chroma</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.417">chroma</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
 <div class="block">Gets the "chroma" or "colorfulness" of a given Oklab color. Chroma is similar to saturation in that grayscale
  values have 0 saturation and 0 chroma, while brighter colors have high saturation and chroma. The difference is
  that colors that are perceptually more-colorful have higher chroma that colors that are perceptually
@@ -827,7 +827,7 @@ float&nbsp;a)</span></div>
 <li>
 <section class="detail" id="floatGetHSL(float,float,float,float)">
 <h3>floatGetHSL</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.440">floatGetHSL</a></span>&#8203;(<span class="parameters">float&nbsp;hue,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.439">floatGetHSL</a></span>&#8203;(<span class="parameters">float&nbsp;hue,
 float&nbsp;saturation,
 float&nbsp;lightness,
 float&nbsp;opacity)</span></div>
@@ -853,7 +853,7 @@ float&nbsp;opacity)</span></div>
 <li>
 <section class="detail" id="saturation(float)">
 <h3>saturation</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.454">saturation</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.453">saturation</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
 <div class="block">Gets the saturation of the given encoded color as HSL would calculate it, as a float ranging from 0.0f to 1.0f,
  inclusive. This is different from <a href="#chroma(float)"><code>chroma(float)</code></a>; see that method's documentation for details.</div>
 <dl class="notes">
@@ -867,7 +867,7 @@ float&nbsp;opacity)</span></div>
 <li>
 <section class="detail" id="lightness(float)">
 <h3>lightness</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.491">lightness</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.490">lightness</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
 <div class="block">Defined as per HSL; normally you only need <a href="#channelL(float)"><code>channelL(float)</code></a> to get accurate lightness for Oklab.
  This ranges from 0.0f (black) to 1.0f (white).</div>
 <dl class="notes">
@@ -881,7 +881,7 @@ float&nbsp;opacity)</span></div>
 <li>
 <section class="detail" id="hue(float)">
 <h3>hue</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.529">hue</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.528">hue</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
 <div class="block">Gets the hue of the given encoded color, as a float from 0f (inclusive, red and approaching orange if increased)
  to 1f (exclusive, red and approaching purple if decreased).</div>
 <dl class="notes">
@@ -896,7 +896,7 @@ float&nbsp;opacity)</span></div>
 <li>
 <section class="detail" id="channelL(float)">
 <h3>channelL</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.572">channelL</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.571">channelL</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
 <div class="block">The "L" channel of the given packed float in Oklab format, which is its lightness; ranges from 0.0f to
  1.0f . You can edit the L of a color with <a href="#lighten(float,float)"><code>lighten(float, float)</code></a> and <a href="#darken(float,float)"><code>darken(float, float)</code></a>.</div>
 <dl class="notes">
@@ -910,7 +910,7 @@ float&nbsp;opacity)</span></div>
 <li>
 <section class="detail" id="channelA(float)">
 <h3>channelA</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.585">channelA</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.584">channelA</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
 <div class="block">The "A" channel of the given packed float in Oklab format, which when combined with the B channel describes the
  hue and saturation of a color; ranges from 0f to 1f . If A is 0f, the color will be cooler, more green or
  blue; if A is 1f, the color will be warmer, from magenta to orange. You can edit the A of a color with
@@ -926,7 +926,7 @@ float&nbsp;opacity)</span></div>
 <li>
 <section class="detail" id="channelB(float)">
 <h3>channelB</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.598">channelB</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.597">channelB</a></span>&#8203;(<span class="parameters">float&nbsp;encoded)</span></div>
 <div class="block">The "B" channel of the given packed float in Oklab format, which when combined with the A channel describes the
  hue and saturation of a color; ranges from 0f to 1f . If B is 0f, the color will be more "artificial", more
  blue or purple; if B is 1f, the color will be more "natural", from green to yellow to orange. You can edit
@@ -942,7 +942,7 @@ float&nbsp;opacity)</span></div>
 <li>
 <section class="detail" id="toEditedFloat(float,float,float,float,float)">
 <h3>toEditedFloat</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.624">toEditedFloat</a></span>&#8203;(<span class="parameters">float&nbsp;basis,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.623">toEditedFloat</a></span>&#8203;(<span class="parameters">float&nbsp;basis,
 float&nbsp;hue,
 float&nbsp;saturation,
 float&nbsp;value,
