@@ -647,7 +647,7 @@ public class ColorTools {
 	 * @param contrastingColor a packed float color, as produced by {@link #ipt(float, float, float, float)}; the adjusted mainColor will contrast with this
 	 * @return a different IPT packed float color, based on mainColor but with potentially very different lightness
 	 */
-	public static float inverseIntensity(final float mainColor, final float contrastingColor)
+	public static float inverseLightness(final float mainColor, final float contrastingColor)
 	{
 		final int bits = BitConversion.floatToRawIntBits(mainColor),
 				contrastBits = BitConversion.floatToRawIntBits(contrastingColor),
@@ -669,14 +669,14 @@ public class ColorTools {
 	 * or black). This allows most of the colors this method produces to contrast well as a foreground when displayed on
 	 * a background of {@code contrastingColor}, or vice versa.
 	 * <br>
-	 * This is similar to {@link #inverseIntensity(float, float)}, but is considerably simpler, and this method will
+	 * This is similar to {@link #inverseLightness(float, float)}, but is considerably simpler, and this method will
 	 * change the lightness of mainColor when the two given colors have close lightness but distant chroma. Because it
 	 * averages the original I of mainColor with the modified one, this tends to not produce harsh color changes.
 	 * @param mainColor a packed IPT float color; this is the color that will be adjusted
 	 * @param contrastingColor a packed IPT float color; the adjusted mainColor will contrast with the I of this
 	 * @return a different packed IPT float color, based on mainColor but typically with different lightness
 	 */
-	public static float differentiateIntensity(final float mainColor, final float contrastingColor)
+	public static float differentiateLightness(final float mainColor, final float contrastingColor)
 	{
 		final int main = BitConversion.floatToRawIntBits(mainColor), contrast = BitConversion.floatToRawIntBits(contrastingColor);
 		return limitToGamut(BitConversion.intBitsToFloat((main & 0xFEFFFF00) | (contrast + 128 & 0xFF) + (main & 0xFF) >>> 1));
@@ -689,7 +689,7 @@ public class ColorTools {
 	 * @param mainColor a packed IPT float color
 	 * @return a different packed IPT float color, with its I channel changed and limited to the correct gamut
 	 */
-	public static float offsetIntensity(final float mainColor) {
+	public static float offsetLightness(final float mainColor) {
 		final int decoded = BitConversion.floatToRawIntBits(mainColor);
 		return limitToGamut(BitConversion.intBitsToFloat((decoded & 0xFEFFFF00) | (decoded + 128 & 0xFF) + (decoded & 0xFF) >>> 1));
 	}

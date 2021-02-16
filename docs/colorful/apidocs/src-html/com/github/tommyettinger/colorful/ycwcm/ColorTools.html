@@ -660,7 +660,7 @@
 <span class="source-line-no">648</span><span id="line.648">         * @param contrastingColor a packed float color, as produced by {@link #ycwcm(float, float, float, float)}; the adjusted mainColor will contrast with this</span>
 <span class="source-line-no">649</span><span id="line.649">         * @return a different packed float color, based on mainColor but with potentially very different lightness</span>
 <span class="source-line-no">650</span><span id="line.650">         */</span>
-<span class="source-line-no">651</span><span id="line.651">        public static float inverseLuma(final float mainColor, final float contrastingColor)</span>
+<span class="source-line-no">651</span><span id="line.651">        public static float inverseLightness(final float mainColor, final float contrastingColor)</span>
 <span class="source-line-no">652</span><span id="line.652">        {</span>
 <span class="source-line-no">653</span><span id="line.653">                final int bits = NumberUtils.floatToRawIntBits(mainColor),</span>
 <span class="source-line-no">654</span><span id="line.654">                                contrastBits = NumberUtils.floatToRawIntBits(contrastingColor),</span>
@@ -682,14 +682,14 @@
 <span class="source-line-no">670</span><span id="line.670">         * or black). This allows most of the colors this method produces to contrast well as a foreground when displayed on</span>
 <span class="source-line-no">671</span><span id="line.671">         * a background of {@code contrastingColor}, or vice versa.</span>
 <span class="source-line-no">672</span><span id="line.672">         * &lt;br&gt;</span>
-<span class="source-line-no">673</span><span id="line.673">         * This is similar to {@link #inverseLuma(float, float)}, but is considerably simpler, and this method will</span>
+<span class="source-line-no">673</span><span id="line.673">         * This is similar to {@link #inverseLightness(float, float)}, but is considerably simpler, and this method will</span>
 <span class="source-line-no">674</span><span id="line.674">         * change the lightness of mainColor when the two given colors have close lightness but distant chroma. Because it</span>
 <span class="source-line-no">675</span><span id="line.675">         * averages the original Y of mainColor with the modified one, this tends to not produce harsh color changes.</span>
 <span class="source-line-no">676</span><span id="line.676">         * @param mainColor a packed YCwCm float color; this is the color that will be adjusted</span>
 <span class="source-line-no">677</span><span id="line.677">         * @param contrastingColor a packed YCwCm float color; the adjusted mainColor will contrast with the Y of this</span>
 <span class="source-line-no">678</span><span id="line.678">         * @return a different packed YCwCm float color, based on mainColor but typically with different lightness</span>
 <span class="source-line-no">679</span><span id="line.679">         */</span>
-<span class="source-line-no">680</span><span id="line.680">        public static float differentiateLuma(final float mainColor, final float contrastingColor)</span>
+<span class="source-line-no">680</span><span id="line.680">        public static float differentiateLightness(final float mainColor, final float contrastingColor)</span>
 <span class="source-line-no">681</span><span id="line.681">        {</span>
 <span class="source-line-no">682</span><span id="line.682">                final int main = NumberUtils.floatToRawIntBits(mainColor), contrast = NumberUtils.floatToRawIntBits(contrastingColor);</span>
 <span class="source-line-no">683</span><span id="line.683">                return limitToGamut(NumberUtils.intBitsToFloat((main &amp; 0xFEFFFF00) | (contrast + 128 &amp; 0xFF) + (main &amp; 0xFF) &gt;&gt;&gt; 1));</span>
@@ -702,7 +702,7 @@
 <span class="source-line-no">690</span><span id="line.690">         * @param mainColor a packed YCwCm float color</span>
 <span class="source-line-no">691</span><span id="line.691">         * @return a different packed YCwCm float color, with its Y channel changed and limited to the correct gamut</span>
 <span class="source-line-no">692</span><span id="line.692">         */</span>
-<span class="source-line-no">693</span><span id="line.693">        public static float offsetLuma(final float mainColor) {</span>
+<span class="source-line-no">693</span><span id="line.693">        public static float offsetLightness(final float mainColor) {</span>
 <span class="source-line-no">694</span><span id="line.694">                final int decoded = NumberUtils.floatToRawIntBits(mainColor);</span>
 <span class="source-line-no">695</span><span id="line.695">                return limitToGamut(NumberUtils.intBitsToFloat((decoded &amp; 0xFEFFFF00) | (decoded + 128 &amp; 0xFF) + (decoded &amp; 0xFF) &gt;&gt;&gt; 1));</span>
 <span class="source-line-no">696</span><span id="line.696">        }</span>

@@ -648,7 +648,7 @@ public class ColorTools {
 	 * @param contrastingColor a packed float color, as produced by {@link #ycwcm(float, float, float, float)}; the adjusted mainColor will contrast with this
 	 * @return a different packed float color, based on mainColor but with potentially very different lightness
 	 */
-	public static float inverseLuma(final float mainColor, final float contrastingColor)
+	public static float inverseLightness(final float mainColor, final float contrastingColor)
 	{
 		final int bits = NumberUtils.floatToRawIntBits(mainColor),
 				contrastBits = NumberUtils.floatToRawIntBits(contrastingColor),
@@ -670,14 +670,14 @@ public class ColorTools {
 	 * or black). This allows most of the colors this method produces to contrast well as a foreground when displayed on
 	 * a background of {@code contrastingColor}, or vice versa.
 	 * <br>
-	 * This is similar to {@link #inverseLuma(float, float)}, but is considerably simpler, and this method will
+	 * This is similar to {@link #inverseLightness(float, float)}, but is considerably simpler, and this method will
 	 * change the lightness of mainColor when the two given colors have close lightness but distant chroma. Because it
 	 * averages the original Y of mainColor with the modified one, this tends to not produce harsh color changes.
 	 * @param mainColor a packed YCwCm float color; this is the color that will be adjusted
 	 * @param contrastingColor a packed YCwCm float color; the adjusted mainColor will contrast with the Y of this
 	 * @return a different packed YCwCm float color, based on mainColor but typically with different lightness
 	 */
-	public static float differentiateLuma(final float mainColor, final float contrastingColor)
+	public static float differentiateLightness(final float mainColor, final float contrastingColor)
 	{
 		final int main = NumberUtils.floatToRawIntBits(mainColor), contrast = NumberUtils.floatToRawIntBits(contrastingColor);
 		return limitToGamut(NumberUtils.intBitsToFloat((main & 0xFEFFFF00) | (contrast + 128 & 0xFF) + (main & 0xFF) >>> 1));
@@ -690,7 +690,7 @@ public class ColorTools {
 	 * @param mainColor a packed YCwCm float color
 	 * @return a different packed YCwCm float color, with its Y channel changed and limited to the correct gamut
 	 */
-	public static float offsetLuma(final float mainColor) {
+	public static float offsetLightness(final float mainColor) {
 		final int decoded = NumberUtils.floatToRawIntBits(mainColor);
 		return limitToGamut(NumberUtils.intBitsToFloat((decoded & 0xFEFFFF00) | (decoded + 128 & 0xFF) + (decoded & 0xFF) >>> 1));
 	}
