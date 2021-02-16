@@ -1,7 +1,6 @@
 package com.github.tommyettinger.colorful.pure.rgb;
 
 import com.github.tommyettinger.colorful.pure.FloatColors;
-import com.github.tommyettinger.colorful.pure.MathTools;
 import com.github.tommyettinger.ds.support.BitConversion;
 
 import java.util.Random;
@@ -400,44 +399,25 @@ public class ColorTools {
 
 	/**
 	 * Given a packed float RGBA color {@code mainColor} and another RGBA color that it should be made to contrast with,
-	 * gets a packed float RGBA color with roughly inverted "intensity" (essentially lightness, but how the IPT color
-	 * space interprets it) but the same general hue and saturation unless the intensity/lightness gets too close to
-	 * white or black. This won't ever produce black or other very dark colors, and also has a gap in the range it
-	 * produces for intensity values between 0.5 and 0.55. That allows most of the colors this method produces to
-	 * contrast well as a foreground when displayed on a background of {@code contrastingColor}, or vice versa. This
-	 * will leave the intensity unchanged if the hue/saturation of the contrastingColor and those of the mainColor are
-	 * already very different. This has nothing to do with the contrast channel of the tweak in ColorfulBatch; where
-	 * that part of the tweak can make too-similar lightness values further apart by just a little, this makes a
-	 * modification on {@code mainColor} to maximize its lightness difference from {@code contrastingColor} without
-	 * losing its other qualities.
+	 * gets a packed float RGBA color with roughly inverted lightness (how the Oklab color space interprets it), but the
+	 * same general hue and saturation unless the lightness gets too close to white or black. This won't ever produce
+	 * black or other very dark colors, and also has a gap in the range it produces for lightness values between 0.5 and
+	 * 0.55. That allows most of the colors this method produces to contrast well as a foreground when displayed on a
+	 * background of {@code contrastingColor}, or vice versa. This will leave the lightness unchanged if the
+	 * hue/saturation of the contrastingColor and those of the mainColor are already very different. This has nothing to
+	 * do with the contrast channel of the tweak in ColorfulBatch; where that part of the tweak can make too-similar
+	 * lightness values further apart by just a little, this makes a modification on {@code mainColor} to maximize its
+	 * lightness difference from {@code contrastingColor} without losing its other qualities.
 	 * @param mainColor a packed float color, as produced by {@link #rgb(float, float, float, float)}; this is the color that will be adjusted
 	 * @param contrastingColor a packed float color, as produced by {@link #rgb(float, float, float, float)}; the adjusted mainColor will contrast with this
 	 * @return a different RGBA packed float color, based on mainColor but with potentially very different lightness
 	 */
-	public static float inverseIntensity(final float mainColor, final float contrastingColor)
+	public static float inverseLightness(final float mainColor, final float contrastingColor)
 	{
-		final int bits = BitConversion.floatToRawIntBits(mainColor),
-				contrastBits = BitConversion.floatToRawIntBits(contrastingColor),
-				r = (bits & 0xff),
-				g = (bits >>> 8 & 0xff),
-				b = (bits >>> 16 & 0xff),
-				cr = (contrastBits & 0xff),
-				cg = (contrastBits >>> 8 & 0xff),
-				cb = (contrastBits >>> 16 & 0xff),
-				i = Math.min(Math.max((int) ((0.189786f * r + 0.576951f * g + 0.233221f * b) * 255.999f), 0), 255),
-				p = Math.min(Math.max((int) ((0.669665f * r - 0.73741f * g + 0.0681367f * b) * 127.5f + 127.5f), 0), 255),
-				t = Math.min(Math.max((int) ((0.286498f * r + 0.655205f * g - 0.941748f * b) * 127.5f + 127.5f), 0), 255),
-				ci = Math.min(Math.max((int) ((0.189786f * cr + 0.576951f * cg + 0.233221f * cb) * 255.999f), 0), 255),
-				cp = Math.min(Math.max((int) ((0.669665f * cr - 0.73741f * cg + 0.0681367f * cb) * 127.5f + 127.5f), 0), 255),
-				ct = Math.min(Math.max((int) ((0.286498f * cr + 0.655205f * cg - 0.941748f * cb) * 127.5f + 127.5f), 0), 255);
-
-		if((p - cp) * (p - cp) + (t - ct) * (t - ct) >= 0x10000)
-			return mainColor;
-		return com.github.tommyettinger.colorful.pure.ipt.ColorTools.toRGBA(
-				com.github.tommyettinger.colorful.pure.ipt.ColorTools.ipt(
-						ci < 128
-								? i * (0.45f / 255f) + 0.55f
-								: 0.5f - i * (0.45f / 255f), p / 255f, t / 255f, 0x1.0p-8f * (bits >>> 24)));
+		return com.github.tommyettinger.colorful.pure.oklab.ColorTools.toRGBA(
+				com.github.tommyettinger.colorful.pure.oklab.ColorTools.inverseLightness(
+						com.github.tommyettinger.colorful.pure.oklab.ColorTools.fromRGBA(mainColor),
+						com.github.tommyettinger.colorful.pure.oklab.ColorTools.fromRGBA(contrastingColor)));
 	}
 
 	/**
@@ -447,7 +427,7 @@ public class ColorTools {
 	 * this method produces to contrast well as a foreground when displayed on a background of {@code contrastingColor},
 	 * or vice versa. This goes through Oklab as an intermediate step, so lightness is in terms of Oklab's L channel.
 	 * <br>
-	 * This is similar to {@link #inverseIntensity(float, float)}, but is considerably simpler, and this method will
+	 * This is similar to {@link #inverseLightness(float, float)}, but is considerably simpler, and this method will
 	 * change the lightness of mainColor when the two given colors have close lightness but distant chroma. Because it
 	 * averages the original lightness of mainColor with the modified one, this tends to produce softer color changes.
 	 * @param mainColor a packed RGBA float color; this is the color that will be adjusted

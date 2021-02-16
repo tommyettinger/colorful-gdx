@@ -782,7 +782,7 @@ public class ColorTools {
 	 * @param contrastingColor a packed float color, as produced by {@link #ipt(float, float, float, float)}; the adjusted mainColor will contrast with this
 	 * @return a different IPT packed float color, based on mainColor but with potentially very different lightness
 	 */
-	public static float inverseIntensity(final float mainColor, final float contrastingColor)
+	public static float inverseLightness(final float mainColor, final float contrastingColor)
 	{
 		final int bits = NumberUtils.floatToRawIntBits(mainColor),
 				contrastBits = NumberUtils.floatToRawIntBits(contrastingColor),
@@ -804,7 +804,7 @@ public class ColorTools {
 	 * or black). This allows most of the colors this method produces to contrast well as a foreground when displayed on
 	 * a background of {@code contrastingColor}, or vice versa.
 	 * <br>
-	 * This is similar to {@link #inverseIntensity(float, float)}, but is considerably simpler, and this method will
+	 * This is similar to {@link #inverseLightness(float, float)}, but is considerably simpler, and this method will
 	 * change the lightness of mainColor when the two given colors have close lightness but distant chroma. Because it
 	 * averages the original I of mainColor with the modified one, this tends to not produce harsh color changes.
 	 * @param mainColor a packed IPT_HQ float color; this is the color that will be adjusted

@@ -32,7 +32,7 @@ modifyPom{
         name = projectName
     }
 }
-version '0.5.1-SNAPSHOT'
+version '0.5.1'
 group 'com.github.tommyettinger'
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'

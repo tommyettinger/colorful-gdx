@@ -794,7 +794,7 @@
 <span class="source-line-no">782</span><span id="line.782">         * @param contrastingColor a packed float color, as produced by {@link #ipt(float, float, float, float)}; the adjusted mainColor will contrast with this</span>
 <span class="source-line-no">783</span><span id="line.783">         * @return a different IPT packed float color, based on mainColor but with potentially very different lightness</span>
 <span class="source-line-no">784</span><span id="line.784">         */</span>
-<span class="source-line-no">785</span><span id="line.785">        public static float inverseIntensity(final float mainColor, final float contrastingColor)</span>
+<span class="source-line-no">785</span><span id="line.785">        public static float inverseLightness(final float mainColor, final float contrastingColor)</span>
 <span class="source-line-no">786</span><span id="line.786">        {</span>
 <span class="source-line-no">787</span><span id="line.787">                final int bits = NumberUtils.floatToRawIntBits(mainColor),</span>
 <span class="source-line-no">788</span><span id="line.788">                                contrastBits = NumberUtils.floatToRawIntBits(contrastingColor),</span>
@@ -816,7 +816,7 @@
 <span class="source-line-no">804</span><span id="line.804">         * or black). This allows most of the colors this method produces to contrast well as a foreground when displayed on</span>
 <span class="source-line-no">805</span><span id="line.805">         * a background of {@code contrastingColor}, or vice versa.</span>
 <span class="source-line-no">806</span><span id="line.806">         * &lt;br&gt;</span>
-<span class="source-line-no">807</span><span id="line.807">         * This is similar to {@link #inverseIntensity(float, float)}, but is considerably simpler, and this method will</span>
+<span class="source-line-no">807</span><span id="line.807">         * This is similar to {@link #inverseLightness(float, float)}, but is considerably simpler, and this method will</span>
 <span class="source-line-no">808</span><span id="line.808">         * change the lightness of mainColor when the two given colors have close lightness but distant chroma. Because it</span>
 <span class="source-line-no">809</span><span id="line.809">         * averages the original I of mainColor with the modified one, this tends to not produce harsh color changes.</span>
 <span class="source-line-no">810</span><span id="line.810">         * @param mainColor a packed IPT_HQ float color; this is the color that will be adjusted</span>
