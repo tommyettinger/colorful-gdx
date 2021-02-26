@@ -8,6 +8,7 @@ import com.github.tommyettinger.colorful.TrigTools;
 import com.github.tommyettinger.colorful.internal.StringKit;
 
 /*
+"surin", based on azurestar
 {
 0x00000000, 0x000000FF, 0x141414FF, 0xFFFFFFFF, 0x878787FF, 0xCCCCCCFF, 0x4F4F4FFF, 0xEEEEEEFF,
 0x282828FF, 0x999999FF, 0x757575FF, 0xDDDDDDFF, 0x3B3B3BFF, 0xBBBBBBFF, 0x626262FF, 0xAAAAAAFF,
@@ -42,6 +43,40 @@ import com.github.tommyettinger.colorful.internal.StringKit;
 0xDBA4AAFF, 0x86595EFF, 0xC98800FF, 0xF8B690FF, 0xC08562FF, 0x764527FF, 0xF79617FF, 0x9D600EFF,
 0xEAB0CAFF, 0x926278FF, 0xBAA300FF, 0xFDD07DFF, 0xC7993CFF, 0x7B5800FF, 0xDCBA1CFF, 0x917911FF,
 }
+
+A different try, without a palette as a base, "enclave":
+0x00000000, 0x000000FF, 0x141414FF, 0xFFFFFFFF, 0x878787FF, 0xCCCCCCFF, 0x4F4F4FFF, 0xEEEEEEFF,
+0x282828FF, 0x999999FF, 0x757575FF, 0xDDDDDDFF, 0x3B3B3BFF, 0xBBBBBBFF, 0x626262FF, 0xAAAAAAFF,
+0xCAA120FF, 0xE59700FF, 0xFDECB5FF, 0xD29F00FF, 0x5D4A07FF, 0xFFD100FF, 0xDB9C00FF, 0x775E09FF,
+0x188BDFFF, 0x0084FFFF, 0x95CDFFFF, 0x0089F4FF, 0x083557FF, 0x00BCFFFF, 0x0088FFFF, 0x0D4976FF,
+0xE8764BFF, 0xFF1D00FF, 0xFDD3C7FF, 0xFF6427FF, 0x8D0000FF, 0xFFBBA3FF, 0xFF4C00FF, 0xBB0000FF,
+0x00BDC7FF, 0x1FB7BBFF, 0x86FEFEFF, 0x00C8D4FF, 0x0E5253FF, 0x00FFFFFF, 0x1FB7BBFF, 0x006A6EFF,
+0xDF6CA0FF, 0xFF00AAFF, 0xFFCADCFF, 0xF755A3FF, 0x84004AFF, 0xFFB0D0FF, 0xFF2EA7FF, 0xB20061FF,
+0x4CB868FF, 0x00C733FF, 0x7BFF9AFF, 0x34BC5BFF, 0x005B00FF, 0x51F87BFF, 0x00C04DFF, 0x007400FF,
+0x9D6FDCFF, 0xB43EFFFF, 0xD8C0FEFF, 0xA364F5FF, 0x4C0087FF, 0xD0A8FCFF, 0xAD53FFFF, 0x6700B6FF,
+0xA69100FF, 0xA49210FF, 0xF5D600FF, 0xAE9000FF, 0x453C0AFF, 0xEEC000FF, 0xB98C00FF, 0x59500DFF,
+0x3C89EDFF, 0x007CFFFF, 0xA6CDFFFF, 0x2888FDFF, 0x002C8DFF, 0x89BDFFFF, 0x0084FFFF, 0x003ABEFF,
+0xD77031FF, 0xE36800FF, 0xFDC4A1FF, 0xFF4400FF, 0x5D2A05FF, 0xFFAB7DFF, 0xE36800FF, 0x7D3707FF,
+0x00BEDBFF, 0x00BBCFFF, 0xB8F7FFFF, 0x00C5E7FF, 0x02555FFF, 0x78EEFFFF, 0x00C8F9FF, 0x126C7AFF,
+0xCA577BFF, 0xFF0063FF, 0xFFA6BDFF, 0xFF0072FF, 0x5D0A2DFF, 0xFE8CACFF, 0xFF006BFF, 0x810B3AFF,
+0x27BF7EFF, 0x00D45AFF, 0x3BFFB4FF, 0x00C773FF, 0x006322FF, 0x00FF96FF, 0x00CD67FF, 0x136F44FF,
+0x9D62C5FF, 0xB245E6FF, 0xEA9CFFFF, 0xA35CC9FF, 0x480065FF, 0xDF81FFFF, 0xAA52D7FF, 0x620087FF,
+0x959D18FF, 0x9A9B17FF, 0xE7E500FF, 0x9A9B17FF, 0x41420EFF, 0xCFD200FF, 0x9A9B17FF, 0x565600FF,
+0x6B95FFFF, 0x457FFFFF, 0xD0E0FFFF, 0x5790FFFF, 0x1030B2FF, 0xB8CEFFFF, 0x4C88FFFF, 0x1A3AEAFF,
+0xD47920FF, 0xD9760EFF, 0xFFCA9EFF, 0xF16700FF, 0x5B310AFF, 0xFEB373FF, 0xFF4700FF, 0x78410DFF,
+0x00AEDEFF, 0x16ABCDFF, 0xA0EBFFFF, 0x00B2EFFF, 0x004A59FF, 0x65E0FFFF, 0x00B5FFFF, 0x0D6074FF,
+0xD35A6FFF, 0xFF1356FF, 0xFFAFB6FF, 0xDF5069FF, 0x70001FFF, 0xFF6D8FFF, 0xF13B62FF, 0x970029FF,
+0x00AA7CFF, 0x13A67BFF, 0x00FFAEFF, 0x13A67BFF, 0x0D4233FF, 0x00E2ADFF, 0x13A67BFF, 0x135942FF,
+0xB05FB9FF, 0xD710EDFF, 0xFF92FFFF, 0xBA53C7FF, 0x580064FF, 0xFF70FFFF, 0xC83FD5FF, 0x790085FF,
+0x769726FF, 0x7D9518FF, 0xB4E200FF, 0x759A00FF, 0x313B00FF, 0x99D400FF, 0x6C9F00FF, 0x435000FF,
+0x8194FFFF, 0x8892FFFF, 0xDCE2FFFF, 0x7D8CFFFF, 0x332DB1FF, 0xC5D0FFFF, 0x7484FFFF, 0x3E37E9FF,
+0xE0932BFF, 0xFF6E00FF, 0xFFE7C7FF, 0xF88800FF, 0x694201FF, 0xFFD095FF, 0xFF7D00FF, 0x875404FF,
+0x00AEEDFF, 0x16ABE7FF, 0xBBEAFDFF, 0x00B1FFFF, 0x0E4B64FF, 0x8EDDFEFF, 0x16ABE7FF, 0x006380FF,
+0xFA7773FF, 0xFF736DFF, 0xFEE0DDFF, 0xFF5D5FFF, 0x9E000DFF, 0xFEC8C6FF, 0xFF1440FF, 0xDB0000FF,
+0x00AD95FF, 0x15A88FFF, 0x00FFDCFF, 0x00B997FF, 0x0C453AFF, 0x00FDCBFF, 0x15A88FFF, 0x0B5C4EFF,
+0xCD6FBEFF, 0xFF00F6FF, 0xFFC4F2FF, 0xEB4ED6FF, 0x7B0070FF, 0xFFA6EBFF, 0xFF1DE4FF, 0xA70092FF,
+0x62A13CFF, 0x40AB00FF, 0x9FEA59FF, 0x61A30AFF, 0x134700FF, 0x7FDD07FF, 0x52A700FF, 0x115E00FF,
+0x8883F3FF, 0x8D7CFFFF, 0xD1D3FDFF, 0x8C76FFFF, 0x3F15A3FF, 0xBDBFFFFF, 0x8B61FFFF, 0x5200ECFF,
  */
 
 public class PaletteExpander {
@@ -91,32 +126,56 @@ public class PaletteExpander {
 //        rgba.add(0xEEEEEEFF);
 //        rgba.add(0xFFFFFFFF);
 
-        for (int i = 0; i < BASE_PALETTE.length; i++) {
-            float lab = ColorTools.fromRGBA8888(BASE_PALETTE[i]);
-            int dec = NumberUtils.floatToRawIntBits(lab);
-            int light = dec & 0xFF;
-            float L = MathUtils.lerp(light / 255f, 0.666f, 0.5f);
-            float A = ColorTools.channelA(lab);
-            float B = ColorTools.channelB(lab);
-            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L + 0.1f, A, B)));
-            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L - 0.15f, A, B)));
-            float hue = TrigTools.atan2_((dec >>> 8 & 0xFF) - 127.5f, (dec >>> 16 & 0xFF) - 127.5f);
+        for (int i = 0; i < 30; i++) {
+            int light = ((i ^ 0xACED) * 0x9B & 0x1F) + 0xA0;
+            float L = light / 255f;
+            float hue = (i * 2.718281828459045f + MathUtils.HALF_PI) % MathUtils.PI2;
+            float A = TrigTools.cos(hue) * 0.075f + 0.5f;
+            float B = TrigTools.sin(hue) * 0.075f + 0.5f;
+            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L, A, B)));
             int hi = (int)(hue * 256f);
             int gamut = ColorTools.getRawGamutValue(light << 8 | hi);
-            float gA = TrigTools.cos_(hue) * gamut * 0x1p-8f + 0.5f;
-            float gB = TrigTools.sin_(hue) * gamut * 0x1p-8f + 0.5f;
+            float gA = TrigTools.cos(hue) * gamut * 0x1p-8f + 0.5f;
+            float gB = TrigTools.sin(hue) * gamut * 0x1p-8f + 0.5f;
             rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L, gA, gB)));
-            float edit = TrigTools.sin(hi) * 0.1f;
+            float edit = TrigTools.sin(hi) * 0.08f;
             float gA1 = MathUtils.lerp(A, gA, 0.3125f + edit);
             float gB1 = MathUtils.lerp(B, gB, 0.3125f + edit);
-            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L + 0.15f, gA1, gB1)));
+            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L + 0.2f, gA1, gB1)));
             rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L, gA1, gB1)));
-            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L - 0.225f, gA1, gB1)));
+            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L - 0.3f, gA1, gB1)));
             float gA2 = MathUtils.lerp(A, gA, 0.625f + edit);
             float gB2 = MathUtils.lerp(B, gB, 0.625f + edit);
-            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L + 0.075f, gA2, gB2)));
-            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L - 0.125f, gA2, gB2)));
+            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L + 0.15f, gA2, gB2)));
+            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L, gA2, gB2)));
+            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L - 0.225f, gA2, gB2)));
         }
+//        for (int i = 0; i < BASE_PALETTE.length; i++) {
+//            float lab = ColorTools.fromRGBA8888(BASE_PALETTE[i]);
+//            int dec = NumberUtils.floatToRawIntBits(lab);
+//            int light = dec & 0xFF;
+//            float L = MathUtils.lerp(light / 255f, 0.666f, 0.5f);
+//            float A = ColorTools.channelA(lab);
+//            float B = ColorTools.channelB(lab);
+//            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L + 0.1f, A, B)));
+//            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L - 0.15f, A, B)));
+//            float hue = TrigTools.atan2_((dec >>> 8 & 0xFF) - 127.5f, (dec >>> 16 & 0xFF) - 127.5f);
+//            int hi = (int)(hue * 256f);
+//            int gamut = ColorTools.getRawGamutValue(light << 8 | hi);
+//            float gA = TrigTools.cos_(hue) * gamut * 0x1p-8f + 0.5f;
+//            float gB = TrigTools.sin_(hue) * gamut * 0x1p-8f + 0.5f;
+//            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L, gA, gB)));
+//            float edit = TrigTools.sin(hi) * 0.1f;
+//            float gA1 = MathUtils.lerp(A, gA, 0.3125f + edit);
+//            float gB1 = MathUtils.lerp(B, gB, 0.3125f + edit);
+//            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L + 0.15f, gA1, gB1)));
+//            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L, gA1, gB1)));
+//            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L - 0.225f, gA1, gB1)));
+//            float gA2 = MathUtils.lerp(A, gA, 0.625f + edit);
+//            float gB2 = MathUtils.lerp(B, gB, 0.625f + edit);
+//            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L + 0.075f, gA2, gB2)));
+//            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L - 0.125f, gA2, gB2)));
+//        }
 
         StringBuilder sb = new StringBuilder(12 * rgba.size + 35).append("{\n");
         for (int i = 0; i < rgba.size; i++) {
