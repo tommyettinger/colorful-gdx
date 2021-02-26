@@ -100,7 +100,7 @@ public class HSLTintDemo extends ApplicationAdapter {
 //        load("samples/Painting_by_Henri_Biva.jpg");
 //        load("samples/Among_the_Sierra_Nevada_by_Albert_Bierstadt.jpg");
         load("samples/Mona_Lisa.jpg");
-//        load("D:/bubble-translucent.png");
+//        load("C:/d/Art/translucent-bubble.png");
     }
 
 
