@@ -128,6 +128,13 @@ public class OklabGamutDemo extends ApplicationAdapter {
             int c2 = c;
             for (int g = 0; g < 256; g++, c2 += 0x00010000) {
                 ok = ColorTools.fromRGBA8888(c2);
+//                if(!ColorTools.inGamut(ok)) {
+//                    System.out.printf("0x%08X is out of gamut!\n", c2);
+//                    System.out.println(ColorTools.getRawGamutValue((int)(ColorTools.channelL(ok) * 255.999f) << 8
+//                            | (int)(TrigTools.atan2_(ColorTools.channelB(ok) - 0.5f, ColorTools.channelA(ok) - 0.5f) * 256f)));
+//                }
+                ok = ColorTools.limitToGamut(ok);
+
                 A = ColorTools.channelA(ok);
                 B = ColorTools.channelB(ok);
                 minA = Math.min(A, minA);
@@ -141,6 +148,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
             int c2 = c;
             for (int g = 0; g < 256; g++, c2 += 0x00010000) {
                 ok = ColorTools.fromRGBA8888(c2);
+                ok = ColorTools.limitToGamut(ok);
                 A = ColorTools.channelA(ok);
                 B = ColorTools.channelB(ok);
                 minA = Math.min(A, minA);
@@ -154,6 +162,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
             int c2 = c;
             for (int b = 0; b < 256; b++, c2 += 0x00000100) {
                 ok = ColorTools.fromRGBA8888(c2);
+                ok = ColorTools.limitToGamut(ok);
                 A = ColorTools.channelA(ok);
                 B = ColorTools.channelB(ok);
                 minA = Math.min(A, minA);
@@ -167,6 +176,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
             int c2 = c;
             for (int b = 0; b < 256; b++, c2 += 0x00000100) {
                 ok = ColorTools.fromRGBA8888(c2);
+                ok = ColorTools.limitToGamut(ok);
                 A = ColorTools.channelA(ok);
                 B = ColorTools.channelB(ok);
                 minA = Math.min(A, minA);
@@ -180,6 +190,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
             int c2 = c;
             for (int b = 0; b < 256; b++, c2 += 0x00000100) {
                 ok = ColorTools.fromRGBA8888(c2);
+                ok = ColorTools.limitToGamut(ok);
                 A = ColorTools.channelA(ok);
                 B = ColorTools.channelB(ok);
                 minA = Math.min(A, minA);
@@ -193,6 +204,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
             int c2 = c;
             for (int b = 0; b < 256; b++, c2 += 0x00000100) {
                 ok = ColorTools.fromRGBA8888(c2);
+                ok = ColorTools.limitToGamut(ok);
                 A = ColorTools.channelA(ok);
                 B = ColorTools.channelB(ok);
                 minA = Math.min(A, minA);
@@ -205,10 +217,16 @@ public class OklabGamutDemo extends ApplicationAdapter {
                 minA - 0.5f, maxA - 0.5f, minB - 0.5f, maxB - 0.5f);
 
         ////Prints:
-        //minimum A: -0.23137
-        //maximum A: 0.27843
-        //minimum B: -0.30980
-        //maximum B: 0.20000
+        //minimum A: -0.11961
+        //maximum A: 0.13529
+        //minimum B: -0.15882
+        //maximum B: 0.09608
+
+        //// with limitToGamut():
+        //minimum A: -0.11961
+        //maximum A: 0.13529
+        //minimum B: -0.15882
+        //maximum B: 0.09608
 
 //        float color = ColorTools.oklab(0.625f, 0.625f, 0.625f, 1f);
         float color = SimplePalette.APRICOT; //FFA828FF, L 0.8156863, A 0.52156866, B 0.5764706,
