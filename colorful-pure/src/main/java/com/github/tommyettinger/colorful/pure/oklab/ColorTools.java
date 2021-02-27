@@ -956,8 +956,8 @@ public class ColorTools {
 	public static boolean inGamut(final float packed)
 	{
 		final int decoded = BitConversion.floatToRawIntBits(packed);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 255f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 255f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final int idx = (decoded & 0xff) << 8 | (int)(256f * MathTools.atan2_(B, A));
 		return GAMUT_DATA[idx] * 0x1p-8f >= (float) Math.sqrt(A * A + B * B);
 	}
@@ -973,7 +973,7 @@ public class ColorTools {
 	{
 		A = (A - 0.5f);
 		B = (B - 0.5f);
-		final int idx = ((int)(L * 0x1p16f) & 0xFF00) | (int)(0x1p8f * MathTools.atan2_(B, A));
+		final int idx = ((int)(L * 255.999f) << 8) | (int)(256f * MathTools.atan2_(B, A));
 		return GAMUT_DATA[idx] * 0x1p-8f >= (float) Math.sqrt(A * A + B * B);
 	}
 
@@ -987,8 +987,8 @@ public class ColorTools {
 	 */
 	public static float maximizeSaturation(final float packed) {
 		final int decoded = BitConversion.floatToRawIntBits(packed);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 255f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 255f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float hue = MathTools.atan2_(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
 		final float dist = GAMUT_DATA[idx] * 0x1p-8f;
@@ -1034,8 +1034,8 @@ public class ColorTools {
 	 */
 	public static float limitToGamut(final float packed) {
 		final int decoded = BitConversion.floatToRawIntBits(packed);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 255f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 255f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float hue = MathTools.atan2_(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
 		final float dist = GAMUT_DATA[idx] * 0x1p-8f;

@@ -3,6 +3,7 @@ package com.github.tommyettinger.colorful.oklab;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.IntArray;
+import com.badlogic.gdx.utils.IntSet;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.TrigTools;
 import com.github.tommyettinger.colorful.internal.StringKit;
@@ -47,36 +48,36 @@ import com.github.tommyettinger.colorful.internal.StringKit;
 A different try, without a palette as a base, "enclave":
 0x00000000, 0x000000FF, 0x141414FF, 0xFFFFFFFF, 0x878787FF, 0xCCCCCCFF, 0x4F4F4FFF, 0xEEEEEEFF,
 0x282828FF, 0x999999FF, 0x757575FF, 0xDDDDDDFF, 0x3B3B3BFF, 0xBBBBBBFF, 0x626262FF, 0xAAAAAAFF,
-0xCAA120FF, 0xE59700FF, 0xFDECB5FF, 0xD29F00FF, 0x5D4A07FF, 0xFFD100FF, 0xDB9C00FF, 0x775E09FF,
-0x188BDFFF, 0x0084FFFF, 0x95CDFFFF, 0x0089F4FF, 0x083557FF, 0x00BCFFFF, 0x0088FFFF, 0x0D4976FF,
-0xE8764BFF, 0xFF1D00FF, 0xFDD3C7FF, 0xFF6427FF, 0x8D0000FF, 0xFFBBA3FF, 0xFF4C00FF, 0xBB0000FF,
-0x00BDC7FF, 0x1FB7BBFF, 0x86FEFEFF, 0x00C8D4FF, 0x0E5253FF, 0x00FFFFFF, 0x1FB7BBFF, 0x006A6EFF,
-0xDF6CA0FF, 0xFF00AAFF, 0xFFCADCFF, 0xF755A3FF, 0x84004AFF, 0xFFB0D0FF, 0xFF2EA7FF, 0xB20061FF,
-0x4CB868FF, 0x00C733FF, 0x7BFF9AFF, 0x34BC5BFF, 0x005B00FF, 0x51F87BFF, 0x00C04DFF, 0x007400FF,
-0x9D6FDCFF, 0xB43EFFFF, 0xD8C0FEFF, 0xA364F5FF, 0x4C0087FF, 0xD0A8FCFF, 0xAD53FFFF, 0x6700B6FF,
-0xA69100FF, 0xA49210FF, 0xF5D600FF, 0xAE9000FF, 0x453C0AFF, 0xEEC000FF, 0xB98C00FF, 0x59500DFF,
-0x3C89EDFF, 0x007CFFFF, 0xA6CDFFFF, 0x2888FDFF, 0x002C8DFF, 0x89BDFFFF, 0x0084FFFF, 0x003ABEFF,
-0xD77031FF, 0xE36800FF, 0xFDC4A1FF, 0xFF4400FF, 0x5D2A05FF, 0xFFAB7DFF, 0xE36800FF, 0x7D3707FF,
-0x00BEDBFF, 0x00BBCFFF, 0xB8F7FFFF, 0x00C5E7FF, 0x02555FFF, 0x78EEFFFF, 0x00C8F9FF, 0x126C7AFF,
-0xCA577BFF, 0xFF0063FF, 0xFFA6BDFF, 0xFF0072FF, 0x5D0A2DFF, 0xFE8CACFF, 0xFF006BFF, 0x810B3AFF,
-0x27BF7EFF, 0x00D45AFF, 0x3BFFB4FF, 0x00C773FF, 0x006322FF, 0x00FF96FF, 0x00CD67FF, 0x136F44FF,
-0x9D62C5FF, 0xB245E6FF, 0xEA9CFFFF, 0xA35CC9FF, 0x480065FF, 0xDF81FFFF, 0xAA52D7FF, 0x620087FF,
-0x959D18FF, 0x9A9B17FF, 0xE7E500FF, 0x9A9B17FF, 0x41420EFF, 0xCFD200FF, 0x9A9B17FF, 0x565600FF,
-0x6B95FFFF, 0x457FFFFF, 0xD0E0FFFF, 0x5790FFFF, 0x1030B2FF, 0xB8CEFFFF, 0x4C88FFFF, 0x1A3AEAFF,
-0xD47920FF, 0xD9760EFF, 0xFFCA9EFF, 0xF16700FF, 0x5B310AFF, 0xFEB373FF, 0xFF4700FF, 0x78410DFF,
-0x00AEDEFF, 0x16ABCDFF, 0xA0EBFFFF, 0x00B2EFFF, 0x004A59FF, 0x65E0FFFF, 0x00B5FFFF, 0x0D6074FF,
-0xD35A6FFF, 0xFF1356FF, 0xFFAFB6FF, 0xDF5069FF, 0x70001FFF, 0xFF6D8FFF, 0xF13B62FF, 0x970029FF,
-0x00AA7CFF, 0x13A67BFF, 0x00FFAEFF, 0x13A67BFF, 0x0D4233FF, 0x00E2ADFF, 0x13A67BFF, 0x135942FF,
-0xB05FB9FF, 0xD710EDFF, 0xFF92FFFF, 0xBA53C7FF, 0x580064FF, 0xFF70FFFF, 0xC83FD5FF, 0x790085FF,
-0x769726FF, 0x7D9518FF, 0xB4E200FF, 0x759A00FF, 0x313B00FF, 0x99D400FF, 0x6C9F00FF, 0x435000FF,
-0x8194FFFF, 0x8892FFFF, 0xDCE2FFFF, 0x7D8CFFFF, 0x332DB1FF, 0xC5D0FFFF, 0x7484FFFF, 0x3E37E9FF,
-0xE0932BFF, 0xFF6E00FF, 0xFFE7C7FF, 0xF88800FF, 0x694201FF, 0xFFD095FF, 0xFF7D00FF, 0x875404FF,
-0x00AEEDFF, 0x16ABE7FF, 0xBBEAFDFF, 0x00B1FFFF, 0x0E4B64FF, 0x8EDDFEFF, 0x16ABE7FF, 0x006380FF,
-0xFA7773FF, 0xFF736DFF, 0xFEE0DDFF, 0xFF5D5FFF, 0x9E000DFF, 0xFEC8C6FF, 0xFF1440FF, 0xDB0000FF,
-0x00AD95FF, 0x15A88FFF, 0x00FFDCFF, 0x00B997FF, 0x0C453AFF, 0x00FDCBFF, 0x15A88FFF, 0x0B5C4EFF,
-0xCD6FBEFF, 0xFF00F6FF, 0xFFC4F2FF, 0xEB4ED6FF, 0x7B0070FF, 0xFFA6EBFF, 0xFF1DE4FF, 0xA70092FF,
-0x62A13CFF, 0x40AB00FF, 0x9FEA59FF, 0x61A30AFF, 0x134700FF, 0x7FDD07FF, 0x52A700FF, 0x115E00FF,
-0x8883F3FF, 0x8D7CFFFF, 0xD1D3FDFF, 0x8C76FFFF, 0x3F15A3FF, 0xBDBFFFFF, 0x8B61FFFF, 0x5200ECFF,
+0xD091A6FF, 0xFC74A4FF, 0xFEE4EEFF, 0xDD8AA6FF, 0x75354CFF, 0xFCCCDCFF, 0xE982A5FF, 0x964060FF,
+0xAE707AFF, 0xFF135BFF, 0xFF9EADFF, 0xCB5E6EFF, 0x620923FF, 0xFF7395FF, 0xE74367FF, 0x90002DFF,
+0xC58783FF, 0xFF605EFF, 0xFFD1CDFF, 0xCF827DFF, 0x692F2DFF, 0xFFA5A0FF, 0xE67471FF, 0x923334FF,
+0xCC8F7EFF, 0xFF7150FF, 0xFEDDD4FF, 0xD88972FF, 0x703423FF, 0xFFC5B6FF, 0xEB7E65FF, 0x973C28FF,
+0xC1886AFF, 0xF96716FF, 0xFFD0B7FF, 0xD1805DFF, 0x6A2C0FFF, 0xFFA76FFF, 0xE37641FF, 0x903400FF,
+0xC2926AFF, 0xED7E0CFF, 0xFFD49CFF, 0xCA8F5DFF, 0x67390AFF, 0xFFBB76FF, 0xD88948FF, 0x884600FF,
+0xA78353FF, 0xC27900FF, 0xF7C382FF, 0xAF8046FF, 0x522E00FF, 0xEFAD5CFF, 0xB87D2FFF, 0x6E3C00FF,
+0xA58D59FF, 0xB9880EFF, 0xF0D189FF, 0xA98D4CFF, 0x4E3800FF, 0xE4BD63FF, 0xAF8B35FF, 0x674900FF,
+0x938852FF, 0xA18615FF, 0xDACB88FF, 0x95884CFF, 0x403500FF, 0xCEB862FF, 0x9B8736FF, 0x574600FF,
+0x909258FF, 0x98930AFF, 0xD3D888FF, 0x90944BFF, 0x3C3D00FF, 0xC3C761FF, 0x919434FF, 0x505100FF,
+0x99AC72FF, 0x99B200FF, 0xDDF6A5FF, 0x98AE65FF, 0x425113FF, 0xCAE577FF, 0x97B049FF, 0x556800FF,
+0x6B8D5AFF, 0x5A960CFF, 0xA7D390FF, 0x688F54FF, 0x1D3A07FF, 0x8CC56CFF, 0x5E9341FF, 0x244F00FF,
+0x7EAF82FF, 0x00C62BFF, 0xA2FFABFF, 0x61B96BFF, 0x00591AFF, 0x75F77EFF, 0x43C050FF, 0x007400FF,
+0x538E6EFF, 0x089A59FF, 0x85D6A7FF, 0x489169FF, 0x003B1FFF, 0x60C991FF, 0x309664FF, 0x00512AFF,
+0x5AA68DFF, 0x00B084FF, 0x8AF1D1FF, 0x49A98EFF, 0x004D3AFF, 0x6BE1BAFF, 0x39AC89FF, 0x006448FF,
+0x59AC9FFF, 0x00B5A0FF, 0x8AF8E5FF, 0x48AF9FFF, 0x005247FF, 0x67E8D3FF, 0x31B2A0FF, 0x006A5BFF,
+0x4BA3A1FF, 0x08A9A7FF, 0x83EBE7FF, 0x41A4A1FF, 0x004A48FF, 0x65DADAFF, 0x32A6A6FF, 0x005F60FF,
+0x53A7B2FF, 0x17ADBDFF, 0x80F2FFFF, 0x3CAAB7FF, 0x004E5AFF, 0x61E1F3FF, 0x2BACBDFF, 0x006473FF,
+0x4392A8FF, 0x1496B3FF, 0x77D8F6FF, 0x3793ADFF, 0x003C51FF, 0x5AC7E8FF, 0x2794B3FF, 0x00506AFF,
+0x4B96B9FF, 0x009ACFFF, 0x82DDFFFF, 0x4398B9FF, 0x00405AFF, 0x63CCFBFF, 0x3298C4FF, 0x005478FF,
+0x508AB4FF, 0x218BD3FF, 0x81CFFFFF, 0x438ABEFF, 0x00355DFF, 0x63BDFFFF, 0x358BC9FF, 0x00487CFF,
+0x608CBFFF, 0x198AFFFF, 0x91D1FFFF, 0x538DCFFF, 0x00366AFF, 0x67C0FFFF, 0x398DE4FF, 0x004993FF,
+0x809ED7FF, 0x729BFDFF, 0xD6E4FFFF, 0x7E9EDCFF, 0x2E4576FF, 0xA8D0FFFF, 0x789DEDFF, 0x3A579BFF,
+0x92A1DEFF, 0x8C9CFEFF, 0xE6E9FFFF, 0x8EA0E9FF, 0x3A4680FF, 0xCED8FFFF, 0x8A9FF4FF, 0x4A59A1FF,
+0x9394D3FF, 0x9887FFFF, 0xDDDDFFFF, 0x9592DEFF, 0x413B77FF, 0xC5C0FFFF, 0x938DF3FF, 0x5249A0FF,
+0xA697D5FF, 0xB586FEFF, 0xEEE2FDFF, 0xA794DFFF, 0x4E3D78FF, 0xE0C1FFFF, 0xAB8FEFFF, 0x664B9DFF,
+0x9D81BAFF, 0xC254FFFF, 0xF0B8FFFF, 0xA877CEFF, 0x4E2569FF, 0xEA97FFFF, 0xB467EBFF, 0x6C2399FF,
+0xAB85B6FF, 0xEB38FFFF, 0xFFBBFFFF, 0xBC79C4FF, 0x5B2763FF, 0xFF95FFFF, 0xCF64E2FF, 0x801F91FF,
+0xAA7BA2FF, 0xF806D4FF, 0xFFB0F3FF, 0xBB6FABFF, 0x591F50FF, 0xFF85F4FF, 0xD655BEFF, 0x840873FF,
+0xB87F9EFF, 0xFF36AEFF, 0xFFAFEEFF, 0xD06EA7FF, 0x691B4DFF, 0xFF89DFFF, 0xE859AAFF, 0x930E64FF,
  */
 
 public class PaletteExpander {
@@ -90,65 +91,74 @@ public class PaletteExpander {
     private static final int limit = 256;
     private static float minDistance = Float.MAX_VALUE;
     private static final IntArray rgba = new IntArray(limit);
-    private static final FloatArray labs = new FloatArray(limit);
+    private static final IntSet dupes = new IntSet(limit);
+
+    public static void add(int color) {
+        if(!dupes.add(color))
+            System.out.printf("%08X is a duplicate!\n", color);
+        rgba.add(color);
+    }
     public static void main(String[] args) {
-        rgba.add(0);
+        add(0);
 
-        rgba.add(0x000000FF);
-        rgba.add(0x141414FF);
-        rgba.add(0xFFFFFFFF);
-        rgba.add(0x878787FF);
-        rgba.add(0xCCCCCCFF);
-        rgba.add(0x4F4F4FFF);
-        rgba.add(0xEEEEEEFF);
-        rgba.add(0x282828FF);
-        rgba.add(0x999999FF);
-        rgba.add(0x757575FF);
-        rgba.add(0xDDDDDDFF);
-        rgba.add(0x3B3B3BFF);
-        rgba.add(0xBBBBBBFF);
-        rgba.add(0x626262FF);
-        rgba.add(0xAAAAAAFF);
+        add(0x000000FF);
+        add(0x141414FF);
+        add(0xFFFFFFFF);
+        add(0x878787FF);
+        add(0xCCCCCCFF);
+        add(0x4F4F4FFF);
+        add(0xEEEEEEFF);
+        add(0x282828FF);
+        add(0x999999FF);
+        add(0x757575FF);
+        add(0xDDDDDDFF);
+        add(0x3B3B3BFF);
+        add(0xBBBBBBFF);
+        add(0x626262FF);
+        add(0xAAAAAAFF);
 
-//        rgba.add(0x000000FF);
-//        rgba.add(0x141414FF);
-//        rgba.add(0x282828FF);
-//        rgba.add(0x3B3B3BFF);
-//        rgba.add(0x4F4F4FFF);
-//        rgba.add(0x626262FF);
-//        rgba.add(0x757575FF);
-//        rgba.add(0x878787FF);
-//        rgba.add(0x999999FF);
-//        rgba.add(0xAAAAAAFF);
-//        rgba.add(0xBBBBBBFF);
-//        rgba.add(0xCCCCCCFF);
-//        rgba.add(0xDDDDDDFF);
-//        rgba.add(0xEEEEEEFF);
-//        rgba.add(0xFFFFFFFF);
+//        add(0x000000FF);
+//        add(0x141414FF);
+//        add(0x282828FF);
+//        add(0x3B3B3BFF);
+//        add(0x4F4F4FFF);
+//        add(0x626262FF);
+//        add(0x757575FF);
+//        add(0x878787FF);
+//        add(0x999999FF);
+//        add(0xAAAAAAFF);
+//        add(0xBBBBBBFF);
+//        add(0xCCCCCCFF);
+//        add(0xDDDDDDFF);
+//        add(0xEEEEEEFF);
+//        add(0xFFFFFFFF);
 
         for (int i = 0; i < 30; i++) {
             int light = ((i ^ 0xACED) * 0x9B & 0x1F) + 0xA0;
             float L = light / 255f;
-            float hue = (i * 2.718281828459045f + MathUtils.HALF_PI) % MathUtils.PI2;
-            float A = TrigTools.cos(hue) * 0.075f + 0.5f;
-            float B = TrigTools.sin(hue) * 0.075f + 0.5f;
-            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L, A, B)));
+            float hue = i / 30f;
+            float A = TrigTools.cos_(hue) * 0.04f + 0.5f;
+            float B = TrigTools.sin_(hue) * 0.04f + 0.5f;
+            add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L, A, B)));
             int hi = (int)(hue * 256f);
-            int gamut = ColorTools.getRawGamutValue(light << 8 | hi);
-            float gA = TrigTools.cos(hue) * gamut * 0x1p-8f + 0.5f;
-            float gB = TrigTools.sin(hue) * gamut * 0x1p-8f + 0.5f;
-            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L, gA, gB)));
+            float max = ColorTools.maximizeSaturation(L, A, B, 1f);
+//            int gamut = ColorTools.getRawGamutValue(light << 8 | hi);
+//            float gA = TrigTools.cos_(hue) * gamut * 0x1p-8f + 0.5f;
+//            float gB = TrigTools.sin_(hue) * gamut * 0x1p-8f + 0.5f;
+            float gA = ColorTools.channelA(max);
+            float gB = ColorTools.channelB(max);
+            add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L, gA, gB)));
             float edit = TrigTools.sin(hi) * 0.08f;
-            float gA1 = MathUtils.lerp(A, gA, 0.3125f + edit);
-            float gB1 = MathUtils.lerp(B, gB, 0.3125f + edit);
-            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L + 0.2f, gA1, gB1)));
-            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L, gA1, gB1)));
-            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L - 0.3f, gA1, gB1)));
-            float gA2 = MathUtils.lerp(A, gA, 0.625f + edit);
-            float gB2 = MathUtils.lerp(B, gB, 0.625f + edit);
-            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L + 0.15f, gA2, gB2)));
-            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L, gA2, gB2)));
-            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L - 0.225f, gA2, gB2)));
+            float gA1 = MathUtils.lerp(A, gA, 0.25f + edit);
+            float gB1 = MathUtils.lerp(B, gB, 0.25f + edit);
+            add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L + 0.2f, gA1, gB1)));
+            add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L, gA1, gB1)));
+            add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L - 0.3f, gA1, gB1)));
+            float gA2 = MathUtils.lerp(A, gA, 0.6f + edit);
+            float gB2 = MathUtils.lerp(B, gB, 0.6f + edit);
+            add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L + 0.15f, gA2, gB2)));
+            add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L, gA2, gB2)));
+            add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L - 0.225f, gA2, gB2)));
         }
 //        for (int i = 0; i < BASE_PALETTE.length; i++) {
 //            float lab = ColorTools.fromRGBA8888(BASE_PALETTE[i]);

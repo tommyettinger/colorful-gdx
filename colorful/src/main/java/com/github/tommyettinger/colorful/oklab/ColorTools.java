@@ -1004,7 +1004,7 @@ public class ColorTools {
 		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final int idx = (decoded & 0xff) << 8 | (int)(256f * TrigTools.atan2_(B, A));
-		return GAMUT_DATA[idx] * 0x1p-7f >= (float) Math.sqrt(A * A + B * B);
+		return GAMUT_DATA[idx] * 0x1p-8f >= (float) Math.sqrt(A * A + B * B);
 	}
 //	public static boolean inGamut(final float packed)
 //	{
@@ -1033,7 +1033,7 @@ public class ColorTools {
 	{
 		A = (A - 0.5f);
 		B = (B - 0.5f);
-		final int idx = ((int)(L * 255.999f) << 8) | (int)(0x1p8f * TrigTools.atan2_(B, A));
+		final int idx = ((int)(L * 255.999f) << 8) | (int)(256f * TrigTools.atan2_(B, A));
 		return GAMUT_DATA[idx] * 0x1p-8f >= (float) Math.sqrt(A * A + B * B);
 	}
 //	public static boolean inGamut(float L, float A, float B)
@@ -1065,7 +1065,7 @@ public class ColorTools {
 		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float hue = TrigTools.atan2_(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
-		final float dist = GAMUT_DATA[idx] * 0x1p-7f;
+		final float dist = GAMUT_DATA[idx] * 0x1p-8f;
 		return NumberUtils.intBitsToFloat(
 				(decoded & 0xFE0000FF) |
 						(int) (TrigTools.cos_(hue) * dist * 127.999f + 127.999f) << 8 |
@@ -1111,7 +1111,7 @@ public class ColorTools {
 		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float hue = TrigTools.atan2_(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
-		final float dist = GAMUT_DATA[idx] * 0x1p-7f;
+		final float dist = GAMUT_DATA[idx] * 0x1p-8f;
 		if (dist >= (float) Math.sqrt(A * A + B * B))
 			return packed;
 		return NumberUtils.intBitsToFloat(
@@ -1174,8 +1174,8 @@ public class ColorTools {
 		final float B2 = (B - 0.5f);
 		final float hue = TrigTools.atan2_(B2, A2);
 		final int idx = (int) (L * 255.999f) << 8 | (int)(256f * hue);
-		final float dist = GAMUT_DATA[idx] * 0x1p-7f;
-		if(dist >= 2f * (float) Math.sqrt(A2 * A2 + B2 * B2))
+		final float dist = GAMUT_DATA[idx] * 0x1p-8f;
+		if(dist >= (float) Math.sqrt(A2 * A2 + B2 * B2))
 			return oklab(L, A, B, alpha);
 		return NumberUtils.intBitsToFloat(
 				(int) (alpha * 127.999f) << 25 |
