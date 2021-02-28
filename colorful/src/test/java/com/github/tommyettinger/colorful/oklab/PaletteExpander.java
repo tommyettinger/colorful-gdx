@@ -134,11 +134,10 @@ public class PaletteExpander {
 //        add(0xFFFFFFFF);
 
         for (int i = 0; i < 30; i++) {
-            int light = ((i ^ 0xACED) * 0x9B & 0x1F) + 0xA0;
-            float L = light / 255f;
-            float hue = i / 30f;
-            float A = TrigTools.cos_(hue) * 0.04f + 0.5f;
-            float B = TrigTools.sin_(hue) * 0.04f + 0.5f;
+            float hue = i / 30f + (1f / 60f);
+            float A = TrigTools.cos_(hue) * 0.025f + 0.5f;
+            float B = TrigTools.sin_(hue) * 0.025f + 0.5f;
+            float L = (TrigTools.cos_(hue) + TrigTools.sin_(hue)) * 0.03125f + 0.666f + ((Integer.reverse(i + 1) >> 12) + 0x4000) * 0x1p-24f;
             add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L, A, B)));
             int hi = (int)(hue * 256f);
             float max = ColorTools.maximizeSaturation(L, A, B, 1f);
@@ -153,12 +152,12 @@ public class PaletteExpander {
             float gB1 = MathUtils.lerp(B, gB, 0.25f + edit);
             add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L + 0.2f, gA1, gB1)));
             add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L, gA1, gB1)));
-            add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L - 0.3f, gA1, gB1)));
+            add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L - 0.2f, gA1, gB1)));
             float gA2 = MathUtils.lerp(A, gA, 0.6f + edit);
             float gB2 = MathUtils.lerp(B, gB, 0.6f + edit);
             add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L + 0.15f, gA2, gB2)));
             add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L, gA2, gB2)));
-            add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L - 0.225f, gA2, gB2)));
+            add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L - 0.15f, gA2, gB2)));
         }
 //        for (int i = 0; i < BASE_PALETTE.length; i++) {
 //            float lab = ColorTools.fromRGBA8888(BASE_PALETTE[i]);
