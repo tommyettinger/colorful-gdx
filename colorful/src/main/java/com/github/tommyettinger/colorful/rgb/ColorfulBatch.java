@@ -174,7 +174,7 @@ public class ColorfulBatch implements Batch {
                         "void main()\n" +
                         "{\n" +
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "  tgt.rgb = (tgt.rgb * v_tweak.rgb + v_color.rgb);\n" +
+                        "  tgt.rgb = clamp(tgt.rgb * v_tweak.rgb + v_color.rgb, 0.0, 1.0);\n" +
                         "  tgt.rgb *= pow(sqrt(dot(vec3(0.2627, 0.6780, 0.0593), tgt.rgb)) + 0.5, v_tweak.a) * v_lightFix;\n" +
                         "  tgt.a *= v_color.a;\n" +
                         "  gl_FragColor = clamp(tgt, 0.0, 1.0);\n" +
