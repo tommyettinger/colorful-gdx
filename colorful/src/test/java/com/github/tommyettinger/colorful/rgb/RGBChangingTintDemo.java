@@ -9,6 +9,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -27,6 +28,7 @@ public class RGBChangingTintDemo extends ApplicationAdapter {
     protected ColorfulBatch colorfulBatch;
     protected Viewport screenView;
     protected Texture screenTexture;
+    protected BitmapFont font;
 
     private float tint = Palette.GRAY;
     private long seed = 1L;
@@ -53,6 +55,7 @@ public class RGBChangingTintDemo extends ApplicationAdapter {
     }
 
     public void load(String name) {
+        font = new BitmapFont(Gdx.files.classpath("font.fnt"));
         //// loads a file by its full path, which we get via drag+drop
         FileHandle file = Gdx.files.absolute(name);
         if (!file.exists())
@@ -69,7 +72,7 @@ public class RGBChangingTintDemo extends ApplicationAdapter {
                 height = Math.min(screenTexture.getHeight(), Gdx.graphics.getDisplayMode().height));
         screenView.update(width, height);
         screenView.getCamera().position.set(width * 0.5f, height * 0.5f, 0f);
-        tint = com.github.tommyettinger.colorful.ipt.Palette.GRAY;
+        tint = com.github.tommyettinger.colorful.rgb.Palette.GRAY;
         seed = 1L;
     }
 
@@ -100,16 +103,22 @@ public class RGBChangingTintDemo extends ApplicationAdapter {
         batch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) {
 
-            float f = seed++ * 0x1p-14f, a = TrigTools.sin_(f + TrigTools.cos_(f * 0.25f - 0.314f)),
-                    b = TrigTools.cos_(a + TrigTools.sin_(f - a * 0.5f) + 0.618f),
-                    c = TrigTools.cos_(TrigTools.atan2_(MathUtils.cos(a + 0.618f), TrigTools.sin_(b - 0.618f))) * 0.25f;
-            colorfulBatch.setPackedColor(ColorTools.toEditedFloat(tint, a, b, c, 0f));
+            float f = seed++ * 0x1p-14f, a = TrigTools.sin_(f * 2.625f + TrigTools.cos_(f * 0.25f - 0.314f)) * 0.75f,
+                    b = TrigTools.cos_(a + TrigTools.sin_(f - a * 0.5f) + 0.618f) * 0.75f,
+                    c = TrigTools.cos_(TrigTools.atan2_(MathUtils.cos(a + 0.618f), TrigTools.sin_(b - 0.618f))) * 0.25f,
+                    n = (TrigTools.sin(c * 2f - a) - TrigTools.cos(b * 2f - c)) * 0.25f + 0.5f;
+            a = MathUtils.clamp(0.5f + a, 0f, 1f);
+            b = MathUtils.clamp(0.5f + b, 0f, 1f);
+            c = MathUtils.clamp(0.5f + c, 0f, 1f);
+            colorfulBatch.setPackedColor(ColorTools.rgb(a, b, c, 1f));
+            colorfulBatch.setTweak(0.5f, 0.5f, 0.5f, n);
             colorfulBatch.begin();
             colorfulBatch.draw(screenTexture, 0, 0);
             colorfulBatch.end();
             batch.begin();
             batch.setPackedColor(-0x1.fffffep126f); // packed white
             batch.draw(screenTexture, screenTexture.getWidth(), 0);
+            font.draw(batch, String.format("R=%1.2f G=%1.2f B=%1.2f C=%1.2f", a, b, c, n), screenTexture.getWidth() + 10, 10);
             batch.end();
         }
         
