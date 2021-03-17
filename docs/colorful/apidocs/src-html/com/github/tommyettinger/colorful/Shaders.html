@@ -937,7 +937,64 @@
 <span class="source-line-no">925</span><span id="line.925">                    "    gl_FragColor = vec4(back, v_color.a * tgt.a);\n" +</span>
 <span class="source-line-no">926</span><span id="line.926">                    "}";</span>
 <span class="source-line-no">927</span><span id="line.927"></span>
-<span class="source-line-no">928</span><span id="line.928">}</span>
+<span class="source-line-no">928</span><span id="line.928">    public static         String vertexShaderDayNight = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"</span>
+<span class="source-line-no">929</span><span id="line.929">            + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"</span>
+<span class="source-line-no">930</span><span id="line.930">            + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"</span>
+<span class="source-line-no">931</span><span id="line.931">            + "uniform mat4 u_projTrans;\n"</span>
+<span class="source-line-no">932</span><span id="line.932">            + "uniform float timeOfDay;\n"</span>
+<span class="source-line-no">933</span><span id="line.933">            + "varying vec4 v_color;\n"</span>
+<span class="source-line-no">934</span><span id="line.934">            + "varying vec4 v_tweak;\n"</span>
+<span class="source-line-no">935</span><span id="line.935">            + "varying vec2 v_texCoords;\n"</span>
+<span class="source-line-no">936</span><span id="line.936">            + "varying float v_lightFix;\n"</span>
+<span class="source-line-no">937</span><span id="line.937">            + "const vec3 forward = vec3(1.0 / 3.0);\n"</span>
+<span class="source-line-no">938</span><span id="line.938">            + "\n"</span>
+<span class="source-line-no">939</span><span id="line.939">            + "void main()\n"</span>
+<span class="source-line-no">940</span><span id="line.940">            + "{\n"</span>
+<span class="source-line-no">941</span><span id="line.941">            + "   float st = sin(1.5707963 * sin(0.2617994 * timeOfDay));\n"</span>
+<span class="source-line-no">942</span><span id="line.942">            + "   float dd = sin(1.5707963 * cos(0.2617994 * timeOfDay));\n"</span>
+<span class="source-line-no">943</span><span id="line.943">            + "   dd *= dd;\n"</span>
+<span class="source-line-no">944</span><span id="line.944">            + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"</span>
+<span class="source-line-no">945</span><span id="line.945">            + "   v_color.w = v_color.w * (255.0/254.0);\n"</span>
+<span class="source-line-no">946</span><span id="line.946">            + "   vec3 oklab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *"</span>
+<span class="source-line-no">947</span><span id="line.947">            + "     pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n"</span>
+<span class="source-line-no">948</span><span id="line.948">            + "     * (v_color.rgb * v_color.rgb), forward);\n"</span>
+<span class="source-line-no">949</span><span id="line.949">            + "   v_color.x = clamp(oklab.x + (0.3125 * st), 0.0, 1.0);\n"</span>
+<span class="source-line-no">950</span><span id="line.950">            + "   v_color.yz = clamp(oklab.yz + vec2(0.0625 * dd + 0.03125 * st, 0.1 * st), -1.0, 1.0);\n"</span>
+<span class="source-line-no">951</span><span id="line.951">            + "   v_tweak = vec4(0.2 * st + 0.5);\n"</span>
+<span class="source-line-no">952</span><span id="line.952">            + "   v_tweak.w = pow((1.0 - 0.125 * st), 1.709);\n"</span>
+<span class="source-line-no">953</span><span id="line.953">            + "   v_lightFix = 1.0 + pow(v_tweak.w, 1.41421356);\n"</span>
+<span class="source-line-no">954</span><span id="line.954">            + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"</span>
+<span class="source-line-no">955</span><span id="line.955">            + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"</span>
+<span class="source-line-no">956</span><span id="line.956">            + "}\n";</span>
+<span class="source-line-no">957</span><span id="line.957">    public static String fragmentShaderDayNight =</span>
+<span class="source-line-no">958</span><span id="line.958">            "#ifdef GL_ES\n" +</span>
+<span class="source-line-no">959</span><span id="line.959">                    "#define LOWP lowp\n" +</span>
+<span class="source-line-no">960</span><span id="line.960">                    "precision mediump float;\n" +</span>
+<span class="source-line-no">961</span><span id="line.961">                    "#else\n" +</span>
+<span class="source-line-no">962</span><span id="line.962">                    "#define LOWP \n" +</span>
+<span class="source-line-no">963</span><span id="line.963">                    "#endif\n" +</span>
+<span class="source-line-no">964</span><span id="line.964">                    "varying vec2 v_texCoords;\n" +</span>
+<span class="source-line-no">965</span><span id="line.965">                    "varying LOWP vec4 v_color;\n" +</span>
+<span class="source-line-no">966</span><span id="line.966">                    "varying LOWP vec4 v_tweak;\n" +</span>
+<span class="source-line-no">967</span><span id="line.967">                    "varying float v_lightFix;\n" +</span>
+<span class="source-line-no">968</span><span id="line.968">                    "uniform sampler2D u_texture;\n" +</span>
+<span class="source-line-no">969</span><span id="line.969">                    "const vec3 forward = vec3(1.0 / 3.0);\n" +</span>
+<span class="source-line-no">970</span><span id="line.970">                    "void main()\n" +</span>
+<span class="source-line-no">971</span><span id="line.971">                    "{\n" +</span>
+<span class="source-line-no">972</span><span id="line.972">                    "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
+<span class="source-line-no">973</span><span id="line.973">                    "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +</span>
+<span class="source-line-no">974</span><span id="line.974">                    "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +</span>
+<span class="source-line-no">975</span><span id="line.975">                    "             * (tgt.rgb * tgt.rgb), forward);\n" +</span>
+<span class="source-line-no">976</span><span id="line.976">                    "  lab.x = clamp(pow(lab.x, v_tweak.w) * v_lightFix * v_tweak.x + v_color.x - 0.63, 0.0, 1.0);\n" +</span>
+<span class="source-line-no">977</span><span id="line.977">                    "  lab.yz = clamp((lab.yz * v_tweak.yz + v_color.yz - 0.5) * 2.0, -1.0, 1.0);\n" +</span>
+<span class="source-line-no">978</span><span id="line.978">                    "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +</span>
+<span class="source-line-no">979</span><span id="line.979">                    "  gl_FragColor = vec4(sqrt(clamp(" +</span>
+<span class="source-line-no">980</span><span id="line.980">                    "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +</span>
+<span class="source-line-no">981</span><span id="line.981">                    "                 (lab * lab * lab)," +</span>
+<span class="source-line-no">982</span><span id="line.982">                    "                 0.0, 1.0)), v_color.a * tgt.a);\n" +</span>
+<span class="source-line-no">983</span><span id="line.983">                    "}";</span>
+<span class="source-line-no">984</span><span id="line.984"></span>
+<span class="source-line-no">985</span><span id="line.985">}</span>
 
 
 

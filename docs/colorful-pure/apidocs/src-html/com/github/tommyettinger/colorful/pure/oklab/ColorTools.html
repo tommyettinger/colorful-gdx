@@ -983,9 +983,9 @@
 <span class="source-line-no">971</span><span id="line.971">         */</span>
 <span class="source-line-no">972</span><span id="line.972">        public static boolean inGamut(float L, float A, float B)</span>
 <span class="source-line-no">973</span><span id="line.973">        {</span>
-<span class="source-line-no">974</span><span id="line.974">                A = (A - 0.5f) * 2f;</span>
-<span class="source-line-no">975</span><span id="line.975">                B = (B - 0.5f) * 2f;</span>
-<span class="source-line-no">976</span><span id="line.976">                final int idx = ((int)(L * 0x1p16f) &amp; 0xFF00) | (int)(0x1p8f * MathTools.atan2_(B, A));</span>
+<span class="source-line-no">974</span><span id="line.974">                A = (A - 0.5f);</span>
+<span class="source-line-no">975</span><span id="line.975">                B = (B - 0.5f);</span>
+<span class="source-line-no">976</span><span id="line.976">                final int idx = ((int)(L * 255.999f) &lt;&lt; 8) | (int)(256f * MathTools.atan2_(B, A));</span>
 <span class="source-line-no">977</span><span id="line.977">                return GAMUT_DATA[idx] * 0x1p-8f &gt;= (float) Math.sqrt(A * A + B * B);</span>
 <span class="source-line-no">978</span><span id="line.978">        }</span>
 <span class="source-line-no">979</span><span id="line.979"></span>
@@ -1026,8 +1026,8 @@
 <span class="source-line-no">1014</span><span id="line.1014">                A = Math.min(Math.max(A, 0f), 1f);</span>
 <span class="source-line-no">1015</span><span id="line.1015">                B = Math.min(Math.max(B, 0f), 1f);</span>
 <span class="source-line-no">1016</span><span id="line.1016">                alpha = Math.min(Math.max(alpha, 0f), 1f);</span>
-<span class="source-line-no">1017</span><span id="line.1017">                final float A2 = (A - 0.5f) * 2f;</span>
-<span class="source-line-no">1018</span><span id="line.1018">                final float B2 = (B - 0.5f) * 2f;</span>
+<span class="source-line-no">1017</span><span id="line.1017">                final float A2 = (A - 0.5f);</span>
+<span class="source-line-no">1018</span><span id="line.1018">                final float B2 = (B - 0.5f);</span>
 <span class="source-line-no">1019</span><span id="line.1019">                final float hue = MathTools.atan2_(B2, A2);</span>
 <span class="source-line-no">1020</span><span id="line.1020">                final int idx = (int) (L * 255.999f) &lt;&lt; 8 | (int) (256f * hue);</span>
 <span class="source-line-no">1021</span><span id="line.1021">                final float dist = GAMUT_DATA[idx] * 0x1p-8f;</span>
@@ -1088,8 +1088,8 @@
 <span class="source-line-no">1076</span><span id="line.1076">                A = Math.min(Math.max(A, 0f), 1f);</span>
 <span class="source-line-no">1077</span><span id="line.1077">                B = Math.min(Math.max(B, 0f), 1f);</span>
 <span class="source-line-no">1078</span><span id="line.1078">                alpha = Math.min(Math.max(alpha, 0f), 1f);</span>
-<span class="source-line-no">1079</span><span id="line.1079">                final float A2 = (A - 0.5f) * 2f;</span>
-<span class="source-line-no">1080</span><span id="line.1080">                final float B2 = (B - 0.5f) * 2f;</span>
+<span class="source-line-no">1079</span><span id="line.1079">                final float A2 = (A - 0.5f);</span>
+<span class="source-line-no">1080</span><span id="line.1080">                final float B2 = (B - 0.5f);</span>
 <span class="source-line-no">1081</span><span id="line.1081">                final float hue = MathTools.atan2_(B2, A2);</span>
 <span class="source-line-no">1082</span><span id="line.1082">                final int idx = (int) (L * 255.999f) &lt;&lt; 8 | (int)(256f * hue);</span>
 <span class="source-line-no">1083</span><span id="line.1083">                final float dist = GAMUT_DATA[idx] * 0x1p-8f;</span>

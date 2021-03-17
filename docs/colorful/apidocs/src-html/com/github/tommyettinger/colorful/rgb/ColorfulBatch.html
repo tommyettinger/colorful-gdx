@@ -186,7 +186,7 @@
 <span class="source-line-no">174</span><span id="line.174">                        "void main()\n" +</span>
 <span class="source-line-no">175</span><span id="line.175">                        "{\n" +</span>
 <span class="source-line-no">176</span><span id="line.176">                        "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
-<span class="source-line-no">177</span><span id="line.177">                        "  tgt.rgb = (tgt.rgb * v_tweak.rgb + v_color.rgb);\n" +</span>
+<span class="source-line-no">177</span><span id="line.177">                        "  tgt.rgb = clamp(tgt.rgb * v_tweak.rgb + v_color.rgb, 0.0, 1.0);\n" +</span>
 <span class="source-line-no">178</span><span id="line.178">                        "  tgt.rgb *= pow(sqrt(dot(vec3(0.2627, 0.6780, 0.0593), tgt.rgb)) + 0.5, v_tweak.a) * v_lightFix;\n" +</span>
 <span class="source-line-no">179</span><span id="line.179">                        "  tgt.a *= v_color.a;\n" +</span>
 <span class="source-line-no">180</span><span id="line.180">                        "  gl_FragColor = clamp(tgt, 0.0, 1.0);\n" +</span>
