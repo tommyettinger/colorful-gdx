@@ -154,8 +154,11 @@ public class ColorfulBatch implements Batch {
                 + "   v_color.rgb = v_color.rgb * 0.5 - 0.25;\n"
                 + "   v_color.a = v_color.a * (255.0/254.0);\n"
                 + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
-                + "   v_tweak.a = v_tweak.a * (153.0/127.0) - 0.6;\n" // -0.6 to 0.6 range
-                + "   v_lightFix = 2.0 * (1.0 + pow(v_tweak.a, 1.4));\n"
+                + "   v_tweak.a = v_tweak.a * (255.0/254.0);\n"
+                + "   v_lightFix = 1.0 + pow(v_tweak.a + 0.5, 1.41421356);\n"
+                //// old; may have produced NaN when a negative v_tweak.a was raised to a power.
+//                + "   v_tweak.a = v_tweak.a * (153.0/127.0) - 0.6;\n" // -0.6 to 0.6 range
+//                + "   v_lightFix = 2.0 * (1.0 + pow(v_tweak.a, 1.4));\n"
                 + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
                 + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
                 + "}\n";
