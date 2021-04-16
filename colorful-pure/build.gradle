@@ -1,13 +1,8 @@
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
-modifyPom{
-    project{
-        name = project.name
-    }
-}
 
 eclipse.project.name = project.name
 
-sourceSets.test.resources.srcDirs += [ file('src/test/resources').path ]
+sourceSets.test.resources.srcDirs = [ file('src/test/resources').path ]
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -18,6 +13,14 @@ javadoc.options.source("8")
 ((StandardJavadocDocletOptions)javadoc.options).use(true)
 ((StandardJavadocDocletOptions)javadoc.options).bottom("Copyright &#169; Tommy Ettinger 2020-2021. All rights reserved. Are you a copyright lawyer? If so, I want you to think, are you actually helping people, or just wasting their time? Maybe do some pro bono work for a cause that matters?")
 javadoc.setExecutable("${System.env.JAVA_HOME}/bin/javadoc")
+
+if(JavaVersion.current().isJava9Compatible()) {
+    allprojects {
+        tasks.withType(JavaCompile) {
+            options.release.set(8)
+        }
+    }
+}
 
 dependencies {
     api "com.github.tommyettinger:jdkgdxds:$jdkgdxdsVersion"

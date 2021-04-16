@@ -1,24 +1,19 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        gradlePluginPortal()
     }
     dependencies {
-        classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
-        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.0"
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.14.2'
     }
 }
 
 apply plugin: 'java-library'
-apply plugin: 'com.bmuschko.nexus'
-apply plugin: 'io.codearte.nexus-staging'
-apply plugin: 'maven'
-apply from: 'publish.gradle'
+apply plugin: 'com.vanniktech.maven.publish'
 
 configure(subprojects) {
     apply plugin: 'java-library'
-    apply plugin: 'com.bmuschko.nexus'
-    apply from: '../publish.gradle'
     apply plugin: 'eclipse'
     apply plugin: 'idea'
     compileJava {
@@ -27,12 +22,8 @@ configure(subprojects) {
 }
 
 def projectName = 'colorful-parent'
-modifyPom{
-    project{
-        name = projectName
-    }
-}
-version '0.5.2-SNAPSHOT'
+
+version "$VERSION_NAME"
 group 'com.github.tommyettinger'
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
@@ -60,5 +51,6 @@ if (JavaVersion.current().isJava8Compatible()) {
     }
 }
 repositories {
+    mavenLocal()
     mavenCentral()
 }
