@@ -50,6 +50,7 @@ if (JavaVersion.current().isJava8Compatible()) {
         }
     }
 }
+
 repositories {
     mavenLocal()
     mavenCentral()

@@ -96,27 +96,33 @@ public class OklabGamutDemo extends ApplicationAdapter {
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.enableBlending();
-/*
+        PaletteReducer palette = new PaletteReducer();
+        palette.setDitherStrength(1f);
         final int frameCount = 120;
         Array<Pixmap> pixmaps = new Array<>(frameCount);
         for (int i = 0; i < frameCount; i++) {
             layer = i / (frameCount - 1f);
             renderInternal();
             // this gets a screenshot of the current window and adds it to the Array of Pixmap.
-            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+            pixmaps.add(
+                    palette.reduceKnoll(
+                            ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight())
+                    )
+            );
         }
 
-//// AnimatedGif is from anim8; this code uses the predefined DawnBringer Aurora palette, which has 255 colors
+//// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
 //// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
         AnimatedGif gif = new AnimatedGif();
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
-        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
-        gif.palette = new PaletteReducer();
-//        gif.palette.setDitherStrength(0.5f);
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
+        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // this should be dithered before usage
+        gif.palette = palette;
 //        gif.palette = new PaletteReducer(pixmaps);
 //        // 24 is how many frames per second the animated GIF should play back at.
         gif.write(Gdx.files.local("OklabGamut.gif"), pixmaps, 24);
+/*
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
         AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
@@ -228,22 +234,17 @@ public class OklabGamutDemo extends ApplicationAdapter {
         //minimum B: -0.15882
         //maximum B: 0.09608
 
-//        float color = ColorTools.oklab(0.625f, 0.625f, 0.625f, 1f);
-        float color = SimplePalette.APRICOT; //FFA828FF, L 0.8156863, A 0.52156866, B 0.5764706,
-        System.out.printf("%02X, %02X, %02X\n", ColorTools.redInt(color), ColorTools.greenInt(color), ColorTools.blueInt(color));
-        System.out.printf("%1.4f, %1.4f, %1.4f\n", ColorTools.channelL(color), ColorTools.channelA(color), ColorTools.channelB(color));
-//        System.out.println("Edit by 0...");
-//        color = ColorTools.toEditedFloat(color, 0f, 0f, 0f, 0f);
+//        float color = SimplePalette.APRICOT; //FFA828FF, L 0.8156863, A 0.52156866, B 0.5764706,
 //        System.out.printf("%02X, %02X, %02X\n", ColorTools.redInt(color), ColorTools.greenInt(color), ColorTools.blueInt(color));
 //        System.out.printf("%1.4f, %1.4f, %1.4f\n", ColorTools.channelL(color), ColorTools.channelA(color), ColorTools.channelB(color));
-        System.out.println("To RGBA...");
-        float rgba = ColorTools.toRGBA(color);
-        int abgr = NumberUtils.floatToRawIntBits(rgba);
-        System.out.printf("%02X, %02X, %02X\n", abgr & 0xFF, abgr >>> 8 & 0xFF, abgr >>> 16 & 0xFF);
-        System.out.println("And back...");
-        color = ColorTools.fromRGBA(rgba);
-        System.out.printf("%02X, %02X, %02X\n", ColorTools.redInt(color), ColorTools.greenInt(color), ColorTools.blueInt(color));
-        System.out.printf("%1.4f, %1.4f, %1.4f\n", ColorTools.channelL(color), ColorTools.channelA(color), ColorTools.channelB(color));
+//        System.out.println("To RGBA...");
+//        float rgba = ColorTools.toRGBA(color);
+//        int abgr = NumberUtils.floatToRawIntBits(rgba);
+//        System.out.printf("%02X, %02X, %02X\n", abgr & 0xFF, abgr >>> 8 & 0xFF, abgr >>> 16 & 0xFF);
+//        System.out.println("And back...");
+//        color = ColorTools.fromRGBA(rgba);
+//        System.out.printf("%02X, %02X, %02X\n", ColorTools.redInt(color), ColorTools.greenInt(color), ColorTools.blueInt(color));
+//        System.out.printf("%1.4f, %1.4f, %1.4f\n", ColorTools.channelL(color), ColorTools.channelA(color), ColorTools.channelB(color));
     }
 
 

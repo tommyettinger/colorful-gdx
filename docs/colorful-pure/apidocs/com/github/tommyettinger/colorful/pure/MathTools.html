@@ -15,7 +15,7 @@
 <script type="text/javascript" src="../../../../../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="class-declaration-page">
-<script type="text/javascript">var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9,"i19":9,"i20":9,"i21":9,"i22":9,"i23":9,"i24":9,"i25":9,"i26":9};
+<script type="text/javascript">var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9,"i10":9,"i11":9,"i12":9,"i13":9,"i14":9,"i15":9,"i16":9,"i17":9,"i18":9,"i19":9,"i20":9,"i21":9,"i22":9,"i23":9,"i24":9,"i25":9,"i26":9,"i27":9,"i28":9,"i29":9,"i30":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "alt-color";
 var rowColor = "row-color";
@@ -81,13 +81,16 @@ loadScripts(document, 'script');</script>
 </div>
 <section class="description">
 <hr>
-<pre>public class <a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.11">MathTools</a>
+<pre>public class <a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.14">MathTools</a>
 extends java.lang.Object</pre>
-<div class="block">Some alternative approximations to sin(), cos(), asin(), acos(), and atan2(), including the option to measure
+<div class="block">Some alternative approximations to sin(), cos(), asin(), acos(), atan(), and atan2(), including the option to measure
  most values in turns instead of radians (where 1 turn equals 2pi radians). The convention here is to have methods
  that take input in turns or produce output in turns use a <code>_</code> suffix, like <a href="#sin_(double)"><code>sin_(double)</code></a>, for turns to
  never be returned as a negative value but for negative turn inputs to be accepted, and for the output type to match
- the input type (float input gives float output, double input gives double output).
+ the input type (float input gives float output, double input gives double output). There are also some methods that
+ measure turns in degrees, either from -180 to 180 for <a href="#atan2Degrees(float,float)"><code>atan2Degrees(float, float)</code></a> or from 0 to 360 for
+ <a href="#atan2Degrees360(float,float)"><code>atan2Degrees360(float, float)</code></a>. Also has <a href="#lerp(float,float,float)"><code>lerp(float, float, float)</code></a>, why not.
+ <br>
  Created by Tommy Ettinger on 8/6/2019.</div>
 </section>
 <section class="summary">
@@ -133,61 +136,87 @@ extends java.lang.Object</pre>
 <tbody>
 <tr class="alt-color" id="i0">
 <td class="col-first"><code>static double</code></td>
-<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#acos(double)">acos</a></span>&#8203;(double&nbsp;n)</code></th>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#acos(double)">acos</a></span>&#8203;(double&nbsp;x)</code></th>
 <td class="col-last">
-<div class="block">Arc cosine approximation with very low error, based on a simplified version of <a href="#atan2(double,double)"><code>atan2(double, double)</code></a>.</div>
+<div class="block">Arc cosine approximation with very low error, using an algorithm from the 1955 research study
+ "Approximations for Digital Computers," by RAND Corporation (this is sheet 35's algorithm, which is the fastest
+ and least precise).</div>
 </td>
 </tr>
 <tr class="row-color" id="i1">
 <td class="col-first"><code>static float</code></td>
-<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#acos(float)">acos</a></span>&#8203;(float&nbsp;n)</code></th>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#acos(float)">acos</a></span>&#8203;(float&nbsp;x)</code></th>
 <td class="col-last">
-<div class="block">Arc cosine approximation with very low error, based on a simplified version of <a href="#atan2(float,float)"><code>atan2(float, float)</code></a>.</div>
+<div class="block">Arc cosine approximation with very low error, using an algorithm from the 1955 research study
+ "Approximations for Digital Computers," by RAND Corporation (this is sheet 35's algorithm, which is the fastest
+ and least precise).</div>
 </td>
 </tr>
 <tr class="alt-color" id="i2">
 <td class="col-first"><code>static double</code></td>
-<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#acos_(double)">acos_</a></span>&#8203;(double&nbsp;n)</code></th>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#acos_(double)">acos_</a></span>&#8203;(double&nbsp;x)</code></th>
 <td class="col-last">
 <div class="block">Inverse cosine function (arccos) but with output measured in turns instead of radians.</div>
 </td>
 </tr>
 <tr class="row-color" id="i3">
 <td class="col-first"><code>static float</code></td>
-<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#acos_(float)">acos_</a></span>&#8203;(float&nbsp;n)</code></th>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#acos_(float)">acos_</a></span>&#8203;(float&nbsp;x)</code></th>
 <td class="col-last">
 <div class="block">Inverse cosine function (arccos) but with output measured in turns instead of radians.</div>
 </td>
 </tr>
 <tr class="alt-color" id="i4">
 <td class="col-first"><code>static double</code></td>
-<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#asin(double)">asin</a></span>&#8203;(double&nbsp;n)</code></th>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#asin(double)">asin</a></span>&#8203;(double&nbsp;x)</code></th>
 <td class="col-last">
-<div class="block">Arc sine approximation with very low error, based on a simplified version of <a href="#atan2(float,float)"><code>atan2(float, float)</code></a>.</div>
+<div class="block">Arc sine approximation with very low error, using an algorithm from the 1955 research study
+ "Approximations for Digital Computers," by RAND Corporation (this is sheet 35's algorithm, which is the fastest
+ and least precise).</div>
 </td>
 </tr>
 <tr class="row-color" id="i5">
 <td class="col-first"><code>static float</code></td>
-<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#asin(float)">asin</a></span>&#8203;(float&nbsp;n)</code></th>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#asin(float)">asin</a></span>&#8203;(float&nbsp;x)</code></th>
 <td class="col-last">
-<div class="block">Arc sine approximation with very low error, based on a simplified version of <a href="#atan2(double,double)"><code>atan2(double, double)</code></a>.</div>
+<div class="block">Arc sine approximation with very low error, using an algorithm from the 1955 research study
+ "Approximations for Digital Computers," by RAND Corporation (this is sheet 35's algorithm, which is the fastest
+ and least precise).</div>
 </td>
 </tr>
 <tr class="alt-color" id="i6">
 <td class="col-first"><code>static double</code></td>
-<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#asin_(double)">asin_</a></span>&#8203;(double&nbsp;n)</code></th>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#asin_(double)">asin_</a></span>&#8203;(double&nbsp;x)</code></th>
 <td class="col-last">
 <div class="block">Inverse sine function (arcsine) but with output measured in turns instead of radians.</div>
 </td>
 </tr>
 <tr class="row-color" id="i7">
 <td class="col-first"><code>static float</code></td>
-<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#asin_(float)">asin_</a></span>&#8203;(float&nbsp;n)</code></th>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#asin_(float)">asin_</a></span>&#8203;(float&nbsp;x)</code></th>
 <td class="col-last">
 <div class="block">Inverse sine function (arcsine) but with output measured in turns instead of radians.</div>
 </td>
 </tr>
 <tr class="alt-color" id="i8">
+<td class="col-first"><code>static double</code></td>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#atan(double)">atan</a></span>&#8203;(double&nbsp;i)</code></th>
+<td class="col-last">
+<div class="block">Arc tangent approximation with very low error, using an algorithm from the 1955 research study
+ "Approximations for Digital Computers," by RAND Corporation (this is sheet 9's algorithm, which is the
+ second-fastest and second-least precise).</div>
+</td>
+</tr>
+<tr class="row-color" id="i9">
+<td class="col-first"><code>static float</code></td>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#atan(float)">atan</a></span>&#8203;(float&nbsp;i)</code></th>
+<td class="col-last">
+<div class="block">Arc tangent approximation with very low error, using an algorithm from the 1955 research study
+ "Approximations for Digital Computers," by RAND Corporation (this is sheet 9's algorithm, which is the
+ second-fastest and second-least precise).</div>
+</td>
+</tr>
+<tr class="alt-color" id="i10">
 <td class="col-first"><code>static double</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#atan2(double,double)">atan2</a></span>&#8203;(double&nbsp;y,
 double&nbsp;x)</code></th>
@@ -196,7 +225,7 @@ double&nbsp;x)</code></th>
  approximation.</div>
 </td>
 </tr>
-<tr class="row-color" id="i9">
+<tr class="row-color" id="i11">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#atan2(float,float)">atan2</a></span>&#8203;(float&nbsp;y,
 float&nbsp;x)</code></th>
@@ -205,17 +234,17 @@ float&nbsp;x)</code></th>
  approximation.</div>
 </td>
 </tr>
-<tr class="alt-color" id="i10">
+<tr class="alt-color" id="i12">
 <td class="col-first"><code>static double</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#atan2_(double,double)">atan2_</a></span>&#8203;(double&nbsp;y,
 double&nbsp;x)</code></th>
 <td class="col-last">
-<div class="block">Altered-range approximation of the frequently-used trigonometric method atan2, taking y and x positions as 
+<div class="block">Altered-range approximation of the frequently-used trigonometric method atan2, taking y and x positions as
  doubles and returning an angle measured in turns from 0.0 to 1.0 (inclusive), with one cycle over the range
  equivalent to 360 degrees or 2PI radians.</div>
 </td>
 </tr>
-<tr class="row-color" id="i11">
+<tr class="row-color" id="i13">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#atan2_(float,float)">atan2_</a></span>&#8203;(float&nbsp;y,
 float&nbsp;x)</code></th>
@@ -225,43 +254,63 @@ float&nbsp;x)</code></th>
  degrees or 2PI radians.</div>
 </td>
 </tr>
-<tr class="alt-color" id="i12">
+<tr class="alt-color" id="i14">
 <td class="col-first"><code>static double</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#atan2Degrees(double,double)">atan2Degrees</a></span>&#8203;(double&nbsp;y,
 double&nbsp;x)</code></th>
 <td class="col-last">
-<div class="block">Close approximation of the frequently-used trigonometric method atan2, with higher precision than libGDX's atan2
- approximation, and giving a result in degrees from -180 to 180.</div>
-</td>
-</tr>
-<tr class="row-color" id="i13">
-<td class="col-first"><code>static float</code></td>
-<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#atan2Degrees(float,float)">atan2Degrees</a></span>&#8203;(float&nbsp;y,
-float&nbsp;x)</code></th>
-<td class="col-last">
-<div class="block">Close approximation of the frequently-used trigonometric method atan2, with higher precision than libGDX's atan2
- approximation, and giving a result in degrees from -180 to 180.</div>
-</td>
-</tr>
-<tr class="alt-color" id="i14">
-<td class="col-first"><code>static double</code></td>
-<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#atan2Degrees360(double,double)">atan2Degrees360</a></span>&#8203;(double&nbsp;y,
-double&nbsp;x)</code></th>
-<td class="col-last">
-<div class="block">Close approximation of the frequently-used trigonometric method atan2, with higher precision than libGDX's atan2
- approximation, and giving a result in degrees from 0 to 360 (both inclusive).</div>
+<div class="block">Close approximation of the frequently-used trigonometric method atan2 measured in degrees, with higher precision
+ than libGDX's atan2 approximation.</div>
 </td>
 </tr>
 <tr class="row-color" id="i15">
 <td class="col-first"><code>static float</code></td>
-<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#atan2Degrees360(float,float)">atan2Degrees360</a></span>&#8203;(float&nbsp;y,
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#atan2Degrees(float,float)">atan2Degrees</a></span>&#8203;(float&nbsp;y,
 float&nbsp;x)</code></th>
 <td class="col-last">
-<div class="block">Close approximation of the frequently-used trigonometric method atan2, with higher precision than libGDX's atan2
- approximation, and giving a result in degrees from 0 to 360 (both inclusive).</div>
+<div class="block">Close approximation of the frequently-used trigonometric method atan2 measured in degrees, with higher precision
+ than libGDX's atan2 approximation.</div>
 </td>
 </tr>
 <tr class="alt-color" id="i16">
+<td class="col-first"><code>static double</code></td>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#atan2Degrees360(double,double)">atan2Degrees360</a></span>&#8203;(double&nbsp;y,
+double&nbsp;x)</code></th>
+<td class="col-last">
+<div class="block">Altered-range approximation of the frequently-used trigonometric method atan2, taking y and x positions as
+ doubles and returning an angle measured in turns from 0.0 to 360.0 (inclusive), with one cycle over the range
+ equivalent to 2PI radians or 1 turn.</div>
+</td>
+</tr>
+<tr class="row-color" id="i17">
+<td class="col-first"><code>static float</code></td>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#atan2Degrees360(float,float)">atan2Degrees360</a></span>&#8203;(float&nbsp;y,
+float&nbsp;x)</code></th>
+<td class="col-last">
+<div class="block">Altered-range approximation of the frequently-used trigonometric method atan2, taking y and x positions as
+ floats and returning an angle measured in turns from 0.0 to 360.0 (inclusive), with one cycle over the range
+ equivalent to 2PI radians or 1 turn.</div>
+</td>
+</tr>
+<tr class="alt-color" id="i18">
+<td class="col-first"><code>static double</code></td>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#atanDegrees(double)">atanDegrees</a></span>&#8203;(double&nbsp;i)</code></th>
+<td class="col-last">
+<div class="block">Arc tangent approximation measured in degrees, using an algorithm from the 1955 research study
+ "Approximations for Digital Computers," by RAND Corporation (this is sheet 9's algorithm, which is the
+ second-fastest and second-least precise).</div>
+</td>
+</tr>
+<tr class="row-color" id="i19">
+<td class="col-first"><code>static float</code></td>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#atanDegrees(float)">atanDegrees</a></span>&#8203;(float&nbsp;i)</code></th>
+<td class="col-last">
+<div class="block">Arc tangent approximation measured in degrees, using an algorithm from the 1955 research study
+ "Approximations for Digital Computers," by RAND Corporation (this is sheet 9's algorithm, which is the
+ second-fastest and second-least precise).</div>
+</td>
+</tr>
+<tr class="alt-color" id="i20">
 <td class="col-first"><code>static double</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#cos(double)">cos</a></span>&#8203;(double&nbsp;radians)</code></th>
 <td class="col-last">
@@ -270,7 +319,7 @@ float&nbsp;x)</code></th>
  and sometimes-faster MathUtils.cos() method.</div>
 </td>
 </tr>
-<tr class="row-color" id="i17">
+<tr class="row-color" id="i21">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#cos(float)">cos</a></span>&#8203;(float&nbsp;radians)</code></th>
 <td class="col-last">
@@ -279,7 +328,7 @@ float&nbsp;x)</code></th>
  consider its more-precise and sometimes-faster MathUtils.cos() method.</div>
 </td>
 </tr>
-<tr class="alt-color" id="i18">
+<tr class="alt-color" id="i22">
 <td class="col-first"><code>static double</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#cos_(double)">cos_</a></span>&#8203;(double&nbsp;turns)</code></th>
 <td class="col-last">
@@ -287,7 +336,7 @@ float&nbsp;x)</code></th>
  turn is equal to 360 degrees or two*PI radians.</div>
 </td>
 </tr>
-<tr class="row-color" id="i19">
+<tr class="row-color" id="i23">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#cos_(float)">cos_</a></span>&#8203;(float&nbsp;turns)</code></th>
 <td class="col-last">
@@ -295,7 +344,7 @@ float&nbsp;x)</code></th>
  also takes and returns a float); one turn is equal to 360 degrees or two*PI radians.</div>
 </td>
 </tr>
-<tr class="alt-color" id="i20">
+<tr class="alt-color" id="i24">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#cosDegrees(float)">cosDegrees</a></span>&#8203;(float&nbsp;degrees)</code></th>
 <td class="col-last">
@@ -304,7 +353,7 @@ float&nbsp;x)</code></th>
  consider its more-precise and sometimes-faster MathUtils.cosDeg() method.</div>
 </td>
 </tr>
-<tr class="row-color" id="i21">
+<tr class="row-color" id="i25">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#lerp(float,float,float)">lerp</a></span>&#8203;(float&nbsp;fromValue,
 float&nbsp;toValue,
@@ -313,7 +362,7 @@ float&nbsp;progress)</code></th>
 <div class="block">Linearly interpolates between fromValue to toValue on progress position.</div>
 </td>
 </tr>
-<tr class="alt-color" id="i22">
+<tr class="alt-color" id="i26">
 <td class="col-first"><code>static double</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#sin(double)">sin</a></span>&#8203;(double&nbsp;radians)</code></th>
 <td class="col-last">
@@ -322,7 +371,7 @@ float&nbsp;progress)</code></th>
  and sometimes-faster MathUtils.sin() method.</div>
 </td>
 </tr>
-<tr class="row-color" id="i23">
+<tr class="row-color" id="i27">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#sin(float)">sin</a></span>&#8203;(float&nbsp;radians)</code></th>
 <td class="col-last">
@@ -331,7 +380,7 @@ float&nbsp;progress)</code></th>
  consider its more-precise and sometimes-faster MathUtils.sin() method.</div>
 </td>
 </tr>
-<tr class="alt-color" id="i24">
+<tr class="alt-color" id="i28">
 <td class="col-first"><code>static double</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#sin_(double)">sin_</a></span>&#8203;(double&nbsp;turns)</code></th>
 <td class="col-last">
@@ -339,7 +388,7 @@ float&nbsp;progress)</code></th>
  turn is equal to 360 degrees or two*PI radians.</div>
 </td>
 </tr>
-<tr class="row-color" id="i25">
+<tr class="row-color" id="i29">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#sin_(float)">sin_</a></span>&#8203;(float&nbsp;turns)</code></th>
 <td class="col-last">
@@ -347,7 +396,7 @@ float&nbsp;progress)</code></th>
  also takes and returns a float); one turn is equal to 360 degrees or two*PI radians.</div>
 </td>
 </tr>
-<tr class="alt-color" id="i26">
+<tr class="alt-color" id="i30">
 <td class="col-first"><code>static float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#sinDegrees(float)">sinDegrees</a></span>&#8203;(float&nbsp;degrees)</code></th>
 <td class="col-last">
@@ -377,7 +426,7 @@ float&nbsp;progress)</code></th>
 <li>
 <section class="detail" id="&lt;init&gt;()">
 <h3>MathTools</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.11">MathTools</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.14">MathTools</a></span>()</div>
 </section>
 </li>
 </ul>
@@ -391,7 +440,7 @@ float&nbsp;progress)</code></th>
 <li>
 <section class="detail" id="sin(double)">
 <h3>sin</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.39">sin</a></span>&#8203;(<span class="parameters">double&nbsp;radians)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.42">sin</a></span>&#8203;(<span class="parameters">double&nbsp;radians)</span></div>
 <div class="block">A fairly-close approximation of <code>Math.sin(double)</code> that can be significantly faster (between 8x and 80x
  faster sin() calls in benchmarking; if you have access to libGDX you should consider its sometimes-more-precise
  and sometimes-faster MathUtils.sin() method. Because this method doesn't rely on a
@@ -424,7 +473,7 @@ float&nbsp;progress)</code></th>
 <li>
 <section class="detail" id="cos(double)">
 <h3>cos</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.73">cos</a></span>&#8203;(<span class="parameters">double&nbsp;radians)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.76">cos</a></span>&#8203;(<span class="parameters">double&nbsp;radians)</span></div>
 <div class="block">A fairly-close approximation of <code>Math.cos(double)</code> that can be significantly faster (between 8x and 80x
  faster cos() calls in benchmarking; if you have access to libGDX you should consider its sometimes-more-precise
  and sometimes-faster MathUtils.cos() method. Because this method doesn't rely on a
@@ -457,7 +506,7 @@ float&nbsp;progress)</code></th>
 <li>
 <section class="detail" id="sin(float)">
 <h3>sin</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.107">sin</a></span>&#8203;(<span class="parameters">float&nbsp;radians)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.110">sin</a></span>&#8203;(<span class="parameters">float&nbsp;radians)</span></div>
 <div class="block">A fairly-close approximation of <code>Math.sin(double)</code> that can be significantly faster (between 8x and 80x
  faster sin() calls in benchmarking, and both takes and returns floats; if you have access to libGDX you should
  consider its more-precise and sometimes-faster MathUtils.sin() method. Because this method doesn't rely on a
@@ -490,7 +539,7 @@ float&nbsp;progress)</code></th>
 <li>
 <section class="detail" id="cos(float)">
 <h3>cos</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.141">cos</a></span>&#8203;(<span class="parameters">float&nbsp;radians)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.144">cos</a></span>&#8203;(<span class="parameters">float&nbsp;radians)</span></div>
 <div class="block">A fairly-close approximation of <code>Math.cos(double)</code> that can be significantly faster (between 8x and 80x
  faster cos() calls in benchmarking, and both takes and returns floats; if you have access to libGDX you should
  consider its more-precise and sometimes-faster MathUtils.cos() method. Because this method doesn't rely on a
@@ -523,16 +572,15 @@ float&nbsp;progress)</code></th>
 <li>
 <section class="detail" id="sinDegrees(float)">
 <h3>sinDegrees</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.174">sinDegrees</a></span>&#8203;(<span class="parameters">float&nbsp;degrees)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.180">sinDegrees</a></span>&#8203;(<span class="parameters">float&nbsp;degrees)</span></div>
 <div class="block">A fairly-close approximation of <code>Math.sin(double)</code> that can be significantly faster (between 8x and 80x
  faster sin() calls in benchmarking, and both takes and returns floats; if you have access to libGDX, you should
  consider its more-precise and sometimes-faster MathUtils.sinDeg() method. Because this method doesn't rely on a
  lookup table, where libGDX's MathUtils does, applications that have a bottleneck on memory may perform better
  with this method than with MathUtils. Takes one angle in degrees,
  which may technically be any float (but this will lose precision on fairly large floats, such as those that are
- larger than <code>Integer.MAX_VALUE</code>, because those floats themselves will lose precision at that scale). This
- is closely related to a cubic sway, but the shape of the output when graphed is almost identical to
- sin(). The difference between the result of this method and <code>Math.sin(double)</code> should be under 0.0011 at
+ larger than <code>Integer.MAX_VALUE</code>, because those floats themselves will lose precision at that scale). The
+ difference between the result of this method and <code>Math.sin(double)</code> should be under 0.0011 at
  all points between -360 and 360, with an average difference of about 0.0005; not all points have been checked for
  potentially higher errors, though.
  <br>
@@ -541,6 +589,9 @@ float&nbsp;progress)</code></th>
  between float and double takes about as long as this method normally takes to run (or longer), so if you have
  floats you should usually use methods that take floats (or return floats, if assigning the result to a float),
  and likewise for doubles.
+ <br>
+ Unlike in previous versions of this method, the sign of the input doesn't affect performance here, at least not
+ by a measurable amount.
  <br>
  The technique for sine approximation is mostly from
  <a href="https://web.archive.org/web/20080228213915/http://devmaster.net/forums/showthread.php?t=5784">this archived DevMaster thread</a>,
@@ -556,16 +607,15 @@ float&nbsp;progress)</code></th>
 <li>
 <section class="detail" id="cosDegrees(float)">
 <h3>cosDegrees</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.208">cosDegrees</a></span>&#8203;(<span class="parameters">float&nbsp;degrees)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.216">cosDegrees</a></span>&#8203;(<span class="parameters">float&nbsp;degrees)</span></div>
 <div class="block">A fairly-close approximation of <code>Math.cos(double)</code> that can be significantly faster (between 8x and 80x
  faster cos() calls in benchmarking, and both takes and returns floats; if you have access to libGDX, you should
  consider its more-precise and sometimes-faster MathUtils.cosDeg() method. Because this method doesn't rely on a
  lookup table, where libGDX's MathUtils does, applications that have a bottleneck on memory may perform better
  with this method than with MathUtils. Takes one angle in degrees,
  which may technically be any float (but this will lose precision on fairly large floats, such as those that are
- larger than <code>Integer.MAX_VALUE</code>, because those floats themselves will lose precision at that scale). This
- is closely related to a cubic sway, but the shape of the output when graphed is almost identical to
- cos(). The difference between the result of this method and <code>Math.cos(double)</code> should be under 0.0011 at
+ larger than <code>Integer.MAX_VALUE</code>, because those floats themselves will lose precision at that scale). The
+ difference between the result of this method and <code>Math.cos(double)</code> should be under 0.0011 at
  all points between -360 and 360, with an average difference of about 0.0005; not all points have been checked for
  potentially higher errors, though.
  <br>
@@ -574,6 +624,9 @@ float&nbsp;progress)</code></th>
  between float and double takes about as long as this method normally takes to run (or longer), so if you have
  floats you should usually use methods that take floats (or return floats, if assigning the result to a float),
  and likewise for doubles.
+ <br>
+ Unlike in previous versions of this method, the sign of the input doesn't affect performance here, at least not
+ by a measurable amount.
  <br>
  The technique for cosine approximation is mostly from
  <a href="https://web.archive.org/web/20080228213915/http://devmaster.net/forums/showthread.php?t=5784">this archived DevMaster thread</a>,
@@ -589,7 +642,7 @@ float&nbsp;progress)</code></th>
 <li>
 <section class="detail" id="sin_(double)">
 <h3>sin_</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.239">sin_</a></span>&#8203;(<span class="parameters">double&nbsp;turns)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.247">sin_</a></span>&#8203;(<span class="parameters">double&nbsp;turns)</span></div>
 <div class="block">A variation on <code>Math.sin(double)</code> that takes its input as a fraction of a turn instead of in radians; one
  turn is equal to 360 degrees or two*PI radians. This can be useful as a building block for other measurements;
  to make a sine method that takes its input in grad (with 400 grad equal to 360 degrees), you would just divide
@@ -619,7 +672,7 @@ float&nbsp;progress)</code></th>
 <li>
 <section class="detail" id="cos_(double)">
 <h3>cos_</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.270">cos_</a></span>&#8203;(<span class="parameters">double&nbsp;turns)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.278">cos_</a></span>&#8203;(<span class="parameters">double&nbsp;turns)</span></div>
 <div class="block">A variation on <code>Math.cos(double)</code> that takes its input as a fraction of a turn instead of in radians; one
  turn is equal to 360 degrees or two*PI radians. This can be useful as a building block for other measurements;
  to make a cosine method that takes its input in grad (with 400 grad equal to 360 degrees), you would just divide
@@ -649,7 +702,7 @@ float&nbsp;progress)</code></th>
 <li>
 <section class="detail" id="sin_(float)">
 <h3>sin_</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.302">sin_</a></span>&#8203;(<span class="parameters">float&nbsp;turns)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.310">sin_</a></span>&#8203;(<span class="parameters">float&nbsp;turns)</span></div>
 <div class="block">A variation on <code>Math.sin(double)</code> that takes its input as a fraction of a turn instead of in radians (it
  also takes and returns a float); one turn is equal to 360 degrees or two*PI radians. This can be useful as a
  building block for other measurements; to make a sine method that takes its input in grad (with 400 grad equal to
@@ -680,7 +733,7 @@ float&nbsp;progress)</code></th>
 <li>
 <section class="detail" id="cos_(float)">
 <h3>cos_</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.334">cos_</a></span>&#8203;(<span class="parameters">float&nbsp;turns)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.342">cos_</a></span>&#8203;(<span class="parameters">float&nbsp;turns)</span></div>
 <div class="block">A variation on <code>Math.cos(double)</code> that takes its input as a fraction of a turn instead of in radians (it
  also takes and returns a float); one turn is equal to 360 degrees or two*PI radians. This can be useful as a
  building block for other measurements; to make a cosine method that takes its input in grad (with 400 grad equal
@@ -709,22 +762,58 @@ float&nbsp;progress)</code></th>
 </section>
 </li>
 <li>
+<section class="detail" id="atan(double)">
+<h3>atan</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.359">atan</a></span>&#8203;(<span class="parameters">double&nbsp;i)</span></div>
+<div class="block">Arc tangent approximation with very low error, using an algorithm from the 1955 research study
+ "Approximations for Digital Computers," by RAND Corporation (this is sheet 9's algorithm, which is the
+ second-fastest and second-least precise). This method is usually much faster than <code>Math.atan(double)</code>,
+ but is somewhat less precise than Math's implementation.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>i</code> - an input to the inverse tangent function; any double is accepted</dd>
+<dt>Returns:</dt>
+<dd>an output from the inverse tangent function, from PI/-2.0 to PI/2.0 inclusive</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="atan(float)">
+<h3>atan</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.378">atan</a></span>&#8203;(<span class="parameters">float&nbsp;i)</span></div>
+<div class="block">Arc tangent approximation with very low error, using an algorithm from the 1955 research study
+ "Approximations for Digital Computers," by RAND Corporation (this is sheet 9's algorithm, which is the
+ second-fastest and second-least precise). This method is usually much faster than <code>Math.atan(double)</code>,
+ but is somewhat less precise than Math's implementation.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>i</code> - an input to the inverse tangent function; any float is accepted</dd>
+<dt>Returns:</dt>
+<dd>an output from the inverse tangent function, from PI/-2.0 to PI/2.0 inclusive</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="atan2(double,double)">
 <h3>atan2</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.360">atan2</a></span>&#8203;(<span class="parameters">double&nbsp;y,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.441">atan2</a></span>&#8203;(<span class="parameters">double&nbsp;y,
 double&nbsp;x)</span></div>
 <div class="block">Close approximation of the frequently-used trigonometric method atan2, with higher precision than libGDX's atan2
- approximation. Maximum error is below 0.001 radians.
+ approximation. Maximum error is below 0.00009 radians.
  Takes y and x (in that unusual order) as doubles, and returns the angle from the origin to that point in radians.
- It is about 5 times faster than <code>Math.atan2(double, double)</code> (roughly 17 ns instead of roughly 88 ns for
- Math, though the computer was under some load during testing). It is almost identical in speed to libGDX'
- MathUtils approximation of the same method; MathUtils seems to have worse average error, though.
- Credit to Nic Taylor and imuli, with Taylor publishing
- <a href="https://www.dsprelated.com/showarticle/1052.php">this nice post</a> and imuli commenting with very
- handy information that makes this approach usable. This method changed from an earlier
- technique that was twice as fast but had very poor quality, enough to be visually noticeable. See also
- <a href="#atan2_(double,double)"><code>atan2_(double, double)</code></a> if you don't want a mess converting to degrees or some other measurement, since
- that method returns an angle from 0.0 (equal to 0 degrees) to 1.0 (equal to 360 degrees).</div>
+ It is about 5 times faster than <code>Math.atan2(double, double)</code> (roughly 12 ns instead of roughly 62 ns for
+ Math, on Java 8 HotSpot). It is slightly faster than libGDX' MathUtils approximation of the same method;
+ MathUtils seems to have worse average error, though.
+ <br>
+ Credit for this goes to the 1955 research study "Approximations for Digital Computers," by RAND Corporation. This
+ is sheet 9's algorithm, which is the second-fastest and second-least precise. The algorithm on sheet 8 is faster,
+ but only by a very small degree, and is considerably less precise. That study provides an <a href="#atan(double)"><code>atan(double)</code></a>
+ method, and the small code to make that work as atan2() was worked out from Wikipedia.
+ <br>
+ See also <a href="#atan2_(double,double)"><code>atan2_(double, double)</code></a> if you don't want a mess converting to degrees or some other
+ measurement, since that method returns an angle from 0f (equal to 0 degrees) to 1f (equal to 360 degrees). You
+ can also use <a href="#atan2Degrees(double,double)"><code>atan2Degrees(double, double)</code></a> or <a href="#atan2Degrees360(double,double)"><code>atan2Degrees360(double, double)</code></a> to produce a
+ result in degrees, either from -180 to 180 or 0 to 360.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>y</code> - y-component of the point to find the angle towards; note the parameter order is unusual by convention</dd>
@@ -737,20 +826,24 @@ double&nbsp;x)</span></div>
 <li>
 <section class="detail" id="atan2(float,float)">
 <h3>atan2</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.389">atan2</a></span>&#8203;(<span class="parameters">float&nbsp;y,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.479">atan2</a></span>&#8203;(<span class="parameters">float&nbsp;y,
 float&nbsp;x)</span></div>
 <div class="block">Close approximation of the frequently-used trigonometric method atan2, with higher precision than libGDX's atan2
- approximation. Maximum error is below 0.001 radians.
+ approximation. Maximum error is below 0.00009 radians.
  Takes y and x (in that unusual order) as floats, and returns the angle from the origin to that point in radians.
- It is about 5 times faster than <code>Math.atan2(double, double)</code> (roughly 17 ns instead of roughly 88 ns for
- Math, though the computer was under some load during testing). It is almost identical in speed to libGDX'
- MathUtils approximation of the same method; MathUtils seems to have worse average error, though.
- Credit to Nic Taylor and imuli, with Taylor publishing
- <a href="https://www.dsprelated.com/showarticle/1052.php">this nice post</a> and imuli commenting with very
- handy information that makes this approach usable. This method changed from an earlier
- technique that was twice as fast but had very poor quality, enough to be visually noticeable. See also
- <a href="#atan2_(float,float)"><code>atan2_(float, float)</code></a> if you don't want a mess converting to degrees or some other measurement, since
- that method returns an angle from 0f (equal to 0 degrees) to 1f (equal to 360 degrees).</div>
+ It is about 5 times faster than <code>Math.atan2(double, double)</code> (roughly 12 ns instead of roughly 62 ns for
+ Math, on Java 8 HotSpot). It is slightly faster than libGDX' MathUtils approximation of the same method;
+ MathUtils seems to have worse average error, though.
+ <br>
+ Credit for this goes to the 1955 research study "Approximations for Digital Computers," by RAND Corporation. This
+ is sheet 9's algorithm, which is the second-fastest and second-least precise. The algorithm on sheet 8 is faster,
+ but only by a very small degree, and is considerably less precise. That study provides an <a href="#atan(float)"><code>atan(float)</code></a>
+ method, and the small code to make that work as atan2() was worked out from Wikipedia.
+ <br>
+ See also <a href="#atan2_(float,float)"><code>atan2_(float, float)</code></a> if you don't want a mess converting to degrees or some other measurement,
+ since that method returns an angle from 0f (equal to 0 degrees) to 1f (equal to 360 degrees). You can also use
+ <a href="#atan2Degrees(float,float)"><code>atan2Degrees(float, float)</code></a> or <a href="#atan2Degrees360(float,float)"><code>atan2Degrees360(float, float)</code></a> to produce a result in degrees,
+ either from -180 to 180 or 0 to 360.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>y</code> - y-component of the point to find the angle towards; note the parameter order is unusual by convention</dd>
@@ -763,18 +856,23 @@ float&nbsp;x)</span></div>
 <li>
 <section class="detail" id="atan2_(double,double)">
 <h3>atan2_</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.415">atan2_</a></span>&#8203;(<span class="parameters">double&nbsp;y,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.547">atan2_</a></span>&#8203;(<span class="parameters">double&nbsp;y,
 double&nbsp;x)</span></div>
-<div class="block">Altered-range approximation of the frequently-used trigonometric method atan2, taking y and x positions as 
+<div class="block">Altered-range approximation of the frequently-used trigonometric method atan2, taking y and x positions as
  doubles and returning an angle measured in turns from 0.0 to 1.0 (inclusive), with one cycle over the range
  equivalent to 360 degrees or 2PI radians. You can multiply the angle by <code>6.2831855f</code> to change to radians,
  or by <code>360f</code> to change to degrees. Takes y and x (in that unusual order) as doubles. Will never return a
  negative number, which may help avoid costly floating-point modulus when you actually want a positive number.
- Credit to Nic Taylor and imuli, with Taylor publishing
- <a href="https://www.dsprelated.com/showarticle/1052.php">this nice post</a> and imuli commenting with very
- handy information that makes this approach usable. Note that
- <a href="#atan2(double,double)"><code>atan2(double, double)</code></a> returns an angle in radians and can return negative results, which may be fine for
- many tasks; these two methods are extremely close in implementation and speed.</div>
+ <br>
+ Credit for this goes to the 1955 research study "Approximations for Digital Computers," by RAND Corporation. This
+ is sheet 9's algorithm, which is the second-fastest and second-least precise. The algorithm on sheet 8 is faster,
+ but only by a very small degree, and is considerably less precise. That study provides an <a href="#atan(float)"><code>atan(float)</code></a>
+ method, and the small code to make that work as atan2_() was worked out from Wikipedia.
+ <br>
+ Note that <a href="#atan2(double,double)"><code>atan2(double, double)</code></a> returns an angle in radians and can return negative results, which may
+ be fine for many tasks; these two methods are extremely close in implementation and speed. There are also
+ <a href="#atan2Degrees(double,double)"><code>atan2Degrees(double, double)</code></a> and <a href="#atan2Degrees360(double,double)"><code>atan2Degrees360(double, double)</code></a>, which provide an angle in
+ degrees, either from -180 to 180 or 0 to 360.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>y</code> - y-component of the point to find the angle towards; note the parameter order is unusual by convention</dd>
@@ -787,18 +885,23 @@ double&nbsp;x)</span></div>
 <li>
 <section class="detail" id="atan2_(float,float)">
 <h3>atan2_</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.442">atan2_</a></span>&#8203;(<span class="parameters">float&nbsp;y,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.585">atan2_</a></span>&#8203;(<span class="parameters">float&nbsp;y,
 float&nbsp;x)</span></div>
 <div class="block">Altered-range approximation of the frequently-used trigonometric method atan2, taking y and x positions as floats
  and returning an angle measured in turns from 0.0f to 1.0f, with one cycle over the range equivalent to 360
  degrees or 2PI radians. You can multiply the angle by <code>6.2831855f</code> to change to radians, or by <code>360f</code>
  to change to degrees. Takes y and x (in that unusual order) as floats. Will never return a negative number, which
  may help avoid costly floating-point modulus when you actually want a positive number.
- Credit to Nic Taylor and imuli, with Taylor publishing
- <a href="https://www.dsprelated.com/showarticle/1052.php">this nice post</a> and imuli commenting with very
- handy information that makes this approach usable. Note that
- <a href="#atan2(float,float)"><code>atan2(float, float)</code></a> returns an angle in radians and can return negative results, which may be fine for
- many tasks; these two methods are extremely close in implementation and speed.</div>
+ <br>
+ Credit for this goes to the 1955 research study "Approximations for Digital Computers," by RAND Corporation. This
+ is sheet 9's algorithm, which is the second-fastest and second-least precise. The algorithm on sheet 8 is faster,
+ but only by a very small degree, and is considerably less precise. That study provides an <a href="#atan(float)"><code>atan(float)</code></a>
+ method, and the small code to make that work as atan2_() was worked out from Wikipedia.
+ <br>
+ Note that <a href="#atan2(float,float)"><code>atan2(float, float)</code></a> returns an angle in radians and can return negative results, which may
+ be fine for many tasks; these two methods are extremely close in implementation and speed. There are also
+ <a href="#atan2Degrees(float,float)"><code>atan2Degrees(float, float)</code></a> and <a href="#atan2Degrees360(float,float)"><code>atan2Degrees360(float, float)</code></a>, which provide an angle in
+ degrees, either from -180 to 180 or 0 to 360.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>y</code> - y-component of the point to find the angle towards; note the parameter order is unusual by convention</dd>
@@ -809,136 +912,199 @@ float&nbsp;x)</span></div>
 </section>
 </li>
 <li>
+<section class="detail" id="atanDegrees(double)">
+<h3>atanDegrees</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.612">atanDegrees</a></span>&#8203;(<span class="parameters">double&nbsp;i)</span></div>
+<div class="block">Arc tangent approximation measured in degrees, using an algorithm from the 1955 research study
+ "Approximations for Digital Computers," by RAND Corporation (this is sheet 9's algorithm, which is the
+ second-fastest and second-least precise). This method is usually much faster than <code>Math.atan(double)</code>,
+ but is somewhat less precise than Math's implementation. This implementation can return negative or positive
+ results in degrees.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>i</code> - an input to the inverse tangent function; any double is accepted</dd>
+<dt>Returns:</dt>
+<dd>an output from the inverse tangent function in degrees, from -90 to 90 inclusive</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="atanDegrees(float)">
+<h3>atanDegrees</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.632">atanDegrees</a></span>&#8203;(<span class="parameters">float&nbsp;i)</span></div>
+<div class="block">Arc tangent approximation measured in degrees, using an algorithm from the 1955 research study
+ "Approximations for Digital Computers," by RAND Corporation (this is sheet 9's algorithm, which is the
+ second-fastest and second-least precise). This method is usually much faster than <code>Math.atan(double)</code>,
+ but is somewhat less precise than Math's implementation. This implementation can return negative or positive
+ results in degrees.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>i</code> - an input to the inverse tangent function; any float is accepted</dd>
+<dt>Returns:</dt>
+<dd>an output from the inverse tangent function, from -90 to 90 inclusive</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="atan2Degrees(double,double)">
 <h3>atan2Degrees</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.471">atan2Degrees</a></span>&#8203;(<span class="parameters">double&nbsp;y,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.693">atan2Degrees</a></span>&#8203;(<span class="parameters">double&nbsp;y,
 double&nbsp;x)</span></div>
-<div class="block">Close approximation of the frequently-used trigonometric method atan2, with higher precision than libGDX's atan2
- approximation, and giving a result in degrees from -180 to 180. Maximum error is below 0.1 degrees.
+<div class="block">Close approximation of the frequently-used trigonometric method atan2 measured in degrees, with higher precision
+ than libGDX's atan2 approximation. The range for this is -180 to 180.
  Takes y and x (in that unusual order) as doubles, and returns the angle from the origin to that point in degrees.
- It is about 5 times faster than <code>Math.atan2(double, double)</code> (roughly 17 ns instead of roughly 88 ns for
- Math, though the computer was under some load during testing). It is almost identical in speed to libGDX'
- MathUtils approximation after converting to degrees; MathUtils seems to have worse average error, though.
- Credit to Nic Taylor and imuli, with Taylor publishing
- <a href="https://www.dsprelated.com/showarticle/1052.php">this nice post</a> and imuli commenting with very
- handy information that makes this approach usable.
+ It is about 5 times faster than <code>Math.atan2(double, double)</code> (roughly 12 ns instead of roughly 62 ns for
+ Math, on Java 8 HotSpot). It is slightly faster than libGDX' MathUtils approximation of the same method;
+ MathUtils seems to have worse average error, as well.
  <br>
- See also <a href="#atan2Degrees360(double,double)"><code>atan2Degrees360(double, double)</code></a>, which is just like this but returns an angle from 0 to 360,
- instead of -180 to 180, in case negative angles are undesirable.</div>
+ Credit for this goes to the 1955 research study "Approximations for Digital Computers," by RAND Corporation. This
+ is sheet 9's algorithm, which is the second-fastest and second-least precise. The algorithm on sheet 8 is faster,
+ but only by a very small degree, and is considerably less precise. That study provides an <a href="#atan(double)"><code>atan(double)</code></a>
+ method, and the small code to make that work as atan2Degrees() was worked out from Wikipedia.
+ <br>
+ See also <a href="#atan2_(double,double)"><code>atan2_(double, double)</code></a> for a version that returns a measurement as a fraction of a turn, or
+ <a href="#atan2(double,double)"><code>atan2(double, double)</code></a> for the typical radians. You
+ can also use <a href="#atan2Degrees360(double,double)"><code>atan2Degrees360(double, double)</code></a> to produce a result in degrees from 0 to 360.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>y</code> - y-component of the point to find the angle towards; note the parameter order is unusual by convention</dd>
 <dd><code>x</code> - x-component of the point to find the angle towards; note the parameter order is unusual by convention</dd>
 <dt>Returns:</dt>
-<dd>the angle to the given point, in degrees as a double</dd>
+<dd>the angle to the given point, in radians as a double; ranges from -180 to 180</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="atan2Degrees(float,float)">
 <h3>atan2Degrees</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.500">atan2Degrees</a></span>&#8203;(<span class="parameters">float&nbsp;y,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.730">atan2Degrees</a></span>&#8203;(<span class="parameters">float&nbsp;y,
 float&nbsp;x)</span></div>
-<div class="block">Close approximation of the frequently-used trigonometric method atan2, with higher precision than libGDX's atan2
- approximation, and giving a result in degrees from -180 to 180. Maximum error is below 0.1 degrees.
+<div class="block">Close approximation of the frequently-used trigonometric method atan2 measured in degrees, with higher precision
+ than libGDX's atan2 approximation. The range for this is -180 to 180.
  Takes y and x (in that unusual order) as floats, and returns the angle from the origin to that point in degrees.
- It is about 5 times faster than <code>Math.atan2(double, double)</code> (roughly 17 ns instead of roughly 88 ns for
- Math, though the computer was under some load during testing). It is almost identical in speed to libGDX'
- MathUtils approximation after converting to degrees; MathUtils seems to have worse average error, though.
- Credit to Nic Taylor and imuli, with Taylor publishing
- <a href="https://www.dsprelated.com/showarticle/1052.php">this nice post</a> and imuli commenting with very
- handy information that makes this approach usable.
+ It is about 5 times faster than <code>Math.atan2(double, double)</code> (roughly 12 ns instead of roughly 62 ns for
+ Math, on Java 8 HotSpot). It is slightly faster than libGDX' MathUtils approximation of the same method;
+ MathUtils seems to have worse average error, as well.
  <br>
- See also <a href="#atan2Degrees360(float,float)"><code>atan2Degrees360(float, float)</code></a>, which is just like this but returns an angle from 0 to 360,
- instead of -180 to 180, in case negative angles are undesirable.</div>
+ Credit for this goes to the 1955 research study "Approximations for Digital Computers," by RAND Corporation. This
+ is sheet 9's algorithm, which is the second-fastest and second-least precise. The algorithm on sheet 8 is faster,
+ but only by a very small degree, and is considerably less precise. That study provides an <a href="#atan(float)"><code>atan(float)</code></a>
+ method, and the small code to make that work as atan2Degrees() was worked out from Wikipedia.
+ <br>
+ See also <a href="#atan2_(float,float)"><code>atan2_(float, float)</code></a> for a version that returns a measurement as a fraction of a turn, or
+ <a href="#atan2(float,float)"><code>atan2(float, float)</code></a> for the typical radians. You
+ can also use <a href="#atan2Degrees360(float,float)"><code>atan2Degrees360(float, float)</code></a> to produce a result in degrees from 0 to 360.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>y</code> - y-component of the point to find the angle towards; note the parameter order is unusual by convention</dd>
 <dd><code>x</code> - x-component of the point to find the angle towards; note the parameter order is unusual by convention</dd>
 <dt>Returns:</dt>
-<dd>the angle to the given point, in degrees as a float</dd>
+<dd>the angle to the given point, in radians as a float; ranges from -180 to 180</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="atan2Degrees360(double,double)">
 <h3>atan2Degrees360</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.529">atan2Degrees360</a></span>&#8203;(<span class="parameters">double&nbsp;y,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.796">atan2Degrees360</a></span>&#8203;(<span class="parameters">double&nbsp;y,
 double&nbsp;x)</span></div>
-<div class="block">Close approximation of the frequently-used trigonometric method atan2, with higher precision than libGDX's atan2
- approximation, and giving a result in degrees from 0 to 360 (both inclusive). Maximum error is below 0.1 degrees.
- Takes y and x (in that unusual order) as doubles, and returns the angle from the origin to that point in degrees.
- It is about 5 times faster than <code>Math.atan2(double, double)</code> (roughly 17 ns instead of roughly 88 ns for
- Math, though the computer was under some load during testing). It is almost identical in speed to libGDX'
- MathUtils approximation after converting to degrees; MathUtils seems to have worse average error, though.
- Credit to Nic Taylor and imuli, with Taylor publishing
- <a href="https://www.dsprelated.com/showarticle/1052.php">this nice post</a> and imuli commenting with very
- handy information that makes this approach usable.
+<div class="block">Altered-range approximation of the frequently-used trigonometric method atan2, taking y and x positions as
+ doubles and returning an angle measured in turns from 0.0 to 360.0 (inclusive), with one cycle over the range
+ equivalent to 2PI radians or 1 turn. Takes y and x (in that unusual order) as doubles. Will never return a
+ negative number, which may help avoid costly floating-point modulus when you actually want a positive number.
  <br>
- See also <a href="#atan2Degrees(double,double)"><code>atan2Degrees(double, double)</code></a>, which is just like this but returns an angle from -180 to 180,
- matching <code>Math.atan2(double, double)</code>'s convention.</div>
+ Credit for this goes to the 1955 research study "Approximations for Digital Computers," by RAND Corporation. This
+ is sheet 9's algorithm, which is the second-fastest and second-least precise. The algorithm on sheet 8 is faster,
+ but only by a very small degree, and is considerably less precise. That study provides an <a href="#atan(double)"><code>atan(double)</code></a>
+ method, and the small code to make that work as atan2Degrees360() was worked out from Wikipedia.
+ <br>
+ See also <a href="#atan2_(double,double)"><code>atan2_(double, double)</code></a> for a version that returns a measurement as a fraction of a turn, or
+ <a href="#atan2(double,double)"><code>atan2(double, double)</code></a> for the typical radians. You
+ can also use <a href="#atan2Degrees(double,double)"><code>atan2Degrees(double, double)</code></a> to produce a result in degrees from -180 to 180.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>y</code> - y-component of the point to find the angle towards; note the parameter order is unusual by convention</dd>
 <dd><code>x</code> - x-component of the point to find the angle towards; note the parameter order is unusual by convention</dd>
 <dt>Returns:</dt>
-<dd>the angle to the given point, in degrees as a double</dd>
+<dd>the angle to the given point, as a double from 0.0 to 360.0, inclusive</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="atan2Degrees360(float,float)">
 <h3>atan2Degrees360</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.557">atan2Degrees360</a></span>&#8203;(<span class="parameters">float&nbsp;y,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.832">atan2Degrees360</a></span>&#8203;(<span class="parameters">float&nbsp;y,
 float&nbsp;x)</span></div>
-<div class="block">Close approximation of the frequently-used trigonometric method atan2, with higher precision than libGDX's atan2
- approximation, and giving a result in degrees from 0 to 360 (both inclusive). Maximum error is below 0.1 degrees.
- Takes y and x (in that unusual order) as floats, and returns the angle from the origin to that point in degrees.
- It is about 5 times faster than <code>Math.atan2(double, double)</code> (roughly 17 ns instead of roughly 88 ns for
- Math, though the computer was under some load during testing). It is almost identical in speed to libGDX'
- MathUtils approximation after converting to degrees; MathUtils seems to have worse average error, though.
- Credit to Nic Taylor and imuli, with Taylor publishing
- <a href="https://www.dsprelated.com/showarticle/1052.php">this nice post</a> and imuli commenting with very
- handy information that makes this approach usable.
+<div class="block">Altered-range approximation of the frequently-used trigonometric method atan2, taking y and x positions as
+ floats and returning an angle measured in turns from 0.0 to 360.0 (inclusive), with one cycle over the range
+ equivalent to 2PI radians or 1 turn. Takes y and x (in that unusual order) as floats. Will never return a
+ negative number, which may help avoid costly floating-point modulus when you actually want a positive number.
  <br>
- See also <a href="#atan2Degrees(float,float)"><code>atan2Degrees(float, float)</code></a>, which is just like this but returns an angle from -180 to 180,
- matching <code>Math.atan2(double, double)</code>'s convention.</div>
+ Credit for this goes to the 1955 research study "Approximations for Digital Computers," by RAND Corporation. This
+ is sheet 9's algorithm, which is the second-fastest and second-least precise. The algorithm on sheet 8 is faster,
+ but only by a very small degree, and is considerably less precise. That study provides an <a href="#atan(float)"><code>atan(float)</code></a>
+ method, and the small code to make that work as atan2Degrees360() was worked out from Wikipedia.
+ <br>
+ See also <a href="#atan2_(float,float)"><code>atan2_(float, float)</code></a> for a version that returns a measurement as a fraction of a turn, or
+ <a href="#atan2(float,float)"><code>atan2(float, float)</code></a> for the typical radians. You
+ can also use <a href="#atan2Degrees(float,float)"><code>atan2Degrees(float, float)</code></a> to produce a result in degrees from -180 to 180.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>y</code> - y-component of the point to find the angle towards; note the parameter order is unusual by convention</dd>
 <dd><code>x</code> - x-component of the point to find the angle towards; note the parameter order is unusual by convention</dd>
 <dt>Returns:</dt>
-<dd>the angle to the given point, in degrees as a float</dd>
+<dd>the angle to the given point, as a float from 0.0 to 360.0, inclusive</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="asin(float)">
 <h3>asin</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.577">asin</a></span>&#8203;(<span class="parameters">float&nbsp;n)</span></div>
-<div class="block">Arc sine approximation with very low error, based on a simplified version of <a href="#atan2(double,double)"><code>atan2(double, double)</code></a>.
- This method is usually much faster than <code>Math.asin(double)</code>, but is somewhat less precise than Math's
- implementation). It is currently more precise than libGDX's approximation in their MathUtils, but this isn't
- quite as fast; the difference in precision is hard to spot but can be noticeable in some usage.</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.859">asin</a></span>&#8203;(<span class="parameters">float&nbsp;x)</span></div>
+<div class="block">Arc sine approximation with very low error, using an algorithm from the 1955 research study
+ "Approximations for Digital Computers," by RAND Corporation (this is sheet 35's algorithm, which is the fastest
+ and least precise). This method is usually much faster than <code>Math.asin(double)</code>, but is somewhat less
+ precise than Math's implementation. It is currently the same as libGDX's approximation in their MathUtils.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>n</code> - an input to the inverse sine function, from -1 to 1 inclusive</dd>
+<dd><code>x</code> - an input to the inverse sine function, from -1 to 1 inclusive</dd>
 <dt>Returns:</dt>
 <dd>an output from the inverse sine function, from PI/-2.0 to PI/2.0 inclusive.</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="asin(double)">
-<h3>asin</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.601">asin</a></span>&#8203;(<span class="parameters">double&nbsp;n)</span></div>
-<div class="block">Arc sine approximation with very low error, based on a simplified version of <a href="#atan2(float,float)"><code>atan2(float, float)</code></a>.
- This method is usually much faster than <code>Math.asin(double)</code>, but is somewhat less precise than Math's
- implementation). It is currently more precise than libGDX's approximation in their MathUtils, but this isn't
- quite as fast; the difference in precision is hard to spot but can be noticeable in some usage.</div>
+<section class="detail" id="acos(float)">
+<h3>acos</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.881">acos</a></span>&#8203;(<span class="parameters">float&nbsp;x)</span></div>
+<div class="block">Arc cosine approximation with very low error, using an algorithm from the 1955 research study
+ "Approximations for Digital Computers," by RAND Corporation (this is sheet 35's algorithm, which is the fastest
+ and least precise). This method is usually much faster than <code>Math.acos(double)</code>, but is somewhat less
+ precise than Math's implementation. It is currently the same as libGDX's approximation in their MathUtils.
+ <br>
+ Accuracy: absolute error 0.000028450, relative error -0.000000011, max error 0.000067548 .</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>n</code> - an input to the inverse sine function, from -1 to 1 inclusive</dd>
+<dd><code>x</code> - an input to the inverse cosine function, from -1 to 1 inclusive</dd>
+<dt>Returns:</dt>
+<dd>an output from the inverse cosine function, from 0 to PI inclusive.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="asin(double)">
+<h3>asin</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.903">asin</a></span>&#8203;(<span class="parameters">double&nbsp;x)</span></div>
+<div class="block">Arc sine approximation with very low error, using an algorithm from the 1955 research study
+ "Approximations for Digital Computers," by RAND Corporation (this is sheet 35's algorithm, which is the fastest
+ and least precise). This method is usually much faster than <code>Math.asin(double)</code>, but is somewhat less
+ precise than Math's implementation. It is currently the same as libGDX's approximation in their MathUtils, except
+ that this takes a double and returns a double.
+ <br>
+ Accuracy: absolute error 0.000028447, relative error -0.000000033, max error 0.000067592 .</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>x</code> - an input to the inverse sine function, from -1 to 1 inclusive</dd>
 <dt>Returns:</dt>
 <dd>an output from the inverse sine function, from PI/-2.0 to PI/2.0 inclusive.</dd>
 </dl>
@@ -947,30 +1113,17 @@ float&nbsp;x)</span></div>
 <li>
 <section class="detail" id="acos(double)">
 <h3>acos</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.624">acos</a></span>&#8203;(<span class="parameters">double&nbsp;n)</span></div>
-<div class="block">Arc cosine approximation with very low error, based on a simplified version of <a href="#atan2(double,double)"><code>atan2(double, double)</code></a>.
- This method is usually much faster than <code>Math.acos(double)</code>, but is somewhat less precise than Math's
- implementation). It is currently more precise than libGDX's approximation in their MathUtils, but this isn't
- quite as fast; the difference in precision is hard to spot but can be noticeable in some usage.</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.926">acos</a></span>&#8203;(<span class="parameters">double&nbsp;x)</span></div>
+<div class="block">Arc cosine approximation with very low error, using an algorithm from the 1955 research study
+ "Approximations for Digital Computers," by RAND Corporation (this is sheet 35's algorithm, which is the fastest
+ and least precise). This method is usually much faster than <code>Math.acos(double)</code>, but is somewhat less
+ precise than Math's implementation. It is currently the same as libGDX's approximation in their MathUtils, except
+ that this takes a double and returns a double.
+ <br>
+ Accuracy: absolute error 0.000028450, relative error -0.000000011, max error 0.000067548 .</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>n</code> - an input to the inverse cosine function, from -1 to 1 inclusive</dd>
-<dt>Returns:</dt>
-<dd>an output from the inverse cosine function, from 0 to PI inclusive.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="acos(float)">
-<h3>acos</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.647">acos</a></span>&#8203;(<span class="parameters">float&nbsp;n)</span></div>
-<div class="block">Arc cosine approximation with very low error, based on a simplified version of <a href="#atan2(float,float)"><code>atan2(float, float)</code></a>.
- This method is usually much faster than <code>Math.acos(double)</code>, but is somewhat less precise than Math's
- implementation). It is currently more precise than libGDX's approximation in their MathUtils, but this isn't
- quite as fast; the difference in precision is hard to spot but can be noticeable in some usage.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>n</code> - an input to the inverse cosine function, from -1 to 1 inclusive</dd>
+<dd><code>x</code> - an input to the inverse cosine function, from -1 to 1 inclusive</dd>
 <dt>Returns:</dt>
 <dd>an output from the inverse cosine function, from 0 to PI inclusive.</dd>
 </dl>
@@ -979,14 +1132,14 @@ float&nbsp;x)</span></div>
 <li>
 <section class="detail" id="asin_(double)">
 <h3>asin_</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.671">asin_</a></span>&#8203;(<span class="parameters">double&nbsp;n)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.944">asin_</a></span>&#8203;(<span class="parameters">double&nbsp;x)</span></div>
 <div class="block">Inverse sine function (arcsine) but with output measured in turns instead of radians. Possible results for this
  range from 0.75 (inclusive) to 1.0 (exclusive), and continuing past that to 0.0 (inclusive) to 0.25 (inclusive).
  <br>
- This method is extremely similar to the non-turn approximation.</div>
+ This method is extremely similar to the non-turn approximation, but it never returns a negative result.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>n</code> - a double from -1.0 to 1.0 (both inclusive), usually the output of sin_() or cos_()</dd>
+<dd><code>x</code> - a double from -1.0 to 1.0 (both inclusive), usually the output of sin_() or cos_()</dd>
 <dt>Returns:</dt>
 <dd>one of the values that would produce <code>n</code> if it were passed to <a href="#sin_(double)"><code>sin_(double)</code></a></dd>
 </dl>
@@ -995,14 +1148,14 @@ float&nbsp;x)</span></div>
 <li>
 <section class="detail" id="acos_(double)">
 <h3>acos_</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.695">acos_</a></span>&#8203;(<span class="parameters">double&nbsp;n)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.965">acos_</a></span>&#8203;(<span class="parameters">double&nbsp;x)</span></div>
 <div class="block">Inverse cosine function (arccos) but with output measured in turns instead of radians. Possible results for this
  range from 0.0 (inclusive) to 0.5 (inclusive).
  <br>
  This method is extremely similar to the non-turn approximation.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>n</code> - a double from -1.0 to 1.0 (both inclusive), usually the output of sin_() or cos_()</dd>
+<dd><code>x</code> - a double from -1.0 to 1.0 (both inclusive), usually the output of sin_() or cos_()</dd>
 <dt>Returns:</dt>
 <dd>one of the values that would produce <code>n</code> if it were passed to <a href="#cos_(double)"><code>cos_(double)</code></a></dd>
 </dl>
@@ -1011,15 +1164,15 @@ float&nbsp;x)</span></div>
 <li>
 <section class="detail" id="asin_(float)">
 <h3>asin_</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.721">asin_</a></span>&#8203;(<span class="parameters">float&nbsp;n)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.987">asin_</a></span>&#8203;(<span class="parameters">float&nbsp;x)</span></div>
 <div class="block">Inverse sine function (arcsine) but with output measured in turns instead of radians. Possible results for this
  range from 0.75f (inclusive) to 1.0f (exclusive), and continuing past that to 0.0f (inclusive) to 0.25f
  (inclusive).
  <br>
- This method is extremely similar to the non-turn approximation.</div>
+ This method is extremely similar to the non-turn approximation, but it never returns a negative result.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>n</code> - a float from -1.0f to 1.0f (both inclusive), usually the output of sin_() or cos_()</dd>
+<dd><code>x</code> - a float from -1.0f to 1.0f (both inclusive), usually the output of sin_() or cos_()</dd>
 <dt>Returns:</dt>
 <dd>one of the values that would produce <code>n</code> if it were passed to <a href="#sin_(float)"><code>sin_(float)</code></a></dd>
 </dl>
@@ -1028,14 +1181,14 @@ float&nbsp;x)</span></div>
 <li>
 <section class="detail" id="acos_(float)">
 <h3>acos_</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.745">acos_</a></span>&#8203;(<span class="parameters">float&nbsp;n)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.1008">acos_</a></span>&#8203;(<span class="parameters">float&nbsp;x)</span></div>
 <div class="block">Inverse cosine function (arccos) but with output measured in turns instead of radians. Possible results for this
  range from 0.0f (inclusive) to 0.5f (inclusive).
  <br>
  This method is extremely similar to the non-turn approximation.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>n</code> - a float from -1.0f to 1.0f (both inclusive), usually the output of sin_() or cos_()</dd>
+<dd><code>x</code> - a float from -1.0f to 1.0f (both inclusive), usually the output of sin_() or cos_()</dd>
 <dt>Returns:</dt>
 <dd>one of the values that would produce <code>n</code> if it were passed to <a href="#cos_(float)"><code>cos_(float)</code></a></dd>
 </dl>
@@ -1044,7 +1197,7 @@ float&nbsp;x)</span></div>
 <li>
 <section class="detail" id="lerp(float,float,float)">
 <h3>lerp</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.767">lerp</a></span>&#8203;(<span class="parameters">float&nbsp;fromValue,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/pure/MathTools.html#line.1026">lerp</a></span>&#8203;(<span class="parameters">float&nbsp;fromValue,
 float&nbsp;toValue,
 float&nbsp;progress)</span></div>
 <div class="block">Linearly interpolates between fromValue to toValue on progress position.</div>

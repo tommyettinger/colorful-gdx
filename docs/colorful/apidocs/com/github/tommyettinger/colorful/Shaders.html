@@ -81,7 +81,7 @@ loadScripts(document, 'script');</script>
 </div>
 <section class="description">
 <hr>
-<pre>public class <a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.17">Shaders</a>
+<pre>public class <a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.16">Shaders</a>
 extends java.lang.Object</pre>
 <div class="block">Constants that contain the critical shader code to construct a <code>ShaderProgram</code> that can render the rest of this
  library. The shader code is meant for use in a <code>SpriteBatch</code>; a convenience
@@ -124,7 +124,9 @@ extends java.lang.Object</pre>
 <tr class="alt-color">
 <td class="col-first"><code>static java.lang.String</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#fragmentShaderDayNight">fragmentShaderDayNight</a></span></code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">The fragment shader counterpart to <a href="#vertexShaderDayNight"><code>vertexShaderDayNight</code></a>; must be used with that vertex shader.</div>
+</td>
 </tr>
 <tr class="row-color">
 <td class="col-first"><code>static java.lang.String</code></td>
@@ -284,7 +286,9 @@ extends java.lang.Object</pre>
 <tr class="row-color">
 <td class="col-first"><code>static java.lang.String</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#vertexShaderDayNight">vertexShaderDayNight</a></span></code></th>
-<td class="col-last">&nbsp;</td>
+<td class="col-last">
+<div class="block">A day/night cycle shader that can be used without any other parts of this library.</div>
+</td>
 </tr>
 <tr class="alt-color">
 <td class="col-first"><code>static java.lang.String</code></td>
@@ -408,7 +412,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="vertexShader">
 <h3>vertexShader</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.21">vertexShader</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.20">vertexShader</a></span></div>
 <div class="block">This is the default vertex shader from libGDX.</div>
 <dl class="notes">
 <dt>See Also:</dt>
@@ -419,7 +423,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderRGBA">
 <h3>fragmentShaderRGBA</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.45">fragmentShaderRGBA</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.44">fragmentShaderRGBA</a></span></div>
 <div class="block">A simple shader that uses additive blending with "normal" RGBA colors (alpha is still multiplicative).
  With the default SpriteBatch ShaderProgram, white is the neutral color, 50% gray darkens a color by about 50%,
  and black darkens a color to black, but nothing can brighten a color. With this, 50% gray is the neutral color,
@@ -437,7 +441,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderGammaRGBA">
 <h3>fragmentShaderGammaRGBA</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.72">fragmentShaderGammaRGBA</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.71">fragmentShaderGammaRGBA</a></span></div>
 <div class="block">A simple shader that uses multiplicative blending with "normal" RGBA colors, but internally uses gamma correction
  to make changes in color smoother. With the default SpriteBatch ShaderProgram, white is the neutral color, 50%
  gray darkens a color by about 50%, and black darkens a color to black, but nothing can brighten a color. With
@@ -457,7 +461,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShader">
 <h3>fragmentShader</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.126">fragmentShader</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.125">fragmentShader</a></span></div>
 <div class="block">Where the magic happens; this converts a batch color from the YCwCm format (used by colorful) to RGBA.
  The vertex color will be split up into 4 channels just as a normal shader does, but the channels here are
  luma, chromatic warmth, chromatic mildness, and alpha; alpha acts just like a typical RGBA shader, but the others
@@ -474,7 +478,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderHigherContrast">
 <h3>fragmentShaderHigherContrast</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.157">fragmentShaderHigherContrast</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.156">fragmentShaderHigherContrast</a></span></div>
 <div class="block">A variant on <a href="#fragmentShader"><code>fragmentShader</code></a> that adjusts luma to make mid-range colors darker, while keeping light
  colors light. This is not the same as <a href="ycwcm/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.ycwcm"><code>ColorfulBatch</code></a> even when the contrast for ColorfulBatch's tweak is
  the same as what this uses (1.375 here, which is roughly 0.875f in a tweak value). ColorfulBatch does some work
@@ -489,7 +493,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderLowerContrast">
 <h3>fragmentShaderLowerContrast</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.183">fragmentShaderLowerContrast</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.182">fragmentShaderLowerContrast</a></span></div>
 <div class="block">An alternative shader that effectively reduces luma contrast, bringing all but the darkest colors to the
  upper-mid luma range. This is not the same as <a href="ycwcm/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.ycwcm"><code>ColorfulBatch</code></a> even when the contrast for ColorfulBatch's
  tweak is the same as what this uses (0.625 here, which is roughly 0.125f in a tweak value). ColorfulBatch does
@@ -500,7 +504,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderIPT">
 <h3>fragmentShaderIPT</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.263">fragmentShaderIPT</a></span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.262">fragmentShaderIPT</a></span></div>
 <div class="block">Similar to <a href="#fragmentShader"><code>fragmentShader</code></a>, but this uses the very perceptually-accurate IPT color space as described by
  Ebner and Fairchild, instead of the custom YCwCm color space. IPT doesn't really need that much more computation
  to be done by the shader, but tends to make gradual changes in color much smoother. If comparing to YCwCm, then
@@ -522,7 +526,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderIPT_HQ">
 <h3>fragmentShaderIPT_HQ</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.289">fragmentShaderIPT_HQ</a></span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.288">fragmentShaderIPT_HQ</a></span></div>
 <div class="block">Just like <a href="#fragmentShaderIPT"><code>fragmentShaderIPT</code></a>, but gamma-corrects the input and output RGB values (which improves
  lightness uniformity) and uses an exponential step internally to change how colors are distributed within the
  gamut. These steps are more computationally expensive than the bare-bones ones in <a href="#fragmentShaderIPT"><code>fragmentShaderIPT</code></a>, but
@@ -532,14 +536,14 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderOklab">
 <h3>fragmentShaderOklab</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.319">fragmentShaderOklab</a></span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.318">fragmentShaderOklab</a></span></div>
 <div class="block">Just like <a href="#fragmentShaderIPT_HQ"><code>fragmentShaderIPT_HQ</code></a>, but uses the Oklab color space instead of the very similar IPT_HQ one.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="vertexShaderHSI">
 <h3>vertexShaderHSI</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.354">vertexShaderHSI</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.353">vertexShaderHSI</a></span></div>
 <div class="block">A vertex shader that does the bulk of processing HSI-format batch colors and converting them to a format
  <a href="#fragmentShaderHSI"><code>fragmentShaderHSI</code></a> can use. Since HSI is only a cylindrical/spherical adaptation of IPT, with identical
  I components and the combination of H and S in polar coordinates mapping to P and T in Cartesian coordinates,
@@ -556,13 +560,13 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderHSI">
 <h3>fragmentShaderHSI</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.385">fragmentShaderHSI</a></span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.384">fragmentShaderHSI</a></span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="partialCodeHSL">
 <h3>partialCodeHSL</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.390">partialCodeHSL</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.389">partialCodeHSL</a></span></div>
 <div class="block">Credit to Sam Hocevar, https://gamedev.stackexchange.com/a/59808 .</div>
 <dl class="notes">
 <dt>See Also:</dt>
@@ -573,7 +577,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="partialCodeHSLStretched">
 <h3>partialCodeHSLStretched</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.435">partialCodeHSLStretched</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.434">partialCodeHSLStretched</a></span></div>
 <div class="block">Adjusted-hue version of <a href="#partialCodeHSL"><code>partialCodeHSL</code></a>, supplying HSL to-and-from RGB conversions with a smaller range
  of hue used for cyan and a larger range for orange. Not currently used. Credit to Sam Hocevar,
  https://gamedev.stackexchange.com/a/59808 .</div>
@@ -586,7 +590,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderHSL">
 <h3>fragmentShaderHSL</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.543">fragmentShaderHSL</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.542">fragmentShaderHSL</a></span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd><a href="../../../../constant-values.html#com.github.tommyettinger.colorful.Shaders.fragmentShaderHSL">Constant Field Values</a></dd>
@@ -596,7 +600,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderRotateHSL">
 <h3>fragmentShaderRotateHSL</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.563">fragmentShaderRotateHSL</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.562">fragmentShaderRotateHSL</a></span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd><a href="../../../../constant-values.html#com.github.tommyettinger.colorful.Shaders.fragmentShaderRotateHSL">Constant Field Values</a></dd>
@@ -606,7 +610,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="vertexShaderHSLC">
 <h3>vertexShaderHSLC</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.587">vertexShaderHSLC</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.586">vertexShaderHSLC</a></span></div>
 <div class="block">This is the default vertex shader from libGDX, but also sets a varying value for contrast. It is needed if you
  use <a href="#fragmentShaderHSLC"><code>fragmentShaderHSLC</code></a>.</div>
 <dl class="notes">
@@ -618,7 +622,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderHSLC">
 <h3>fragmentShaderHSLC</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.613">fragmentShaderHSLC</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.612">fragmentShaderHSLC</a></span></div>
 <div class="block">Allows changing Hue/Saturation/Lightness/Contrast, with hue as a rotation. Expects the vertex shader to be
  <a href="#vertexShaderHSLC"><code>vertexShaderHSLC</code></a>, which sets <code>varying float v_lightFix</code> so contrast can use it.
  <br>
@@ -635,7 +639,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderHSLA">
 <h3>fragmentShaderHSLA</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.656">fragmentShaderHSLA</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.655">fragmentShaderHSLA</a></span></div>
 <div class="block">Allows changing Hue/Saturation/Lightness/Alpha, with hue as a rotation. Expects the vertex shader to be
  <a href="#vertexShader"><code>vertexShader</code></a>, unlike what <a href="#fragmentShaderHSLC"><code>fragmentShaderHSLC</code></a> expects.
  <br>
@@ -651,7 +655,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="hueRodrigues">
 <h3>hueRodrigues</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.695">hueRodrigues</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.694">hueRodrigues</a></span></div>
 <div class="block">GLSL: Takes an RGB vec3 and a float that represents a hue rotation in radians, and returns the rotated RGB vec3.
  Credit for this challenging method goes to Andrey-Postelzhuk,
  <a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/">Unity Forums</a>.</div>
@@ -664,7 +668,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderHSLC2">
 <h3>fragmentShaderHSLC2</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.709">fragmentShaderHSLC2</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.708">fragmentShaderHSLC2</a></span></div>
 <div class="block">Generally a lower-quality hue rotation than <a href="#fragmentShaderHSLC"><code>fragmentShaderHSLC</code></a>; this is here as a work in progress.
  Expects the vertex shader to be <a href="#vertexShaderHSLC"><code>vertexShaderHSLC</code></a>, which sets <code>varying float v_lightFix</code> so
  contrast can use it.</div>
@@ -677,7 +681,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderHSLC3">
 <h3>fragmentShaderHSLC3</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.745">fragmentShaderHSLC3</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.744">fragmentShaderHSLC3</a></span></div>
 <div class="block">Cycles lightness in a psychedelic way as hue and lightness change; not a general-purpose usage.
  Expects the vertex shader to be <a href="#vertexShaderHSLC"><code>vertexShaderHSLC</code></a>, which sets <code>varying float v_lightFix</code> so
  contrast can use it.</div>
@@ -690,7 +694,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderHSLPsychedelic">
 <h3>fragmentShaderHSLPsychedelic</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.787">fragmentShaderHSLPsychedelic</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.786">fragmentShaderHSLPsychedelic</a></span></div>
 <div class="block">Cycles hue, but not lightness; otherwise this is like <a href="#fragmentShaderHSLC3"><code>fragmentShaderHSLC3</code></a> without contrast, and keeping
  alpha intact.
  Internally, this uses Sam Hocevar's RGB/HSL conversion instead of Andrey-Postelzhuk's HSLC code.
@@ -704,7 +708,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderHSLP">
 <h3>fragmentShaderHSLP</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.821">fragmentShaderHSLP</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.820">fragmentShaderHSLP</a></span></div>
 <div class="block">One of the more useful HSL shaders here, this takes a batch color as hue, saturation, lightness, and power,
  with hue as a target hue and power used to determine how much of the target color should be used. There is no
  neutral value for hue, saturation, or lightness, but if power is 0, then the source color will be used
@@ -722,7 +726,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderReplacement">
 <h3>fragmentShaderReplacement</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.843">fragmentShaderReplacement</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.842">fragmentShaderReplacement</a></span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd><a href="../../../../constant-values.html#com.github.tommyettinger.colorful.Shaders.fragmentShaderReplacement">Constant Field Values</a></dd>
@@ -732,7 +736,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderFlatLightness">
 <h3>fragmentShaderFlatLightness</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.870">fragmentShaderFlatLightness</a></span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.869">fragmentShaderFlatLightness</a></span></div>
 <div class="block">A drop-in replacement for the default fragment shader that eliminates lightness differences in the output colors.
  Specifically, it does the normal SpriteBatch shader's step with the multiplicative batch color, converts to IPT,
  sets intensity to 0.5, shrinks the P and T components so the color is less saturated, and then converts back to
@@ -748,7 +752,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="fragmentShaderConfigurableContrast">
 <h3>fragmentShaderConfigurableContrast</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.907">fragmentShaderConfigurableContrast</a></span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.906">fragmentShaderConfigurableContrast</a></span></div>
 <div class="block">A specialized shader that can reduce lightness differences in the output colors, saturate/desaturate them, and
  can be configured to use some of the existing lightness in the image to add to a main flat lightness.
  Specifically, it takes the fragment color (typically a pixel in a texture), converts to IPT, does a calculation
@@ -769,13 +773,20 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="vertexShaderDayNight">
 <h3>vertexShaderDayNight</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.928">vertexShaderDayNight</a></span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.934">vertexShaderDayNight</a></span></div>
+<div class="block">A day/night cycle shader that can be used without any other parts of this library. This only needs setting the
+ uniform <code>u_timeOfDay</code> to any float; the rate at which you change this float affects how fast the day/night
+ cycle occurs. This is meant to be used with <a href="#fragmentShaderDayNight"><code>fragmentShaderDayNight</code></a>. Together, they make the color
+ adjustment go from bluish and dark at night, to purplish at dawn, to orange/yellow and bright at mid-day, toward
+ red at dusk, and then back to bluish at night.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="fragmentShaderDayNight">
 <h3>fragmentShaderDayNight</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.957">fragmentShaderDayNight</a></span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.967">fragmentShaderDayNight</a></span></div>
+<div class="block">The fragment shader counterpart to <a href="#vertexShaderDayNight"><code>vertexShaderDayNight</code></a>; must be used with that vertex shader. See its
+ docs for more info, particularly about the one uniform this needs set.</div>
 </section>
 </li>
 </ul>
@@ -789,7 +800,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="&lt;init&gt;()">
 <h3>Shaders</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.17">Shaders</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.16">Shaders</a></span>()</div>
 </section>
 </li>
 </ul>
@@ -803,7 +814,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="makeRGBAShader()">
 <h3>makeRGBAShader</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.glutils.ShaderProgram</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.96">makeRGBAShader</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.glutils.ShaderProgram</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.95">makeRGBAShader</a></span>()</div>
 <div class="block">A simple helper method that builds the simplest shader here; this shader allows tinting with light colors to
  lighten an image. You can assign the result to a SpriteBatch with its
  <code>SpriteBatch.setShader(ShaderProgram)</code> method.</div>
@@ -816,7 +827,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="makeGammaRGBAShader()">
 <h3>makeGammaRGBAShader</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.glutils.ShaderProgram</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.109">makeGammaRGBAShader</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.glutils.ShaderProgram</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.108">makeGammaRGBAShader</a></span>()</div>
 <div class="block">A simple helper method that builds the simplest shader here; this shader allows tinting with light colors to
  lighten an image, and also smooths changes well. You can assign the result to a SpriteBatch with its
  <code>SpriteBatch.setShader(ShaderProgram)</code> method.</div>
@@ -829,7 +840,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="makeBatch()">
 <h3>makeBatch</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.g2d.SpriteBatch</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.193">makeBatch</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.g2d.SpriteBatch</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.192">makeBatch</a></span>()</div>
 <div class="block">Prepares and returns a new SpriteBatch that uses the default <a href="#vertexShader"><code>vertexShader</code></a> and <a href="#fragmentShader"><code>fragmentShader</code></a>
  from this class, making it able to render YCwCm colors from the rest of this library. It won't be a
  <a href="ycwcm/ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.ycwcm"><code>ColorfulBatch</code></a> (those can adjust colors in more ways); you can simply use <code>new ColorfulBatch()</code> to
@@ -844,7 +855,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="makeBatch(float)">
 <h3>makeBatch</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.g2d.SpriteBatch</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.215">makeBatch</a></span>&#8203;(<span class="parameters">float&nbsp;contrast)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.g2d.SpriteBatch</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.214">makeBatch</a></span>&#8203;(<span class="parameters">float&nbsp;contrast)</span></div>
 <div class="block">Prepares and returns a new SpriteBatch that uses the default <a href="#vertexShader"><code>vertexShader</code></a> and <a href="#fragmentShader"><code>fragmentShader</code></a>
  from this class, making it able to render YCwCm colors from the rest of this library. This also takes a
  <code>contrast</code> parameter; if greater than 1.0 it will make light colors lighter and dark colors darker, while
@@ -866,7 +877,7 @@ extends java.lang.Object</pre>
 <li>
 <section class="detail" id="makeBatchHSLC()">
 <h3>makeBatchHSLC</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.g2d.SpriteBatch</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.237">makeBatchHSLC</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.g2d.SpriteBatch</span>&nbsp;<span class="member-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.236">makeBatchHSLC</a></span>()</div>
 <div class="block">Prepares and returns a new SpriteBatch that uses <a href="#vertexShaderHSLC"><code>vertexShaderHSLC</code></a> and <a href="#fragmentShaderHSLC"><code>fragmentShaderHSLC</code></a>
  from this class, making it interpret the SpriteBatch's color, as set by 
  <code>SpriteBatch.setColor(float, float, float, float)</code>, to be hue rotation, saturation change, lightness
