@@ -96,21 +96,22 @@ public class OklabGamutDemo extends ApplicationAdapter {
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.enableBlending();
-        PaletteReducer palette = new PaletteReducer();
-        palette.setDitherStrength(1f);
         final int frameCount = 120;
         Array<Pixmap> pixmaps = new Array<>(frameCount);
+        Array<Pixmap> pixmapsClean = new Array<>(frameCount);
+        PaletteReducer palette = new PaletteReducer();
+        palette.setDitherStrength(1f);
         for (int i = 0; i < frameCount; i++) {
             layer = i / (frameCount - 1f);
             renderInternal();
             // this gets a screenshot of the current window and adds it to the Array of Pixmap.
+            pixmapsClean.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
             pixmaps.add(
                     // this reduces the color palette using the slowest, highest-quality dithering algo in anim8.
-                    palette.reduceKnoll(
-                            ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight())
-                    )
+                    palette.reduceKnoll(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()))
             );
         }
+
 
 //// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
 //// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
@@ -123,12 +124,12 @@ public class OklabGamutDemo extends ApplicationAdapter {
 //        gif.palette = new PaletteReducer(pixmaps);
 //        // 24 is how many frames per second the animated GIF should play back at.
         gif.write(Gdx.files.local("OklabGamut.gif"), pixmaps, 24);
-/*
+
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
         AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
-        png.write(Gdx.files.local("OklabGamut.png"), pixmaps, 24);
-*/
+        png.write(Gdx.files.local("OklabGamut.png"), pixmapsClean, 24);
+
         float minA = 1000f, minB = 1000f, maxA = -1000f, maxB = -1000f, ok, A, B;
         int c = 0xFF;
         for (int r = 0; r < 256; r++, c += 0x01000000) {
