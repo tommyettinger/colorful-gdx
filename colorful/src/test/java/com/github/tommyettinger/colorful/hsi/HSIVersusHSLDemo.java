@@ -104,21 +104,25 @@ public class HSIVersusHSLDemo extends ApplicationAdapter {
             // this gets a screenshot of the current window and adds it to the Array of Pixmap.
             pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         }
+//// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
+        AnimatedPNG png = new AnimatedPNG();
+//// 24 is how many frames per second the animated PNG should play back at.
+        png.write(Gdx.files.local("HSIVersusHSV.png"), pixmaps, 24);
 //// AnimatedGif is from anim8; this code uses the predefined DawnBringer Aurora palette, which has 255 colors
 //// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
         AnimatedGif gif = new AnimatedGif();
 ////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
 ////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
-        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
-        gif.palette = new PaletteReducer();
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
+        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE);
+        PaletteReducer palette = new PaletteReducer();
+        for(Pixmap p : pixmaps)
+            palette.reduceKnoll(p);
+        gif.palette = palette;
 ////        gif.palette.setDitherStrength(0.5f);
 ////        gif.palette.analyze(pixmaps, 500);
 ////        // 24 is how many frames per second the animated GIF should play back at.
         gif.write(Gdx.files.local("HSIVersusHSV.gif"), pixmaps, 24);
-//// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
-        AnimatedPNG png = new AnimatedPNG();
-//// 24 is how many frames per second the animated PNG should play back at.
-        png.write(Gdx.files.local("HSIVersusHSV.png"), pixmaps, 24);
     }
 
 
