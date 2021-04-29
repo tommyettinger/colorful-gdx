@@ -105,6 +105,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
             renderInternal();
             // this gets a screenshot of the current window and adds it to the Array of Pixmap.
             pixmaps.add(
+                    // this reduces the color palette using the slowest, highest-quality dithering algo in anim8.
                     palette.reduceKnoll(
                             ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight())
                     )

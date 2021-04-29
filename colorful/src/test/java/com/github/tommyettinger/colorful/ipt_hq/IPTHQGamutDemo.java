@@ -101,29 +101,36 @@ public class IPTHQGamutDemo extends ApplicationAdapter {
         batch.enableBlending();
         final int frameCount = 120;
         Array<Pixmap> pixmaps = new Array<>(frameCount);
+        PaletteReducer palette = new PaletteReducer();
         for (int i = 0; i < frameCount; i++) {
             layer = i / (frameCount - 1f);
             renderInternal();
             // this gets a screenshot of the current window and adds it to the Array of Pixmap.
-            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+            pixmaps.add(
+                    // this reduces the color palette using the slowest, highest-quality dithering algo in anim8.
+                    palette.reduceKnoll(
+                            ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight())
+                    )
+            );
         }
 
-//// AnimatedGif is from anim8; this code uses the predefined DawnBringer Aurora palette, which has 255 colors
+//// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
 //// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
         AnimatedGif gif = new AnimatedGif();
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
-        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
-        gif.palette = new PaletteReducer();
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
+        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // this is very slow, but high-quality
 //        gif.palette.setDitherStrength(0.5f);
 //        gif.palette = new PaletteReducer(pixmaps);
 //        // 24 is how many frames per second the animated GIF should play back at.
         gif.write(Gdx.files.local("IPTHQGamut.gif"), pixmaps, 24);
+/*
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
         AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
         png.write(Gdx.files.local("IPTHQGamut.png"), pixmaps, 24);
-
+*/
     }
 
 
