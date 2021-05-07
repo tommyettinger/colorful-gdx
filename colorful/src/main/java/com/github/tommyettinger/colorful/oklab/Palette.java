@@ -3145,6 +3145,9 @@ public class Palette {
      * Any colors used in libGDX text markup look up their values in Colors, so calling this can help display fonts
      * where markup is enabled. This only needs to be called once, and if you call {@link #appendToKnownColors()}, then
      * that should be done after this to avoid mixing RGBA and Oklab colors.
+     * <br>
+     * This is a duplicate of a method with the same name in SimplePalette; you should still only call this method once,
+     * regardless of where it was from.
      */
     public static void editKnownColors(){
         for(Color c : Colors.getColors().values())
@@ -3158,6 +3161,8 @@ public class Palette {
      * Appends Oklab-compatible Color instances to the map in {@link Colors}, using the names in {@link #NAMES} (which
      * are "Title Cased" instead of "ALL UPPER CASE"). If you intend to still use the existing values in Colors, you
      * should call {@link #editKnownColors()} first; otherwise you can just always use "Title Cased" color names.
+     * <br>
+     * This can be used alongside the method with the same name in SimplePalette, since that uses "lower cased" names.
      */
     public static void appendToKnownColors(){
         for(ObjectFloatMap.Entry<String> ent : NAMED) {
