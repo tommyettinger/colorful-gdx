@@ -79,7 +79,7 @@ loadScripts(document, 'script');</script>
 </div>
 <section class="description">
 <hr>
-<div class="type-signature"><span class="modifiers">public class </span><span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.24">SimplePalette</a></span>
+<div class="type-signature"><span class="modifiers">public class </span><span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.26">SimplePalette</a></span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">A palette of predefined colors as packed IPT floats, the kind <a href="ColorTools.html" title="class in com.github.tommyettinger.colorful.oklab"><code>ColorTools</code></a> works with.
  You can access colors by their constant name, such as <code>OCEAN_BLUE</code>, by the <a href="#NAMED"><code>NAMED</code></a> map using
@@ -405,12 +405,24 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static <a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#bestMatch(float,int)">bestMatch</a></span>&#8203;(float&nbsp;oklab,
- int&nbsp;mixCount)</code></div>
+<div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#appendToKnownColors()">appendToKnownColors</a></span>()</code></div>
 <div class="col-last even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
+<div class="block">Appends Oklab-compatible Color instances to the map in <code>Colors</code>, using the names in <a href="#NAMES"><code>NAMES</code></a> (which
+ are "lower cased" instead of "ALL UPPER CASE").</div>
+</div>
+<div class="col-first odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static <a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#bestMatch(float,int)">bestMatch</a></span>&#8203;(float&nbsp;oklab,
+ int&nbsp;mixCount)</code></div>
+<div class="col-last odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
 <div class="block">Given a color as a packed Oklab float, this finds the closest description it can to match the given color while
  using at most <code>mixCount</code> colors to mix in.</div>
+</div>
+<div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#editKnownColors()">editKnownColors</a></span>()</code></div>
+<div class="col-last even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
+<div class="block">Changes the existing RGBA Color instances in <code>Colors</code> to use Oklab and so be able to be shown normally by
+ <a href="ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.oklab"><code>ColorfulBatch</code></a> or a Batch using <a href="../Shaders.html#fragmentShaderOklab"><code>Shaders.fragmentShaderOklab</code></a>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
 <div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#parseDescription(java.lang.String)">parseDescription</a></span>&#8203;(<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description)</code></div>
@@ -437,19 +449,19 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="NAMED">
 <h3>NAMED</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.ObjectFloatMap&lt;<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.25">NAMED</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.ObjectFloatMap&lt;<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.27">NAMED</a></span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="LIST">
 <h3>LIST</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.FloatArray</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.26">LIST</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.FloatArray</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.28">LIST</a></span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="TRANSPARENT">
 <h3>TRANSPARENT</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.37">TRANSPARENT</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.39">TRANSPARENT</a></span></div>
 <div class="block">This color constant "transparent" has RGBA8888 code <code>00000000</code>, L 0.0, A 0.49803922, B 0.49803922, alpha 0.0, hue 0.6666667, and saturation 0.0.
  It can be represented as a packed float with the constant <code>0x0.fefep-126F</code>.
  <pre>
@@ -466,7 +478,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="BLACK">
 <h3>BLACK</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.49">BLACK</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.51">BLACK</a></span></div>
 <div class="block">This color constant "black" has RGBA8888 code <code>000000FF</code>, L 0.0, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.6666667, and saturation 0.0.
  It can be represented as a packed float with the constant <code>-0x1.fefep125F</code>.
  <pre>
@@ -483,7 +495,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="GRAY">
 <h3>GRAY</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.61">GRAY</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.63">GRAY</a></span></div>
 <div class="block">This color constant "gray" has RGBA8888 code <code>808080FF</code>, L 0.6313726, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.54913926, and saturation 0.023115247.
  It can be represented as a packed float with the constant <code>-0x1.feff42p125F</code>.
  <pre>
@@ -500,7 +512,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="SILVER">
 <h3>SILVER</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.73">SILVER</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.75">SILVER</a></span></div>
 <div class="block">This color constant "silver" has RGBA8888 code <code>B6B6B6FF</code>, L 0.8, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.5489059, and saturation 0.025921047.
  It can be represented as a packed float with the constant <code>-0x1.feff98p125F</code>.
  <pre>
@@ -517,7 +529,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="WHITE">
 <h3>WHITE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.85">WHITE</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.87">WHITE</a></span></div>
 <div class="block">This color constant "white" has RGBA8888 code <code>FFFFFFFF</code>, L 1.0, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.5, and saturation 0.0.
  It can be represented as a packed float with the constant <code>-0x1.fefffep125F</code>.
  <pre>
@@ -534,7 +546,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="RED">
 <h3>RED</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.97">RED</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.99">RED</a></span></div>
 <div class="block">This color constant "red" has RGBA8888 code <code>FF0000FF</code>, L 0.627451, A 0.6117647, B 0.56078434, alpha 1.0, hue 0.9965429, and saturation 0.94052595.
  It can be represented as a packed float with the constant <code>-0x1.1f394p126F</code>.
  <pre>
@@ -551,7 +563,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="ORANGE">
 <h3>ORANGE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.109">ORANGE</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.111">ORANGE</a></span></div>
 <div class="block">This color constant "orange" has RGBA8888 code <code>FF7F00FF</code>, L 0.74509805, A 0.54901963, B 0.57254905, alpha 1.0, hue 0.07449477, and saturation 0.88500965.
  It can be represented as a packed float with the constant <code>-0x1.25197cp126F</code>.
  <pre>
@@ -568,7 +580,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="YELLOW">
 <h3>YELLOW</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.121">YELLOW</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.123">YELLOW</a></span></div>
 <div class="block">This color constant "yellow" has RGBA8888 code <code>FFFF00FF</code>, L 0.96862745, A 0.4627451, B 0.59607846, alpha 1.0, hue 0.16986547, and saturation 0.85278344.
  It can be represented as a packed float with the constant <code>-0x1.30edeep126F</code>.
  <pre>
@@ -585,7 +597,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="GREEN">
 <h3>GREEN</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.133">GREEN</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.135">GREEN</a></span></div>
 <div class="block">This color constant "green" has RGBA8888 code <code>00FF00FF</code>, L 0.8666667, A 0.38039216, B 0.5882353, alpha 1.0, hue 0.3486388, and saturation 1.0.
  It can be represented as a packed float with the constant <code>-0x1.2cc3bap126F</code>.
  <pre>
@@ -602,7 +614,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="BLUE">
 <h3>BLUE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.145">BLUE</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.147">BLUE</a></span></div>
 <div class="block">This color constant "blue" has RGBA8888 code <code>0000FFFF</code>, L 0.4509804, A 0.48235294, B 0.34117648, alpha 1.0, hue 0.6666667, and saturation 1.0.
  It can be represented as a packed float with the constant <code>-0x1.aef6e6p125F</code>.
  <pre>
@@ -619,7 +631,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="INDIGO">
 <h3>INDIGO</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.157">INDIGO</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.159">INDIGO</a></span></div>
 <div class="block">This color constant "indigo" has RGBA8888 code <code>520FE0FF</code>, L 0.46666667, A 0.53333336, B 0.36862746, alpha 1.0, hue 0.71970063, and saturation 0.8475976.
  It can be represented as a packed float with the constant <code>-0x1.bd10eep125F</code>.
  <pre>
@@ -636,7 +648,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="VIOLET">
 <h3>VIOLET</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.169">VIOLET</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.171">VIOLET</a></span></div>
 <div class="block">This color constant "violet" has RGBA8888 code <code>9040EFFF</code>, L 0.5882353, A 0.56078434, B 0.39607844, alpha 1.0, hue 0.7400259, and saturation 0.69078076.
  It can be represented as a packed float with the constant <code>-0x1.cb1f2cp125F</code>.
  <pre>
@@ -653,7 +665,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="PURPLE">
 <h3>PURPLE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.181">PURPLE</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.183">PURPLE</a></span></div>
 <div class="block">This color constant "purple" has RGBA8888 code <code>C000FFFF</code>, L 0.61960787, A 0.60784316, B 0.3882353, alpha 1.0, hue 0.79168844, and saturation 1.0.
  It can be represented as a packed float with the constant <code>-0x1.c7373cp125F</code>.
  <pre>
@@ -670,7 +682,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="BROWN">
 <h3>BROWN</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.193">BROWN</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.195">BROWN</a></span></div>
 <div class="block">This color constant "brown" has RGBA8888 code <code>8F573BFF</code>, L 0.54509807, A 0.5254902, B 0.5294118, alpha 1.0, hue 0.05623632, and saturation 0.29972398.
  It can be represented as a packed float with the constant <code>-0x1.0f0d16p126F</code>.
  <pre>
@@ -687,7 +699,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="PINK">
 <h3>PINK</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.205">PINK</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.207">PINK</a></span></div>
 <div class="block">This color constant "pink" has RGBA8888 code <code>FFA0E0FF</code>, L 0.8352941, A 0.5568628, B 0.4745098, alpha 1.0, hue 0.87488794, and saturation 0.35551316.
  It can be represented as a packed float with the constant <code>-0x1.f31daap125F</code>.
  <pre>
@@ -704,7 +716,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="MAGENTA">
 <h3>MAGENTA</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.217">MAGENTA</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.219">MAGENTA</a></span></div>
 <div class="block">This color constant "magenta" has RGBA8888 code <code>F500F5FF</code>, L 0.68235296, A 0.6313726, B 0.41568628, alpha 1.0, hue 0.82959664, and saturation 0.9094021.
  It can be represented as a packed float with the constant <code>-0x1.d5435cp125F</code>.
  <pre>
@@ -721,7 +733,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="BRICK">
 <h3>BRICK</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.229">BRICK</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.231">BRICK</a></span></div>
 <div class="block">This color constant "brick" has RGBA8888 code <code>D5524AFF</code>, L 0.6313726, A 0.5686275, B 0.53333336, alpha 1.0, hue 0.008957353, and saturation 0.512173.
  It can be represented as a packed float with the constant <code>-0x1.112342p126F</code>.
  <pre>
@@ -738,7 +750,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="EMBER">
 <h3>EMBER</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.241">EMBER</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.243">EMBER</a></span></div>
 <div class="block">This color constant "ember" has RGBA8888 code <code>F55A32FF</code>, L 0.68235296, A 0.57254905, B 0.5568628, alpha 1.0, hue 0.037140083, and saturation 0.75178295.
  It can be represented as a packed float with the constant <code>-0x1.1d255cp126F</code>.
  <pre>
@@ -755,7 +767,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="SALMON">
 <h3>SALMON</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.253">SALMON</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.255">SALMON</a></span></div>
 <div class="block">This color constant "salmon" has RGBA8888 code <code>FF6262FF</code>, L 0.7137255, A 0.5803922, B 0.53333336, alpha 1.0, hue 9.369861E-5, and saturation 0.5919734.
  It can be represented as a packed float with the constant <code>-0x1.11296cp126F</code>.
  <pre>
@@ -772,7 +784,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="CHOCOLATE">
 <h3>CHOCOLATE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.265">CHOCOLATE</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.267">CHOCOLATE</a></span></div>
 <div class="block">This color constant "chocolate" has RGBA8888 code <code>683818FF</code>, L 0.41960785, A 0.5254902, B 0.53333336, alpha 1.0, hue 0.06347794, and saturation 0.2938226.
  It can be represented as a packed float with the constant <code>-0x1.110cd6p126F</code>.
  <pre>
@@ -789,7 +801,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="TAN">
 <h3>TAN</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.277">TAN</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.279">TAN</a></span></div>
 <div class="block">This color constant "tan" has RGBA8888 code <code>D2B48CFF</code>, L 0.80784315, A 0.5058824, B 0.5254902, alpha 1.0, hue 0.09748065, and saturation 0.23781472.
  It can be represented as a packed float with the constant <code>-0x1.0d039cp126F</code>.
  <pre>
@@ -806,7 +818,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="BRONZE">
 <h3>BRONZE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.289">BRONZE</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.291">BRONZE</a></span></div>
 <div class="block">This color constant "bronze" has RGBA8888 code <code>CE8E31FF</code>, L 0.7176471, A 0.5137255, B 0.56078434, alpha 1.0, hue 0.10091105, and saturation 0.5744981.
  It can be represented as a packed float with the constant <code>-0x1.1f076ep126F</code>.
  <pre>
@@ -823,7 +835,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="CINNAMON">
 <h3>CINNAMON</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.301">CINNAMON</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.303">CINNAMON</a></span></div>
 <div class="block">This color constant "cinnamon" has RGBA8888 code <code>D2691DFF</code>, L 0.654902, A 0.54509807, B 0.56078434, alpha 1.0, hue 0.06806485, and saturation 0.69029737.
  It can be represented as a packed float with the constant <code>-0x1.1f174ep126F</code>.
  <pre>
@@ -840,7 +852,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="APRICOT">
 <h3>APRICOT</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.313">APRICOT</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.315">APRICOT</a></span></div>
 <div class="block">This color constant "apricot" has RGBA8888 code <code>FFA828FF</code>, L 0.8156863, A 0.52156866, B 0.5764706, alpha 1.0, hue 0.09884546, and saturation 0.82258695.
  It can be represented as a packed float with the constant <code>-0x1.270bap126F</code>.
  <pre>
@@ -857,7 +869,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="PEACH">
 <h3>PEACH</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.325">PEACH</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.327">PEACH</a></span></div>
 <div class="block">This color constant "peach" has RGBA8888 code <code>FFBF81FF</code>, L 0.8666667, A 0.5176471, B 0.54509807, alpha 1.0, hue 0.08507312, and saturation 0.47791255.
  It can be represented as a packed float with the constant <code>-0x1.1709bap126F</code>.
  <pre>
@@ -874,7 +886,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="PEAR">
 <h3>PEAR</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.337">PEAR</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.339">PEAR</a></span></div>
 <div class="block">This color constant "pear" has RGBA8888 code <code>D3E330FF</code>, L 0.8862745, A 0.45882353, B 0.58431375, alpha 1.0, hue 0.18681404, and saturation 0.7025431.
  It can be represented as a packed float with the constant <code>-0x1.2aebc4p126F</code>.
  <pre>
@@ -891,7 +903,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="SAFFRON">
 <h3>SAFFRON</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.349">SAFFRON</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.351">SAFFRON</a></span></div>
 <div class="block">This color constant "saffron" has RGBA8888 code <code>FFD510FF</code>, L 0.89411765, A 0.4862745, B 0.5882353, alpha 1.0, hue 0.14080147, and saturation 0.84424806.
  It can be represented as a packed float with the constant <code>-0x1.2cf9c8p126F</code>.
  <pre>
@@ -908,7 +920,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="BUTTER">
 <h3>BUTTER</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.361">BUTTER</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.363">BUTTER</a></span></div>
 <div class="block">This color constant "butter" has RGBA8888 code <code>FFF288FF</code>, L 0.95686275, A 0.4862745, B 0.5568628, alpha 1.0, hue 0.15134035, and saturation 0.44521707.
  It can be represented as a packed float with the constant <code>-0x1.1cf9e8p126F</code>.
  <pre>
@@ -925,7 +937,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="CHARTREUSE">
 <h3>CHARTREUSE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.373">CHARTREUSE</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.375">CHARTREUSE</a></span></div>
 <div class="block">This color constant "chartreuse" has RGBA8888 code <code>C8FF41FF</code>, L 0.9372549, A 0.4392157, B 0.58431375, alpha 1.0, hue 0.22184636, and saturation 0.71951014.
  It can be represented as a packed float with the constant <code>-0x1.2ae1dep126F</code>.
  <pre>
@@ -942,7 +954,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="CACTUS">
 <h3>CACTUS</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.385">CACTUS</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.387">CACTUS</a></span></div>
 <div class="block">This color constant "cactus" has RGBA8888 code <code>30A000FF</code>, L 0.6431373, A 0.41960785, B 0.5647059, alpha 1.0, hue 0.30874372, and saturation 0.5568283.
  It can be represented as a packed float with the constant <code>-0x1.20d748p126F</code>.
  <pre>
@@ -959,7 +971,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="LIME">
 <h3>LIME</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.397">LIME</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.399">LIME</a></span></div>
 <div class="block">This color constant "lime" has RGBA8888 code <code>93D300FF</code>, L 0.8117647, A 0.43529412, B 0.5803922, alpha 1.0, hue 0.23129159, and saturation 0.71080446.
  It can be represented as a packed float with the constant <code>-0x1.28df9ep126F</code>.
  <pre>
@@ -976,7 +988,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="OLIVE">
 <h3>OLIVE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.409">OLIVE</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.411">OLIVE</a></span></div>
 <div class="block">This color constant "olive" has RGBA8888 code <code>818000FF</code>, L 0.6117647, A 0.4745098, B 0.56078434, alpha 1.0, hue 0.17558604, and saturation 0.43590918.
  It can be represented as a packed float with the constant <code>-0x1.1ef338p126F</code>.
  <pre>
@@ -993,7 +1005,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="FERN">
 <h3>FERN</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.421">FERN</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.423">FERN</a></span></div>
 <div class="block">This color constant "fern" has RGBA8888 code <code>4E7942FF</code>, L 0.56078434, A 0.4627451, B 0.5294118, alpha 1.0, hue 0.31559366, and saturation 0.20097598.
  It can be represented as a packed float with the constant <code>-0x1.0eed1ep126F</code>.
  <pre>
@@ -1010,7 +1022,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="MOSS">
 <h3>MOSS</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.433">MOSS</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.435">MOSS</a></span></div>
 <div class="block">This color constant "moss" has RGBA8888 code <code>204608FF</code>, L 0.3764706, A 0.45882353, B 0.5372549, alpha 1.0, hue 0.28017563, and saturation 0.23527473.
  It can be represented as a packed float with the constant <code>-0x1.12eacp126F</code>.
  <pre>
@@ -1027,7 +1039,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="CELERY">
 <h3>CELERY</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.445">CELERY</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.447">CELERY</a></span></div>
 <div class="block">This color constant "celery" has RGBA8888 code <code>7DFF73FF</code>, L 0.9019608, A 0.41960785, B 0.56078434, alpha 1.0, hue 0.3266647, and saturation 0.5390122.
  It can be represented as a packed float with the constant <code>-0x1.1ed7ccp126F</code>.
  <pre>
@@ -1044,7 +1056,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="SAGE">
 <h3>SAGE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.457">SAGE</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.459">SAGE</a></span></div>
 <div class="block">This color constant "sage" has RGBA8888 code <code>ABE3C5FF</code>, L 0.88235295, A 0.46666667, B 0.50980395, alpha 1.0, hue 0.41779384, and saturation 0.24272788.
  It can be represented as a packed float with the constant <code>-0x1.04efc2p126F</code>.
  <pre>
@@ -1061,7 +1073,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="JADE">
 <h3>JADE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.469">JADE</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.471">JADE</a></span></div>
 <div class="block">This color constant "jade" has RGBA8888 code <code>3FBF3FFF</code>, L 0.7294118, A 0.41568628, B 0.5568628, alpha 1.0, hue 0.3623353, and saturation 0.57830364.
  It can be represented as a packed float with the constant <code>-0x1.1cd574p126F</code>.
  <pre>
@@ -1078,7 +1090,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="CYAN">
 <h3>CYAN</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.481">CYAN</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.483">CYAN</a></span></div>
 <div class="block">This color constant "cyan" has RGBA8888 code <code>00FFFFFF</code>, L 0.90588236, A 0.42352942, B 0.47843137, alpha 1.0, hue 0.5, and saturation 1.0.
  It can be represented as a packed float with the constant <code>-0x1.f4d9cep125F</code>.
  <pre>
@@ -1095,7 +1107,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="MINT">
 <h3>MINT</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.493">MINT</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.495">MINT</a></span></div>
 <div class="block">This color constant "mint" has RGBA8888 code <code>7FFFD4FF</code>, L 0.92156863, A 0.4392157, B 0.50980395, alpha 1.0, hue 0.4465047, and saturation 0.5094682.
  It can be represented as a packed float with the constant <code>-0x1.04e1d6p126F</code>.
  <pre>
@@ -1112,7 +1124,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="TEAL">
 <h3>TEAL</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.505">TEAL</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.507">TEAL</a></span></div>
 <div class="block">This color constant "teal" has RGBA8888 code <code>007F7FFF</code>, L 0.5686275, A 0.4509804, B 0.4862745, alpha 1.0, hue 0.50141567, and saturation 0.50450027.
  It can be represented as a packed float with the constant <code>-0x1.f8e722p125F</code>.
  <pre>
@@ -1129,7 +1141,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="TURQUOISE">
 <h3>TURQUOISE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.517">TURQUOISE</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.519">TURQUOISE</a></span></div>
 <div class="block">This color constant "turquoise" has RGBA8888 code <code>2ED6C9FF</code>, L 0.80784315, A 0.43137255, B 0.49019608, alpha 1.0, hue 0.48925468, and saturation 0.7674718.
  It can be represented as a packed float with the constant <code>-0x1.fadd9cp125F</code>.
  <pre>
@@ -1146,7 +1158,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="SKY">
 <h3>SKY</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.529">SKY</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.531">SKY</a></span></div>
 <div class="block">This color constant "sky" has RGBA8888 code <code>10C0E0FF</code>, L 0.7607843, A 0.44313726, B 0.4627451, alpha 1.0, hue 0.5243008, and saturation 0.88374835.
  It can be represented as a packed float with the constant <code>-0x1.ece384p125F</code>.
  <pre>
@@ -1163,7 +1175,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="COBALT">
 <h3>COBALT</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.541">COBALT</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.543">COBALT</a></span></div>
 <div class="block">This color constant "cobalt" has RGBA8888 code <code>0046ABFF</code>, L 0.44705883, A 0.48235294, B 0.4117647, alpha 1.0, hue 0.6005195, and saturation 0.6801619.
  It can be represented as a packed float with the constant <code>-0x1.d2f6e4p125F</code>.
  <pre>
@@ -1180,7 +1192,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="DENIM">
 <h3>DENIM</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.553">DENIM</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.555">DENIM</a></span></div>
 <div class="block">This color constant "denim" has RGBA8888 code <code>3088B8FF</code>, L 0.62352943, A 0.46666667, B 0.45490196, alpha 1.0, hue 0.557327, and saturation 0.55407006.
  It can be represented as a packed float with the constant <code>-0x1.e8ef3ep125F</code>.
  <pre>
@@ -1197,7 +1209,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="NAVY">
 <h3>NAVY</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.565">NAVY</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.567">NAVY</a></span></div>
 <div class="block">This color constant "navy" has RGBA8888 code <code>000080FF</code>, L 0.28627452, A 0.4862745, B 0.4, alpha 1.0, hue 0.6633139, and saturation 0.509886.
  It can be represented as a packed float with the constant <code>-0x1.ccf892p125F</code>.
  <pre>
@@ -1214,7 +1226,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="LAVENDER">
 <h3>LAVENDER</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.577">LAVENDER</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.579">LAVENDER</a></span></div>
 <div class="block">This color constant "lavender" has RGBA8888 code <code>B991FFFF</code>, L 0.7607843, A 0.53333336, B 0.43529412, alpha 1.0, hue 0.7186765, and saturation 0.42370677.
  It can be represented as a packed float with the constant <code>-0x1.df1184p125F</code>.
  <pre>
@@ -1231,7 +1243,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="PLUM">
 <h3>PLUM</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.589">PLUM</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.591">PLUM</a></span></div>
 <div class="block">This color constant "plum" has RGBA8888 code <code>BE0DC6FF</code>, L 0.58431375, A 0.6117647, B 0.42352942, alpha 1.0, hue 0.82369447, and saturation 0.75267494.
  It can be represented as a packed float with the constant <code>-0x1.d9392ap125F</code>.
  <pre>
@@ -1248,7 +1260,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="MAUVE">
 <h3>MAUVE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.601">MAUVE</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.603">MAUVE</a></span></div>
 <div class="block">This color constant "mauve" has RGBA8888 code <code>AB73ABFF</code>, L 0.6627451, A 0.5411765, B 0.47058824, alpha 1.0, hue 0.8225035, and saturation 0.22910339.
  It can be represented as a packed float with the constant <code>-0x1.f11552p125F</code>.
  <pre>
@@ -1265,7 +1277,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="ROSE">
 <h3>ROSE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.613">ROSE</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.615">ROSE</a></span></div>
 <div class="block">This color constant "rose" has RGBA8888 code <code>E61E78FF</code>, L 0.6156863, A 0.6156863, B 0.49411765, alpha 1.0, hue 0.9223609, and saturation 0.7501173.
  It can be represented as a packed float with the constant <code>-0x1.fd3b3ap125F</code>.
  <pre>
@@ -1282,7 +1294,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="RASPBERRY">
 <h3>RASPBERRY</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.625">RASPBERRY</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.627">RASPBERRY</a></span></div>
 <div class="block">This color constant "raspberry" has RGBA8888 code <code>911437FF</code>, L 0.44705883, A 0.5803922, B 0.5137255, alpha 1.0, hue 0.9529095, and saturation 0.46955392.
  It can be represented as a packed float with the constant <code>-0x1.0728e4p126F</code>.
  <pre>
@@ -1299,7 +1311,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="NAMES">
 <h3>NAMES</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.Array&lt;<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.632">NAMES</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.Array&lt;<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.634">NAMES</a></span></div>
 <div class="block">All names for colors in this palette, in alphabetical order. You can fetch the corresponding packed float color
  by looking up a name in <a href="#NAMED"><code>NAMED</code></a>.</div>
 </section>
@@ -1307,7 +1319,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="NAMES_BY_HUE">
 <h3>NAMES_BY_HUE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.Array&lt;<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.638">NAMES_BY_HUE</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.Array&lt;<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.640">NAMES_BY_HUE</a></span></div>
 <div class="block">All names for colors in this palette, with grayscale first, then sorted by hue from red to yellow to green to
  blue. You can fetch the corresponding packed float color by looking up a name in <a href="#NAMED"><code>NAMED</code></a>.</div>
 </section>
@@ -1315,13 +1327,13 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="COLORS_BY_HUE">
 <h3>COLORS_BY_HUE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.FloatArray</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.640">COLORS_BY_HUE</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.FloatArray</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.642">COLORS_BY_HUE</a></span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="NAMES_BY_LIGHTNESS">
 <h3>NAMES_BY_LIGHTNESS</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.Array&lt;<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.645">NAMES_BY_LIGHTNESS</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.Array&lt;<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.647">NAMES_BY_LIGHTNESS</a></span></div>
 <div class="block">All names for colors in this palette, sorted by lightness from black to white. You can fetch the
  corresponding packed float color by looking up a name in <a href="#NAMED"><code>NAMED</code></a>.</div>
 </section>
@@ -1337,7 +1349,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;()">
 <h3>SimplePalette</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.24">SimplePalette</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.26">SimplePalette</a></span>()</div>
 </section>
 </li>
 </ul>
@@ -1351,7 +1363,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="parseDescription(java.lang.String)">
 <h3>parseDescription</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.695">parseDescription</a></span>&#8203;<span class="parameters">(<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.697">parseDescription</a></span>&#8203;<span class="parameters">(<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description)</span></div>
 <div class="block">Parses a color description and returns the approximate color it describes, as a packed float color.
  Color descriptions consist of one or more lower-case words, separated by non-alphabetical characters (typically
  spaces and/or hyphens). Any word that is the name of a color in this SimplePalette will be looked up in
@@ -1378,7 +1390,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="bestMatch(float,int)">
 <h3>bestMatch</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.812">bestMatch</a></span>&#8203;<span class="parameters">(float&nbsp;oklab,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.814">bestMatch</a></span>&#8203;<span class="parameters">(float&nbsp;oklab,
  int&nbsp;mixCount)</span></div>
 <div class="block">Given a color as a packed Oklab float, this finds the closest description it can to match the given color while
  using at most <code>mixCount</code> colors to mix in. You should only use small numbers for mixCount, like 1 to 3;
@@ -1392,6 +1404,31 @@ loadScripts(document, 'script');</script>
 <dt>Returns:</dt>
 <dd>a description that can be fed to <a href="#parseDescription(java.lang.String)"><code>parseDescription(String)</code></a> to get a similar color</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="editKnownColors()">
+<h3>editKnownColors</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.865">editKnownColors</a></span>()</div>
+<div class="block">Changes the existing RGBA Color instances in <code>Colors</code> to use Oklab and so be able to be shown normally by
+ <a href="ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.oklab"><code>ColorfulBatch</code></a> or a Batch using <a href="../Shaders.html#fragmentShaderOklab"><code>Shaders.fragmentShaderOklab</code></a>.
+ Any colors used in libGDX text markup look up their values in Colors, so calling this can help display fonts
+ where markup is enabled. This only needs to be called once, and if you call <a href="#appendToKnownColors()"><code>appendToKnownColors()</code></a>, then
+ that should be done after this to avoid mixing RGBA and Oklab colors.
+ <br>
+ This is a duplicate of a method with the same name in Palette; you should still only call this method once,
+ regardless of where it was from.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="appendToKnownColors()">
+<h3>appendToKnownColors</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/SimplePalette.html#line.879">appendToKnownColors</a></span>()</div>
+<div class="block">Appends Oklab-compatible Color instances to the map in <code>Colors</code>, using the names in <a href="#NAMES"><code>NAMES</code></a> (which
+ are "lower cased" instead of "ALL UPPER CASE"). If you intend to still use the existing values in Colors, you
+ should call <a href="#editKnownColors()"><code>editKnownColors()</code></a> first; otherwise you can just always use "lower cased" color names.
+ <br>
+ This can be used alongside the method with the same name in Palette, since that uses "Title Cased" names.</div>
 </section>
 </li>
 </ul>

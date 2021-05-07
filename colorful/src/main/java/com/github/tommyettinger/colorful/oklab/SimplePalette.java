@@ -882,5 +882,4 @@ public class SimplePalette {
             Colors.put(ent.key, new Color(channelL(f), channelA(f), channelB(f), alpha(f)));
         }
     }
-
 }

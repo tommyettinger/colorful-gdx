@@ -1,5 +1,7 @@
 package com.github.tommyettinger.colorful.ipt_hq;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.ObjectFloatMap;
@@ -847,5 +849,36 @@ public class SimplePalette {
                 description.append(' ');
         }
         return description.toString();
+    }
+
+    /**
+     * Changes the existing RGBA Color instances in {@link Colors} to use IPT_HQ and so be able to be shown normally by
+     * {@link ColorfulBatch} or a Batch using {@link com.github.tommyettinger.colorful.Shaders#fragmentShaderIPT_HQ}.
+     * Any colors used in libGDX text markup look up their values in Colors, so calling this can help display fonts
+     * where markup is enabled. This only needs to be called once, and if you call {@link #appendToKnownColors()}, then
+     * that should be done after this to avoid mixing RGBA and IPT_HQ colors.
+     * <br>
+     * This is a duplicate of a method with the same name in Palette; you should still only call this method once,
+     * regardless of where it was from.
+     */
+    public static void editKnownColors(){
+        for(Color c : Colors.getColors().values()) {
+            final float f = ColorTools.fromColor(c);
+            c.set(intensity(f), protan(f), tritan(f), c.a);
+        }
+    }
+
+    /**
+     * Appends IPT_HQ-compatible Color instances to the map in {@link Colors}, using the names in {@link #NAMES} (which
+     * are "lower cased" instead of "ALL UPPER CASE"). If you intend to still use the existing values in Colors, you
+     * should call {@link #editKnownColors()} first; otherwise you can just always use "lower cased" color names.
+     * <br>
+     * This can be used alongside the method with the same name in Palette, since that uses "Title Cased" names.
+     */
+    public static void appendToKnownColors(){
+        for(ObjectFloatMap.Entry<String> ent : NAMED) {
+            final float f = ent.value;
+            Colors.put(ent.key, new Color(intensity(f), protan(f), tritan(f), alpha(f)));
+        }
     }
 }
