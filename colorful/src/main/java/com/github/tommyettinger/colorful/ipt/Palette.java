@@ -1,12 +1,14 @@
 package com.github.tommyettinger.colorful.ipt;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.ObjectFloatMap;
 
 import java.util.Comparator;
 
-import static com.github.tommyettinger.colorful.ipt.ColorTools.intensity;
+import static com.github.tommyettinger.colorful.ipt.ColorTools.*;
 
 /**
  * A palette of predefined colors as packed IPT floats, the kind {@link ColorTools} works with.
@@ -3135,5 +3137,31 @@ public class Palette {
                 return Float.compare(intensity(NAMED.get(o1, TRANSPARENT)), intensity(NAMED.get(o2, TRANSPARENT)));
             }
         });
+    }
+
+    /**
+     * Changes the existing RGBA Color instances in {@link Colors} to use IPT and so be able to be shown normally by
+     * {@link ColorfulBatch} or a Batch using {@link com.github.tommyettinger.colorful.Shaders#fragmentShaderIPT}.
+     * Any colors used in libGDX text markup look up their values in Colors, so calling this can help display fonts
+     * where markup is enabled. This only needs to be called once, and if you call {@link #appendToKnownColors()}, then
+     * that should be done after this to avoid mixing RGBA and IPT colors.
+     */
+    public static void editKnownColors(){
+        for(Color c : Colors.getColors().values()) {
+            final float f = fromColor(c);
+            c.set(intensity(f), protan(f), tritan(f), c.a);
+        }
+    }
+
+    /**
+     * Appends IPT-compatible Color instances to the map in {@link Colors}, using the names in {@link #NAMES} (which
+     * are "Title Cased" instead of "ALL UPPER CASE"). If you intend to still use the existing values in Colors, you
+     * should call {@link #editKnownColors()} first; otherwise you can just always use "Title Cased" color names.
+     */
+    public static void appendToKnownColors(){
+        for(ObjectFloatMap.Entry<String> ent : NAMED) {
+            final float f = ent.value;
+            Colors.put(ent.key, new Color(intensity(f), protan(f), tritan(f), alpha(f)));
+        }
     }
 }

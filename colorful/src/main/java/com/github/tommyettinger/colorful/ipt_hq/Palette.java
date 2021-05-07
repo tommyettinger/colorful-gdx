@@ -3164,5 +3164,4 @@ public class Palette {
             Colors.put(ent.key, new Color(intensity(f), protan(f), tritan(f), alpha(f)));
         }
     }
-
 }
