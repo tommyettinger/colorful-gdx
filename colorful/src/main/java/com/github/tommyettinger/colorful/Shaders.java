@@ -272,12 +272,14 @@ public class Shaders {
                     "void main()\n" +
                     "{\n" +
                     "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "    vec4 adj = v_color;\n" +
+                    "    adj.yz = adj.yz * 2.0 - 0.5;\n" +
                     "    vec3 ipt = (mat3(0.189786, 0.669665 , 0.286498, 0.576951, -0.73741 , 0.655205, 0.233221, 0.0681367, -0.941748)\n" +
-                    "         * (tgt.rgb)) + v_color.xyz - 0.5;\n" +
+                    "         * (tgt.rgb)) + adj.xyz - 0.5;\n" +
                     "    ipt.x = clamp(ipt.x, 0.0, 1.0);\n" +
                     "    ipt.yz = clamp(ipt.yz, -1.0, 1.0);\n" +
                     "    vec3 back = mat3(0.999779, 1.00015, 0.999769, 1.07094, -0.377744, 0.0629496, 0.324891, 0.220439, -0.809638) * ipt;\n" +
-                    "    gl_FragColor = vec4(clamp(back, 0.0, 1.0), v_color.a * tgt.a);\n" +
+                    "    gl_FragColor = vec4(clamp(back, 0.0, 1.0), adj.a * tgt.a);\n" +
                     "}";
     /**
      * Just like {@link #fragmentShaderIPT}, but gamma-corrects the input and output RGB values (which improves
@@ -304,7 +306,7 @@ public class Shaders {
                     "             pow(mat3(0.313921, 0.151693, 0.017753, 0.639468, 0.748209, 0.109468, 0.0465970, 0.1000044, 0.8729690) \n" +
                     "             * (tgt.rgb * tgt.rgb), forward);\n" +
                     "  ipt.x = clamp(ipt.x + v_color.x - 0.55, 0.0, 1.0);\n" +
-                    "  ipt.yz = clamp(ipt.yz + v_color.yz - 0.5, -1.0, 1.0);\n" +
+                    "  ipt.yz = clamp(ipt.yz + v_color.yz * 2.0 - 1.0, -1.0, 1.0);\n" +
                     "  ipt = mat3(1.0, 1.0, 1.0, 0.097569, -0.11388, 0.032615, 0.205226, 0.133217, -0.67689) * ipt;\n" +
                     "  gl_FragColor = vec4(sqrt(clamp(" +
                     "                 mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) *\n" +
@@ -333,7 +335,7 @@ public class Shaders {
                     "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +
                     "             * (tgt.rgb * tgt.rgb), forward);\n" +
                     "  lab.x = clamp(lab.x + v_color.r - 0.63, 0.0, 1.0);\n" +
-                    "  lab.yz = clamp(lab.yz + v_color.gb - 0.5, -1.0, 1.0);\n" +
+                    "  lab.yz = clamp(lab.yz + v_color.gb * 2.0 - 1.0, -1.0, 1.0);\n" +
                     "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +
                     "  gl_FragColor = vec4(sqrt(clamp(" +
                     "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +
