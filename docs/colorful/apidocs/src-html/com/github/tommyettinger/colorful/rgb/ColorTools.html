@@ -356,7 +356,7 @@
 <span class="source-line-no">343</span><span id="line.343">                        x = r;</span>
 <span class="source-line-no">344</span><span id="line.344">                }</span>
 <span class="source-line-no">345</span><span id="line.345">                final float d = x - Math.min(w, y);</span>
-<span class="source-line-no">346</span><span id="line.346">                final float light = x * (1f - 0.5f * d / (x + 1e-10f));</span>
+<span class="source-line-no">346</span><span id="line.346">                final float light = Math.min(Math.max(x * (1f - 0.5f * d / (x + 1e-10f)) + value, 0f), 1f);</span>
 <span class="source-line-no">347</span><span id="line.347">                hue += Math.abs(z + (w - y) / (6f * d + 1e-10f)) + 1f;</span>
 <span class="source-line-no">348</span><span id="line.348">                saturation += (x - light) / (Math.min(light, 1f - light) + 1e-10f);</span>
 <span class="source-line-no">349</span><span id="line.349">                return FloatColors.hsl2rgb(hue - (int)hue, Math.min(Math.max(saturation, 0f), 1f), light, opacity);</span>
@@ -409,7 +409,7 @@
 <span class="source-line-no">396</span><span id="line.396">         * between 0f (return start as-is) and 1f (return start with full alpha), start should be a packed color, as from</span>
 <span class="source-line-no">397</span><span id="line.397">         * {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and</span>
 <span class="source-line-no">398</span><span id="line.398">         * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards</span>
-<span class="source-line-no">399</span><span id="line.399">         * transparent. This won't change the intensity, protan, or tritan of the color.</span>
+<span class="source-line-no">399</span><span id="line.399">         * transparent. This won't change the red, green, or blue of the color.</span>
 <span class="source-line-no">400</span><span id="line.400">         * @see #fade(float, float) the counterpart method that makes a float color more translucent</span>
 <span class="source-line-no">401</span><span id="line.401">         * @param start the starting color as a packed float</span>
 <span class="source-line-no">402</span><span id="line.402">         * @param change how much to go from start toward opaque, as a float between 0 and 1; higher means closer to opaque</span>
@@ -425,7 +425,7 @@
 <span class="source-line-no">412</span><span id="line.412">         * (return start as-is) and 1f (return the color with 0 alpha), start should be a packed color, as from</span>
 <span class="source-line-no">413</span><span id="line.413">         * {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,</span>
 <span class="source-line-no">414</span><span id="line.414">         * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards</span>
-<span class="source-line-no">415</span><span id="line.415">         * transparent. This won't change the intensity, protan, or tritan of the color.</span>
+<span class="source-line-no">415</span><span id="line.415">         * transparent. This won't change the red, green, or blue of the color.</span>
 <span class="source-line-no">416</span><span id="line.416">         * @see #blot(float, float) the counterpart method that makes a float color more opaque</span>
 <span class="source-line-no">417</span><span id="line.417">         * @param start the starting color as a packed float</span>
 <span class="source-line-no">418</span><span id="line.418">         * @param change how much to go from start toward transparent, as a float between 0 and 1; higher means closer to transparent</span>

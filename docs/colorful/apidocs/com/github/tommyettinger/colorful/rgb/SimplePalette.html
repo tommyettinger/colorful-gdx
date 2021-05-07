@@ -6,7 +6,7 @@
 <title>SimplePalette (colorful 0.5.2-SNAPSHOT API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="description" content="declaration: package: com.github.tommyettinger.colorful.ipt_hq, class: SimplePalette">
+<meta name="description" content="declaration: package: com.github.tommyettinger.colorful.rgb, class: SimplePalette">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../../script-dir/jquery-ui.min.css" title="Style">
@@ -71,36 +71,34 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.github.tommyettinger.colorful.ipt_hq</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.github.tommyettinger.colorful.rgb</a></div>
 <h1 title="Class SimplePalette" class="title">Class SimplePalette</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">com.github.tommyettinger.colorful.ipt_hq.SimplePalette</div>
+<div class="inheritance">com.github.tommyettinger.colorful.rgb.SimplePalette</div>
 </div>
 <section class="description">
 <hr>
-<div class="type-signature"><span class="modifiers">public class </span><span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.36">SimplePalette</a></span>
+<div class="type-signature"><span class="modifiers">public class </span><span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.34">SimplePalette</a></span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">A palette of predefined colors as packed IPT_HQ floats, the kind <a href="ColorTools.html" title="class in com.github.tommyettinger.colorful.ipt_hq"><code>ColorTools</code></a> works with, plus a way to
- describe colors by combinations and adjustments. The description code is probably what you would use this class for;
- it revolves around <a href="#parseDescription(java.lang.String)"><code>parseDescription(String)</code></a>, which takes a color description String and returns a packed
- float color. The color descriptions look like "darker rich mint sage", where the order of the words doesn't matter.
- They can optionally include lightness changes (light/dark), and saturation changes (rich/dull), and must include one
- or more color names that will be mixed together (repeats are allowed to use a color more heavily). The changes can be
+<div class="block">A palette of predefined colors as packed RGB floats, the kind <a href="ColorTools.html" title="class in com.github.tommyettinger.colorful.rgb"><code>ColorTools</code></a> works with, plus a way to describe
+ colors by combinations and adjustments. The description code is probably what you would use this class for; it
+ revolves around <a href="#parseDescription(java.lang.String)"><code>parseDescription(String)</code></a>, which takes a color description String and returns a packed float
+ color. The color descriptions look like "darker rich mint sage", where the order of the words doesn't matter. They
+ can optionally include lightness changes (light/dark), and saturation changes (rich/dull), and must include one or
+ more color names that will be mixed together (repeats are allowed to use a color more heavily). The changes can be
  suffixed with "er", "est", or "most", such as "duller", "lightest", or "richmost", to progressively increase their
  effect on lightness or saturation.
  <br>
- The rest of this is about the same as in <a href="Palette.html" title="class in com.github.tommyettinger.colorful.ipt_hq"><code>Palette</code></a>.
+ The rest of this is about the same as in <a href="Palette.html" title="class in com.github.tommyettinger.colorful.rgb"><code>Palette</code></a>.
  <br>
  You can access colors by their constant name, such as <code>CACTUS</code>, by the <a href="#NAMED"><code>NAMED</code></a> map using
  <code>NAMED.get("cactus", 0f)</code>, or by index in the FloatArray called <a href="#LIST"><code>LIST</code></a>. Note that to access a float
  color from NAMED, you need to give a default value if the name is not found; <code>0f</code> is a good default because it
- will not occur in a valid IPT_HQ color. You can access the names in a specific order with <a href="#NAMES"><code>NAMES</code></a> (which is
+ is used for fully-transparent. You can access the names in a specific order with <a href="#NAMES"><code>NAMES</code></a> (which is
  alphabetical), <a href="#NAMES_BY_HUE"><code>NAMES_BY_HUE</code></a> (which is sorted by the hue of the matching color, from red to yellow to blue
  (with gray around here) to purple to red again), or <a href="#NAMES_BY_LIGHTNESS"><code>NAMES_BY_LIGHTNESS</code></a> (which is sorted by the intensity of
- the matching color, from darkest to lightest). Having a name lets you look up the matching color in <a href="#NAMED"><code>NAMED</code></a>.
- <br>
- Created by Tommy Ettinger on 10/13/2020.</div>
+ the matching color, from darkest to lightest). Having a name lets you look up the matching color in <a href="#NAMED"><code>NAMED</code></a>.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -116,67 +114,67 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#APRICOT">APRICOT</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "apricot" has RGBA8888 code <code>FFA828FF</code>, intensity 0.68235296, protan 0.5803922, tritan 0.7490196, alpha 1.0, hue 0.09959209, and saturation 0.8424464.</div>
+<div class="block">This color constant "apricot" has RGBA8888 code <code>FFA828FF</code>, R 1.0, G 0.65882355, B 0.15686275, alpha 1.0, hue 0.09922481, and saturation 0.84313726.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#BLACK">BLACK</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "black" has RGBA8888 code <code>000000FF</code>, intensity 0.0, protan 0.49803922, tritan 0.49803922, alpha 1.0, hue 0.6666667, and saturation 0.0.</div>
+<div class="block">This color constant "black" has RGBA8888 code <code>000000FF</code>, R 0.0, G 0.0, B 0.0, alpha 1.0, hue 0.0, and saturation 0.0.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#BLUE">BLUE</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "blue" has RGBA8888 code <code>0000FFFF</code>, intensity 0.44313726, protan 0.38039216, tritan 0.1254902, alpha 1.0, hue 0.6666667, and saturation 0.9989025.</div>
+<div class="block">This color constant "blue" has RGBA8888 code <code>0000FFFF</code>, R 0.0, G 0.0, B 1.0, alpha 1.0, hue 0.6666667, and saturation 1.0.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#BRICK">BRICK</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "brick" has RGBA8888 code <code>D5524AFF</code>, intensity 0.5058824, protan 0.6862745, tritan 0.6117647, alpha 1.0, hue 0.010635166, and saturation 0.54750645.</div>
+<div class="block">This color constant "brick" has RGBA8888 code <code>D5524AFF</code>, R 0.8352941, G 0.32156864, B 0.2901961, alpha 1.0, hue 0.009592325, and saturation 0.54509807.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#BRONZE">BRONZE</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "bronze" has RGBA8888 code <code>CE8E31FF</code>, intensity 0.5882353, protan 0.56078434, tritan 0.6901961, alpha 1.0, hue 0.09874619, and saturation 0.61364305.</div>
+<div class="block">This color constant "bronze" has RGBA8888 code <code>CE8E31FF</code>, R 0.80784315, G 0.5568628, B 0.19215687, alpha 1.0, hue 0.09872612, and saturation 0.6156863.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#BROWN">BROWN</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "brown" has RGBA8888 code <code>8F573BFF</code>, intensity 0.42352942, protan 0.57254905, tritan 0.5882353, alpha 1.0, hue 0.056629464, and saturation 0.3289587.</div>
+<div class="block">This color constant "brown" has RGBA8888 code <code>8F573BFF</code>, R 0.56078434, G 0.34117648, B 0.23137255, alpha 1.0, hue 0.055555552, and saturation 0.3294118.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#BUTTER">BUTTER</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "butter" has RGBA8888 code <code>FFF288FF</code>, intensity 0.8862745, protan 0.49411765, tritan 0.6745098, alpha 1.0, hue 0.14835475, and saturation 0.46378756.</div>
+<div class="block">This color constant "butter" has RGBA8888 code <code>FFF288FF</code>, R 1.0, G 0.9490196, B 0.53333336, alpha 1.0, hue 0.14845939, and saturation 0.46666664.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#CACTUS">CACTUS</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "cactus" has RGBA8888 code <code>30A000FF</code>, intensity 0.5137255, protan 0.36078432, tritan 0.68235296, alpha 1.0, hue 0.28286904, and saturation 0.6252039.</div>
+<div class="block">This color constant "cactus" has RGBA8888 code <code>30A000FF</code>, R 0.1882353, G 0.627451, B 0.0, alpha 1.0, hue 0.28333336, and saturation 0.627451.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#CELERY">CELERY</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "celery" has RGBA8888 code <code>7DFF73FF</code>, intensity 0.83137256, protan 0.34509805, tritan 0.67058825, alpha 1.0, hue 0.32334346, and saturation 0.54658806.</div>
+<div class="block">This color constant "celery" has RGBA8888 code <code>7DFF73FF</code>, R 0.49019608, G 1.0, B 0.4509804, alpha 1.0, hue 0.32142857, and saturation 0.5490196.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#CHARTREUSE">CHARTREUSE</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "chartreuse" has RGBA8888 code <code>C8FF41FF</code>, intensity 0.8392157, protan 0.39607844, tritan 0.7647059, alpha 1.0, hue 0.21423629, and saturation 0.7483187.</div>
+<div class="block">This color constant "chartreuse" has RGBA8888 code <code>C8FF41FF</code>, R 0.78431374, G 1.0, B 0.25490198, alpha 1.0, hue 0.21491227, and saturation 0.745098.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#CHOCOLATE">CHOCOLATE</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "chocolate" has RGBA8888 code <code>683818FF</code>, intensity 0.2901961, protan 0.5647059, tritan 0.59607846, alpha 1.0, hue 0.067405425, and saturation 0.31821468.</div>
+<div class="block">This color constant "chocolate" has RGBA8888 code <code>683818FF</code>, R 0.40784314, G 0.21960784, B 0.09411765, alpha 1.0, hue 0.066666655, and saturation 0.3137255.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#CINNAMON">CINNAMON</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "cinnamon" has RGBA8888 code <code>D2691DFF</code>, intensity 0.50980395, protan 0.627451, tritan 0.69411767, alpha 1.0, hue 0.0698809, and saturation 0.71087015.</div>
+<div class="block">This color constant "cinnamon" has RGBA8888 code <code>D2691DFF</code>, R 0.8235294, G 0.4117647, B 0.11372549, alpha 1.0, hue 0.06998159, and saturation 0.70980394.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#COBALT">COBALT</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "cobalt" has RGBA8888 code <code>0046ABFF</code>, intensity 0.4117647, protan 0.43137255, tritan 0.3019608, alpha 1.0, hue 0.5979607, and saturation 0.6710433.</div>
+<div class="block">This color constant "cobalt" has RGBA8888 code <code>0046ABFF</code>, R 0.0, G 0.27450982, B 0.67058825, alpha 1.0, hue 0.5984406, and saturation 0.67058825.</div>
 </div>
 <div class="col-first odd-row-color"><code>static com.badlogic.gdx.utils.FloatArray</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#COLORS_BY_HUE">COLORS_BY_HUE</a></span></code></div>
@@ -184,52 +182,52 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#CYAN">CYAN</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "cyan" has RGBA8888 code <code>00FFFFFF</code>, intensity 0.9137255, protan 0.32941177, tritan 0.43137255, alpha 1.0, hue 0.5, and saturation 1.0.</div>
+<div class="block">This color constant "cyan" has RGBA8888 code <code>00FFFFFF</code>, R 0.0, G 1.0, B 1.0, alpha 1.0, hue 0.5, and saturation 1.0.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#DENIM">DENIM</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "denim" has RGBA8888 code <code>3088B8FF</code>, intensity 0.58431375, protan 0.41960785, tritan 0.38431373, alpha 1.0, hue 0.5597165, and saturation 0.5275199.</div>
+<div class="block">This color constant "denim" has RGBA8888 code <code>3088B8FF</code>, R 0.1882353, G 0.53333336, B 0.72156864, alpha 1.0, hue 0.5588235, and saturation 0.53333336.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#EMBER">EMBER</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "ember" has RGBA8888 code <code>F55A32FF</code>, intensity 0.5372549, protan 0.70980394, tritan 0.68235296, alpha 1.0, hue 0.034249328, and saturation 0.7679914.</div>
+<div class="block">This color constant "ember" has RGBA8888 code <code>F55A32FF</code>, R 0.9607843, G 0.3529412, B 0.19607843, alpha 1.0, hue 0.034188036, and saturation 0.7647059.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#FERN">FERN</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "fern" has RGBA8888 code <code>4E7942FF</code>, intensity 0.45490196, protan 0.4392157, tritan 0.5764706, alpha 1.0, hue 0.29822132, and saturation 0.21422556.</div>
+<div class="block">This color constant "fern" has RGBA8888 code <code>4E7942FF</code>, R 0.30588236, G 0.4745098, B 0.25882354, alpha 1.0, hue 0.2969697, and saturation 0.21568626.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#GRAY">GRAY</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "gray" has RGBA8888 code <code>808080FF</code>, intensity 0.5529412, protan 0.5019608, tritan 0.49803922, alpha 1.0, hue 0.81858563, and saturation 0.005999118.</div>
+<div class="block">This color constant "gray" has RGBA8888 code <code>808080FF</code>, R 0.5019608, G 0.5019608, B 0.5019608, alpha 1.0, hue 0.0, and saturation 0.0.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#GREEN">GREEN</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "green" has RGBA8888 code <code>00FF00FF</code>, intensity 0.7607843, protan 0.27058825, tritan 0.7647059, alpha 1.0, hue 0.33734334, and saturation 1.0.</div>
+<div class="block">This color constant "green" has RGBA8888 code <code>00FF00FF</code>, R 0.0, G 1.0, B 0.0, alpha 1.0, hue 0.33333334, and saturation 1.0.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#INDIGO">INDIGO</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "indigo" has RGBA8888 code <code>520FE0FF</code>, intensity 0.44313726, protan 0.49803922, tritan 0.2, alpha 1.0, hue 0.72370124, and saturation 0.84834015.</div>
+<div class="block">This color constant "indigo" has RGBA8888 code <code>520FE0FF</code>, R 0.32156864, G 0.05882353, B 0.8784314, alpha 1.0, hue 0.7200957, and saturation 0.81960785.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#JADE">JADE</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "jade" has RGBA8888 code <code>3FBF3FFF</code>, intensity 0.62352943, protan 0.3529412, tritan 0.6627451, alpha 1.0, hue 0.33068874, and saturation 0.50730336.</div>
+<div class="block">This color constant "jade" has RGBA8888 code <code>3FBF3FFF</code>, R 0.24705882, G 0.7490196, B 0.24705882, alpha 1.0, hue 0.33333334, and saturation 0.5019608.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#LAVENDER">LAVENDER</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "lavender" has RGBA8888 code <code>B991FFFF</code>, intensity 0.74509805, protan 0.54901963, tritan 0.34117648, alpha 1.0, hue 0.72741735, and saturation 0.42804563.</div>
+<div class="block">This color constant "lavender" has RGBA8888 code <code>B991FFFF</code>, R 0.7254902, G 0.5686275, B 1.0, alpha 1.0, hue 0.72727275, and saturation 0.43137252.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#LIME">LIME</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "lime" has RGBA8888 code <code>93D300FF</code>, intensity 0.6901961, protan 0.38431373, tritan 0.7529412, alpha 1.0, hue 0.21732643, and saturation 0.83122355.</div>
+<div class="block">This color constant "lime" has RGBA8888 code <code>93D300FF</code>, R 0.5764706, G 0.827451, B 0.0, alpha 1.0, hue 0.21721959, and saturation 0.827451.</div>
 </div>
 <div class="col-first even-row-color"><code>static com.badlogic.gdx.utils.FloatArray</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#LIST">LIST</a></span></code></div>
@@ -237,22 +235,22 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#MAGENTA">MAGENTA</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "magenta" has RGBA8888 code <code>F500F5FF</code>, intensity 0.64705884, protan 0.7764706, tritan 0.30980393, alpha 1.0, hue 0.83288956, and saturation 0.96499586.</div>
+<div class="block">This color constant "magenta" has RGBA8888 code <code>F500F5FF</code>, R 0.9607843, G 0.0, B 0.9607843, alpha 1.0, hue 0.8333333, and saturation 0.9607843.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#MAUVE">MAUVE</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "mauve" has RGBA8888 code <code>AB73ABFF</code>, intensity 0.6, protan 0.5764706, tritan 0.43529412, alpha 1.0, hue 0.8289416, and saturation 0.2213426.</div>
+<div class="block">This color constant "mauve" has RGBA8888 code <code>AB73ABFF</code>, R 0.67058825, G 0.4509804, B 0.67058825, alpha 1.0, hue 0.8333334, and saturation 0.21960786.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#MINT">MINT</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "mint" has RGBA8888 code <code>7FFFD4FF</code>, intensity 0.9019608, protan 0.37254903, tritan 0.5176471, alpha 1.0, hue 0.44493762, and saturation 0.49903446.</div>
+<div class="block">This color constant "mint" has RGBA8888 code <code>7FFFD4FF</code>, R 0.49803922, G 1.0, B 0.83137256, alpha 1.0, hue 0.44401044, and saturation 0.50196075.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#MOSS">MOSS</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "moss" has RGBA8888 code <code>204608FF</code>, intensity 0.25882354, protan 0.4392157, tritan 0.5882353, alpha 1.0, hue 0.27203476, and saturation 0.241091.</div>
+<div class="block">This color constant "moss" has RGBA8888 code <code>204608FF</code>, R 0.1254902, G 0.27450982, B 0.03137255, alpha 1.0, hue 0.26881722, and saturation 0.24313727.</div>
 </div>
 <div class="col-first odd-row-color"><code>static com.badlogic.gdx.utils.ObjectFloatMap&lt;<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#NAMED">NAMED</a></span></code></div>
@@ -276,117 +274,117 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#NAVY">NAVY</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "navy" has RGBA8888 code <code>000080FF</code>, intensity 0.24313726, protan 0.43529412, tritan 0.29411766, alpha 1.0, hue 0.67328644, and saturation 0.49774668.</div>
+<div class="block">This color constant "navy" has RGBA8888 code <code>000080FF</code>, R 0.0, G 0.0, B 0.5019608, alpha 1.0, hue 0.6666667, and saturation 0.5019608.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#OLIVE">OLIVE</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "olive" has RGBA8888 code <code>818000FF</code>, intensity 0.4745098, protan 0.47058824, tritan 0.68235296, alpha 1.0, hue 0.16567872, and saturation 0.5062155.</div>
+<div class="block">This color constant "olive" has RGBA8888 code <code>818000FF</code>, R 0.5058824, G 0.5019608, B 0.0, alpha 1.0, hue 0.16537468, and saturation 0.5058824.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#ORANGE">ORANGE</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "orange" has RGBA8888 code <code>FF7F00FF</code>, intensity 0.5921569, protan 0.64705884, tritan 0.7529412, alpha 1.0, hue 0.08270054, and saturation 1.0.</div>
+<div class="block">This color constant "orange" has RGBA8888 code <code>FF7F00FF</code>, R 1.0, G 0.49803922, B 0.0, alpha 1.0, hue 0.08300654, and saturation 1.0.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#PEACH">PEACH</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "peach" has RGBA8888 code <code>FFBF81FF</code>, intensity 0.78039217, protan 0.5686275, tritan 0.6392157, alpha 1.0, hue 0.082601294, and saturation 0.49658114.</div>
+<div class="block">This color constant "peach" has RGBA8888 code <code>FFBF81FF</code>, R 1.0, G 0.7490196, B 0.5058824, alpha 1.0, hue 0.08201058, and saturation 0.49411762.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#PEAR">PEAR</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "pear" has RGBA8888 code <code>D3E330FF</code>, intensity 0.7764706, protan 0.4392157, tritan 0.7647059, alpha 1.0, hue 0.18091057, and saturation 0.7110761.</div>
+<div class="block">This color constant "pear" has RGBA8888 code <code>D3E330FF</code>, R 0.827451, G 0.8901961, B 0.1882353, alpha 1.0, hue 0.18156426, and saturation 0.7019608.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#PINK">PINK</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "pink" has RGBA8888 code <code>FFA0E0FF</code>, intensity 0.8, protan 0.627451, tritan 0.4509804, alpha 1.0, hue 0.8885865, and saturation 0.37119424.</div>
+<div class="block">This color constant "pink" has RGBA8888 code <code>FFA0E0FF</code>, R 1.0, G 0.627451, B 0.8784314, alpha 1.0, hue 0.8877193, and saturation 0.372549.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#PLUM">PLUM</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "plum" has RGBA8888 code <code>BE0DC6FF</code>, intensity 0.5294118, protan 0.7137255, tritan 0.3372549, alpha 1.0, hue 0.82619894, and saturation 0.72139674.</div>
+<div class="block">This color constant "plum" has RGBA8888 code <code>BE0DC6FF</code>, R 0.74509805, G 0.050980393, B 0.7764706, alpha 1.0, hue 0.82612616, and saturation 0.7254902.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#PURPLE">PURPLE</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "purple" has RGBA8888 code <code>C000FFFF</code>, intensity 0.59607846, protan 0.68235296, tritan 0.24705882, alpha 1.0, hue 0.7911109, and saturation 0.96850824.</div>
+<div class="block">This color constant "purple" has RGBA8888 code <code>C000FFFF</code>, R 0.7529412, G 0.0, B 1.0, alpha 1.0, hue 0.7921569, and saturation 1.0.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#RASPBERRY">RASPBERRY</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "raspberry" has RGBA8888 code <code>911437FF</code>, intensity 0.3254902, protan 0.69411767, tritan 0.5529412, alpha 1.0, hue 0.9541538, and saturation 0.49511868.</div>
+<div class="block">This color constant "raspberry" has RGBA8888 code <code>911437FF</code>, R 0.5686275, G 0.078431375, B 0.21568628, alpha 1.0, hue 0.9533333, and saturation 0.4901961.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#RED">RED</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "red" has RGBA8888 code <code>FF0000FF</code>, intensity 0.45490196, protan 0.8117647, tritan 0.72156864, alpha 1.0, hue 0.0, and saturation 0.9997024.</div>
+<div class="block">This color constant "red" has RGBA8888 code <code>FF0000FF</code>, R 1.0, G 0.0, B 0.0, alpha 1.0, hue 0.0, and saturation 1.0.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#ROSE">ROSE</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "rose" has RGBA8888 code <code>E61E78FF</code>, intensity 0.50980395, protan 0.7882353, tritan 0.5137255, alpha 1.0, hue 0.9242363, and saturation 0.7867001.</div>
+<div class="block">This color constant "rose" has RGBA8888 code <code>E61E78FF</code>, R 0.9019608, G 0.11764706, B 0.47058824, alpha 1.0, hue 0.925, and saturation 0.78431374.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#SAFFRON">SAFFRON</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "saffron" has RGBA8888 code <code>FFD510FF</code>, intensity 0.76862746, protan 0.5058824, tritan 0.79607844, alpha 1.0, hue 0.13782778, and saturation 0.9391338.</div>
+<div class="block">This color constant "saffron" has RGBA8888 code <code>FFD510FF</code>, R 1.0, G 0.8352941, B 0.0627451, alpha 1.0, hue 0.13737796, and saturation 0.9372549.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#SAGE">SAGE</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "sage" has RGBA8888 code <code>ABE3C5FF</code>, intensity 0.8509804, protan 0.43529412, tritan 0.5254902, alpha 1.0, hue 0.40719464, and saturation 0.2204172.</div>
+<div class="block">This color constant "sage" has RGBA8888 code <code>ABE3C5FF</code>, R 0.67058825, G 0.8901961, B 0.77254903, alpha 1.0, hue 0.4107143, and saturation 0.21960783.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#SALMON">SALMON</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "salmon" has RGBA8888 code <code>FF6262FF</code>, intensity 0.59607846, protan 0.72156864, tritan 0.6117647, alpha 1.0, hue 0.99928015, and saturation 0.616992.</div>
+<div class="block">This color constant "salmon" has RGBA8888 code <code>FF6262FF</code>, R 1.0, G 0.38431373, B 0.38431373, alpha 1.0, hue 0.0, and saturation 0.6156863.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#SILVER">SILVER</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "silver" has RGBA8888 code <code>B6B6B6FF</code>, intensity 0.7490196, protan 0.5019608, tritan 0.49803922, alpha 1.0, hue 0.81859344, and saturation 0.0062664747.</div>
+<div class="block">This color constant "silver" has RGBA8888 code <code>B6B6B6FF</code>, R 0.7137255, G 0.7137255, B 0.7137255, alpha 1.0, hue 0.0, and saturation 0.0.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#SKY">SKY</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "sky" has RGBA8888 code <code>10C0E0FF</code>, intensity 0.74509805, protan 0.37254903, tritan 0.39607844, alpha 1.0, hue 0.5261176, and saturation 0.78614056.</div>
+<div class="block">This color constant "sky" has RGBA8888 code <code>10C0E0FF</code>, R 0.0627451, G 0.7529412, B 0.8784314, alpha 1.0, hue 0.5256411, and saturation 0.8156863.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#TAN">TAN</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "tan" has RGBA8888 code <code>D2B48CFF</code>, intensity 0.73333335, protan 0.5294118, tritan 0.58431375, alpha 1.0, hue 0.09675702, and saturation 0.27724016.</div>
+<div class="block">This color constant "tan" has RGBA8888 code <code>D2B48CFF</code>, R 0.8235294, G 0.7058824, B 0.54901963, alpha 1.0, hue 0.0952381, and saturation 0.2745098.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#TEAL">TEAL</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "teal" has RGBA8888 code <code>007F7FFF</code>, intensity 0.5019608, protan 0.40784314, tritan 0.4627451, alpha 1.0, hue 0.5000993, and saturation 0.45671126.</div>
+<div class="block">This color constant "teal" has RGBA8888 code <code>007F7FFF</code>, R 0.0, G 0.49803922, B 0.49803922, alpha 1.0, hue 0.5, and saturation 0.49803922.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#TRANSPARENT">TRANSPARENT</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "transparent" has RGBA8888 code <code>00000000</code>, intensity 0.0, protan 0.49803922, tritan 0.49803922, alpha 0.0, hue 0.6666667, and saturation 0.0.</div>
+<div class="block">This color constant "transparent" has RGBA8888 code <code>00000000</code>, R 0.0, G 0.0, B 0.0, alpha 0.0, hue 0.0, and saturation 0.0.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#TURQUOISE">TURQUOISE</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "turquoise" has RGBA8888 code <code>2ED6C9FF</code>, intensity 0.7764706, protan 0.36078432, tritan 0.46666667, alpha 1.0, hue 0.4864811, and saturation 0.6576992.</div>
+<div class="block">This color constant "turquoise" has RGBA8888 code <code>2ED6C9FF</code>, R 0.18039216, G 0.8392157, B 0.7882353, alpha 1.0, hue 0.48710316, and saturation 0.65882355.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#VIOLET">VIOLET</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "violet" has RGBA8888 code <code>9040EFFF</code>, intensity 0.5647059, protan 0.5764706, tritan 0.25490198, alpha 1.0, hue 0.7423505, and saturation 0.69213295.</div>
+<div class="block">This color constant "violet" has RGBA8888 code <code>9040EFFF</code>, R 0.5647059, G 0.2509804, B 0.9372549, alpha 1.0, hue 0.74285716, and saturation 0.6862745.</div>
 </div>
 <div class="col-first even-row-color"><code>static float</code></div>
 <div class="col-second even-row-color"><code><span class="member-name-link"><a href="#WHITE">WHITE</a></span></code></div>
 <div class="col-last even-row-color">
-<div class="block">This color constant "white" has RGBA8888 code <code>FFFFFFFF</code>, intensity 1.0, protan 0.5019608, tritan 0.49803922, alpha 1.0, hue 0.8333333, and saturation 0.0.</div>
+<div class="block">This color constant "white" has RGBA8888 code <code>FFFFFFFF</code>, R 1.0, G 1.0, B 1.0, alpha 1.0, hue 0.0, and saturation 0.0.</div>
 </div>
 <div class="col-first odd-row-color"><code>static float</code></div>
 <div class="col-second odd-row-color"><code><span class="member-name-link"><a href="#YELLOW">YELLOW</a></span></code></div>
 <div class="col-last odd-row-color">
-<div class="block">This color constant "yellow" has RGBA8888 code <code>FFFF00FF</code>, intensity 0.85882354, protan 0.44705883, tritan 0.827451, alpha 1.0, hue 0.16666667, and saturation 1.0.</div>
+<div class="block">This color constant "yellow" has RGBA8888 code <code>FFFF00FF</code>, R 1.0, G 1.0, B 0.0, alpha 1.0, hue 0.16666667, and saturation 1.0.</div>
 </div>
 </div>
 </section>
@@ -418,25 +416,19 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static void</code></div>
 <div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#appendToKnownColors()">appendToKnownColors</a></span>()</code></div>
 <div class="col-last even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
-<div class="block">Appends IPT_HQ-compatible Color instances to the map in <code>Colors</code>, using the names in <a href="#NAMES"><code>NAMES</code></a> (which
+<div class="block">Appends standard RGBA Color instances to the map in <code>Colors</code>, using the names in <a href="#NAMES"><code>NAMES</code></a> (which
  are "lower cased" instead of "ALL UPPER CASE").</div>
 </div>
 <div class="col-first odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static <a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#bestMatch(float,int)">bestMatch</a></span>&#8203;(float&nbsp;ipt_hq,
+<div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#bestMatch(float,int)">bestMatch</a></span>&#8203;(float&nbsp;rgb,
  int&nbsp;mixCount)</code></div>
 <div class="col-last odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
-<div class="block">Given a color as a packed IPT_HQ float, this finds the closest description it can to match the given color while
+<div class="block">Given a color as a packed RGBA float, this finds the closest description it can to match the given color while
  using at most <code>mixCount</code> colors to mix in.</div>
 </div>
-<div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#editKnownColors()">editKnownColors</a></span>()</code></div>
+<div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
+<div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#parseDescription(java.lang.String)">parseDescription</a></span>&#8203;(<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description)</code></div>
 <div class="col-last even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
-<div class="block">Changes the existing RGBA Color instances in <code>Colors</code> to use IPT_HQ and so be able to be shown normally by
- <a href="ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.ipt_hq"><code>ColorfulBatch</code></a> or a Batch using <a href="../Shaders.html#fragmentShaderIPT_HQ"><code>Shaders.fragmentShaderIPT_HQ</code></a>.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
-<div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#parseDescription(java.lang.String)">parseDescription</a></span>&#8203;(<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description)</code></div>
-<div class="col-last odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
 <div class="block">Parses a color description and returns the approximate color it describes, as a packed float color.</div>
 </div>
 </div>
@@ -459,21 +451,21 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="NAMED">
 <h3>NAMED</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.ObjectFloatMap&lt;<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.37">NAMED</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.ObjectFloatMap&lt;<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.35">NAMED</a></span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="LIST">
 <h3>LIST</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.FloatArray</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.38">LIST</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.FloatArray</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.36">LIST</a></span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="TRANSPARENT">
 <h3>TRANSPARENT</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.49">TRANSPARENT</a></span></div>
-<div class="block">This color constant "transparent" has RGBA8888 code <code>00000000</code>, intensity 0.0, protan 0.49803922, tritan 0.49803922, alpha 0.0, hue 0.6666667, and saturation 0.0.
- It can be represented as a packed float with the constant <code>0x0.fefep-126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.47">TRANSPARENT</a></span></div>
+<div class="block">This color constant "transparent" has RGBA8888 code <code>00000000</code>, R 0.0, G 0.0, B 0.0, alpha 0.0, hue 0.0, and saturation 0.0.
+ It can be represented as a packed float with the constant <code>0x0.0p0F</code>.
  <pre>
  <font style='background-color: #000000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #000000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;@&nbsp;</font><font style='background-color: #000000; color: #888888'>&nbsp;@&nbsp;</font>
@@ -481,16 +473,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.TRANSPARENT">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.TRANSPARENT">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="BLACK">
 <h3>BLACK</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.61">BLACK</a></span></div>
-<div class="block">This color constant "black" has RGBA8888 code <code>000000FF</code>, intensity 0.0, protan 0.49803922, tritan 0.49803922, alpha 1.0, hue 0.6666667, and saturation 0.0.
- It can be represented as a packed float with the constant <code>-0x1.fefep125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.59">BLACK</a></span></div>
+<div class="block">This color constant "black" has RGBA8888 code <code>000000FF</code>, R 0.0, G 0.0, B 0.0, alpha 1.0, hue 0.0, and saturation 0.0.
+ It can be represented as a packed float with the constant <code>-0x1.0p125F</code>.
  <pre>
  <font style='background-color: #000000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #000000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;@&nbsp;</font><font style='background-color: #000000; color: #888888'>&nbsp;@&nbsp;</font>
@@ -498,16 +490,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.BLACK">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.BLACK">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="GRAY">
 <h3>GRAY</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.73">GRAY</a></span></div>
-<div class="block">This color constant "gray" has RGBA8888 code <code>808080FF</code>, intensity 0.5529412, protan 0.5019608, tritan 0.49803922, alpha 1.0, hue 0.81858563, and saturation 0.005999118.
- It can be represented as a packed float with the constant <code>-0x1.ff011ap125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.71">GRAY</a></span></div>
+<div class="block">This color constant "gray" has RGBA8888 code <code>808080FF</code>, R 0.5019608, G 0.5019608, B 0.5019608, alpha 1.0, hue 0.0, and saturation 0.0.
+ It can be represented as a packed float with the constant <code>-0x1.0101p126F</code>.
  <pre>
  <font style='background-color: #808080;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #808080; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #808080;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #808080'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #808080'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #808080'>&nbsp;@&nbsp;</font><font style='background-color: #808080; color: #888888'>&nbsp;@&nbsp;</font>
@@ -515,16 +507,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.GRAY">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.GRAY">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="SILVER">
 <h3>SILVER</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.85">SILVER</a></span></div>
-<div class="block">This color constant "silver" has RGBA8888 code <code>B6B6B6FF</code>, intensity 0.7490196, protan 0.5019608, tritan 0.49803922, alpha 1.0, hue 0.81859344, and saturation 0.0062664747.
- It can be represented as a packed float with the constant <code>-0x1.ff017ep125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.83">SILVER</a></span></div>
+<div class="block">This color constant "silver" has RGBA8888 code <code>B6B6B6FF</code>, R 0.7137255, G 0.7137255, B 0.7137255, alpha 1.0, hue 0.0, and saturation 0.0.
+ It can be represented as a packed float with the constant <code>-0x1.6d6d6cp126F</code>.
  <pre>
  <font style='background-color: #B6B6B6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B6B6B6; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #B6B6B6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #B6B6B6'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #B6B6B6'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #B6B6B6'>&nbsp;@&nbsp;</font><font style='background-color: #B6B6B6; color: #888888'>&nbsp;@&nbsp;</font>
@@ -532,16 +524,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.SILVER">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.SILVER">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="WHITE">
 <h3>WHITE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.97">WHITE</a></span></div>
-<div class="block">This color constant "white" has RGBA8888 code <code>FFFFFFFF</code>, intensity 1.0, protan 0.5019608, tritan 0.49803922, alpha 1.0, hue 0.8333333, and saturation 0.0.
- It can be represented as a packed float with the constant <code>-0x1.ff01fep125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.95">WHITE</a></span></div>
+<div class="block">This color constant "white" has RGBA8888 code <code>FFFFFFFF</code>, R 1.0, G 1.0, B 1.0, alpha 1.0, hue 0.0, and saturation 0.0.
+ It can be represented as a packed float with the constant <code>-0x1.fffffep126F</code>.
  <pre>
  <font style='background-color: #FFFFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFFFFF; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #FFFFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFFFFF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFFFFF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFFFFF'>&nbsp;@&nbsp;</font><font style='background-color: #FFFFFF; color: #888888'>&nbsp;@&nbsp;</font>
@@ -549,16 +541,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.WHITE">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.WHITE">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="RED">
 <h3>RED</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.109">RED</a></span></div>
-<div class="block">This color constant "red" has RGBA8888 code <code>FF0000FF</code>, intensity 0.45490196, protan 0.8117647, tritan 0.72156864, alpha 1.0, hue 0.0, and saturation 0.9997024.
- It can be represented as a packed float with the constant <code>-0x1.719ee8p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.107">RED</a></span></div>
+<div class="block">This color constant "red" has RGBA8888 code <code>FF0000FF</code>, R 1.0, G 0.0, B 0.0, alpha 1.0, hue 0.0, and saturation 1.0.
+ It can be represented as a packed float with the constant <code>-0x1.0001fep125F</code>.
  <pre>
  <font style='background-color: #FF0000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF0000; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #FF0000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FF0000'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FF0000'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FF0000'>&nbsp;@&nbsp;</font><font style='background-color: #FF0000; color: #888888'>&nbsp;@&nbsp;</font>
@@ -566,16 +558,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.RED">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.RED">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="ORANGE">
 <h3>ORANGE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.121">ORANGE</a></span></div>
-<div class="block">This color constant "orange" has RGBA8888 code <code>FF7F00FF</code>, intensity 0.5921569, protan 0.64705884, tritan 0.7529412, alpha 1.0, hue 0.08270054, and saturation 1.0.
- It can be represented as a packed float with the constant <code>-0x1.814b2ep126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.119">ORANGE</a></span></div>
+<div class="block">This color constant "orange" has RGBA8888 code <code>FF7F00FF</code>, R 1.0, G 0.49803922, B 0.0, alpha 1.0, hue 0.08300654, and saturation 1.0.
+ It can be represented as a packed float with the constant <code>-0x1.00fffep125F</code>.
  <pre>
  <font style='background-color: #FF7F00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF7F00; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #FF7F00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FF7F00'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FF7F00'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FF7F00'>&nbsp;@&nbsp;</font><font style='background-color: #FF7F00; color: #888888'>&nbsp;@&nbsp;</font>
@@ -583,16 +575,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.ORANGE">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.ORANGE">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="YELLOW">
 <h3>YELLOW</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.133">YELLOW</a></span></div>
-<div class="block">This color constant "yellow" has RGBA8888 code <code>FFFF00FF</code>, intensity 0.85882354, protan 0.44705883, tritan 0.827451, alpha 1.0, hue 0.16666667, and saturation 1.0.
- It can be represented as a packed float with the constant <code>-0x1.a6e5b6p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.131">YELLOW</a></span></div>
+<div class="block">This color constant "yellow" has RGBA8888 code <code>FFFF00FF</code>, R 1.0, G 1.0, B 0.0, alpha 1.0, hue 0.16666667, and saturation 1.0.
+ It can be represented as a packed float with the constant <code>-0x1.01fffep125F</code>.
  <pre>
  <font style='background-color: #FFFF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFFF00; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #FFFF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFFF00'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFFF00'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFFF00'>&nbsp;@&nbsp;</font><font style='background-color: #FFFF00; color: #888888'>&nbsp;@&nbsp;</font>
@@ -600,16 +592,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.YELLOW">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.YELLOW">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="GREEN">
 <h3>GREEN</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.145">GREEN</a></span></div>
-<div class="block">This color constant "green" has RGBA8888 code <code>00FF00FF</code>, intensity 0.7607843, protan 0.27058825, tritan 0.7647059, alpha 1.0, hue 0.33734334, and saturation 1.0.
- It can be represented as a packed float with the constant <code>-0x1.868b84p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.143">GREEN</a></span></div>
+<div class="block">This color constant "green" has RGBA8888 code <code>00FF00FF</code>, R 0.0, G 1.0, B 0.0, alpha 1.0, hue 0.33333334, and saturation 1.0.
+ It can be represented as a packed float with the constant <code>-0x1.01fep125F</code>.
  <pre>
  <font style='background-color: #00FF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00FF00; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #00FF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #00FF00'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #00FF00'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #00FF00'>&nbsp;@&nbsp;</font><font style='background-color: #00FF00; color: #888888'>&nbsp;@&nbsp;</font>
@@ -617,16 +609,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.GREEN">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.GREEN">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="BLUE">
 <h3>BLUE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.157">BLUE</a></span></div>
-<div class="block">This color constant "blue" has RGBA8888 code <code>0000FFFF</code>, intensity 0.44313726, protan 0.38039216, tritan 0.1254902, alpha 1.0, hue 0.6666667, and saturation 0.9989025.
- It can be represented as a packed float with the constant <code>-0x1.40c2e2p125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.155">BLUE</a></span></div>
+<div class="block">This color constant "blue" has RGBA8888 code <code>0000FFFF</code>, R 0.0, G 0.0, B 1.0, alpha 1.0, hue 0.6666667, and saturation 1.0.
+ It can be represented as a packed float with the constant <code>-0x1.fep126F</code>.
  <pre>
  <font style='background-color: #0000FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0000FF; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #0000FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #0000FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #0000FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #0000FF'>&nbsp;@&nbsp;</font><font style='background-color: #0000FF; color: #888888'>&nbsp;@&nbsp;</font>
@@ -634,16 +626,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.BLUE">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.BLUE">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="INDIGO">
 <h3>INDIGO</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.169">INDIGO</a></span></div>
-<div class="block">This color constant "indigo" has RGBA8888 code <code>520FE0FF</code>, intensity 0.44313726, protan 0.49803922, tritan 0.2, alpha 1.0, hue 0.72370124, and saturation 0.84834015.
- It can be represented as a packed float with the constant <code>-0x1.66fee2p125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.167">INDIGO</a></span></div>
+<div class="block">This color constant "indigo" has RGBA8888 code <code>520FE0FF</code>, R 0.32156864, G 0.05882353, B 0.8784314, alpha 1.0, hue 0.7200957, and saturation 0.81960785.
+ It can be represented as a packed float with the constant <code>-0x1.c01ea4p126F</code>.
  <pre>
  <font style='background-color: #520FE0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #520FE0; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #520FE0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #520FE0'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #520FE0'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #520FE0'>&nbsp;@&nbsp;</font><font style='background-color: #520FE0; color: #888888'>&nbsp;@&nbsp;</font>
@@ -651,16 +643,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.INDIGO">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.INDIGO">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="VIOLET">
 <h3>VIOLET</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.181">VIOLET</a></span></div>
-<div class="block">This color constant "violet" has RGBA8888 code <code>9040EFFF</code>, intensity 0.5647059, protan 0.5764706, tritan 0.25490198, alpha 1.0, hue 0.7423505, and saturation 0.69213295.
- It can be represented as a packed float with the constant <code>-0x1.83272p125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.179">VIOLET</a></span></div>
+<div class="block">This color constant "violet" has RGBA8888 code <code>9040EFFF</code>, R 0.5647059, G 0.2509804, B 0.9372549, alpha 1.0, hue 0.74285716, and saturation 0.6862745.
+ It can be represented as a packed float with the constant <code>-0x1.de812p126F</code>.
  <pre>
  <font style='background-color: #9040EF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #9040EF; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #9040EF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #9040EF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #9040EF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #9040EF'>&nbsp;@&nbsp;</font><font style='background-color: #9040EF; color: #888888'>&nbsp;@&nbsp;</font>
@@ -668,16 +660,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.VIOLET">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.VIOLET">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="PURPLE">
 <h3>PURPLE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.193">PURPLE</a></span></div>
-<div class="block">This color constant "purple" has RGBA8888 code <code>C000FFFF</code>, intensity 0.59607846, protan 0.68235296, tritan 0.24705882, alpha 1.0, hue 0.7911109, and saturation 0.96850824.
- It can be represented as a packed float with the constant <code>-0x1.7f5d3p125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.191">PURPLE</a></span></div>
+<div class="block">This color constant "purple" has RGBA8888 code <code>C000FFFF</code>, R 0.7529412, G 0.0, B 1.0, alpha 1.0, hue 0.7921569, and saturation 1.0.
+ It can be represented as a packed float with the constant <code>-0x1.fe018p126F</code>.
  <pre>
  <font style='background-color: #C000FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C000FF; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #C000FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #C000FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #C000FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #C000FF'>&nbsp;@&nbsp;</font><font style='background-color: #C000FF; color: #888888'>&nbsp;@&nbsp;</font>
@@ -685,16 +677,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.PURPLE">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.PURPLE">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="BROWN">
 <h3>BROWN</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.205">BROWN</a></span></div>
-<div class="block">This color constant "brown" has RGBA8888 code <code>8F573BFF</code>, intensity 0.42352942, protan 0.57254905, tritan 0.5882353, alpha 1.0, hue 0.056629464, and saturation 0.3289587.
- It can be represented as a packed float with the constant <code>-0x1.2d24d8p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.203">BROWN</a></span></div>
+<div class="block">This color constant "brown" has RGBA8888 code <code>8F573BFF</code>, R 0.56078434, G 0.34117648, B 0.23137255, alpha 1.0, hue 0.055555552, and saturation 0.3294118.
+ It can be represented as a packed float with the constant <code>-0x1.76af1ep125F</code>.
  <pre>
  <font style='background-color: #8F573B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8F573B; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #8F573B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #8F573B'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #8F573B'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #8F573B'>&nbsp;@&nbsp;</font><font style='background-color: #8F573B; color: #888888'>&nbsp;@&nbsp;</font>
@@ -702,16 +694,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.BROWN">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.BROWN">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="PINK">
 <h3>PINK</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.217">PINK</a></span></div>
-<div class="block">This color constant "pink" has RGBA8888 code <code>FFA0E0FF</code>, intensity 0.8, protan 0.627451, tritan 0.4509804, alpha 1.0, hue 0.8885865, and saturation 0.37119424.
- It can be represented as a packed float with the constant <code>-0x1.e74198p125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.215">PINK</a></span></div>
+<div class="block">This color constant "pink" has RGBA8888 code <code>FFA0E0FF</code>, R 1.0, G 0.627451, B 0.8784314, alpha 1.0, hue 0.8877193, and saturation 0.372549.
+ It can be represented as a packed float with the constant <code>-0x1.c141fep126F</code>.
  <pre>
  <font style='background-color: #FFA0E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFA0E0; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #FFA0E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFA0E0'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFA0E0'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFA0E0'>&nbsp;@&nbsp;</font><font style='background-color: #FFA0E0; color: #888888'>&nbsp;@&nbsp;</font>
@@ -719,16 +711,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.PINK">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.PINK">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="MAGENTA">
 <h3>MAGENTA</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.229">MAGENTA</a></span></div>
-<div class="block">This color constant "magenta" has RGBA8888 code <code>F500F5FF</code>, intensity 0.64705884, protan 0.7764706, tritan 0.30980393, alpha 1.0, hue 0.83288956, and saturation 0.96499586.
- It can be represented as a packed float with the constant <code>-0x1.9f8d4ap125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.227">MAGENTA</a></span></div>
+<div class="block">This color constant "magenta" has RGBA8888 code <code>F500F5FF</code>, R 0.9607843, G 0.0, B 0.9607843, alpha 1.0, hue 0.8333333, and saturation 0.9607843.
+ It can be represented as a packed float with the constant <code>-0x1.ea01eap126F</code>.
  <pre>
  <font style='background-color: #F500F5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F500F5; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #F500F5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #F500F5'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #F500F5'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #F500F5'>&nbsp;@&nbsp;</font><font style='background-color: #F500F5; color: #888888'>&nbsp;@&nbsp;</font>
@@ -736,16 +728,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.MAGENTA">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.MAGENTA">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="BRICK">
 <h3>BRICK</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.241">BRICK</a></span></div>
-<div class="block">This color constant "brick" has RGBA8888 code <code>D5524AFF</code>, intensity 0.5058824, protan 0.6862745, tritan 0.6117647, alpha 1.0, hue 0.010635166, and saturation 0.54750645.
- It can be represented as a packed float with the constant <code>-0x1.395f02p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.239">BRICK</a></span></div>
+<div class="block">This color constant "brick" has RGBA8888 code <code>D5524AFF</code>, R 0.8352941, G 0.32156864, B 0.2901961, alpha 1.0, hue 0.009592325, and saturation 0.54509807.
+ It can be represented as a packed float with the constant <code>-0x1.94a5aap125F</code>.
  <pre>
  <font style='background-color: #D5524A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D5524A; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #D5524A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #D5524A'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #D5524A'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #D5524A'>&nbsp;@&nbsp;</font><font style='background-color: #D5524A; color: #888888'>&nbsp;@&nbsp;</font>
@@ -753,16 +745,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.BRICK">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.BRICK">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="EMBER">
 <h3>EMBER</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.253">EMBER</a></span></div>
-<div class="block">This color constant "ember" has RGBA8888 code <code>F55A32FF</code>, intensity 0.5372549, protan 0.70980394, tritan 0.68235296, alpha 1.0, hue 0.034249328, and saturation 0.7679914.
- It can be represented as a packed float with the constant <code>-0x1.5d6b12p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.251">EMBER</a></span></div>
+<div class="block">This color constant "ember" has RGBA8888 code <code>F55A32FF</code>, R 0.9607843, G 0.3529412, B 0.19607843, alpha 1.0, hue 0.034188036, and saturation 0.7647059.
+ It can be represented as a packed float with the constant <code>-0x1.64b5eap125F</code>.
  <pre>
  <font style='background-color: #F55A32;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F55A32; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #F55A32;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #F55A32'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #F55A32'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #F55A32'>&nbsp;@&nbsp;</font><font style='background-color: #F55A32; color: #888888'>&nbsp;@&nbsp;</font>
@@ -770,16 +762,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.EMBER">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.EMBER">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="SALMON">
 <h3>SALMON</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.265">SALMON</a></span></div>
-<div class="block">This color constant "salmon" has RGBA8888 code <code>FF6262FF</code>, intensity 0.59607846, protan 0.72156864, tritan 0.6117647, alpha 1.0, hue 0.99928015, and saturation 0.616992.
- It can be represented as a packed float with the constant <code>-0x1.39713p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.263">SALMON</a></span></div>
+<div class="block">This color constant "salmon" has RGBA8888 code <code>FF6262FF</code>, R 1.0, G 0.38431373, B 0.38431373, alpha 1.0, hue 0.0, and saturation 0.6156863.
+ It can be represented as a packed float with the constant <code>-0x1.c4c5fep125F</code>.
  <pre>
  <font style='background-color: #FF6262;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF6262; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #FF6262;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FF6262'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FF6262'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FF6262'>&nbsp;@&nbsp;</font><font style='background-color: #FF6262; color: #888888'>&nbsp;@&nbsp;</font>
@@ -787,16 +779,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.SALMON">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.SALMON">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="CHOCOLATE">
 <h3>CHOCOLATE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.277">CHOCOLATE</a></span></div>
-<div class="block">This color constant "chocolate" has RGBA8888 code <code>683818FF</code>, intensity 0.2901961, protan 0.5647059, tritan 0.59607846, alpha 1.0, hue 0.067405425, and saturation 0.31821468.
- It can be represented as a packed float with the constant <code>-0x1.312094p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.275">CHOCOLATE</a></span></div>
+<div class="block">This color constant "chocolate" has RGBA8888 code <code>683818FF</code>, R 0.40784314, G 0.21960784, B 0.09411765, alpha 1.0, hue 0.066666655, and saturation 0.3137255.
+ It can be represented as a packed float with the constant <code>-0x1.3070dp125F</code>.
  <pre>
  <font style='background-color: #683818;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #683818; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #683818;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #683818'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #683818'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #683818'>&nbsp;@&nbsp;</font><font style='background-color: #683818; color: #888888'>&nbsp;@&nbsp;</font>
@@ -804,16 +796,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.CHOCOLATE">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.CHOCOLATE">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="TAN">
 <h3>TAN</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.289">TAN</a></span></div>
-<div class="block">This color constant "tan" has RGBA8888 code <code>D2B48CFF</code>, intensity 0.73333335, protan 0.5294118, tritan 0.58431375, alpha 1.0, hue 0.09675702, and saturation 0.27724016.
- It can be represented as a packed float with the constant <code>-0x1.2b0f76p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.287">TAN</a></span></div>
+<div class="block">This color constant "tan" has RGBA8888 code <code>D2B48CFF</code>, R 0.8235294, G 0.7058824, B 0.54901963, alpha 1.0, hue 0.0952381, and saturation 0.2745098.
+ It can be represented as a packed float with the constant <code>-0x1.1969a4p126F</code>.
  <pre>
  <font style='background-color: #D2B48C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D2B48C; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #D2B48C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #D2B48C'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #D2B48C'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #D2B48C'>&nbsp;@&nbsp;</font><font style='background-color: #D2B48C; color: #888888'>&nbsp;@&nbsp;</font>
@@ -821,16 +813,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.TAN">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.TAN">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="BRONZE">
 <h3>BRONZE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.301">BRONZE</a></span></div>
-<div class="block">This color constant "bronze" has RGBA8888 code <code>CE8E31FF</code>, intensity 0.5882353, protan 0.56078434, tritan 0.6901961, alpha 1.0, hue 0.09874619, and saturation 0.61364305.
- It can be represented as a packed float with the constant <code>-0x1.611f2cp126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.299">BRONZE</a></span></div>
+<div class="block">This color constant "bronze" has RGBA8888 code <code>CE8E31FF</code>, R 0.80784315, G 0.5568628, B 0.19215687, alpha 1.0, hue 0.09872612, and saturation 0.6156863.
+ It can be represented as a packed float with the constant <code>-0x1.631d9cp125F</code>.
  <pre>
  <font style='background-color: #CE8E31;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #CE8E31; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #CE8E31;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #CE8E31'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #CE8E31'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #CE8E31'>&nbsp;@&nbsp;</font><font style='background-color: #CE8E31; color: #888888'>&nbsp;@&nbsp;</font>
@@ -838,16 +830,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.BRONZE">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.BRONZE">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="CINNAMON">
 <h3>CINNAMON</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.313">CINNAMON</a></span></div>
-<div class="block">This color constant "cinnamon" has RGBA8888 code <code>D2691DFF</code>, intensity 0.50980395, protan 0.627451, tritan 0.69411767, alpha 1.0, hue 0.0698809, and saturation 0.71087015.
- It can be represented as a packed float with the constant <code>-0x1.634104p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.311">CINNAMON</a></span></div>
+<div class="block">This color constant "cinnamon" has RGBA8888 code <code>D2691DFF</code>, R 0.8235294, G 0.4117647, B 0.11372549, alpha 1.0, hue 0.06998159, and saturation 0.70980394.
+ It can be represented as a packed float with the constant <code>-0x1.3ad3a4p125F</code>.
  <pre>
  <font style='background-color: #D2691D;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D2691D; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #D2691D;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #D2691D'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #D2691D'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #D2691D'>&nbsp;@&nbsp;</font><font style='background-color: #D2691D; color: #888888'>&nbsp;@&nbsp;</font>
@@ -855,16 +847,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.CINNAMON">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.CINNAMON">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="APRICOT">
 <h3>APRICOT</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.325">APRICOT</a></span></div>
-<div class="block">This color constant "apricot" has RGBA8888 code <code>FFA828FF</code>, intensity 0.68235296, protan 0.5803922, tritan 0.7490196, alpha 1.0, hue 0.09959209, and saturation 0.8424464.
- It can be represented as a packed float with the constant <code>-0x1.7f295cp126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.323">APRICOT</a></span></div>
+<div class="block">This color constant "apricot" has RGBA8888 code <code>FFA828FF</code>, R 1.0, G 0.65882355, B 0.15686275, alpha 1.0, hue 0.09922481, and saturation 0.84313726.
+ It can be represented as a packed float with the constant <code>-0x1.5151fep125F</code>.
  <pre>
  <font style='background-color: #FFA828;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFA828; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #FFA828;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFA828'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFA828'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFA828'>&nbsp;@&nbsp;</font><font style='background-color: #FFA828; color: #888888'>&nbsp;@&nbsp;</font>
@@ -872,16 +864,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.APRICOT">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.APRICOT">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="PEACH">
 <h3>PEACH</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.337">PEACH</a></span></div>
-<div class="block">This color constant "peach" has RGBA8888 code <code>FFBF81FF</code>, intensity 0.78039217, protan 0.5686275, tritan 0.6392157, alpha 1.0, hue 0.082601294, and saturation 0.49658114.
- It can be represented as a packed float with the constant <code>-0x1.47238ep126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.335">PEACH</a></span></div>
+<div class="block">This color constant "peach" has RGBA8888 code <code>FFBF81FF</code>, R 1.0, G 0.7490196, B 0.5058824, alpha 1.0, hue 0.08201058, and saturation 0.49411762.
+ It can be represented as a packed float with the constant <code>-0x1.037ffep126F</code>.
  <pre>
  <font style='background-color: #FFBF81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFBF81; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #FFBF81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFBF81'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFBF81'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFBF81'>&nbsp;@&nbsp;</font><font style='background-color: #FFBF81; color: #888888'>&nbsp;@&nbsp;</font>
@@ -889,16 +881,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.PEACH">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.PEACH">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="PEAR">
 <h3>PEAR</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.349">PEAR</a></span></div>
-<div class="block">This color constant "pear" has RGBA8888 code <code>D3E330FF</code>, intensity 0.7764706, protan 0.4392157, tritan 0.7647059, alpha 1.0, hue 0.18091057, and saturation 0.7110761.
- It can be represented as a packed float with the constant <code>-0x1.86e18cp126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.347">PEAR</a></span></div>
+<div class="block">This color constant "pear" has RGBA8888 code <code>D3E330FF</code>, R 0.827451, G 0.8901961, B 0.1882353, alpha 1.0, hue 0.18156426, and saturation 0.7019608.
+ It can be represented as a packed float with the constant <code>-0x1.61c7a6p125F</code>.
  <pre>
  <font style='background-color: #D3E330;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D3E330; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #D3E330;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #D3E330'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #D3E330'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #D3E330'>&nbsp;@&nbsp;</font><font style='background-color: #D3E330; color: #888888'>&nbsp;@&nbsp;</font>
@@ -906,16 +898,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.PEAR">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.PEAR">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="SAFFRON">
 <h3>SAFFRON</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.361">SAFFRON</a></span></div>
-<div class="block">This color constant "saffron" has RGBA8888 code <code>FFD510FF</code>, intensity 0.76862746, protan 0.5058824, tritan 0.79607844, alpha 1.0, hue 0.13782778, and saturation 0.9391338.
- It can be represented as a packed float with the constant <code>-0x1.970388p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.359">SAFFRON</a></span></div>
+<div class="block">This color constant "saffron" has RGBA8888 code <code>FFD510FF</code>, R 1.0, G 0.8352941, B 0.0627451, alpha 1.0, hue 0.13737796, and saturation 0.9372549.
+ It can be represented as a packed float with the constant <code>-0x1.21abfep125F</code>.
  <pre>
  <font style='background-color: #FFD510;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFD510; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #FFD510;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFD510'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFD510'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFD510'>&nbsp;@&nbsp;</font><font style='background-color: #FFD510; color: #888888'>&nbsp;@&nbsp;</font>
@@ -923,16 +915,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.SAFFRON">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.SAFFRON">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="BUTTER">
 <h3>BUTTER</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.373">BUTTER</a></span></div>
-<div class="block">This color constant "butter" has RGBA8888 code <code>FFF288FF</code>, intensity 0.8862745, protan 0.49411765, tritan 0.6745098, alpha 1.0, hue 0.14835475, and saturation 0.46378756.
- It can be represented as a packed float with the constant <code>-0x1.58fdc4p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.371">BUTTER</a></span></div>
+<div class="block">This color constant "butter" has RGBA8888 code <code>FFF288FF</code>, R 1.0, G 0.9490196, B 0.53333336, alpha 1.0, hue 0.14845939, and saturation 0.46666664.
+ It can be represented as a packed float with the constant <code>-0x1.11e5fep126F</code>.
  <pre>
  <font style='background-color: #FFF288;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFF288; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #FFF288;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFF288'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFF288'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFF288'>&nbsp;@&nbsp;</font><font style='background-color: #FFF288; color: #888888'>&nbsp;@&nbsp;</font>
@@ -940,16 +932,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.BUTTER">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.BUTTER">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="CHARTREUSE">
 <h3>CHARTREUSE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.385">CHARTREUSE</a></span></div>
-<div class="block">This color constant "chartreuse" has RGBA8888 code <code>C8FF41FF</code>, intensity 0.8392157, protan 0.39607844, tritan 0.7647059, alpha 1.0, hue 0.21423629, and saturation 0.7483187.
- It can be represented as a packed float with the constant <code>-0x1.86cbacp126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.383">CHARTREUSE</a></span></div>
+<div class="block">This color constant "chartreuse" has RGBA8888 code <code>C8FF41FF</code>, R 0.78431374, G 1.0, B 0.25490198, alpha 1.0, hue 0.21491227, and saturation 0.745098.
+ It can be represented as a packed float with the constant <code>-0x1.83ff9p125F</code>.
  <pre>
  <font style='background-color: #C8FF41;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C8FF41; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #C8FF41;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #C8FF41'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #C8FF41'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #C8FF41'>&nbsp;@&nbsp;</font><font style='background-color: #C8FF41; color: #888888'>&nbsp;@&nbsp;</font>
@@ -957,16 +949,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.CHARTREUSE">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.CHARTREUSE">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="CACTUS">
 <h3>CACTUS</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.397">CACTUS</a></span></div>
-<div class="block">This color constant "cactus" has RGBA8888 code <code>30A000FF</code>, intensity 0.5137255, protan 0.36078432, tritan 0.68235296, alpha 1.0, hue 0.28286904, and saturation 0.6252039.
- It can be represented as a packed float with the constant <code>-0x1.5cb906p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.395">CACTUS</a></span></div>
+<div class="block">This color constant "cactus" has RGBA8888 code <code>30A000FF</code>, R 0.1882353, G 0.627451, B 0.0, alpha 1.0, hue 0.28333336, and saturation 0.627451.
+ It can be represented as a packed float with the constant <code>-0x1.01406p125F</code>.
  <pre>
  <font style='background-color: #30A000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #30A000; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #30A000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #30A000'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #30A000'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #30A000'>&nbsp;@&nbsp;</font><font style='background-color: #30A000; color: #888888'>&nbsp;@&nbsp;</font>
@@ -974,16 +966,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.CACTUS">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.CACTUS">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="LIME">
 <h3>LIME</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.409">LIME</a></span></div>
-<div class="block">This color constant "lime" has RGBA8888 code <code>93D300FF</code>, intensity 0.6901961, protan 0.38431373, tritan 0.7529412, alpha 1.0, hue 0.21732643, and saturation 0.83122355.
- It can be represented as a packed float with the constant <code>-0x1.80c56p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.407">LIME</a></span></div>
+<div class="block">This color constant "lime" has RGBA8888 code <code>93D300FF</code>, R 0.5764706, G 0.827451, B 0.0, alpha 1.0, hue 0.21721959, and saturation 0.827451.
+ It can be represented as a packed float with the constant <code>-0x1.01a726p125F</code>.
  <pre>
  <font style='background-color: #93D300;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #93D300; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #93D300;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #93D300'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #93D300'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #93D300'>&nbsp;@&nbsp;</font><font style='background-color: #93D300; color: #888888'>&nbsp;@&nbsp;</font>
@@ -991,16 +983,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.LIME">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.LIME">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="OLIVE">
 <h3>OLIVE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.421">OLIVE</a></span></div>
-<div class="block">This color constant "olive" has RGBA8888 code <code>818000FF</code>, intensity 0.4745098, protan 0.47058824, tritan 0.68235296, alpha 1.0, hue 0.16567872, and saturation 0.5062155.
- It can be represented as a packed float with the constant <code>-0x1.5cf0f2p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.419">OLIVE</a></span></div>
+<div class="block">This color constant "olive" has RGBA8888 code <code>818000FF</code>, R 0.5058824, G 0.5019608, B 0.0, alpha 1.0, hue 0.16537468, and saturation 0.5058824.
+ It can be represented as a packed float with the constant <code>-0x1.010102p125F</code>.
  <pre>
  <font style='background-color: #818000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #818000; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #818000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #818000'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #818000'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #818000'>&nbsp;@&nbsp;</font><font style='background-color: #818000; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1008,16 +1000,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.OLIVE">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.OLIVE">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="FERN">
 <h3>FERN</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.433">FERN</a></span></div>
-<div class="block">This color constant "fern" has RGBA8888 code <code>4E7942FF</code>, intensity 0.45490196, protan 0.4392157, tritan 0.5764706, alpha 1.0, hue 0.29822132, and saturation 0.21422556.
- It can be represented as a packed float with the constant <code>-0x1.26e0e8p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.431">FERN</a></span></div>
+<div class="block">This color constant "fern" has RGBA8888 code <code>4E7942FF</code>, R 0.30588236, G 0.4745098, B 0.25882354, alpha 1.0, hue 0.2969697, and saturation 0.21568626.
+ It can be represented as a packed float with the constant <code>-0x1.84f29cp125F</code>.
  <pre>
  <font style='background-color: #4E7942;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #4E7942; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #4E7942;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #4E7942'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #4E7942'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #4E7942'>&nbsp;@&nbsp;</font><font style='background-color: #4E7942; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1025,16 +1017,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.FERN">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.FERN">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="MOSS">
 <h3>MOSS</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.445">MOSS</a></span></div>
-<div class="block">This color constant "moss" has RGBA8888 code <code>204608FF</code>, intensity 0.25882354, protan 0.4392157, tritan 0.5882353, alpha 1.0, hue 0.27203476, and saturation 0.241091.
- It can be represented as a packed float with the constant <code>-0x1.2ce084p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.443">MOSS</a></span></div>
+<div class="block">This color constant "moss" has RGBA8888 code <code>204608FF</code>, R 0.1254902, G 0.27450982, B 0.03137255, alpha 1.0, hue 0.26881722, and saturation 0.24313727.
+ It can be represented as a packed float with the constant <code>-0x1.108c4p125F</code>.
  <pre>
  <font style='background-color: #204608;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #204608; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #204608;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #204608'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #204608'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #204608'>&nbsp;@&nbsp;</font><font style='background-color: #204608; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1042,16 +1034,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.MOSS">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.MOSS">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="CELERY">
 <h3>CELERY</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.457">CELERY</a></span></div>
-<div class="block">This color constant "celery" has RGBA8888 code <code>7DFF73FF</code>, intensity 0.83137256, protan 0.34509805, tritan 0.67058825, alpha 1.0, hue 0.32334346, and saturation 0.54658806.
- It can be represented as a packed float with the constant <code>-0x1.56b1a8p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.455">CELERY</a></span></div>
+<div class="block">This color constant "celery" has RGBA8888 code <code>7DFF73FF</code>, R 0.49019608, G 1.0, B 0.4509804, alpha 1.0, hue 0.32142857, and saturation 0.5490196.
+ It can be represented as a packed float with the constant <code>-0x1.e7fefap125F</code>.
  <pre>
  <font style='background-color: #7DFF73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7DFF73; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #7DFF73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #7DFF73'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #7DFF73'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #7DFF73'>&nbsp;@&nbsp;</font><font style='background-color: #7DFF73; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1059,16 +1051,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.CELERY">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.CELERY">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="SAGE">
 <h3>SAGE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.469">SAGE</a></span></div>
-<div class="block">This color constant "sage" has RGBA8888 code <code>ABE3C5FF</code>, intensity 0.8509804, protan 0.43529412, tritan 0.5254902, alpha 1.0, hue 0.40719464, and saturation 0.2204172.
- It can be represented as a packed float with the constant <code>-0x1.0cdfb2p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.467">SAGE</a></span></div>
+<div class="block">This color constant "sage" has RGBA8888 code <code>ABE3C5FF</code>, R 0.67058825, G 0.8901961, B 0.77254903, alpha 1.0, hue 0.4107143, and saturation 0.21960783.
+ It can be represented as a packed float with the constant <code>-0x1.8bc756p126F</code>.
  <pre>
  <font style='background-color: #ABE3C5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABE3C5; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #ABE3C5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #ABE3C5'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #ABE3C5'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #ABE3C5'>&nbsp;@&nbsp;</font><font style='background-color: #ABE3C5; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1076,16 +1068,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.SAGE">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.SAGE">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="JADE">
 <h3>JADE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.481">JADE</a></span></div>
-<div class="block">This color constant "jade" has RGBA8888 code <code>3FBF3FFF</code>, intensity 0.62352943, protan 0.3529412, tritan 0.6627451, alpha 1.0, hue 0.33068874, and saturation 0.50730336.
- It can be represented as a packed float with the constant <code>-0x1.52b53ep126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.479">JADE</a></span></div>
+<div class="block">This color constant "jade" has RGBA8888 code <code>3FBF3FFF</code>, R 0.24705882, G 0.7490196, B 0.24705882, alpha 1.0, hue 0.33333334, and saturation 0.5019608.
+ It can be represented as a packed float with the constant <code>-0x1.7f7e7ep125F</code>.
  <pre>
  <font style='background-color: #3FBF3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3FBF3F; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #3FBF3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #3FBF3F'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #3FBF3F'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #3FBF3F'>&nbsp;@&nbsp;</font><font style='background-color: #3FBF3F; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1093,16 +1085,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.JADE">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.JADE">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="CYAN">
 <h3>CYAN</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.493">CYAN</a></span></div>
-<div class="block">This color constant "cyan" has RGBA8888 code <code>00FFFFFF</code>, intensity 0.9137255, protan 0.32941177, tritan 0.43137255, alpha 1.0, hue 0.5, and saturation 1.0.
- It can be represented as a packed float with the constant <code>-0x1.dca9d2p125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.491">CYAN</a></span></div>
+<div class="block">This color constant "cyan" has RGBA8888 code <code>00FFFFFF</code>, R 0.0, G 1.0, B 1.0, alpha 1.0, hue 0.5, and saturation 1.0.
+ It can be represented as a packed float with the constant <code>-0x1.fffep126F</code>.
  <pre>
  <font style='background-color: #00FFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00FFFF; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #00FFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #00FFFF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #00FFFF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #00FFFF'>&nbsp;@&nbsp;</font><font style='background-color: #00FFFF; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1110,16 +1102,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.CYAN">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.CYAN">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="MINT">
 <h3>MINT</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.505">MINT</a></span></div>
-<div class="block">This color constant "mint" has RGBA8888 code <code>7FFFD4FF</code>, intensity 0.9019608, protan 0.37254903, tritan 0.5176471, alpha 1.0, hue 0.44493762, and saturation 0.49903446.
- It can be represented as a packed float with the constant <code>-0x1.08bfccp126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.503">MINT</a></span></div>
+<div class="block">This color constant "mint" has RGBA8888 code <code>7FFFD4FF</code>, R 0.49803922, G 1.0, B 0.83137256, alpha 1.0, hue 0.44401044, and saturation 0.50196075.
+ It can be represented as a packed float with the constant <code>-0x1.a9fefep126F</code>.
  <pre>
  <font style='background-color: #7FFFD4;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7FFFD4; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #7FFFD4;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #7FFFD4'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #7FFFD4'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #7FFFD4'>&nbsp;@&nbsp;</font><font style='background-color: #7FFFD4; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1127,16 +1119,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.MINT">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.MINT">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="TEAL">
 <h3>TEAL</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.517">TEAL</a></span></div>
-<div class="block">This color constant "teal" has RGBA8888 code <code>007F7FFF</code>, intensity 0.5019608, protan 0.40784314, tritan 0.4627451, alpha 1.0, hue 0.5000993, and saturation 0.45671126.
- It can be represented as a packed float with the constant <code>-0x1.ecd1p125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.515">TEAL</a></span></div>
+<div class="block">This color constant "teal" has RGBA8888 code <code>007F7FFF</code>, R 0.0, G 0.49803922, B 0.49803922, alpha 1.0, hue 0.5, and saturation 0.49803922.
+ It can be represented as a packed float with the constant <code>-0x1.fefep125F</code>.
  <pre>
  <font style='background-color: #007F7F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #007F7F; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #007F7F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #007F7F'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #007F7F'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #007F7F'>&nbsp;@&nbsp;</font><font style='background-color: #007F7F; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1144,16 +1136,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.TEAL">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.TEAL">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="TURQUOISE">
 <h3>TURQUOISE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.529">TURQUOISE</a></span></div>
-<div class="block">This color constant "turquoise" has RGBA8888 code <code>2ED6C9FF</code>, intensity 0.7764706, protan 0.36078432, tritan 0.46666667, alpha 1.0, hue 0.4864811, and saturation 0.6576992.
- It can be represented as a packed float with the constant <code>-0x1.eeb98cp125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.527">TURQUOISE</a></span></div>
+<div class="block">This color constant "turquoise" has RGBA8888 code <code>2ED6C9FF</code>, R 0.18039216, G 0.8392157, B 0.7882353, alpha 1.0, hue 0.48710316, and saturation 0.65882355.
+ It can be represented as a packed float with the constant <code>-0x1.93ac5cp126F</code>.
  <pre>
  <font style='background-color: #2ED6C9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #2ED6C9; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #2ED6C9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #2ED6C9'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #2ED6C9'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #2ED6C9'>&nbsp;@&nbsp;</font><font style='background-color: #2ED6C9; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1161,16 +1153,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.TURQUOISE">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.TURQUOISE">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="SKY">
 <h3>SKY</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.541">SKY</a></span></div>
-<div class="block">This color constant "sky" has RGBA8888 code <code>10C0E0FF</code>, intensity 0.74509805, protan 0.37254903, tritan 0.39607844, alpha 1.0, hue 0.5261176, and saturation 0.78614056.
- It can be represented as a packed float with the constant <code>-0x1.cabf7cp125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.539">SKY</a></span></div>
+<div class="block">This color constant "sky" has RGBA8888 code <code>10C0E0FF</code>, R 0.0627451, G 0.7529412, B 0.8784314, alpha 1.0, hue 0.5256411, and saturation 0.8156863.
+ It can be represented as a packed float with the constant <code>-0x1.c1802p126F</code>.
  <pre>
  <font style='background-color: #10C0E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #10C0E0; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #10C0E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #10C0E0'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #10C0E0'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #10C0E0'>&nbsp;@&nbsp;</font><font style='background-color: #10C0E0; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1178,16 +1170,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.SKY">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.SKY">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="COBALT">
 <h3>COBALT</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.553">COBALT</a></span></div>
-<div class="block">This color constant "cobalt" has RGBA8888 code <code>0046ABFF</code>, intensity 0.4117647, protan 0.43137255, tritan 0.3019608, alpha 1.0, hue 0.5979607, and saturation 0.6710433.
- It can be represented as a packed float with the constant <code>-0x1.9adcd2p125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.551">COBALT</a></span></div>
+<div class="block">This color constant "cobalt" has RGBA8888 code <code>0046ABFF</code>, R 0.0, G 0.27450982, B 0.67058825, alpha 1.0, hue 0.5984406, and saturation 0.67058825.
+ It can be represented as a packed float with the constant <code>-0x1.568cp126F</code>.
  <pre>
  <font style='background-color: #0046AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0046AB; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #0046AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #0046AB'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #0046AB'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #0046AB'>&nbsp;@&nbsp;</font><font style='background-color: #0046AB; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1195,16 +1187,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.COBALT">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.COBALT">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="DENIM">
 <h3>DENIM</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.565">DENIM</a></span></div>
-<div class="block">This color constant "denim" has RGBA8888 code <code>3088B8FF</code>, intensity 0.58431375, protan 0.41960785, tritan 0.38431373, alpha 1.0, hue 0.5597165, and saturation 0.5275199.
- It can be represented as a packed float with the constant <code>-0x1.c4d72ap125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.563">DENIM</a></span></div>
+<div class="block">This color constant "denim" has RGBA8888 code <code>3088B8FF</code>, R 0.1882353, G 0.53333336, B 0.72156864, alpha 1.0, hue 0.5588235, and saturation 0.53333336.
+ It can be represented as a packed float with the constant <code>-0x1.71106p126F</code>.
  <pre>
  <font style='background-color: #3088B8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3088B8; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #3088B8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #3088B8'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #3088B8'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #3088B8'>&nbsp;@&nbsp;</font><font style='background-color: #3088B8; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1212,16 +1204,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.DENIM">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.DENIM">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="NAVY">
 <h3>NAVY</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.577">NAVY</a></span></div>
-<div class="block">This color constant "navy" has RGBA8888 code <code>000080FF</code>, intensity 0.24313726, protan 0.43529412, tritan 0.29411766, alpha 1.0, hue 0.67328644, and saturation 0.49774668.
- It can be represented as a packed float with the constant <code>-0x1.96de7cp125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.575">NAVY</a></span></div>
+<div class="block">This color constant "navy" has RGBA8888 code <code>000080FF</code>, R 0.0, G 0.0, B 0.5019608, alpha 1.0, hue 0.6666667, and saturation 0.5019608.
+ It can be represented as a packed float with the constant <code>-0x1.0p126F</code>.
  <pre>
  <font style='background-color: #000080;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000080; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #000080;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000080'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #000080'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #000080'>&nbsp;@&nbsp;</font><font style='background-color: #000080; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1229,16 +1221,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.NAVY">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.NAVY">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="LAVENDER">
 <h3>LAVENDER</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.589">LAVENDER</a></span></div>
-<div class="block">This color constant "lavender" has RGBA8888 code <code>B991FFFF</code>, intensity 0.74509805, protan 0.54901963, tritan 0.34117648, alpha 1.0, hue 0.72741735, and saturation 0.42804563.
- It can be represented as a packed float with the constant <code>-0x1.af197cp125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.587">LAVENDER</a></span></div>
+<div class="block">This color constant "lavender" has RGBA8888 code <code>B991FFFF</code>, R 0.7254902, G 0.5686275, B 1.0, alpha 1.0, hue 0.72727275, and saturation 0.43137252.
+ It can be represented as a packed float with the constant <code>-0x1.ff2372p126F</code>.
  <pre>
  <font style='background-color: #B991FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B991FF; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #B991FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #B991FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #B991FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #B991FF'>&nbsp;@&nbsp;</font><font style='background-color: #B991FF; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1246,16 +1238,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.LAVENDER">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.LAVENDER">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="PLUM">
 <h3>PLUM</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.601">PLUM</a></span></div>
-<div class="block">This color constant "plum" has RGBA8888 code <code>BE0DC6FF</code>, intensity 0.5294118, protan 0.7137255, tritan 0.3372549, alpha 1.0, hue 0.82619894, and saturation 0.72139674.
- It can be represented as a packed float with the constant <code>-0x1.ad6d0ep125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.599">PLUM</a></span></div>
+<div class="block">This color constant "plum" has RGBA8888 code <code>BE0DC6FF</code>, R 0.74509805, G 0.050980393, B 0.7764706, alpha 1.0, hue 0.82612616, and saturation 0.7254902.
+ It can be represented as a packed float with the constant <code>-0x1.8c1b7cp126F</code>.
  <pre>
  <font style='background-color: #BE0DC6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BE0DC6; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #BE0DC6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #BE0DC6'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #BE0DC6'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #BE0DC6'>&nbsp;@&nbsp;</font><font style='background-color: #BE0DC6; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1263,16 +1255,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.PLUM">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.PLUM">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="MAUVE">
 <h3>MAUVE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.613">MAUVE</a></span></div>
-<div class="block">This color constant "mauve" has RGBA8888 code <code>AB73ABFF</code>, intensity 0.6, protan 0.5764706, tritan 0.43529412, alpha 1.0, hue 0.8289416, and saturation 0.2213426.
- It can be represented as a packed float with the constant <code>-0x1.df2732p125F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.611">MAUVE</a></span></div>
+<div class="block">This color constant "mauve" has RGBA8888 code <code>AB73ABFF</code>, R 0.67058825, G 0.4509804, B 0.67058825, alpha 1.0, hue 0.8333334, and saturation 0.21960786.
+ It can be represented as a packed float with the constant <code>-0x1.56e756p126F</code>.
  <pre>
  <font style='background-color: #AB73AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AB73AB; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #AB73AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #AB73AB'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #AB73AB'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #AB73AB'>&nbsp;@&nbsp;</font><font style='background-color: #AB73AB; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1280,16 +1272,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.MAUVE">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.MAUVE">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="ROSE">
 <h3>ROSE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.625">ROSE</a></span></div>
-<div class="block">This color constant "rose" has RGBA8888 code <code>E61E78FF</code>, intensity 0.50980395, protan 0.7882353, tritan 0.5137255, alpha 1.0, hue 0.9242363, and saturation 0.7867001.
- It can be represented as a packed float with the constant <code>-0x1.079304p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.623">ROSE</a></span></div>
+<div class="block">This color constant "rose" has RGBA8888 code <code>E61E78FF</code>, R 0.9019608, G 0.11764706, B 0.47058824, alpha 1.0, hue 0.925, and saturation 0.78431374.
+ It can be represented as a packed float with the constant <code>-0x1.f03dccp125F</code>.
  <pre>
  <font style='background-color: #E61E78;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E61E78; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #E61E78;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #E61E78'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #E61E78'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #E61E78'>&nbsp;@&nbsp;</font><font style='background-color: #E61E78; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1297,16 +1289,16 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.ROSE">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.ROSE">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="RASPBERRY">
 <h3>RASPBERRY</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.637">RASPBERRY</a></span></div>
-<div class="block">This color constant "raspberry" has RGBA8888 code <code>911437FF</code>, intensity 0.3254902, protan 0.69411767, tritan 0.5529412, alpha 1.0, hue 0.9541538, and saturation 0.49511868.
- It can be represented as a packed float with the constant <code>-0x1.1b62a6p126F</code>.
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.635">RASPBERRY</a></span></div>
+<div class="block">This color constant "raspberry" has RGBA8888 code <code>911437FF</code>, R 0.5686275, G 0.078431375, B 0.21568628, alpha 1.0, hue 0.9533333, and saturation 0.4901961.
+ It can be represented as a packed float with the constant <code>-0x1.6e2922p125F</code>.
  <pre>
  <font style='background-color: #911437;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #911437; color: #000000'>&nbsp;@&nbsp;</font>
  <font style='background-color: #911437;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #911437'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #911437'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #911437'>&nbsp;@&nbsp;</font><font style='background-color: #911437; color: #888888'>&nbsp;@&nbsp;</font>
@@ -1314,14 +1306,14 @@ loadScripts(document, 'script');</script>
  </pre></div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.ipt_hq.SimplePalette.RASPBERRY">Constant Field Values</a></dd>
+<dd><a href="../../../../../constant-values.html#com.github.tommyettinger.colorful.rgb.SimplePalette.RASPBERRY">Constant Field Values</a></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="NAMES">
 <h3>NAMES</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.Array&lt;<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.644">NAMES</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.Array&lt;<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.642">NAMES</a></span></div>
 <div class="block">All names for colors in this palette, in alphabetical order. You can fetch the corresponding packed float color
  by looking up a name in <a href="#NAMED"><code>NAMED</code></a>.</div>
 </section>
@@ -1329,7 +1321,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="NAMES_BY_HUE">
 <h3>NAMES_BY_HUE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.Array&lt;<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.650">NAMES_BY_HUE</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.Array&lt;<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.648">NAMES_BY_HUE</a></span></div>
 <div class="block">All names for colors in this palette, with grayscale first, then sorted by hue from red to yellow to green to
  blue. You can fetch the corresponding packed float color by looking up a name in <a href="#NAMED"><code>NAMED</code></a>.</div>
 </section>
@@ -1337,13 +1329,13 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="COLORS_BY_HUE">
 <h3>COLORS_BY_HUE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.FloatArray</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.652">COLORS_BY_HUE</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.FloatArray</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.650">COLORS_BY_HUE</a></span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="NAMES_BY_LIGHTNESS">
 <h3>NAMES_BY_LIGHTNESS</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.Array&lt;<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.657">NAMES_BY_LIGHTNESS</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.badlogic.gdx.utils.Array&lt;<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.655">NAMES_BY_LIGHTNESS</a></span></div>
 <div class="block">All names for colors in this palette, sorted by lightness from black to white. You can fetch the
  corresponding packed float color by looking up a name in <a href="#NAMED"><code>NAMED</code></a>.</div>
 </section>
@@ -1359,7 +1351,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;()">
 <h3>SimplePalette</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.36">SimplePalette</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.34">SimplePalette</a></span>()</div>
 </section>
 </li>
 </ul>
@@ -1373,7 +1365,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="parseDescription(java.lang.String)">
 <h3>parseDescription</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.707">parseDescription</a></span>&#8203;<span class="parameters">(<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.705">parseDescription</a></span>&#8203;<span class="parameters">(<a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;description)</span></div>
 <div class="block">Parses a color description and returns the approximate color it describes, as a packed float color.
  Color descriptions consist of one or more lower-case words, separated by non-alphabetical characters (typically
  spaces and/or hyphens). Any word that is the name of a color in this SimplePalette will be looked up in
@@ -1400,16 +1392,20 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="bestMatch(float,int)">
 <h3>bestMatch</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.823">bestMatch</a></span>&#8203;<span class="parameters">(float&nbsp;ipt_hq,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.819">bestMatch</a></span>&#8203;<span class="parameters">(float&nbsp;rgb,
  int&nbsp;mixCount)</span></div>
-<div class="block">Given a color as a packed IPT_HQ float, this finds the closest description it can to match the given color while
+<div class="block">Given a color as a packed RGBA float, this finds the closest description it can to match the given color while
  using at most <code>mixCount</code> colors to mix in. You should only use small numbers for mixCount, like 1 to 3;
  this can take quite a while to run otherwise. This returns a String description that can be passed to
  <a href="#parseDescription(java.lang.String)"><code>parseDescription(String)</code></a>. It is likely that this will use very contrasting colors if mixCount is 2 or
- greater and the color to match is desaturated or brownish.</div>
+ greater and the color to match is desaturated or brownish.
+ <br>
+ Internally, this delegates to Oklab's
+ <a href="../oklab/SimplePalette.html#bestMatch(float,int)"><code>SimplePalette.bestMatch(float, int)</code></a> class, which should return a
+ String that describes about the same color.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>ipt_hq</code> - a packed IPT_HQ float color to attempt to match</dd>
+<dd><code>rgb</code> - a packed RGBA float color to attempt to match</dd>
 <dd><code>mixCount</code> - how many color names this will use in the returned description</dd>
 <dt>Returns:</dt>
 <dd>a description that can be fed to <a href="#parseDescription(java.lang.String)"><code>parseDescription(String)</code></a> to get a similar color</dd>
@@ -1417,26 +1413,13 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="editKnownColors()">
-<h3>editKnownColors</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.874">editKnownColors</a></span>()</div>
-<div class="block">Changes the existing RGBA Color instances in <code>Colors</code> to use IPT_HQ and so be able to be shown normally by
- <a href="ColorfulBatch.html" title="class in com.github.tommyettinger.colorful.ipt_hq"><code>ColorfulBatch</code></a> or a Batch using <a href="../Shaders.html#fragmentShaderIPT_HQ"><code>Shaders.fragmentShaderIPT_HQ</code></a>.
- Any colors used in libGDX text markup look up their values in Colors, so calling this can help display fonts
- where markup is enabled. This only needs to be called once, and if you call <a href="#appendToKnownColors()"><code>appendToKnownColors()</code></a>, then
- that should be done after this to avoid mixing RGBA and IPT_HQ colors.
- <br>
- This is a duplicate of a method with the same name in Palette; you should still only call this method once,
- regardless of where it was from.</div>
-</section>
-</li>
-<li>
 <section class="detail" id="appendToKnownColors()">
 <h3>appendToKnownColors</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ipt_hq/SimplePalette.html#line.888">appendToKnownColors</a></span>()</div>
-<div class="block">Appends IPT_HQ-compatible Color instances to the map in <code>Colors</code>, using the names in <a href="#NAMES"><code>NAMES</code></a> (which
- are "lower cased" instead of "ALL UPPER CASE"). If you intend to still use the existing values in Colors, you
- should call <a href="#editKnownColors()"><code>editKnownColors()</code></a> first; otherwise you can just always use "lower cased" color names.
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/SimplePalette.html#line.832">appendToKnownColors</a></span>()</div>
+<div class="block">Appends standard RGBA Color instances to the map in <code>Colors</code>, using the names in <a href="#NAMES"><code>NAMES</code></a> (which
+ are "lower cased" instead of "ALL UPPER CASE"). This doesn't need any changes to be made to Colors in order for
+ it to be compatible; just remember that the colors originally in Colors use "UPPER CASE" and these use "lower
+ case".
  <br>
  This can be used alongside the method with the same name in Palette, since that uses "Title Cased" names.</div>
 </section>
