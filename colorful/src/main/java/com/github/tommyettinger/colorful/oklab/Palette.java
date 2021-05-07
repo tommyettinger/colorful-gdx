@@ -3150,8 +3150,7 @@ public class Palette {
      * regardless of where it was from.
      */
     public static void editKnownColors(){
-        for(Color c : Colors.getColors().values())
-        {
+        for(Color c : Colors.getColors().values()) {
             final float f = ColorTools.fromColor(c);
             c.set(channelL(f), channelA(f), channelB(f), c.a);
         }
