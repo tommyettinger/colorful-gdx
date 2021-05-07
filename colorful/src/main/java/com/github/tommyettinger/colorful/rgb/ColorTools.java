@@ -343,7 +343,7 @@ public class ColorTools {
 			x = r;
 		}
 		final float d = x - Math.min(w, y);
-		final float light = x * (1f - 0.5f * d / (x + 1e-10f));
+		final float light = Math.min(Math.max(x * (1f - 0.5f * d / (x + 1e-10f)) + value, 0f), 1f);
 		hue += Math.abs(z + (w - y) / (6f * d + 1e-10f)) + 1f;
 		saturation += (x - light) / (Math.min(light, 1f - light) + 1e-10f);
 		return FloatColors.hsl2rgb(hue - (int)hue, Math.min(Math.max(saturation, 0f), 1f), light, opacity);
@@ -396,7 +396,7 @@ public class ColorTools {
 	 * between 0f (return start as-is) and 1f (return start with full alpha), start should be a packed color, as from
 	 * {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
 	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
-	 * transparent. This won't change the intensity, protan, or tritan of the color.
+	 * transparent. This won't change the red, green, or blue of the color.
 	 * @see #fade(float, float) the counterpart method that makes a float color more translucent
 	 * @param start the starting color as a packed float
 	 * @param change how much to go from start toward opaque, as a float between 0 and 1; higher means closer to opaque
@@ -412,7 +412,7 @@ public class ColorTools {
 	 * (return start as-is) and 1f (return the color with 0 alpha), start should be a packed color, as from
 	 * {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
 	 * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
-	 * transparent. This won't change the intensity, protan, or tritan of the color.
+	 * transparent. This won't change the red, green, or blue of the color.
 	 * @see #blot(float, float) the counterpart method that makes a float color more opaque
 	 * @param start the starting color as a packed float
 	 * @param change how much to go from start toward transparent, as a float between 0 and 1; higher means closer to transparent
