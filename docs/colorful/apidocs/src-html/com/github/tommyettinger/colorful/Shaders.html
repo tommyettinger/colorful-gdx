@@ -285,727 +285,729 @@
 <span class="source-line-no">272</span><span id="line.272">                    "void main()\n" +</span>
 <span class="source-line-no">273</span><span id="line.273">                    "{\n" +</span>
 <span class="source-line-no">274</span><span id="line.274">                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
-<span class="source-line-no">275</span><span id="line.275">                    "    vec3 ipt = (mat3(0.189786, 0.669665 , 0.286498, 0.576951, -0.73741 , 0.655205, 0.233221, 0.0681367, -0.941748)\n" +</span>
-<span class="source-line-no">276</span><span id="line.276">                    "         * (tgt.rgb)) + v_color.xyz - 0.5;\n" +</span>
-<span class="source-line-no">277</span><span id="line.277">                    "    ipt.x = clamp(ipt.x, 0.0, 1.0);\n" +</span>
-<span class="source-line-no">278</span><span id="line.278">                    "    ipt.yz = clamp(ipt.yz, -1.0, 1.0);\n" +</span>
-<span class="source-line-no">279</span><span id="line.279">                    "    vec3 back = mat3(0.999779, 1.00015, 0.999769, 1.07094, -0.377744, 0.0629496, 0.324891, 0.220439, -0.809638) * ipt;\n" +</span>
-<span class="source-line-no">280</span><span id="line.280">                    "    gl_FragColor = vec4(clamp(back, 0.0, 1.0), v_color.a * tgt.a);\n" +</span>
-<span class="source-line-no">281</span><span id="line.281">                    "}";</span>
-<span class="source-line-no">282</span><span id="line.282">    /**</span>
-<span class="source-line-no">283</span><span id="line.283">     * Just like {@link #fragmentShaderIPT}, but gamma-corrects the input and output RGB values (which improves</span>
-<span class="source-line-no">284</span><span id="line.284">     * lightness uniformity) and uses an exponential step internally to change how colors are distributed within the</span>
-<span class="source-line-no">285</span><span id="line.285">     * gamut. These steps are more computationally expensive than the bare-bones ones in {@link #fragmentShaderIPT}, but</span>
-<span class="source-line-no">286</span><span id="line.286">     * they seem to improve some aspects of color transitions quite a bit.</span>
-<span class="source-line-no">287</span><span id="line.287">     */</span>
-<span class="source-line-no">288</span><span id="line.288">    public static String fragmentShaderIPT_HQ =</span>
-<span class="source-line-no">289</span><span id="line.289">            "#ifdef GL_ES\n" +</span>
-<span class="source-line-no">290</span><span id="line.290">                    "#define LOWP lowp\n" +</span>
-<span class="source-line-no">291</span><span id="line.291">                    "precision mediump float;\n" +</span>
-<span class="source-line-no">292</span><span id="line.292">                    "#else\n" +</span>
-<span class="source-line-no">293</span><span id="line.293">                    "#define LOWP \n" +</span>
-<span class="source-line-no">294</span><span id="line.294">                    "#endif\n" +</span>
-<span class="source-line-no">295</span><span id="line.295">                    "varying vec2 v_texCoords;\n" +</span>
-<span class="source-line-no">296</span><span id="line.296">                    "varying LOWP vec4 v_color;\n" +</span>
-<span class="source-line-no">297</span><span id="line.297">                    "uniform sampler2D u_texture;\n" +</span>
-<span class="source-line-no">298</span><span id="line.298">                    "const vec3 forward = vec3(0.43);\n" +</span>
-<span class="source-line-no">299</span><span id="line.299">                    "const vec3 reverse = vec3(1.0 / 0.43);\n" +</span>
-<span class="source-line-no">300</span><span id="line.300">                    "void main()\n" +</span>
-<span class="source-line-no">301</span><span id="line.301">                    "{\n" +</span>
-<span class="source-line-no">302</span><span id="line.302">                    "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
-<span class="source-line-no">303</span><span id="line.303">                    "  vec3 ipt = mat3(0.40000, 4.45500, 0.80560, 0.40000, -4.8510, 0.35720, 0.20000, 0.39600, -1.1628) *" +</span>
-<span class="source-line-no">304</span><span id="line.304">                    "             pow(mat3(0.313921, 0.151693, 0.017753, 0.639468, 0.748209, 0.109468, 0.0465970, 0.1000044, 0.8729690) \n" +</span>
-<span class="source-line-no">305</span><span id="line.305">                    "             * (tgt.rgb * tgt.rgb), forward);\n" +</span>
-<span class="source-line-no">306</span><span id="line.306">                    "  ipt.x = clamp(ipt.x + v_color.x - 0.55, 0.0, 1.0);\n" +</span>
-<span class="source-line-no">307</span><span id="line.307">                    "  ipt.yz = clamp(ipt.yz + v_color.yz - 0.5, -1.0, 1.0);\n" +</span>
-<span class="source-line-no">308</span><span id="line.308">                    "  ipt = mat3(1.0, 1.0, 1.0, 0.097569, -0.11388, 0.032615, 0.205226, 0.133217, -0.67689) * ipt;\n" +</span>
-<span class="source-line-no">309</span><span id="line.309">                    "  gl_FragColor = vec4(sqrt(clamp(" +</span>
-<span class="source-line-no">310</span><span id="line.310">                    "                 mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) *\n" +</span>
-<span class="source-line-no">311</span><span id="line.311">                    "                 (sign(ipt) * pow(abs(ipt), reverse))," +</span>
-<span class="source-line-no">312</span><span id="line.312">                    "                 0.0, 1.0)), v_color.a * tgt.a);\n" +</span>
-<span class="source-line-no">313</span><span id="line.313">                    "}";</span>
-<span class="source-line-no">314</span><span id="line.314"></span>
-<span class="source-line-no">315</span><span id="line.315">    /**</span>
-<span class="source-line-no">316</span><span id="line.316">     * Just like {@link #fragmentShaderIPT_HQ}, but uses the Oklab color space instead of the very similar IPT_HQ one.</span>
-<span class="source-line-no">317</span><span id="line.317">     */</span>
-<span class="source-line-no">318</span><span id="line.318">    public static String fragmentShaderOklab =</span>
-<span class="source-line-no">319</span><span id="line.319">            "#ifdef GL_ES\n" +</span>
-<span class="source-line-no">320</span><span id="line.320">                    "#define LOWP lowp\n" +</span>
-<span class="source-line-no">321</span><span id="line.321">                    "precision mediump float;\n" +</span>
-<span class="source-line-no">322</span><span id="line.322">                    "#else\n" +</span>
-<span class="source-line-no">323</span><span id="line.323">                    "#define LOWP \n" +</span>
-<span class="source-line-no">324</span><span id="line.324">                    "#endif\n" +</span>
-<span class="source-line-no">325</span><span id="line.325">                    "varying vec2 v_texCoords;\n" +</span>
-<span class="source-line-no">326</span><span id="line.326">                    "varying LOWP vec4 v_color;\n" +</span>
-<span class="source-line-no">327</span><span id="line.327">                    "uniform sampler2D u_texture;\n" +</span>
-<span class="source-line-no">328</span><span id="line.328">                    "const vec3 forward = vec3(1.0 / 3.0);\n" +</span>
-<span class="source-line-no">329</span><span id="line.329">                    "void main()\n" +</span>
-<span class="source-line-no">330</span><span id="line.330">                    "{\n" +</span>
-<span class="source-line-no">331</span><span id="line.331">                    "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
-<span class="source-line-no">332</span><span id="line.332">                    "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +</span>
-<span class="source-line-no">333</span><span id="line.333">                    "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +</span>
-<span class="source-line-no">334</span><span id="line.334">                    "             * (tgt.rgb * tgt.rgb), forward);\n" +</span>
-<span class="source-line-no">335</span><span id="line.335">                    "  lab.x = clamp(lab.x + v_color.r - 0.63, 0.0, 1.0);\n" +</span>
-<span class="source-line-no">336</span><span id="line.336">                    "  lab.yz = clamp(lab.yz + v_color.gb - 0.5, -1.0, 1.0);\n" +</span>
-<span class="source-line-no">337</span><span id="line.337">                    "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +</span>
-<span class="source-line-no">338</span><span id="line.338">                    "  gl_FragColor = vec4(sqrt(clamp(" +</span>
-<span class="source-line-no">339</span><span id="line.339">                    "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +</span>
-<span class="source-line-no">340</span><span id="line.340">                    "                 (lab * lab * lab)," +</span>
-<span class="source-line-no">341</span><span id="line.341">                    "                 0.0, 1.0)), v_color.a * tgt.a);\n" +</span>
-<span class="source-line-no">342</span><span id="line.342">                    "}";</span>
-<span class="source-line-no">343</span><span id="line.343"></span>
-<span class="source-line-no">344</span><span id="line.344">    /**</span>
-<span class="source-line-no">345</span><span id="line.345">     * A vertex shader that does the bulk of processing HSI-format batch colors and converting them to a format</span>
-<span class="source-line-no">346</span><span id="line.346">     * {@link #fragmentShaderHSI} can use. Since HSI is only a cylindrical/spherical adaptation of IPT, with identical</span>
-<span class="source-line-no">347</span><span id="line.347">     * I components and the combination of H and S in polar coordinates mapping to P and T in Cartesian coordinates,</span>
-<span class="source-line-no">348</span><span id="line.348">     * the fragment shader this is used with can be any that expects an IPT color (currently only</span>
-<span class="source-line-no">349</span><span id="line.349">     * {@link #fragmentShaderIPT} does this, and it's the same as {@link #fragmentShaderHSI}). This vertex shader does</span>
-<span class="source-line-no">350</span><span id="line.350">     * a lot more than most vertex shaders here, but since it is executed relatively rarely (unless you're drawing many</span>
-<span class="source-line-no">351</span><span id="line.351">     * 1-pixel textures), there shouldn't be a heavy performance penalty.</span>
-<span class="source-line-no">352</span><span id="line.352">     */</span>
-<span class="source-line-no">353</span><span id="line.353">    public static final String vertexShaderHSI = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"</span>
-<span class="source-line-no">354</span><span id="line.354">        + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"</span>
-<span class="source-line-no">355</span><span id="line.355">        + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"</span>
-<span class="source-line-no">356</span><span id="line.356">        + "uniform mat4 u_projTrans;\n"</span>
-<span class="source-line-no">357</span><span id="line.357">        + "varying vec4 v_color;\n"</span>
-<span class="source-line-no">358</span><span id="line.358">        + "varying vec2 v_texCoords;\n"</span>
-<span class="source-line-no">359</span><span id="line.359">        + "const vec3 yellow  = vec3( 0.16155326,0.020876605,-0.26078433 );\n"</span>
-<span class="source-line-no">360</span><span id="line.360">        + "const vec3 magenta = vec3(-0.16136102,0.122068435,-0.070396   );\n"</span>
-<span class="source-line-no">361</span><span id="line.361">        + "const vec3 cyan    = vec3( 0.16420607,0.3481738,   0.104959644);\n"</span>
-<span class="source-line-no">362</span><span id="line.362">        + "void main()\n"</span>
-<span class="source-line-no">363</span><span id="line.363">        + "{\n"</span>
-<span class="source-line-no">364</span><span id="line.364">        + "    v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"</span>
-<span class="source-line-no">365</span><span id="line.365">        + "    v_color.a = " + ShaderProgram.COLOR_ATTRIBUTE + ".a * (255.0/254.0);\n"</span>
-<span class="source-line-no">366</span><span id="line.366">        + "    vec3 hsi = v_color.rgb;\n"</span>
-<span class="source-line-no">367</span><span id="line.367">        + "    v_color.x = (hsi.z - 0.5) * 0.9999;\n"</span>
-<span class="source-line-no">368</span><span id="line.368">        + "    hsi.x *= 6.28318;\n"</span>
-<span class="source-line-no">369</span><span id="line.369">        + "    hsi.y *= 0.5;\n"</span>
-<span class="source-line-no">370</span><span id="line.370">        + "    v_color.y = cos(hsi.x) * hsi.y;\n"</span>
-<span class="source-line-no">371</span><span id="line.371">        + "    v_color.z = sin(hsi.x) * hsi.y;\n"</span>
-<span class="source-line-no">372</span><span id="line.372">        + "    float crMid = dot(cyan.yz, v_color.yz);\n"</span>
-<span class="source-line-no">373</span><span id="line.373">        + "    float mgMid = dot(magenta.yz, v_color.yz);\n"</span>
-<span class="source-line-no">374</span><span id="line.374">        + "    float ybMid = dot(yellow.yz, v_color.yz);\n"</span>
-<span class="source-line-no">375</span><span id="line.375">        + "    float crScale = (v_color.x - 0.5 + step(crMid, 0.0)) * cyan.x / (0.00001 - crMid);\n"</span>
-<span class="source-line-no">376</span><span id="line.376">        + "    float mgScale = (v_color.x + 0.5 - step(mgMid, 0.0)) * magenta.x / (0.00001 - mgMid);\n"</span>
-<span class="source-line-no">377</span><span id="line.377">        + "    float ybScale = (v_color.x - 0.5 + step(ybMid, 0.0)) * yellow.x / (0.00001 - ybMid);\n"</span>
-<span class="source-line-no">378</span><span id="line.378">        + "    float scale = 4.0 * min(crScale, min(mgScale, ybScale));\n"</span>
-<span class="source-line-no">379</span><span id="line.379">        + "    v_color.yz *= scale * length(v_color.yz) / cos(3.14159 * v_color.x);\n"</span>
-<span class="source-line-no">380</span><span id="line.380">        + "    v_color.xyz += 0.5;\n"</span>
-<span class="source-line-no">381</span><span id="line.381">        + "    v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"</span>
-<span class="source-line-no">382</span><span id="line.382">        + "    gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"</span>
-<span class="source-line-no">383</span><span id="line.383">        + "}\n";</span>
-<span class="source-line-no">384</span><span id="line.384">    public static String fragmentShaderHSI = fragmentShaderIPT;</span>
-<span class="source-line-no">385</span><span id="line.385"></span>
-<span class="source-line-no">386</span><span id="line.386">    /**</span>
-<span class="source-line-no">387</span><span id="line.387">     * Credit to Sam Hocevar, https://gamedev.stackexchange.com/a/59808 .</span>
-<span class="source-line-no">388</span><span id="line.388">     */</span>
-<span class="source-line-no">389</span><span id="line.389">    public static final String partialCodeHSL =</span>
-<span class="source-line-no">390</span><span id="line.390">            "const float eps = 1.0e-10;\n" +</span>
-<span class="source-line-no">391</span><span id="line.391">//                    //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a</span>
-<span class="source-line-no">392</span><span id="line.392">//                    //different distribution that matches primary colors in painting (where purple is opposite yellow).</span>
-<span class="source-line-no">393</span><span id="line.393">//                    "float official2primaries(float hue) {\n" +</span>
-<span class="source-line-no">394</span><span id="line.394">//                    "    return  hue * (  2.137\n" +</span>
-<span class="source-line-no">395</span><span id="line.395">//                    "          + hue * (  0.542\n" +</span>
-<span class="source-line-no">396</span><span id="line.396">//                    "          + hue * (-15.141\n" +</span>
-<span class="source-line-no">397</span><span id="line.397">//                    "          + hue * ( 30.120\n" +</span>
-<span class="source-line-no">398</span><span id="line.398">//                    "          + hue * (-22.541\n" +</span>
-<span class="source-line-no">399</span><span id="line.399">//                    "          + hue *   5.883)))));\n" +</span>
-<span class="source-line-no">400</span><span id="line.400">//                    "}\n" +</span>
-<span class="source-line-no">401</span><span id="line.401">//                    //Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a</span>
-<span class="source-line-no">402</span><span id="line.402">//                    //different distribution that matches primary colors in painting (where purple is opposite yellow).</span>
-<span class="source-line-no">403</span><span id="line.403">//                    "float primaries2official(float hue) {\n" +</span>
-<span class="source-line-no">404</span><span id="line.404">//                    "    return  hue * (  0.677\n" +</span>
-<span class="source-line-no">405</span><span id="line.405">//                    "          + hue * ( -0.123\n" +</span>
-<span class="source-line-no">406</span><span id="line.406">//                    "          + hue * (-11.302\n" +</span>
-<span class="source-line-no">407</span><span id="line.407">//                    "          + hue * ( 46.767\n" +</span>
-<span class="source-line-no">408</span><span id="line.408">//                    "          + hue * (-58.493\n" +</span>
-<span class="source-line-no">409</span><span id="line.409">//                    "          + hue *   23.474)))));\n" +</span>
-<span class="source-line-no">410</span><span id="line.410">//                    "}\n" +</span>
-<span class="source-line-no">411</span><span id="line.411">                    "vec4 rgb2hsl(vec4 c)\n" +</span>
-<span class="source-line-no">412</span><span id="line.412">                    "{\n" +</span>
-<span class="source-line-no">413</span><span id="line.413">                    "    const vec4 J = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n" +</span>
-<span class="source-line-no">414</span><span id="line.414">                    "    vec4 p = mix(vec4(c.bg, J.wz), vec4(c.gb, J.xy), step(c.b, c.g));\n" +</span>
-<span class="source-line-no">415</span><span id="line.415">                    "    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));\n" +</span>
-<span class="source-line-no">416</span><span id="line.416">                    "    float d = q.x - min(q.w, q.y);\n" +</span>
-<span class="source-line-no">417</span><span id="line.417">                    "    float l = q.x * (1.0 - 0.5 * d / (q.x + eps));\n" +</span>
-<span class="source-line-no">418</span><span id="line.418">                    "    return vec4(abs(q.z + (q.w - q.y) / (6.0 * d + eps)), (q.x - l) / (min(l, 1.0 - l) + eps), l, c.a);\n" +</span>
-<span class="source-line-no">419</span><span id="line.419">                    "}\n" +</span>
-<span class="source-line-no">420</span><span id="line.420">                    "\n" +</span>
-<span class="source-line-no">421</span><span id="line.421">                    "vec4 hsl2rgb(vec4 c)\n" +</span>
-<span class="source-line-no">422</span><span id="line.422">                    "{\n" +</span>
-<span class="source-line-no">423</span><span id="line.423">                    "    const vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n" +</span>
-<span class="source-line-no">424</span><span id="line.424">                    "    vec3 p = abs(fract(c.x + K.xyz) * 6.0 - K.www);\n" +</span>
-<span class="source-line-no">425</span><span id="line.425">                    "    float v = (c.z + c.y * min(c.z, 1.0 - c.z));\n" +</span>
-<span class="source-line-no">426</span><span id="line.426">                    "    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n" +</span>
-<span class="source-line-no">427</span><span id="line.427">                    "}";</span>
-<span class="source-line-no">428</span><span id="line.428"></span>
-<span class="source-line-no">429</span><span id="line.429">    /**</span>
-<span class="source-line-no">430</span><span id="line.430">     * Adjusted-hue version of {@link #partialCodeHSL}, supplying HSL to-and-from RGB conversions with a smaller range</span>
-<span class="source-line-no">431</span><span id="line.431">     * of hue used for cyan and a larger range for orange. Not currently used. Credit to Sam Hocevar,</span>
-<span class="source-line-no">432</span><span id="line.432">     * https://gamedev.stackexchange.com/a/59808 .</span>
-<span class="source-line-no">433</span><span id="line.433">     */</span>
-<span class="source-line-no">434</span><span id="line.434">    public static final String partialCodeHSLStretched =</span>
-<span class="source-line-no">435</span><span id="line.435">            "const float eps = 1.0e-10;\n" +</span>
-<span class="source-line-no">436</span><span id="line.436">                    //// maybe not blue enough?</span>
-<span class="source-line-no">437</span><span id="line.437">//                    //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a</span>
-<span class="source-line-no">438</span><span id="line.438">//                    //different distribution that matches primary colors in painting (where purple is opposite yellow).</span>
-<span class="source-line-no">439</span><span id="line.439">//                    "float official2primaries(float hue) {\n" +</span>
-<span class="source-line-no">440</span><span id="line.440">//                    "    return  hue * (  1.630\n" +</span>
-<span class="source-line-no">441</span><span id="line.441">//                    "          + hue * (  5.937\n" +</span>
-<span class="source-line-no">442</span><span id="line.442">//                    "          + hue * (-38.485\n" +</span>
-<span class="source-line-no">443</span><span id="line.443">//                    "          + hue * ( 76.101\n" +</span>
-<span class="source-line-no">444</span><span id="line.444">//                    "          + hue * (-63.977\n" +</span>
-<span class="source-line-no">445</span><span id="line.445">//                    "          + hue *   19.794)))));\n" +</span>
-<span class="source-line-no">446</span><span id="line.446">//                    "}\n" +</span>
-<span class="source-line-no">447</span><span id="line.447">//                    //Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a</span>
-<span class="source-line-no">448</span><span id="line.448">//                    //different distribution that matches primary colors in painting (where purple is opposite yellow).</span>
-<span class="source-line-no">449</span><span id="line.449">//                    "float primaries2official(float hue) {\n" +</span>
-<span class="source-line-no">450</span><span id="line.450">//                    "    return  hue * (  1.463\n" +</span>
-<span class="source-line-no">451</span><span id="line.451">//                    "          + hue * ( -9.834\n" +</span>
-<span class="source-line-no">452</span><span id="line.452">//                    "          + hue * ( 31.153\n" +</span>
-<span class="source-line-no">453</span><span id="line.453">//                    "          + hue * (-35.066\n" +</span>
-<span class="source-line-no">454</span><span id="line.454">//                    "          + hue *   13.284))));\n" +</span>
-<span class="source-line-no">455</span><span id="line.455">//                    "}\n" +</span>
-<span class="source-line-no">456</span><span id="line.456">                    //// still weirdly high orange</span>
-<span class="source-line-no">457</span><span id="line.457">//                    "float official2primaries(float hue) {\n" +</span>
-<span class="source-line-no">458</span><span id="line.458">//                    "    return  hue * (  2.634\n" +</span>
-<span class="source-line-no">459</span><span id="line.459">//                    "          + hue * ( -4.703\n" +</span>
-<span class="source-line-no">460</span><span id="line.460">//                    "          + hue * (  3.659\n" +</span>
-<span class="source-line-no">461</span><span id="line.461">//                    "          + hue * (  0.829\n" +</span>
-<span class="source-line-no">462</span><span id="line.462">//                    "          + hue *   -1.419))));\n" +</span>
-<span class="source-line-no">463</span><span id="line.463">//                    "}\n" +</span>
-<span class="source-line-no">464</span><span id="line.464">//                    "float primaries2official(float hue) {\n" +</span>
-<span class="source-line-no">465</span><span id="line.465">//                    "    return  hue * (  1.163\n" +</span>
-<span class="source-line-no">466</span><span id="line.466">//                    "          + hue * ( -7.102\n" +</span>
-<span class="source-line-no">467</span><span id="line.467">//                    "          + hue * ( 22.709\n" +</span>
-<span class="source-line-no">468</span><span id="line.468">//                    "          + hue * (-25.502\n" +</span>
-<span class="source-line-no">469</span><span id="line.469">//                    "          + hue *    9.732))));\n" +</span>
-<span class="source-line-no">470</span><span id="line.470">//                    "}\n" +</span>
-<span class="source-line-no">471</span><span id="line.471">//                    "const float ROOT   = 16.0;\n" +</span>
-<span class="source-line-no">472</span><span id="line.472">//                    "const float SQUARE = ROOT * ROOT;\n" +</span>
-<span class="source-line-no">473</span><span id="line.473">                    "float official2primaries(float hue) {\n" +</span>
-<span class="source-line-no">474</span><span id="line.474">//                    "    return (sqrt(hue * 0.9375 + 0.0625) - 0.25) * 1.333;\n" +</span>
-<span class="source-line-no">475</span><span id="line.475">//                    "    return asin(sqrt(hue * SQUARE) * (1.0 / ROOT)) * (2.0 * 3.14159274);\n" +</span>
-<span class="source-line-no">476</span><span id="line.476"></span>
-<span class="source-line-no">477</span><span id="line.477">//                    "    return asin((sqrt(hue * 0.9375 + 0.0625) - 0.25) * 2.666 - 1.0) * 0.318309886 + 0.5;\n" +</span>
+<span class="source-line-no">275</span><span id="line.275">                    "    vec4 adj = v_color;\n" +</span>
+<span class="source-line-no">276</span><span id="line.276">                    "    adj.yz = adj.yz * 2.0 - 0.5;\n" +</span>
+<span class="source-line-no">277</span><span id="line.277">                    "    vec3 ipt = (mat3(0.189786, 0.669665 , 0.286498, 0.576951, -0.73741 , 0.655205, 0.233221, 0.0681367, -0.941748)\n" +</span>
+<span class="source-line-no">278</span><span id="line.278">                    "         * (tgt.rgb)) + adj.xyz - 0.5;\n" +</span>
+<span class="source-line-no">279</span><span id="line.279">                    "    ipt.x = clamp(ipt.x, 0.0, 1.0);\n" +</span>
+<span class="source-line-no">280</span><span id="line.280">                    "    ipt.yz = clamp(ipt.yz, -1.0, 1.0);\n" +</span>
+<span class="source-line-no">281</span><span id="line.281">                    "    vec3 back = mat3(0.999779, 1.00015, 0.999769, 1.07094, -0.377744, 0.0629496, 0.324891, 0.220439, -0.809638) * ipt;\n" +</span>
+<span class="source-line-no">282</span><span id="line.282">                    "    gl_FragColor = vec4(clamp(back, 0.0, 1.0), adj.a * tgt.a);\n" +</span>
+<span class="source-line-no">283</span><span id="line.283">                    "}";</span>
+<span class="source-line-no">284</span><span id="line.284">    /**</span>
+<span class="source-line-no">285</span><span id="line.285">     * Just like {@link #fragmentShaderIPT}, but gamma-corrects the input and output RGB values (which improves</span>
+<span class="source-line-no">286</span><span id="line.286">     * lightness uniformity) and uses an exponential step internally to change how colors are distributed within the</span>
+<span class="source-line-no">287</span><span id="line.287">     * gamut. These steps are more computationally expensive than the bare-bones ones in {@link #fragmentShaderIPT}, but</span>
+<span class="source-line-no">288</span><span id="line.288">     * they seem to improve some aspects of color transitions quite a bit.</span>
+<span class="source-line-no">289</span><span id="line.289">     */</span>
+<span class="source-line-no">290</span><span id="line.290">    public static String fragmentShaderIPT_HQ =</span>
+<span class="source-line-no">291</span><span id="line.291">            "#ifdef GL_ES\n" +</span>
+<span class="source-line-no">292</span><span id="line.292">                    "#define LOWP lowp\n" +</span>
+<span class="source-line-no">293</span><span id="line.293">                    "precision mediump float;\n" +</span>
+<span class="source-line-no">294</span><span id="line.294">                    "#else\n" +</span>
+<span class="source-line-no">295</span><span id="line.295">                    "#define LOWP \n" +</span>
+<span class="source-line-no">296</span><span id="line.296">                    "#endif\n" +</span>
+<span class="source-line-no">297</span><span id="line.297">                    "varying vec2 v_texCoords;\n" +</span>
+<span class="source-line-no">298</span><span id="line.298">                    "varying LOWP vec4 v_color;\n" +</span>
+<span class="source-line-no">299</span><span id="line.299">                    "uniform sampler2D u_texture;\n" +</span>
+<span class="source-line-no">300</span><span id="line.300">                    "const vec3 forward = vec3(0.43);\n" +</span>
+<span class="source-line-no">301</span><span id="line.301">                    "const vec3 reverse = vec3(1.0 / 0.43);\n" +</span>
+<span class="source-line-no">302</span><span id="line.302">                    "void main()\n" +</span>
+<span class="source-line-no">303</span><span id="line.303">                    "{\n" +</span>
+<span class="source-line-no">304</span><span id="line.304">                    "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
+<span class="source-line-no">305</span><span id="line.305">                    "  vec3 ipt = mat3(0.40000, 4.45500, 0.80560, 0.40000, -4.8510, 0.35720, 0.20000, 0.39600, -1.1628) *" +</span>
+<span class="source-line-no">306</span><span id="line.306">                    "             pow(mat3(0.313921, 0.151693, 0.017753, 0.639468, 0.748209, 0.109468, 0.0465970, 0.1000044, 0.8729690) \n" +</span>
+<span class="source-line-no">307</span><span id="line.307">                    "             * (tgt.rgb * tgt.rgb), forward);\n" +</span>
+<span class="source-line-no">308</span><span id="line.308">                    "  ipt.x = clamp(ipt.x + v_color.x - 0.55, 0.0, 1.0);\n" +</span>
+<span class="source-line-no">309</span><span id="line.309">                    "  ipt.yz = clamp(ipt.yz + v_color.yz * 2.0 - 1.0, -1.0, 1.0);\n" +</span>
+<span class="source-line-no">310</span><span id="line.310">                    "  ipt = mat3(1.0, 1.0, 1.0, 0.097569, -0.11388, 0.032615, 0.205226, 0.133217, -0.67689) * ipt;\n" +</span>
+<span class="source-line-no">311</span><span id="line.311">                    "  gl_FragColor = vec4(sqrt(clamp(" +</span>
+<span class="source-line-no">312</span><span id="line.312">                    "                 mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) *\n" +</span>
+<span class="source-line-no">313</span><span id="line.313">                    "                 (sign(ipt) * pow(abs(ipt), reverse))," +</span>
+<span class="source-line-no">314</span><span id="line.314">                    "                 0.0, 1.0)), v_color.a * tgt.a);\n" +</span>
+<span class="source-line-no">315</span><span id="line.315">                    "}";</span>
+<span class="source-line-no">316</span><span id="line.316"></span>
+<span class="source-line-no">317</span><span id="line.317">    /**</span>
+<span class="source-line-no">318</span><span id="line.318">     * Just like {@link #fragmentShaderIPT_HQ}, but uses the Oklab color space instead of the very similar IPT_HQ one.</span>
+<span class="source-line-no">319</span><span id="line.319">     */</span>
+<span class="source-line-no">320</span><span id="line.320">    public static String fragmentShaderOklab =</span>
+<span class="source-line-no">321</span><span id="line.321">            "#ifdef GL_ES\n" +</span>
+<span class="source-line-no">322</span><span id="line.322">                    "#define LOWP lowp\n" +</span>
+<span class="source-line-no">323</span><span id="line.323">                    "precision mediump float;\n" +</span>
+<span class="source-line-no">324</span><span id="line.324">                    "#else\n" +</span>
+<span class="source-line-no">325</span><span id="line.325">                    "#define LOWP \n" +</span>
+<span class="source-line-no">326</span><span id="line.326">                    "#endif\n" +</span>
+<span class="source-line-no">327</span><span id="line.327">                    "varying vec2 v_texCoords;\n" +</span>
+<span class="source-line-no">328</span><span id="line.328">                    "varying LOWP vec4 v_color;\n" +</span>
+<span class="source-line-no">329</span><span id="line.329">                    "uniform sampler2D u_texture;\n" +</span>
+<span class="source-line-no">330</span><span id="line.330">                    "const vec3 forward = vec3(1.0 / 3.0);\n" +</span>
+<span class="source-line-no">331</span><span id="line.331">                    "void main()\n" +</span>
+<span class="source-line-no">332</span><span id="line.332">                    "{\n" +</span>
+<span class="source-line-no">333</span><span id="line.333">                    "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
+<span class="source-line-no">334</span><span id="line.334">                    "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +</span>
+<span class="source-line-no">335</span><span id="line.335">                    "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +</span>
+<span class="source-line-no">336</span><span id="line.336">                    "             * (tgt.rgb * tgt.rgb), forward);\n" +</span>
+<span class="source-line-no">337</span><span id="line.337">                    "  lab.x = clamp(lab.x + v_color.r - 0.63, 0.0, 1.0);\n" +</span>
+<span class="source-line-no">338</span><span id="line.338">                    "  lab.yz = clamp(lab.yz + v_color.gb * 2.0 - 1.0, -1.0, 1.0);\n" +</span>
+<span class="source-line-no">339</span><span id="line.339">                    "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +</span>
+<span class="source-line-no">340</span><span id="line.340">                    "  gl_FragColor = vec4(sqrt(clamp(" +</span>
+<span class="source-line-no">341</span><span id="line.341">                    "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +</span>
+<span class="source-line-no">342</span><span id="line.342">                    "                 (lab * lab * lab)," +</span>
+<span class="source-line-no">343</span><span id="line.343">                    "                 0.0, 1.0)), v_color.a * tgt.a);\n" +</span>
+<span class="source-line-no">344</span><span id="line.344">                    "}";</span>
+<span class="source-line-no">345</span><span id="line.345"></span>
+<span class="source-line-no">346</span><span id="line.346">    /**</span>
+<span class="source-line-no">347</span><span id="line.347">     * A vertex shader that does the bulk of processing HSI-format batch colors and converting them to a format</span>
+<span class="source-line-no">348</span><span id="line.348">     * {@link #fragmentShaderHSI} can use. Since HSI is only a cylindrical/spherical adaptation of IPT, with identical</span>
+<span class="source-line-no">349</span><span id="line.349">     * I components and the combination of H and S in polar coordinates mapping to P and T in Cartesian coordinates,</span>
+<span class="source-line-no">350</span><span id="line.350">     * the fragment shader this is used with can be any that expects an IPT color (currently only</span>
+<span class="source-line-no">351</span><span id="line.351">     * {@link #fragmentShaderIPT} does this, and it's the same as {@link #fragmentShaderHSI}). This vertex shader does</span>
+<span class="source-line-no">352</span><span id="line.352">     * a lot more than most vertex shaders here, but since it is executed relatively rarely (unless you're drawing many</span>
+<span class="source-line-no">353</span><span id="line.353">     * 1-pixel textures), there shouldn't be a heavy performance penalty.</span>
+<span class="source-line-no">354</span><span id="line.354">     */</span>
+<span class="source-line-no">355</span><span id="line.355">    public static final String vertexShaderHSI = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"</span>
+<span class="source-line-no">356</span><span id="line.356">        + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"</span>
+<span class="source-line-no">357</span><span id="line.357">        + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"</span>
+<span class="source-line-no">358</span><span id="line.358">        + "uniform mat4 u_projTrans;\n"</span>
+<span class="source-line-no">359</span><span id="line.359">        + "varying vec4 v_color;\n"</span>
+<span class="source-line-no">360</span><span id="line.360">        + "varying vec2 v_texCoords;\n"</span>
+<span class="source-line-no">361</span><span id="line.361">        + "const vec3 yellow  = vec3( 0.16155326,0.020876605,-0.26078433 );\n"</span>
+<span class="source-line-no">362</span><span id="line.362">        + "const vec3 magenta = vec3(-0.16136102,0.122068435,-0.070396   );\n"</span>
+<span class="source-line-no">363</span><span id="line.363">        + "const vec3 cyan    = vec3( 0.16420607,0.3481738,   0.104959644);\n"</span>
+<span class="source-line-no">364</span><span id="line.364">        + "void main()\n"</span>
+<span class="source-line-no">365</span><span id="line.365">        + "{\n"</span>
+<span class="source-line-no">366</span><span id="line.366">        + "    v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"</span>
+<span class="source-line-no">367</span><span id="line.367">        + "    v_color.a = " + ShaderProgram.COLOR_ATTRIBUTE + ".a * (255.0/254.0);\n"</span>
+<span class="source-line-no">368</span><span id="line.368">        + "    vec3 hsi = v_color.rgb;\n"</span>
+<span class="source-line-no">369</span><span id="line.369">        + "    v_color.x = (hsi.z - 0.5) * 0.9999;\n"</span>
+<span class="source-line-no">370</span><span id="line.370">        + "    hsi.x *= 6.28318;\n"</span>
+<span class="source-line-no">371</span><span id="line.371">        + "    hsi.y *= 0.5;\n"</span>
+<span class="source-line-no">372</span><span id="line.372">        + "    v_color.y = cos(hsi.x) * hsi.y;\n"</span>
+<span class="source-line-no">373</span><span id="line.373">        + "    v_color.z = sin(hsi.x) * hsi.y;\n"</span>
+<span class="source-line-no">374</span><span id="line.374">        + "    float crMid = dot(cyan.yz, v_color.yz);\n"</span>
+<span class="source-line-no">375</span><span id="line.375">        + "    float mgMid = dot(magenta.yz, v_color.yz);\n"</span>
+<span class="source-line-no">376</span><span id="line.376">        + "    float ybMid = dot(yellow.yz, v_color.yz);\n"</span>
+<span class="source-line-no">377</span><span id="line.377">        + "    float crScale = (v_color.x - 0.5 + step(crMid, 0.0)) * cyan.x / (0.00001 - crMid);\n"</span>
+<span class="source-line-no">378</span><span id="line.378">        + "    float mgScale = (v_color.x + 0.5 - step(mgMid, 0.0)) * magenta.x / (0.00001 - mgMid);\n"</span>
+<span class="source-line-no">379</span><span id="line.379">        + "    float ybScale = (v_color.x - 0.5 + step(ybMid, 0.0)) * yellow.x / (0.00001 - ybMid);\n"</span>
+<span class="source-line-no">380</span><span id="line.380">        + "    float scale = 4.0 * min(crScale, min(mgScale, ybScale));\n"</span>
+<span class="source-line-no">381</span><span id="line.381">        + "    v_color.yz *= scale * length(v_color.yz) / cos(3.14159 * v_color.x);\n"</span>
+<span class="source-line-no">382</span><span id="line.382">        + "    v_color.xyz += 0.5;\n"</span>
+<span class="source-line-no">383</span><span id="line.383">        + "    v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"</span>
+<span class="source-line-no">384</span><span id="line.384">        + "    gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"</span>
+<span class="source-line-no">385</span><span id="line.385">        + "}\n";</span>
+<span class="source-line-no">386</span><span id="line.386">    public static String fragmentShaderHSI = fragmentShaderIPT;</span>
+<span class="source-line-no">387</span><span id="line.387"></span>
+<span class="source-line-no">388</span><span id="line.388">    /**</span>
+<span class="source-line-no">389</span><span id="line.389">     * Credit to Sam Hocevar, https://gamedev.stackexchange.com/a/59808 .</span>
+<span class="source-line-no">390</span><span id="line.390">     */</span>
+<span class="source-line-no">391</span><span id="line.391">    public static final String partialCodeHSL =</span>
+<span class="source-line-no">392</span><span id="line.392">            "const float eps = 1.0e-10;\n" +</span>
+<span class="source-line-no">393</span><span id="line.393">//                    //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a</span>
+<span class="source-line-no">394</span><span id="line.394">//                    //different distribution that matches primary colors in painting (where purple is opposite yellow).</span>
+<span class="source-line-no">395</span><span id="line.395">//                    "float official2primaries(float hue) {\n" +</span>
+<span class="source-line-no">396</span><span id="line.396">//                    "    return  hue * (  2.137\n" +</span>
+<span class="source-line-no">397</span><span id="line.397">//                    "          + hue * (  0.542\n" +</span>
+<span class="source-line-no">398</span><span id="line.398">//                    "          + hue * (-15.141\n" +</span>
+<span class="source-line-no">399</span><span id="line.399">//                    "          + hue * ( 30.120\n" +</span>
+<span class="source-line-no">400</span><span id="line.400">//                    "          + hue * (-22.541\n" +</span>
+<span class="source-line-no">401</span><span id="line.401">//                    "          + hue *   5.883)))));\n" +</span>
+<span class="source-line-no">402</span><span id="line.402">//                    "}\n" +</span>
+<span class="source-line-no">403</span><span id="line.403">//                    //Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a</span>
+<span class="source-line-no">404</span><span id="line.404">//                    //different distribution that matches primary colors in painting (where purple is opposite yellow).</span>
+<span class="source-line-no">405</span><span id="line.405">//                    "float primaries2official(float hue) {\n" +</span>
+<span class="source-line-no">406</span><span id="line.406">//                    "    return  hue * (  0.677\n" +</span>
+<span class="source-line-no">407</span><span id="line.407">//                    "          + hue * ( -0.123\n" +</span>
+<span class="source-line-no">408</span><span id="line.408">//                    "          + hue * (-11.302\n" +</span>
+<span class="source-line-no">409</span><span id="line.409">//                    "          + hue * ( 46.767\n" +</span>
+<span class="source-line-no">410</span><span id="line.410">//                    "          + hue * (-58.493\n" +</span>
+<span class="source-line-no">411</span><span id="line.411">//                    "          + hue *   23.474)))));\n" +</span>
+<span class="source-line-no">412</span><span id="line.412">//                    "}\n" +</span>
+<span class="source-line-no">413</span><span id="line.413">                    "vec4 rgb2hsl(vec4 c)\n" +</span>
+<span class="source-line-no">414</span><span id="line.414">                    "{\n" +</span>
+<span class="source-line-no">415</span><span id="line.415">                    "    const vec4 J = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n" +</span>
+<span class="source-line-no">416</span><span id="line.416">                    "    vec4 p = mix(vec4(c.bg, J.wz), vec4(c.gb, J.xy), step(c.b, c.g));\n" +</span>
+<span class="source-line-no">417</span><span id="line.417">                    "    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));\n" +</span>
+<span class="source-line-no">418</span><span id="line.418">                    "    float d = q.x - min(q.w, q.y);\n" +</span>
+<span class="source-line-no">419</span><span id="line.419">                    "    float l = q.x * (1.0 - 0.5 * d / (q.x + eps));\n" +</span>
+<span class="source-line-no">420</span><span id="line.420">                    "    return vec4(abs(q.z + (q.w - q.y) / (6.0 * d + eps)), (q.x - l) / (min(l, 1.0 - l) + eps), l, c.a);\n" +</span>
+<span class="source-line-no">421</span><span id="line.421">                    "}\n" +</span>
+<span class="source-line-no">422</span><span id="line.422">                    "\n" +</span>
+<span class="source-line-no">423</span><span id="line.423">                    "vec4 hsl2rgb(vec4 c)\n" +</span>
+<span class="source-line-no">424</span><span id="line.424">                    "{\n" +</span>
+<span class="source-line-no">425</span><span id="line.425">                    "    const vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n" +</span>
+<span class="source-line-no">426</span><span id="line.426">                    "    vec3 p = abs(fract(c.x + K.xyz) * 6.0 - K.www);\n" +</span>
+<span class="source-line-no">427</span><span id="line.427">                    "    float v = (c.z + c.y * min(c.z, 1.0 - c.z));\n" +</span>
+<span class="source-line-no">428</span><span id="line.428">                    "    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n" +</span>
+<span class="source-line-no">429</span><span id="line.429">                    "}";</span>
+<span class="source-line-no">430</span><span id="line.430"></span>
+<span class="source-line-no">431</span><span id="line.431">    /**</span>
+<span class="source-line-no">432</span><span id="line.432">     * Adjusted-hue version of {@link #partialCodeHSL}, supplying HSL to-and-from RGB conversions with a smaller range</span>
+<span class="source-line-no">433</span><span id="line.433">     * of hue used for cyan and a larger range for orange. Not currently used. Credit to Sam Hocevar,</span>
+<span class="source-line-no">434</span><span id="line.434">     * https://gamedev.stackexchange.com/a/59808 .</span>
+<span class="source-line-no">435</span><span id="line.435">     */</span>
+<span class="source-line-no">436</span><span id="line.436">    public static final String partialCodeHSLStretched =</span>
+<span class="source-line-no">437</span><span id="line.437">            "const float eps = 1.0e-10;\n" +</span>
+<span class="source-line-no">438</span><span id="line.438">                    //// maybe not blue enough?</span>
+<span class="source-line-no">439</span><span id="line.439">//                    //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a</span>
+<span class="source-line-no">440</span><span id="line.440">//                    //different distribution that matches primary colors in painting (where purple is opposite yellow).</span>
+<span class="source-line-no">441</span><span id="line.441">//                    "float official2primaries(float hue) {\n" +</span>
+<span class="source-line-no">442</span><span id="line.442">//                    "    return  hue * (  1.630\n" +</span>
+<span class="source-line-no">443</span><span id="line.443">//                    "          + hue * (  5.937\n" +</span>
+<span class="source-line-no">444</span><span id="line.444">//                    "          + hue * (-38.485\n" +</span>
+<span class="source-line-no">445</span><span id="line.445">//                    "          + hue * ( 76.101\n" +</span>
+<span class="source-line-no">446</span><span id="line.446">//                    "          + hue * (-63.977\n" +</span>
+<span class="source-line-no">447</span><span id="line.447">//                    "          + hue *   19.794)))));\n" +</span>
+<span class="source-line-no">448</span><span id="line.448">//                    "}\n" +</span>
+<span class="source-line-no">449</span><span id="line.449">//                    //Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a</span>
+<span class="source-line-no">450</span><span id="line.450">//                    //different distribution that matches primary colors in painting (where purple is opposite yellow).</span>
+<span class="source-line-no">451</span><span id="line.451">//                    "float primaries2official(float hue) {\n" +</span>
+<span class="source-line-no">452</span><span id="line.452">//                    "    return  hue * (  1.463\n" +</span>
+<span class="source-line-no">453</span><span id="line.453">//                    "          + hue * ( -9.834\n" +</span>
+<span class="source-line-no">454</span><span id="line.454">//                    "          + hue * ( 31.153\n" +</span>
+<span class="source-line-no">455</span><span id="line.455">//                    "          + hue * (-35.066\n" +</span>
+<span class="source-line-no">456</span><span id="line.456">//                    "          + hue *   13.284))));\n" +</span>
+<span class="source-line-no">457</span><span id="line.457">//                    "}\n" +</span>
+<span class="source-line-no">458</span><span id="line.458">                    //// still weirdly high orange</span>
+<span class="source-line-no">459</span><span id="line.459">//                    "float official2primaries(float hue) {\n" +</span>
+<span class="source-line-no">460</span><span id="line.460">//                    "    return  hue * (  2.634\n" +</span>
+<span class="source-line-no">461</span><span id="line.461">//                    "          + hue * ( -4.703\n" +</span>
+<span class="source-line-no">462</span><span id="line.462">//                    "          + hue * (  3.659\n" +</span>
+<span class="source-line-no">463</span><span id="line.463">//                    "          + hue * (  0.829\n" +</span>
+<span class="source-line-no">464</span><span id="line.464">//                    "          + hue *   -1.419))));\n" +</span>
+<span class="source-line-no">465</span><span id="line.465">//                    "}\n" +</span>
+<span class="source-line-no">466</span><span id="line.466">//                    "float primaries2official(float hue) {\n" +</span>
+<span class="source-line-no">467</span><span id="line.467">//                    "    return  hue * (  1.163\n" +</span>
+<span class="source-line-no">468</span><span id="line.468">//                    "          + hue * ( -7.102\n" +</span>
+<span class="source-line-no">469</span><span id="line.469">//                    "          + hue * ( 22.709\n" +</span>
+<span class="source-line-no">470</span><span id="line.470">//                    "          + hue * (-25.502\n" +</span>
+<span class="source-line-no">471</span><span id="line.471">//                    "          + hue *    9.732))));\n" +</span>
+<span class="source-line-no">472</span><span id="line.472">//                    "}\n" +</span>
+<span class="source-line-no">473</span><span id="line.473">//                    "const float ROOT   = 16.0;\n" +</span>
+<span class="source-line-no">474</span><span id="line.474">//                    "const float SQUARE = ROOT * ROOT;\n" +</span>
+<span class="source-line-no">475</span><span id="line.475">                    "float official2primaries(float hue) {\n" +</span>
+<span class="source-line-no">476</span><span id="line.476">//                    "    return (sqrt(hue * 0.9375 + 0.0625) - 0.25) * 1.333;\n" +</span>
+<span class="source-line-no">477</span><span id="line.477">//                    "    return asin(sqrt(hue * SQUARE) * (1.0 / ROOT)) * (2.0 * 3.14159274);\n" +</span>
 <span class="source-line-no">478</span><span id="line.478"></span>
-<span class="source-line-no">479</span><span id="line.479">//                    "    return sqrt(sin((hue - 0.5) * 3.14159274) * 0.5 + 0.5);\n" +</span>
-<span class="source-line-no">480</span><span id="line.480">//                    "    return pow(hue, 0.5625);\n" +</span>
-<span class="source-line-no">481</span><span id="line.481">//                    "    return sqrt(hue);\n" +</span>
-<span class="source-line-no">482</span><span id="line.482">                    "    return (sqrt(hue + 0.050625) - 0.225) * 1.25;\n" +</span>
-<span class="source-line-no">483</span><span id="line.483">                    "}\n" +</span>
-<span class="source-line-no">484</span><span id="line.484">                    "float primaries2official(float hue) {\n" +</span>
-<span class="source-line-no">485</span><span id="line.485">//                    "    hue = sin((hue) * (0.5 * 3.14159274));\n" +</span>
-<span class="source-line-no">486</span><span id="line.486">//                    "    hue = (hue) * 0.75 + 0.25;\n" +</span>
-<span class="source-line-no">487</span><span id="line.487">                    </span>
-<span class="source-line-no">488</span><span id="line.488">//                    "    hue = sin((hue - 0.5) * 3.14159274);\n" +</span>
-<span class="source-line-no">489</span><span id="line.489">//                    "    hue = (hue + 1.0) * 0.375 + 0.25;\n" +</span>
-<span class="source-line-no">490</span><span id="line.490">//                    "    return (hue * hue - 0.0625) * (1.0 / 0.9375);\n" +</span>
-<span class="source-line-no">491</span><span id="line.491">                    </span>
-<span class="source-line-no">492</span><span id="line.492">//                    "    return asin(hue * hue * 2.0 - 1.0) * 0.318309886 + 0.5;\n" +</span>
-<span class="source-line-no">493</span><span id="line.493">//                    "    return pow(hue, 1.77777);\n" +</span>
-<span class="source-line-no">494</span><span id="line.494">                    "    return pow(hue * 0.8 + 0.225, 2.0) - 0.050625;\n" +</span>
-<span class="source-line-no">495</span><span id="line.495">//                    "    return hue * hue;\n" +</span>
-<span class="source-line-no">496</span><span id="line.496"></span>
-<span class="source-line-no">497</span><span id="line.497">//                    "    hue = sin((hue) * (0.5 * 3.14159274));\n" +</span>
-<span class="source-line-no">498</span><span id="line.498">//                    "    hue = hue * ROOT;\n" +</span>
-<span class="source-line-no">499</span><span id="line.499">//                    "    return (hue * hue) * (1.0 / SQUARE);\n" +</span>
-<span class="source-line-no">500</span><span id="line.500"></span>
-<span class="source-line-no">501</span><span id="line.501">                    "}\n" +</span>
-<span class="source-line-no">502</span><span id="line.502">                    //// way too much orange?</span>
-<span class="source-line-no">503</span><span id="line.503">//                    //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a</span>
-<span class="source-line-no">504</span><span id="line.504">//                    //different distribution that matches primary colors in painting (where purple is opposite yellow).</span>
-<span class="source-line-no">505</span><span id="line.505">//                    "float official2primaries(float hue) {\n" +</span>
-<span class="source-line-no">506</span><span id="line.506">//                    "    return  hue * (  2.137\n" +</span>
-<span class="source-line-no">507</span><span id="line.507">//                    "          + hue * (  0.542\n" +</span>
-<span class="source-line-no">508</span><span id="line.508">//                    "          + hue * (-15.141\n" +</span>
-<span class="source-line-no">509</span><span id="line.509">//                    "          + hue * ( 30.120\n" +</span>
-<span class="source-line-no">510</span><span id="line.510">//                    "          + hue * (-22.541\n" +</span>
-<span class="source-line-no">511</span><span id="line.511">//                    "          + hue *    5.883)))));\n" +</span>
-<span class="source-line-no">512</span><span id="line.512">//                    "}\n" +</span>
-<span class="source-line-no">513</span><span id="line.513">//                    //Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a</span>
-<span class="source-line-no">514</span><span id="line.514">//                    //different distribution that matches primary colors in painting (where purple is opposite yellow).</span>
-<span class="source-line-no">515</span><span id="line.515">//                    "float primaries2official(float hue) {\n" +</span>
-<span class="source-line-no">516</span><span id="line.516">//                    "    return  hue * (  0.677\n" +</span>
-<span class="source-line-no">517</span><span id="line.517">//                    "          + hue * ( -0.123\n" +</span>
-<span class="source-line-no">518</span><span id="line.518">//                    "          + hue * (-11.302\n" +</span>
-<span class="source-line-no">519</span><span id="line.519">//                    "          + hue * ( 46.767\n" +</span>
-<span class="source-line-no">520</span><span id="line.520">//                    "          + hue * (-58.493\n" +</span>
-<span class="source-line-no">521</span><span id="line.521">//                    "          + hue *   23.474)))));\n" +</span>
-<span class="source-line-no">522</span><span id="line.522">//                    "}\n" +</span>
-<span class="source-line-no">523</span><span id="line.523">                    "vec4 rgb2hsl(vec4 c)\n" +</span>
-<span class="source-line-no">524</span><span id="line.524">                    "{\n" +</span>
-<span class="source-line-no">525</span><span id="line.525">                    "    const vec4 J = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n" +</span>
-<span class="source-line-no">526</span><span id="line.526">                    "    vec4 p = mix(vec4(c.bg, J.wz), vec4(c.gb, J.xy), step(c.b, c.g));\n" +</span>
-<span class="source-line-no">527</span><span id="line.527">                    "    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));\n" +</span>
-<span class="source-line-no">528</span><span id="line.528">                    "\n" +</span>
-<span class="source-line-no">529</span><span id="line.529">                    "    float d = q.x - min(q.w, q.y);\n" +</span>
-<span class="source-line-no">530</span><span id="line.530">                    "    float l = q.x * (1.0 - 0.5 * d / (q.x + eps));\n" +</span>
-<span class="source-line-no">531</span><span id="line.531">                    "    return vec4(official2primaries(abs(q.z + (q.w - q.y) / (6.0 * d + eps))), (q.x - l) / (min(l, 1.0 - l) + eps), l, c.a);\n" +</span>
-<span class="source-line-no">532</span><span id="line.532">                    "}\n" +</span>
-<span class="source-line-no">533</span><span id="line.533">                    "\n" +</span>
-<span class="source-line-no">534</span><span id="line.534">                    "vec4 hsl2rgb(vec4 c)\n" +</span>
-<span class="source-line-no">535</span><span id="line.535">                    "{\n" +</span>
-<span class="source-line-no">536</span><span id="line.536">                    "    const vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n" +</span>
-<span class="source-line-no">537</span><span id="line.537">                    "    vec3 p = abs(fract(primaries2official(c.x) + K.xyz) * 6.0 - K.www);\n" +</span>
-<span class="source-line-no">538</span><span id="line.538">                    "    float v = (c.z + c.y * min(c.z, 1.0 - c.z));\n" +</span>
-<span class="source-line-no">539</span><span id="line.539">                    "    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n" +</span>
-<span class="source-line-no">540</span><span id="line.540">                    "}";</span>
-<span class="source-line-no">541</span><span id="line.541"></span>
-<span class="source-line-no">542</span><span id="line.542">    public static final String fragmentShaderHSL =</span>
-<span class="source-line-no">543</span><span id="line.543">            "#ifdef GL_ES\n" +</span>
-<span class="source-line-no">544</span><span id="line.544">                    "#define LOWP lowp\n" +</span>
-<span class="source-line-no">545</span><span id="line.545">                    "precision mediump float;\n" +</span>
-<span class="source-line-no">546</span><span id="line.546">                    "#else\n" +</span>
-<span class="source-line-no">547</span><span id="line.547">                    "#define LOWP \n" +</span>
-<span class="source-line-no">548</span><span id="line.548">                    "#endif\n" +</span>
-<span class="source-line-no">549</span><span id="line.549">                    "varying vec2 v_texCoords;\n" +</span>
-<span class="source-line-no">550</span><span id="line.550">                    "varying LOWP vec4 v_color;\n" +</span>
-<span class="source-line-no">551</span><span id="line.551">                    "uniform sampler2D u_texture;\n" +</span>
-<span class="source-line-no">552</span><span id="line.552">                    partialCodeHSL +</span>
-<span class="source-line-no">553</span><span id="line.553">                    "void main()\n" +</span>
-<span class="source-line-no">554</span><span id="line.554">                    "{\n" +</span>
-<span class="source-line-no">555</span><span id="line.555">                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
-<span class="source-line-no">556</span><span id="line.556">                    "   vec4 hsl = rgb2hsl(tgt);\n" +</span>
-<span class="source-line-no">557</span><span id="line.557">                    "   hsl.x = fract((fract(v_color.x + 0.5 - hsl.x) - 0.5) * v_color.w + hsl.x);\n" +</span>
-<span class="source-line-no">558</span><span id="line.558">                    "   hsl.yz = mix(hsl.yz, v_color.yz, v_color.w);\n" +</span>
-<span class="source-line-no">559</span><span id="line.559">                    "   gl_FragColor = hsl2rgb(hsl);\n" +</span>
-<span class="source-line-no">560</span><span id="line.560">                    "}";</span>
-<span class="source-line-no">561</span><span id="line.561">    </span>
-<span class="source-line-no">562</span><span id="line.562">    public static final String fragmentShaderRotateHSL =</span>
-<span class="source-line-no">563</span><span id="line.563">            "#ifdef GL_ES\n" +</span>
-<span class="source-line-no">564</span><span id="line.564">                    "#define LOWP lowp\n" +</span>
-<span class="source-line-no">565</span><span id="line.565">                    "precision mediump float;\n" +</span>
-<span class="source-line-no">566</span><span id="line.566">                    "#else\n" +</span>
-<span class="source-line-no">567</span><span id="line.567">                    "#define LOWP \n" +</span>
-<span class="source-line-no">568</span><span id="line.568">                    "#endif\n" +</span>
-<span class="source-line-no">569</span><span id="line.569">                    "varying vec2 v_texCoords;\n" +</span>
-<span class="source-line-no">570</span><span id="line.570">                    "varying LOWP vec4 v_color;\n" +</span>
-<span class="source-line-no">571</span><span id="line.571">                    "uniform sampler2D u_texture;\n" +</span>
-<span class="source-line-no">572</span><span id="line.572">                    partialCodeHSL +</span>
-<span class="source-line-no">573</span><span id="line.573">                    "void main()\n" +</span>
-<span class="source-line-no">574</span><span id="line.574">                    "{\n" +</span>
-<span class="source-line-no">575</span><span id="line.575">                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
-<span class="source-line-no">576</span><span id="line.576">                    "   vec4 hsl = rgb2hsl(tgt);\n" +</span>
-<span class="source-line-no">577</span><span id="line.577">                    "   hsl.x = fract(v_color.x + hsl.x + 0.5);\n" +</span>
-<span class="source-line-no">578</span><span id="line.578">                    "   hsl.yz = clamp(hsl.yz * v_color.yz * 2.0, 0.0, 1.0);\n" +</span>
-<span class="source-line-no">579</span><span id="line.579">                    "   gl_FragColor = hsl2rgb(hsl);\n" +</span>
-<span class="source-line-no">580</span><span id="line.580">                    "}";</span>
-<span class="source-line-no">581</span><span id="line.581"></span>
-<span class="source-line-no">582</span><span id="line.582">    /**</span>
-<span class="source-line-no">583</span><span id="line.583">     * This is the default vertex shader from libGDX, but also sets a varying value for contrast. It is needed if you</span>
-<span class="source-line-no">584</span><span id="line.584">     * use {@link #fragmentShaderHSLC}.</span>
-<span class="source-line-no">585</span><span id="line.585">     */</span>
-<span class="source-line-no">586</span><span id="line.586">    public static final String vertexShaderHSLC = "attribute vec4 a_position;\n"</span>
-<span class="source-line-no">587</span><span id="line.587">            + "attribute vec4 a_color;\n"</span>
-<span class="source-line-no">588</span><span id="line.588">            + "attribute vec2 a_texCoord0;\n"</span>
-<span class="source-line-no">589</span><span id="line.589">            + "uniform mat4 u_projTrans;\n"</span>
-<span class="source-line-no">590</span><span id="line.590">            + "varying vec4 v_color;\n"</span>
-<span class="source-line-no">591</span><span id="line.591">            + "varying vec2 v_texCoords;\n" </span>
-<span class="source-line-no">592</span><span id="line.592">            + "varying float v_lightFix;\n"</span>
-<span class="source-line-no">593</span><span id="line.593">            + "\n"</span>
-<span class="source-line-no">594</span><span id="line.594">            + "void main()\n"</span>
-<span class="source-line-no">595</span><span id="line.595">            + "{\n"</span>
-<span class="source-line-no">596</span><span id="line.596">            + "   v_color = a_color;\n"</span>
-<span class="source-line-no">597</span><span id="line.597">            + "   v_texCoords = a_texCoord0;\n"</span>
-<span class="source-line-no">598</span><span id="line.598">            + "   v_color.a = pow(v_color.a * (255.0/254.0) + 0.5, 1.709);\n"    </span>
-<span class="source-line-no">599</span><span id="line.599">            + "   v_lightFix = 1.0 + pow(v_color.a, 1.41421356);\n"</span>
-<span class="source-line-no">600</span><span id="line.600">            + "   gl_Position =  u_projTrans * a_position;\n"</span>
-<span class="source-line-no">601</span><span id="line.601">            + "}\n";</span>
-<span class="source-line-no">602</span><span id="line.602"></span>
-<span class="source-line-no">603</span><span id="line.603">    /**</span>
-<span class="source-line-no">604</span><span id="line.604">     * Allows changing Hue/Saturation/Lightness/Contrast, with hue as a rotation. Expects the vertex shader to be</span>
-<span class="source-line-no">605</span><span id="line.605">     * {@link #vertexShaderHSLC}, which sets {@code varying float v_lightFix} so contrast can use it.</span>
-<span class="source-line-no">606</span><span id="line.606">     * &lt;br&gt;</span>
-<span class="source-line-no">607</span><span id="line.607">     * Credit for HLSL version goes to Andrey-Postelzhuk,</span>
-<span class="source-line-no">608</span><span id="line.608">     * &lt;a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/"&gt;Unity Forums&lt;/a&gt;.</span>
-<span class="source-line-no">609</span><span id="line.609">     * The YCC adaptation, and different approach to contrast (this has close to neutral contrast when a is 0.5,</span>
-<span class="source-line-no">610</span><span id="line.610">     * while the original had a fair bit higher contrast than expected), is from this codebase.</span>
-<span class="source-line-no">611</span><span id="line.611">     */</span>
-<span class="source-line-no">612</span><span id="line.612">    public static final String fragmentShaderHSLC = </span>
-<span class="source-line-no">613</span><span id="line.613">                    "#ifdef GL_ES\n" +</span>
-<span class="source-line-no">614</span><span id="line.614">                    "#define LOWP lowp\n" +</span>
-<span class="source-line-no">615</span><span id="line.615">                    "precision mediump float;\n" +</span>
-<span class="source-line-no">616</span><span id="line.616">                    "#else\n" +</span>
-<span class="source-line-no">617</span><span id="line.617">                    "#define LOWP \n" +</span>
-<span class="source-line-no">618</span><span id="line.618">                    "#endif\n" +</span>
-<span class="source-line-no">619</span><span id="line.619">                    "varying vec2 v_texCoords;\n" +</span>
-<span class="source-line-no">620</span><span id="line.620">                    "varying float v_lightFix;\n" +</span>
-<span class="source-line-no">621</span><span id="line.621">                    "varying LOWP vec4 v_color;\n" +</span>
-<span class="source-line-no">622</span><span id="line.622">                    "uniform sampler2D u_texture;\n" +</span>
-<span class="source-line-no">623</span><span id="line.623">                    "vec3 applyHue(vec3 rgb, float hue)\n" +</span>
-<span class="source-line-no">624</span><span id="line.624">                    "{\n" +</span>
-<span class="source-line-no">625</span><span id="line.625">                    "    vec3 k = vec3(0.57735);\n" +</span>
-<span class="source-line-no">626</span><span id="line.626">                    "    float c = cos(hue);\n" +</span>
-<span class="source-line-no">627</span><span id="line.627">                    "    //Rodrigues' rotation formula\n" +</span>
-<span class="source-line-no">628</span><span id="line.628">                    "    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n" +</span>
-<span class="source-line-no">629</span><span id="line.629">                    "}\n" +</span>
-<span class="source-line-no">630</span><span id="line.630">                    "void main()\n" +</span>
-<span class="source-line-no">631</span><span id="line.631">                    "{\n" +</span>
-<span class="source-line-no">632</span><span id="line.632">                    "    float hue = 6.2831853 * (v_color.x - 0.5);\n" +</span>
-<span class="source-line-no">633</span><span id="line.633">                    "    float saturation = v_color.y * 2.0;\n" +</span>
-<span class="source-line-no">634</span><span id="line.634">                    "    float brightness = v_color.z - 0.5;\n" +</span>
-<span class="source-line-no">635</span><span id="line.635">                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
-<span class="source-line-no">636</span><span id="line.636">                    "    tgt.rgb = applyHue(tgt.rgb, hue);\n" +</span>
-<span class="source-line-no">637</span><span id="line.637">                    "    tgt.rgb = vec3(\n" +</span>
-<span class="source-line-no">638</span><span id="line.638">                    "     (0.5 * pow(dot(tgt.rgb, vec3(0.375, 0.5, 0.125)), v_color.w) * v_lightFix + brightness),\n" + // lightness</span>
-<span class="source-line-no">639</span><span id="line.639">                    "     ((tgt.r - tgt.b) * saturation),\n" + // warmth</span>
-<span class="source-line-no">640</span><span id="line.640">                    "     ((tgt.g - tgt.b) * saturation));\n" + // mildness</span>
-<span class="source-line-no">641</span><span id="line.641">                    "    gl_FragColor = clamp(vec4(\n" +</span>
-<span class="source-line-no">642</span><span id="line.642">                    "     dot(tgt.rgb, vec3(1.0, 0.625, -0.5)),\n" + // back to red</span>
-<span class="source-line-no">643</span><span id="line.643">                    "     dot(tgt.rgb, vec3(1.0, -0.375, 0.5)),\n" + // back to green</span>
-<span class="source-line-no">644</span><span id="line.644">                    "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue</span>
-<span class="source-line-no">645</span><span id="line.645">                    "     tgt.a), 0.0, 1.0);\n" + // keep alpha, then clamp</span>
-<span class="source-line-no">646</span><span id="line.646">                    "}";</span>
-<span class="source-line-no">647</span><span id="line.647">    /**</span>
-<span class="source-line-no">648</span><span id="line.648">     * Allows changing Hue/Saturation/Lightness/Alpha, with hue as a rotation. Expects the vertex shader to be</span>
-<span class="source-line-no">649</span><span id="line.649">     * {@link #vertexShader}, unlike what {@link #fragmentShaderHSLC} expects.</span>
-<span class="source-line-no">650</span><span id="line.650">     * &lt;br&gt;</span>
-<span class="source-line-no">651</span><span id="line.651">     * Credit for HLSL version goes to Andrey-Postelzhuk,</span>
-<span class="source-line-no">652</span><span id="line.652">     * &lt;a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/"&gt;Unity Forums&lt;/a&gt;.</span>
-<span class="source-line-no">653</span><span id="line.653">     * The YCC adaptation, and change to use alpha, is from this codebase.</span>
-<span class="source-line-no">654</span><span id="line.654">     */</span>
-<span class="source-line-no">655</span><span id="line.655">    public static final String fragmentShaderHSLA = </span>
-<span class="source-line-no">656</span><span id="line.656">                    "#ifdef GL_ES\n" +</span>
-<span class="source-line-no">657</span><span id="line.657">                    "#define LOWP lowp\n" +</span>
-<span class="source-line-no">658</span><span id="line.658">                    "precision mediump float;\n" +</span>
-<span class="source-line-no">659</span><span id="line.659">                    "#else\n" +</span>
-<span class="source-line-no">660</span><span id="line.660">                    "#define LOWP \n" +</span>
-<span class="source-line-no">661</span><span id="line.661">                    "#endif\n" +</span>
-<span class="source-line-no">662</span><span id="line.662">                    "varying vec2 v_texCoords;\n" +</span>
-<span class="source-line-no">663</span><span id="line.663">                    "varying LOWP vec4 v_color;\n" +</span>
-<span class="source-line-no">664</span><span id="line.664">                    "uniform sampler2D u_texture;\n" +</span>
-<span class="source-line-no">665</span><span id="line.665">                    "vec3 applyHue(vec3 rgb, float hue)\n" +</span>
-<span class="source-line-no">666</span><span id="line.666">                    "{\n" +</span>
-<span class="source-line-no">667</span><span id="line.667">                    "    vec3 k = vec3(0.57735);\n" +</span>
-<span class="source-line-no">668</span><span id="line.668">                    "    float c = cos(hue);\n" +</span>
-<span class="source-line-no">669</span><span id="line.669">                    "    //Rodrigues' rotation formula\n" +</span>
-<span class="source-line-no">670</span><span id="line.670">                    "    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n" +</span>
-<span class="source-line-no">671</span><span id="line.671">                    "}\n" +</span>
-<span class="source-line-no">672</span><span id="line.672">                    "void main()\n" +</span>
-<span class="source-line-no">673</span><span id="line.673">                    "{\n" +</span>
-<span class="source-line-no">674</span><span id="line.674">                    "    float hue = 6.2831853 * (v_color.x - 0.5);\n" +</span>
-<span class="source-line-no">675</span><span id="line.675">                    "    float saturation = v_color.y * 2.0;\n" +</span>
-<span class="source-line-no">676</span><span id="line.676">                    "    float brightness = v_color.z - 0.5;\n" +</span>
-<span class="source-line-no">677</span><span id="line.677">                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
-<span class="source-line-no">678</span><span id="line.678">                    "    tgt.rgb = applyHue(tgt.rgb, hue);\n" +</span>
-<span class="source-line-no">679</span><span id="line.679">                    "    tgt.rgb = vec3(\n" +</span>
-<span class="source-line-no">680</span><span id="line.680">                    "     (dot(tgt.rgb, vec3(0.375, 0.5, 0.125)) + brightness),\n" + // lightness</span>
-<span class="source-line-no">681</span><span id="line.681">                    "     ((tgt.r - tgt.b) * saturation),\n" + // warmth</span>
-<span class="source-line-no">682</span><span id="line.682">                    "     ((tgt.g - tgt.b) * saturation));\n" + // mildness</span>
-<span class="source-line-no">683</span><span id="line.683">                    "    gl_FragColor = clamp(vec4(\n" +</span>
-<span class="source-line-no">684</span><span id="line.684">                    "     dot(tgt.rgb, vec3(1.0, 0.625, -0.5)),\n" + // back to red</span>
-<span class="source-line-no">685</span><span id="line.685">                    "     dot(tgt.rgb, vec3(1.0, -0.375, 0.5)),\n" + // back to green</span>
-<span class="source-line-no">686</span><span id="line.686">                    "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue</span>
-<span class="source-line-no">687</span><span id="line.687">                    "     tgt.a * v_color.w), 0.0, 1.0);\n" + // keep alpha, then clamp</span>
-<span class="source-line-no">688</span><span id="line.688">                    "}";</span>
-<span class="source-line-no">689</span><span id="line.689">    /**</span>
-<span class="source-line-no">690</span><span id="line.690">     * GLSL: Takes an RGB vec3 and a float that represents a hue rotation in radians, and returns the rotated RGB vec3.</span>
-<span class="source-line-no">691</span><span id="line.691">     * Credit for this challenging method goes to Andrey-Postelzhuk,</span>
-<span class="source-line-no">692</span><span id="line.692">     * &lt;a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/"&gt;Unity Forums&lt;/a&gt;.</span>
-<span class="source-line-no">693</span><span id="line.693">     */</span>
-<span class="source-line-no">694</span><span id="line.694">    public static final String hueRodrigues =</span>
-<span class="source-line-no">695</span><span id="line.695">            "vec3 applyHue(vec3 rgb, float hue)\n" +</span>
-<span class="source-line-no">696</span><span id="line.696">            "{\n" +</span>
-<span class="source-line-no">697</span><span id="line.697">            "    vec3 k = vec3(0.57735);\n" +</span>
-<span class="source-line-no">698</span><span id="line.698">            "    float c = cos(hue);\n" +</span>
-<span class="source-line-no">699</span><span id="line.699">            "    //Rodrigues' rotation formula\n" +</span>
-<span class="source-line-no">700</span><span id="line.700">            "    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n" +</span>
-<span class="source-line-no">701</span><span id="line.701">            "}\n";</span>
-<span class="source-line-no">702</span><span id="line.702"></span>
-<span class="source-line-no">703</span><span id="line.703">    /**</span>
-<span class="source-line-no">704</span><span id="line.704">     * Generally a lower-quality hue rotation than {@link #fragmentShaderHSLC}; this is here as a work in progress.</span>
-<span class="source-line-no">705</span><span id="line.705">     * Expects the vertex shader to be {@link #vertexShaderHSLC}, which sets {@code varying float v_lightFix} so</span>
-<span class="source-line-no">706</span><span id="line.706">     * contrast can use it.</span>
-<span class="source-line-no">707</span><span id="line.707">     */</span>
-<span class="source-line-no">708</span><span id="line.708">    public static final String fragmentShaderHSLC2 = </span>
-<span class="source-line-no">709</span><span id="line.709">                    "#ifdef GL_ES\n" +</span>
-<span class="source-line-no">710</span><span id="line.710">                    "#define LOWP lowp\n" +</span>
-<span class="source-line-no">711</span><span id="line.711">                    "precision mediump float;\n" +</span>
-<span class="source-line-no">712</span><span id="line.712">                    "#else\n" +</span>
-<span class="source-line-no">713</span><span id="line.713">                    "#define LOWP \n" +</span>
-<span class="source-line-no">714</span><span id="line.714">                    "#endif\n" +</span>
-<span class="source-line-no">715</span><span id="line.715">                    "varying vec2 v_texCoords;\n" +</span>
-<span class="source-line-no">716</span><span id="line.716">                    "varying float v_lightFix;\n" +</span>
-<span class="source-line-no">717</span><span id="line.717">                    "varying LOWP vec4 v_color;\n" +</span>
-<span class="source-line-no">718</span><span id="line.718">                    "uniform sampler2D u_texture;\n" +</span>
-<span class="source-line-no">719</span><span id="line.719">                            partialCodeHSL +</span>
-<span class="source-line-no">720</span><span id="line.720">                    "void main()\n" +</span>
-<span class="source-line-no">721</span><span id="line.721">                    "{\n" +</span>
-<span class="source-line-no">722</span><span id="line.722">                    "    float hue = (v_color.x - 0.5);\n" +</span>
-<span class="source-line-no">723</span><span id="line.723">                    "    float saturation = v_color.y * 2.0;\n" +</span>
-<span class="source-line-no">724</span><span id="line.724">                    "    float brightness = v_color.z - 0.5;\n" +</span>
-<span class="source-line-no">725</span><span id="line.725">                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
-<span class="source-line-no">726</span><span id="line.726">                    "    tgt = rgb2hsl(tgt);\n" +</span>
-<span class="source-line-no">727</span><span id="line.727">                    "    tgt.r = fract(tgt.r + hue);\n" +</span>
-<span class="source-line-no">728</span><span id="line.728">                    "    tgt = hsl2rgb(tgt);\n" +</span>
-<span class="source-line-no">729</span><span id="line.729">                    "    tgt.rgb = vec3(\n" +</span>
-<span class="source-line-no">730</span><span id="line.730">                    "     (0.5 * pow(dot(tgt.rgb, vec3(0.375, 0.5, 0.125)), v_color.w) * v_lightFix + brightness),\n" + // lightness</span>
-<span class="source-line-no">731</span><span id="line.731">                    "     ((tgt.r - tgt.b) * saturation),\n" + // warmth</span>
-<span class="source-line-no">732</span><span id="line.732">                    "     ((tgt.g - tgt.b) * saturation));\n" + // mildness</span>
-<span class="source-line-no">733</span><span id="line.733">                    "    gl_FragColor = clamp(vec4(\n" +</span>
-<span class="source-line-no">734</span><span id="line.734">                    "     dot(tgt.rgb, vec3(1.0, 0.625, -0.5)),\n" + // back to red</span>
-<span class="source-line-no">735</span><span id="line.735">                    "     dot(tgt.rgb, vec3(1.0, -0.375, 0.5)),\n" + // back to green</span>
-<span class="source-line-no">736</span><span id="line.736">                    "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue</span>
-<span class="source-line-no">737</span><span id="line.737">                    "     tgt.a), 0.0, 1.0);\n" + // keep alpha, then clamp</span>
-<span class="source-line-no">738</span><span id="line.738">                    "}";</span>
-<span class="source-line-no">739</span><span id="line.739">    /**</span>
-<span class="source-line-no">740</span><span id="line.740">     * Cycles lightness in a psychedelic way as hue and lightness change; not a general-purpose usage.</span>
-<span class="source-line-no">741</span><span id="line.741">     * Expects the vertex shader to be {@link #vertexShaderHSLC}, which sets {@code varying float v_lightFix} so</span>
-<span class="source-line-no">742</span><span id="line.742">     * contrast can use it.</span>
-<span class="source-line-no">743</span><span id="line.743">     */</span>
-<span class="source-line-no">744</span><span id="line.744">    public static final String fragmentShaderHSLC3 =</span>
-<span class="source-line-no">745</span><span id="line.745">            "#ifdef GL_ES\n" +</span>
-<span class="source-line-no">746</span><span id="line.746">                    "#define LOWP lowp\n" +</span>
-<span class="source-line-no">747</span><span id="line.747">                    "precision mediump float;\n" +</span>
-<span class="source-line-no">748</span><span id="line.748">                    "#else\n" +</span>
-<span class="source-line-no">749</span><span id="line.749">                    "#define LOWP \n" +</span>
-<span class="source-line-no">750</span><span id="line.750">                    "#endif\n" +</span>
-<span class="source-line-no">751</span><span id="line.751">                    "varying vec2 v_texCoords;\n" +</span>
-<span class="source-line-no">752</span><span id="line.752">                    "varying float v_lightFix;\n" +</span>
-<span class="source-line-no">753</span><span id="line.753">                    "varying LOWP vec4 v_color;\n" +</span>
-<span class="source-line-no">754</span><span id="line.754">                    "uniform sampler2D u_texture;\n" +</span>
-<span class="source-line-no">755</span><span id="line.755">                    "vec3 applyHue(vec3 rgb, float hue)\n" +</span>
-<span class="source-line-no">756</span><span id="line.756">                    "{\n" +</span>
-<span class="source-line-no">757</span><span id="line.757">                    "    vec3 k = vec3(0.57735);\n" +</span>
-<span class="source-line-no">758</span><span id="line.758">                    "    float c = cos(hue);\n" +</span>
-<span class="source-line-no">759</span><span id="line.759">                    "    //Rodrigues' rotation formula\n" +</span>
-<span class="source-line-no">760</span><span id="line.760">                    "    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n" +</span>
-<span class="source-line-no">761</span><span id="line.761">                    "}\n" +</span>
-<span class="source-line-no">762</span><span id="line.762">                    "void main()\n" +</span>
-<span class="source-line-no">763</span><span id="line.763">                    "{\n" +</span>
-<span class="source-line-no">764</span><span id="line.764">                    "    float hue = 6.2831853 * (v_color.x - 0.5);\n" +</span>
-<span class="source-line-no">765</span><span id="line.765">                    "    float saturation = v_color.y * 2.0;\n" +</span>
-<span class="source-line-no">766</span><span id="line.766">                    "    float brightness = v_color.z - 0.5;\n" +</span>
-<span class="source-line-no">767</span><span id="line.767">                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
-<span class="source-line-no">768</span><span id="line.768">                    "    tgt.rgb = applyHue(tgt.rgb, hue);\n" +</span>
-<span class="source-line-no">769</span><span id="line.769">                    "    tgt.rgb = vec3(\n" +</span>
-<span class="source-line-no">770</span><span id="line.770">                    "     (0.5 * pow(dot(tgt.rgb, vec3(0.375, 0.5, 0.125)), v_color.w) * v_lightFix),\n" + // lightness</span>
-<span class="source-line-no">771</span><span id="line.771">                    "     ((tgt.r - tgt.b) * saturation),\n" + // warmth</span>
-<span class="source-line-no">772</span><span id="line.772">                    "     ((tgt.g - tgt.b) * saturation));\n" + // mildness</span>
-<span class="source-line-no">773</span><span id="line.773">                    "    tgt.r = sin((tgt.r + brightness) * 6.2831853) * 0.5 + 0.5;\n" +</span>
-<span class="source-line-no">774</span><span id="line.774">                    "    gl_FragColor = clamp(vec4(\n" +</span>
-<span class="source-line-no">775</span><span id="line.775">                    "     dot(tgt.rgb, vec3(1.0, 0.625, -0.5)),\n" + // back to red</span>
-<span class="source-line-no">776</span><span id="line.776">                    "     dot(tgt.rgb, vec3(1.0, -0.375, 0.5)),\n" + // back to green</span>
-<span class="source-line-no">777</span><span id="line.777">                    "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue</span>
-<span class="source-line-no">778</span><span id="line.778">                    "     tgt.a), 0.0, 1.0);\n" + // keep alpha, then clamp</span>
-<span class="source-line-no">779</span><span id="line.779">                    "}";</span>
-<span class="source-line-no">780</span><span id="line.780">    /**</span>
-<span class="source-line-no">781</span><span id="line.781">     * Cycles hue, but not lightness; otherwise this is like {@link #fragmentShaderHSLC3} without contrast, and keeping</span>
-<span class="source-line-no">782</span><span id="line.782">     * alpha intact.</span>
-<span class="source-line-no">783</span><span id="line.783">     * Internally, this uses Sam Hocevar's RGB/HSL conversion instead of Andrey-Postelzhuk's HSLC code.</span>
-<span class="source-line-no">784</span><span id="line.784">     * Expects the vertex shader to be {@link #vertexShader}, not the HSLC variant.</span>
-<span class="source-line-no">785</span><span id="line.785">     */</span>
-<span class="source-line-no">786</span><span id="line.786">    public static final String fragmentShaderHSLPsychedelic =</span>
-<span class="source-line-no">787</span><span id="line.787">            "#ifdef GL_ES\n" +</span>
-<span class="source-line-no">788</span><span id="line.788">                    "#define LOWP lowp\n" +</span>
-<span class="source-line-no">789</span><span id="line.789">                    "precision mediump float;\n" +</span>
-<span class="source-line-no">790</span><span id="line.790">                    "#else\n" +</span>
-<span class="source-line-no">791</span><span id="line.791">                    "#define LOWP \n" +</span>
-<span class="source-line-no">792</span><span id="line.792">                    "#endif\n" +</span>
-<span class="source-line-no">793</span><span id="line.793">                    "varying vec2 v_texCoords;\n" +</span>
-<span class="source-line-no">794</span><span id="line.794">                    "varying LOWP vec4 v_color;\n" +</span>
-<span class="source-line-no">795</span><span id="line.795">                    "uniform sampler2D u_texture;\n" +</span>
-<span class="source-line-no">796</span><span id="line.796">                    partialCodeHSL +</span>
-<span class="source-line-no">797</span><span id="line.797">                    "void main()\n" +</span>
-<span class="source-line-no">798</span><span id="line.798">                    "{\n" +</span>
-<span class="source-line-no">799</span><span id="line.799">                    "    float hue = v_color.x - 0.5;\n" +</span>
-<span class="source-line-no">800</span><span id="line.800">                    "    float saturation = v_color.y * 2.0;\n" +</span>
-<span class="source-line-no">801</span><span id="line.801">                    "    float brightness = v_color.z - 0.5;\n" +</span>
-<span class="source-line-no">802</span><span id="line.802">                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
-<span class="source-line-no">803</span><span id="line.803">                    "    tgt = rgb2hsl(tgt);\n" +</span>
-<span class="source-line-no">804</span><span id="line.804">                    "    tgt.x = fract(tgt.x + hue);\n" +</span>
-<span class="source-line-no">805</span><span id="line.805">                    "    tgt.y = clamp(tgt.y * saturation, 0.0, 1.0);\n" +</span>
-<span class="source-line-no">806</span><span id="line.806">                    "    tgt.z = clamp(brightness + tgt.z, 0.0, 1.0);\n" +</span>
-<span class="source-line-no">807</span><span id="line.807">                    "    gl_FragColor = hsl2rgb(tgt);\n" +</span>
-<span class="source-line-no">808</span><span id="line.808">                    "}";</span>
-<span class="source-line-no">809</span><span id="line.809"></span>
-<span class="source-line-no">810</span><span id="line.810">    /**</span>
-<span class="source-line-no">811</span><span id="line.811">     * One of the more useful HSL shaders here, this takes a batch color as hue, saturation, lightness, and power,</span>
-<span class="source-line-no">812</span><span id="line.812">     * with hue as a target hue and power used to determine how much of the target color should be used. There is no</span>
-<span class="source-line-no">813</span><span id="line.813">     * neutral value for hue, saturation, or lightness, but if power is 0, then the source color will be used</span>
-<span class="source-line-no">814</span><span id="line.814">     * exactly. On the other hand, if power is 1.0, then all pixels will be the target color. Hue is specified from</span>
-<span class="source-line-no">815</span><span id="line.815">     * 0.0 to 1.0, with 0.0 as red, about 0.3 as green, about 0.6 as blue, etc. Saturation is specified from 0.0 to 1.0,</span>
-<span class="source-line-no">816</span><span id="line.816">     * with 0.0 as grayscale and 1.0 as a fully-saturated target color. Lightness is specified from 0.0 to 1.0, with 0.0</span>
-<span class="source-line-no">817</span><span id="line.817">     * as black, the 0.3 to 0.7 range as most colors, and 1.0 white; saturation is clamped to a smaller value as</span>
-<span class="source-line-no">818</span><span id="line.818">     * lightness moves away from 0.5 (toward black or white).</span>
-<span class="source-line-no">819</span><span id="line.819">     */</span>
-<span class="source-line-no">820</span><span id="line.820">    public static final String fragmentShaderHSLP =</span>
-<span class="source-line-no">821</span><span id="line.821">            "#ifdef GL_ES\n" +</span>
-<span class="source-line-no">822</span><span id="line.822">                    "#define LOWP lowp\n" +</span>
-<span class="source-line-no">823</span><span id="line.823">                    "precision mediump float;\n" +</span>
-<span class="source-line-no">824</span><span id="line.824">                    "#else\n" +</span>
-<span class="source-line-no">825</span><span id="line.825">                    "#define LOWP \n" +</span>
-<span class="source-line-no">826</span><span id="line.826">                    "#endif\n" +</span>
-<span class="source-line-no">827</span><span id="line.827">                    "varying vec2 v_texCoords;\n" +</span>
-<span class="source-line-no">828</span><span id="line.828">                    "varying LOWP vec4 v_color;\n" +</span>
-<span class="source-line-no">829</span><span id="line.829">                    "uniform sampler2D u_texture;\n" +</span>
-<span class="source-line-no">830</span><span id="line.830">                    partialCodeHSL +</span>
-<span class="source-line-no">831</span><span id="line.831">                    "void main()\n" +</span>
-<span class="source-line-no">832</span><span id="line.832">                    "{\n" +</span>
-<span class="source-line-no">833</span><span id="line.833">                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
-<span class="source-line-no">834</span><span id="line.834">                    "   vec4 hsl = rgb2hsl(tgt);\n" +</span>
-<span class="source-line-no">835</span><span id="line.835">                    "   hsl.xy = vec2(cos(hsl.x * 6.2831853), sin(hsl.x * 6.2831853)) * hsl.y;\n" +</span>
-<span class="source-line-no">836</span><span id="line.836">                    "   vec3 tint = vec3(cos(v_color.x * 6.2831853) * v_color.y, sin(v_color.x * 6.2831853) * v_color.y, v_color.z);\n" +</span>
-<span class="source-line-no">837</span><span id="line.837">                    "   hsl.xyz = mix(hsl.xyz, tint, v_color.w);\n" +</span>
-<span class="source-line-no">838</span><span id="line.838">                    "   hsl.xy = vec2(fract(atan(hsl.y, hsl.x) / 6.2831853), length(hsl.xy));\n" +</span>
-<span class="source-line-no">839</span><span id="line.839">                    "   gl_FragColor = hsl2rgb(hsl);\n" +</span>
-<span class="source-line-no">840</span><span id="line.840">                    "}";</span>
-<span class="source-line-no">841</span><span id="line.841">    </span>
-<span class="source-line-no">842</span><span id="line.842">    public static final String fragmentShaderReplacement = </span>
-<span class="source-line-no">843</span><span id="line.843">                    "#ifdef GL_ES\n" +</span>
-<span class="source-line-no">844</span><span id="line.844">                    "#define LOWP lowp\n" +</span>
-<span class="source-line-no">845</span><span id="line.845">                    "precision mediump float;\n" +</span>
-<span class="source-line-no">846</span><span id="line.846">                    "#else\n" +</span>
-<span class="source-line-no">847</span><span id="line.847">                    "#define LOWP \n" +</span>
-<span class="source-line-no">848</span><span id="line.848">                    "#endif\n" +</span>
-<span class="source-line-no">849</span><span id="line.849">                    "varying vec2 v_texCoords;\n" +</span>
-<span class="source-line-no">850</span><span id="line.850">                    "varying LOWP vec4 v_color;\n" +</span>
-<span class="source-line-no">851</span><span id="line.851">                    "uniform sampler2D u_texture;\n" +</span>
-<span class="source-line-no">852</span><span id="line.852">                    "uniform vec4 u_search;\n" +</span>
-<span class="source-line-no">853</span><span id="line.853">                    "uniform vec4 u_replace;\n" +</span>
-<span class="source-line-no">854</span><span id="line.854">                    "void main()\n" +</span>
-<span class="source-line-no">855</span><span id="line.855">                    "{\n" +</span>
-<span class="source-line-no">856</span><span id="line.856">                    "   vec4 tgt = texture2D(u_texture, v_texCoords);\n" +</span>
-<span class="source-line-no">857</span><span id="line.857">                    "   float curve = smoothstep(0.0, 1.0, 1.25 - distance(tgt.rgb, u_search.rgb) * 2.0);\n" +</span>
-<span class="source-line-no">858</span><span id="line.858">                    "   gl_FragColor = vec4(mix(tgt.rgb, u_replace.rgb, curve), tgt.a) * v_color;\n" +</span>
-<span class="source-line-no">859</span><span id="line.859">                    "}";</span>
-<span class="source-line-no">860</span><span id="line.860">    /**</span>
-<span class="source-line-no">861</span><span id="line.861">     * A drop-in replacement for the default fragment shader that eliminates lightness differences in the output colors.</span>
-<span class="source-line-no">862</span><span id="line.862">     * Specifically, it does the normal SpriteBatch shader's step with the multiplicative batch color, converts to IPT,</span>
-<span class="source-line-no">863</span><span id="line.863">     * sets intensity to 0.5, shrinks the P and T components so the color is less saturated, and then converts back to</span>
-<span class="source-line-no">864</span><span id="line.864">     * an RGBA color. Editing this shader is strongly encouraged to fit your needs!</span>
-<span class="source-line-no">865</span><span id="line.865">     * &lt;br&gt;</span>
-<span class="source-line-no">866</span><span id="line.866">     * This uses {@link #vertexShader}, as usual.</span>
-<span class="source-line-no">867</span><span id="line.867">     * @see #fragmentShaderConfigurableContrast a per-sprite-configurable version of this</span>
-<span class="source-line-no">868</span><span id="line.868">     */</span>
-<span class="source-line-no">869</span><span id="line.869">    public static String fragmentShaderFlatLightness =</span>
-<span class="source-line-no">870</span><span id="line.870">  "#ifdef GL_ES\n" +</span>
-<span class="source-line-no">871</span><span id="line.871">  "#define LOWP lowp\n" +</span>
-<span class="source-line-no">872</span><span id="line.872">  "precision mediump float;\n" +</span>
-<span class="source-line-no">873</span><span id="line.873">  "#else\n" +</span>
-<span class="source-line-no">874</span><span id="line.874">  "#define LOWP \n" +</span>
-<span class="source-line-no">875</span><span id="line.875">  "#endif\n" +</span>
-<span class="source-line-no">876</span><span id="line.876">  "#define TARGET_LIGHTNESS 0.5 \n" +</span>
-<span class="source-line-no">877</span><span id="line.877">  "#define SATURATION_CHANGE 1.0 \n" +</span>
-<span class="source-line-no">878</span><span id="line.878">  "varying vec2 v_texCoords;\n" +</span>
-<span class="source-line-no">879</span><span id="line.879">  "varying LOWP vec4 v_color;\n" +</span>
-<span class="source-line-no">880</span><span id="line.880">  "uniform sampler2D u_texture;\n" +</span>
-<span class="source-line-no">881</span><span id="line.881">  "void main()\n" +</span>
-<span class="source-line-no">882</span><span id="line.882">  "{\n" +</span>
-<span class="source-line-no">883</span><span id="line.883">  "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
-<span class="source-line-no">884</span><span id="line.884">  "    vec3 ipt = (mat3(0.189786, 0.669665 , 0.286498, 0.576951, -0.73741 , 0.655205, 0.233221, 0.0681367, -0.941748)\n" +</span>
-<span class="source-line-no">885</span><span id="line.885">  "         * (tgt.rgb * v_color.rgb));\n" +</span>
-<span class="source-line-no">886</span><span id="line.886">  "    ipt.x = TARGET_LIGHTNESS;\n" + // change to desired lightness or pass in a lightness as a uniform</span>
-<span class="source-line-no">887</span><span id="line.887">  "//    ipt.x = (ipt.x - 0.5) * 0.25 + TARGET_LIGHTNESS;\n" + // an alternative way that preserves a tiny bit of original lightness</span>
-<span class="source-line-no">888</span><span id="line.888">  "    ipt.yz *= SATURATION_CHANGE;\n" + // multiplies saturation by SATURATION_CHANGE, which may be more or less than 1.0</span>
-<span class="source-line-no">889</span><span id="line.889">  "    vec3 back = clamp(mat3(0.999779, 1.00015, 0.999769, 1.07094, -0.377744, 0.0629496, 0.324891, 0.220439, -0.809638) * ipt, 0.0, 1.0);\n" +</span>
-<span class="source-line-no">890</span><span id="line.890">  "    gl_FragColor = vec4(back, v_color.a * tgt.a);\n" +</span>
-<span class="source-line-no">891</span><span id="line.891">  "}";</span>
-<span class="source-line-no">892</span><span id="line.892">    /**</span>
-<span class="source-line-no">893</span><span id="line.893">     * A specialized shader that can reduce lightness differences in the output colors, saturate/desaturate them, and</span>
-<span class="source-line-no">894</span><span id="line.894">     * can be configured to use some of the existing lightness in the image to add to a main flat lightness.</span>
-<span class="source-line-no">895</span><span id="line.895">     * Specifically, it takes the fragment color (typically a pixel in a texture), converts to IPT, does a calculation</span>
-<span class="source-line-no">896</span><span id="line.896">     * involving the intensity of the fragment color where the batch color's blue channel affects how much that</span>
-<span class="source-line-no">897</span><span id="line.897">     * intensity is used, adds the red channel of the batch color, multiplies the P and T components by the green</span>
-<span class="source-line-no">898</span><span id="line.898">     * channel times 2.0 to saturate or desaturate, and then converts back to an RGBA color. The neutral value for this</span>
-<span class="source-line-no">899</span><span id="line.899">     * is the RGBA color 0.5, 0.5, 1.0, 1.0 . A typical usage to achieve a fog effect would be to raise lightness (r),</span>
-<span class="source-line-no">900</span><span id="line.900">     * slightly reduce saturation (g), sharply flatten the original texture's lightness (b), and leave alpha alone (a):</span>
-<span class="source-line-no">901</span><span id="line.901">     * 0.7, 0.4, 0.2, 1.0 .</span>
-<span class="source-line-no">902</span><span id="line.902">     * &lt;br&gt;</span>
-<span class="source-line-no">903</span><span id="line.903">     * This uses {@link #vertexShader}, as usual.</span>
-<span class="source-line-no">904</span><span id="line.904">     * @see #fragmentShaderFlatLightness if you only need one contrast setting and still want to set color tints</span>
-<span class="source-line-no">905</span><span id="line.905">     */</span>
-<span class="source-line-no">906</span><span id="line.906">    public static String fragmentShaderConfigurableContrast =</span>
-<span class="source-line-no">907</span><span id="line.907">            "#ifdef GL_ES\n" +</span>
-<span class="source-line-no">908</span><span id="line.908">                    "#define LOWP lowp\n" +</span>
-<span class="source-line-no">909</span><span id="line.909">                    "precision mediump float;\n" +</span>
-<span class="source-line-no">910</span><span id="line.910">                    "#else\n" +</span>
-<span class="source-line-no">911</span><span id="line.911">                    "#define LOWP \n" +</span>
-<span class="source-line-no">912</span><span id="line.912">                    "#endif\n" +</span>
-<span class="source-line-no">913</span><span id="line.913">                    "varying vec2 v_texCoords;\n" +</span>
-<span class="source-line-no">914</span><span id="line.914">                    "varying LOWP vec4 v_color;\n" +</span>
-<span class="source-line-no">915</span><span id="line.915">                    "uniform sampler2D u_texture;\n" +</span>
-<span class="source-line-no">916</span><span id="line.916">                    "void main()\n" +</span>
-<span class="source-line-no">917</span><span id="line.917">                    "{\n" +</span>
-<span class="source-line-no">918</span><span id="line.918">                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
-<span class="source-line-no">919</span><span id="line.919">                    "    vec3 ipt = (mat3(0.189786, 0.669665 , 0.286498, 0.576951, -0.73741 , 0.655205, 0.233221, 0.0681367, -0.941748)\n" +</span>
-<span class="source-line-no">920</span><span id="line.920">                    "         * tgt.rgb);\n" +</span>
-<span class="source-line-no">921</span><span id="line.921">                    "    ipt.x = (ipt.x - 0.5) * v_color.b + v_color.r;\n" + // preserves some lightness based on b, sets main lightness with r</span>
-<span class="source-line-no">922</span><span id="line.922">                    "    ipt.yz *= v_color.g * 2.0;\n" + // the green channel affects saturation; if it's 0.5 it won't change saturation.</span>
-<span class="source-line-no">923</span><span id="line.923">                    "    vec3 back = clamp(mat3(0.999779, 1.00015, 0.999769, 1.07094, -0.377744, 0.0629496, 0.324891, 0.220439, -0.809638) * ipt, 0.0, 1.0);\n" +</span>
-<span class="source-line-no">924</span><span id="line.924">                    "    gl_FragColor = vec4(back, v_color.a * tgt.a);\n" +</span>
-<span class="source-line-no">925</span><span id="line.925">                    "}";</span>
-<span class="source-line-no">926</span><span id="line.926"></span>
-<span class="source-line-no">927</span><span id="line.927">    /**</span>
-<span class="source-line-no">928</span><span id="line.928">     * A day/night cycle shader that can be used without any other parts of this library. This only needs setting the</span>
-<span class="source-line-no">929</span><span id="line.929">     * uniform {@code u_timeOfDay} to any float; the rate at which you change this float affects how fast the day/night</span>
-<span class="source-line-no">930</span><span id="line.930">     * cycle occurs. This is meant to be used with {@link #fragmentShaderDayNight}. Together, they make the color</span>
-<span class="source-line-no">931</span><span id="line.931">     * adjustment go from bluish and dark at night, to purplish at dawn, to orange/yellow and bright at mid-day, toward</span>
-<span class="source-line-no">932</span><span id="line.932">     * red at dusk, and then back to bluish at night.</span>
-<span class="source-line-no">933</span><span id="line.933">     */</span>
-<span class="source-line-no">934</span><span id="line.934">    public static String vertexShaderDayNight = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"</span>
-<span class="source-line-no">935</span><span id="line.935">            + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"</span>
-<span class="source-line-no">936</span><span id="line.936">            + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"</span>
-<span class="source-line-no">937</span><span id="line.937">            + "uniform mat4 u_projTrans;\n"</span>
-<span class="source-line-no">938</span><span id="line.938">            + "uniform float u_timeOfDay;\n"</span>
-<span class="source-line-no">939</span><span id="line.939">            + "varying vec4 v_color;\n"</span>
-<span class="source-line-no">940</span><span id="line.940">            + "varying vec4 v_tweak;\n"</span>
-<span class="source-line-no">941</span><span id="line.941">            + "varying vec2 v_texCoords;\n"</span>
-<span class="source-line-no">942</span><span id="line.942">            + "varying float v_lightFix;\n"</span>
-<span class="source-line-no">943</span><span id="line.943">            + "const vec3 forward = vec3(1.0 / 3.0);\n"</span>
-<span class="source-line-no">944</span><span id="line.944">            + "\n"</span>
-<span class="source-line-no">945</span><span id="line.945">            + "void main()\n"</span>
-<span class="source-line-no">946</span><span id="line.946">            + "{\n"</span>
-<span class="source-line-no">947</span><span id="line.947">            + "   float st = sin(1.5707963 * sin(0.2617994 * u_timeOfDay));\n"</span>
-<span class="source-line-no">948</span><span id="line.948">            + "   float ct = sin(1.5707963 * cos(0.2617994 * u_timeOfDay));\n"</span>
-<span class="source-line-no">949</span><span id="line.949">            + "   float dd = ct * ct;\n"</span>
-<span class="source-line-no">950</span><span id="line.950">            + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"</span>
-<span class="source-line-no">951</span><span id="line.951">            + "   v_color.w = v_color.w * (255.0/254.0);\n"</span>
-<span class="source-line-no">952</span><span id="line.952">            + "   vec3 oklab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *"</span>
-<span class="source-line-no">953</span><span id="line.953">            + "     pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n"</span>
-<span class="source-line-no">954</span><span id="line.954">            + "     * (v_color.rgb * v_color.rgb), forward);\n"</span>
-<span class="source-line-no">955</span><span id="line.955">            + "   v_color.x = clamp(oklab.x + (0.0625 * st), 0.0, 1.0);\n"</span>
-<span class="source-line-no">956</span><span id="line.956">            + "   v_color.yz = clamp(oklab.yz + vec2(0.0625 * dd + 0.03125 * st, 0.1 * st), -1.0, 1.0) * ((dd + 0.25) * 0.5);\n"</span>
-<span class="source-line-no">957</span><span id="line.957">            + "   v_tweak = vec4(0.2 * st + 0.5);\n"</span>
-<span class="source-line-no">958</span><span id="line.958">            + "   v_tweak.w = pow((1.0 - 0.125 * st), 1.709);\n"</span>
-<span class="source-line-no">959</span><span id="line.959">            + "   v_lightFix = 1.0 + pow(v_tweak.w, 1.41421356);\n"</span>
-<span class="source-line-no">960</span><span id="line.960">            + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"</span>
-<span class="source-line-no">961</span><span id="line.961">            + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"</span>
-<span class="source-line-no">962</span><span id="line.962">            + "}\n";</span>
-<span class="source-line-no">963</span><span id="line.963">    /**</span>
-<span class="source-line-no">964</span><span id="line.964">     * The fragment shader counterpart to {@link #vertexShaderDayNight}; must be used with that vertex shader. See its</span>
-<span class="source-line-no">965</span><span id="line.965">     * docs for more info, particularly about the one uniform this needs set.</span>
-<span class="source-line-no">966</span><span id="line.966">     */</span>
-<span class="source-line-no">967</span><span id="line.967">    public static String fragmentShaderDayNight =</span>
-<span class="source-line-no">968</span><span id="line.968">            "#ifdef GL_ES\n" +</span>
-<span class="source-line-no">969</span><span id="line.969">                    "#define LOWP lowp\n" +</span>
-<span class="source-line-no">970</span><span id="line.970">                    "precision mediump float;\n" +</span>
-<span class="source-line-no">971</span><span id="line.971">                    "#else\n" +</span>
-<span class="source-line-no">972</span><span id="line.972">                    "#define LOWP \n" +</span>
-<span class="source-line-no">973</span><span id="line.973">                    "#endif\n" +</span>
-<span class="source-line-no">974</span><span id="line.974">                    "varying vec2 v_texCoords;\n" +</span>
-<span class="source-line-no">975</span><span id="line.975">                    "varying LOWP vec4 v_color;\n" +</span>
-<span class="source-line-no">976</span><span id="line.976">                    "varying LOWP vec4 v_tweak;\n" +</span>
-<span class="source-line-no">977</span><span id="line.977">                    "varying float v_lightFix;\n" +</span>
-<span class="source-line-no">978</span><span id="line.978">                    "uniform sampler2D u_texture;\n" +</span>
-<span class="source-line-no">979</span><span id="line.979">                    "const vec3 forward = vec3(1.0 / 3.0);\n" +</span>
-<span class="source-line-no">980</span><span id="line.980">                    "void main()\n" +</span>
-<span class="source-line-no">981</span><span id="line.981">                    "{\n" +</span>
-<span class="source-line-no">982</span><span id="line.982">                    "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
-<span class="source-line-no">983</span><span id="line.983">                    "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +</span>
-<span class="source-line-no">984</span><span id="line.984">                    "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +</span>
-<span class="source-line-no">985</span><span id="line.985">                    "             * (tgt.rgb * tgt.rgb), forward);\n" +</span>
-<span class="source-line-no">986</span><span id="line.986">                    "  lab.x = clamp(pow(lab.x, v_tweak.w) * v_lightFix * v_tweak.x + v_color.x - 1.0, 0.0, 1.0);\n" +</span>
-<span class="source-line-no">987</span><span id="line.987">                    "  lab.yz = clamp((lab.yz * v_tweak.yz + v_color.yz) * 1.5, -1.0, 1.0);\n" +</span>
-<span class="source-line-no">988</span><span id="line.988">                    "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +</span>
-<span class="source-line-no">989</span><span id="line.989">                    "  gl_FragColor = vec4(sqrt(clamp(" +</span>
-<span class="source-line-no">990</span><span id="line.990">                    "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +</span>
-<span class="source-line-no">991</span><span id="line.991">                    "                 (lab * lab * lab)," +</span>
-<span class="source-line-no">992</span><span id="line.992">                    "                 0.0, 1.0)), v_color.a * tgt.a);\n" +</span>
-<span class="source-line-no">993</span><span id="line.993">                    "}";</span>
-<span class="source-line-no">994</span><span id="line.994"></span>
-<span class="source-line-no">995</span><span id="line.995">}</span>
+<span class="source-line-no">479</span><span id="line.479">//                    "    return asin((sqrt(hue * 0.9375 + 0.0625) - 0.25) * 2.666 - 1.0) * 0.318309886 + 0.5;\n" +</span>
+<span class="source-line-no">480</span><span id="line.480"></span>
+<span class="source-line-no">481</span><span id="line.481">//                    "    return sqrt(sin((hue - 0.5) * 3.14159274) * 0.5 + 0.5);\n" +</span>
+<span class="source-line-no">482</span><span id="line.482">//                    "    return pow(hue, 0.5625);\n" +</span>
+<span class="source-line-no">483</span><span id="line.483">//                    "    return sqrt(hue);\n" +</span>
+<span class="source-line-no">484</span><span id="line.484">                    "    return (sqrt(hue + 0.050625) - 0.225) * 1.25;\n" +</span>
+<span class="source-line-no">485</span><span id="line.485">                    "}\n" +</span>
+<span class="source-line-no">486</span><span id="line.486">                    "float primaries2official(float hue) {\n" +</span>
+<span class="source-line-no">487</span><span id="line.487">//                    "    hue = sin((hue) * (0.5 * 3.14159274));\n" +</span>
+<span class="source-line-no">488</span><span id="line.488">//                    "    hue = (hue) * 0.75 + 0.25;\n" +</span>
+<span class="source-line-no">489</span><span id="line.489">                    </span>
+<span class="source-line-no">490</span><span id="line.490">//                    "    hue = sin((hue - 0.5) * 3.14159274);\n" +</span>
+<span class="source-line-no">491</span><span id="line.491">//                    "    hue = (hue + 1.0) * 0.375 + 0.25;\n" +</span>
+<span class="source-line-no">492</span><span id="line.492">//                    "    return (hue * hue - 0.0625) * (1.0 / 0.9375);\n" +</span>
+<span class="source-line-no">493</span><span id="line.493">                    </span>
+<span class="source-line-no">494</span><span id="line.494">//                    "    return asin(hue * hue * 2.0 - 1.0) * 0.318309886 + 0.5;\n" +</span>
+<span class="source-line-no">495</span><span id="line.495">//                    "    return pow(hue, 1.77777);\n" +</span>
+<span class="source-line-no">496</span><span id="line.496">                    "    return pow(hue * 0.8 + 0.225, 2.0) - 0.050625;\n" +</span>
+<span class="source-line-no">497</span><span id="line.497">//                    "    return hue * hue;\n" +</span>
+<span class="source-line-no">498</span><span id="line.498"></span>
+<span class="source-line-no">499</span><span id="line.499">//                    "    hue = sin((hue) * (0.5 * 3.14159274));\n" +</span>
+<span class="source-line-no">500</span><span id="line.500">//                    "    hue = hue * ROOT;\n" +</span>
+<span class="source-line-no">501</span><span id="line.501">//                    "    return (hue * hue) * (1.0 / SQUARE);\n" +</span>
+<span class="source-line-no">502</span><span id="line.502"></span>
+<span class="source-line-no">503</span><span id="line.503">                    "}\n" +</span>
+<span class="source-line-no">504</span><span id="line.504">                    //// way too much orange?</span>
+<span class="source-line-no">505</span><span id="line.505">//                    //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a</span>
+<span class="source-line-no">506</span><span id="line.506">//                    //different distribution that matches primary colors in painting (where purple is opposite yellow).</span>
+<span class="source-line-no">507</span><span id="line.507">//                    "float official2primaries(float hue) {\n" +</span>
+<span class="source-line-no">508</span><span id="line.508">//                    "    return  hue * (  2.137\n" +</span>
+<span class="source-line-no">509</span><span id="line.509">//                    "          + hue * (  0.542\n" +</span>
+<span class="source-line-no">510</span><span id="line.510">//                    "          + hue * (-15.141\n" +</span>
+<span class="source-line-no">511</span><span id="line.511">//                    "          + hue * ( 30.120\n" +</span>
+<span class="source-line-no">512</span><span id="line.512">//                    "          + hue * (-22.541\n" +</span>
+<span class="source-line-no">513</span><span id="line.513">//                    "          + hue *    5.883)))));\n" +</span>
+<span class="source-line-no">514</span><span id="line.514">//                    "}\n" +</span>
+<span class="source-line-no">515</span><span id="line.515">//                    //Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a</span>
+<span class="source-line-no">516</span><span id="line.516">//                    //different distribution that matches primary colors in painting (where purple is opposite yellow).</span>
+<span class="source-line-no">517</span><span id="line.517">//                    "float primaries2official(float hue) {\n" +</span>
+<span class="source-line-no">518</span><span id="line.518">//                    "    return  hue * (  0.677\n" +</span>
+<span class="source-line-no">519</span><span id="line.519">//                    "          + hue * ( -0.123\n" +</span>
+<span class="source-line-no">520</span><span id="line.520">//                    "          + hue * (-11.302\n" +</span>
+<span class="source-line-no">521</span><span id="line.521">//                    "          + hue * ( 46.767\n" +</span>
+<span class="source-line-no">522</span><span id="line.522">//                    "          + hue * (-58.493\n" +</span>
+<span class="source-line-no">523</span><span id="line.523">//                    "          + hue *   23.474)))));\n" +</span>
+<span class="source-line-no">524</span><span id="line.524">//                    "}\n" +</span>
+<span class="source-line-no">525</span><span id="line.525">                    "vec4 rgb2hsl(vec4 c)\n" +</span>
+<span class="source-line-no">526</span><span id="line.526">                    "{\n" +</span>
+<span class="source-line-no">527</span><span id="line.527">                    "    const vec4 J = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n" +</span>
+<span class="source-line-no">528</span><span id="line.528">                    "    vec4 p = mix(vec4(c.bg, J.wz), vec4(c.gb, J.xy), step(c.b, c.g));\n" +</span>
+<span class="source-line-no">529</span><span id="line.529">                    "    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));\n" +</span>
+<span class="source-line-no">530</span><span id="line.530">                    "\n" +</span>
+<span class="source-line-no">531</span><span id="line.531">                    "    float d = q.x - min(q.w, q.y);\n" +</span>
+<span class="source-line-no">532</span><span id="line.532">                    "    float l = q.x * (1.0 - 0.5 * d / (q.x + eps));\n" +</span>
+<span class="source-line-no">533</span><span id="line.533">                    "    return vec4(official2primaries(abs(q.z + (q.w - q.y) / (6.0 * d + eps))), (q.x - l) / (min(l, 1.0 - l) + eps), l, c.a);\n" +</span>
+<span class="source-line-no">534</span><span id="line.534">                    "}\n" +</span>
+<span class="source-line-no">535</span><span id="line.535">                    "\n" +</span>
+<span class="source-line-no">536</span><span id="line.536">                    "vec4 hsl2rgb(vec4 c)\n" +</span>
+<span class="source-line-no">537</span><span id="line.537">                    "{\n" +</span>
+<span class="source-line-no">538</span><span id="line.538">                    "    const vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n" +</span>
+<span class="source-line-no">539</span><span id="line.539">                    "    vec3 p = abs(fract(primaries2official(c.x) + K.xyz) * 6.0 - K.www);\n" +</span>
+<span class="source-line-no">540</span><span id="line.540">                    "    float v = (c.z + c.y * min(c.z, 1.0 - c.z));\n" +</span>
+<span class="source-line-no">541</span><span id="line.541">                    "    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n" +</span>
+<span class="source-line-no">542</span><span id="line.542">                    "}";</span>
+<span class="source-line-no">543</span><span id="line.543"></span>
+<span class="source-line-no">544</span><span id="line.544">    public static final String fragmentShaderHSL =</span>
+<span class="source-line-no">545</span><span id="line.545">            "#ifdef GL_ES\n" +</span>
+<span class="source-line-no">546</span><span id="line.546">                    "#define LOWP lowp\n" +</span>
+<span class="source-line-no">547</span><span id="line.547">                    "precision mediump float;\n" +</span>
+<span class="source-line-no">548</span><span id="line.548">                    "#else\n" +</span>
+<span class="source-line-no">549</span><span id="line.549">                    "#define LOWP \n" +</span>
+<span class="source-line-no">550</span><span id="line.550">                    "#endif\n" +</span>
+<span class="source-line-no">551</span><span id="line.551">                    "varying vec2 v_texCoords;\n" +</span>
+<span class="source-line-no">552</span><span id="line.552">                    "varying LOWP vec4 v_color;\n" +</span>
+<span class="source-line-no">553</span><span id="line.553">                    "uniform sampler2D u_texture;\n" +</span>
+<span class="source-line-no">554</span><span id="line.554">                    partialCodeHSL +</span>
+<span class="source-line-no">555</span><span id="line.555">                    "void main()\n" +</span>
+<span class="source-line-no">556</span><span id="line.556">                    "{\n" +</span>
+<span class="source-line-no">557</span><span id="line.557">                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
+<span class="source-line-no">558</span><span id="line.558">                    "   vec4 hsl = rgb2hsl(tgt);\n" +</span>
+<span class="source-line-no">559</span><span id="line.559">                    "   hsl.x = fract((fract(v_color.x + 0.5 - hsl.x) - 0.5) * v_color.w + hsl.x);\n" +</span>
+<span class="source-line-no">560</span><span id="line.560">                    "   hsl.yz = mix(hsl.yz, v_color.yz, v_color.w);\n" +</span>
+<span class="source-line-no">561</span><span id="line.561">                    "   gl_FragColor = hsl2rgb(hsl);\n" +</span>
+<span class="source-line-no">562</span><span id="line.562">                    "}";</span>
+<span class="source-line-no">563</span><span id="line.563">    </span>
+<span class="source-line-no">564</span><span id="line.564">    public static final String fragmentShaderRotateHSL =</span>
+<span class="source-line-no">565</span><span id="line.565">            "#ifdef GL_ES\n" +</span>
+<span class="source-line-no">566</span><span id="line.566">                    "#define LOWP lowp\n" +</span>
+<span class="source-line-no">567</span><span id="line.567">                    "precision mediump float;\n" +</span>
+<span class="source-line-no">568</span><span id="line.568">                    "#else\n" +</span>
+<span class="source-line-no">569</span><span id="line.569">                    "#define LOWP \n" +</span>
+<span class="source-line-no">570</span><span id="line.570">                    "#endif\n" +</span>
+<span class="source-line-no">571</span><span id="line.571">                    "varying vec2 v_texCoords;\n" +</span>
+<span class="source-line-no">572</span><span id="line.572">                    "varying LOWP vec4 v_color;\n" +</span>
+<span class="source-line-no">573</span><span id="line.573">                    "uniform sampler2D u_texture;\n" +</span>
+<span class="source-line-no">574</span><span id="line.574">                    partialCodeHSL +</span>
+<span class="source-line-no">575</span><span id="line.575">                    "void main()\n" +</span>
+<span class="source-line-no">576</span><span id="line.576">                    "{\n" +</span>
+<span class="source-line-no">577</span><span id="line.577">                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
+<span class="source-line-no">578</span><span id="line.578">                    "   vec4 hsl = rgb2hsl(tgt);\n" +</span>
+<span class="source-line-no">579</span><span id="line.579">                    "   hsl.x = fract(v_color.x + hsl.x + 0.5);\n" +</span>
+<span class="source-line-no">580</span><span id="line.580">                    "   hsl.yz = clamp(hsl.yz * v_color.yz * 2.0, 0.0, 1.0);\n" +</span>
+<span class="source-line-no">581</span><span id="line.581">                    "   gl_FragColor = hsl2rgb(hsl);\n" +</span>
+<span class="source-line-no">582</span><span id="line.582">                    "}";</span>
+<span class="source-line-no">583</span><span id="line.583"></span>
+<span class="source-line-no">584</span><span id="line.584">    /**</span>
+<span class="source-line-no">585</span><span id="line.585">     * This is the default vertex shader from libGDX, but also sets a varying value for contrast. It is needed if you</span>
+<span class="source-line-no">586</span><span id="line.586">     * use {@link #fragmentShaderHSLC}.</span>
+<span class="source-line-no">587</span><span id="line.587">     */</span>
+<span class="source-line-no">588</span><span id="line.588">    public static final String vertexShaderHSLC = "attribute vec4 a_position;\n"</span>
+<span class="source-line-no">589</span><span id="line.589">            + "attribute vec4 a_color;\n"</span>
+<span class="source-line-no">590</span><span id="line.590">            + "attribute vec2 a_texCoord0;\n"</span>
+<span class="source-line-no">591</span><span id="line.591">            + "uniform mat4 u_projTrans;\n"</span>
+<span class="source-line-no">592</span><span id="line.592">            + "varying vec4 v_color;\n"</span>
+<span class="source-line-no">593</span><span id="line.593">            + "varying vec2 v_texCoords;\n" </span>
+<span class="source-line-no">594</span><span id="line.594">            + "varying float v_lightFix;\n"</span>
+<span class="source-line-no">595</span><span id="line.595">            + "\n"</span>
+<span class="source-line-no">596</span><span id="line.596">            + "void main()\n"</span>
+<span class="source-line-no">597</span><span id="line.597">            + "{\n"</span>
+<span class="source-line-no">598</span><span id="line.598">            + "   v_color = a_color;\n"</span>
+<span class="source-line-no">599</span><span id="line.599">            + "   v_texCoords = a_texCoord0;\n"</span>
+<span class="source-line-no">600</span><span id="line.600">            + "   v_color.a = pow(v_color.a * (255.0/254.0) + 0.5, 1.709);\n"    </span>
+<span class="source-line-no">601</span><span id="line.601">            + "   v_lightFix = 1.0 + pow(v_color.a, 1.41421356);\n"</span>
+<span class="source-line-no">602</span><span id="line.602">            + "   gl_Position =  u_projTrans * a_position;\n"</span>
+<span class="source-line-no">603</span><span id="line.603">            + "}\n";</span>
+<span class="source-line-no">604</span><span id="line.604"></span>
+<span class="source-line-no">605</span><span id="line.605">    /**</span>
+<span class="source-line-no">606</span><span id="line.606">     * Allows changing Hue/Saturation/Lightness/Contrast, with hue as a rotation. Expects the vertex shader to be</span>
+<span class="source-line-no">607</span><span id="line.607">     * {@link #vertexShaderHSLC}, which sets {@code varying float v_lightFix} so contrast can use it.</span>
+<span class="source-line-no">608</span><span id="line.608">     * &lt;br&gt;</span>
+<span class="source-line-no">609</span><span id="line.609">     * Credit for HLSL version goes to Andrey-Postelzhuk,</span>
+<span class="source-line-no">610</span><span id="line.610">     * &lt;a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/"&gt;Unity Forums&lt;/a&gt;.</span>
+<span class="source-line-no">611</span><span id="line.611">     * The YCC adaptation, and different approach to contrast (this has close to neutral contrast when a is 0.5,</span>
+<span class="source-line-no">612</span><span id="line.612">     * while the original had a fair bit higher contrast than expected), is from this codebase.</span>
+<span class="source-line-no">613</span><span id="line.613">     */</span>
+<span class="source-line-no">614</span><span id="line.614">    public static final String fragmentShaderHSLC = </span>
+<span class="source-line-no">615</span><span id="line.615">                    "#ifdef GL_ES\n" +</span>
+<span class="source-line-no">616</span><span id="line.616">                    "#define LOWP lowp\n" +</span>
+<span class="source-line-no">617</span><span id="line.617">                    "precision mediump float;\n" +</span>
+<span class="source-line-no">618</span><span id="line.618">                    "#else\n" +</span>
+<span class="source-line-no">619</span><span id="line.619">                    "#define LOWP \n" +</span>
+<span class="source-line-no">620</span><span id="line.620">                    "#endif\n" +</span>
+<span class="source-line-no">621</span><span id="line.621">                    "varying vec2 v_texCoords;\n" +</span>
+<span class="source-line-no">622</span><span id="line.622">                    "varying float v_lightFix;\n" +</span>
+<span class="source-line-no">623</span><span id="line.623">                    "varying LOWP vec4 v_color;\n" +</span>
+<span class="source-line-no">624</span><span id="line.624">                    "uniform sampler2D u_texture;\n" +</span>
+<span class="source-line-no">625</span><span id="line.625">                    "vec3 applyHue(vec3 rgb, float hue)\n" +</span>
+<span class="source-line-no">626</span><span id="line.626">                    "{\n" +</span>
+<span class="source-line-no">627</span><span id="line.627">                    "    vec3 k = vec3(0.57735);\n" +</span>
+<span class="source-line-no">628</span><span id="line.628">                    "    float c = cos(hue);\n" +</span>
+<span class="source-line-no">629</span><span id="line.629">                    "    //Rodrigues' rotation formula\n" +</span>
+<span class="source-line-no">630</span><span id="line.630">                    "    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n" +</span>
+<span class="source-line-no">631</span><span id="line.631">                    "}\n" +</span>
+<span class="source-line-no">632</span><span id="line.632">                    "void main()\n" +</span>
+<span class="source-line-no">633</span><span id="line.633">                    "{\n" +</span>
+<span class="source-line-no">634</span><span id="line.634">                    "    float hue = 6.2831853 * (v_color.x - 0.5);\n" +</span>
+<span class="source-line-no">635</span><span id="line.635">                    "    float saturation = v_color.y * 2.0;\n" +</span>
+<span class="source-line-no">636</span><span id="line.636">                    "    float brightness = v_color.z - 0.5;\n" +</span>
+<span class="source-line-no">637</span><span id="line.637">                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
+<span class="source-line-no">638</span><span id="line.638">                    "    tgt.rgb = applyHue(tgt.rgb, hue);\n" +</span>
+<span class="source-line-no">639</span><span id="line.639">                    "    tgt.rgb = vec3(\n" +</span>
+<span class="source-line-no">640</span><span id="line.640">                    "     (0.5 * pow(dot(tgt.rgb, vec3(0.375, 0.5, 0.125)), v_color.w) * v_lightFix + brightness),\n" + // lightness</span>
+<span class="source-line-no">641</span><span id="line.641">                    "     ((tgt.r - tgt.b) * saturation),\n" + // warmth</span>
+<span class="source-line-no">642</span><span id="line.642">                    "     ((tgt.g - tgt.b) * saturation));\n" + // mildness</span>
+<span class="source-line-no">643</span><span id="line.643">                    "    gl_FragColor = clamp(vec4(\n" +</span>
+<span class="source-line-no">644</span><span id="line.644">                    "     dot(tgt.rgb, vec3(1.0, 0.625, -0.5)),\n" + // back to red</span>
+<span class="source-line-no">645</span><span id="line.645">                    "     dot(tgt.rgb, vec3(1.0, -0.375, 0.5)),\n" + // back to green</span>
+<span class="source-line-no">646</span><span id="line.646">                    "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue</span>
+<span class="source-line-no">647</span><span id="line.647">                    "     tgt.a), 0.0, 1.0);\n" + // keep alpha, then clamp</span>
+<span class="source-line-no">648</span><span id="line.648">                    "}";</span>
+<span class="source-line-no">649</span><span id="line.649">    /**</span>
+<span class="source-line-no">650</span><span id="line.650">     * Allows changing Hue/Saturation/Lightness/Alpha, with hue as a rotation. Expects the vertex shader to be</span>
+<span class="source-line-no">651</span><span id="line.651">     * {@link #vertexShader}, unlike what {@link #fragmentShaderHSLC} expects.</span>
+<span class="source-line-no">652</span><span id="line.652">     * &lt;br&gt;</span>
+<span class="source-line-no">653</span><span id="line.653">     * Credit for HLSL version goes to Andrey-Postelzhuk,</span>
+<span class="source-line-no">654</span><span id="line.654">     * &lt;a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/"&gt;Unity Forums&lt;/a&gt;.</span>
+<span class="source-line-no">655</span><span id="line.655">     * The YCC adaptation, and change to use alpha, is from this codebase.</span>
+<span class="source-line-no">656</span><span id="line.656">     */</span>
+<span class="source-line-no">657</span><span id="line.657">    public static final String fragmentShaderHSLA = </span>
+<span class="source-line-no">658</span><span id="line.658">                    "#ifdef GL_ES\n" +</span>
+<span class="source-line-no">659</span><span id="line.659">                    "#define LOWP lowp\n" +</span>
+<span class="source-line-no">660</span><span id="line.660">                    "precision mediump float;\n" +</span>
+<span class="source-line-no">661</span><span id="line.661">                    "#else\n" +</span>
+<span class="source-line-no">662</span><span id="line.662">                    "#define LOWP \n" +</span>
+<span class="source-line-no">663</span><span id="line.663">                    "#endif\n" +</span>
+<span class="source-line-no">664</span><span id="line.664">                    "varying vec2 v_texCoords;\n" +</span>
+<span class="source-line-no">665</span><span id="line.665">                    "varying LOWP vec4 v_color;\n" +</span>
+<span class="source-line-no">666</span><span id="line.666">                    "uniform sampler2D u_texture;\n" +</span>
+<span class="source-line-no">667</span><span id="line.667">                    "vec3 applyHue(vec3 rgb, float hue)\n" +</span>
+<span class="source-line-no">668</span><span id="line.668">                    "{\n" +</span>
+<span class="source-line-no">669</span><span id="line.669">                    "    vec3 k = vec3(0.57735);\n" +</span>
+<span class="source-line-no">670</span><span id="line.670">                    "    float c = cos(hue);\n" +</span>
+<span class="source-line-no">671</span><span id="line.671">                    "    //Rodrigues' rotation formula\n" +</span>
+<span class="source-line-no">672</span><span id="line.672">                    "    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n" +</span>
+<span class="source-line-no">673</span><span id="line.673">                    "}\n" +</span>
+<span class="source-line-no">674</span><span id="line.674">                    "void main()\n" +</span>
+<span class="source-line-no">675</span><span id="line.675">                    "{\n" +</span>
+<span class="source-line-no">676</span><span id="line.676">                    "    float hue = 6.2831853 * (v_color.x - 0.5);\n" +</span>
+<span class="source-line-no">677</span><span id="line.677">                    "    float saturation = v_color.y * 2.0;\n" +</span>
+<span class="source-line-no">678</span><span id="line.678">                    "    float brightness = v_color.z - 0.5;\n" +</span>
+<span class="source-line-no">679</span><span id="line.679">                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
+<span class="source-line-no">680</span><span id="line.680">                    "    tgt.rgb = applyHue(tgt.rgb, hue);\n" +</span>
+<span class="source-line-no">681</span><span id="line.681">                    "    tgt.rgb = vec3(\n" +</span>
+<span class="source-line-no">682</span><span id="line.682">                    "     (dot(tgt.rgb, vec3(0.375, 0.5, 0.125)) + brightness),\n" + // lightness</span>
+<span class="source-line-no">683</span><span id="line.683">                    "     ((tgt.r - tgt.b) * saturation),\n" + // warmth</span>
+<span class="source-line-no">684</span><span id="line.684">                    "     ((tgt.g - tgt.b) * saturation));\n" + // mildness</span>
+<span class="source-line-no">685</span><span id="line.685">                    "    gl_FragColor = clamp(vec4(\n" +</span>
+<span class="source-line-no">686</span><span id="line.686">                    "     dot(tgt.rgb, vec3(1.0, 0.625, -0.5)),\n" + // back to red</span>
+<span class="source-line-no">687</span><span id="line.687">                    "     dot(tgt.rgb, vec3(1.0, -0.375, 0.5)),\n" + // back to green</span>
+<span class="source-line-no">688</span><span id="line.688">                    "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue</span>
+<span class="source-line-no">689</span><span id="line.689">                    "     tgt.a * v_color.w), 0.0, 1.0);\n" + // keep alpha, then clamp</span>
+<span class="source-line-no">690</span><span id="line.690">                    "}";</span>
+<span class="source-line-no">691</span><span id="line.691">    /**</span>
+<span class="source-line-no">692</span><span id="line.692">     * GLSL: Takes an RGB vec3 and a float that represents a hue rotation in radians, and returns the rotated RGB vec3.</span>
+<span class="source-line-no">693</span><span id="line.693">     * Credit for this challenging method goes to Andrey-Postelzhuk,</span>
+<span class="source-line-no">694</span><span id="line.694">     * &lt;a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/"&gt;Unity Forums&lt;/a&gt;.</span>
+<span class="source-line-no">695</span><span id="line.695">     */</span>
+<span class="source-line-no">696</span><span id="line.696">    public static final String hueRodrigues =</span>
+<span class="source-line-no">697</span><span id="line.697">            "vec3 applyHue(vec3 rgb, float hue)\n" +</span>
+<span class="source-line-no">698</span><span id="line.698">            "{\n" +</span>
+<span class="source-line-no">699</span><span id="line.699">            "    vec3 k = vec3(0.57735);\n" +</span>
+<span class="source-line-no">700</span><span id="line.700">            "    float c = cos(hue);\n" +</span>
+<span class="source-line-no">701</span><span id="line.701">            "    //Rodrigues' rotation formula\n" +</span>
+<span class="source-line-no">702</span><span id="line.702">            "    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n" +</span>
+<span class="source-line-no">703</span><span id="line.703">            "}\n";</span>
+<span class="source-line-no">704</span><span id="line.704"></span>
+<span class="source-line-no">705</span><span id="line.705">    /**</span>
+<span class="source-line-no">706</span><span id="line.706">     * Generally a lower-quality hue rotation than {@link #fragmentShaderHSLC}; this is here as a work in progress.</span>
+<span class="source-line-no">707</span><span id="line.707">     * Expects the vertex shader to be {@link #vertexShaderHSLC}, which sets {@code varying float v_lightFix} so</span>
+<span class="source-line-no">708</span><span id="line.708">     * contrast can use it.</span>
+<span class="source-line-no">709</span><span id="line.709">     */</span>
+<span class="source-line-no">710</span><span id="line.710">    public static final String fragmentShaderHSLC2 = </span>
+<span class="source-line-no">711</span><span id="line.711">                    "#ifdef GL_ES\n" +</span>
+<span class="source-line-no">712</span><span id="line.712">                    "#define LOWP lowp\n" +</span>
+<span class="source-line-no">713</span><span id="line.713">                    "precision mediump float;\n" +</span>
+<span class="source-line-no">714</span><span id="line.714">                    "#else\n" +</span>
+<span class="source-line-no">715</span><span id="line.715">                    "#define LOWP \n" +</span>
+<span class="source-line-no">716</span><span id="line.716">                    "#endif\n" +</span>
+<span class="source-line-no">717</span><span id="line.717">                    "varying vec2 v_texCoords;\n" +</span>
+<span class="source-line-no">718</span><span id="line.718">                    "varying float v_lightFix;\n" +</span>
+<span class="source-line-no">719</span><span id="line.719">                    "varying LOWP vec4 v_color;\n" +</span>
+<span class="source-line-no">720</span><span id="line.720">                    "uniform sampler2D u_texture;\n" +</span>
+<span class="source-line-no">721</span><span id="line.721">                            partialCodeHSL +</span>
+<span class="source-line-no">722</span><span id="line.722">                    "void main()\n" +</span>
+<span class="source-line-no">723</span><span id="line.723">                    "{\n" +</span>
+<span class="source-line-no">724</span><span id="line.724">                    "    float hue = (v_color.x - 0.5);\n" +</span>
+<span class="source-line-no">725</span><span id="line.725">                    "    float saturation = v_color.y * 2.0;\n" +</span>
+<span class="source-line-no">726</span><span id="line.726">                    "    float brightness = v_color.z - 0.5;\n" +</span>
+<span class="source-line-no">727</span><span id="line.727">                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
+<span class="source-line-no">728</span><span id="line.728">                    "    tgt = rgb2hsl(tgt);\n" +</span>
+<span class="source-line-no">729</span><span id="line.729">                    "    tgt.r = fract(tgt.r + hue);\n" +</span>
+<span class="source-line-no">730</span><span id="line.730">                    "    tgt = hsl2rgb(tgt);\n" +</span>
+<span class="source-line-no">731</span><span id="line.731">                    "    tgt.rgb = vec3(\n" +</span>
+<span class="source-line-no">732</span><span id="line.732">                    "     (0.5 * pow(dot(tgt.rgb, vec3(0.375, 0.5, 0.125)), v_color.w) * v_lightFix + brightness),\n" + // lightness</span>
+<span class="source-line-no">733</span><span id="line.733">                    "     ((tgt.r - tgt.b) * saturation),\n" + // warmth</span>
+<span class="source-line-no">734</span><span id="line.734">                    "     ((tgt.g - tgt.b) * saturation));\n" + // mildness</span>
+<span class="source-line-no">735</span><span id="line.735">                    "    gl_FragColor = clamp(vec4(\n" +</span>
+<span class="source-line-no">736</span><span id="line.736">                    "     dot(tgt.rgb, vec3(1.0, 0.625, -0.5)),\n" + // back to red</span>
+<span class="source-line-no">737</span><span id="line.737">                    "     dot(tgt.rgb, vec3(1.0, -0.375, 0.5)),\n" + // back to green</span>
+<span class="source-line-no">738</span><span id="line.738">                    "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue</span>
+<span class="source-line-no">739</span><span id="line.739">                    "     tgt.a), 0.0, 1.0);\n" + // keep alpha, then clamp</span>
+<span class="source-line-no">740</span><span id="line.740">                    "}";</span>
+<span class="source-line-no">741</span><span id="line.741">    /**</span>
+<span class="source-line-no">742</span><span id="line.742">     * Cycles lightness in a psychedelic way as hue and lightness change; not a general-purpose usage.</span>
+<span class="source-line-no">743</span><span id="line.743">     * Expects the vertex shader to be {@link #vertexShaderHSLC}, which sets {@code varying float v_lightFix} so</span>
+<span class="source-line-no">744</span><span id="line.744">     * contrast can use it.</span>
+<span class="source-line-no">745</span><span id="line.745">     */</span>
+<span class="source-line-no">746</span><span id="line.746">    public static final String fragmentShaderHSLC3 =</span>
+<span class="source-line-no">747</span><span id="line.747">            "#ifdef GL_ES\n" +</span>
+<span class="source-line-no">748</span><span id="line.748">                    "#define LOWP lowp\n" +</span>
+<span class="source-line-no">749</span><span id="line.749">                    "precision mediump float;\n" +</span>
+<span class="source-line-no">750</span><span id="line.750">                    "#else\n" +</span>
+<span class="source-line-no">751</span><span id="line.751">                    "#define LOWP \n" +</span>
+<span class="source-line-no">752</span><span id="line.752">                    "#endif\n" +</span>
+<span class="source-line-no">753</span><span id="line.753">                    "varying vec2 v_texCoords;\n" +</span>
+<span class="source-line-no">754</span><span id="line.754">                    "varying float v_lightFix;\n" +</span>
+<span class="source-line-no">755</span><span id="line.755">                    "varying LOWP vec4 v_color;\n" +</span>
+<span class="source-line-no">756</span><span id="line.756">                    "uniform sampler2D u_texture;\n" +</span>
+<span class="source-line-no">757</span><span id="line.757">                    "vec3 applyHue(vec3 rgb, float hue)\n" +</span>
+<span class="source-line-no">758</span><span id="line.758">                    "{\n" +</span>
+<span class="source-line-no">759</span><span id="line.759">                    "    vec3 k = vec3(0.57735);\n" +</span>
+<span class="source-line-no">760</span><span id="line.760">                    "    float c = cos(hue);\n" +</span>
+<span class="source-line-no">761</span><span id="line.761">                    "    //Rodrigues' rotation formula\n" +</span>
+<span class="source-line-no">762</span><span id="line.762">                    "    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n" +</span>
+<span class="source-line-no">763</span><span id="line.763">                    "}\n" +</span>
+<span class="source-line-no">764</span><span id="line.764">                    "void main()\n" +</span>
+<span class="source-line-no">765</span><span id="line.765">                    "{\n" +</span>
+<span class="source-line-no">766</span><span id="line.766">                    "    float hue = 6.2831853 * (v_color.x - 0.5);\n" +</span>
+<span class="source-line-no">767</span><span id="line.767">                    "    float saturation = v_color.y * 2.0;\n" +</span>
+<span class="source-line-no">768</span><span id="line.768">                    "    float brightness = v_color.z - 0.5;\n" +</span>
+<span class="source-line-no">769</span><span id="line.769">                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
+<span class="source-line-no">770</span><span id="line.770">                    "    tgt.rgb = applyHue(tgt.rgb, hue);\n" +</span>
+<span class="source-line-no">771</span><span id="line.771">                    "    tgt.rgb = vec3(\n" +</span>
+<span class="source-line-no">772</span><span id="line.772">                    "     (0.5 * pow(dot(tgt.rgb, vec3(0.375, 0.5, 0.125)), v_color.w) * v_lightFix),\n" + // lightness</span>
+<span class="source-line-no">773</span><span id="line.773">                    "     ((tgt.r - tgt.b) * saturation),\n" + // warmth</span>
+<span class="source-line-no">774</span><span id="line.774">                    "     ((tgt.g - tgt.b) * saturation));\n" + // mildness</span>
+<span class="source-line-no">775</span><span id="line.775">                    "    tgt.r = sin((tgt.r + brightness) * 6.2831853) * 0.5 + 0.5;\n" +</span>
+<span class="source-line-no">776</span><span id="line.776">                    "    gl_FragColor = clamp(vec4(\n" +</span>
+<span class="source-line-no">777</span><span id="line.777">                    "     dot(tgt.rgb, vec3(1.0, 0.625, -0.5)),\n" + // back to red</span>
+<span class="source-line-no">778</span><span id="line.778">                    "     dot(tgt.rgb, vec3(1.0, -0.375, 0.5)),\n" + // back to green</span>
+<span class="source-line-no">779</span><span id="line.779">                    "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue</span>
+<span class="source-line-no">780</span><span id="line.780">                    "     tgt.a), 0.0, 1.0);\n" + // keep alpha, then clamp</span>
+<span class="source-line-no">781</span><span id="line.781">                    "}";</span>
+<span class="source-line-no">782</span><span id="line.782">    /**</span>
+<span class="source-line-no">783</span><span id="line.783">     * Cycles hue, but not lightness; otherwise this is like {@link #fragmentShaderHSLC3} without contrast, and keeping</span>
+<span class="source-line-no">784</span><span id="line.784">     * alpha intact.</span>
+<span class="source-line-no">785</span><span id="line.785">     * Internally, this uses Sam Hocevar's RGB/HSL conversion instead of Andrey-Postelzhuk's HSLC code.</span>
+<span class="source-line-no">786</span><span id="line.786">     * Expects the vertex shader to be {@link #vertexShader}, not the HSLC variant.</span>
+<span class="source-line-no">787</span><span id="line.787">     */</span>
+<span class="source-line-no">788</span><span id="line.788">    public static final String fragmentShaderHSLPsychedelic =</span>
+<span class="source-line-no">789</span><span id="line.789">            "#ifdef GL_ES\n" +</span>
+<span class="source-line-no">790</span><span id="line.790">                    "#define LOWP lowp\n" +</span>
+<span class="source-line-no">791</span><span id="line.791">                    "precision mediump float;\n" +</span>
+<span class="source-line-no">792</span><span id="line.792">                    "#else\n" +</span>
+<span class="source-line-no">793</span><span id="line.793">                    "#define LOWP \n" +</span>
+<span class="source-line-no">794</span><span id="line.794">                    "#endif\n" +</span>
+<span class="source-line-no">795</span><span id="line.795">                    "varying vec2 v_texCoords;\n" +</span>
+<span class="source-line-no">796</span><span id="line.796">                    "varying LOWP vec4 v_color;\n" +</span>
+<span class="source-line-no">797</span><span id="line.797">                    "uniform sampler2D u_texture;\n" +</span>
+<span class="source-line-no">798</span><span id="line.798">                    partialCodeHSL +</span>
+<span class="source-line-no">799</span><span id="line.799">                    "void main()\n" +</span>
+<span class="source-line-no">800</span><span id="line.800">                    "{\n" +</span>
+<span class="source-line-no">801</span><span id="line.801">                    "    float hue = v_color.x - 0.5;\n" +</span>
+<span class="source-line-no">802</span><span id="line.802">                    "    float saturation = v_color.y * 2.0;\n" +</span>
+<span class="source-line-no">803</span><span id="line.803">                    "    float brightness = v_color.z - 0.5;\n" +</span>
+<span class="source-line-no">804</span><span id="line.804">                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
+<span class="source-line-no">805</span><span id="line.805">                    "    tgt = rgb2hsl(tgt);\n" +</span>
+<span class="source-line-no">806</span><span id="line.806">                    "    tgt.x = fract(tgt.x + hue);\n" +</span>
+<span class="source-line-no">807</span><span id="line.807">                    "    tgt.y = clamp(tgt.y * saturation, 0.0, 1.0);\n" +</span>
+<span class="source-line-no">808</span><span id="line.808">                    "    tgt.z = clamp(brightness + tgt.z, 0.0, 1.0);\n" +</span>
+<span class="source-line-no">809</span><span id="line.809">                    "    gl_FragColor = hsl2rgb(tgt);\n" +</span>
+<span class="source-line-no">810</span><span id="line.810">                    "}";</span>
+<span class="source-line-no">811</span><span id="line.811"></span>
+<span class="source-line-no">812</span><span id="line.812">    /**</span>
+<span class="source-line-no">813</span><span id="line.813">     * One of the more useful HSL shaders here, this takes a batch color as hue, saturation, lightness, and power,</span>
+<span class="source-line-no">814</span><span id="line.814">     * with hue as a target hue and power used to determine how much of the target color should be used. There is no</span>
+<span class="source-line-no">815</span><span id="line.815">     * neutral value for hue, saturation, or lightness, but if power is 0, then the source color will be used</span>
+<span class="source-line-no">816</span><span id="line.816">     * exactly. On the other hand, if power is 1.0, then all pixels will be the target color. Hue is specified from</span>
+<span class="source-line-no">817</span><span id="line.817">     * 0.0 to 1.0, with 0.0 as red, about 0.3 as green, about 0.6 as blue, etc. Saturation is specified from 0.0 to 1.0,</span>
+<span class="source-line-no">818</span><span id="line.818">     * with 0.0 as grayscale and 1.0 as a fully-saturated target color. Lightness is specified from 0.0 to 1.0, with 0.0</span>
+<span class="source-line-no">819</span><span id="line.819">     * as black, the 0.3 to 0.7 range as most colors, and 1.0 white; saturation is clamped to a smaller value as</span>
+<span class="source-line-no">820</span><span id="line.820">     * lightness moves away from 0.5 (toward black or white).</span>
+<span class="source-line-no">821</span><span id="line.821">     */</span>
+<span class="source-line-no">822</span><span id="line.822">    public static final String fragmentShaderHSLP =</span>
+<span class="source-line-no">823</span><span id="line.823">            "#ifdef GL_ES\n" +</span>
+<span class="source-line-no">824</span><span id="line.824">                    "#define LOWP lowp\n" +</span>
+<span class="source-line-no">825</span><span id="line.825">                    "precision mediump float;\n" +</span>
+<span class="source-line-no">826</span><span id="line.826">                    "#else\n" +</span>
+<span class="source-line-no">827</span><span id="line.827">                    "#define LOWP \n" +</span>
+<span class="source-line-no">828</span><span id="line.828">                    "#endif\n" +</span>
+<span class="source-line-no">829</span><span id="line.829">                    "varying vec2 v_texCoords;\n" +</span>
+<span class="source-line-no">830</span><span id="line.830">                    "varying LOWP vec4 v_color;\n" +</span>
+<span class="source-line-no">831</span><span id="line.831">                    "uniform sampler2D u_texture;\n" +</span>
+<span class="source-line-no">832</span><span id="line.832">                    partialCodeHSL +</span>
+<span class="source-line-no">833</span><span id="line.833">                    "void main()\n" +</span>
+<span class="source-line-no">834</span><span id="line.834">                    "{\n" +</span>
+<span class="source-line-no">835</span><span id="line.835">                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
+<span class="source-line-no">836</span><span id="line.836">                    "   vec4 hsl = rgb2hsl(tgt);\n" +</span>
+<span class="source-line-no">837</span><span id="line.837">                    "   hsl.xy = vec2(cos(hsl.x * 6.2831853), sin(hsl.x * 6.2831853)) * hsl.y;\n" +</span>
+<span class="source-line-no">838</span><span id="line.838">                    "   vec3 tint = vec3(cos(v_color.x * 6.2831853) * v_color.y, sin(v_color.x * 6.2831853) * v_color.y, v_color.z);\n" +</span>
+<span class="source-line-no">839</span><span id="line.839">                    "   hsl.xyz = mix(hsl.xyz, tint, v_color.w);\n" +</span>
+<span class="source-line-no">840</span><span id="line.840">                    "   hsl.xy = vec2(fract(atan(hsl.y, hsl.x) / 6.2831853), length(hsl.xy));\n" +</span>
+<span class="source-line-no">841</span><span id="line.841">                    "   gl_FragColor = hsl2rgb(hsl);\n" +</span>
+<span class="source-line-no">842</span><span id="line.842">                    "}";</span>
+<span class="source-line-no">843</span><span id="line.843">    </span>
+<span class="source-line-no">844</span><span id="line.844">    public static final String fragmentShaderReplacement = </span>
+<span class="source-line-no">845</span><span id="line.845">                    "#ifdef GL_ES\n" +</span>
+<span class="source-line-no">846</span><span id="line.846">                    "#define LOWP lowp\n" +</span>
+<span class="source-line-no">847</span><span id="line.847">                    "precision mediump float;\n" +</span>
+<span class="source-line-no">848</span><span id="line.848">                    "#else\n" +</span>
+<span class="source-line-no">849</span><span id="line.849">                    "#define LOWP \n" +</span>
+<span class="source-line-no">850</span><span id="line.850">                    "#endif\n" +</span>
+<span class="source-line-no">851</span><span id="line.851">                    "varying vec2 v_texCoords;\n" +</span>
+<span class="source-line-no">852</span><span id="line.852">                    "varying LOWP vec4 v_color;\n" +</span>
+<span class="source-line-no">853</span><span id="line.853">                    "uniform sampler2D u_texture;\n" +</span>
+<span class="source-line-no">854</span><span id="line.854">                    "uniform vec4 u_search;\n" +</span>
+<span class="source-line-no">855</span><span id="line.855">                    "uniform vec4 u_replace;\n" +</span>
+<span class="source-line-no">856</span><span id="line.856">                    "void main()\n" +</span>
+<span class="source-line-no">857</span><span id="line.857">                    "{\n" +</span>
+<span class="source-line-no">858</span><span id="line.858">                    "   vec4 tgt = texture2D(u_texture, v_texCoords);\n" +</span>
+<span class="source-line-no">859</span><span id="line.859">                    "   float curve = smoothstep(0.0, 1.0, 1.25 - distance(tgt.rgb, u_search.rgb) * 2.0);\n" +</span>
+<span class="source-line-no">860</span><span id="line.860">                    "   gl_FragColor = vec4(mix(tgt.rgb, u_replace.rgb, curve), tgt.a) * v_color;\n" +</span>
+<span class="source-line-no">861</span><span id="line.861">                    "}";</span>
+<span class="source-line-no">862</span><span id="line.862">    /**</span>
+<span class="source-line-no">863</span><span id="line.863">     * A drop-in replacement for the default fragment shader that eliminates lightness differences in the output colors.</span>
+<span class="source-line-no">864</span><span id="line.864">     * Specifically, it does the normal SpriteBatch shader's step with the multiplicative batch color, converts to IPT,</span>
+<span class="source-line-no">865</span><span id="line.865">     * sets intensity to 0.5, shrinks the P and T components so the color is less saturated, and then converts back to</span>
+<span class="source-line-no">866</span><span id="line.866">     * an RGBA color. Editing this shader is strongly encouraged to fit your needs!</span>
+<span class="source-line-no">867</span><span id="line.867">     * &lt;br&gt;</span>
+<span class="source-line-no">868</span><span id="line.868">     * This uses {@link #vertexShader}, as usual.</span>
+<span class="source-line-no">869</span><span id="line.869">     * @see #fragmentShaderConfigurableContrast a per-sprite-configurable version of this</span>
+<span class="source-line-no">870</span><span id="line.870">     */</span>
+<span class="source-line-no">871</span><span id="line.871">    public static String fragmentShaderFlatLightness =</span>
+<span class="source-line-no">872</span><span id="line.872">  "#ifdef GL_ES\n" +</span>
+<span class="source-line-no">873</span><span id="line.873">  "#define LOWP lowp\n" +</span>
+<span class="source-line-no">874</span><span id="line.874">  "precision mediump float;\n" +</span>
+<span class="source-line-no">875</span><span id="line.875">  "#else\n" +</span>
+<span class="source-line-no">876</span><span id="line.876">  "#define LOWP \n" +</span>
+<span class="source-line-no">877</span><span id="line.877">  "#endif\n" +</span>
+<span class="source-line-no">878</span><span id="line.878">  "#define TARGET_LIGHTNESS 0.5 \n" +</span>
+<span class="source-line-no">879</span><span id="line.879">  "#define SATURATION_CHANGE 1.0 \n" +</span>
+<span class="source-line-no">880</span><span id="line.880">  "varying vec2 v_texCoords;\n" +</span>
+<span class="source-line-no">881</span><span id="line.881">  "varying LOWP vec4 v_color;\n" +</span>
+<span class="source-line-no">882</span><span id="line.882">  "uniform sampler2D u_texture;\n" +</span>
+<span class="source-line-no">883</span><span id="line.883">  "void main()\n" +</span>
+<span class="source-line-no">884</span><span id="line.884">  "{\n" +</span>
+<span class="source-line-no">885</span><span id="line.885">  "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
+<span class="source-line-no">886</span><span id="line.886">  "    vec3 ipt = (mat3(0.189786, 0.669665 , 0.286498, 0.576951, -0.73741 , 0.655205, 0.233221, 0.0681367, -0.941748)\n" +</span>
+<span class="source-line-no">887</span><span id="line.887">  "         * (tgt.rgb * v_color.rgb));\n" +</span>
+<span class="source-line-no">888</span><span id="line.888">  "    ipt.x = TARGET_LIGHTNESS;\n" + // change to desired lightness or pass in a lightness as a uniform</span>
+<span class="source-line-no">889</span><span id="line.889">  "//    ipt.x = (ipt.x - 0.5) * 0.25 + TARGET_LIGHTNESS;\n" + // an alternative way that preserves a tiny bit of original lightness</span>
+<span class="source-line-no">890</span><span id="line.890">  "    ipt.yz *= SATURATION_CHANGE;\n" + // multiplies saturation by SATURATION_CHANGE, which may be more or less than 1.0</span>
+<span class="source-line-no">891</span><span id="line.891">  "    vec3 back = clamp(mat3(0.999779, 1.00015, 0.999769, 1.07094, -0.377744, 0.0629496, 0.324891, 0.220439, -0.809638) * ipt, 0.0, 1.0);\n" +</span>
+<span class="source-line-no">892</span><span id="line.892">  "    gl_FragColor = vec4(back, v_color.a * tgt.a);\n" +</span>
+<span class="source-line-no">893</span><span id="line.893">  "}";</span>
+<span class="source-line-no">894</span><span id="line.894">    /**</span>
+<span class="source-line-no">895</span><span id="line.895">     * A specialized shader that can reduce lightness differences in the output colors, saturate/desaturate them, and</span>
+<span class="source-line-no">896</span><span id="line.896">     * can be configured to use some of the existing lightness in the image to add to a main flat lightness.</span>
+<span class="source-line-no">897</span><span id="line.897">     * Specifically, it takes the fragment color (typically a pixel in a texture), converts to IPT, does a calculation</span>
+<span class="source-line-no">898</span><span id="line.898">     * involving the intensity of the fragment color where the batch color's blue channel affects how much that</span>
+<span class="source-line-no">899</span><span id="line.899">     * intensity is used, adds the red channel of the batch color, multiplies the P and T components by the green</span>
+<span class="source-line-no">900</span><span id="line.900">     * channel times 2.0 to saturate or desaturate, and then converts back to an RGBA color. The neutral value for this</span>
+<span class="source-line-no">901</span><span id="line.901">     * is the RGBA color 0.5, 0.5, 1.0, 1.0 . A typical usage to achieve a fog effect would be to raise lightness (r),</span>
+<span class="source-line-no">902</span><span id="line.902">     * slightly reduce saturation (g), sharply flatten the original texture's lightness (b), and leave alpha alone (a):</span>
+<span class="source-line-no">903</span><span id="line.903">     * 0.7, 0.4, 0.2, 1.0 .</span>
+<span class="source-line-no">904</span><span id="line.904">     * &lt;br&gt;</span>
+<span class="source-line-no">905</span><span id="line.905">     * This uses {@link #vertexShader}, as usual.</span>
+<span class="source-line-no">906</span><span id="line.906">     * @see #fragmentShaderFlatLightness if you only need one contrast setting and still want to set color tints</span>
+<span class="source-line-no">907</span><span id="line.907">     */</span>
+<span class="source-line-no">908</span><span id="line.908">    public static String fragmentShaderConfigurableContrast =</span>
+<span class="source-line-no">909</span><span id="line.909">            "#ifdef GL_ES\n" +</span>
+<span class="source-line-no">910</span><span id="line.910">                    "#define LOWP lowp\n" +</span>
+<span class="source-line-no">911</span><span id="line.911">                    "precision mediump float;\n" +</span>
+<span class="source-line-no">912</span><span id="line.912">                    "#else\n" +</span>
+<span class="source-line-no">913</span><span id="line.913">                    "#define LOWP \n" +</span>
+<span class="source-line-no">914</span><span id="line.914">                    "#endif\n" +</span>
+<span class="source-line-no">915</span><span id="line.915">                    "varying vec2 v_texCoords;\n" +</span>
+<span class="source-line-no">916</span><span id="line.916">                    "varying LOWP vec4 v_color;\n" +</span>
+<span class="source-line-no">917</span><span id="line.917">                    "uniform sampler2D u_texture;\n" +</span>
+<span class="source-line-no">918</span><span id="line.918">                    "void main()\n" +</span>
+<span class="source-line-no">919</span><span id="line.919">                    "{\n" +</span>
+<span class="source-line-no">920</span><span id="line.920">                    "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
+<span class="source-line-no">921</span><span id="line.921">                    "    vec3 ipt = (mat3(0.189786, 0.669665 , 0.286498, 0.576951, -0.73741 , 0.655205, 0.233221, 0.0681367, -0.941748)\n" +</span>
+<span class="source-line-no">922</span><span id="line.922">                    "         * tgt.rgb);\n" +</span>
+<span class="source-line-no">923</span><span id="line.923">                    "    ipt.x = (ipt.x - 0.5) * v_color.b + v_color.r;\n" + // preserves some lightness based on b, sets main lightness with r</span>
+<span class="source-line-no">924</span><span id="line.924">                    "    ipt.yz *= v_color.g * 2.0;\n" + // the green channel affects saturation; if it's 0.5 it won't change saturation.</span>
+<span class="source-line-no">925</span><span id="line.925">                    "    vec3 back = clamp(mat3(0.999779, 1.00015, 0.999769, 1.07094, -0.377744, 0.0629496, 0.324891, 0.220439, -0.809638) * ipt, 0.0, 1.0);\n" +</span>
+<span class="source-line-no">926</span><span id="line.926">                    "    gl_FragColor = vec4(back, v_color.a * tgt.a);\n" +</span>
+<span class="source-line-no">927</span><span id="line.927">                    "}";</span>
+<span class="source-line-no">928</span><span id="line.928"></span>
+<span class="source-line-no">929</span><span id="line.929">    /**</span>
+<span class="source-line-no">930</span><span id="line.930">     * A day/night cycle shader that can be used without any other parts of this library. This only needs setting the</span>
+<span class="source-line-no">931</span><span id="line.931">     * uniform {@code u_timeOfDay} to any float; the rate at which you change this float affects how fast the day/night</span>
+<span class="source-line-no">932</span><span id="line.932">     * cycle occurs. This is meant to be used with {@link #fragmentShaderDayNight}. Together, they make the color</span>
+<span class="source-line-no">933</span><span id="line.933">     * adjustment go from bluish and dark at night, to purplish at dawn, to orange/yellow and bright at mid-day, toward</span>
+<span class="source-line-no">934</span><span id="line.934">     * red at dusk, and then back to bluish at night.</span>
+<span class="source-line-no">935</span><span id="line.935">     */</span>
+<span class="source-line-no">936</span><span id="line.936">    public static String vertexShaderDayNight = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"</span>
+<span class="source-line-no">937</span><span id="line.937">            + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"</span>
+<span class="source-line-no">938</span><span id="line.938">            + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"</span>
+<span class="source-line-no">939</span><span id="line.939">            + "uniform mat4 u_projTrans;\n"</span>
+<span class="source-line-no">940</span><span id="line.940">            + "uniform float u_timeOfDay;\n"</span>
+<span class="source-line-no">941</span><span id="line.941">            + "varying vec4 v_color;\n"</span>
+<span class="source-line-no">942</span><span id="line.942">            + "varying vec4 v_tweak;\n"</span>
+<span class="source-line-no">943</span><span id="line.943">            + "varying vec2 v_texCoords;\n"</span>
+<span class="source-line-no">944</span><span id="line.944">            + "varying float v_lightFix;\n"</span>
+<span class="source-line-no">945</span><span id="line.945">            + "const vec3 forward = vec3(1.0 / 3.0);\n"</span>
+<span class="source-line-no">946</span><span id="line.946">            + "\n"</span>
+<span class="source-line-no">947</span><span id="line.947">            + "void main()\n"</span>
+<span class="source-line-no">948</span><span id="line.948">            + "{\n"</span>
+<span class="source-line-no">949</span><span id="line.949">            + "   float st = sin(1.5707963 * sin(0.2617994 * u_timeOfDay));\n"</span>
+<span class="source-line-no">950</span><span id="line.950">            + "   float ct = sin(1.5707963 * cos(0.2617994 * u_timeOfDay));\n"</span>
+<span class="source-line-no">951</span><span id="line.951">            + "   float dd = ct * ct;\n"</span>
+<span class="source-line-no">952</span><span id="line.952">            + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"</span>
+<span class="source-line-no">953</span><span id="line.953">            + "   v_color.w = v_color.w * (255.0/254.0);\n"</span>
+<span class="source-line-no">954</span><span id="line.954">            + "   vec3 oklab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *"</span>
+<span class="source-line-no">955</span><span id="line.955">            + "     pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n"</span>
+<span class="source-line-no">956</span><span id="line.956">            + "     * (v_color.rgb * v_color.rgb), forward);\n"</span>
+<span class="source-line-no">957</span><span id="line.957">            + "   v_color.x = clamp(oklab.x + (0.0625 * st), 0.0, 1.0);\n"</span>
+<span class="source-line-no">958</span><span id="line.958">            + "   v_color.yz = clamp(oklab.yz + vec2(0.0625 * dd + 0.03125 * st, 0.1 * st), -1.0, 1.0) * ((dd + 0.25) * 0.5);\n"</span>
+<span class="source-line-no">959</span><span id="line.959">            + "   v_tweak = vec4(0.2 * st + 0.5);\n"</span>
+<span class="source-line-no">960</span><span id="line.960">            + "   v_tweak.w = pow((1.0 - 0.125 * st), 1.709);\n"</span>
+<span class="source-line-no">961</span><span id="line.961">            + "   v_lightFix = 1.0 + pow(v_tweak.w, 1.41421356);\n"</span>
+<span class="source-line-no">962</span><span id="line.962">            + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"</span>
+<span class="source-line-no">963</span><span id="line.963">            + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"</span>
+<span class="source-line-no">964</span><span id="line.964">            + "}\n";</span>
+<span class="source-line-no">965</span><span id="line.965">    /**</span>
+<span class="source-line-no">966</span><span id="line.966">     * The fragment shader counterpart to {@link #vertexShaderDayNight}; must be used with that vertex shader. See its</span>
+<span class="source-line-no">967</span><span id="line.967">     * docs for more info, particularly about the one uniform this needs set.</span>
+<span class="source-line-no">968</span><span id="line.968">     */</span>
+<span class="source-line-no">969</span><span id="line.969">    public static String fragmentShaderDayNight =</span>
+<span class="source-line-no">970</span><span id="line.970">            "#ifdef GL_ES\n" +</span>
+<span class="source-line-no">971</span><span id="line.971">                    "#define LOWP lowp\n" +</span>
+<span class="source-line-no">972</span><span id="line.972">                    "precision mediump float;\n" +</span>
+<span class="source-line-no">973</span><span id="line.973">                    "#else\n" +</span>
+<span class="source-line-no">974</span><span id="line.974">                    "#define LOWP \n" +</span>
+<span class="source-line-no">975</span><span id="line.975">                    "#endif\n" +</span>
+<span class="source-line-no">976</span><span id="line.976">                    "varying vec2 v_texCoords;\n" +</span>
+<span class="source-line-no">977</span><span id="line.977">                    "varying LOWP vec4 v_color;\n" +</span>
+<span class="source-line-no">978</span><span id="line.978">                    "varying LOWP vec4 v_tweak;\n" +</span>
+<span class="source-line-no">979</span><span id="line.979">                    "varying float v_lightFix;\n" +</span>
+<span class="source-line-no">980</span><span id="line.980">                    "uniform sampler2D u_texture;\n" +</span>
+<span class="source-line-no">981</span><span id="line.981">                    "const vec3 forward = vec3(1.0 / 3.0);\n" +</span>
+<span class="source-line-no">982</span><span id="line.982">                    "void main()\n" +</span>
+<span class="source-line-no">983</span><span id="line.983">                    "{\n" +</span>
+<span class="source-line-no">984</span><span id="line.984">                    "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +</span>
+<span class="source-line-no">985</span><span id="line.985">                    "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +</span>
+<span class="source-line-no">986</span><span id="line.986">                    "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +</span>
+<span class="source-line-no">987</span><span id="line.987">                    "             * (tgt.rgb * tgt.rgb), forward);\n" +</span>
+<span class="source-line-no">988</span><span id="line.988">                    "  lab.x = clamp(pow(lab.x, v_tweak.w) * v_lightFix * v_tweak.x + v_color.x - 1.0, 0.0, 1.0);\n" +</span>
+<span class="source-line-no">989</span><span id="line.989">                    "  lab.yz = clamp((lab.yz * v_tweak.yz + v_color.yz) * 1.5, -1.0, 1.0);\n" +</span>
+<span class="source-line-no">990</span><span id="line.990">                    "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +</span>
+<span class="source-line-no">991</span><span id="line.991">                    "  gl_FragColor = vec4(sqrt(clamp(" +</span>
+<span class="source-line-no">992</span><span id="line.992">                    "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +</span>
+<span class="source-line-no">993</span><span id="line.993">                    "                 (lab * lab * lab)," +</span>
+<span class="source-line-no">994</span><span id="line.994">                    "                 0.0, 1.0)), v_color.a * tgt.a);\n" +</span>
+<span class="source-line-no">995</span><span id="line.995">                    "}";</span>
+<span class="source-line-no">996</span><span id="line.996"></span>
+<span class="source-line-no">997</span><span id="line.997">}</span>
 
 
 

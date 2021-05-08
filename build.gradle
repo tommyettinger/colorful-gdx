@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        mavenLocal()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         gradlePluginPortal()
@@ -29,10 +30,12 @@ group 'com.github.tommyettinger'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 subprojects {
+    apply plugin: 'com.vanniktech.maven.publish'
     version = "$parent.version"
     group = parent.group
     ext.projectName = 'colorful'
     repositories {
+        mavenLocal()
         mavenCentral()
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     }

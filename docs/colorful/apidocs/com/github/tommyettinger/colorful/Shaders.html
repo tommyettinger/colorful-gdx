@@ -434,7 +434,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="fragmentShaderIPT_HQ">
 <h3>fragmentShaderIPT_HQ</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.288">fragmentShaderIPT_HQ</a></span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.290">fragmentShaderIPT_HQ</a></span></div>
 <div class="block">Just like <a href="#fragmentShaderIPT"><code>fragmentShaderIPT</code></a>, but gamma-corrects the input and output RGB values (which improves
  lightness uniformity) and uses an exponential step internally to change how colors are distributed within the
  gamut. These steps are more computationally expensive than the bare-bones ones in <a href="#fragmentShaderIPT"><code>fragmentShaderIPT</code></a>, but
@@ -444,14 +444,14 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="fragmentShaderOklab">
 <h3>fragmentShaderOklab</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.318">fragmentShaderOklab</a></span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.320">fragmentShaderOklab</a></span></div>
 <div class="block">Just like <a href="#fragmentShaderIPT_HQ"><code>fragmentShaderIPT_HQ</code></a>, but uses the Oklab color space instead of the very similar IPT_HQ one.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="vertexShaderHSI">
 <h3>vertexShaderHSI</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.353">vertexShaderHSI</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.355">vertexShaderHSI</a></span></div>
 <div class="block">A vertex shader that does the bulk of processing HSI-format batch colors and converting them to a format
  <a href="#fragmentShaderHSI"><code>fragmentShaderHSI</code></a> can use. Since HSI is only a cylindrical/spherical adaptation of IPT, with identical
  I components and the combination of H and S in polar coordinates mapping to P and T in Cartesian coordinates,
@@ -468,13 +468,13 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="fragmentShaderHSI">
 <h3>fragmentShaderHSI</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.384">fragmentShaderHSI</a></span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.386">fragmentShaderHSI</a></span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="partialCodeHSL">
 <h3>partialCodeHSL</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.389">partialCodeHSL</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.391">partialCodeHSL</a></span></div>
 <div class="block">Credit to Sam Hocevar, https://gamedev.stackexchange.com/a/59808 .</div>
 <dl class="notes">
 <dt>See Also:</dt>
@@ -485,7 +485,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="partialCodeHSLStretched">
 <h3>partialCodeHSLStretched</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.434">partialCodeHSLStretched</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.436">partialCodeHSLStretched</a></span></div>
 <div class="block">Adjusted-hue version of <a href="#partialCodeHSL"><code>partialCodeHSL</code></a>, supplying HSL to-and-from RGB conversions with a smaller range
  of hue used for cyan and a larger range for orange. Not currently used. Credit to Sam Hocevar,
  https://gamedev.stackexchange.com/a/59808 .</div>
@@ -498,7 +498,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="fragmentShaderHSL">
 <h3>fragmentShaderHSL</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.542">fragmentShaderHSL</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.544">fragmentShaderHSL</a></span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd><a href="../../../../constant-values.html#com.github.tommyettinger.colorful.Shaders.fragmentShaderHSL">Constant Field Values</a></dd>
@@ -508,7 +508,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="fragmentShaderRotateHSL">
 <h3>fragmentShaderRotateHSL</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.562">fragmentShaderRotateHSL</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.564">fragmentShaderRotateHSL</a></span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd><a href="../../../../constant-values.html#com.github.tommyettinger.colorful.Shaders.fragmentShaderRotateHSL">Constant Field Values</a></dd>
@@ -518,7 +518,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="vertexShaderHSLC">
 <h3>vertexShaderHSLC</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.586">vertexShaderHSLC</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.588">vertexShaderHSLC</a></span></div>
 <div class="block">This is the default vertex shader from libGDX, but also sets a varying value for contrast. It is needed if you
  use <a href="#fragmentShaderHSLC"><code>fragmentShaderHSLC</code></a>.</div>
 <dl class="notes">
@@ -530,7 +530,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="fragmentShaderHSLC">
 <h3>fragmentShaderHSLC</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.612">fragmentShaderHSLC</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.614">fragmentShaderHSLC</a></span></div>
 <div class="block">Allows changing Hue/Saturation/Lightness/Contrast, with hue as a rotation. Expects the vertex shader to be
  <a href="#vertexShaderHSLC"><code>vertexShaderHSLC</code></a>, which sets <code>varying float v_lightFix</code> so contrast can use it.
  <br>
@@ -547,7 +547,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="fragmentShaderHSLA">
 <h3>fragmentShaderHSLA</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.655">fragmentShaderHSLA</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.657">fragmentShaderHSLA</a></span></div>
 <div class="block">Allows changing Hue/Saturation/Lightness/Alpha, with hue as a rotation. Expects the vertex shader to be
  <a href="#vertexShader"><code>vertexShader</code></a>, unlike what <a href="#fragmentShaderHSLC"><code>fragmentShaderHSLC</code></a> expects.
  <br>
@@ -563,7 +563,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="hueRodrigues">
 <h3>hueRodrigues</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.694">hueRodrigues</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.696">hueRodrigues</a></span></div>
 <div class="block">GLSL: Takes an RGB vec3 and a float that represents a hue rotation in radians, and returns the rotated RGB vec3.
  Credit for this challenging method goes to Andrey-Postelzhuk,
  <a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/">Unity Forums</a>.</div>
@@ -576,7 +576,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="fragmentShaderHSLC2">
 <h3>fragmentShaderHSLC2</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.708">fragmentShaderHSLC2</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.710">fragmentShaderHSLC2</a></span></div>
 <div class="block">Generally a lower-quality hue rotation than <a href="#fragmentShaderHSLC"><code>fragmentShaderHSLC</code></a>; this is here as a work in progress.
  Expects the vertex shader to be <a href="#vertexShaderHSLC"><code>vertexShaderHSLC</code></a>, which sets <code>varying float v_lightFix</code> so
  contrast can use it.</div>
@@ -589,7 +589,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="fragmentShaderHSLC3">
 <h3>fragmentShaderHSLC3</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.744">fragmentShaderHSLC3</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.746">fragmentShaderHSLC3</a></span></div>
 <div class="block">Cycles lightness in a psychedelic way as hue and lightness change; not a general-purpose usage.
  Expects the vertex shader to be <a href="#vertexShaderHSLC"><code>vertexShaderHSLC</code></a>, which sets <code>varying float v_lightFix</code> so
  contrast can use it.</div>
@@ -602,7 +602,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="fragmentShaderHSLPsychedelic">
 <h3>fragmentShaderHSLPsychedelic</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.786">fragmentShaderHSLPsychedelic</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.788">fragmentShaderHSLPsychedelic</a></span></div>
 <div class="block">Cycles hue, but not lightness; otherwise this is like <a href="#fragmentShaderHSLC3"><code>fragmentShaderHSLC3</code></a> without contrast, and keeping
  alpha intact.
  Internally, this uses Sam Hocevar's RGB/HSL conversion instead of Andrey-Postelzhuk's HSLC code.
@@ -616,7 +616,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="fragmentShaderHSLP">
 <h3>fragmentShaderHSLP</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.820">fragmentShaderHSLP</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.822">fragmentShaderHSLP</a></span></div>
 <div class="block">One of the more useful HSL shaders here, this takes a batch color as hue, saturation, lightness, and power,
  with hue as a target hue and power used to determine how much of the target color should be used. There is no
  neutral value for hue, saturation, or lightness, but if power is 0, then the source color will be used
@@ -634,7 +634,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="fragmentShaderReplacement">
 <h3>fragmentShaderReplacement</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.842">fragmentShaderReplacement</a></span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.844">fragmentShaderReplacement</a></span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd><a href="../../../../constant-values.html#com.github.tommyettinger.colorful.Shaders.fragmentShaderReplacement">Constant Field Values</a></dd>
@@ -644,7 +644,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="fragmentShaderFlatLightness">
 <h3>fragmentShaderFlatLightness</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.869">fragmentShaderFlatLightness</a></span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.871">fragmentShaderFlatLightness</a></span></div>
 <div class="block">A drop-in replacement for the default fragment shader that eliminates lightness differences in the output colors.
  Specifically, it does the normal SpriteBatch shader's step with the multiplicative batch color, converts to IPT,
  sets intensity to 0.5, shrinks the P and T components so the color is less saturated, and then converts back to
@@ -660,7 +660,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="fragmentShaderConfigurableContrast">
 <h3>fragmentShaderConfigurableContrast</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.906">fragmentShaderConfigurableContrast</a></span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.908">fragmentShaderConfigurableContrast</a></span></div>
 <div class="block">A specialized shader that can reduce lightness differences in the output colors, saturate/desaturate them, and
  can be configured to use some of the existing lightness in the image to add to a main flat lightness.
  Specifically, it takes the fragment color (typically a pixel in a texture), converts to IPT, does a calculation
@@ -681,7 +681,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="vertexShaderDayNight">
 <h3>vertexShaderDayNight</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.934">vertexShaderDayNight</a></span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.936">vertexShaderDayNight</a></span></div>
 <div class="block">A day/night cycle shader that can be used without any other parts of this library. This only needs setting the
  uniform <code>u_timeOfDay</code> to any float; the rate at which you change this float affects how fast the day/night
  cycle occurs. This is meant to be used with <a href="#fragmentShaderDayNight"><code>fragmentShaderDayNight</code></a>. Together, they make the color
@@ -692,7 +692,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="fragmentShaderDayNight">
 <h3>fragmentShaderDayNight</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.967">fragmentShaderDayNight</a></span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/Shaders.html#line.969">fragmentShaderDayNight</a></span></div>
 <div class="block">The fragment shader counterpart to <a href="#vertexShaderDayNight"><code>vertexShaderDayNight</code></a>; must be used with that vertex shader. See its
  docs for more info, particularly about the one uniform this needs set.</div>
 </section>
