@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -92,9 +93,11 @@ public class DayNightCycleDemo  extends ApplicationAdapter {
 //        load("samples/Among_the_Sierra_Nevada_by_Albert_Bierstadt.jpg");
         load("samples/Dawnlike.png");
 //        load("C:/d/Art/translucent-bubble.png");
+        
+//        stage = new Stage();
     }
 
-
+//    Stage stage;
     @Override
     public void render() {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
@@ -106,14 +109,17 @@ public class DayNightCycleDemo  extends ApplicationAdapter {
             // It is more likely that you would set u_timeOfDay based on an in-game clock, not the actual time.
             // This next line is roughly the same as: (System.currentTimeMillis() % 1048576L) / 256.0f
             // It's just a little faster and more precise. It makes time change in 1/256 increments every millisecond.
-            shaderDN.setUniformf("u_timeOfDay", (System.currentTimeMillis() & 0xFFFFFL) * 0x1p-8f);
             batch.begin();
+            shaderDN.setUniformf("u_timeOfDay", (System.currentTimeMillis() & 0xFFFFFL) * 0x1p-8f);
             batch.draw(screenTexture, 0, 0);
             //// double window width in load() and uncomment the following to show an un-shifted image at right
 //            batch.setShader(defaultShader);
 //            batch.setPackedColor(-0x1.fffffep126f); // packed white
 //            batch.draw(screenTexture, screenTexture.getWidth(), 0);
             batch.end();
+
+//            stage.act();
+//            stage.draw();
         }
 
     }
