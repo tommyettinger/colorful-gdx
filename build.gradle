@@ -17,6 +17,7 @@ configure(subprojects) {
     apply plugin: 'java-library'
     apply plugin: 'eclipse'
     apply plugin: 'idea'
+    apply plugin: 'com.vanniktech.maven.publish'
     compileJava {
         options.incremental = true
     }
@@ -30,7 +31,6 @@ group 'com.github.tommyettinger'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 subprojects {
-    apply plugin: 'com.vanniktech.maven.publish'
     version = "$parent.version"
     group = parent.group
     ext.projectName = 'colorful'
