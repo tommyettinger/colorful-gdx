@@ -14,13 +14,12 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.tommyettinger.colorful.ycwcm.ColorTools;
 import com.github.tommyettinger.colorful.ycwcm.ColorfulBatch;
 import com.github.tommyettinger.colorful.ycwcm.Palette;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class ColorWheelDemo extends ApplicationAdapter {
+public class ColorSolidDemo extends ApplicationAdapter {
     //public static final int backgroundColor = Color.rgba8888(Color.DARK_GRAY);
 //    public static final int SCREEN_WIDTH = 1531;
 //    public static final int SCREEN_HEIGHT = 862;
@@ -37,13 +36,13 @@ public class ColorWheelDemo extends ApplicationAdapter {
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("Color Wheel Demo");
+        config.setTitle("Color Solid Demo");
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.setIdleFPS(10);
         config.useVsync(true);
 //        config.setResizable(false);
 
-        final ColorWheelDemo app = new ColorWheelDemo();
+        final ColorSolidDemo app = new ColorSolidDemo();
         new Lwjgl3Application(app, config);
     }
 
@@ -55,7 +54,6 @@ public class ColorWheelDemo extends ApplicationAdapter {
         blank = new Texture(b);
         font = new BitmapFont(Gdx.files.internal("font.fnt"));
         font.setColor(1f, 0.5f, 0.5f, 1f);
-//        batch = Shaders.makeBatch(1.25f); // experimenting with slightly higher contrast
         batch = new ColorfulBatch();
         String vertexShader = batch.getShader().getVertexShaderSource();
         String fragmentShader =
@@ -75,12 +73,15 @@ public class ColorWheelDemo extends ApplicationAdapter {
                         "{\n" +
                         "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                         "   vec3 ycc = vec3(\n" +
-                        "     (v_tweak.r * pow(dot(tgt.rgb, bright), v_tweak.a) * v_lightFix + v_color.r - 0.5),\n" + // luma
+                        "     (v_color.r - 0.5 + v_tweak.r * pow(dot(tgt.rgb, bright), v_tweak.a) * v_lightFix),\n" + // luma
                         "     (v_color.g - 0.5 + (tgt.r - tgt.b) * v_tweak.g) * 2.0,\n" + // warmth
                         "     (v_color.b - 0.5 + (tgt.g - tgt.b) * v_tweak.b) * 2.0);\n" + // mildness
-                        "   vec3 back = mat3(1.0, 1.0, 1.0, 0.625, -0.375, -0.375, -0.5, 0.5, -0.5) * ycc;\n" + // back to RGB
-                        "   gl_FragColor = clamp(vec4(back.rgb, v_color.a * tgt.a), 0.0, 1.0);\n" + // back to alpha and clamp
-                        "   if(any(notEqual(back, gl_FragColor.rgb))) discard;\n" +
+                        "   gl_FragColor = vec4(\n" +
+                        "     dot(ycc, vec3(1.0, 0.625, -0.5)),\n" + // back to red
+                        "     dot(ycc, vec3(1.0, -0.375, 0.5)),\n" + // back to green
+                        "     dot(ycc, vec3(1.0, -0.375, -0.5)),\n" + // back to blue
+                        "     v_color.a * tgt.a);\n" + // back to alpha and clamp
+                        "   if(any(notEqual(clamp(gl_FragColor.rgb, 0.0, 1.0), gl_FragColor.rgb))) discard;\n" +
                         "}";
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
         if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
@@ -104,16 +105,16 @@ public class ColorWheelDemo extends ApplicationAdapter {
         batch.begin();
         batch.setTweak(luma, warm, mild, contrast);
         batch.draw(blank, 0, 0, 512, 512);
-        final float maxDist = 254f * TrigTools.sin_(layer * 0.5f) + 1f, iMax = 1f / maxDist;
-        //final float circumference = 1605.3539f;//MathUtils.PI * 511f;
-        batch.setPackedColor(ColorTools.ycwcm(layer, 0.5f, 0.5f, 1f));
-        batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
         for (int x = 0; x < 512; x++) {
             for (int y = 0; y < 512; y++) {
                 batch.setColor(layer, x * 0x1p-9f, y * 0x1p-9f, 1f);
                 batch.draw(blank, x, y, 1f, 1f);
             }
         }
+//        final float maxDist = 254f * TrigTools.sin_(layer * 0.5f) + 1f, iMax = 1f / maxDist;
+//        final float circumference = MathUtils.PI * 511f;
+//        batch.setPackedColor(ColorTools.ycwcm(layer, 0.5f, 0.5f, 1f));
+//        batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
 //        for (int dist = 1; dist <= maxDist; dist++) {
 //            final int circ = dist * 6;
 //            final float ic = 1f / circ;
