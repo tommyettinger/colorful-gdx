@@ -11,9 +11,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.tommyettinger.anim8.AnimatedGif;
+import com.github.tommyettinger.anim8.AnimatedPNG;
+import com.github.tommyettinger.anim8.Dithered;
+import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.colorful.ycwcm.ColorfulBatch;
 import com.github.tommyettinger.colorful.ycwcm.Palette;
 
@@ -34,6 +40,10 @@ public class ColorSolidDemo extends ApplicationAdapter {
     private Texture blank;
     private long lastProcessedTime = 0L, startTime;
     private float layer = 0.5f;
+    private boolean recording;
+    private Array<Pixmap> pixmaps;
+    private AnimatedGif gif;
+    private AnimatedPNG png;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -55,6 +65,14 @@ public class ColorSolidDemo extends ApplicationAdapter {
         blank = new Texture(b);
         font = new BitmapFont(Gdx.files.internal("font.fnt"));
         font.setColor(1f, 0.5f, 0.5f, 1f);
+
+        pixmaps = new Array<>(true, 256, Pixmap.class);
+        gif = new AnimatedGif();
+        gif.palette = new PaletteReducer();
+        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN);
+
+        png = new AnimatedPNG();
+
         ycwcmBatch = new ColorfulBatch();
         {
             String vertexShader = ycwcmBatch.getShader().getVertexShaderSource();
@@ -200,15 +218,28 @@ public class ColorSolidDemo extends ApplicationAdapter {
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        recording = true;
+        for (int i = 0; i < 256; i++) {
+            render();
+            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        }
+        gif.write(Gdx.files.local("ColorSolids.gif"), pixmaps, 30);
+        png.write(Gdx.files.local("ColorSolids.png"), pixmaps, 30);
+        recording = false;
     }
 
+    private float layer(){
+        return recording ? pixmaps.size / 255f : TimeUtils.timeSinceMillis(startTime) * 0x1p-13f;
+    }
 
     @Override
     public void render() {
         Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        handleInput();
-        layer = TrigTools.acos_(TrigTools.sin_(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) * 2f;
+        if(!recording)
+            handleInput();
+        layer = TrigTools.acos_(TrigTools.sin_(layer())) * 2f;
         ycwcmBatch.setProjectionMatrix(screenView.getCamera().combined);
         ycwcmBatch.setPackedColor(Palette.GRAY);
         ycwcmBatch.begin();
