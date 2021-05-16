@@ -27,6 +27,7 @@ public class ColorSolidDemo extends ApplicationAdapter {
     public static final int SCREEN_HEIGHT = 512;
     private ColorfulBatch ycwcmBatch;
     private com.github.tommyettinger.colorful.ipt.ColorfulBatch iptBatch;
+    private com.github.tommyettinger.colorful.ipt_hq.ColorfulBatch ipthqBatch;
     private Viewport screenView;
     private BitmapFont font;
     private Texture blank;
@@ -120,6 +121,44 @@ public class ColorSolidDemo extends ApplicationAdapter {
             iptBatch.setShader(shader);
         }
 
+        ipthqBatch = new com.github.tommyettinger.colorful.ipt_hq.ColorfulBatch();
+        {
+            String vertexShader = ipthqBatch.getShader().getVertexShaderSource();
+            String fragmentShader =
+                    "#ifdef GL_ES\n" +
+                            "#define LOWP lowp\n" +
+                            "precision mediump float;\n" +
+                            "#else\n" +
+                            "#define LOWP \n" +
+                            "#endif\n" +
+                            "varying vec2 v_texCoords;\n" +
+                            "varying LOWP vec4 v_color;\n" +
+                            "varying LOWP vec4 v_tweak;\n" +
+                            "varying float v_lightFix;\n" +
+                            "uniform sampler2D u_texture;\n" +
+                            "const vec3 forward = vec3(0.43);\n" +
+                            "const vec3 reverse = vec3(1.0 / 0.43);\n" +
+                            "void main()\n" +
+                            "{\n" +
+                            "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                            "  vec3 ipt = mat3(0.40000, 4.45500, 0.80560, 0.40000, -4.8510, 0.35720, 0.20000, 0.39600, -1.1628) *" +
+                            "             pow(mat3(0.313921f, 0.151693f, 0.017753f, 0.639468f, 0.748209f, 0.109468f, 0.0465970f, 0.1000044f, 0.8729690f) \n" +
+                            "             * (tgt.rgb * tgt.rgb), forward);\n" +
+                            "  ipt.x = clamp(pow(ipt.x, v_tweak.a) * v_lightFix * v_tweak.r + v_color.r - 0.55, 0.0, 1.0);\n" +
+                            "  ipt.yz = clamp((ipt.yz * v_tweak.gb + v_color.gb - 0.5) * 2.0, -1.0, 1.0);\n" +
+                            "  ipt = mat3(1.0, 1.0, 1.0, 0.097569, -0.11388, 0.032615, 0.205226, 0.133217, -0.67689) * ipt;\n" +
+                            "  gl_FragColor = vec4(sqrt(" +
+                            "                 mat3(5.432622, -1.10517, 0.028104, -4.67910, 2.311198, -0.19466, 0.246257, -0.20588, 1.166325) *\n" +
+                            "                 (sign(ipt) * pow(abs(ipt), reverse))" +
+                            "                 ), v_color.a * tgt.a);\n" +
+                            "  if(any(notEqual(clamp(gl_FragColor.rgb, 0.0, 1.0), gl_FragColor.rgb))) discard;\n" +
+                            "}";
+            ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
+
+            if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
+            ipthqBatch.setShader(shader);
+        }
+
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -152,6 +191,15 @@ public class ColorSolidDemo extends ApplicationAdapter {
             }
         }
         iptBatch.end();
+        ipthqBatch.setProjectionMatrix(screenView.getCamera().combined);
+        ipthqBatch.begin();
+        for (int x = 0; x < 256; x++) {
+            for (int y = 0; y < 256; y++) {
+                ipthqBatch.setColor(layer, x * 0x1p-8f, y * 0x1p-8f, 1f);
+                ipthqBatch.draw(blank, x + 256f, y, 1f, 1f);
+            }
+        }
+        ipthqBatch.end();
 
 
 
