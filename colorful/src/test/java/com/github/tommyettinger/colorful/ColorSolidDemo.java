@@ -246,6 +246,8 @@ public class ColorSolidDemo extends ApplicationAdapter {
                 oklabBatch.draw(blank, x, y, 1f, 1f);
             }
         }
+        oklabBatch.setColor(0.1f, 0.5f, 0.5f, 1f);
+        oklabBatch.draw(blank, 255, layer * 511, 4f, 4f);
         oklabBatch.end();
 
 
