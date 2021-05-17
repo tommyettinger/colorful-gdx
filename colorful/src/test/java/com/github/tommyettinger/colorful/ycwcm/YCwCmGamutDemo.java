@@ -1,4 +1,4 @@
-package com.github.tommyettinger.colorful.oklab;
+package com.github.tommyettinger.colorful.ycwcm;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -24,10 +24,10 @@ import com.github.tommyettinger.colorful.TrigTools;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class OklabGamutDemo extends ApplicationAdapter {
+public class YCwCmGamutDemo extends ApplicationAdapter {
     public static final int SCREEN_WIDTH = 512;
     public static final int SCREEN_HEIGHT = 512;
-    private SpriteBatch batch;
+    private ColorfulBatch batch;
     private Viewport screenView;
     private Texture blank;
     private long lastProcessedTime = 0L, startTime;
@@ -36,13 +36,13 @@ public class OklabGamutDemo extends ApplicationAdapter {
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("Oklab Gamut Demo");
+        config.setTitle("YCwCm Gamut Demo");
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.setIdleFPS(10);
         config.setForegroundFPS(60);
         config.useVsync(true);
 
-        final OklabGamutDemo app = new OklabGamutDemo();
+        final YCwCmGamutDemo app = new YCwCmGamutDemo();
         new Lwjgl3Application(app, config);
     }
 
@@ -52,7 +52,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
         Pixmap blank = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         blank.drawPixel(0, 0, 0x7F7F81FF);
         this.blank = new Texture(blank);
-        batch = new SpriteBatch();
+        batch = new ColorfulBatch();
         String vertexShader = batch.getShader().getVertexShaderSource();
         String fragmentShader =
                 "#ifdef GL_ES\n" +
@@ -63,23 +63,23 @@ public class OklabGamutDemo extends ApplicationAdapter {
                         "#endif\n" +
                         "varying vec2 v_texCoords;\n" +
                         "varying LOWP vec4 v_color;\n" +
+                        "varying LOWP vec4 v_tweak;\n" +
+                        "varying float v_lightFix;\n" +
                         "uniform sampler2D u_texture;\n" +
-                        "const vec3 forward = vec3(1.0 / 3.0);\n" +
+                        "const vec3 bright = vec3(0.375, 0.5, 0.125);\n" +
                         "void main()\n" +
                         "{\n" +
-                        "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +
-                        "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +
-                        "             * (tgt.rgb * tgt.rgb), forward);\n" +
-                        "  lab.x = clamp(lab.x + v_color.r - 0.63, 0.0, 1.0);\n" +
-                        "  lab.yz = clamp(lab.yz + v_color.gb - 0.5, -1.0, 1.0);\n" +
-                        "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +
-                        "  lab = " +
-                        "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +
-                        "                 (lab * lab * lab);" +
-                        "  vec3 back = clamp(lab, 0.0, 1.0);\n" +
-                        "  if(any(notEqual(back, lab))) discard;\n" +
-                        "  gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
+                        "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                        "   vec3 ycc = vec3(\n" +
+                        "     (v_color.r - 0.5 + v_tweak.r * pow(dot(tgt.rgb, bright), v_tweak.a) * v_lightFix),\n" + // luma
+                        "     (v_color.g - 0.5 + (tgt.r - tgt.b) * v_tweak.g) * 2.0,\n" + // warmth
+                        "     (v_color.b - 0.5 + (tgt.g - tgt.b) * v_tweak.b) * 2.0);\n" + // mildness
+                        "   gl_FragColor = vec4(\n" +
+                        "     dot(ycc, vec3(1.0, 0.625, -0.5)),\n" + // back to red
+                        "     dot(ycc, vec3(1.0, -0.375, 0.5)),\n" + // back to green
+                        "     dot(ycc, vec3(1.0, -0.375, -0.5)),\n" + // back to blue
+                        "     v_color.a * tgt.a);\n" + // back to alpha and clamp
+                        "   if(any(notEqual(clamp(gl_FragColor.rgb, 0.0, 1.0), gl_FragColor.rgb))) discard;\n" +
                         "}";
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
         if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
@@ -109,130 +109,12 @@ public class OklabGamutDemo extends ApplicationAdapter {
         gif.palette = new PaletteReducer();
 //        gif.palette = new PaletteReducer(pixmaps);
 //        // 24 is how many frames per second the animated GIF should play back at.
-        gif.write(Gdx.files.local("OklabGamut.gif"), pixmaps, 24);
+        gif.write(Gdx.files.local("YCwCmGamut.gif"), pixmaps, 24);
 
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
         AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
-        png.write(Gdx.files.local("OklabGamut.png"), pixmaps, 24);
-
-        float minA = 1000f, minB = 1000f, maxA = -1000f, maxB = -1000f, ok, A, B;
-        int c = 0xFF;
-        for (int r = 0; r < 256; r++, c += 0x01000000) {
-            int c2 = c;
-            for (int g = 0; g < 256; g++, c2 += 0x00010000) {
-                ok = ColorTools.fromRGBA8888(c2);
-//                if(!ColorTools.inGamut(ok)) {
-//                    System.out.printf("0x%08X is out of gamut!\n", c2);
-//                    System.out.println(ColorTools.getRawGamutValue((int)(ColorTools.channelL(ok) * 255.999f) << 8
-//                            | (int)(TrigTools.atan2_(ColorTools.channelB(ok) - 0.5f, ColorTools.channelA(ok) - 0.5f) * 256f)));
-//                }
-                ok = ColorTools.limitToGamut(ok);
-
-                A = ColorTools.channelA(ok);
-                B = ColorTools.channelB(ok);
-                minA = Math.min(A, minA);
-                minB = Math.min(B, minB);
-                maxA = Math.max(A, maxA);
-                maxB = Math.max(B, maxB);
-            }
-        }
-        c = 0xFFFF;
-        for (int r = 0; r < 256; r++, c += 0x01000000) {
-            int c2 = c;
-            for (int g = 0; g < 256; g++, c2 += 0x00010000) {
-                ok = ColorTools.fromRGBA8888(c2);
-                ok = ColorTools.limitToGamut(ok);
-                A = ColorTools.channelA(ok);
-                B = ColorTools.channelB(ok);
-                minA = Math.min(A, minA);
-                minB = Math.min(B, minB);
-                maxA = Math.max(A, maxA);
-                maxB = Math.max(B, maxB);
-            }
-        }
-        c = 0xFF;
-        for (int r = 0; r < 256; r++, c += 0x01000000) {
-            int c2 = c;
-            for (int b = 0; b < 256; b++, c2 += 0x00000100) {
-                ok = ColorTools.fromRGBA8888(c2);
-                ok = ColorTools.limitToGamut(ok);
-                A = ColorTools.channelA(ok);
-                B = ColorTools.channelB(ok);
-                minA = Math.min(A, minA);
-                minB = Math.min(B, minB);
-                maxA = Math.max(A, maxA);
-                maxB = Math.max(B, maxB);
-            }
-        }
-        c = 0xFF00FF;
-        for (int r = 0; r < 256; r++, c += 0x01000000) {
-            int c2 = c;
-            for (int b = 0; b < 256; b++, c2 += 0x00000100) {
-                ok = ColorTools.fromRGBA8888(c2);
-                ok = ColorTools.limitToGamut(ok);
-                A = ColorTools.channelA(ok);
-                B = ColorTools.channelB(ok);
-                minA = Math.min(A, minA);
-                minB = Math.min(B, minB);
-                maxA = Math.max(A, maxA);
-                maxB = Math.max(B, maxB);
-            }
-        }
-        c = 0xFF;
-        for (int g = 0; g < 256; g++, c += 0x00010000) {
-            int c2 = c;
-            for (int b = 0; b < 256; b++, c2 += 0x00000100) {
-                ok = ColorTools.fromRGBA8888(c2);
-                ok = ColorTools.limitToGamut(ok);
-                A = ColorTools.channelA(ok);
-                B = ColorTools.channelB(ok);
-                minA = Math.min(A, minA);
-                minB = Math.min(B, minB);
-                maxA = Math.max(A, maxA);
-                maxB = Math.max(B, maxB);
-            }
-        }
-        c = 0xFF0000FF;
-        for (int g = 0; g < 256; g++, c += 0x00010000) {
-            int c2 = c;
-            for (int b = 0; b < 256; b++, c2 += 0x00000100) {
-                ok = ColorTools.fromRGBA8888(c2);
-                ok = ColorTools.limitToGamut(ok);
-                A = ColorTools.channelA(ok);
-                B = ColorTools.channelB(ok);
-                minA = Math.min(A, minA);
-                minB = Math.min(B, minB);
-                maxA = Math.max(A, maxA);
-                maxB = Math.max(B, maxB);
-            }
-        }
-        System.out.printf("minimum A: %1.5f\nmaximum A: %1.5f\nminimum B: %1.5f\nmaximum B: %1.5f\n",
-                minA - 0.5f, maxA - 0.5f, minB - 0.5f, maxB - 0.5f);
-
-        ////Prints:
-        //minimum A: -0.11961
-        //maximum A: 0.13529
-        //minimum B: -0.15882
-        //maximum B: 0.09608
-
-        //// with limitToGamut():
-        //minimum A: -0.11961
-        //maximum A: 0.13529
-        //minimum B: -0.15882
-        //maximum B: 0.09608
-
-//        float color = SimplePalette.APRICOT; //FFA828FF, L 0.8156863, A 0.52156866, B 0.5764706,
-//        System.out.printf("%02X, %02X, %02X\n", ColorTools.redInt(color), ColorTools.greenInt(color), ColorTools.blueInt(color));
-//        System.out.printf("%1.4f, %1.4f, %1.4f\n", ColorTools.channelL(color), ColorTools.channelA(color), ColorTools.channelB(color));
-//        System.out.println("To RGBA...");
-//        float rgba = ColorTools.toRGBA(color);
-//        int abgr = NumberUtils.floatToRawIntBits(rgba);
-//        System.out.printf("%02X, %02X, %02X\n", abgr & 0xFF, abgr >>> 8 & 0xFF, abgr >>> 16 & 0xFF);
-//        System.out.println("And back...");
-//        color = ColorTools.fromRGBA(rgba);
-//        System.out.printf("%02X, %02X, %02X\n", ColorTools.redInt(color), ColorTools.greenInt(color), ColorTools.blueInt(color));
-//        System.out.printf("%1.4f, %1.4f, %1.4f\n", ColorTools.channelL(color), ColorTools.channelA(color), ColorTools.channelB(color));
+        png.write(Gdx.files.local("YCwCmGamut.png"), pixmaps, 24);
     }
 
 
@@ -255,7 +137,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
         for (int x = 0; x < 512; x++) {
             for (int y = 0; y < 512; y++) {
                 batch.setColor(layer, x * 0x1p-9f, y * 0x1p-9f, 1f);
-                batch.draw(blank, x, y, 1f, 1f);
+                batch.draw(blank, x - 0.5f, y - 0.5f, 1f, 1f);
             }
         }
         batch.end();
