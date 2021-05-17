@@ -29,9 +29,7 @@ public class IPTGamutDemo extends ApplicationAdapter {
     public static final int SCREEN_WIDTH = 512;
     public static final int SCREEN_HEIGHT = 512;
     private SpriteBatch batch;
-//    private SpriteBatch basicBatch;
     private Viewport screenView;
-    private BitmapFont font;
     private Texture blank;
     private long lastProcessedTime = 0L, startTime;
     private float layer = 0.5f;
@@ -39,11 +37,10 @@ public class IPTGamutDemo extends ApplicationAdapter {
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("Color Wheel Demo");
+        config.setTitle("IPT Gamut Demo");
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.setIdleFPS(10);
         config.useVsync(true);
-//        config.setResizable(false);
 
         final IPTGamutDemo app = new IPTGamutDemo();
         new Lwjgl3Application(app, config);
@@ -55,9 +52,6 @@ public class IPTGamutDemo extends ApplicationAdapter {
         Pixmap b = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         b.drawPixel(0, 0, 0x7F7F81FF);
         blank = new Texture(b);
-        font = new BitmapFont(Gdx.files.internal("font.fnt"));
-        font.setColor(1f, 0.5f, 0.5f, 1f);
-//        batch = Shaders.makeBatch(1.25f); // experimenting with slightly higher contrast
         batch = new SpriteBatch();
         String vertexShader = batch.getShader().getVertexShaderSource();
         String fragmentShader =
@@ -81,22 +75,20 @@ public class IPTGamutDemo extends ApplicationAdapter {
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
         if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
         batch.setShader(shader);
-//        basicBatch = new SpriteBatch();
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.enableBlending();
         final int frameCount = 120;
-//        Array<Pixmap> pixmaps = new Array<>(frameCount);
-        Array<Pixmap> pixmapsClean = new Array<>(frameCount);
+        Array<Pixmap> pixmaps = new Array<>(frameCount);
         PaletteReducer palette = new PaletteReducer();
         for (int i = 0; i < frameCount; i++) {
             layer = i / (frameCount - 1f);
             renderInternal();
             // this gets a screenshot of the current window and adds it to the Array of Pixmap.
-            pixmapsClean.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         }
-//// AnimatedGif is from anim8; this code uses the predefined DawnBringer Aurora palette, which has 255 colors
+//// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
 //// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
         AnimatedGif gif = new AnimatedGif();
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
@@ -107,11 +99,11 @@ public class IPTGamutDemo extends ApplicationAdapter {
 //        gif.palette.setDitherStrength(0.75f);
 //        gif.palette = new PaletteReducer(pixmaps);
 //// 24 is how many frames per second the animated GIF should play back at.
-        gif.write(Gdx.files.local("IPTGamut.gif"), pixmapsClean, 24);
+        gif.write(Gdx.files.local("IPTGamut.gif"), pixmaps, 24);
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
         AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
-        png.write(Gdx.files.local("IPTGamut.png"), pixmapsClean, 24);
+        png.write(Gdx.files.local("IPTGamut.png"), pixmaps, 24);
 
     }
 

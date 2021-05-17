@@ -36,7 +36,7 @@ public class HSIGamutDemo extends ApplicationAdapter {
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("Color Wheel Demo");
+        config.setTitle("HSI Wheel Demo");
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.setIdleFPS(10);
         config.useVsync(true);
@@ -111,26 +111,22 @@ public class HSIGamutDemo extends ApplicationAdapter {
             // this gets a screenshot of the current window and adds it to the Array of Pixmap.
             pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         }
-        //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
-        AnimatedPNG png = new AnimatedPNG();
-// 24 is how many frames per second the animated PNG should play back at.
-        png.write(Gdx.files.local("SphereIPTGamut.png"), pixmaps, 24);
-
-//// AnimatedGif is from anim8; this code uses the predefined DawnBringer Aurora palette, which has 255 colors
+//// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
 //// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
         AnimatedGif gif = new AnimatedGif();
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
-//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
-        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE);
-        PaletteReducer palette = new PaletteReducer();
-        for(Pixmap p : pixmaps)
-            palette.reduceKnoll(p);
-        gif.palette = palette;
-//        gif.palette.setDitherStrength(0.5f);
-//        gif.palette.analyze(pixmaps, 500);
+        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // should be dithered before
+        gif.palette = new PaletteReducer();
+//        gif.palette.analyze(pixmaps, 500); // this can be used to attempt to analyze the image to get a palette...
 //        // 24 is how many frames per second the animated GIF should play back at.
         gif.write(Gdx.files.local("SphereIPTGamut.gif"), pixmaps, 24);
+
+        //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
+        AnimatedPNG png = new AnimatedPNG();
+// 24 is how many frames per second the animated PNG should play back at.
+        png.write(Gdx.files.local("SphereIPTGamut.png"), pixmaps, 24);
     }
 
 
