@@ -17,10 +17,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.tommyettinger.anim8.AnimatedGif;
-import com.github.tommyettinger.anim8.AnimatedPNG;
-import com.github.tommyettinger.anim8.Dithered;
-import com.github.tommyettinger.anim8.PaletteReducer;
+import com.github.tommyettinger.anim8.*;
 import com.github.tommyettinger.colorful.TrigTools;
 
 import static com.badlogic.gdx.Gdx.input;
@@ -90,7 +87,7 @@ public class IPTGamutDemo extends ApplicationAdapter {
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.enableBlending();
         final int frameCount = 120;
-        Array<Pixmap> pixmaps = new Array<>(frameCount);
+//        Array<Pixmap> pixmaps = new Array<>(frameCount);
         Array<Pixmap> pixmapsClean = new Array<>(frameCount);
         PaletteReducer palette = new PaletteReducer();
         for (int i = 0; i < frameCount; i++) {
@@ -98,23 +95,19 @@ public class IPTGamutDemo extends ApplicationAdapter {
             renderInternal();
             // this gets a screenshot of the current window and adds it to the Array of Pixmap.
             pixmapsClean.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-            pixmaps.add(
-                    // this reduces the color palette using the slowest, highest-quality dithering algo in anim8.
-                    palette.reduceKnoll(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()))
-            );
         }
 //// AnimatedGif is from anim8; this code uses the predefined DawnBringer Aurora palette, which has 255 colors
 //// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
         AnimatedGif gif = new AnimatedGif();
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
-//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
-        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // this should be dithered before usage
-
-//        gif.palette.setDitherStrength(0.5f);
+        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // this should be dithered before usage
+        gif.palette = palette;
+//        gif.palette.setDitherStrength(0.75f);
 //        gif.palette = new PaletteReducer(pixmaps);
-//        // 24 is how many frames per second the animated GIF should play back at.
-        gif.write(Gdx.files.local("IPTGamut.gif"), pixmaps, 24);
+//// 24 is how many frames per second the animated GIF should play back at.
+        gif.write(Gdx.files.local("IPTGamut.gif"), pixmapsClean, 24);
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
         AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
