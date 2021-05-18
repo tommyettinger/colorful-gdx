@@ -66,12 +66,6 @@ public class CYCwCmGamutDemo extends ApplicationAdapter {
                         "varying float v_lightFix;\n" +
                         "uniform sampler2D u_texture;\n" +
                         "const vec3 bright = vec3(0.375, 0.5, 0.125);\n" +
-//                        "const vec3 forward = vec3(3.0);\n" +
-//                        "const vec3 reverse = vec3(1.0 / 6.0);\n" +
-//                        "vec3 root(vec3 a)\n" +
-//                        "{\n" +
-//                        "  return sign(a) * pow(abs(a), reverse);\n" +
-//                        "}\n" +
                         "void main()\n" +
                         "{\n" +
                         "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
@@ -80,11 +74,7 @@ public class CYCwCmGamutDemo extends ApplicationAdapter {
                         "     (v_color.r - 0.5 + v_tweak.r * pow(dot(tgt.rgb, bright), v_tweak.a) * v_lightFix * v_lightFix),\n" + // luma
                         "     (v_color.g - 0.5 + (tgt.r - tgt.b) * v_tweak.g) * 2.0,\n" + // warmth
                         "     (v_color.b - 0.5 + (tgt.g - tgt.b) * v_tweak.b) * 2.0);\n" + // mildness
-                        "   gl_FragColor = vec4(sqrt(vec3(\n" +
-                        "     dot(ycc, vec3(1.0, 0.625, -0.5)),\n" + // back to red
-                        "     dot(ycc, vec3(1.0, -0.375, 0.5)),\n" + // back to green
-                        "     dot(ycc, vec3(1.0, -0.375, -0.5)))),\n" + // back to blue
-                        "     v_color.a * tgt.a);\n" + // back to alpha and clamp
+                        "   gl_FragColor = vec4(sqrt(mat3(1.0, 1.0, 1.0, 0.625, -0.375, -0.375, -0.5, 0.5, -0.5) * ycc), v_color.a * tgt.a);\n" +
                         "   if(any(notEqual(clamp(gl_FragColor.rgb, 0.0, 1.0), gl_FragColor.rgb))) discard;\n" +
                         "}";
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
