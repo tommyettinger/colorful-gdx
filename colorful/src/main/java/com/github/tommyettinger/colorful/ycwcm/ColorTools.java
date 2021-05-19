@@ -13,6 +13,8 @@ import java.util.Random;
  * color space.
  */
 public class ColorTools {
+
+	private static final float INV255 = 1f / 255f, INV510 = 1f / 510f;
 	/**
 	 * Gets a packed float representation of a color given as 4 float components, here, Y (luma or lightness), Cw
 	 * (chromatic warmth), Cm (chromatic mildness), and A (alpha or opacity). As long as you use a shader with
@@ -49,12 +51,13 @@ public class ColorTools {
 	 */
 	public static int toRGBA8888(final float packed)
 	{
-		final int decoded = NumberUtils.floatToRawIntBits(packed), y = (decoded & 0xff),
-				cw = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				cm = (((decoded >>> 15 & 0x1fe) - 0xfe) >> 1);
-		return Math.min(Math.max(y + (cw * 5 >> 3) - cm, 0), 0xFF) << 24
-				| Math.min(Math.max(y - (cw * 3 >> 3) + cm, 0), 0xFF) << 16
-				| Math.min(Math.max(y - (cw * 3 >> 3) - cm, 0), 0xFF) << 8
+		final int decoded = NumberUtils.floatToRawIntBits(packed);
+		final float y = (decoded & 0xff) * INV255,
+				cw = ((decoded >>> 7 & 0x1fe) - 0xff) * INV255,
+				cm = ((decoded >>> 15 & 0x1fe) - 0xff) * INV510;
+		return    (int)((float)Math.sqrt(Math.min(Math.max(y + (cw * 0.625f) - cm, 0f), 1f)) * 255.999f) << 24
+				| (int)((float)Math.sqrt(Math.min(Math.max(y - (cw * 0.375f) + cm, 0f), 1f)) * 255.999f) << 16
+				| (int)((float)Math.sqrt(Math.min(Math.max(y - (cw * 0.375f) - cm, 0f), 1f)) * 255.999f) << 8
 				| (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
 	}
 
@@ -67,13 +70,15 @@ public class ColorTools {
 	 */
 	public static float toRGBA(final float packed)
 	{
-		final int decoded = NumberUtils.floatToRawIntBits(packed), y = (decoded & 0xff),
-				cw = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				cm = (((decoded >>> 15 & 0x1fe) - 0xfe) >> 1);
-		return NumberUtils.intBitsToFloat(Math.min(Math.max(y + (cw * 5 >> 3) - cm, 0), 0xFF)
-				| Math.min(Math.max(y - (cw * 3 >> 3) + cm, 0), 0xFF) << 8
-				| Math.min(Math.max(y - (cw * 3 >> 3) - cm, 0), 0xFF) << 16
-				| (decoded & 0xfe000000));
+		final int decoded = NumberUtils.floatToRawIntBits(packed);
+		final float y = (decoded & 0xff) * INV255,
+				cw = ((decoded >>> 7 & 0x1fe) - 0xff) * INV255,
+				cm = ((decoded >>> 15 & 0x1fe) - 0xff) * INV510;
+		return NumberUtils.intBitsToFloat(
+				          (int)((float)Math.sqrt(Math.min(Math.max(y + (cw * 0.625f) - cm, 0f), 1f)) * 255.999f)
+						| (int)((float)Math.sqrt(Math.min(Math.max(y - (cw * 0.375f) + cm, 0f), 1f)) * 255.999f) << 8
+						| (int)((float)Math.sqrt(Math.min(Math.max(y - (cw * 0.375f) - cm, 0f), 1f)) * 255.999f) << 16
+						| (decoded & 0xfe000000));
 	}
 
 	/**
