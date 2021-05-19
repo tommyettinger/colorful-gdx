@@ -114,8 +114,8 @@ public class Shaders {
     }
 
     /**
-     * Where the magic happens; this converts a batch color from the YCwCm format (used by colorful) to RGBA.
-     * The vertex color will be split up into 4 channels just as a normal shader does, but the channels here are
+     * Where the magic happens; this converts a batch color from the YCwCm format (used by colorful's ycwcm package) to
+     * RGBA. The vertex color will be split up into 4 channels just as a normal shader does, but the channels here are
      * luma, chromatic warmth, chromatic mildness, and alpha; alpha acts just like a typical RGBA shader, but the others
      * are additive instead of multiplicative, with 0.5 as a neutral value. This does not support the "tweak" features
      * that {@link ColorfulBatch} does, which include multiplicative counterparts to the additive operations this
@@ -169,8 +169,9 @@ public class Shaders {
                     "void main()\n" +
                     "{\n" +
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "   tgt.rgb *= tgt.rgb;\n" +
                     "   vec3 ycc = vec3(v_color.r - 0.5 + pow(dot(tgt.rgb, bright), contrast) * 0.75, ((v_color.g - 0.5) * 2.0 + tgt.r - tgt.b), ((v_color.b - 0.5) * 2.0 + tgt.g - tgt.b));\n" +
-                    "   gl_FragColor = clamp(vec4(dot(ycc, vec3(1.0, 0.625, -0.5)), dot(ycc, vec3(1.0, -0.375, 0.5)), dot(ycc, vec3(1.0, -0.375, -0.5)), v_color.a * tgt.a), 0.0, 1.0);\n" +
+                    "   gl_FragColor = vec4(sqrt(clamp(mat3(1.0, 1.0, 1.0, 0.625, -0.375, -0.375, -0.5, 0.5, -0.5) * ycc, 0.0, 1.0)), v_color.a * tgt.a);\n" +
                     "}";
 
     /**
@@ -184,10 +185,10 @@ public class Shaders {
 
     /**
      * Prepares and returns a new SpriteBatch that uses the default {@link #vertexShader} and {@link #fragmentShader}
-     * from this class, making it able to render YCwCm colors from the rest of this library. It won't be a
+     * from this class, making it able to render YCwCm colors from the ycwcm package. It won't be a
      * {@link ColorfulBatch} (those can adjust colors in more ways); you can simply use {@code new ColorfulBatch()} to
-     * make one of those. Note that a SpriteBatch won't be able to render a {@link ColorfulSprite}, but ColorfulBatch
-     * can.
+     * make one of those. Note that a SpriteBatch like this produces won't be able to render a {@link ColorfulSprite},
+     * but ColorfulBatch can.
      * @return a freshly allocated SpriteBatch that will also have a new ShaderProgram for rendering YCwCm
      */
     public static SpriteBatch makeBatch()
@@ -200,15 +201,15 @@ public class Shaders {
 
     /**
      * Prepares and returns a new SpriteBatch that uses the default {@link #vertexShader} and {@link #fragmentShader}
-     * from this class, making it able to render YCwCm colors from the rest of this library. This also takes a
+     * from this class, making it able to render YCwCm colors from the ycwcm package. This also takes a
      * {@code contrast} parameter; if greater than 1.0 it will make light colors lighter and dark colors darker, while
      * if it is less than 1.0 it will make all but the darkest colors closer to the upper-middle-range of lightness.
      * If you want to adjust contrast per-sprite, use a {@link ColorfulBatch} (those can adjust colors in more ways);
-     * you can simply use {@code new ColorfulBatch()} to make one of those. Note that a SpriteBatch won't be able
-     * to render a {@link ColorfulSprite}, but ColorfulBatch can. ColorfulBatch also will calculate contrast differently
-     * from the shader this uses, including doing some work in the vertex shader (which may be faster). It also takes a
-     * contrast in its tweak value that is limited to a 0.0 to 1.0 range, rather than 0.1 to 2.0 here (this can
-     * technically tolerate 0.01 to 10.0, but those extremes aren't recommended).
+     * you can simply use {@code new ColorfulBatch()} to make one of those. Note that a SpriteBatch like this produces
+     * won't be able to render a {@link ColorfulSprite}, but ColorfulBatch can. ColorfulBatch also will calculate
+     * contrast differently from the shader this uses, including doing some work in the vertex shader (which may be
+     * faster). It also takes a contrast in its tweak value that is limited to a 0.0 to 1.0 range, rather than 0.1 to
+     * 2.0 here (this can technically tolerate 0.01 to 10.0, but those extremes aren't recommended).
      * @param contrast how much contrast should be emphasized; higher than 1.0 is more contrasting, and this should usually be between 0.1 and 2.0
      * @return a freshly allocated SpriteBatch that will also have a new ShaderProgram for rendering YCwCm
      */
@@ -231,8 +232,8 @@ public class Shaders {
      * darker towards 0.0, lighter towards 1.0 (any lightness above 0.5 will brighten the image, unlike the default
      * shader and batch color). Contrast affects changes in lightness; low contrast makes all lightness closer to the
      * mid-range, while high contrast makes even small changes in the mid-range of an image's color have stark lightness
-     * changes in the result.
-     * @return a freshly allocated SpriteBatch that will also have a new ShaderProgram for rendering YCwCm
+     * changes in the result. Note, this does not support changing an image's alpha with the batch color.
+     * @return a freshly allocated SpriteBatch that will also have a new ShaderProgram for rendering HSLC
      */
     public static SpriteBatch makeBatchHSLC()
     {
