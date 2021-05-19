@@ -148,7 +148,6 @@ public class ColorfulBatch implements Batch {
                 + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n" //
                 + "   v_tweak.a = pow(v_tweak.a * (255.0/254.0) + 0.5, 1.709);\n" //
                 + "   v_lightFix = 1.0 + pow(v_tweak.a, 1.41421356);\n" //
-                + "   v_lightFix *= v_lightFix;\n" //
                 + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" //
                 + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
                 + "}\n";
@@ -168,7 +167,6 @@ public class ColorfulBatch implements Batch {
                         "void main()\n" +
                         "{\n" +
                         "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "   tgt.rgb *= tgt.rgb;\n" +
                         "   vec3 ycc = vec3(\n" +
                         "     (v_color.r - 0.5 + v_tweak.r * pow(dot(tgt.rgb, bright), v_tweak.a) * v_lightFix),\n" + // luma
                         "     (v_color.g - 0.5 + (tgt.r - tgt.b) * v_tweak.g) * 2.0,\n" + // warmth
