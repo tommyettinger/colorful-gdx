@@ -148,6 +148,7 @@ public class ColorfulBatch implements Batch {
                 + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n" //
                 + "   v_tweak.a = pow(v_tweak.a * (255.0/254.0) + 0.5, 1.709);\n" //
                 + "   v_lightFix = 1.0 + pow(v_tweak.a, 1.41421356);\n" //
+                + "   v_lightFix *= v_lightFix;\n" //
                 + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" //
                 + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
                 + "}\n";
@@ -167,15 +168,12 @@ public class ColorfulBatch implements Batch {
                         "void main()\n" +
                         "{\n" +
                         "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                        "   tgt.rgb *= tgt.rgb;\n" +
                         "   vec3 ycc = vec3(\n" +
                         "     (v_color.r - 0.5 + v_tweak.r * pow(dot(tgt.rgb, bright), v_tweak.a) * v_lightFix),\n" + // luma
                         "     (v_color.g - 0.5 + (tgt.r - tgt.b) * v_tweak.g) * 2.0,\n" + // warmth
                         "     (v_color.b - 0.5 + (tgt.g - tgt.b) * v_tweak.b) * 2.0);\n" + // mildness
-                        "   gl_FragColor = clamp(vec4(\n" +
-                        "     dot(ycc, vec3(1.0, 0.625, -0.5)),\n" + // back to red
-                        "     dot(ycc, vec3(1.0, -0.375, 0.5)),\n" + // back to green
-                        "     dot(ycc, vec3(1.0, -0.375, -0.5)),\n" + // back to blue
-                        "     v_color.a * tgt.a), 0.0, 1.0);\n" + // back to alpha and clamp
+                        "   gl_FragColor = vec4( (clamp(mat3(1.0, 1.0, 1.0, 0.625, -0.375, -0.375, -0.5, 0.5, -0.5) * ycc, 0.0, 1.0)), v_color.a * tgt.a);\n" +
                         "}";
 
 
