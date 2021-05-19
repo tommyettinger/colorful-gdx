@@ -14,7 +14,8 @@ import java.util.Random;
  */
 public class ColorTools {
 
-	private static final float INV255 = 1f / 255f, INV510 = 1f / 510f;
+	private static final float INV255 = 1f / 255f, INV510 = 1f / 510f, TO255 = 255f * 0.125f;
+
 	/**
 	 * Gets a packed float representation of a color given as 4 float components, here, Y (luma or lightness), Cw
 	 * (chromatic warmth), Cm (chromatic mildness), and A (alpha or opacity). As long as you use a shader with
@@ -87,9 +88,11 @@ public class ColorTools {
 	 * @return a packed float as YCwCm, which this class can use
 	 */
 	public static float fromRGBA8888(final int rgba) {
-		return NumberUtils.intBitsToFloat(((rgba >>> 24) * 3 + (rgba >>> 16 & 0xFF) * 4 + (rgba >>> 8 & 0xFF) >> 3)
-				| (0xFF + (rgba >>> 24) - (rgba >>> 8 & 0xFF) & 0x1FE) << 7
-				| (0xFF + (rgba >>> 16 & 0xFF) - (rgba >>> 8 & 0xFF) & 0x1FE) << 15
+		float r = (rgba >>> 24) * INV255, g = (rgba >>> 16 & 0xFF) * INV255, b = (rgba >>> 8 & 0xFF) * INV255;
+		r *= r * TO255; g *= g * TO255; b *= b * TO255;
+		return NumberUtils.intBitsToFloat((int) (r * 3 + g * 4 + b)
+				| ((int) (0xFF + r - b) & 0x1FE) << 7
+				| ((int) (0xFF + g - b) & 0x1FE) << 15
 				| (rgba & 0xFE) << 24);
 	}
 
@@ -100,10 +103,12 @@ public class ColorTools {
 	 */
 	public static float fromRGBA(final float packed) {
 		final int rgba = NumberUtils.floatToRawIntBits(packed);
-		return NumberUtils.intBitsToFloat(((rgba & 0xFF) * 3 + (rgba >>> 8 & 0xFF) * 4 + (rgba >>> 16 & 0xFF) >> 3)
-				| (0xFF + (rgba & 0xFF) - (rgba >>> 16 & 0xFF) & 0x1FE) << 7
-				| (0xFF + (rgba >>> 8 & 0xFF) - (rgba >>> 16 & 0xFF) & 0x1FE) << 15
-				| (rgba >>> 24 & 0xFE) << 24);
+		float r = (rgba >>> 24) * INV255, g = (rgba >>> 16 & 0xFF) * INV255, b = (rgba >>> 8 & 0xFF) * INV255;
+		r *= r * TO255; g *= g * TO255; b *= b * TO255;
+		return NumberUtils.intBitsToFloat((int) (r * 3 + g * 4 + b)
+				| ((int) (0xFF + r - b) & 0x1FE) << 7
+				| ((int) (0xFF + g - b) & 0x1FE) << 15
+				| (rgba & 0xFE) << 24);
 	}
 
 	/**
@@ -112,9 +117,10 @@ public class ColorTools {
 	 * @return a packed float as YCwCm, which this class can use
 	 */
 	public static float fromColor(final Color color) {
-		return NumberUtils.intBitsToFloat((int) (255 * (color.r * 0x3p-3f + color.g * 0x4p-3f + color.b * 0x1p-3f)) & 0xFF
-						| (int)((color.r - color.b + 1f) * 127.5f) << 8 & 0xFF00
-						| (int)((color.g - color.b + 1f) * 127.5f) << 16 & 0xFF0000
+		final float r = color.r * color.r, g = color.g * color.g, b = color.b * color.b;
+		return NumberUtils.intBitsToFloat((int) (255.999f * (r * 0.375f + g * 0.5f + b * 0.125f)) & 0xFF
+						| (int)((r - b + 1f) * 127.5f) << 8 & 0xFF00
+						| (int)((g - b + 1f) * 127.5f) << 16 & 0xFF0000
 						| ((int)(color.a * 255f) << 24 & 0xFE000000));
 	}
 
@@ -126,8 +132,9 @@ public class ColorTools {
 	 * @param a alpha, from 0.0 to 1.0 (both inclusive)
 	 * @return a packed float as YCwCm, which this class can use
 	 */
-	public static float fromRGBA(final float r, final float g, final float b, final float a) {
-		return NumberUtils.intBitsToFloat((int) (255 * (r * 0x3p-3f + g * 0x4p-3f + b * 0x1p-3f)) & 0xFF
+	public static float fromRGBA(float r, float g, float b, final float a) {
+		r *= r; g *= g; b *= b;
+		return NumberUtils.intBitsToFloat((int) (255.999f * (r * 0.375f + g * 0.5f + b * 0.125f)) & 0xFF
 						| (int)((r - b + 1f) * 127.5f) << 8 & 0xFF00
 						| (int)((g - b + 1f) * 127.5f) << 16 & 0xFF0000
 						| ((int)(a * 255f) << 24 & 0xFE000000));
