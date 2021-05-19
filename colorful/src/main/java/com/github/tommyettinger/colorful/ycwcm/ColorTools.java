@@ -148,7 +148,12 @@ public class ColorTools {
 	public static int redInt(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		return (decoded & 0xff) + (((decoded >>> 7 & 0x1fe) - 0xfe) * 5 >>> 4) - (((decoded >>> 15 & 0x1fe) - 0xfe) >>> 2);
+		final float y = (decoded & 0xff) * INV255,
+				cw = ((decoded >>> 7 & 0x1fe) - 0xff) * INV255,
+				cm = ((decoded >>> 15 & 0x1fe) - 0xff) * INV510;
+		return (int)((float)Math.sqrt(Math.min(Math.max(y + (cw * 0.625f) - cm, 0f), 1f)) * 255.999f);
+//		return (int)((float)Math.sqrt(Math.min(Math.max(y - (cw * 0.375f) + cm, 0f), 1f)) * 255.999f);
+//		return (int)((float)Math.sqrt(Math.min(Math.max(y - (cw * 0.375f) - cm, 0f), 1f)) * 255.999f);
 	}
 
 	/**
@@ -159,7 +164,12 @@ public class ColorTools {
 	public static int greenInt(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		return (decoded & 0xff) - (((decoded >>> 7 & 0x1fe) - 0xfe) * 3 >> 4) + (((decoded >>> 15 & 0x1fe) - 0xfe) >> 2);
+		final float y = (decoded & 0xff) * INV255,
+				cw = ((decoded >>> 7 & 0x1fe) - 0xff) * INV255,
+				cm = ((decoded >>> 15 & 0x1fe) - 0xff) * INV510;
+//		return (int)((float)Math.sqrt(Math.min(Math.max(y + (cw * 0.625f) - cm, 0f), 1f)) * 255.999f);
+		return (int)((float)Math.sqrt(Math.min(Math.max(y - (cw * 0.375f) + cm, 0f), 1f)) * 255.999f);
+//		return (int)((float)Math.sqrt(Math.min(Math.max(y - (cw * 0.375f) - cm, 0f), 1f)) * 255.999f);
 	}
 
 	/**
@@ -170,7 +180,12 @@ public class ColorTools {
 	public static int blueInt(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		return (decoded & 0xff) - (((decoded >>> 7 & 0x1fe) - 0xfe) * 3 >> 4) - (((decoded >>> 15 & 0x1fe) - 0xfe) >> 2);
+		final float y = (decoded & 0xff) * INV255,
+				cw = ((decoded >>> 7 & 0x1fe) - 0xff) * INV255,
+				cm = ((decoded >>> 15 & 0x1fe) - 0xff) * INV510;
+//		return (int)((float)Math.sqrt(Math.min(Math.max(y + (cw * 0.625f) - cm, 0f), 1f)) * 255.999f);
+//		return (int)((float)Math.sqrt(Math.min(Math.max(y - (cw * 0.375f) + cm, 0f), 1f)) * 255.999f);
+		return (int)((float)Math.sqrt(Math.min(Math.max(y - (cw * 0.375f) - cm, 0f), 1f)) * 255.999f);
 	}
 
 	/**
@@ -192,7 +207,12 @@ public class ColorTools {
 	public static float red(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		return Math.min(Math.max((decoded & 0xff) * 0x1.010102p-8f + ((decoded >>> 8 & 0xff) - 127.5f) * (0x1.414142p-9f) - ((decoded >>> 16 & 0xff) - 127.5f) * 0x1.010102p-9f, 0f), 1f);
+		final float y = (decoded & 0xff) * INV255,
+				cw = ((decoded >>> 7 & 0x1fe) - 0xff) * INV255,
+				cm = ((decoded >>> 15 & 0x1fe) - 0xff) * INV510;
+		return (float)Math.sqrt(Math.min(Math.max(y + (cw * 0.625f) - cm, 0f), 1f));
+//		return (float)Math.sqrt(Math.min(Math.max(y - (cw * 0.375f) + cm, 0f), 1f));
+//		return (float)Math.sqrt(Math.min(Math.max(y - (cw * 0.375f) - cm, 0f), 1f));
 	}
 
 	/**
@@ -203,7 +223,12 @@ public class ColorTools {
 	public static float green(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		return Math.min(Math.max((decoded & 0xff) * 0x1.010102p-8f - (((decoded >>> 8 & 0xff) - 127.5f) * 0x1.818184p-10f) + ((decoded >>> 16 & 0xff) - 127.5f) * 0x1.010102p-9f, 0f), 1f);
+		final float y = (decoded & 0xff) * INV255,
+				cw = ((decoded >>> 7 & 0x1fe) - 0xff) * INV255,
+				cm = ((decoded >>> 15 & 0x1fe) - 0xff) * INV510;
+//		return (float)Math.sqrt(Math.min(Math.max(y + (cw * 0.625f) - cm, 0f), 1f));
+		return (float)Math.sqrt(Math.min(Math.max(y - (cw * 0.375f) + cm, 0f), 1f));
+//		return (float)Math.sqrt(Math.min(Math.max(y - (cw * 0.375f) - cm, 0f), 1f));
 	}
 
 	/**
@@ -214,7 +239,12 @@ public class ColorTools {
 	public static float blue(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		return Math.min(Math.max((decoded & 0xff) * 0x1.010102p-8f - (((decoded >>> 8 & 0xff) - 127.5f) * 0x1.818184p-10f) - ((decoded >>> 16 & 0xff) - 127.5f) * 0x1.010102p-9f, 0f), 1f);
+		final float y = (decoded & 0xff) * INV255,
+				cw = ((decoded >>> 7 & 0x1fe) - 0xff) * INV255,
+				cm = ((decoded >>> 15 & 0x1fe) - 0xff) * INV510;
+//		return (float)Math.sqrt(Math.min(Math.max(y + (cw * 0.625f) - cm, 0f), 1f));
+//		return (float)Math.sqrt(Math.min(Math.max(y - (cw * 0.375f) + cm, 0f), 1f));
+		return (float)Math.sqrt(Math.min(Math.max(y - (cw * 0.375f) - cm, 0f), 1f));
 	}
 
 	/**
@@ -261,9 +291,9 @@ public class ColorTools {
 		final int decoded = NumberUtils.floatToRawIntBits(encoded), lu = (decoded & 0xff),
 				cw = ((decoded >>> 7 & 0x1fe) - 0xfe),
 				cm = (((decoded >>> 15 & 0x1fe) - 0xfe) >> 1);
-		final float r = Math.min(Math.max(lu + (cw * 5 >> 3) - cm, 0), 0xFF) * 0x1.010102p-8f;
-		final float g = Math.min(Math.max(lu - (cw * 3 >> 3) + cm, 0), 0xFF) * 0x1.010102p-8f;
-		final float b =  Math.min(Math.max(lu - (cw * 3 >> 3) - cm, 0), 0xFF) * 0x1.010102p-8f;
+		final float r = (float) Math.sqrt(Math.min(Math.max(lu + (cw * 5 >> 3) - cm, 0), 0xFF) * INV255);
+		final float g = (float) Math.sqrt(Math.min(Math.max(lu - (cw * 3 >> 3) + cm, 0), 0xFF) * INV255);
+		final float b = (float) Math.sqrt(Math.min(Math.max(lu - (cw * 3 >> 3) - cm, 0), 0xFF) * INV255);
 		float x, y, w;
 		if(g < b) {
 			x = b;
@@ -289,9 +319,9 @@ public class ColorTools {
 		final int decoded = NumberUtils.floatToRawIntBits(encoded), lu = (decoded & 0xff),
 				cw = ((decoded >>> 7 & 0x1fe) - 0xfe),
 				cm = (((decoded >>> 15 & 0x1fe) - 0xfe) >> 1);
-		final float r = Math.min(Math.max(lu + (cw * 5 >> 3) - cm, 0), 0xFF) * 0x1.010102p-8f;
-		final float g = Math.min(Math.max(lu - (cw * 3 >> 3) + cm, 0), 0xFF) * 0x1.010102p-8f;
-		final float b =  Math.min(Math.max(lu - (cw * 3 >> 3) - cm, 0), 0xFF) * 0x1.010102p-8f;
+		final float r = (float) Math.sqrt(Math.min(Math.max(lu + (cw * 5 >> 3) - cm, 0), 0xFF) * INV255);
+		final float g = (float) Math.sqrt(Math.min(Math.max(lu - (cw * 3 >> 3) + cm, 0), 0xFF) * INV255);
+		final float b = (float) Math.sqrt(Math.min(Math.max(lu - (cw * 3 >> 3) - cm, 0), 0xFF) * INV255);
 		float x, y, w;
 		if(g < b) {
 			x = b;
@@ -323,9 +353,9 @@ public class ColorTools {
 		final int decoded = NumberUtils.floatToRawIntBits(encoded), lu = (decoded & 0xff),
 				cw = ((decoded >>> 7 & 0x1fe) - 0xfe),
 				cm = (((decoded >>> 15 & 0x1fe) - 0xfe) >> 1);
-		final float r = Math.min(Math.max(lu + (cw * 5 >> 3) - cm, 0), 0xFF) * 0x1.010102p-8f;
-		final float g = Math.min(Math.max(lu - (cw * 3 >> 3) + cm, 0), 0xFF) * 0x1.010102p-8f;
-		final float b =  Math.min(Math.max(lu - (cw * 3 >> 3) - cm, 0), 0xFF) * 0x1.010102p-8f;
+		final float r = (float) Math.sqrt(Math.min(Math.max(lu + (cw * 5 >> 3) - cm, 0), 0xFF) * INV255);
+		final float g = (float) Math.sqrt(Math.min(Math.max(lu - (cw * 3 >> 3) + cm, 0), 0xFF) * INV255);
+		final float b = (float) Math.sqrt(Math.min(Math.max(lu - (cw * 3 >> 3) - cm, 0), 0xFF) * INV255);
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
@@ -368,7 +398,7 @@ public class ColorTools {
 	 */
 	public static float luma(final float encoded)
 	{
-		return (NumberUtils.floatToRawIntBits(encoded) & 0xff) * 0x1.010102p-8f;
+		return (NumberUtils.floatToRawIntBits(encoded) & 0xff) * INV255;
 //        final int bits = NumberUtils.floatToRawIntBits(encoded);
 //        return (bits & 0xFF) * 0x3p-11f + (bits >>> 8 & 0xFF) * 0x1p-9f + (bits >>> 16 & 0xFF) * 0x1p-11f;
 	}
@@ -390,7 +420,7 @@ public class ColorTools {
 	 */
 	public static float chromaWarm(final float encoded)
 	{
-		return ((NumberUtils.floatToRawIntBits(encoded) >>> 8 & 0xff)) * 0x1.010102p-8f;
+		return ((NumberUtils.floatToRawIntBits(encoded) >>> 8 & 0xff)) * INV255;
 	}
 
 	/**
@@ -411,7 +441,7 @@ public class ColorTools {
 	 */
 	public static float chromaMild(final float encoded)
 	{
-		return ((NumberUtils.floatToRawIntBits(encoded) >>> 16 & 0xff)) * 0x1.010102p-8f;
+		return ((NumberUtils.floatToRawIntBits(encoded) >>> 16 & 0xff)) * INV255;
 	}
 
 	/**
@@ -437,16 +467,16 @@ public class ColorTools {
 	 */
 	public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {
 		final int e = NumberUtils.floatToRawIntBits(basis);
-		value = Math.min(Math.max(value + (e & 0xff) * 0x1.010102p-8f, 0f), 1f);
+		value = Math.min(Math.max(value + (e & 0xff) * INV255, 0f), 1f);
 		opacity = Math.min(Math.max(opacity + (e >>> 24 & 0xfe) * 0x1.020408p-8f, 0f), 1f);
 		if (value <= 0.001f)
 			return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x7F7F00);
 		final int lu = (e & 0xff);
 		final int cw = ((e >>> 7 & 0x1fe) - 0xfe);
 		final int cm = (((e >>> 15 & 0x1fe) - 0xfe) >> 1);
-		final float r = Math.min(Math.max(lu + (cw * 5 >> 3) - cm, 0), 0xFF) * 0x1.010102p-8f;
-		final float g = Math.min(Math.max(lu - (cw * 3 >> 3) + cm, 0), 0xFF) * 0x1.010102p-8f;
-		final float b = Math.min(Math.max(lu - (cw * 3 >> 3) - cm, 0), 0xFF) * 0x1.010102p-8f;
+		final float r = (float) Math.sqrt(Math.min(Math.max(lu + (cw * 5 >> 3) - cm, 0), 0xFF) * INV255);
+		final float g = (float) Math.sqrt(Math.min(Math.max(lu - (cw * 3 >> 3) + cm, 0), 0xFF) * INV255);
+		final float b = (float) Math.sqrt(Math.min(Math.max(lu - (cw * 3 >> 3) - cm, 0), 0xFF) * INV255);
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
@@ -672,7 +702,7 @@ public class ColorTools {
 				cMild = (contrastBits >>> 16 & 0xff);
 		if((warm - cWarm) * (warm - cWarm) + (mild - cMild) * (mild - cMild) >= 0x10000)
 			return mainColor;
-		return ycwcm(cLuma < 128 ? luma * (0.45f / 255f) + 0.55f : 0.5f - luma * (0.45f / 255f), warm / 255f, mild / 255f, 0x1.010102p-8f * (bits >>> 24));
+		return ycwcm(cLuma < 128 ? luma * (0.45f / 255f) + 0.55f : 0.5f - luma * (0.45f / 255f), warm / 255f, mild / 255f, INV255 * (bits >>> 24));
 	}
 
 	/**
@@ -806,9 +836,9 @@ public class ColorTools {
 		final float cm = ((decoded >>> 16 & 0xff) - 127.5f) / 255f;
 		float y2 = y, cw2 = cw, cm2 = cm;
 		for (int attempt = 31; attempt >= 0; attempt--) {
-			final float r = y2 + 0.625f * cw2 - cm2;
-			final float g = y2 - 0.375f * cw2 + cm2;
-			final float b = y2 - 0.375f * cw2 - cm2;
+			final float r = y2 + 0.625f * cw2 - cm2; // doesn't need sqrt, only used to check bounds
+			final float g = y2 - 0.375f * cw2 + cm2; // doesn't need sqrt, only used to check bounds
+			final float b = y2 - 0.375f * cw2 - cm2; // doesn't need sqrt, only used to check bounds
 			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
 				break;
 			final float progress = attempt * 0x1p-5f;
