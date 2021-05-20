@@ -658,8 +658,10 @@ public class SimplePalette {
             public int compare(String o1, String o2) {
                 final float c1 = NAMED.get(o1, TRANSPARENT), c2 = NAMED.get(o2, TRANSPARENT);
                 final float s1 = saturation(c1), s2 = saturation(c2);
-                if(alphaInt(c1) < 128) return -10000;
-                else if(alphaInt(c2) < 128) return 10000;
+                // a packed float color with a sign bit of 0 (a non-negative number) is mostly transparent.
+                // this also considers 0x80000000 transparent, but it's almost at the threshold.
+                if(c1 >= 0f) return -10000;
+                else if(c2 >= 0f) return 10000;
                 else if(s1 <= 0.05f && s2 > 0.05f)
                     return -1000;
                 else if(s1 > 0.05f && s2 <= 0.05f)
@@ -714,13 +716,13 @@ public class SimplePalette {
                     if (len > 2 && term.charAt(2) == 'g') {
                         switch (len) {
                             case 9:
-                                intensity += 0.08f;
+                                intensity += 0.085f;
                             case 8:
-                                intensity += 0.08f;
+                                intensity += 0.085f;
                             case 7:
-                                intensity += 0.08f;
+                                intensity += 0.085f;
                             case 5:
-                                intensity += 0.08f;
+                                intensity += 0.085f;
                                 break;
                             default:
                                 mixing.add(TRANSPARENT);
@@ -754,13 +756,13 @@ public class SimplePalette {
                     if (len > 1 && term.charAt(1) == 'a') {
                         switch (len) {
                             case 8:
-                                intensity -= 0.08f;
+                                intensity -= 0.085f;
                             case 7:
-                                intensity -= 0.08f;
+                                intensity -= 0.085f;
                             case 6:
-                                intensity -= 0.08f;
+                                intensity -= 0.085f;
                             case 4:
-                                intensity -= 0.08f;
+                                intensity -= 0.085f;
                                 break;
                             default:
                                 mixing.add(0f);
@@ -808,17 +810,46 @@ public class SimplePalette {
      * this can take quite a while to run otherwise. This returns a String description that can be passed to
      * {@link #parseDescription(String)}. It is likely that this will use very contrasting colors if mixCount is 2 or
      * greater and the color to match is desaturated or brownish.
-     * <br>
-     * Internally, this delegates to Oklab's
-     * {@link com.github.tommyettinger.colorful.oklab.SimplePalette#bestMatch(float, int)} class, which should return a
-     * String that describes about the same color.
      * @param rgb a packed RGBA float color to attempt to match
      * @param mixCount how many color names this will use in the returned description
      * @return a description that can be fed to {@link #parseDescription(String)} to get a similar color
      */
     public static String bestMatch(final float rgb, int mixCount) {
-        return com.github.tommyettinger.colorful.oklab.SimplePalette.bestMatch(
-                com.github.tommyettinger.colorful.oklab.ColorTools.fromRGBA(rgb), mixCount);
+        mixCount = Math.max(1, mixCount);
+        float oklab = com.github.tommyettinger.colorful.oklab.ColorTools.fromRGBA(rgb);
+        float bestDistance = Float.POSITIVE_INFINITY;
+        final int paletteSize = namesByHue.size, colorTries = (int)Math.pow(paletteSize, mixCount), totalTries = colorTries * 81;
+        final float targetL = com.github.tommyettinger.colorful.oklab.ColorTools.channelL(oklab), targetA = com.github.tommyettinger.colorful.oklab.ColorTools.channelA(oklab), targetB = com.github.tommyettinger.colorful.oklab.ColorTools.channelB(oklab);
+        final String[] lightAdjectives = {"darkmost ", "darkest ", "darker ", "dark ", "", "light ", "lighter ", "lightest ", "lightmost "};
+        final String[] satAdjectives = {"dullmost ", "dullest ", "duller ", "dull ", "", "rich ", "richer ", "richest ", "richmost "};
+        mixing.clear();
+        for (int i = 0; i < mixCount; i++) {
+            mixing.add(colorsByHue.get(0));
+        }
+        int bestCode = 0;
+        for (int c = 0; c < totalTries; c++) {
+            for (int i = 0, e = 1; i < mixCount; i++, e *= paletteSize) {
+                mixing.set(i, colorsByHue.get((c / e) % paletteSize));
+            }
+            int idxI = ((c / colorTries) % 9 - 4), idxS = (c / (colorTries * 9) - 4);
+
+            final float result = com.github.tommyettinger.colorful.oklab.ColorTools.fromRGBA(
+                    toEditedFloat(FloatColors.mix(mixing.items, 0, mixCount), 0f, 0.175f * idxS, 0.085f * idxI, 0f));
+
+            final float dL = com.github.tommyettinger.colorful.oklab.ColorTools.channelL(result) - targetL;
+            final float dA = com.github.tommyettinger.colorful.oklab.ColorTools.channelA(result) - targetA;
+            final float dB = com.github.tommyettinger.colorful.oklab.ColorTools.channelB(result) - targetB;
+            if(bestDistance > (bestDistance = Math.min(dL * dL + dA * dA + dB * dB, bestDistance)))
+                bestCode = c;
+        }
+
+        StringBuilder description = new StringBuilder(lightAdjectives[(bestCode / colorTries) % 9] + satAdjectives[bestCode / (colorTries * 9)]);
+        for (int i = 0, e = 1; i < mixCount; e *= paletteSize) {
+            description.append(namesByHue.get((bestCode / e) % paletteSize));
+            if(++i < mixCount)
+                description.append(' ');
+        }
+        return description.toString();
     }
 
     /**
@@ -831,7 +862,6 @@ public class SimplePalette {
      */
     public static void appendToKnownColors(){
         for(ObjectFloatMap.Entry<String> ent : NAMED) {
-            final float f = ent.value;
             Colors.put(ent.key, ColorTools.toColor(new Color(), ent.value));
         }
     }
