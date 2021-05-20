@@ -1,4 +1,4 @@
-package com.github.tommyettinger.colorful.oklab;
+package com.github.tommyettinger.colorful.rgb;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.Align;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class OklabDescriptiveDemo extends ApplicationAdapter {
+public class RGBDescriptiveDemo extends ApplicationAdapter {
     public static final int SCREEN_WIDTH = 808;
     public static final int SCREEN_HEIGHT = 600;
     private Stage stage;
@@ -27,7 +27,7 @@ public class OklabDescriptiveDemo extends ApplicationAdapter {
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.setIdleFPS(20);
         config.useVsync(true);
-        final OklabDescriptiveDemo app = new OklabDescriptiveDemo();
+        final RGBDescriptiveDemo app = new RGBDescriptiveDemo();
         new Lwjgl3Application(app, config);
     }
 

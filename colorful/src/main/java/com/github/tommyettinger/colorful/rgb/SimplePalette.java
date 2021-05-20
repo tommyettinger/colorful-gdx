@@ -714,13 +714,13 @@ public class SimplePalette {
                     if (len > 2 && term.charAt(2) == 'g') {
                         switch (len) {
                             case 9:
-                                intensity += 0.125f;
+                                intensity += 0.08f;
                             case 8:
-                                intensity += 0.125f;
+                                intensity += 0.08f;
                             case 7:
-                                intensity += 0.125f;
+                                intensity += 0.08f;
                             case 5:
-                                intensity += 0.125f;
+                                intensity += 0.08f;
                                 break;
                             default:
                                 mixing.add(TRANSPARENT);
@@ -734,13 +734,13 @@ public class SimplePalette {
                     if (len > 1 && term.charAt(1) == 'i') {
                         switch (len) {
                             case 8:
-                                saturation += 0.2f;
+                                saturation += 0.175f;
                             case 7:
-                                saturation += 0.2f;
+                                saturation += 0.175f;
                             case 6:
-                                saturation += 0.2f;
+                                saturation += 0.175f;
                             case 4:
-                                saturation += 0.2f;
+                                saturation += 0.175f;
                                 break;
                             default:
                                 mixing.add(0f);
@@ -754,13 +754,13 @@ public class SimplePalette {
                     if (len > 1 && term.charAt(1) == 'a') {
                         switch (len) {
                             case 8:
-                                intensity -= 0.15f;
+                                intensity -= 0.08f;
                             case 7:
-                                intensity -= 0.15f;
+                                intensity -= 0.08f;
                             case 6:
-                                intensity -= 0.15f;
+                                intensity -= 0.08f;
                             case 4:
-                                intensity -= 0.15f;
+                                intensity -= 0.08f;
                                 break;
                             default:
                                 mixing.add(0f);
@@ -769,13 +769,13 @@ public class SimplePalette {
                     } else if (len > 1 && term.charAt(1) == 'u') {
                         switch (len) {
                             case 8:
-                                saturation -= 0.2f;
+                                saturation -= 0.175f;
                             case 7:
-                                saturation -= 0.2f;
+                                saturation -= 0.175f;
                             case 6:
-                                saturation -= 0.2f;
+                                saturation -= 0.175f;
                             case 4:
-                                saturation -= 0.2f;
+                                saturation -= 0.175f;
                                 break;
                             default:
                                 mixing.add(0f);
