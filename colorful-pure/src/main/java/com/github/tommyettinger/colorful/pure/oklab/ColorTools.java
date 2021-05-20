@@ -965,8 +965,8 @@ public class ColorTools {
 	{
 		A = (A - 0.5f);
 		B = (B - 0.5f);
-		final int idx = ((int)(L * 255.999f) << 8) | (int)(256f * MathTools.atan2_(B, A));
-		return GAMUT_DATA[idx] * 0x1p-8f >= (float) Math.sqrt(A * A + B * B);
+		final byte g = GAMUT_DATA[((int)(L * 255.999f) << 8) | (int)(256f * MathTools.atan2_(B, A))];
+		return g * g * 0x1p-18 >= (A * A + B * B);
 	}
 
 	/**
