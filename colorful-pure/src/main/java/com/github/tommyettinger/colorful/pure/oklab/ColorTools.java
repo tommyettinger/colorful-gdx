@@ -1073,7 +1073,7 @@ public class ColorTools {
 		final float hue = MathTools.atan2_(B2, A2);
 		final int idx = (int) (L * 255.999f) << 8 | (int)(256f * hue);
 		final float dist = GAMUT_DATA[idx] * 0x1p-8f;
-		if(dist >= (float) Math.sqrt(A2 * A2 + B2 * B2))
+		if(dist * 0.5f >= (float) Math.sqrt(A2 * A2 + B2 * B2))
 			return oklab(L, A, B, alpha);
 		return BitConversion.intBitsToFloat(
 				(int) (alpha * 127.999f) << 25 |
