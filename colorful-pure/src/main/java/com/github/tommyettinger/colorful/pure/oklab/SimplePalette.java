@@ -21,7 +21,31 @@ import static com.github.tommyettinger.colorful.pure.oklab.ColorTools.*;
  * Created by Tommy Ettinger on 10/13/2020.
  */
 public class SimplePalette {
-    public static final ObjectFloatOrderedMap<String> NAMED = new ObjectFloatOrderedMap<String>(50);
+    /**
+     * You can look up colors by name here; the names are lower-case, and the colors are packed floats in rgba format.
+     */
+    public static final ObjectFloatOrderedMap<String> NAMED = new ObjectFloatOrderedMap<>(60);
+    /**
+     * Stores alternative names for colors in {@link #NAMED}, like "grey" as an alias for {@link #GRAY} or "gold" as an
+     * alias for {@link #SAFFRON}. Currently, the list of aliases is as follows:
+     * <ul>
+     * <li>"grey" maps to {@link #GRAY},</li>
+     * <li>"gold" maps to {@link #SAFFRON},</li>
+     * <li>"puce" maps to {@link #MAUVE},</li>
+     * <li>"sand" maps to {@link #TAN},</li>
+     * <li>"skin" maps to {@link #PEACH},</li>
+     * <li>"coral" maps to {@link #SALMON},</li>
+     * <li>"azure" maps to {@link #SKY}, and</li>
+     * <li>"ocean" maps to {@link #TEAL}, and</li>
+     * <li>"sapphire" maps to {@link #COBALT}.</li>
+     * </ul>
+     * Note that these aliases are not duplicated in {@link #NAMES}, {@link #NAMES_BY_HUE}, or
+     * {@link #NAMES_BY_LIGHTNESS}; they are primarily there so blind attempts to name a color might still work.
+     */
+    public static final ObjectFloatOrderedMap<String> ALIASES = new ObjectFloatOrderedMap<>(10);
+    /**
+     * Lists the packed float color values in this, in no particular order. Does not include duplicates from aliases.
+     */
     public static final FloatList LIST = new FloatList(50);
 
     /**
@@ -797,6 +821,16 @@ public class SimplePalette {
         int trn = namesByHue.indexOf("transparent");
         namesByHue.removeAt(trn);
         colorsByHue.removeAt(trn);
+        ALIASES.put("grey", GRAY);
+        ALIASES.put("gold", SAFFRON);
+        ALIASES.put("puce", MAUVE);
+        ALIASES.put("sand", TAN);
+        ALIASES.put("skin", PEACH); // Yes, I am aware that there is more than one skin color, but this can only map to one.
+        ALIASES.put("coral", SALMON);
+        ALIASES.put("azure", SKY);
+        ALIASES.put("ocean", TEAL);
+        ALIASES.put("sapphire", COBALT);
+        NAMED.putAll(ALIASES);
     }
     /**
      * Given a color as a packed Oklab float, this finds the closest description it can to match the given color while

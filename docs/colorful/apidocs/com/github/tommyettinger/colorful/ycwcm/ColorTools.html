@@ -343,11 +343,11 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#toEditedFloat(float,float,float,float,float)">toEditedFloat</a></span>&#8203;(float&nbsp;basis,
  float&nbsp;hue,
  float&nbsp;saturation,
- float&nbsp;value,
+ float&nbsp;light,
  float&nbsp;opacity)</code></div>
 <div class="col-last even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
-<div class="block">Gets a variation on the packed float color basis as another packed float that has its hue, saturation, value, and
- opacity adjusted by the specified amounts.</div>
+<div class="block">Gets a variation on the packed float color basis as another packed float that has its hue, saturation, lightness,
+ and opacity adjusted by the specified amounts.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
 <div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#toRGBA(float)">toRGBA</a></span>&#8203;(float&nbsp;packed)</code></div>
@@ -770,17 +770,18 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="toEditedFloat(float,float,float,float,float)">
 <h3>toEditedFloat</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ycwcm/ColorTools.html#line.426">toEditedFloat</a></span>&#8203;<span class="parameters">(float&nbsp;basis,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/ycwcm/ColorTools.html#line.427">toEditedFloat</a></span>&#8203;<span class="parameters">(float&nbsp;basis,
  float&nbsp;hue,
  float&nbsp;saturation,
- float&nbsp;value,
+ float&nbsp;light,
  float&nbsp;opacity)</span></div>
-<div class="block">Gets a variation on the packed float color basis as another packed float that has its hue, saturation, value, and
- opacity adjusted by the specified amounts. Takes floats representing the amounts of change to apply to hue,
- saturation, value, and opacity; these can be between -1f and 1f. Returns a float that can be used as a packed or
- encoded color with methods like <code>Batch.setPackedColor(float)</code>. The float is
- likely to be different than the result of <a href="#ycwcm(float,float,float,float)"><code>ycwcm(float, float, float, float)</code></a> unless hue saturation,
- value, and opacity are all 0. This won't allocate any objects.
+<div class="block">Gets a variation on the packed float color basis as another packed float that has its hue, saturation, lightness,
+ and opacity adjusted by the specified amounts. Note that this edits the color in HSL space, not YCwCm! Takes
+ floats representing the amounts of change to apply to hue, saturation, lightness, and opacity; these can be
+ between -1f and 1f. Returns a float that can be used as a packed or encoded color with methods like
+ <code>Batch.setPackedColor(float)</code>. The float is likely to be different than the
+ result of <a href="#ycwcm(float,float,float,float)"><code>ycwcm(float, float, float, float)</code></a> unless hue, saturation, lightness, and opacity are all 0.
+ This won't allocate any objects.
  <br>
  The parameters this takes all specify additive changes for a color component, clamping the final values so they
  can't go above 1 or below 0, with an exception for hue, which can rotate around if lower or higher hues would be
@@ -792,7 +793,7 @@ loadScripts(document, 'script');</script>
 <dd><code>basis</code> - a packed float color that will be used as the starting point to make the next color</dd>
 <dd><code>hue</code> - -1f to 1f, the hue change that can be applied to the new float color (not clamped, wraps)</dd>
 <dd><code>saturation</code> - -1f to 1f, the saturation change that can be applied to the new float color</dd>
-<dd><code>value</code> - -1f to 1f, the value/brightness change that can be applied to the new float color</dd>
+<dd><code>light</code> - -1f to 1f, the light/brightness change that can be applied to the new float color</dd>
 <dd><code>opacity</code> - -1f to 1f, the opacity/alpha change that can be applied to the new float color</dd>
 <dt>Returns:</dt>
 <dd>a float encoding a variation of basis with the given changes</dd>

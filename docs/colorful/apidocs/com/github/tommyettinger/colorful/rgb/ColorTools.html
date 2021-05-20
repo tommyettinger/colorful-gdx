@@ -288,11 +288,11 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#toEditedFloat(float,float,float,float,float)">toEditedFloat</a></span>&#8203;(float&nbsp;basis,
  float&nbsp;hue,
  float&nbsp;saturation,
- float&nbsp;value,
+ float&nbsp;light,
  float&nbsp;opacity)</code></div>
 <div class="col-last even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
-<div class="block">Gets a variation on the packed float color basis as another packed float that has its hue, saturation, value, and
- opacity adjusted by the specified amounts.</div>
+<div class="block">Gets a variation on the packed float color basis as another packed float that has its hue, saturation, lightness,
+ and opacity adjusted by the specified amounts.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static int</code></div>
 <div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#toRGBA8888(float)">toRGBA8888</a></span>&#8203;(float&nbsp;packed)</code></div>
@@ -602,17 +602,18 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="toEditedFloat(float,float,float,float,float)">
 <h3>toEditedFloat</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.318">toEditedFloat</a></span>&#8203;<span class="parameters">(float&nbsp;basis,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.319">toEditedFloat</a></span>&#8203;<span class="parameters">(float&nbsp;basis,
  float&nbsp;hue,
  float&nbsp;saturation,
- float&nbsp;value,
+ float&nbsp;light,
  float&nbsp;opacity)</span></div>
-<div class="block">Gets a variation on the packed float color basis as another packed float that has its hue, saturation, value, and
- opacity adjusted by the specified amounts. Takes floats representing the amounts of change to apply to hue,
- saturation, value, and opacity; these can be between -1f and 1f. Returns a float that can be used as a packed or
- encoded color with methods like <code>Batch.setPackedColor(float)</code>. The float is
- likely to be different than the result of <a href="#rgb(float,float,float,float)"><code>rgb(float, float, float, float)</code></a> unless hue saturation,
- value, and opacity are all 0. This won't allocate any objects.
+<div class="block">Gets a variation on the packed float color basis as another packed float that has its hue, saturation, lightness,
+ and opacity adjusted by the specified amounts. Note that this edits the color in HSL space, not RGB! Takes
+ floats representing the amounts of change to apply to hue, saturation, lightness, and opacity; these can be
+ between -1f and 1f. Returns a float that can be used as a packed or encoded color with methods like
+ <code>Batch.setPackedColor(float)</code>. The float is likely to be different than the
+ result of <a href="#rgb(float,float,float,float)"><code>rgb(float, float, float, float)</code></a> unless hue, saturation, lightness, and opacity are all 0. This
+ won't allocate any objects.
  <br>
  The parameters this takes all specify additive changes for a color component, clamping the final values so they
  can't go above 1 or below 0, with an exception for hue, which can rotate around if lower or higher hues would be
@@ -624,7 +625,7 @@ loadScripts(document, 'script');</script>
 <dd><code>basis</code> - a packed float color that will be used as the starting point to make the next color</dd>
 <dd><code>hue</code> - -1f to 1f, the hue change that can be applied to the new float color (not clamped, wraps)</dd>
 <dd><code>saturation</code> - -1f to 1f, the saturation change that can be applied to the new float color</dd>
-<dd><code>value</code> - -1f to 1f, the value/brightness change that can be applied to the new float color</dd>
+<dd><code>light</code> - -1f to 1f, the light/brightness change that can be applied to the new float color</dd>
 <dd><code>opacity</code> - -1f to 1f, the opacity/alpha change that can be applied to the new float color</dd>
 <dt>Returns:</dt>
 <dd>a float encoding a variation of basis with the given changes</dd>
@@ -634,7 +635,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="lighten(float,float)">
 <h3>lighten</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.363">lighten</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.364">lighten</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards white by change. While change should be between 0f (return
  start as-is) and 1f (return white), start should be a packed color, as from
@@ -655,7 +656,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="darken(float,float)">
 <h3>darken</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.384">darken</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.385">darken</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards black by change. While change should be between 0f (return
  start as-is) and 1f (return black), start should be a packed color, as from
@@ -676,7 +677,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="blot(float,float)">
 <h3>blot</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.405">blot</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.406">blot</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards that color made opaque by change. While change should be
  between 0f (return start as-is) and 1f (return start with full alpha), start should be a packed color, as from
@@ -697,7 +698,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="fade(float,float)">
 <h3>fade</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.421">fade</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.422">fade</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards transparent by change. While change should be between 0
  (return start as-is) and 1f (return the color with 0 alpha), start should be a packed color, as from
@@ -718,7 +719,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="inverseLightness(float,float)">
 <h3>inverseLightness</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.441">inverseLightness</a></span>&#8203;<span class="parameters">(float&nbsp;mainColor,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.442">inverseLightness</a></span>&#8203;<span class="parameters">(float&nbsp;mainColor,
  float&nbsp;contrastingColor)</span></div>
 <div class="block">Given a packed float RGBA color <code>mainColor</code> and another RGBA color that it should be made to contrast with,
  gets a packed float RGBA color with roughly inverted lightness (how the Oklab color space interprets it), but the
@@ -742,7 +743,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="differentiateLightness(float,float)">
 <h3>differentiateLightness</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.463">differentiateLightness</a></span>&#8203;<span class="parameters">(float&nbsp;mainColor,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.464">differentiateLightness</a></span>&#8203;<span class="parameters">(float&nbsp;mainColor,
  float&nbsp;contrastingColor)</span></div>
 <div class="block">Given a packed float RGBA color <code>mainColor</code> and another RGBA color that it should be made to contrast
  with, gets a packed float RGBA color with lightness that should be quite different from
@@ -765,7 +766,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="offsetLightness(float)">
 <h3>offsetLightness</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.477">offsetLightness</a></span>&#8203;<span class="parameters">(float&nbsp;mainColor)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.478">offsetLightness</a></span>&#8203;<span class="parameters">(float&nbsp;mainColor)</span></div>
 <div class="block">Pretty simple; adds 0.5 to the given color's lightness (calculated by converting it to Oklab internally) and
  wraps it around if it would go above 1.0, then averages that with the original lightness. This means light colors
  become darker, and dark colors become lighter, with almost all results in the middle-range of possible lightness.</div>
@@ -780,7 +781,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="lessenChange(float,float)">
 <h3>lessenChange</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.491">lessenChange</a></span>&#8203;<span class="parameters">(float&nbsp;color,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.492">lessenChange</a></span>&#8203;<span class="parameters">(float&nbsp;color,
  float&nbsp;fraction)</span></div>
 <div class="block">Makes the additive RGBA color stored in <code>color</code> cause less of a change when used as a tint, as if it were
  mixed with neutral gray. When <code>fraction</code> is 1.0, this returns color unchanged; when fraction is 0.0, it
@@ -798,7 +799,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="randomEdit(float,long,float)">
 <h3>randomEdit</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.515">randomEdit</a></span>&#8203;<span class="parameters">(float&nbsp;color,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.516">randomEdit</a></span>&#8203;<span class="parameters">(float&nbsp;color,
  long&nbsp;seed,
  float&nbsp;variance)</span></div>
 <div class="block">Makes a quasi-randomly-edited variant on the given <code>color</code>, allowing typically a small amount of
@@ -821,7 +822,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="randomColor(java.util.Random)">
 <h3>randomColor</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.543">randomColor</a></span>&#8203;<span class="parameters">(<a href="https://docs.oracle.com/javase/7/docs/api/java/util/Random.html" title="class or interface in java.util" class="external-link">Random</a>&nbsp;random)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.544">randomColor</a></span>&#8203;<span class="parameters">(<a href="https://docs.oracle.com/javase/7/docs/api/java/util/Random.html" title="class or interface in java.util" class="external-link">Random</a>&nbsp;random)</span></div>
 <div class="block">Produces a random packed float color that is always opaque and should be uniformly distributed.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -834,7 +835,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="subrandomColor(float,float,float)">
 <h3>subrandomColor</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.562">subrandomColor</a></span>&#8203;<span class="parameters">(float&nbsp;r,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/rgb/ColorTools.html#line.563">subrandomColor</a></span>&#8203;<span class="parameters">(float&nbsp;r,
  float&nbsp;g,
  float&nbsp;b)</span></div>
 <div class="block">Limited-use; like <a href="#randomColor(java.util.Random)"><code>randomColor(Random)</code></a> but for cases where you already have three floats (r, g, and b)

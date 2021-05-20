@@ -413,11 +413,11 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#toEditedFloat(float,float,float,float,float)">toEditedFloat</a></span>&#8203;(float&nbsp;basis,
  float&nbsp;hue,
  float&nbsp;saturation,
- float&nbsp;value,
+ float&nbsp;light,
  float&nbsp;opacity)</code></div>
 <div class="col-last even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
-<div class="block">Gets a variation on the packed float color basis as another packed float that has its hue, saturation, value, and
- opacity adjusted by the specified amounts.</div>
+<div class="block">Gets a variation on the packed float color basis as another packed float that has its hue, saturation, lightness,
+ and opacity adjusted by the specified amounts.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
 <div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#toRGBA(float)">toRGBA</a></span>&#8203;(float&nbsp;packed)</code></div>
@@ -845,17 +845,18 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="toEditedFloat(float,float,float,float,float)">
 <h3>toEditedFloat</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.627">toEditedFloat</a></span>&#8203;<span class="parameters">(float&nbsp;basis,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.628">toEditedFloat</a></span>&#8203;<span class="parameters">(float&nbsp;basis,
  float&nbsp;hue,
  float&nbsp;saturation,
- float&nbsp;value,
+ float&nbsp;light,
  float&nbsp;opacity)</span></div>
-<div class="block">Gets a variation on the packed float color basis as another packed float that has its hue, saturation, value, and
- opacity adjusted by the specified amounts. Takes floats representing the amounts of change to apply to hue,
- saturation, value, and opacity; these can be between -1f and 1f. Returns a float that can be used as a packed or
- encoded color with methods like <code>Batch.setPackedColor(float)</code>. The float is
- likely to be different than the result of <a href="#oklab(float,float,float,float)"><code>oklab(float, float, float, float)</code></a> unless hue, saturation,
- value, and opacity are all 0. This won't allocate any objects.
+<div class="block">Gets a variation on the packed float color basis as another packed float that has its hue, saturation, lightness,
+ and opacity adjusted by the specified amounts. Note that this edits the color in HSL space, not Oklab! Takes
+ floats representing the amounts of change to apply to hue, saturation, lightness, and opacity; these can be
+ between -1f and 1f. Returns a float that can be used as a packed or encoded color with methods like
+ <code>Batch.setPackedColor(float)</code>. The float is likely to be different than the
+ result of <a href="#oklab(float,float,float,float)"><code>oklab(float, float, float, float)</code></a> unless hue, saturation, lightness, and opacity are all 0.
+ This won't allocate any objects.
  <br>
  The parameters this takes all specify additive changes for a color component, clamping the final values so they
  can't go above 1 or below 0, with an exception for hue, which can rotate around if lower or higher hues would be
@@ -867,7 +868,7 @@ loadScripts(document, 'script');</script>
 <dd><code>basis</code> - a packed float color that will be used as the starting point to make the next color</dd>
 <dd><code>hue</code> - -1f to 1f, the hue change that can be applied to the new float color (not clamped, wraps)</dd>
 <dd><code>saturation</code> - -1f to 1f, the saturation change that can be applied to the new float color</dd>
-<dd><code>value</code> - -1f to 1f, the value/brightness change that can be applied to the new float color</dd>
+<dd><code>light</code> - -1f to 1f, the light/brightness change that can be applied to the new float color</dd>
 <dd><code>opacity</code> - -1f to 1f, the opacity/alpha change that can be applied to the new float color</dd>
 <dt>Returns:</dt>
 <dd>a float encoding a variation of basis with the given changes</dd>
@@ -877,7 +878,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="lighten(float,float)">
 <h3>lighten</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.680">lighten</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.681">lighten</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards white by change. While change should be between 0f (return
  start as-is) and 1f (return white), start should be a packed color, as from
@@ -898,7 +899,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="darken(float,float)">
 <h3>darken</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.696">darken</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.697">darken</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards black by change. While change should be between 0f (return
  start as-is) and 1f (return black), start should be a packed color, as from
@@ -919,7 +920,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="raiseA(float,float)">
 <h3>raiseA</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.713">raiseA</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.714">raiseA</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards a warmer color (orange to magenta) by change. While change
  should be between 0f (return start as-is) and 1f (return fully warmed), start should be a packed color, as from
@@ -941,7 +942,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="lowerA(float,float)">
 <h3>lowerA</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.730">lowerA</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.731">lowerA</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards a cooler color (green to blue) by change. While change
  should be between 0f (return start as-is) and 1f (return fully cooled), start should be a packed color, as from
@@ -963,7 +964,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="raiseB(float,float)">
 <h3>raiseB</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.747">raiseB</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.748">raiseB</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards a "natural" color (between green and orange) by change.
  While change should be between 0f (return start as-is) and 1f (return fully natural), start should be a packed color, as
@@ -985,7 +986,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="lowerB(float,float)">
 <h3>lowerB</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.764">lowerB</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.765">lowerB</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards an "artificial" color (between blue and purple) by change.
  While change should be between 0f (return start as-is) and 1f (return fully artificial), start should be a packed color, as
@@ -1007,7 +1008,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="blot(float,float)">
 <h3>blot</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.780">blot</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.781">blot</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards that color made opaque by change. While change should be
  between 0f (return start as-is) and 1f (return start with full alpha), start should be a packed color, as from
@@ -1028,7 +1029,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="fade(float,float)">
 <h3>fade</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.796">fade</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.797">fade</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards transparent by change. While change should be between 0
  (return start as-is) and 1f (return the color with 0 alpha), start should be a packed color, as from
@@ -1049,7 +1050,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="dullen(float,float)">
 <h3>dullen</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.811">dullen</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.812">dullen</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Brings the chromatic components of <code>start</code> closer to grayscale by <code>change</code> (desaturating them). While
  change should be between 0f (return start as-is) and 1f (return fully gray), start should be a packed color, as
@@ -1069,7 +1070,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="enrich(float,float)">
 <h3>enrich</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.830">enrich</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.831">enrich</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Pushes the chromatic components of <code>start</code> away from grayscale by change (saturating them). While change
  should be between 0f (return start as-is) and 1f (return maximally saturated), start should be a packed color, as
@@ -1090,7 +1091,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="inverseLightness(float,float)">
 <h3>inverseLightness</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.856">inverseLightness</a></span>&#8203;<span class="parameters">(float&nbsp;mainColor,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.857">inverseLightness</a></span>&#8203;<span class="parameters">(float&nbsp;mainColor,
  float&nbsp;contrastingColor)</span></div>
 <div class="block">Given a packed float Oklab color <code>mainColor</code> and another Oklab color that it should be made to contrast with,
  gets a packed float Oklab color with roughly inverted L but the same chromatic channels and opacity (A and B
@@ -1116,7 +1117,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="differentiateLightness(float,float)">
 <h3>differentiateLightness</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.885">differentiateLightness</a></span>&#8203;<span class="parameters">(float&nbsp;mainColor,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.886">differentiateLightness</a></span>&#8203;<span class="parameters">(float&nbsp;mainColor,
  float&nbsp;contrastingColor)</span></div>
 <div class="block">Given a packed float Oklab color <code>mainColor</code> and another Oklab color that it should be made to contrast
  with, gets a packed float Oklab color with L that should be quite different from <code>contrastingColor</code>'s L,
@@ -1139,7 +1140,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="offsetLightness(float)">
 <h3>offsetLightness</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.898">offsetLightness</a></span>&#8203;<span class="parameters">(float&nbsp;mainColor)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.899">offsetLightness</a></span>&#8203;<span class="parameters">(float&nbsp;mainColor)</span></div>
 <div class="block">Pretty simple; adds 0.5 to the given color's L and wraps it around if it would go above 1.0, then averages that
  with the original L. This means light colors become darker, and dark colors become lighter, with almost all
  results in the middle-range of possible lightness.</div>
@@ -1154,7 +1155,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="lessenChange(float,float)">
 <h3>lessenChange</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.912">lessenChange</a></span>&#8203;<span class="parameters">(float&nbsp;color,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.913">lessenChange</a></span>&#8203;<span class="parameters">(float&nbsp;color,
  float&nbsp;fraction)</span></div>
 <div class="block">Makes the additive Oklab color stored in <code>color</code> cause less of a change when used as a tint, as if it were
  mixed with neutral gray. When <code>fraction</code> is 1.0, this returns color unchanged; when fraction is 0.0, it
@@ -1172,7 +1173,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="randomEdit(float,long,float)">
 <h3>randomEdit</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.936">randomEdit</a></span>&#8203;<span class="parameters">(float&nbsp;color,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.937">randomEdit</a></span>&#8203;<span class="parameters">(float&nbsp;color,
  long&nbsp;seed,
  float&nbsp;variance)</span></div>
 <div class="block">Makes a quasi-randomly-edited variant on the given <code>color</code>, allowing typically a small amount of
@@ -1196,7 +1197,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="getRawGamutValue(int)">
 <h3>getRawGamutValue</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">byte</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.992">getRawGamutValue</a></span>&#8203;<span class="parameters">(int&nbsp;index)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">byte</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.993">getRawGamutValue</a></span>&#8203;<span class="parameters">(int&nbsp;index)</span></div>
 <div class="block">Given a 1D int index between 0 and 65535 (both inclusive), this treats the 1D index as two parts (lightness and
  hue angle, both from 0 to 255) and gets the distance from grayscale to the edge of the gamut at that lightness
  and hue. The index can be constructed from a lightness value <code>L</code> from 0 to 255, and a hue value <code>H</code>
@@ -1229,7 +1230,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="inGamut(float)">
 <h3>inGamut</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.1001">inGamut</a></span>&#8203;<span class="parameters">(float&nbsp;packed)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.1002">inGamut</a></span>&#8203;<span class="parameters">(float&nbsp;packed)</span></div>
 <div class="block">Returns true if the given packed float color, as Oklab, is valid to convert losslessly back to RGBA.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -1242,7 +1243,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="inGamut(float,float,float)">
 <h3>inGamut</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.1032">inGamut</a></span>&#8203;<span class="parameters">(float&nbsp;L,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.1033">inGamut</a></span>&#8203;<span class="parameters">(float&nbsp;L,
  float&nbsp;A,
  float&nbsp;B)</span></div>
 <div class="block">Returns true if the given Oklab values are valid to convert losslessly back to RGBA.</div>
@@ -1259,7 +1260,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="maximizeSaturation(float)">
 <h3>maximizeSaturation</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.1062">maximizeSaturation</a></span>&#8203;<span class="parameters">(float&nbsp;packed)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.1063">maximizeSaturation</a></span>&#8203;<span class="parameters">(float&nbsp;packed)</span></div>
 <div class="block">Gets the color with the same L as the Oklab color stored in the given packed float, but the furthest A
  B from gray possible for that lightness while keeping the same hue as the given color. This is very
  similar to calling <a href="#enrich(float,float)"><code>enrich(float, float)</code></a> with a very large <code>change</code> value.</div>
@@ -1276,7 +1277,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="maximizeSaturation(float,float,float,float)">
 <h3>maximizeSaturation</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.1085">maximizeSaturation</a></span>&#8203;<span class="parameters">(float&nbsp;L,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.1086">maximizeSaturation</a></span>&#8203;<span class="parameters">(float&nbsp;L,
  float&nbsp;A,
  float&nbsp;B,
  float&nbsp;alpha)</span></div>
@@ -1299,7 +1300,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="limitToGamut(float)">
 <h3>limitToGamut</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.1108">limitToGamut</a></span>&#8203;<span class="parameters">(float&nbsp;packed)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.1109">limitToGamut</a></span>&#8203;<span class="parameters">(float&nbsp;packed)</span></div>
 <div class="block">Checks whether the given Oklab color is in-gamut; if it isn't in-gamut, brings the color just inside
  the gamut at the same lightness, or if it is already in-gamut, returns the color as-is.</div>
 <dl class="notes">
@@ -1315,7 +1316,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="limitToGamut(float,float,float)">
 <h3>limitToGamut</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.1155">limitToGamut</a></span>&#8203;<span class="parameters">(float&nbsp;L,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.1156">limitToGamut</a></span>&#8203;<span class="parameters">(float&nbsp;L,
  float&nbsp;A,
  float&nbsp;B)</span></div>
 <div class="block">Checks whether the given Oklab color is in-gamut; if it isn't in-gamut, brings the color just inside
@@ -1336,7 +1337,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="limitToGamut(float,float,float,float)">
 <h3>limitToGamut</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.1168">limitToGamut</a></span>&#8203;<span class="parameters">(float&nbsp;L,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.1169">limitToGamut</a></span>&#8203;<span class="parameters">(float&nbsp;L,
  float&nbsp;A,
  float&nbsp;B,
  float&nbsp;alpha)</span></div>
@@ -1358,7 +1359,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="randomColor(java.util.Random)">
 <h3>randomColor</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.1215">randomColor</a></span>&#8203;<span class="parameters">(<a href="https://docs.oracle.com/javase/7/docs/api/java/util/Random.html" title="class or interface in java.util" class="external-link">Random</a>&nbsp;random)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/github/tommyettinger/colorful/oklab/ColorTools.html#line.1216">randomColor</a></span>&#8203;<span class="parameters">(<a href="https://docs.oracle.com/javase/7/docs/api/java/util/Random.html" title="class or interface in java.util" class="external-link">Random</a>&nbsp;random)</span></div>
 <div class="block">Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.</div>
 <dl class="notes">
 <dt>Parameters:</dt>

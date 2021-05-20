@@ -337,11 +337,11 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#toEditedFloat(float,float,float,float,float)">toEditedFloat</a></span>&#8203;(float&nbsp;basis,
  float&nbsp;hue,
  float&nbsp;saturation,
- float&nbsp;value,
+ float&nbsp;light,
  float&nbsp;opacity)</code></div>
 <div class="col-last odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
-<div class="block">Gets a variation on the packed float color basis as another packed float that has its hue, saturation, value, and
- opacity adjusted by the specified amounts.</div>
+<div class="block">Gets a variation on the packed float color basis as another packed float that has its hue, saturation, lightness,
+ and opacity adjusted by the specified amounts.</div>
 </div>
 <div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
 <div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#toRGBA(float)">toRGBA</a></span>&#8203;(float&nbsp;packed)</code></div>
@@ -752,14 +752,14 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.409">toEditedFloat</a></span>&#8203;<span class="parameters">(float&nbsp;basis,
  float&nbsp;hue,
  float&nbsp;saturation,
- float&nbsp;value,
+ float&nbsp;light,
  float&nbsp;opacity)</span></div>
-<div class="block">Gets a variation on the packed float color basis as another packed float that has its hue, saturation, value, and
- opacity adjusted by the specified amounts. Takes floats representing the amounts of change to apply to hue,
- saturation, value, and opacity; these can be between -1f and 1f. Returns a float that can be used as a packed or
- encoded color. The float is
- likely to be different than the result of <a href="#ycwcm(float,float,float,float)"><code>ycwcm(float, float, float, float)</code></a> unless hue saturation,
- value, and opacity are all 0. This won't allocate any objects.
+<div class="block">Gets a variation on the packed float color basis as another packed float that has its hue, saturation, lightness,
+ and opacity adjusted by the specified amounts. Note that this edits the color in HSL space, not YCwCm! Takes
+ floats representing the amounts of change to apply to hue, saturation, lightness, and opacity; these can be
+ between -1f and 1f. Returns a float that can be used as a packed or encoded color. The float is
+ likely to be different than the result of <a href="#ycwcm(float,float,float,float)"><code>ycwcm(float, float, float, float)</code></a> unless hue, saturation,
+ lightness, and opacity are all 0. This won't allocate any objects.
  <br>
  The parameters this takes all specify additive changes for a color component, clamping the final values so they
  can't go above 1 or below 0, with an exception for hue, which can rotate around if lower or higher hues would be
@@ -771,7 +771,7 @@ loadScripts(document, 'script');</script>
 <dd><code>basis</code> - a packed float color that will be used as the starting point to make the next color</dd>
 <dd><code>hue</code> - -1f to 1f, the hue change that can be applied to the new float color (not clamped, wraps)</dd>
 <dd><code>saturation</code> - -1f to 1f, the saturation change that can be applied to the new float color</dd>
-<dd><code>value</code> - -1f to 1f, the value/brightness change that can be applied to the new float color</dd>
+<dd><code>light</code> - -1f to 1f, the light/brightness change that can be applied to the new float color</dd>
 <dd><code>opacity</code> - -1f to 1f, the opacity/alpha change that can be applied to the new float color</dd>
 <dt>Returns:</dt>
 <dd>a float encoding a variation of basis with the given changes</dd>
@@ -781,7 +781,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="lighten(float,float)">
 <h3>lighten</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.460">lighten</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.459">lighten</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards white by change. While change should be between 0f (return
  start as-is) and 1f (return white), start should be a packed color, as from
@@ -802,7 +802,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="darken(float,float)">
 <h3>darken</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.476">darken</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.475">darken</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards black by change. While change should be between 0f (return
  start as-is) and 1f (return black), start should be a packed color, as from
@@ -823,7 +823,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="warm(float,float)">
 <h3>warm</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.493">warm</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.492">warm</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards a warmer color (yellow to red) by change. While change
  should be between 0f (returnstart as-is) and 1f (return fully warmed), start should be a packed color, as from
@@ -845,7 +845,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="cool(float,float)">
 <h3>cool</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.510">cool</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.509">cool</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards a cooler color (green to blue) by change. While change
  should be between 0f (return start as-is) and 1f (return fully cooled), start should be a packed color, as from
@@ -867,7 +867,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="weaken(float,float)">
 <h3>weaken</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.527">weaken</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.526">weaken</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards a milder color (between green and yellow) by change. While
  change should be between 0f (return start as-is) and 1f (return fully mild), start should be a packed color, as
@@ -889,7 +889,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="strengthen(float,float)">
 <h3>strengthen</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.544">strengthen</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.543">strengthen</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards a bolder color (between blue and red) by change. While
  change should be between 0f (return start as-is) and 1f (return fully cooled), start should be a packed color, as
@@ -911,7 +911,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="blot(float,float)">
 <h3>blot</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.560">blot</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.559">blot</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards that color made opaque by change. While change should be
  between 0f (return start as-is) and 1f (return start with full alpha), start should be a packed color, as from
@@ -932,7 +932,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="fade(float,float)">
 <h3>fade</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.576">fade</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.575">fade</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards transparent by change. While change should be between 0
  (return start as-is) and 1f (return the color with 0 alpha), start should be a packed color, as from
@@ -953,7 +953,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="dullen(float,float)">
 <h3>dullen</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.591">dullen</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.590">dullen</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Brings the chromatic components of <code>start</code> closer to grayscale by <code>change</code> (desaturating them). While
  change should be between 0f (return start as-is) and 1f (return fully gray), start should be a packed color, as
@@ -973,7 +973,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="enrich(float,float)">
 <h3>enrich</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.611">enrich</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.610">enrich</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;change)</span></div>
 <div class="block">Pushes the chromatic components of <code>start</code> away from grayscale by change (saturating them). While change
  should be between 0f (return start as-is) and 1f (return maximally saturated), start should be a packed color, as
@@ -995,7 +995,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="inverseLightness(float,float)">
 <h3>inverseLightness</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.634">inverseLightness</a></span>&#8203;<span class="parameters">(float&nbsp;mainColor,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.633">inverseLightness</a></span>&#8203;<span class="parameters">(float&nbsp;mainColor,
  float&nbsp;contrastingColor)</span></div>
 <div class="block">Given a packed float YCwCm color <code>mainColor</code> and another YCwCm color that it should be made to contrast
  with, gets a packed float YCwCm color with roughly inverted luma but the same chromatic channels and opacity (Cw
@@ -1019,7 +1019,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="differentiateLightness(float,float)">
 <h3>differentiateLightness</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.663">differentiateLightness</a></span>&#8203;<span class="parameters">(float&nbsp;mainColor,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.662">differentiateLightness</a></span>&#8203;<span class="parameters">(float&nbsp;mainColor,
  float&nbsp;contrastingColor)</span></div>
 <div class="block">Given a packed float YCwCm color <code>mainColor</code> and another YCwCm color that it should be made to contrast
  with, gets a packed float YCwCm color with Y that should be quite different from <code>contrastingColor</code>'s Y,
@@ -1042,7 +1042,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="offsetLightness(float)">
 <h3>offsetLightness</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.676">offsetLightness</a></span>&#8203;<span class="parameters">(float&nbsp;mainColor)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.675">offsetLightness</a></span>&#8203;<span class="parameters">(float&nbsp;mainColor)</span></div>
 <div class="block">Pretty simple; adds 0.5 to the given color's Y and wraps it around if it would go above 1.0, then averages that
  with the original Y. This means light colors become darker, and dark colors become lighter, with almost all
  results in the middle-range of possible lightness.</div>
@@ -1057,7 +1057,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="lessenChange(float,float)">
 <h3>lessenChange</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.690">lessenChange</a></span>&#8203;<span class="parameters">(float&nbsp;color,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.689">lessenChange</a></span>&#8203;<span class="parameters">(float&nbsp;color,
  float&nbsp;fraction)</span></div>
 <div class="block">Makes the additive YCwCm color stored in <code>color</code> cause less of a change when used as a tint, as if it were
  mixed with neutral gray. When <code>fraction</code> is 1.0, this returns color unchanged; when fraction is 0.0, it
@@ -1075,7 +1075,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="randomEdit(float,long,float)">
 <h3>randomEdit</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.713">randomEdit</a></span>&#8203;<span class="parameters">(float&nbsp;color,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.712">randomEdit</a></span>&#8203;<span class="parameters">(float&nbsp;color,
  long&nbsp;seed,
  float&nbsp;variance)</span></div>
 <div class="block">Makes a quasi-randomly-edited variant on the given <code>color</code>, allowing typically a small amount of
@@ -1099,7 +1099,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="inGamut(float)">
 <h3>inGamut</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.736">inGamut</a></span>&#8203;<span class="parameters">(float&nbsp;packed)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.735">inGamut</a></span>&#8203;<span class="parameters">(float&nbsp;packed)</span></div>
 <div class="block">Returns true if the given packed float color, as YCwCm, is valid to convert losslessly back to RGBA.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -1112,7 +1112,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="inGamut(float,float,float)">
 <h3>inGamut</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.755">inGamut</a></span>&#8203;<span class="parameters">(float&nbsp;y,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.754">inGamut</a></span>&#8203;<span class="parameters">(float&nbsp;y,
  float&nbsp;cw,
  float&nbsp;cm)</span></div>
 <div class="block">Returns true if the given YCwCm values are valid to convert losslessly back to RGBA.</div>
@@ -1129,7 +1129,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="limitToGamut(float)">
 <h3>limitToGamut</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.773">limitToGamut</a></span>&#8203;<span class="parameters">(float&nbsp;packed)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.772">limitToGamut</a></span>&#8203;<span class="parameters">(float&nbsp;packed)</span></div>
 <div class="block">Iteratively checks whether the given YCwCm color is in-gamut, and either brings the color closer to 50% gray if
  it isn't in-gamut, or returns it as soon as it is in-gamut.</div>
 <dl class="notes">
@@ -1145,7 +1145,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="limitToGamut(float,float,float)">
 <h3>limitToGamut</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.802">limitToGamut</a></span>&#8203;<span class="parameters">(float&nbsp;y,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.801">limitToGamut</a></span>&#8203;<span class="parameters">(float&nbsp;y,
  float&nbsp;cw,
  float&nbsp;cm)</span></div>
 <div class="block">Iteratively checks whether the given YCwCm color is in-gamut, and either brings the color closer to 50% gray if
@@ -1165,7 +1165,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="limitToGamut(float,float,float,float)">
 <h3>limitToGamut</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.816">limitToGamut</a></span>&#8203;<span class="parameters">(float&nbsp;y,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.815">limitToGamut</a></span>&#8203;<span class="parameters">(float&nbsp;y,
  float&nbsp;cw,
  float&nbsp;cm,
  float&nbsp;a)</span></div>
@@ -1187,7 +1187,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="randomColor(java.util.Random)">
 <h3>randomColor</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.842">randomColor</a></span>&#8203;<span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Random.html" title="class or interface in java.util" class="external-link">Random</a>&nbsp;random)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../../../src-html/com/github/tommyettinger/colorful/pure/ycwcm/ColorTools.html#line.841">randomColor</a></span>&#8203;<span class="parameters">(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Random.html" title="class or interface in java.util" class="external-link">Random</a>&nbsp;random)</span></div>
 <div class="block">Produces a random packed float color that is always in-gamut and should be uniformly distributed.</div>
 <dl class="notes">
 <dt>Parameters:</dt>

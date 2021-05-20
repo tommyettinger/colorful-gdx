@@ -308,277 +308,278 @@
 <span class="source-line-no">295</span><span id="line.295">        }</span>
 <span class="source-line-no">296</span><span id="line.296"></span>
 <span class="source-line-no">297</span><span id="line.297">        /**</span>
-<span class="source-line-no">298</span><span id="line.298">         * Gets a variation on the packed float color basis as another packed float that has its hue, saturation, value, and</span>
-<span class="source-line-no">299</span><span id="line.299">         * opacity adjusted by the specified amounts. Takes floats representing the amounts of change to apply to hue,</span>
-<span class="source-line-no">300</span><span id="line.300">         * saturation, value, and opacity; these can be between -1f and 1f. Returns a float that can be used as a packed or</span>
-<span class="source-line-no">301</span><span id="line.301">         * encoded color with methods like {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)}. The float is</span>
-<span class="source-line-no">302</span><span id="line.302">         * likely to be different than the result of {@link #rgb(float, float, float, float)} unless hue saturation,</span>
-<span class="source-line-no">303</span><span id="line.303">         * value, and opacity are all 0. This won't allocate any objects.</span>
-<span class="source-line-no">304</span><span id="line.304">         * &lt;br&gt;</span>
-<span class="source-line-no">305</span><span id="line.305">         * The parameters this takes all specify additive changes for a color component, clamping the final values so they</span>
-<span class="source-line-no">306</span><span id="line.306">         * can't go above 1 or below 0, with an exception for hue, which can rotate around if lower or higher hues would be</span>
-<span class="source-line-no">307</span><span id="line.307">         * used. As an example, if you give this 0.4f for saturation, and the current color has saturation 0.7f, then the</span>
-<span class="source-line-no">308</span><span id="line.308">         * resulting color will have 1f for saturation. If you gave this -0.1f for saturation and the current color again</span>
-<span class="source-line-no">309</span><span id="line.309">         * has saturation 0.7f, then resulting color will have 0.6f for saturation.</span>
-<span class="source-line-no">310</span><span id="line.310">         *</span>
-<span class="source-line-no">311</span><span id="line.311">         * @param basis      a packed float color that will be used as the starting point to make the next color</span>
-<span class="source-line-no">312</span><span id="line.312">         * @param hue        -1f to 1f, the hue change that can be applied to the new float color (not clamped, wraps)</span>
-<span class="source-line-no">313</span><span id="line.313">         * @param saturation -1f to 1f, the saturation change that can be applied to the new float color</span>
-<span class="source-line-no">314</span><span id="line.314">         * @param value      -1f to 1f, the value/brightness change that can be applied to the new float color</span>
-<span class="source-line-no">315</span><span id="line.315">         * @param opacity    -1f to 1f, the opacity/alpha change that can be applied to the new float color</span>
-<span class="source-line-no">316</span><span id="line.316">         * @return a float encoding a variation of basis with the given changes</span>
-<span class="source-line-no">317</span><span id="line.317">         */</span>
-<span class="source-line-no">318</span><span id="line.318">        public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {</span>
-<span class="source-line-no">319</span><span id="line.319">                final int decoded = NumberUtils.floatToRawIntBits(basis);</span>
-<span class="source-line-no">320</span><span id="line.320">                opacity = Math.min(Math.max(opacity + (decoded &gt;&gt;&gt; 24 &amp; 0xfe) * 0x1.020408p-8f, 0f), 1f);</span>
-<span class="source-line-no">321</span><span id="line.321">                final float r = (decoded &amp; 0xff) / 255f;</span>
-<span class="source-line-no">322</span><span id="line.322">                final float g = (decoded &gt;&gt;&gt; 8 &amp; 0xff) / 255f;</span>
-<span class="source-line-no">323</span><span id="line.323">                final float b = (decoded &gt;&gt;&gt; 16 &amp; 0xff) / 255f;</span>
-<span class="source-line-no">324</span><span id="line.324">                float x, y, z, w;</span>
-<span class="source-line-no">325</span><span id="line.325">                if(g &lt; b) {</span>
-<span class="source-line-no">326</span><span id="line.326">                        x = b;</span>
-<span class="source-line-no">327</span><span id="line.327">                        y = g;</span>
-<span class="source-line-no">328</span><span id="line.328">                        z = -1f;</span>
-<span class="source-line-no">329</span><span id="line.329">                        w = 2f / 3f;</span>
-<span class="source-line-no">330</span><span id="line.330">                }</span>
-<span class="source-line-no">331</span><span id="line.331">                else {</span>
-<span class="source-line-no">332</span><span id="line.332">                        x = g;</span>
-<span class="source-line-no">333</span><span id="line.333">                        y = b;</span>
-<span class="source-line-no">334</span><span id="line.334">                        z = 0f;</span>
-<span class="source-line-no">335</span><span id="line.335">                        w = -1f / 3f;</span>
-<span class="source-line-no">336</span><span id="line.336">                }</span>
-<span class="source-line-no">337</span><span id="line.337">                if(r &lt; x) {</span>
-<span class="source-line-no">338</span><span id="line.338">                        z = w;</span>
-<span class="source-line-no">339</span><span id="line.339">                        w = r;</span>
-<span class="source-line-no">340</span><span id="line.340">                }</span>
-<span class="source-line-no">341</span><span id="line.341">                else {</span>
-<span class="source-line-no">342</span><span id="line.342">                        w = x;</span>
-<span class="source-line-no">343</span><span id="line.343">                        x = r;</span>
-<span class="source-line-no">344</span><span id="line.344">                }</span>
-<span class="source-line-no">345</span><span id="line.345">                final float d = x - Math.min(w, y);</span>
-<span class="source-line-no">346</span><span id="line.346">                final float light = Math.min(Math.max(x * (1f - 0.5f * d / (x + 1e-10f)) + value, 0f), 1f);</span>
-<span class="source-line-no">347</span><span id="line.347">                hue += Math.abs(z + (w - y) / (6f * d + 1e-10f)) + 1f;</span>
-<span class="source-line-no">348</span><span id="line.348">                saturation += (x - light) / (Math.min(light, 1f - light) + 1e-10f);</span>
-<span class="source-line-no">349</span><span id="line.349">                return FloatColors.hsl2rgb(hue - (int)hue, Math.min(Math.max(saturation, 0f), 1f), light, opacity);</span>
-<span class="source-line-no">350</span><span id="line.350">        }</span>
-<span class="source-line-no">351</span><span id="line.351"></span>
-<span class="source-line-no">352</span><span id="line.352">        /**</span>
-<span class="source-line-no">353</span><span id="line.353">         * Interpolates from the packed float color start towards white by change. While change should be between 0f (return</span>
-<span class="source-line-no">354</span><span id="line.354">         * start as-is) and 1f (return white), start should be a packed color, as from</span>
-<span class="source-line-no">355</span><span id="line.355">         * {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and</span>
-<span class="source-line-no">356</span><span id="line.356">         * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards</span>
-<span class="source-line-no">357</span><span id="line.357">         * white. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and both chroma of start as-is.</span>
-<span class="source-line-no">358</span><span id="line.358">         * @see #darken(float, float) the counterpart method that darkens a float color</span>
-<span class="source-line-no">359</span><span id="line.359">         * @param start the starting color as a packed float</span>
-<span class="source-line-no">360</span><span id="line.360">         * @param change how much to go from start toward white, as a float between 0 and 1; higher means closer to white</span>
-<span class="source-line-no">361</span><span id="line.361">         * @return a packed float that represents a color between start and white</span>
-<span class="source-line-no">362</span><span id="line.362">         */</span>
-<span class="source-line-no">363</span><span id="line.363">        public static float lighten(final float start, final float change) {</span>
-<span class="source-line-no">364</span><span id="line.364">                final int s = NumberUtils.floatToRawIntBits(start), r = s &amp; 0xFF, g = s &gt;&gt;&gt; 8 &amp; 0xFF, b = s &gt;&gt;&gt; 16 &amp; 0xFF,</span>
-<span class="source-line-no">365</span><span id="line.365">                                a = s &amp; 0xFE000000;</span>
-<span class="source-line-no">366</span><span id="line.366">                return NumberUtils.intBitsToFloat(</span>
-<span class="source-line-no">367</span><span id="line.367">                                ((int) (r + (0xFF - r) * change) &amp; 0xFF) |</span>
-<span class="source-line-no">368</span><span id="line.368">                                ((int) (g + (0xFF - g) * change) &amp; 0xFF) &lt;&lt; 8 |</span>
-<span class="source-line-no">369</span><span id="line.369">                                ((int) (b + (0xFF - b) * change) &amp; 0xFF) &lt;&lt; 16 |</span>
-<span class="source-line-no">370</span><span id="line.370">                                a);</span>
-<span class="source-line-no">371</span><span id="line.371">        }</span>
-<span class="source-line-no">372</span><span id="line.372"></span>
-<span class="source-line-no">373</span><span id="line.373">        /**</span>
-<span class="source-line-no">374</span><span id="line.374">         * Interpolates from the packed float color start towards black by change. While change should be between 0f (return</span>
-<span class="source-line-no">375</span><span id="line.375">         * start as-is) and 1f (return black), start should be a packed color, as from</span>
-<span class="source-line-no">376</span><span id="line.376">         * {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and</span>
-<span class="source-line-no">377</span><span id="line.377">         * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards</span>
-<span class="source-line-no">378</span><span id="line.378">         * black. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and both chroma of start as-is.</span>
-<span class="source-line-no">379</span><span id="line.379">         * @see #lighten(float, float) the counterpart method that lightens a float color</span>
-<span class="source-line-no">380</span><span id="line.380">         * @param start the starting color as a packed float</span>
-<span class="source-line-no">381</span><span id="line.381">         * @param change how much to go from start toward black, as a float between 0 and 1; higher means closer to black</span>
-<span class="source-line-no">382</span><span id="line.382">         * @return a packed float that represents a color between start and black</span>
-<span class="source-line-no">383</span><span id="line.383">         */</span>
-<span class="source-line-no">384</span><span id="line.384">        public static float darken(final float start, final float change) {</span>
-<span class="source-line-no">385</span><span id="line.385">                final int s = NumberUtils.floatToRawIntBits(start), r = s &amp; 0xFF, g = s &gt;&gt;&gt; 8 &amp; 0xFF, b = s &gt;&gt;&gt; 16 &amp; 0xFF,</span>
-<span class="source-line-no">386</span><span id="line.386">                                a = s &amp; 0xFE000000;</span>
-<span class="source-line-no">387</span><span id="line.387">                return NumberUtils.intBitsToFloat(</span>
-<span class="source-line-no">388</span><span id="line.388">                                ((int) (r * (1f - change)) &amp; 0xFF) |</span>
-<span class="source-line-no">389</span><span id="line.389">                                ((int) (g * (1f - change)) &amp; 0xFF) &lt;&lt; 8 |</span>
-<span class="source-line-no">390</span><span id="line.390">                                ((int) (b * (1f - change)) &amp; 0xFF) &lt;&lt; 16 |</span>
-<span class="source-line-no">391</span><span id="line.391">                                a);</span>
-<span class="source-line-no">392</span><span id="line.392">        }</span>
-<span class="source-line-no">393</span><span id="line.393"></span>
-<span class="source-line-no">394</span><span id="line.394">        /**</span>
-<span class="source-line-no">395</span><span id="line.395">         * Interpolates from the packed float color start towards that color made opaque by change. While change should be</span>
-<span class="source-line-no">396</span><span id="line.396">         * between 0f (return start as-is) and 1f (return start with full alpha), start should be a packed color, as from</span>
-<span class="source-line-no">397</span><span id="line.397">         * {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and</span>
-<span class="source-line-no">398</span><span id="line.398">         * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards</span>
-<span class="source-line-no">399</span><span id="line.399">         * transparent. This won't change the red, green, or blue of the color.</span>
-<span class="source-line-no">400</span><span id="line.400">         * @see #fade(float, float) the counterpart method that makes a float color more translucent</span>
-<span class="source-line-no">401</span><span id="line.401">         * @param start the starting color as a packed float</span>
-<span class="source-line-no">402</span><span id="line.402">         * @param change how much to go from start toward opaque, as a float between 0 and 1; higher means closer to opaque</span>
-<span class="source-line-no">403</span><span id="line.403">         * @return a packed float that represents a color between start and its opaque version</span>
-<span class="source-line-no">404</span><span id="line.404">         */</span>
-<span class="source-line-no">405</span><span id="line.405">        public static float blot(final float start, final float change) {</span>
-<span class="source-line-no">406</span><span id="line.406">                final int s = NumberUtils.floatToRawIntBits(start), opacity = s &gt;&gt;&gt; 24 &amp; 0xFE, other = s &amp; 0x00FFFFFF;</span>
-<span class="source-line-no">407</span><span id="line.407">                return NumberUtils.intBitsToFloat(((int) (opacity + (0xFE - opacity) * change) &amp; 0xFE) &lt;&lt; 24 | other);</span>
-<span class="source-line-no">408</span><span id="line.408">        }</span>
-<span class="source-line-no">409</span><span id="line.409"></span>
-<span class="source-line-no">410</span><span id="line.410">        /**</span>
-<span class="source-line-no">411</span><span id="line.411">         * Interpolates from the packed float color start towards transparent by change. While change should be between 0</span>
-<span class="source-line-no">412</span><span id="line.412">         * (return start as-is) and 1f (return the color with 0 alpha), start should be a packed color, as from</span>
-<span class="source-line-no">413</span><span id="line.413">         * {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,</span>
-<span class="source-line-no">414</span><span id="line.414">         * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards</span>
-<span class="source-line-no">415</span><span id="line.415">         * transparent. This won't change the red, green, or blue of the color.</span>
-<span class="source-line-no">416</span><span id="line.416">         * @see #blot(float, float) the counterpart method that makes a float color more opaque</span>
-<span class="source-line-no">417</span><span id="line.417">         * @param start the starting color as a packed float</span>
-<span class="source-line-no">418</span><span id="line.418">         * @param change how much to go from start toward transparent, as a float between 0 and 1; higher means closer to transparent</span>
-<span class="source-line-no">419</span><span id="line.419">         * @return a packed float that represents a color between start and transparent</span>
-<span class="source-line-no">420</span><span id="line.420">         */</span>
-<span class="source-line-no">421</span><span id="line.421">        public static float fade(final float start, final float change) {</span>
-<span class="source-line-no">422</span><span id="line.422">                final int s = NumberUtils.floatToRawIntBits(start), opacity = s &amp; 0xFE, other = s &amp; 0x00FFFFFF;</span>
-<span class="source-line-no">423</span><span id="line.423">                return NumberUtils.intBitsToFloat(((int) (opacity * (1f - change)) &amp; 0xFE) &lt;&lt; 24 | other);</span>
-<span class="source-line-no">424</span><span id="line.424">        }</span>
-<span class="source-line-no">425</span><span id="line.425"></span>
-<span class="source-line-no">426</span><span id="line.426">        /**</span>
-<span class="source-line-no">427</span><span id="line.427">         * Given a packed float RGBA color {@code mainColor} and another RGBA color that it should be made to contrast with,</span>
-<span class="source-line-no">428</span><span id="line.428">         * gets a packed float RGBA color with roughly inverted lightness (how the Oklab color space interprets it), but the</span>
-<span class="source-line-no">429</span><span id="line.429">         * same general hue and saturation unless the lightness gets too close to white or black. This won't ever produce</span>
-<span class="source-line-no">430</span><span id="line.430">         * black or other very dark colors, and also has a gap in the range it produces for lightness values between 0.5 and</span>
-<span class="source-line-no">431</span><span id="line.431">         * 0.55. That allows most of the colors this method produces to contrast well as a foreground when displayed on a</span>
-<span class="source-line-no">432</span><span id="line.432">         * background of {@code contrastingColor}, or vice versa. This will leave the lightness unchanged if the</span>
-<span class="source-line-no">433</span><span id="line.433">         * hue/saturation of the contrastingColor and those of the mainColor are already very different. This has nothing to</span>
-<span class="source-line-no">434</span><span id="line.434">         * do with the contrast channel of the tweak in ColorfulBatch; where that part of the tweak can make too-similar</span>
-<span class="source-line-no">435</span><span id="line.435">         * lightness values further apart by just a little, this makes a modification on {@code mainColor} to maximize its</span>
-<span class="source-line-no">436</span><span id="line.436">         * lightness difference from {@code contrastingColor} without losing its other qualities.</span>
-<span class="source-line-no">437</span><span id="line.437">         * @param mainColor a packed float color, as produced by {@link #rgb(float, float, float, float)}; this is the color that will be adjusted</span>
-<span class="source-line-no">438</span><span id="line.438">         * @param contrastingColor a packed float color, as produced by {@link #rgb(float, float, float, float)}; the adjusted mainColor will contrast with this</span>
-<span class="source-line-no">439</span><span id="line.439">         * @return a different RGBA packed float color, based on mainColor but with potentially very different lightness</span>
-<span class="source-line-no">440</span><span id="line.440">         */</span>
-<span class="source-line-no">441</span><span id="line.441">        public static float inverseLightness(final float mainColor, final float contrastingColor)</span>
-<span class="source-line-no">442</span><span id="line.442">        {</span>
-<span class="source-line-no">443</span><span id="line.443">                return com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA(</span>
-<span class="source-line-no">444</span><span id="line.444">                                com.github.tommyettinger.colorful.oklab.ColorTools.inverseLightness(</span>
-<span class="source-line-no">445</span><span id="line.445">                                                com.github.tommyettinger.colorful.oklab.ColorTools.fromRGBA(mainColor),</span>
-<span class="source-line-no">446</span><span id="line.446">                                                com.github.tommyettinger.colorful.oklab.ColorTools.fromRGBA(contrastingColor)));</span>
-<span class="source-line-no">447</span><span id="line.447">        }</span>
-<span class="source-line-no">448</span><span id="line.448"></span>
-<span class="source-line-no">449</span><span id="line.449">        /**</span>
-<span class="source-line-no">450</span><span id="line.450">         * Given a packed float RGBA color {@code mainColor} and another RGBA color that it should be made to contrast</span>
-<span class="source-line-no">451</span><span id="line.451">         * with, gets a packed float RGBA color with lightness that should be quite different from</span>
-<span class="source-line-no">452</span><span id="line.452">         * {@code contrastingColor}'s lightness, but the same chromatic channels and opacity. This allows most of the colors</span>
-<span class="source-line-no">453</span><span id="line.453">         * this method produces to contrast well as a foreground when displayed on a background of {@code contrastingColor},</span>
-<span class="source-line-no">454</span><span id="line.454">         * or vice versa. This goes through Oklab as an intermediate step, so lightness is in terms of Oklab's L channel.</span>
-<span class="source-line-no">455</span><span id="line.455">         * &lt;br&gt;</span>
-<span class="source-line-no">456</span><span id="line.456">         * This is similar to {@link #inverseLightness(float, float)}, but is considerably simpler, and this method will</span>
-<span class="source-line-no">457</span><span id="line.457">         * change the lightness of mainColor when the two given colors have close lightness but distant chroma. Because it</span>
-<span class="source-line-no">458</span><span id="line.458">         * averages the original lightness of mainColor with the modified one, this tends to produce softer color changes.</span>
-<span class="source-line-no">459</span><span id="line.459">         * @param mainColor a packed RGBA float color; this is the color that will be adjusted</span>
-<span class="source-line-no">460</span><span id="line.460">         * @param contrastingColor a packed RGBA float color; the adjusted mainColor will contrast with the lightness of this</span>
-<span class="source-line-no">461</span><span id="line.461">         * @return a different packed RGBA float color, based on mainColor but typically with different lightness</span>
-<span class="source-line-no">462</span><span id="line.462">         */</span>
-<span class="source-line-no">463</span><span id="line.463">        public static float differentiateLightness(final float mainColor, final float contrastingColor)</span>
-<span class="source-line-no">464</span><span id="line.464">        {</span>
-<span class="source-line-no">465</span><span id="line.465">                final int main = NumberUtils.floatToRawIntBits(com.github.tommyettinger.colorful.oklab.ColorTools.fromRGBA(mainColor)),</span>
-<span class="source-line-no">466</span><span id="line.466">                                contrast = NumberUtils.floatToRawIntBits(com.github.tommyettinger.colorful.oklab.ColorTools.fromRGBA(contrastingColor));</span>
-<span class="source-line-no">467</span><span id="line.467">                return com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA(NumberUtils.intBitsToFloat((main &amp; 0xFEFFFF00) | (contrast + 128 &amp; 0xFF) + (main &amp; 0xFF) &gt;&gt;&gt; 1));</span>
-<span class="source-line-no">468</span><span id="line.468">        }</span>
-<span class="source-line-no">469</span><span id="line.469"></span>
-<span class="source-line-no">470</span><span id="line.470">        /**</span>
-<span class="source-line-no">471</span><span id="line.471">         * Pretty simple; adds 0.5 to the given color's lightness (calculated by converting it to Oklab internally) and</span>
-<span class="source-line-no">472</span><span id="line.472">         * wraps it around if it would go above 1.0, then averages that with the original lightness. This means light colors</span>
-<span class="source-line-no">473</span><span id="line.473">         * become darker, and dark colors become lighter, with almost all results in the middle-range of possible lightness.</span>
-<span class="source-line-no">474</span><span id="line.474">         * @param mainColor a packed RGBA float color</span>
-<span class="source-line-no">475</span><span id="line.475">         * @return a different packed RGBA float color, with its lightness channel changed and limited to the correct gamut</span>
-<span class="source-line-no">476</span><span id="line.476">         */</span>
-<span class="source-line-no">477</span><span id="line.477">        public static float offsetLightness(final float mainColor) {</span>
-<span class="source-line-no">478</span><span id="line.478">                final int oklab = NumberUtils.floatToRawIntBits(mainColor);</span>
-<span class="source-line-no">479</span><span id="line.479">                return com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA(NumberUtils.intBitsToFloat((oklab &amp; 0xFEFFFF00) | (oklab + 128 &amp; 0xFF) + (oklab &amp; 0xFF) &gt;&gt;&gt; 1));</span>
-<span class="source-line-no">480</span><span id="line.480">        }</span>
-<span class="source-line-no">481</span><span id="line.481"></span>
-<span class="source-line-no">482</span><span id="line.482">        /**</span>
-<span class="source-line-no">483</span><span id="line.483">         * Makes the additive RGBA color stored in {@code color} cause less of a change when used as a tint, as if it were</span>
-<span class="source-line-no">484</span><span id="line.484">         * mixed with neutral gray. When {@code fraction} is 1.0, this returns color unchanged; when fraction is 0.0, it</span>
-<span class="source-line-no">485</span><span id="line.485">         * returns {@link Palette#GRAY}, and when it is in-between 0.0 and 1.0 it returns something between the two. This is</span>
-<span class="source-line-no">486</span><span id="line.486">         * meant for things like area of effect abilities that make smaller color changes toward their periphery.</span>
-<span class="source-line-no">487</span><span id="line.487">         * @param color a color that should have its tinting effect potentially weakened</span>
-<span class="source-line-no">488</span><span id="line.488">         * @param fraction how much of {@code color} should be kept, from 0.0 to 1.0</span>
-<span class="source-line-no">489</span><span id="line.489">         * @return an RGBA float color between gray and {@code color}</span>
-<span class="source-line-no">490</span><span id="line.490">         */</span>
-<span class="source-line-no">491</span><span id="line.491">        public static float lessenChange(final float color, float fraction) {</span>
-<span class="source-line-no">492</span><span id="line.492">                final int e = NumberUtils.floatToRawIntBits(color),</span>
-<span class="source-line-no">493</span><span id="line.493">                                rs = 0x80, gs = 0x80, bs = 0x80, as = 0xFE,</span>
-<span class="source-line-no">494</span><span id="line.494">                                re = (e &amp; 0xFF), ge = (e &gt;&gt;&gt; 8) &amp; 0xFF, be = (e &gt;&gt;&gt; 16) &amp; 0xFF, ae = e &gt;&gt;&gt; 24 &amp; 0xFE;</span>
-<span class="source-line-no">495</span><span id="line.495">                return NumberUtils.intBitsToFloat(</span>
-<span class="source-line-no">496</span><span id="line.496">                                  ((int) (rs + fraction * (re - rs)) &amp; 0xFF)</span>
-<span class="source-line-no">497</span><span id="line.497">                                | ((int) (gs + fraction * (ge - gs)) &amp; 0xFF) &lt;&lt; 8</span>
-<span class="source-line-no">498</span><span id="line.498">                                | ((int) (bs + fraction * (be - bs)) &amp; 0xFF) &lt;&lt; 16</span>
-<span class="source-line-no">499</span><span id="line.499">                                | ((int) (as + fraction * (ae - as)) &amp; 0xFE) &lt;&lt; 24);</span>
-<span class="source-line-no">500</span><span id="line.500">        }</span>
-<span class="source-line-no">501</span><span id="line.501"></span>
-<span class="source-line-no">502</span><span id="line.502">        /**</span>
-<span class="source-line-no">503</span><span id="line.503">         * Makes a quasi-randomly-edited variant on the given {@code color}, allowing typically a small amount of</span>
-<span class="source-line-no">504</span><span id="line.504">         * {@code variance} (such as 0.05 to 0.25) between the given color and what this can return. The {@code seed} should</span>
-<span class="source-line-no">505</span><span id="line.505">         * be different each time this is called, and can be obtained from a random number generator to make the colors more</span>
-<span class="source-line-no">506</span><span id="line.506">         * random, or can be incremented on each call. If the seed is only incremented or decremented, then this shouldn't</span>
-<span class="source-line-no">507</span><span id="line.507">         * produce two similar colors in a row unless variance is very small. The variance affects the R, G, and B of the</span>
-<span class="source-line-no">508</span><span id="line.508">         * generated color equally, and each of those channels can go up or down by the given variance as long as the total</span>
-<span class="source-line-no">509</span><span id="line.509">         * distance isn't greater than the variance.</span>
-<span class="source-line-no">510</span><span id="line.510">         * @param color a packed float color, as produced by {@link #rgb(float, float, float, float)}</span>
-<span class="source-line-no">511</span><span id="line.511">         * @param seed a long seed that should be different on each call; should not be 0</span>
-<span class="source-line-no">512</span><span id="line.512">         * @param variance max amount of difference between the given color and the generated color; always less than 1</span>
-<span class="source-line-no">513</span><span id="line.513">         * @return a generated packed float color that should be at least somewhat different from {@code color}</span>
-<span class="source-line-no">514</span><span id="line.514">         */</span>
-<span class="source-line-no">515</span><span id="line.515">        public static float randomEdit(final float color, long seed, final float variance) {</span>
-<span class="source-line-no">516</span><span id="line.516">                final int decoded = NumberUtils.floatToRawIntBits(color);</span>
-<span class="source-line-no">517</span><span id="line.517">                final float r = (decoded &amp; 0xff) / 255f;</span>
-<span class="source-line-no">518</span><span id="line.518">                final float g = (decoded &gt;&gt;&gt; 8 &amp; 0xff) / 255f;</span>
-<span class="source-line-no">519</span><span id="line.519">                final float b = (decoded &gt;&gt;&gt; 16 &amp; 0xff) / 255f;</span>
-<span class="source-line-no">520</span><span id="line.520">                final float limit = variance * variance;</span>
-<span class="source-line-no">521</span><span id="line.521">                float dist, x, y, z;</span>
-<span class="source-line-no">522</span><span id="line.522">                for (int j = 0; j &lt; 50; j++) {</span>
-<span class="source-line-no">523</span><span id="line.523">                        x = (((seed * 0xD1B54A32D192ED03L &gt;&gt;&gt; 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;</span>
-<span class="source-line-no">524</span><span id="line.524">                        y = (((seed * 0xABC98388FB8FAC03L &gt;&gt;&gt; 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;</span>
-<span class="source-line-no">525</span><span id="line.525">                        z = (((seed * 0x8CB92BA72F3D8DD7L &gt;&gt;&gt; 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;</span>
-<span class="source-line-no">526</span><span id="line.526">                        seed += 0x9E3779B97F4A7C15L;</span>
-<span class="source-line-no">527</span><span id="line.527">                        dist = x * x + y * y + z * z;</span>
-<span class="source-line-no">528</span><span id="line.528">                        x += r;</span>
-<span class="source-line-no">529</span><span id="line.529">                        y += g;</span>
-<span class="source-line-no">530</span><span id="line.530">                        z += b;</span>
-<span class="source-line-no">531</span><span id="line.531">                        if(dist &lt;= limit)</span>
-<span class="source-line-no">532</span><span id="line.532">                                return NumberUtils.intBitsToFloat((decoded &amp; 0xFE000000) | ((int)(z * 255.999f) &lt;&lt; 16 &amp; 0xFF0000)</span>
-<span class="source-line-no">533</span><span id="line.533">                                        | ((int)(y * 255.999f) &lt;&lt; 8 &amp; 0xFF00) | (int)(x * 255.999f));</span>
-<span class="source-line-no">534</span><span id="line.534">                }</span>
-<span class="source-line-no">535</span><span id="line.535">                return color;</span>
-<span class="source-line-no">536</span><span id="line.536">        }</span>
-<span class="source-line-no">537</span><span id="line.537"></span>
-<span class="source-line-no">538</span><span id="line.538">        /**</span>
-<span class="source-line-no">539</span><span id="line.539">         * Produces a random packed float color that is always opaque and should be uniformly distributed.</span>
-<span class="source-line-no">540</span><span id="line.540">         * @param random a Random object (or preferably a subclass of Random, like {@link com.badlogic.gdx.math.RandomXS128})</span>
-<span class="source-line-no">541</span><span id="line.541">         * @return a packed float color that is always opaque</span>
-<span class="source-line-no">542</span><span id="line.542">         */</span>
-<span class="source-line-no">543</span><span id="line.543">        public static float randomColor(Random random) {</span>
-<span class="source-line-no">544</span><span id="line.544">                final float r = random.nextFloat(), g = random.nextFloat(), b = random.nextFloat();</span>
-<span class="source-line-no">545</span><span id="line.545">                return NumberUtils.intBitsToFloat(0xFE000000</span>
-<span class="source-line-no">546</span><span id="line.546">                                | ((int) (b * 256f) &lt;&lt; 16 &amp; 0xFF0000)</span>
-<span class="source-line-no">547</span><span id="line.547">                                | ((int) (g * 256f) &lt;&lt; 8 &amp; 0xFF00)</span>
-<span class="source-line-no">548</span><span id="line.548">                                | ((int) (r * 256f) &amp; 0xFF));</span>
-<span class="source-line-no">549</span><span id="line.549">        }</span>
-<span class="source-line-no">550</span><span id="line.550"></span>
-<span class="source-line-no">551</span><span id="line.551">        /**</span>
-<span class="source-line-no">552</span><span id="line.552">         * Limited-use; like {@link #randomColor(Random)} but for cases where you already have three floats (r, g, and b)</span>
-<span class="source-line-no">553</span><span id="line.553">         * distributed how you want. This can be somewhat useful if you are using a "subrandom" or "quasi-random" sequence,</span>
-<span class="source-line-no">554</span><span id="line.554">         * like the Halton, Sobol, or R3 sequences, to get 3D points and map them to colors. It can also be useful if you</span>
-<span class="source-line-no">555</span><span id="line.555">         * want to randomly generate the RGB channels yourself and track the values produced, as you would if you wanted to</span>
-<span class="source-line-no">556</span><span id="line.556">         * avoid generating too many colors with high blue, for instance.</span>
-<span class="source-line-no">557</span><span id="line.557">         * @param r red value to use; will be clamped between 0 and 1</span>
-<span class="source-line-no">558</span><span id="line.558">         * @param g green value to use; will be clamped between 0 and 1</span>
-<span class="source-line-no">559</span><span id="line.559">         * @param b blue value to use; will be clamped between 0 and 1</span>
-<span class="source-line-no">560</span><span id="line.560">         * @return a packed float color that is always opaque</span>
-<span class="source-line-no">561</span><span id="line.561">         */</span>
-<span class="source-line-no">562</span><span id="line.562">        public static float subrandomColor(float r, float g, float b) {</span>
-<span class="source-line-no">563</span><span id="line.563">                return NumberUtils.intBitsToFloat(0xFE000000</span>
-<span class="source-line-no">564</span><span id="line.564">                                | ((int) Math.min(Math.max(b * 256f, 0), 255.999f) &lt;&lt; 16 &amp; 0xFF0000)</span>
-<span class="source-line-no">565</span><span id="line.565">                                | ((int) Math.min(Math.max(g * 256f, 0), 255.999f) &lt;&lt; 8 &amp; 0xFF00)</span>
-<span class="source-line-no">566</span><span id="line.566">                                | ((int) Math.min(Math.max(r * 256f, 0), 255.999f) &amp; 0xFF));</span>
-<span class="source-line-no">567</span><span id="line.567">        }</span>
-<span class="source-line-no">568</span><span id="line.568">}</span>
+<span class="source-line-no">298</span><span id="line.298">         * Gets a variation on the packed float color basis as another packed float that has its hue, saturation, lightness,</span>
+<span class="source-line-no">299</span><span id="line.299">         * and opacity adjusted by the specified amounts. Note that this edits the color in HSL space, not RGB! Takes</span>
+<span class="source-line-no">300</span><span id="line.300">         * floats representing the amounts of change to apply to hue, saturation, lightness, and opacity; these can be</span>
+<span class="source-line-no">301</span><span id="line.301">         * between -1f and 1f. Returns a float that can be used as a packed or encoded color with methods like</span>
+<span class="source-line-no">302</span><span id="line.302">         * {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)}. The float is likely to be different than the</span>
+<span class="source-line-no">303</span><span id="line.303">         * result of {@link #rgb(float, float, float, float)} unless hue, saturation, lightness, and opacity are all 0. This</span>
+<span class="source-line-no">304</span><span id="line.304">         * won't allocate any objects.</span>
+<span class="source-line-no">305</span><span id="line.305">         * &lt;br&gt;</span>
+<span class="source-line-no">306</span><span id="line.306">         * The parameters this takes all specify additive changes for a color component, clamping the final values so they</span>
+<span class="source-line-no">307</span><span id="line.307">         * can't go above 1 or below 0, with an exception for hue, which can rotate around if lower or higher hues would be</span>
+<span class="source-line-no">308</span><span id="line.308">         * used. As an example, if you give this 0.4f for saturation, and the current color has saturation 0.7f, then the</span>
+<span class="source-line-no">309</span><span id="line.309">         * resulting color will have 1f for saturation. If you gave this -0.1f for saturation and the current color again</span>
+<span class="source-line-no">310</span><span id="line.310">         * has saturation 0.7f, then resulting color will have 0.6f for saturation.</span>
+<span class="source-line-no">311</span><span id="line.311">         *</span>
+<span class="source-line-no">312</span><span id="line.312">         * @param basis      a packed float color that will be used as the starting point to make the next color</span>
+<span class="source-line-no">313</span><span id="line.313">         * @param hue        -1f to 1f, the hue change that can be applied to the new float color (not clamped, wraps)</span>
+<span class="source-line-no">314</span><span id="line.314">         * @param saturation -1f to 1f, the saturation change that can be applied to the new float color</span>
+<span class="source-line-no">315</span><span id="line.315">         * @param light      -1f to 1f, the light/brightness change that can be applied to the new float color</span>
+<span class="source-line-no">316</span><span id="line.316">         * @param opacity    -1f to 1f, the opacity/alpha change that can be applied to the new float color</span>
+<span class="source-line-no">317</span><span id="line.317">         * @return a float encoding a variation of basis with the given changes</span>
+<span class="source-line-no">318</span><span id="line.318">         */</span>
+<span class="source-line-no">319</span><span id="line.319">        public static float toEditedFloat(float basis, float hue, float saturation, float light, float opacity) {</span>
+<span class="source-line-no">320</span><span id="line.320">                final int decoded = NumberUtils.floatToRawIntBits(basis);</span>
+<span class="source-line-no">321</span><span id="line.321">                opacity = Math.min(Math.max(opacity + (decoded &gt;&gt;&gt; 24 &amp; 0xfe) * 0x1.020408p-8f, 0f), 1f);</span>
+<span class="source-line-no">322</span><span id="line.322">                final float r = (decoded &amp; 0xff) / 255f;</span>
+<span class="source-line-no">323</span><span id="line.323">                final float g = (decoded &gt;&gt;&gt; 8 &amp; 0xff) / 255f;</span>
+<span class="source-line-no">324</span><span id="line.324">                final float b = (decoded &gt;&gt;&gt; 16 &amp; 0xff) / 255f;</span>
+<span class="source-line-no">325</span><span id="line.325">                float x, y, z, w;</span>
+<span class="source-line-no">326</span><span id="line.326">                if(g &lt; b) {</span>
+<span class="source-line-no">327</span><span id="line.327">                        x = b;</span>
+<span class="source-line-no">328</span><span id="line.328">                        y = g;</span>
+<span class="source-line-no">329</span><span id="line.329">                        z = -1f;</span>
+<span class="source-line-no">330</span><span id="line.330">                        w = 2f / 3f;</span>
+<span class="source-line-no">331</span><span id="line.331">                }</span>
+<span class="source-line-no">332</span><span id="line.332">                else {</span>
+<span class="source-line-no">333</span><span id="line.333">                        x = g;</span>
+<span class="source-line-no">334</span><span id="line.334">                        y = b;</span>
+<span class="source-line-no">335</span><span id="line.335">                        z = 0f;</span>
+<span class="source-line-no">336</span><span id="line.336">                        w = -1f / 3f;</span>
+<span class="source-line-no">337</span><span id="line.337">                }</span>
+<span class="source-line-no">338</span><span id="line.338">                if(r &lt; x) {</span>
+<span class="source-line-no">339</span><span id="line.339">                        z = w;</span>
+<span class="source-line-no">340</span><span id="line.340">                        w = r;</span>
+<span class="source-line-no">341</span><span id="line.341">                }</span>
+<span class="source-line-no">342</span><span id="line.342">                else {</span>
+<span class="source-line-no">343</span><span id="line.343">                        w = x;</span>
+<span class="source-line-no">344</span><span id="line.344">                        x = r;</span>
+<span class="source-line-no">345</span><span id="line.345">                }</span>
+<span class="source-line-no">346</span><span id="line.346">                final float d = x - Math.min(w, y);</span>
+<span class="source-line-no">347</span><span id="line.347">                light = Math.min(Math.max(x * (1f - 0.5f * d / (x + 1e-10f)) + light, 0f), 1f);</span>
+<span class="source-line-no">348</span><span id="line.348">                hue += Math.abs(z + (w - y) / (6f * d + 1e-10f)) + 1f;</span>
+<span class="source-line-no">349</span><span id="line.349">                saturation += (x - light) / (Math.min(light, 1f - light) + 1e-10f);</span>
+<span class="source-line-no">350</span><span id="line.350">                return FloatColors.hsl2rgb(hue - (int)hue, Math.min(Math.max(saturation, 0f), 1f), light, opacity);</span>
+<span class="source-line-no">351</span><span id="line.351">        }</span>
+<span class="source-line-no">352</span><span id="line.352"></span>
+<span class="source-line-no">353</span><span id="line.353">        /**</span>
+<span class="source-line-no">354</span><span id="line.354">         * Interpolates from the packed float color start towards white by change. While change should be between 0f (return</span>
+<span class="source-line-no">355</span><span id="line.355">         * start as-is) and 1f (return white), start should be a packed color, as from</span>
+<span class="source-line-no">356</span><span id="line.356">         * {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and</span>
+<span class="source-line-no">357</span><span id="line.357">         * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards</span>
+<span class="source-line-no">358</span><span id="line.358">         * white. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and both chroma of start as-is.</span>
+<span class="source-line-no">359</span><span id="line.359">         * @see #darken(float, float) the counterpart method that darkens a float color</span>
+<span class="source-line-no">360</span><span id="line.360">         * @param start the starting color as a packed float</span>
+<span class="source-line-no">361</span><span id="line.361">         * @param change how much to go from start toward white, as a float between 0 and 1; higher means closer to white</span>
+<span class="source-line-no">362</span><span id="line.362">         * @return a packed float that represents a color between start and white</span>
+<span class="source-line-no">363</span><span id="line.363">         */</span>
+<span class="source-line-no">364</span><span id="line.364">        public static float lighten(final float start, final float change) {</span>
+<span class="source-line-no">365</span><span id="line.365">                final int s = NumberUtils.floatToRawIntBits(start), r = s &amp; 0xFF, g = s &gt;&gt;&gt; 8 &amp; 0xFF, b = s &gt;&gt;&gt; 16 &amp; 0xFF,</span>
+<span class="source-line-no">366</span><span id="line.366">                                a = s &amp; 0xFE000000;</span>
+<span class="source-line-no">367</span><span id="line.367">                return NumberUtils.intBitsToFloat(</span>
+<span class="source-line-no">368</span><span id="line.368">                                ((int) (r + (0xFF - r) * change) &amp; 0xFF) |</span>
+<span class="source-line-no">369</span><span id="line.369">                                ((int) (g + (0xFF - g) * change) &amp; 0xFF) &lt;&lt; 8 |</span>
+<span class="source-line-no">370</span><span id="line.370">                                ((int) (b + (0xFF - b) * change) &amp; 0xFF) &lt;&lt; 16 |</span>
+<span class="source-line-no">371</span><span id="line.371">                                a);</span>
+<span class="source-line-no">372</span><span id="line.372">        }</span>
+<span class="source-line-no">373</span><span id="line.373"></span>
+<span class="source-line-no">374</span><span id="line.374">        /**</span>
+<span class="source-line-no">375</span><span id="line.375">         * Interpolates from the packed float color start towards black by change. While change should be between 0f (return</span>
+<span class="source-line-no">376</span><span id="line.376">         * start as-is) and 1f (return black), start should be a packed color, as from</span>
+<span class="source-line-no">377</span><span id="line.377">         * {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and</span>
+<span class="source-line-no">378</span><span id="line.378">         * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards</span>
+<span class="source-line-no">379</span><span id="line.379">         * black. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and both chroma of start as-is.</span>
+<span class="source-line-no">380</span><span id="line.380">         * @see #lighten(float, float) the counterpart method that lightens a float color</span>
+<span class="source-line-no">381</span><span id="line.381">         * @param start the starting color as a packed float</span>
+<span class="source-line-no">382</span><span id="line.382">         * @param change how much to go from start toward black, as a float between 0 and 1; higher means closer to black</span>
+<span class="source-line-no">383</span><span id="line.383">         * @return a packed float that represents a color between start and black</span>
+<span class="source-line-no">384</span><span id="line.384">         */</span>
+<span class="source-line-no">385</span><span id="line.385">        public static float darken(final float start, final float change) {</span>
+<span class="source-line-no">386</span><span id="line.386">                final int s = NumberUtils.floatToRawIntBits(start), r = s &amp; 0xFF, g = s &gt;&gt;&gt; 8 &amp; 0xFF, b = s &gt;&gt;&gt; 16 &amp; 0xFF,</span>
+<span class="source-line-no">387</span><span id="line.387">                                a = s &amp; 0xFE000000;</span>
+<span class="source-line-no">388</span><span id="line.388">                return NumberUtils.intBitsToFloat(</span>
+<span class="source-line-no">389</span><span id="line.389">                                ((int) (r * (1f - change)) &amp; 0xFF) |</span>
+<span class="source-line-no">390</span><span id="line.390">                                ((int) (g * (1f - change)) &amp; 0xFF) &lt;&lt; 8 |</span>
+<span class="source-line-no">391</span><span id="line.391">                                ((int) (b * (1f - change)) &amp; 0xFF) &lt;&lt; 16 |</span>
+<span class="source-line-no">392</span><span id="line.392">                                a);</span>
+<span class="source-line-no">393</span><span id="line.393">        }</span>
+<span class="source-line-no">394</span><span id="line.394"></span>
+<span class="source-line-no">395</span><span id="line.395">        /**</span>
+<span class="source-line-no">396</span><span id="line.396">         * Interpolates from the packed float color start towards that color made opaque by change. While change should be</span>
+<span class="source-line-no">397</span><span id="line.397">         * between 0f (return start as-is) and 1f (return start with full alpha), start should be a packed color, as from</span>
+<span class="source-line-no">398</span><span id="line.398">         * {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and</span>
+<span class="source-line-no">399</span><span id="line.399">         * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards</span>
+<span class="source-line-no">400</span><span id="line.400">         * transparent. This won't change the red, green, or blue of the color.</span>
+<span class="source-line-no">401</span><span id="line.401">         * @see #fade(float, float) the counterpart method that makes a float color more translucent</span>
+<span class="source-line-no">402</span><span id="line.402">         * @param start the starting color as a packed float</span>
+<span class="source-line-no">403</span><span id="line.403">         * @param change how much to go from start toward opaque, as a float between 0 and 1; higher means closer to opaque</span>
+<span class="source-line-no">404</span><span id="line.404">         * @return a packed float that represents a color between start and its opaque version</span>
+<span class="source-line-no">405</span><span id="line.405">         */</span>
+<span class="source-line-no">406</span><span id="line.406">        public static float blot(final float start, final float change) {</span>
+<span class="source-line-no">407</span><span id="line.407">                final int s = NumberUtils.floatToRawIntBits(start), opacity = s &gt;&gt;&gt; 24 &amp; 0xFE, other = s &amp; 0x00FFFFFF;</span>
+<span class="source-line-no">408</span><span id="line.408">                return NumberUtils.intBitsToFloat(((int) (opacity + (0xFE - opacity) * change) &amp; 0xFE) &lt;&lt; 24 | other);</span>
+<span class="source-line-no">409</span><span id="line.409">        }</span>
+<span class="source-line-no">410</span><span id="line.410"></span>
+<span class="source-line-no">411</span><span id="line.411">        /**</span>
+<span class="source-line-no">412</span><span id="line.412">         * Interpolates from the packed float color start towards transparent by change. While change should be between 0</span>
+<span class="source-line-no">413</span><span id="line.413">         * (return start as-is) and 1f (return the color with 0 alpha), start should be a packed color, as from</span>
+<span class="source-line-no">414</span><span id="line.414">         * {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,</span>
+<span class="source-line-no">415</span><span id="line.415">         * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards</span>
+<span class="source-line-no">416</span><span id="line.416">         * transparent. This won't change the red, green, or blue of the color.</span>
+<span class="source-line-no">417</span><span id="line.417">         * @see #blot(float, float) the counterpart method that makes a float color more opaque</span>
+<span class="source-line-no">418</span><span id="line.418">         * @param start the starting color as a packed float</span>
+<span class="source-line-no">419</span><span id="line.419">         * @param change how much to go from start toward transparent, as a float between 0 and 1; higher means closer to transparent</span>
+<span class="source-line-no">420</span><span id="line.420">         * @return a packed float that represents a color between start and transparent</span>
+<span class="source-line-no">421</span><span id="line.421">         */</span>
+<span class="source-line-no">422</span><span id="line.422">        public static float fade(final float start, final float change) {</span>
+<span class="source-line-no">423</span><span id="line.423">                final int s = NumberUtils.floatToRawIntBits(start), opacity = s &amp; 0xFE, other = s &amp; 0x00FFFFFF;</span>
+<span class="source-line-no">424</span><span id="line.424">                return NumberUtils.intBitsToFloat(((int) (opacity * (1f - change)) &amp; 0xFE) &lt;&lt; 24 | other);</span>
+<span class="source-line-no">425</span><span id="line.425">        }</span>
+<span class="source-line-no">426</span><span id="line.426"></span>
+<span class="source-line-no">427</span><span id="line.427">        /**</span>
+<span class="source-line-no">428</span><span id="line.428">         * Given a packed float RGBA color {@code mainColor} and another RGBA color that it should be made to contrast with,</span>
+<span class="source-line-no">429</span><span id="line.429">         * gets a packed float RGBA color with roughly inverted lightness (how the Oklab color space interprets it), but the</span>
+<span class="source-line-no">430</span><span id="line.430">         * same general hue and saturation unless the lightness gets too close to white or black. This won't ever produce</span>
+<span class="source-line-no">431</span><span id="line.431">         * black or other very dark colors, and also has a gap in the range it produces for lightness values between 0.5 and</span>
+<span class="source-line-no">432</span><span id="line.432">         * 0.55. That allows most of the colors this method produces to contrast well as a foreground when displayed on a</span>
+<span class="source-line-no">433</span><span id="line.433">         * background of {@code contrastingColor}, or vice versa. This will leave the lightness unchanged if the</span>
+<span class="source-line-no">434</span><span id="line.434">         * hue/saturation of the contrastingColor and those of the mainColor are already very different. This has nothing to</span>
+<span class="source-line-no">435</span><span id="line.435">         * do with the contrast channel of the tweak in ColorfulBatch; where that part of the tweak can make too-similar</span>
+<span class="source-line-no">436</span><span id="line.436">         * lightness values further apart by just a little, this makes a modification on {@code mainColor} to maximize its</span>
+<span class="source-line-no">437</span><span id="line.437">         * lightness difference from {@code contrastingColor} without losing its other qualities.</span>
+<span class="source-line-no">438</span><span id="line.438">         * @param mainColor a packed float color, as produced by {@link #rgb(float, float, float, float)}; this is the color that will be adjusted</span>
+<span class="source-line-no">439</span><span id="line.439">         * @param contrastingColor a packed float color, as produced by {@link #rgb(float, float, float, float)}; the adjusted mainColor will contrast with this</span>
+<span class="source-line-no">440</span><span id="line.440">         * @return a different RGBA packed float color, based on mainColor but with potentially very different lightness</span>
+<span class="source-line-no">441</span><span id="line.441">         */</span>
+<span class="source-line-no">442</span><span id="line.442">        public static float inverseLightness(final float mainColor, final float contrastingColor)</span>
+<span class="source-line-no">443</span><span id="line.443">        {</span>
+<span class="source-line-no">444</span><span id="line.444">                return com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA(</span>
+<span class="source-line-no">445</span><span id="line.445">                                com.github.tommyettinger.colorful.oklab.ColorTools.inverseLightness(</span>
+<span class="source-line-no">446</span><span id="line.446">                                                com.github.tommyettinger.colorful.oklab.ColorTools.fromRGBA(mainColor),</span>
+<span class="source-line-no">447</span><span id="line.447">                                                com.github.tommyettinger.colorful.oklab.ColorTools.fromRGBA(contrastingColor)));</span>
+<span class="source-line-no">448</span><span id="line.448">        }</span>
+<span class="source-line-no">449</span><span id="line.449"></span>
+<span class="source-line-no">450</span><span id="line.450">        /**</span>
+<span class="source-line-no">451</span><span id="line.451">         * Given a packed float RGBA color {@code mainColor} and another RGBA color that it should be made to contrast</span>
+<span class="source-line-no">452</span><span id="line.452">         * with, gets a packed float RGBA color with lightness that should be quite different from</span>
+<span class="source-line-no">453</span><span id="line.453">         * {@code contrastingColor}'s lightness, but the same chromatic channels and opacity. This allows most of the colors</span>
+<span class="source-line-no">454</span><span id="line.454">         * this method produces to contrast well as a foreground when displayed on a background of {@code contrastingColor},</span>
+<span class="source-line-no">455</span><span id="line.455">         * or vice versa. This goes through Oklab as an intermediate step, so lightness is in terms of Oklab's L channel.</span>
+<span class="source-line-no">456</span><span id="line.456">         * &lt;br&gt;</span>
+<span class="source-line-no">457</span><span id="line.457">         * This is similar to {@link #inverseLightness(float, float)}, but is considerably simpler, and this method will</span>
+<span class="source-line-no">458</span><span id="line.458">         * change the lightness of mainColor when the two given colors have close lightness but distant chroma. Because it</span>
+<span class="source-line-no">459</span><span id="line.459">         * averages the original lightness of mainColor with the modified one, this tends to produce softer color changes.</span>
+<span class="source-line-no">460</span><span id="line.460">         * @param mainColor a packed RGBA float color; this is the color that will be adjusted</span>
+<span class="source-line-no">461</span><span id="line.461">         * @param contrastingColor a packed RGBA float color; the adjusted mainColor will contrast with the lightness of this</span>
+<span class="source-line-no">462</span><span id="line.462">         * @return a different packed RGBA float color, based on mainColor but typically with different lightness</span>
+<span class="source-line-no">463</span><span id="line.463">         */</span>
+<span class="source-line-no">464</span><span id="line.464">        public static float differentiateLightness(final float mainColor, final float contrastingColor)</span>
+<span class="source-line-no">465</span><span id="line.465">        {</span>
+<span class="source-line-no">466</span><span id="line.466">                final int main = NumberUtils.floatToRawIntBits(com.github.tommyettinger.colorful.oklab.ColorTools.fromRGBA(mainColor)),</span>
+<span class="source-line-no">467</span><span id="line.467">                                contrast = NumberUtils.floatToRawIntBits(com.github.tommyettinger.colorful.oklab.ColorTools.fromRGBA(contrastingColor));</span>
+<span class="source-line-no">468</span><span id="line.468">                return com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA(NumberUtils.intBitsToFloat((main &amp; 0xFEFFFF00) | (contrast + 128 &amp; 0xFF) + (main &amp; 0xFF) &gt;&gt;&gt; 1));</span>
+<span class="source-line-no">469</span><span id="line.469">        }</span>
+<span class="source-line-no">470</span><span id="line.470"></span>
+<span class="source-line-no">471</span><span id="line.471">        /**</span>
+<span class="source-line-no">472</span><span id="line.472">         * Pretty simple; adds 0.5 to the given color's lightness (calculated by converting it to Oklab internally) and</span>
+<span class="source-line-no">473</span><span id="line.473">         * wraps it around if it would go above 1.0, then averages that with the original lightness. This means light colors</span>
+<span class="source-line-no">474</span><span id="line.474">         * become darker, and dark colors become lighter, with almost all results in the middle-range of possible lightness.</span>
+<span class="source-line-no">475</span><span id="line.475">         * @param mainColor a packed RGBA float color</span>
+<span class="source-line-no">476</span><span id="line.476">         * @return a different packed RGBA float color, with its lightness channel changed and limited to the correct gamut</span>
+<span class="source-line-no">477</span><span id="line.477">         */</span>
+<span class="source-line-no">478</span><span id="line.478">        public static float offsetLightness(final float mainColor) {</span>
+<span class="source-line-no">479</span><span id="line.479">                final int oklab = NumberUtils.floatToRawIntBits(mainColor);</span>
+<span class="source-line-no">480</span><span id="line.480">                return com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA(NumberUtils.intBitsToFloat((oklab &amp; 0xFEFFFF00) | (oklab + 128 &amp; 0xFF) + (oklab &amp; 0xFF) &gt;&gt;&gt; 1));</span>
+<span class="source-line-no">481</span><span id="line.481">        }</span>
+<span class="source-line-no">482</span><span id="line.482"></span>
+<span class="source-line-no">483</span><span id="line.483">        /**</span>
+<span class="source-line-no">484</span><span id="line.484">         * Makes the additive RGBA color stored in {@code color} cause less of a change when used as a tint, as if it were</span>
+<span class="source-line-no">485</span><span id="line.485">         * mixed with neutral gray. When {@code fraction} is 1.0, this returns color unchanged; when fraction is 0.0, it</span>
+<span class="source-line-no">486</span><span id="line.486">         * returns {@link Palette#GRAY}, and when it is in-between 0.0 and 1.0 it returns something between the two. This is</span>
+<span class="source-line-no">487</span><span id="line.487">         * meant for things like area of effect abilities that make smaller color changes toward their periphery.</span>
+<span class="source-line-no">488</span><span id="line.488">         * @param color a color that should have its tinting effect potentially weakened</span>
+<span class="source-line-no">489</span><span id="line.489">         * @param fraction how much of {@code color} should be kept, from 0.0 to 1.0</span>
+<span class="source-line-no">490</span><span id="line.490">         * @return an RGBA float color between gray and {@code color}</span>
+<span class="source-line-no">491</span><span id="line.491">         */</span>
+<span class="source-line-no">492</span><span id="line.492">        public static float lessenChange(final float color, float fraction) {</span>
+<span class="source-line-no">493</span><span id="line.493">                final int e = NumberUtils.floatToRawIntBits(color),</span>
+<span class="source-line-no">494</span><span id="line.494">                                rs = 0x80, gs = 0x80, bs = 0x80, as = 0xFE,</span>
+<span class="source-line-no">495</span><span id="line.495">                                re = (e &amp; 0xFF), ge = (e &gt;&gt;&gt; 8) &amp; 0xFF, be = (e &gt;&gt;&gt; 16) &amp; 0xFF, ae = e &gt;&gt;&gt; 24 &amp; 0xFE;</span>
+<span class="source-line-no">496</span><span id="line.496">                return NumberUtils.intBitsToFloat(</span>
+<span class="source-line-no">497</span><span id="line.497">                                  ((int) (rs + fraction * (re - rs)) &amp; 0xFF)</span>
+<span class="source-line-no">498</span><span id="line.498">                                | ((int) (gs + fraction * (ge - gs)) &amp; 0xFF) &lt;&lt; 8</span>
+<span class="source-line-no">499</span><span id="line.499">                                | ((int) (bs + fraction * (be - bs)) &amp; 0xFF) &lt;&lt; 16</span>
+<span class="source-line-no">500</span><span id="line.500">                                | ((int) (as + fraction * (ae - as)) &amp; 0xFE) &lt;&lt; 24);</span>
+<span class="source-line-no">501</span><span id="line.501">        }</span>
+<span class="source-line-no">502</span><span id="line.502"></span>
+<span class="source-line-no">503</span><span id="line.503">        /**</span>
+<span class="source-line-no">504</span><span id="line.504">         * Makes a quasi-randomly-edited variant on the given {@code color}, allowing typically a small amount of</span>
+<span class="source-line-no">505</span><span id="line.505">         * {@code variance} (such as 0.05 to 0.25) between the given color and what this can return. The {@code seed} should</span>
+<span class="source-line-no">506</span><span id="line.506">         * be different each time this is called, and can be obtained from a random number generator to make the colors more</span>
+<span class="source-line-no">507</span><span id="line.507">         * random, or can be incremented on each call. If the seed is only incremented or decremented, then this shouldn't</span>
+<span class="source-line-no">508</span><span id="line.508">         * produce two similar colors in a row unless variance is very small. The variance affects the R, G, and B of the</span>
+<span class="source-line-no">509</span><span id="line.509">         * generated color equally, and each of those channels can go up or down by the given variance as long as the total</span>
+<span class="source-line-no">510</span><span id="line.510">         * distance isn't greater than the variance.</span>
+<span class="source-line-no">511</span><span id="line.511">         * @param color a packed float color, as produced by {@link #rgb(float, float, float, float)}</span>
+<span class="source-line-no">512</span><span id="line.512">         * @param seed a long seed that should be different on each call; should not be 0</span>
+<span class="source-line-no">513</span><span id="line.513">         * @param variance max amount of difference between the given color and the generated color; always less than 1</span>
+<span class="source-line-no">514</span><span id="line.514">         * @return a generated packed float color that should be at least somewhat different from {@code color}</span>
+<span class="source-line-no">515</span><span id="line.515">         */</span>
+<span class="source-line-no">516</span><span id="line.516">        public static float randomEdit(final float color, long seed, final float variance) {</span>
+<span class="source-line-no">517</span><span id="line.517">                final int decoded = NumberUtils.floatToRawIntBits(color);</span>
+<span class="source-line-no">518</span><span id="line.518">                final float r = (decoded &amp; 0xff) / 255f;</span>
+<span class="source-line-no">519</span><span id="line.519">                final float g = (decoded &gt;&gt;&gt; 8 &amp; 0xff) / 255f;</span>
+<span class="source-line-no">520</span><span id="line.520">                final float b = (decoded &gt;&gt;&gt; 16 &amp; 0xff) / 255f;</span>
+<span class="source-line-no">521</span><span id="line.521">                final float limit = variance * variance;</span>
+<span class="source-line-no">522</span><span id="line.522">                float dist, x, y, z;</span>
+<span class="source-line-no">523</span><span id="line.523">                for (int j = 0; j &lt; 50; j++) {</span>
+<span class="source-line-no">524</span><span id="line.524">                        x = (((seed * 0xD1B54A32D192ED03L &gt;&gt;&gt; 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;</span>
+<span class="source-line-no">525</span><span id="line.525">                        y = (((seed * 0xABC98388FB8FAC03L &gt;&gt;&gt; 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;</span>
+<span class="source-line-no">526</span><span id="line.526">                        z = (((seed * 0x8CB92BA72F3D8DD7L &gt;&gt;&gt; 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;</span>
+<span class="source-line-no">527</span><span id="line.527">                        seed += 0x9E3779B97F4A7C15L;</span>
+<span class="source-line-no">528</span><span id="line.528">                        dist = x * x + y * y + z * z;</span>
+<span class="source-line-no">529</span><span id="line.529">                        x += r;</span>
+<span class="source-line-no">530</span><span id="line.530">                        y += g;</span>
+<span class="source-line-no">531</span><span id="line.531">                        z += b;</span>
+<span class="source-line-no">532</span><span id="line.532">                        if(dist &lt;= limit)</span>
+<span class="source-line-no">533</span><span id="line.533">                                return NumberUtils.intBitsToFloat((decoded &amp; 0xFE000000) | ((int)(z * 255.999f) &lt;&lt; 16 &amp; 0xFF0000)</span>
+<span class="source-line-no">534</span><span id="line.534">                                        | ((int)(y * 255.999f) &lt;&lt; 8 &amp; 0xFF00) | (int)(x * 255.999f));</span>
+<span class="source-line-no">535</span><span id="line.535">                }</span>
+<span class="source-line-no">536</span><span id="line.536">                return color;</span>
+<span class="source-line-no">537</span><span id="line.537">        }</span>
+<span class="source-line-no">538</span><span id="line.538"></span>
+<span class="source-line-no">539</span><span id="line.539">        /**</span>
+<span class="source-line-no">540</span><span id="line.540">         * Produces a random packed float color that is always opaque and should be uniformly distributed.</span>
+<span class="source-line-no">541</span><span id="line.541">         * @param random a Random object (or preferably a subclass of Random, like {@link com.badlogic.gdx.math.RandomXS128})</span>
+<span class="source-line-no">542</span><span id="line.542">         * @return a packed float color that is always opaque</span>
+<span class="source-line-no">543</span><span id="line.543">         */</span>
+<span class="source-line-no">544</span><span id="line.544">        public static float randomColor(Random random) {</span>
+<span class="source-line-no">545</span><span id="line.545">                final float r = random.nextFloat(), g = random.nextFloat(), b = random.nextFloat();</span>
+<span class="source-line-no">546</span><span id="line.546">                return NumberUtils.intBitsToFloat(0xFE000000</span>
+<span class="source-line-no">547</span><span id="line.547">                                | ((int) (b * 256f) &lt;&lt; 16 &amp; 0xFF0000)</span>
+<span class="source-line-no">548</span><span id="line.548">                                | ((int) (g * 256f) &lt;&lt; 8 &amp; 0xFF00)</span>
+<span class="source-line-no">549</span><span id="line.549">                                | ((int) (r * 256f) &amp; 0xFF));</span>
+<span class="source-line-no">550</span><span id="line.550">        }</span>
+<span class="source-line-no">551</span><span id="line.551"></span>
+<span class="source-line-no">552</span><span id="line.552">        /**</span>
+<span class="source-line-no">553</span><span id="line.553">         * Limited-use; like {@link #randomColor(Random)} but for cases where you already have three floats (r, g, and b)</span>
+<span class="source-line-no">554</span><span id="line.554">         * distributed how you want. This can be somewhat useful if you are using a "subrandom" or "quasi-random" sequence,</span>
+<span class="source-line-no">555</span><span id="line.555">         * like the Halton, Sobol, or R3 sequences, to get 3D points and map them to colors. It can also be useful if you</span>
+<span class="source-line-no">556</span><span id="line.556">         * want to randomly generate the RGB channels yourself and track the values produced, as you would if you wanted to</span>
+<span class="source-line-no">557</span><span id="line.557">         * avoid generating too many colors with high blue, for instance.</span>
+<span class="source-line-no">558</span><span id="line.558">         * @param r red value to use; will be clamped between 0 and 1</span>
+<span class="source-line-no">559</span><span id="line.559">         * @param g green value to use; will be clamped between 0 and 1</span>
+<span class="source-line-no">560</span><span id="line.560">         * @param b blue value to use; will be clamped between 0 and 1</span>
+<span class="source-line-no">561</span><span id="line.561">         * @return a packed float color that is always opaque</span>
+<span class="source-line-no">562</span><span id="line.562">         */</span>
+<span class="source-line-no">563</span><span id="line.563">        public static float subrandomColor(float r, float g, float b) {</span>
+<span class="source-line-no">564</span><span id="line.564">                return NumberUtils.intBitsToFloat(0xFE000000</span>
+<span class="source-line-no">565</span><span id="line.565">                                | ((int) Math.min(Math.max(b * 256f, 0), 255.999f) &lt;&lt; 16 &amp; 0xFF0000)</span>
+<span class="source-line-no">566</span><span id="line.566">                                | ((int) Math.min(Math.max(g * 256f, 0), 255.999f) &lt;&lt; 8 &amp; 0xFF00)</span>
+<span class="source-line-no">567</span><span id="line.567">                                | ((int) Math.min(Math.max(r * 256f, 0), 255.999f) &amp; 0xFF));</span>
+<span class="source-line-no">568</span><span id="line.568">        }</span>
+<span class="source-line-no">569</span><span id="line.569">}</span>
 
 
 

@@ -499,12 +499,12 @@
 <span class="source-line-no">486</span><span id="line.486">        }</span>
 <span class="source-line-no">487</span><span id="line.487"></span>
 <span class="source-line-no">488</span><span id="line.488">        /**</span>
-<span class="source-line-no">489</span><span id="line.489">         * Gets a variation on the packed float color basis as another packed float that has its hue, saturation, value, and</span>
-<span class="source-line-no">490</span><span id="line.490">         * opacity adjusted by the specified amounts. Takes floats representing the amounts of change to apply to hue,</span>
-<span class="source-line-no">491</span><span id="line.491">         * saturation, value, and opacity; these can be between -1f and 1f. Returns a float that can be used as a packed or</span>
-<span class="source-line-no">492</span><span id="line.492">         * encoded color. The float is</span>
-<span class="source-line-no">493</span><span id="line.493">         * likely to be different than the result of {@link #ipt(float, float, float, float)} unless hue saturation,</span>
-<span class="source-line-no">494</span><span id="line.494">         * value, and opacity are all 0. This won't allocate any objects.</span>
+<span class="source-line-no">489</span><span id="line.489">         * Gets a variation on the packed float color basis as another packed float that has its hue, saturation, lightness,</span>
+<span class="source-line-no">490</span><span id="line.490">         * and opacity adjusted by the specified amounts. Note that this edits the color in HSL space, not IPT_HQ! Takes</span>
+<span class="source-line-no">491</span><span id="line.491">         * floats representing the amounts of change to apply to hue, saturation, lightness, and opacity; these can be</span>
+<span class="source-line-no">492</span><span id="line.492">         * between -1f and 1f. Returns a float that can be used as a packed or encoded color. The float is</span>
+<span class="source-line-no">493</span><span id="line.493">         * likely to be different than the result of {@link #ipt(float, float, float, float)} unless hue, saturation,</span>
+<span class="source-line-no">494</span><span id="line.494">         * lightness, and opacity are all 0. This won't allocate any objects.</span>
 <span class="source-line-no">495</span><span id="line.495">         * &lt;br&gt;</span>
 <span class="source-line-no">496</span><span id="line.496">         * The parameters this takes all specify additive changes for a color component, clamping the final values so they</span>
 <span class="source-line-no">497</span><span id="line.497">         * can't go above 1 or below 0, with an exception for hue, which can rotate around if lower or higher hues would be</span>
@@ -515,13 +515,13 @@
 <span class="source-line-no">502</span><span id="line.502">         * @param basis      a packed float color that will be used as the starting point to make the next color</span>
 <span class="source-line-no">503</span><span id="line.503">         * @param hue        -1f to 1f, the hue change that can be applied to the new float color (not clamped, wraps)</span>
 <span class="source-line-no">504</span><span id="line.504">         * @param saturation -1f to 1f, the saturation change that can be applied to the new float color</span>
-<span class="source-line-no">505</span><span id="line.505">         * @param value      -1f to 1f, the value/brightness change that can be applied to the new float color</span>
+<span class="source-line-no">505</span><span id="line.505">         * @param light      -1f to 1f, the light/brightness change that can be applied to the new float color</span>
 <span class="source-line-no">506</span><span id="line.506">         * @param opacity    -1f to 1f, the opacity/alpha change that can be applied to the new float color</span>
 <span class="source-line-no">507</span><span id="line.507">         * @return a float encoding a variation of basis with the given changes</span>
 <span class="source-line-no">508</span><span id="line.508">         */</span>
-<span class="source-line-no">509</span><span id="line.509">        public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {</span>
+<span class="source-line-no">509</span><span id="line.509">        public static float toEditedFloat(float basis, float hue, float saturation, float light, float opacity) {</span>
 <span class="source-line-no">510</span><span id="line.510">                final int e = BitConversion.floatToRawIntBits(basis);</span>
-<span class="source-line-no">511</span><span id="line.511">                final float i = Math.min(Math.max(value + (e &amp; 0xff) / 255f, 0f), 1f);</span>
+<span class="source-line-no">511</span><span id="line.511">                final float i = Math.min(Math.max(light + (e &amp; 0xff) / 255f, 0f), 1f);</span>
 <span class="source-line-no">512</span><span id="line.512">                opacity = Math.min(Math.max(opacity + (e &gt;&gt;&gt; 24 &amp; 0xfe) * 0x1.020408p-8f, 0f), 1f);</span>
 <span class="source-line-no">513</span><span id="line.513">                if (i &lt;= 0.001f)</span>
 <span class="source-line-no">514</span><span id="line.514">                        return BitConversion.intBitsToFloat((((int) (opacity * 255f) &lt;&lt; 24) &amp; 0xFE000000) | 0x808000);</span>
@@ -555,10 +555,10 @@
 <span class="source-line-no">542</span><span id="line.542">                        x = r;</span>
 <span class="source-line-no">543</span><span id="line.543">                }</span>
 <span class="source-line-no">544</span><span id="line.544">                final float d = x - Math.min(w, y);</span>
-<span class="source-line-no">545</span><span id="line.545">                final float light = x * (1f - 0.5f * d / (x + 1e-10f));</span>
+<span class="source-line-no">545</span><span id="line.545">                final float lum = x * (1f - 0.5f * d / (x + 1e-10f));</span>
 <span class="source-line-no">546</span><span id="line.546">                hue += Math.abs(z + (w - y) / (6f * d + 1e-10f)) + 1f;</span>
-<span class="source-line-no">547</span><span id="line.547">                saturation += (x - light) / (Math.min(light, 1f - light) + 1e-10f);</span>
-<span class="source-line-no">548</span><span id="line.548">                return fromRGBA(FloatColors.hsl2rgb(hue - (int)hue, Math.min(Math.max(saturation, 0f), 1f), light, opacity));</span>
+<span class="source-line-no">547</span><span id="line.547">                saturation += (x - lum) / (Math.min(lum, 1f - lum) + 1e-10f);</span>
+<span class="source-line-no">548</span><span id="line.548">                return fromRGBA(FloatColors.hsl2rgb(hue - (int)hue, Math.min(Math.max(saturation, 0f), 1f), lum, opacity));</span>
 <span class="source-line-no">549</span><span id="line.549">        }</span>
 <span class="source-line-no">550</span><span id="line.550"></span>
 <span class="source-line-no">551</span><span id="line.551">        /**</span>
