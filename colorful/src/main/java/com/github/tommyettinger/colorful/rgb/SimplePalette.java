@@ -32,7 +32,31 @@ import static com.github.tommyettinger.colorful.rgb.ColorTools.*;
  * the matching color, from darkest to lightest). Having a name lets you look up the matching color in {@link #NAMED}.
  */
 public class SimplePalette {
+    /**
+     * You can look up colors by name here; the names are lower-case, and the colors are packed floats in rgba format.
+     */
     public static final ObjectFloatMap<String> NAMED = new ObjectFloatMap<String>(50);
+    /**
+     * Stores alternative names for colors in {@link #NAMED}, like "grey" as an alias for {@link #GRAY} or "gold" as an
+     * alias for {@link #SAFFRON}. Currently, the list of aliases is as follows:
+     * <ul>
+     * <li>"grey" maps to {@link #GRAY},</li>
+     * <li>"gold" maps to {@link #SAFFRON},</li>
+     * <li>"puce" maps to {@link #MAUVE},</li>
+     * <li>"sand" maps to {@link #TAN},</li>
+     * <li>"skin" maps to {@link #PEACH},</li>
+     * <li>"coral" maps to {@link #SALMON},</li>
+     * <li>"azure" maps to {@link #SKY}, and</li>
+     * <li>"ocean" maps to {@link #TEAL}, and</li>
+     * <li>"sapphire" maps to {@link #COBALT}.</li>
+     * </ul>
+     * Note that these aliases are not duplicated in {@link #NAMES}, {@link #NAMES_BY_HUE}, or
+     * {@link #NAMES_BY_LIGHTNESS}; they are primarily there so blind attempts to name a color might still work.
+     */
+    public static final ObjectFloatMap<String> ALIASES = new ObjectFloatMap<String>(20);
+    /**
+     * Lists the packed float color values in this, in no particular order. Does not include duplicates from aliases.
+     */
     public static final FloatArray LIST = new FloatArray(50);
 
     /**
@@ -803,6 +827,16 @@ public class SimplePalette {
         int trn = namesByHue.indexOf("transparent", false);
         namesByHue.removeIndex(trn);
         colorsByHue.removeIndex(trn);
+        ALIASES.put("grey", GRAY);
+        ALIASES.put("gold", SAFFRON);
+        ALIASES.put("puce", MAUVE);
+        ALIASES.put("sand", TAN);
+        ALIASES.put("skin", PEACH); // Yes, I am aware that there is more than one skin color, but this can only map to one.
+        ALIASES.put("coral", SALMON);
+        ALIASES.put("azure", SKY);
+        ALIASES.put("ocean", TEAL);
+        ALIASES.put("sapphire", COBALT);
+        NAMED.putAll(ALIASES);
     }
     /**
      * Given a color as a packed RGBA float, this finds the closest description it can to match the given color while
@@ -856,7 +890,7 @@ public class SimplePalette {
      * Appends standard RGBA Color instances to the map in {@link Colors}, using the names in {@link #NAMES} (which
      * are "lower cased" instead of "ALL UPPER CASE"). This doesn't need any changes to be made to Colors in order for
      * it to be compatible; just remember that the colors originally in Colors use "UPPER CASE" and these use "lower
-     * case".
+     * case". This does append aliases as well, so some color values will be duplicates.
      * <br>
      * This can be used alongside the method with the same name in Palette, since that uses "Title Cased" names.
      */
