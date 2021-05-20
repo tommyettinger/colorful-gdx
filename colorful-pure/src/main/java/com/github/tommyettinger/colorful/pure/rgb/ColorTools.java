@@ -269,12 +269,12 @@ public class ColorTools {
 	}
 
 	/**
-	 * Gets a variation on the packed float color basis as another packed float that has its hue, saturation, value, and
-	 * opacity adjusted by the specified amounts. Takes floats representing the amounts of change to apply to hue,
-	 * saturation, value, and opacity; these can be between -1f and 1f. Returns a float that can be used as a packed or
-	 * encoded color. The float is
-	 * likely to be different than the result of {@link #rgb(float, float, float, float)} unless hue saturation,
-	 * value, and opacity are all 0. This won't allocate any objects.
+	 * Gets a variation on the packed float color basis as another packed float that has its hue, saturation, lightness,
+	 * and opacity adjusted by the specified amounts. Note that this edits the color in HSL space, not RGB! Takes
+	 * floats representing the amounts of change to apply to hue, saturation, lightness, and opacity; these can be
+	 * between -1f and 1f. Returns a float that can be used as a packed or encoded color. The float is
+	 * likely to be different than the result of {@link #rgb(float, float, float, float)} unless hue, saturation,
+	 * lightness, and opacity are all 0. This won't allocate any objects.
 	 * <br>
 	 * The parameters this takes all specify additive changes for a color component, clamping the final values so they
 	 * can't go above 1 or below 0, with an exception for hue, which can rotate around if lower or higher hues would be
@@ -285,11 +285,11 @@ public class ColorTools {
 	 * @param basis      a packed float color that will be used as the starting point to make the next color
 	 * @param hue        -1f to 1f, the hue change that can be applied to the new float color (not clamped, wraps)
 	 * @param saturation -1f to 1f, the saturation change that can be applied to the new float color
-	 * @param value      -1f to 1f, the value/brightness change that can be applied to the new float color
+	 * @param light      -1f to 1f, the light/brightness change that can be applied to the new float color
 	 * @param opacity    -1f to 1f, the opacity/alpha change that can be applied to the new float color
 	 * @return a float encoding a variation of basis with the given changes
 	 */
-	public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {
+	public static float toEditedFloat(float basis, float hue, float saturation, float light, float opacity) {
 		final int decoded = BitConversion.floatToRawIntBits(basis);
 		opacity = Math.min(Math.max(opacity + (decoded >>> 24 & 0xfe) * 0x1.020408p-8f, 0f), 1f);
 		final float r = (decoded & 0xff) / 255f;
@@ -317,7 +317,7 @@ public class ColorTools {
 			x = r;
 		}
 		final float d = x - Math.min(w, y);
-		final float light = x * (1f - 0.5f * d / (x + 1e-10f));
+		light = Math.min(Math.max(x * (1f - 0.5f * d / (x + 1e-10f)) + light, 0f), 1f);
 		hue += Math.abs(z + (w - y) / (6f * d + 1e-10f)) + 1f;
 		saturation += (x - light) / (Math.min(light, 1f - light) + 1e-10f);
 		return FloatColors.hsl2rgb(hue - (int)hue, Math.min(Math.max(saturation, 0f), 1f), light, opacity);
