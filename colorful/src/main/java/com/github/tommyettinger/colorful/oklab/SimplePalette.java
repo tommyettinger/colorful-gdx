@@ -838,7 +838,6 @@ public class SimplePalette {
                 mixing.set(i, colorsByHue.get((c / e) % paletteSize));
             }
             int idxI = ((c / colorTries) % 9 - 4), idxS = (c / (colorTries * 9) - 4);
-//            float intensity = idxI * 0.125f, saturation = idxS * 0.2f;
 
             float result = FloatColors.mix(mixing.items, 0, mixCount);
             if(idxI > 0) result = ColorTools.lighten(result, 0.125f * idxI);

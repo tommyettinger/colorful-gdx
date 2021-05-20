@@ -50,8 +50,8 @@ public class ColorTools {
 	public static int toRGBA8888(final float packed)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(packed), y = (decoded & 0xff),
-				cw = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				cm = (((decoded >>> 15 & 0x1fe) - 0xfe) >> 1);
+				cw = ((decoded >>> 7 & 0x1fe) - 0xff),
+				cm = (((decoded >>> 15 & 0x1fe) - 0xff) >> 1);
 		return Math.min(Math.max(y + (cw * 5 >> 3) - cm, 0), 0xFF) << 24
 				| Math.min(Math.max(y - (cw * 3 >> 3) + cm, 0), 0xFF) << 16
 				| Math.min(Math.max(y - (cw * 3 >> 3) - cm, 0), 0xFF) << 8
@@ -68,8 +68,8 @@ public class ColorTools {
 	public static float toRGBA(final float packed)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(packed), y = (decoded & 0xff),
-				cw = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				cm = (((decoded >>> 15 & 0x1fe) - 0xfe) >> 1);
+				cw = ((decoded >>> 7 & 0x1fe) - 0xff),
+				cm = (((decoded >>> 15 & 0x1fe) - 0xff) >> 1);
 		return NumberUtils.intBitsToFloat(Math.min(Math.max(y + (cw * 5 >> 3) - cm, 0), 0xFF)
 				| Math.min(Math.max(y - (cw * 3 >> 3) + cm, 0), 0xFF) << 8
 				| Math.min(Math.max(y - (cw * 3 >> 3) - cm, 0), 0xFF) << 16
@@ -122,7 +122,7 @@ public class ColorTools {
 	 * @return a packed float as YCwCm, which this class can use
 	 */
 	public static float fromRGBA(final float r, final float g, final float b, final float a) {
-		return NumberUtils.intBitsToFloat((int) (255 * (r * 0x3p-3f + g * 0x4p-3f + b * 0x1p-3f)) & 0xFF
+		return NumberUtils.intBitsToFloat((int) (255 * (r * 0.375f + g * 0.5f + b * 0.125f)) & 0xFF
 						| (int)((r - b + 1f) * 127.5f) << 8 & 0xFF00
 						| (int)((g - b + 1f) * 127.5f) << 16 & 0xFF0000
 						| ((int)(a * 255f) << 24 & 0xFE000000));
@@ -136,7 +136,7 @@ public class ColorTools {
 	public static int redInt(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		return (decoded & 0xff) + (((decoded >>> 7 & 0x1fe) - 0xfe) * 5 >>> 4) - (((decoded >>> 15 & 0x1fe) - 0xfe) >>> 2);
+		return (decoded & 0xff) + (((decoded >>> 7 & 0x1fe) - 0xff) * 5 >>> 4) - (((decoded >>> 15 & 0x1fe) - 0xff) >>> 2);
 	}
 
 	/**
@@ -147,7 +147,7 @@ public class ColorTools {
 	public static int greenInt(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		return (decoded & 0xff) - (((decoded >>> 7 & 0x1fe) - 0xfe) * 3 >> 4) + (((decoded >>> 15 & 0x1fe) - 0xfe) >> 2);
+		return (decoded & 0xff) - (((decoded >>> 7 & 0x1fe) - 0xff) * 3 >> 4) + (((decoded >>> 15 & 0x1fe) - 0xff) >> 2);
 	}
 
 	/**
@@ -158,7 +158,7 @@ public class ColorTools {
 	public static int blueInt(final float encoded)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
-		return (decoded & 0xff) - (((decoded >>> 7 & 0x1fe) - 0xfe) * 3 >> 4) - (((decoded >>> 15 & 0x1fe) - 0xfe) >> 2);
+		return (decoded & 0xff) - (((decoded >>> 7 & 0x1fe) - 0xff) * 3 >> 4) - (((decoded >>> 15 & 0x1fe) - 0xff) >> 2);
 	}
 
 	/**
@@ -247,8 +247,8 @@ public class ColorTools {
 	 */
 	public static float saturation(final float encoded) {
 		final int decoded = NumberUtils.floatToRawIntBits(encoded), lu = (decoded & 0xff),
-				cw = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				cm = (((decoded >>> 15 & 0x1fe) - 0xfe) >> 1);
+				cw = ((decoded >>> 7 & 0x1fe) - 0xff),
+				cm = (((decoded >>> 15 & 0x1fe) - 0xff) >> 1);
 		final float r = Math.min(Math.max(lu + (cw * 5 >> 3) - cm, 0), 0xFF) * 0x1.010102p-8f;
 		final float g = Math.min(Math.max(lu - (cw * 3 >> 3) + cm, 0), 0xFF) * 0x1.010102p-8f;
 		final float b =  Math.min(Math.max(lu - (cw * 3 >> 3) - cm, 0), 0xFF) * 0x1.010102p-8f;
@@ -275,8 +275,8 @@ public class ColorTools {
 
 	public static float lightness(final float encoded) {
 		final int decoded = NumberUtils.floatToRawIntBits(encoded), lu = (decoded & 0xff),
-				cw = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				cm = (((decoded >>> 15 & 0x1fe) - 0xfe) >> 1);
+				cw = ((decoded >>> 7 & 0x1fe) - 0xff),
+				cm = (((decoded >>> 15 & 0x1fe) - 0xff) >> 1);
 		final float r = Math.min(Math.max(lu + (cw * 5 >> 3) - cm, 0), 0xFF) * 0x1.010102p-8f;
 		final float g = Math.min(Math.max(lu - (cw * 3 >> 3) + cm, 0), 0xFF) * 0x1.010102p-8f;
 		final float b =  Math.min(Math.max(lu - (cw * 3 >> 3) - cm, 0), 0xFF) * 0x1.010102p-8f;
@@ -309,8 +309,8 @@ public class ColorTools {
 	 */
 	public static float hue(final float encoded) {
 		final int decoded = NumberUtils.floatToRawIntBits(encoded), lu = (decoded & 0xff),
-				cw = ((decoded >>> 7 & 0x1fe) - 0xfe),
-				cm = (((decoded >>> 15 & 0x1fe) - 0xfe) >> 1);
+				cw = ((decoded >>> 7 & 0x1fe) - 0xff),
+				cm = (((decoded >>> 15 & 0x1fe) - 0xff) >> 1);
 		final float r = Math.min(Math.max(lu + (cw * 5 >> 3) - cm, 0), 0xFF) * 0x1.010102p-8f;
 		final float g = Math.min(Math.max(lu - (cw * 3 >> 3) + cm, 0), 0xFF) * 0x1.010102p-8f;
 		final float b =  Math.min(Math.max(lu - (cw * 3 >> 3) - cm, 0), 0xFF) * 0x1.010102p-8f;
@@ -403,12 +403,13 @@ public class ColorTools {
 	}
 
 	/**
-	 * Gets a variation on the packed float color basis as another packed float that has its hue, saturation, value, and
-	 * opacity adjusted by the specified amounts. Takes floats representing the amounts of change to apply to hue,
-	 * saturation, value, and opacity; these can be between -1f and 1f. Returns a float that can be used as a packed or
-	 * encoded color with methods like {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)}. The float is
-	 * likely to be different than the result of {@link #ycwcm(float, float, float, float)} unless hue saturation,
-	 * value, and opacity are all 0. This won't allocate any objects.
+	 * Gets a variation on the packed float color basis as another packed float that has its hue, saturation, lightness,
+	 * and opacity adjusted by the specified amounts. Note that this edits the color in HSL space, not YCwCm! Takes
+	 * floats representing the amounts of change to apply to hue, saturation, lightness, and opacity; these can be
+	 * between -1f and 1f. Returns a float that can be used as a packed or encoded color with methods like
+	 * {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)}. The float is likely to be different than the
+	 * result of {@link #ycwcm(float, float, float, float)} unless hue, saturation, lightness, and opacity are all 0.
+	 * This won't allocate any objects.
 	 * <br>
 	 * The parameters this takes all specify additive changes for a color component, clamping the final values so they
 	 * can't go above 1 or below 0, with an exception for hue, which can rotate around if lower or higher hues would be
@@ -419,22 +420,21 @@ public class ColorTools {
 	 * @param basis      a packed float color that will be used as the starting point to make the next color
 	 * @param hue        -1f to 1f, the hue change that can be applied to the new float color (not clamped, wraps)
 	 * @param saturation -1f to 1f, the saturation change that can be applied to the new float color
-	 * @param value      -1f to 1f, the value/brightness change that can be applied to the new float color
+	 * @param light      -1f to 1f, the light/brightness change that can be applied to the new float color
 	 * @param opacity    -1f to 1f, the opacity/alpha change that can be applied to the new float color
 	 * @return a float encoding a variation of basis with the given changes
 	 */
-	public static float toEditedFloat(float basis, float hue, float saturation, float value, float opacity) {
+	public static float toEditedFloat(float basis, float hue, float saturation, float light, float opacity) {
 		final int e = NumberUtils.floatToRawIntBits(basis);
-		value = Math.min(Math.max(value + (e & 0xff) * 0x1.010102p-8f, 0f), 1f);
 		opacity = Math.min(Math.max(opacity + (e >>> 24 & 0xfe) * 0x1.020408p-8f, 0f), 1f);
-		if (value <= 0.001f)
+		if (light + (e & 0xff) * 0x1.010102p-8f <= 0.001f)
 			return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x7F7F00);
 		final int lu = (e & 0xff);
-		final int cw = ((e >>> 7 & 0x1fe) - 0xfe);
-		final int cm = (((e >>> 15 & 0x1fe) - 0xfe) >> 1);
-		final float r = Math.min(Math.max(lu + (cw * 5 >> 3) - cm, 0), 0xFF) * 0x1.010102p-8f;
-		final float g = Math.min(Math.max(lu - (cw * 3 >> 3) + cm, 0), 0xFF) * 0x1.010102p-8f;
-		final float b = Math.min(Math.max(lu - (cw * 3 >> 3) - cm, 0), 0xFF) * 0x1.010102p-8f;
+		final int cw = ((e >>> 7 & 0x1fe) - 0xff);
+		final int cm = (((e >>> 15 & 0x1fe) - 0xff) >> 1);
+		final float r = Math.min(Math.max(lu + light + (cw * 0.625f) - cm, 0), 255f) * 0x1.010102p-8f;
+		final float g = Math.min(Math.max(lu + light - (cw * 0.375f) + cm, 0), 255f) * 0x1.010102p-8f;
+		final float b = Math.min(Math.max(lu + light - (cw * 0.375f) - cm, 0), 255f) * 0x1.010102p-8f;
 		float x, y, z, w;
 		if(g < b) {
 			x = b;
@@ -457,10 +457,10 @@ public class ColorTools {
 			x = r;
 		}
 		final float d = x - Math.min(w, y);
-		final float light = x * (1f - 0.5f * d / (x + 1e-10f));
+		final float lum = x * (1f - 0.5f * d / (x + 1e-10f));
 		hue += Math.abs(z + (w - y) / (6f * d + 1e-10f)) + 1f;
-		saturation += (x - light) / (Math.min(light, 1f - light) + 1e-10f);
-		return fromRGBA(FloatColors.hsl2rgb(hue - (int)hue, Math.min(Math.max(saturation, 0f), 1f), light, opacity));
+		saturation += (x - lum) / (Math.min(lum, 1f - lum) + 1e-10f);
+		return fromRGBA(FloatColors.hsl2rgb(hue - (int)hue, Math.min(Math.max(saturation, 0f), 1f), lum, opacity));
 	}
 
 	/**
