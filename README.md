@@ -1,3 +1,5 @@
+![colorful-gdx logo](images/colorful-gdx-logo-name-500x160.png)
+
 # colorful-gdx
 A libGDX mechanism to manipulate colors in powerful ways
 
@@ -28,7 +30,8 @@ RGB-specific color manipulation, while `FloatColors` in the parent package provi
 as packed floats (which are the default here). `Palette` has 256 predefined colors from the DawnBringer Aurora palette,
 which is well-distributed for almost any pixel art or digital painting, as packed floats that have substantial
 documentation; these colors can be accessed with their names via an ObjectFloatMap, `NAMED`, and those names in usefully'
-sorted orders as `NAMES_BY_LIGHTNESS` and `NAMES_BY_HUE`.
+sorted orders as `NAMES_BY_LIGHTNESS` and `NAMES_BY_HUE`. There's also `SimplePalette`, which has fewer named colors
+predefined, but allows specifying edited and/or combined colors using simple `String`s; more on that later.
 
 Here's an aside about those colors as packed floats. Packed float colors may seem somewhat odd at first, but libGDX
 uses them to represent a color in a way that OpenGL can easily handle. They store almost the same info as an RGBA8888
@@ -50,12 +53,17 @@ multiplicative and additive colors creatively to achieve certain effects; while 
 spaces discussed next, it can be done with RGB as well. Multiplicative colors affect the contribution of the original
 texture color to the resulting color, so if you had some randomly-generated colorful static and wanted to make it look
 like leaves, you could use a tweak of `(0.2f, 0.6f, 0.0f, 0.3f)` and a regular color of `(0.3f, 0.8f, 0.0f, 1.0f)` to at
-least get a bit closer to a leafy background.
+least get a bit closer to a leafy background. Because libGDX's `Sprite` class depends on internal details of
+`SpriteBatch` that aren't as useful with `ColorfulBatch`, we have a `ColorfulSprite` class here that allows setting its
+color and its tweak, but otherwise can be treated like a Sprite. You can still use a `Sprite` with a `ColorfulBatch`,
+you just can't set its tweak.
 
 ### YCwCm
 
-Instead of red, green, blue, and alpha channels, YCwCm uses luma (also called lightness), chromatic
-warmth, chromatic mildness, and alpha. The chromatic channels are only meaningful together, and can be used to get the
+Instead of red, green, blue, and alpha channels, YCwCm uses luma (also called lightness), chromatic warmth, chromatic
+mildness, and alpha. It's the first color space that was implemented here, and it's still not exactly perfect; there's
+no `SimplePalette` here, and sometimes two colors with equivalent luma (as YCwCm calculates it) do not look like they
+have the same actual lightness. The chromatic channels are only meaningful together, and can be used to get the
 hue and colorfulness (related to saturation) of any individual color. All channels go from `0.0f` to `1.0f` as `float`s,
 and can also be viewed as `int`s from `0` to `255` (`254` for alpha, because it is never an odd number). For luma,
 `0.0f` is black regardless of chromatic channels, and `1.0f` is white, again regardless. Tinting an image with black
@@ -163,8 +171,8 @@ includes those in `ycwcm` and `ipt` as well.
 
 ### Describing Colors
 
-The `ipt_hq` and `oklab` packages have the same classes present for other color spaces, like those in `ipt`, plus an
-extra palette, `SimplePalette`, with a key extra feature. You can use the `SimplePalette.parseDescription(String)`
+The `rgb`, `ipt_hq` and `oklab` packages have the same classes present for other color spaces, like those in `ipt`, plus
+an extra palette, `SimplePalette`, with a key extra feature. You can use the `SimplePalette.parseDescription(String)`
 method to describe a color with a combination of one or more (clearly-named) color names and optionally with adjectives
 like "light", "dull", "darker", or "richest". The predefined colors in SimplePalette for IPT_HQ can be previewed in
 [this list alphabetically](https://tommyettinger.github.io/colorful-gdx/ColorTableSimpleIPT_HQ.html),

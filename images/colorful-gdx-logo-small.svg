@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 512 512"
+   style="height: 512px; width: 512px;"
+   version="1.1"
+   id="svg40"
+   sodipodi:docname="colorful-gdx-logo-small.svg"
+   inkscape:version="1.0.2-2 (e86c870879, 2021-01-15)"
+   inkscape:export-filename="C:\Users\tommy\Downloads\colorful-gdx-logo-16.png"
+   inkscape:export-xdpi="3.1000044"
+   inkscape:export-ydpi="3.1000044">
+  <metadata
+     id="metadata46">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs44">
+    <rect
+       x="217.39928"
+       y="197.63571"
+       width="79.054282"
+       height="132.78649"
+       id="rect50" />
+  </defs>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="996"
+     id="namedview42"
+     showgrid="false"
+     inkscape:zoom="1.6191406"
+     inkscape:cx="149.77081"
+     inkscape:cy="256"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg40" />
+  <polygon
+     points="424.29,424.29,256,494,87.71,424.29,18,256,87.71,87.71,256,18,424.29,87.71,494,256"
+     fill="#000"
+     fill-opacity="1"
+     stroke="#9b9b9b"
+     stroke-opacity="1"
+     stroke-width="18"
+     id="polygon10" />
+  <g
+     class=""
+     transform="translate(0,0)"
+     style=""
+     id="g38">
+    <g
+       transform="translate(25.6, 25.6) scale(0.9, 0.9) rotate(0, 256, 256) skewX(0) skewY(0)"
+       id="g36">
+      <path
+         d="M247 25.076L107.053 130.004L172.049 162.49L247 106.297L247 25.077Z"
+         class=""
+         fill="#f3ec00"
+         fill-opacity="1"
+         id="path12" />
+      <path
+         d="M265 25.076L265 106.296L339.95 162.49L404.95 130.002L265 25.076Z"
+         class=""
+         fill="#ff8d00"
+         fill-opacity="1"
+         id="path14" />
+      <path
+         d="M274.277 47.383L310.907 73.82C285.782 69.613 281.167 83.02 273.559 102.62L274.276 47.383Z"
+         class=""
+         fill="#fff"
+         fill-opacity="1"
+         id="path16" />
+      <path
+         d="M236.487 51.309L236.213 84.671C214.161 85.853 179.426 99.094 128.32 128.661L236.488 51.31Z"
+         class=""
+         fill="#fff"
+         fill-opacity="1"
+         id="path18" />
+      <path
+         d="M256 122.044L182 177.524L182 334.472L256 389.954L330 334.472L330 177.527L256 122.045Z"
+         class="selected"
+         fill="#e6e6e6"
+         fill-opacity="1"
+         id="path20" />
+      <path
+         d="M260.215 139.714C222.712 173.554 199.573 304.547 196.565 338.808L196.215 187.713L260.215 139.713Z"
+         class=""
+         fill="#fff"
+         fill-opacity="1"
+         id="path22" />
+      <path
+         d="M99 146.1L99 365.9L164 333.412L164 178.588L99 146.1Z"
+         class=""
+         fill="#67c201"
+         fill-opacity="1"
+         id="path24" />
+      <path
+         d="M413 146.1L348 178.588L348 333.412L413 365.9L413 146.1Z"
+         class=""
+         fill="#f70101"
+         fill-opacity="1"
+         id="path26" />
+      <path
+         d="M111.648 169.41L152.121 190.24C105.841 228.997 121.331 312.933 110.245 352.812L111.649 169.41Z"
+         class=""
+         fill="#fff"
+         fill-opacity="1"
+         id="path28" />
+      <path
+         d="M172.048 349.51L107.053 381.996L247 486.924L247 405.704L172.05 349.51Z"
+         class=""
+         fill="#0075ff"
+         fill-opacity="1"
+         id="path30" />
+      <path
+         d="M339.951 349.51L265 405.703L265 486.923L404.947 381.996L339.951 349.51Z"
+         class=""
+         fill="#9013fe"
+         fill-opacity="1"
+         id="path32" />
+      <path
+         d="M170.536 366.682C150.942 382.964 153.791 391.047 175.013 421.094L130.767 383.076L170.537 366.682Z"
+         class=""
+         fill="#fff"
+         fill-opacity="1"
+         id="path34" />
+    </g>
+  </g>
+  <text
+     xml:space="preserve"
+     id="text48"
+     style="font-size:120px;line-height:1.25;font-family:'Iosevka Slab Custom';-inkscape-font-specification:'Iosevka Slab Custom';white-space:pre;shape-inside:url(#rect50);"><tspan
+       style="visibility:hidden"
+       x="217.39844"
+       y="439.21388"><tspan
+         style="shape-inside:url(#rect50)">C</tspan></tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:229.817px;line-height:1.25;font-family:'Iosevka Slab Custom';-inkscape-font-specification:'Iosevka Slab Custom';fill:#1a1a1a;stroke-width:1.79547"
+     x="182.82504"
+     y="354.7186"
+     id="text78"
+     transform="scale(1.0599609,0.94343106)"><tspan
+       sodipodi:role="line"
+       id="tspan76"
+       x="182.82504"
+       y="354.7186"
+       style="stroke-width:1.79547">C</tspan></text>
+</svg>
