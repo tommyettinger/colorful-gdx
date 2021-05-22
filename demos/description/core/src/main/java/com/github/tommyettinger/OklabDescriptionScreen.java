@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -38,6 +39,9 @@ public class OklabDescriptionScreen extends ScreenAdapter {
         Table tab = new Table(skin);
         tab.align(Align.center);
         tab.setFillParent(true);
+        Label title = new Label("Oklab Color Description", skin);
+        title.setAlignment(Align.center);
+        tab.add(title).growX().minWidth(300).row();
         tab.add(tf).center().growX();
         stage.getRoot().addActor(tab);
         stage.addListener(new InputListener(){

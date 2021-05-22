@@ -77,18 +77,21 @@ task superDev(type: GwtSuperDev) {
 }
 task dist(dependsOn: [clean, compileGwt]) {
     doLast {
-		file("build/dist").mkdirs()
+		file("../../../docs/${appName}").mkdirs()
 		copy {
 			from "build/gwt/out"
-			into "build/dist"
+			into "../../../docs/${appName}"
 		}
 		copy {
-			from "webapp"
-			into "build/dist"
+			from("webapp") {
+				include '**/*.html'
+				filter { String line -> line.replaceAll('<a class="superdev" .+', '') }
+			}
+			into "../../../docs/${appName}"
 			}
 		copy {
 			from "war"
-			into "build/dist"
+			into "../../../docs/${appName}"
 		}
 	}
 }

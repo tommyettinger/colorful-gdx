@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -47,6 +48,9 @@ public class RGBDescriptionScreen extends ScreenAdapter {
         Table tab = new Table(skin);
         tab.align(Align.center);
         tab.setFillParent(true);
+        Label title = new Label("RGB Color Description", skin);
+        title.setAlignment(Align.center);
+        tab.add(title).colspan(2).growX().minWidth(300).row();
         tab.add("Description: ").left().minWidth(200);
         tab.add(nameField).center().growX().row();
         tab.add("RRGGBB Hex:  ").left().minWidth(200);
