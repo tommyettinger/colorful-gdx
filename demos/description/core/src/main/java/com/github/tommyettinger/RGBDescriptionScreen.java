@@ -1,9 +1,12 @@
 package com.github.tommyettinger;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -26,6 +29,7 @@ public class RGBDescriptionScreen extends ScreenAdapter {
 
     @Override
     public void show() {
+        Gdx.graphics.setTitle("RGB Color Description");
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
         skin.getFont("default-font").getData().scale(2f);
         stage = new Stage();
@@ -48,6 +52,28 @@ public class RGBDescriptionScreen extends ScreenAdapter {
         tab.add("RRGGBB Hex:  ").left().minWidth(200);
         tab.add(hexField).center().growX();
         stage.getRoot().addActor(tab);
+        stage.addListener(new InputListener(){
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                boolean r = super.keyUp(event, keycode);
+                if(keycode == Input.Keys.LEFT_BRACKET)
+                {
+                    mainGame.nextScreen();
+                    return true;
+                }
+                else if(keycode == Input.Keys.RIGHT_BRACKET)
+                {
+                    mainGame.previousScreen();
+                    return true;
+                }
+                else if(keycode == Input.Keys.ESCAPE){
+                    Gdx.app.exit();
+                    return true;
+                }
+
+                return false;
+            }
+        });
         input.setInputProcessor(stage);
     }
 
