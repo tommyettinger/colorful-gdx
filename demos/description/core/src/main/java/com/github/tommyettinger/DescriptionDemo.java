@@ -11,6 +11,7 @@ public class DescriptionDemo extends Game {
     private RGBDescriptionScreen rgb;
     private OklabDescriptionScreen oklab;
     private IPTHQDescriptionScreen ipthq;
+    private CompareDescriptionScreen compare;
     private Screen[] screens;
     private int screenIndex;
     @Override
@@ -18,7 +19,8 @@ public class DescriptionDemo extends Game {
         rgb = new RGBDescriptionScreen(this);
         oklab = new OklabDescriptionScreen(this);
         ipthq = new IPTHQDescriptionScreen(this);
-        screens = new Screen[]{rgb, oklab, ipthq};
+        compare = new CompareDescriptionScreen(this);
+        screens = new Screen[]{rgb, oklab, ipthq, compare};
         screenIndex = 0;
         setScreen(screens[screenIndex]);
     }
