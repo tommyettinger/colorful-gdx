@@ -55,23 +55,21 @@ public class RGBDescriptionScreen extends ScreenAdapter {
         stage.addListener(new InputListener(){
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
-                boolean r = super.keyUp(event, keycode);
                 if(keycode == Input.Keys.LEFT_BRACKET)
                 {
-                    mainGame.nextScreen();
+                    mainGame.previousScreen();
                     return true;
                 }
                 else if(keycode == Input.Keys.RIGHT_BRACKET)
                 {
-                    mainGame.previousScreen();
+                    mainGame.nextScreen();
                     return true;
                 }
                 else if(keycode == Input.Keys.ESCAPE){
                     Gdx.app.exit();
                     return true;
                 }
-
-                return false;
+                return super.keyUp(event, keycode);
             }
         });
         input.setInputProcessor(stage);

@@ -12,24 +12,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.Align;
-import com.github.tommyettinger.colorful.oklab.ColorTools;
-import com.github.tommyettinger.colorful.oklab.SimplePalette;
+import com.github.tommyettinger.colorful.ipt_hq.ColorTools;
+import com.github.tommyettinger.colorful.ipt_hq.SimplePalette;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class OklabDescriptionScreen extends ScreenAdapter {
+public class IPTHQDescriptionScreen extends ScreenAdapter {
     private Stage stage;
     private TextField tf;
     private final Color color = new Color();
     private final DescriptionDemo mainGame;
 
-    public OklabDescriptionScreen(DescriptionDemo main){
+    public IPTHQDescriptionScreen(DescriptionDemo main){
         mainGame = main;
     }
 
     @Override
     public void show() {
-        Gdx.graphics.setTitle("Oklab Color Description");
+        Gdx.graphics.setTitle("IPT_HQ Color Description");
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
         skin.getFont("default-font").getData().scale(2f);
         stage = new Stage();
