@@ -3,7 +3,7 @@
 <module rename-to="html">
 	<source path="" />
 	<inherits name="com.badlogic.gdx.backends.gdx_backends_gwt" />
-	<inherits name="com.github.tommyettinger.DescriptiveDemo" />
+	<inherits name="com.github.tommyettinger.DescriptionDemo" />
 	<inherits name="com.github.tommyettinger.colorful.colorful" />
 	<entry-point class="com.github.tommyettinger.gwt.GwtLauncher" />
 	<set-configuration-property name="gdx.assetpath" value="../assets" />
