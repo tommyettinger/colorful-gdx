@@ -749,11 +749,11 @@ public class SimplePalette {
                                 intensity += 0.085f;
                                 break;
                             default:
-                                mixing.add(TRANSPARENT);
+                                mixing.add(0f);
                                 break;
                         }
                     } else {
-                        mixing.add(NAMED.get(term, TRANSPARENT));
+                        mixing.add(NAMED.get(term, 0f));
                     }
                     break;
                 case 'r':
