@@ -929,10 +929,11 @@ public class ColorTools {
 	}
 
 	/**
-	 * Iteratively checks whether the given IPT color is in-gamut, and either brings the color closer to 50% gray if it
-	 * isn't in-gamut, or returns it as soon as it is in-gamut.
+	 * Iteratively checks whether the given IPT color is in-gamut, and either brings the color closer to grayscale if it
+	 * isn't in-gamut, or returns it as soon as it is in-gamut. Maintains the intensity of the color, only bringing
+	 * protan and tritan closer to grayscale.
 	 * @param packed a packed float color in IPT format; often this color is not in-gamut
-	 * @return the first color this finds that is between the given IPT color and 50% gray, and is in-gamut
+	 * @return the first color this finds that is between the given IPT color and grayscale, and is in-gamut
 	 * @see #inGamut(float) You can use inGamut() if you just want to check whether a color is in-gamut.
 	 */
 	public static float limitToGamut(final float packed) {
@@ -940,11 +941,11 @@ public class ColorTools {
 		final float i = (decoded & 0xff) / 255f;
 		final float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		float i2 = i, p2 = p, t2 = t;
+		float p2 = p, t2 = t;
 		for (int attempt = 31; attempt >= 0; attempt--) {
-			final float l = reverseTransform(i2 + 0.097569f * p2 + 0.205226f * t2);
-			final float m = reverseTransform(i2 + -0.11388f * p2 + 0.133217f * t2);
-			final float s = reverseTransform(i2 + 0.032615f * p2 + -0.67689f * t2);
+			final float l = reverseTransform(i + 0.097569f * p2 + 0.205226f * t2);
+			final float m = reverseTransform(i + -0.11388f * p2 + 0.133217f * t2);
+			final float s = reverseTransform(i + 0.032615f * p2 + -0.67689f * t2);
 
 			final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;
 			final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;
@@ -952,37 +953,37 @@ public class ColorTools {
 			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
 				break;
 			final float progress = attempt * 0x1p-5f;
-			i2 = MathUtils.lerp(0.55f, i, progress);
 			p2 = MathUtils.lerp(0, p, progress);
 			t2 = MathUtils.lerp(0, t, progress);
 		}
-		return ipt(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
+		return ipt(i, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
 	}
 
 	/**
-	 * Iteratively checks whether the given IPT color is in-gamut, and either brings the color closer to 50% gray if it
-	 * isn't in-gamut, or returns it as soon as it is in-gamut. This always produces an opaque color.
+	 * Iteratively checks whether the given IPT color is in-gamut, and either brings the color closer to grayscale if it
+	 * isn't in-gamut, or returns it as soon as it is in-gamut. Maintains the intensity of the color, only bringing
+	 * protan and tritan closer to grayscale. This always produces an opaque color.
 	 * @param i intensity component; will be clamped between 0 and 1 if it isn't already
 	 * @param p protan component; will be clamped between 0 and 1 if it isn't already
 	 * @param t tritan component; will be clamped between 0 and 1 if it isn't already
-	 * @return the first color this finds that is between the given IPT color and 50% gray, and is in-gamut
+	 * @return the first color this finds that is between the given IPT color and grayscale, and is in-gamut
 	 * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
 	 */
 	public static float limitToGamut(float i, float p, float t) {
 		return limitToGamut(i, p, t, 1f);
 	}
 	/**
-	 * Iteratively checks whether the given IPT color is in-gamut, and either brings the color closer to 50% gray if it
+	 * Iteratively checks whether the given IPT color is in-gamut, and either brings the color closer to grayscale if it
 	 * isn't in-gamut, or returns it as soon as it is in-gamut.
 	 * @param i intensity component; will be clamped between 0 and 1 if it isn't already
 	 * @param p protan component; will be clamped between 0 and 1 if it isn't already
 	 * @param t tritan component; will be clamped between 0 and 1 if it isn't already
 	 * @param a alpha component; will be clamped between 0 and 1 if it isn't already
-	 * @return the first color this finds that is between the given IPT color and 50% gray, and is in-gamut
+	 * @return the first color this finds that is between the given IPT color and grayscale, and is in-gamut
 	 * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
 	 */
 	public static float limitToGamut(float i, float p, float t, float a) {
-		float i2 = i = Math.min(Math.max(i, 0f), 1f);
+		float i2 = Math.min(Math.max(i, 0f), 1f);
 		float p2 = p = Math.min(Math.max((p - 0.5f) * 2f, -1f), 1f);
 		float t2 = t = Math.min(Math.max((t - 0.5f) * 2f, -1f), 1f);
 		a = Math.min(Math.max(a, 0f), 1f);
@@ -997,7 +998,6 @@ public class ColorTools {
 			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
 				break;
 			final float progress = attempt * 0x1p-5f;
-			i2 = MathUtils.lerp(0.55f, i, progress);
 			p2 = MathUtils.lerp(0, p, progress);
 			t2 = MathUtils.lerp(0, t, progress);
 		}

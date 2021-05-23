@@ -740,13 +740,13 @@ public class SimplePalette {
                     if (len > 2 && term.charAt(2) == 'g') {
                         switch (len) {
                             case 9:
-                                intensity += 0.125f;
+                                intensity += 0.14f;
                             case 8:
-                                intensity += 0.125f;
+                                intensity += 0.14f;
                             case 7:
-                                intensity += 0.125f;
+                                intensity += 0.14f;
                             case 5:
-                                intensity += 0.125f;
+                                intensity += 0.14f;
                                 break;
                             default:
                                 mixing.add(TRANSPARENT);
@@ -780,13 +780,13 @@ public class SimplePalette {
                     if (len > 1 && term.charAt(1) == 'a') {
                         switch (len) {
                             case 8:
-                                intensity -= 0.125f;
+                                intensity -= 0.14f;
                             case 7:
-                                intensity -= 0.125f;
+                                intensity -= 0.14f;
                             case 6:
-                                intensity -= 0.125f;
+                                intensity -= 0.14f;
                             case 4:
-                                intensity -= 0.125f;
+                                intensity -= 0.14f;
                                 break;
                             default:
                                 mixing.add(TRANSPARENT);
@@ -871,7 +871,7 @@ public class SimplePalette {
                 mixing.set(i, colorsByHue.get((c / e) % paletteSize));
             }
             int idxI = ((c / colorTries) % 9 - 4), idxS = (c / (colorTries * 9) - 4);
-            float intensity = idxI * 0.125f, saturation = idxS * 0.2f;
+            float intensity = idxI * 0.14f, saturation = idxS * 0.2f;
 
             float result = FloatColors.mix(mixing.items, 0, mixCount);
             if(intensity > 0) result = ColorTools.lighten(result, intensity);
