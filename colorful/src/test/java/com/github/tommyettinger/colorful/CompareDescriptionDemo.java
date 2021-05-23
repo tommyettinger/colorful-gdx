@@ -44,6 +44,7 @@ public class CompareDescriptionDemo extends ApplicationAdapter {
         config.setIdleFPS(10);
         config.setForegroundFPS(20);
         config.useVsync(true);
+        config.disableAudio(true);
         final CompareDescriptionDemo app = new CompareDescriptionDemo();
         new Lwjgl3Application(app, config);
     }

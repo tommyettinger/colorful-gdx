@@ -18,6 +18,7 @@ public class Lwjgl3Launcher {
 		Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
 		configuration.setTitle("description");
 		configuration.setWindowedMode(DescriptionDemo.SCREEN_WIDTH, DescriptionDemo.SCREEN_HEIGHT);
+		configuration.setIdleFPS(10);
 		configuration.setForegroundFPS(20);
 		configuration.useVsync(true);
 		configuration.disableAudio(true);

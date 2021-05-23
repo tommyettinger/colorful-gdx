@@ -28,6 +28,9 @@ public class CompareDescriptionScreen extends ScreenAdapter {
     private TextureAtlas.AtlasRegion pixel;
     private final Color color = new Color();
     private final DescriptionDemo mainGame;
+    private float r = SimplePalette.TRANSPARENT;
+    private float o = com.github.tommyettinger.colorful.oklab.SimplePalette.TRANSPARENT;
+    private float i = com.github.tommyettinger.colorful.ipt_hq.SimplePalette.TRANSPARENT;
 
     public CompareDescriptionScreen(DescriptionDemo main){
         mainGame = main;
@@ -80,12 +83,10 @@ public class CompareDescriptionScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        float r = SimplePalette.TRANSPARENT;
-        float o = com.github.tommyettinger.colorful.oklab.SimplePalette.TRANSPARENT;
-        float i = com.github.tommyettinger.colorful.ipt_hq.SimplePalette.TRANSPARENT;
         if(nameField.hasKeyboardFocus()) {
-            r = SimplePalette.parseDescription(nameField.getText());
-            if (ColorTools.alphaInt(r) >= 254) {
+            float t = SimplePalette.parseDescription(nameField.getText());
+            if (ColorTools.alphaInt(t) >= 254) {
+                r = t;
                 o = com.github.tommyettinger.colorful.oklab.SimplePalette.parseDescription(nameField.getText());
                 i = com.github.tommyettinger.colorful.ipt_hq.SimplePalette.parseDescription(nameField.getText());
             }
