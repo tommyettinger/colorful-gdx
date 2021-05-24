@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.Shaders;
+import com.github.tommyettinger.colorful.oklab.ColorfulBatch;
 
 import java.util.Random;
 
@@ -56,6 +57,24 @@ public class ColorTools {
 				| Math.min(Math.max(y - (cw * 3 >> 3) + cm, 0), 0xFF) << 16
 				| Math.min(Math.max(y - (cw * 3 >> 3) - cm, 0), 0xFF) << 8
 				| (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
+	}
+
+	/**
+	 * Writes a YCwCm-format packed float color (the format produced by {@link ColorTools#ycwcm(float, float, float, float)})
+	 * into an RGBA8888 Color as used by libGDX (called {@code editing}).
+	 * @param editing a libGDX color that will be filled in-place with an RGBA conversion of {@code packed}
+	 * @param packed a packed float color, as produced by {@link ColorTools#ycwcm(float, float, float, float)}
+	 * @return an RGBA8888 int color
+	 */
+	public static Color toColor(Color editing, final float packed)
+	{
+		final int decoded = NumberUtils.floatToRawIntBits(packed);
+		editing.set(
+				Math.min(Math.max((decoded & 0xff) * 0x1.010102p-8f + ((decoded >>> 8 & 0xff) - 127.5f) * (0x1.414142p-9f) - ((decoded >>> 16 & 0xff) - 127.5f) * 0x1.010102p-9f, 0f), 1f),
+				Math.min(Math.max((decoded & 0xff) * 0x1.010102p-8f - (((decoded >>> 8 & 0xff) - 127.5f) * 0x1.818184p-10f) + ((decoded >>> 16 & 0xff) - 127.5f) * 0x1.010102p-9f, 0f), 1f),
+				Math.min(Math.max((decoded & 0xff) * 0x1.010102p-8f - (((decoded >>> 8 & 0xff) - 127.5f) * 0x1.818184p-10f) - ((decoded >>> 16 & 0xff) - 127.5f) * 0x1.010102p-9f, 0f), 1f),
+				((decoded & 0xfe000000) >>> 24) * 0.003937008f);
+		return editing;
 	}
 
 	/**
