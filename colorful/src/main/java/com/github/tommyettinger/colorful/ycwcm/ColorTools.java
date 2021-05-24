@@ -78,6 +78,21 @@ public class ColorTools {
 	}
 
 	/**
+	 * Writes a YCwCm-format packed float color (the format produced by {@link ColorTools#ycwcm(float, float, float, float)})
+	 * into a YCwCm-format Color called {@code editing}. This is mostly useful if the rest of your application expects
+	 * colors in YCwCm format, such as because you use {@link Shaders#fragmentShaderOklab} or {@link ColorfulBatch}.
+	 * <br>
+	 * Internally, this simply calls {@link Color#abgr8888ToColor(Color, float)} and returns the edited Color.
+	 * @param editing a libGDX Color that will be filled in-place with the color {@code ycwcm}, unchanged from its color space
+	 * @param ycwcm a packed float color, as produced by {@link ColorTools#ycwcm(float, float, float, float)}
+	 * @return an RGBA8888 int color
+	 */
+	public static Color toYCwCmColor(Color editing, final float ycwcm){
+		Color.abgr8888ToColor(editing, ycwcm);
+		return editing;
+	}
+
+	/**
 	 * Converts a packed float color in the format produced by {@link ColorTools#ycwcm(float, float, float, float)}
 	 * to a packed float in RGBA format.
 	 * This format of float can be used with the standard SpriteBatch and in some other places in libGDX.

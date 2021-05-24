@@ -168,6 +168,7 @@ public class ColorTools {
 		final int b = (int)(reverseGamma(Math.min(Math.max(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f), 1f)) * 255.999f);
 		return NumberUtils.intBitsToFloat(r | g << 8 | b << 16 | (decoded & 0xfe000000));
 	}
+
 	/**
 	 * Writes an Oklab-format packed float color (the format produced by {@link ColorTools#oklab(float, float, float, float)})
 	 * into an RGBA8888 Color as used by libGDX (called {@code editing}).
@@ -189,6 +190,21 @@ public class ColorTools {
 		editing.b = reverseGamma(Math.min(Math.max(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f), 1f));
 		editing.a = (decoded >>> 25) * 0x1.020408p-7f; // this is 1/127 as a float
 		return editing.clamp();
+	}
+
+	/**
+	 * Writes an Oklab-format packed float color (the format produced by {@link ColorTools#oklab(float, float, float, float)})
+	 * into an Oklab-format Color called {@code editing}. This is mostly useful if the rest of your application expects
+	 * colors in Oklab format, such as because you use {@link Shaders#fragmentShaderOklab} or {@link ColorfulBatch}.
+	 * <br>
+	 * Internally, this simply calls {@link Color#abgr8888ToColor(Color, float)} and returns the edited Color.
+	 * @param editing a libGDX Color that will be filled in-place with the color {@code oklab}, unchanged from its color space
+	 * @param oklab a packed float color, as produced by {@link ColorTools#oklab(float, float, float, float)}
+	 * @return an RGBA8888 int color
+	 */
+	public static Color toOklabColor(Color editing, final float oklab){
+		Color.abgr8888ToColor(editing, oklab);
+		return editing;
 	}
 
 	/**

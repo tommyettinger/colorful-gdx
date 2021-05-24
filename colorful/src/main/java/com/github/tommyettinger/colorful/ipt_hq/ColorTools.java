@@ -154,9 +154,24 @@ public class ColorTools {
 	}
 
 	/**
-	 * Takes a color encoded as an RGBA8888 int and converts to a packed float in the IPT format this uses.
+	 * Writes an IPT_HQ-format packed float color (the format produced by {@link ColorTools#ipt(float, float, float, float)})
+	 * into an IPT_HQ-format Color called {@code editing}. This is mostly useful if the rest of your application expects
+	 * colors in IPT_HQ format, such as because you use {@link Shaders#fragmentShaderIPT_HQ} or {@link ColorfulBatch}.
+	 * <br>
+	 * Internally, this simply calls {@link Color#abgr8888ToColor(Color, float)} and returns the edited Color.
+	 * @param editing a libGDX Color that will be filled in-place with the color {@code ipt}, unchanged from its color space
+	 * @param ipt a packed float color, as produced by {@link ColorTools#ipt(float, float, float, float)}
+	 * @return an RGBA8888 int color
+	 */
+	public static Color toIPTColor(Color editing, final float ipt){
+		Color.abgr8888ToColor(editing, ipt);
+		return editing;
+	}
+
+	/**
+	 * Takes a color encoded as an RGBA8888 int and converts to a packed float in the IPT_HQ format this uses.
 	 * @param rgba an int with the channels (in order) red, green, blue, alpha; should have 8 bits per channel
-	 * @return a packed float as IPT, which this class can use
+	 * @return a packed float as IPT_HQ, which this class can use
 	 */
 	public static float fromRGBA8888(final int rgba) {
 		final float r = forwardGamma((rgba >>> 24) * 0x1.010101010101p-8f);

@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.Shaders;
 import com.github.tommyettinger.colorful.TrigTools;
+import com.github.tommyettinger.colorful.ipt_hq.ColorfulBatch;
 import com.github.tommyettinger.colorful.ycwcm.Palette;
 
 import java.util.Random;
@@ -102,6 +103,21 @@ public class ColorTools {
 		editing.b = (0.999769f * i + 0.0629496f * p - 0.809638f * t);
 		editing.a = (decoded >>> 25) * 0x1.020408p-7f; // this is 1/127 as a float
 		return editing.clamp();
+	}
+
+	/**
+	 * Writes an IPT-format packed float color (the format produced by {@link ColorTools#ipt(float, float, float, float)})
+	 * into an IPT-format Color called {@code editing}. This is mostly useful if the rest of your application expects
+	 * colors in IPT format, such as because you use {@link Shaders#fragmentShaderIPT} or {@link ColorfulBatch}.
+	 * <br>
+	 * Internally, this simply calls {@link Color#abgr8888ToColor(Color, float)} and returns the edited Color.
+	 * @param editing a libGDX Color that will be filled in-place with the color {@code ipt}, unchanged from its color space
+	 * @param ipt a packed float color, as produced by {@link ColorTools#ipt(float, float, float, float)}
+	 * @return an RGBA8888 int color
+	 */
+	public static Color toIPTColor(Color editing, final float ipt){
+		Color.abgr8888ToColor(editing, ipt);
+		return editing;
 	}
 
 	/**
