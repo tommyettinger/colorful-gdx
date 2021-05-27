@@ -1023,22 +1023,7 @@ public class ColorTools {
 		final int idx = (decoded & 0xff) << 8 | (int)(256f * TrigTools.atan2_(B, A));
 		return GAMUT_DATA[idx] * 0x1p-8f >= (float) Math.sqrt(A * A + B * B);
 	}
-//	public static boolean inGamut(final float packed)
-//	{
-//		final float L = (decoded & 0xff) / 255f;
-//		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-//		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-//		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
-//		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
-//		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
-//
-//		final float r = +4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s;
-//		if(r < 0f || r > 1.0f) return false;
-//		final float g = -1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s;
-//		if(g < 0f || g > 1.0f) return false;
-//		final float b = -0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s;
-//		return (b >= 0f && b <= 1.0f);
-//  }
+
 	/**
 	 * Returns true if the given Oklab values are valid to convert losslessly back to RGBA.
 	 * @param L lightness channel, as a float from 0 to 1
@@ -1053,21 +1038,7 @@ public class ColorTools {
 		final byte g = GAMUT_DATA[((int)(L * 255.999f) << 8) | (int)(256f * TrigTools.atan2_(B, A))];
 		return g * g * 0x1p-18 >= (A * A + B * B);
 	}
-//	public static boolean inGamut(float L, float A, float B)
-//	{
-//		A = (A - 0.5f) * 2f;
-//		B = (B - 0.5f) * 2f;
-//		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
-//		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
-//		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
-//
-//		final float r = +4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s;
-//		if(r < 0f || r > 1.0f) return false;
-//		final float g = -1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s;
-//		if(g < 0f || g > 1.0f) return false;
-//		final float b = -0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s;
-//		return (b >= 0f && b <= 1.0f);
-//  }
+
 	/**
 	 * Gets the color with the same L as the Oklab color stored in the given packed float, but the furthest A
 	 * B from gray possible for that lightness while keeping the same hue as the given color. This is very
@@ -1136,29 +1107,7 @@ public class ColorTools {
 						(int) (TrigTools.cos_(hue) * dist * 127.999f + 127.999f) << 8 |
 						(int) (TrigTools.sin_(hue) * dist * 127.999f + 127.999f) << 16);
 	}
-//  public static float limitToGamut(final float packed) {
-//		final int decoded = NumberUtils.floatToRawIntBits(packed);
-//		final float L = (decoded & 0xff) / 255f;
-//		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-//		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-//		float L2 = L, A2 = A, B2 = B;
-//		for (int attempt = 31; attempt >= 0; attempt--) {
-//			final float l = cube(L2 + 0.3963377774f * A2 + 0.2158037573f * B2);
-//			final float m = cube(L2 - 0.1055613458f * A2 - 0.0638541728f * B2);
-//			final float s = cube(L2 - 0.0894841775f * A2 - 1.2914855480f * B2);
-//
-//			final float r = +4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s;
-//			final float g = -1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s;
-//			final float b = -0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s;
-//			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
-//				break;
-//			final float progress = attempt * 0x1p-5f;
-//			L2 = MathUtils.lerp(0.63f, L, progress);
-//			A2 = MathUtils.lerp(0, A, progress);
-//			B2 = MathUtils.lerp(0, B, progress);
-//		}
-//		return oklab(L2, A2 * 0.5f + 0.5f, B2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
-//  }
+
 	/**
 	 * Checks whether the given Oklab color is in-gamut; if it isn't in-gamut, brings the color just inside
 	 * the gamut at the same lightness, or if it is already in-gamut, returns the color as-is. This always produces
@@ -1201,29 +1150,66 @@ public class ColorTools {
 						(int) (L * 255.999f));
 	}
 
-//	public static float limitToGamut(float L, float A, float B, float alpha) {
-//		float L2 = L = Math.min(Math.max(L, 0f), 1f);
-//		float A2 = A = Math.min(Math.max((A - 0.5f) * 2f, -1f), 1f);
-//		float B2 = B = Math.min(Math.max((B - 0.5f) * 2f, -1f), 1f);
-//		alpha = Math.min(Math.max(alpha, 0f), 1f);
-//		for (int attempt = 31; attempt >= 0; attempt--) {
-//			final float l = cube(L2 + 0.3963377774f * A2 + 0.2158037573f * B2);
-//			final float m = cube(L2 - 0.1055613458f * A2 - 0.0638541728f * B2);
-//			final float s = cube(L2 - 0.0894841775f * A2 - 1.2914855480f * B2);
-//
-//			final float r = +4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s;
-//			final float g = -1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s;
-//			final float b = -0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s;
-//			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
-//				break;
-//			final float progress = attempt * 0x1p-5f;
-//			L2 = MathUtils.lerp(0.63f, L, progress);
-//			A2 = MathUtils.lerp(0, A, progress);
-//			B2 = MathUtils.lerp(0, B, progress);
-//		}
-//		return oklab(L2, A2 * 0.5f + 0.5f, B2 * 0.5f + 0.5f, alpha);
-//  }
-	
+	/**
+	 * Given a packed float Oklab color, this edits its L, A, B, and alpha channels by adding the corresponding "add"
+	 * parameter and then clamping. This returns a different float value (of course, the given float can't be edited
+	 * in-place). You can give a value of 0 for any "add" parameter you want to stay unchanged. This clamps the
+	 * resulting color to remain in-gamut, so it should be safe to convert it back to RGBA.
+	 * @param encoded a packed float Oklab color
+	 * @param addL how much to add to the L channel; typically in the -1 to 1 range
+	 * @param addA how much to add to the A channel; typically in the -1 to 1 range
+	 * @param addB how much to add to the B channel; typically in the -1 to 1 range
+	 * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range
+	 * @return a packed float Oklab color with the requested edits applied to {@code encoded}
+	 */
+	public static float editOklab(float encoded, float addL, float addA, float addB, float addAlpha) {
+		return editOklab(encoded, addL, addA, addB, addAlpha, 1f, 1f, 1f, 1f);
+	}
+	/**
+	 * Given a packed float Oklab color, this edits its L, A, B, and alpha channels by first multiplying each channel by
+	 * the corresponding "mul" parameter and then adding the corresponding "add" parameter, before clamping. This means
+	 * the lightness value {@code L} is multiplied by {@code mulL}, then has {@code addL} added, and then is clamped to
+	 * the normal range for L (0 to 1). This returns a different float value (of course, the given float can't be edited
+	 * in-place). You can give a value of 0 for any "add" parameter you want to stay unchanged, or a value of 1 for any
+	 * "mul" parameter that shouldn't change. Note that this manipulates A and B in the -0.5 to 0.5 range, so if you
+	 * multiply by a small number like {@code 0.25f}, then this will produce a less-saturated color, and if you multiply
+	 * by a larger number like {@code 4f}, then you will get a much more-saturated color. This clamps the resulting
+	 * color to remain in-gamut, so it should be safe to convert it back to RGBA.
+	 * @param encoded a packed float Oklab color
+	 * @param addL how much to add to the L channel; typically in the -1 to 1 range
+	 * @param addA how much to add to the A channel; typically in the -1 to 1 range
+	 * @param addB how much to add to the B channel; typically in the -1 to 1 range
+	 * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range
+	 * @param mulL how much to multiply the L channel by; should be non-negative
+	 * @param mulA how much to multiply the A channel by; usually non-negative (not always)
+	 * @param mulB how much to multiply the B channel by; usually non-negative (not always)
+	 * @param mulAlpha how much to multiply the alpha channel by; should be non-negative
+	 * @return a packed float Oklab color with the requested edits applied to {@code encoded}
+	 */
+	public static float editOklab(float encoded, float addL, float addA, float addB, float addAlpha,
+								  float mulL, float mulA, float mulB, float mulAlpha) {
+		final int decoded = NumberUtils.floatToRawIntBits(encoded);
+		float L = (decoded & 0xff) / 255f;
+		float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		float alpha = (decoded >>> 25) / 127f;
+
+		L = Math.min(Math.max(L * mulL + addL, 0f), 1f);
+		A = Math.min(Math.max(A * mulA + addA * 2f, -1f), 1f) * 0.5f;
+		B = Math.min(Math.max(B * mulB + addB * 2f, -1f), 1f) * 0.5f;
+		alpha = Math.min(Math.max(alpha * mulAlpha + addAlpha, 0f), 1f);
+		final float hue = TrigTools.atan2_(B, A);
+		final int idx = (int) (L * 255.999f) << 8 | (int)(256f * hue);
+		final float dist = GAMUT_DATA[idx] * 0x1p-8f;
+		if(dist * 0.5f >= (float) Math.sqrt(A * A + B * B))
+			return oklab(L, A + 0.5f, B + 0.5f, alpha);
+		return NumberUtils.intBitsToFloat(
+				(int) (alpha * 127.999f) << 25 |
+						(int) (TrigTools.sin_(hue) * dist * 127.999f + 127.999f) << 16 |
+						(int) (TrigTools.cos_(hue) * dist * 127.999f + 127.999f) << 8 |
+						(int) (L * 255.999f));
+	}
+
 	/**
 	 * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.
 	 * @param random a Random object (preferably a subclass of Random, like {@link com.badlogic.gdx.math.RandomXS128})
