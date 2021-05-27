@@ -2,8 +2,6 @@ package com.github.tommyettinger.colorful.ipt;
 
 import com.badlogic.gdx.utils.IntArray;
 import com.github.tommyettinger.anim8.OtherMath;
-import com.github.tommyettinger.anim8.PNG8;
-import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.colorful.internal.StringKit;
 /* Example output:
 

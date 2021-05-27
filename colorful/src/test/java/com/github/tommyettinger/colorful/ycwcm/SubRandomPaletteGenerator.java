@@ -2,8 +2,6 @@ package com.github.tommyettinger.colorful.ycwcm;
 
 import com.badlogic.gdx.utils.IntArray;
 import com.github.tommyettinger.anim8.OtherMath;
-import com.github.tommyettinger.anim8.PNG8;
-import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.colorful.internal.StringKit;
 /* Example output (256 colors):
 {0x00000000, 0x0B080FFF, 0x353336FF, 0x555555FF, 0x797577FF, 0xAAAAAAFF, 0xC8C8C8FF, 0xE0E0E0FF,
