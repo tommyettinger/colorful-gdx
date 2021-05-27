@@ -1085,7 +1085,6 @@ public class ColorTools {
 		return ipt(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, alpha);
 	}
 
-
 	/**
 	 * Produces a random packed float color that is always in-gamut and should be uniformly distributed.
 	 * @param random a Random object (preferably a subclass of Random, like {@link com.badlogic.gdx.math.RandomXS128})
