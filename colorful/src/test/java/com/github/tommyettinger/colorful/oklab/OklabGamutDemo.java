@@ -89,6 +89,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.enableBlending();
+
         final int frameCount = 120;
         Array<Pixmap> pixmaps = new Array<>(frameCount);
         for (int i = 0; i < frameCount; i++) {

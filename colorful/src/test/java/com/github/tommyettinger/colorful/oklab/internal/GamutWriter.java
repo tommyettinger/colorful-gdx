@@ -19,6 +19,7 @@ public class GamutWriter extends ApplicationAdapter {
     public void create() {
         byte[] all = new byte[65536];
         int idx = 0, largestDist = -1;
+        double minA = 1000.0, maxA = -1000.0, minB = 1000.0, maxB = -1000.0;
         for (int light = 0; light < 256; light++) {
             double L = light * 0x1p-8;
             PER_HUE:
@@ -31,6 +32,10 @@ public class GamutWriter extends ApplicationAdapter {
                     {
                         all[idx++] = (byte) dist;
                         largestDist = Math.max(largestDist, dist);
+                        minA = Math.min(minA, A);
+                        maxA = Math.max(maxA, A);
+                        minB = Math.min(minB, B);
+                        maxB = Math.max(maxB, B);
                         continue PER_HUE;
                     }
                 }
@@ -39,6 +44,10 @@ public class GamutWriter extends ApplicationAdapter {
         }
         System.out.println("Assigned " + idx + " distances");
         System.out.println("largest distance: " + largestDist);
+        System.out.println("min A: " + minA);
+        System.out.println("max A: " + maxA);
+        System.out.println("min B: " + minB);
+        System.out.println("max B: " + maxB);
         Gdx.files.local("OklabGamut.dat").writeBytes(all, false);
         Gdx.app.exit();
     }
@@ -61,5 +70,6 @@ public class GamutWriter extends ApplicationAdapter {
         if(g < 0.0 || g > 1.0) return false;
         final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
         return (b >= 0.0 && b <= 1.0);
+//        return (r >= 0.0 && r <= 1.0) || (g >= 0.0 && g <= 1.0) || (b >= 0.0 && b <= 1.0);
     }
 }

@@ -1018,10 +1018,10 @@ public class ColorTools {
 	public static boolean inGamut(final float packed)
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(packed);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-		final int idx = (decoded & 0xff) << 8 | (int)(256f * TrigTools.atan2_(B, A));
-		return GAMUT_DATA[idx] * 0x1p-8f >= (float) Math.sqrt(A * A + B * B);
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 255f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 255f;
+		final byte g = GAMUT_DATA[(decoded & 0xff) << 8 | (int)(256f * TrigTools.atan2_(B, A))];
+		return g * g * 0x1p-18 >= (A * A + B * B);
 	}
 
 	/**
@@ -1053,11 +1053,11 @@ public class ColorTools {
 		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float hue = TrigTools.atan2_(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
-		final float dist = GAMUT_DATA[idx] * 0x1p-8f;
+		final float dist = GAMUT_DATA[idx];
 		return NumberUtils.intBitsToFloat(
 				(decoded & 0xFE0000FF) |
-						(int) (TrigTools.cos_(hue) * dist * 127.999f + 127.999f) << 8 |
-						(int) (TrigTools.sin_(hue) * dist * 127.999f + 127.999f) << 16);
+						(int) (TrigTools.cos_(hue) * dist + 128f) << 8 |
+						(int) (TrigTools.sin_(hue) * dist + 128f) << 16);
 	}
 	/**
 	 * Gets the color with the same L as the Oklab color stored in the given packed float, but the furthest A
@@ -1079,11 +1079,11 @@ public class ColorTools {
 		final float B2 = (B - 0.5f);
 		final float hue = TrigTools.atan2_(B2, A2);
 		final int idx = (int) (L * 255.999f) << 8 | (int) (256f * hue);
-		final float dist = GAMUT_DATA[idx] * 0x1p-8f;
+		final float dist = GAMUT_DATA[idx];
 		return NumberUtils.intBitsToFloat(
 				(int) (alpha * 127.999f) << 25 |
-						(int) (TrigTools.sin_(hue) * dist * 127.999f + 127.999f) << 16 |
-						(int) (TrigTools.cos_(hue) * dist * 127.999f + 127.999f) << 8 |
+						(int) (TrigTools.sin_(hue) * dist + 128f) << 16 |
+						(int) (TrigTools.cos_(hue) * dist + 128f) << 8 |
 						(int) (L * 255.999f));
 	}
 	/**
@@ -1099,13 +1099,13 @@ public class ColorTools {
 		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
 		final float hue = TrigTools.atan2_(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
-		final float dist = GAMUT_DATA[idx] * 0x1p-8f;
-		if (dist >= (float) Math.sqrt(A * A + B * B))
+		final float dist = GAMUT_DATA[idx];
+		if (dist * 0x1p-8f >= (float) Math.sqrt(A * A + B * B))
 			return packed;
 		return NumberUtils.intBitsToFloat(
 				(decoded & 0xFE0000FF) |
-						(int) (TrigTools.cos_(hue) * dist * 127.999f + 127.999f) << 8 |
-						(int) (TrigTools.sin_(hue) * dist * 127.999f + 127.999f) << 16);
+						(int) (TrigTools.cos_(hue) * dist + 128f) << 8 |
+						(int) (TrigTools.sin_(hue) * dist + 128f) << 16);
 	}
 
 	/**
@@ -1140,13 +1140,13 @@ public class ColorTools {
 		final float B2 = (B - 0.5f);
 		final float hue = TrigTools.atan2_(B2, A2);
 		final int idx = (int) (L * 255.999f) << 8 | (int)(256f * hue);
-		final float dist = GAMUT_DATA[idx] * 0x1p-8f;
-		if(dist * 0.5f >= (float) Math.sqrt(A2 * A2 + B2 * B2))
+		final float dist = GAMUT_DATA[idx];
+		if(dist * 0x1p-9F >= (float) Math.sqrt(A2 * A2 + B2 * B2))
 			return oklab(L, A, B, alpha);
 		return NumberUtils.intBitsToFloat(
 				(int) (alpha * 127.999f) << 25 |
-						(int) (TrigTools.sin_(hue) * dist * 127.999f + 127.999f) << 16 |
-						(int) (TrigTools.cos_(hue) * dist * 127.999f + 127.999f) << 8 |
+						(int) (TrigTools.sin_(hue) * dist + 128f) << 16 |
+						(int) (TrigTools.cos_(hue) * dist + 128f) << 8 |
 						(int) (L * 255.999f));
 	}
 
@@ -1200,13 +1200,13 @@ public class ColorTools {
 		alpha = Math.min(Math.max(alpha * mulAlpha + addAlpha, 0f), 1f);
 		final float hue = TrigTools.atan2_(B, A);
 		final int idx = (int) (L * 255.999f) << 8 | (int)(256f * hue);
-		final float dist = GAMUT_DATA[idx] * 0x1p-8f;
-		if(dist * 0.5f >= (float) Math.sqrt(A * A + B * B))
+		final float dist = GAMUT_DATA[idx] ;
+		if(dist * 0x1p-9f >= (float) Math.sqrt(A * A + B * B))
 			return oklab(L, A + 0.5f, B + 0.5f, alpha);
 		return NumberUtils.intBitsToFloat(
 				(int) (alpha * 127.999f) << 25 |
-						(int) (TrigTools.sin_(hue) * dist * 127.999f + 127.999f) << 16 |
-						(int) (TrigTools.cos_(hue) * dist * 127.999f + 127.999f) << 8 |
+						(int) (TrigTools.sin_(hue) * dist + 128f) << 16 |
+						(int) (TrigTools.cos_(hue) * dist + 128f) << 8 |
 						(int) (L * 255.999f));
 	}
 
