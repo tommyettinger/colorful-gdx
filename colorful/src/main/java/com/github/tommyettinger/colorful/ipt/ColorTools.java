@@ -907,7 +907,7 @@ public class ColorTools {
 		return ipt(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, a);
 	}
 
-		/**
+	/**
 	 * Given a packed float IPT color, this edits its intensity, protan, tritan, and alpha channels by adding the
 	 * corresponding "add" parameter and then clamping. This returns a different float value (of course, the given float
 	 * can't be edited in-place). You can give a value of 0 for any "add" parameter you want to stay unchanged. This
