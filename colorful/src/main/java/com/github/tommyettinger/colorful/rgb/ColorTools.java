@@ -601,6 +601,51 @@ public class ColorTools {
 	}
 
 	/**
+	 * Given a packed float RGB color, this edits its red, green, blue, and alpha channels by adding the corresponding
+	 * "add" parameter and then clamping. Each value is considered in the 0 to 1 range. This returns a different float
+	 * value (of course, the given float can't be edited in-place). You can give a value of 0 for any "add" parameter
+	 * you want to stay unchanged.
+	 * @param encoded a packed float RGB color
+	 * @param addR how much to add to the R channel; typically in the -1 to 1 range
+	 * @param addG how much to add to the G channel; typically in the -1 to 1 range
+	 * @param addB how much to add to the B channel; typically in the -1 to 1 range
+	 * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range
+	 * @return a packed float RGB color with the requested edits applied to {@code encoded}
+	 */
+	public static float editRGB(float encoded, float addR, float addG, float addB, float addAlpha){
+		return editRGB(encoded, addR, addG, addB, addAlpha, 1f, 1f, 1f, 1f);
+	}
+
+	/**
+	 * Given a packed float RGB color, this edits its red, green, blue, and alpha channels by first multiplying each
+	 * channel by the corresponding "mul" parameter and then adding the corresponding "add" parameter, before clamping.
+	 * This means the red value {@code R} (which is considered in the 0 to 1 range) is multiplied by {@code mulR}, then
+	 * has {@code addR} added, and then is clamped to the normal range for R (0 to 1). This returns a different float
+	 * value (of course, the given float can't be edited in-place). You can give a value of 0 for any "add" parameter
+	 * you want to stay unchanged, or a value of 1 for any "mul" parameter that shouldn't change.
+	 * @param encoded a packed float RGB color
+	 * @param addR how much to add to the R channel; typically in the -1 to 1 range
+	 * @param addG how much to add to the G channel; typically in the -1 to 1 range
+	 * @param addB how much to add to the B channel; typically in the -1 to 1 range
+	 * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range
+	 * @param mulR how much to multiply the R channel by; should be non-negative
+	 * @param mulG how much to multiply the G channel by; should be non-negative
+	 * @param mulB how much to multiply the B channel by; should be non-negative
+	 * @param mulAlpha how much to multiply the alpha channel by; should be non-negative
+	 * @return a packed float RGB color with the requested edits applied to {@code encoded}
+	 */
+	public static float editRGB(float encoded, float addR, float addG, float addB, float addAlpha,
+								float mulR, float mulG, float mulB, float mulAlpha){
+		final int s = NumberUtils.floatToRawIntBits(encoded), r = s & 0xFF, g = s >>> 8 & 0xFF, b = s >>> 16 & 0xFF,
+				a = s >>> 25;
+		return NumberUtils.intBitsToFloat(
+				Math.max(0, Math.min(255, (int) (r * mulR + addR * 255.999f))) |
+				Math.max(0, Math.min(255, (int) (g * mulG + addG * 255.999f))) << 8 |
+				Math.max(0, Math.min(255, (int) (b * mulB + addB * 255.999f))) << 16 |
+				Math.max(0, Math.min(127, (int) (a * mulAlpha + addAlpha * 127.999f))) << 25);
+	}
+
+	/**
 	 * Makes a quasi-randomly-edited variant on the given {@code color}, allowing typically a small amount of
 	 * {@code variance} (such as 0.05 to 0.25) between the given color and what this can return. The {@code seed} should
 	 * be different each time this is called, and can be obtained from a random number generator to make the colors more
