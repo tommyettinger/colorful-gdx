@@ -390,6 +390,107 @@ public class ColorTools {
 				((int) (b * (1f - change)) & 0xFF) << 16 |
 				a);
 	}
+	/**
+	 * Interpolates from the packed float color start to increase its red channel by change.
+	 * While change must be between 0f (return start as-is) and 1f (return maximum red), start should be a packed
+	 * color, as from {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary
+	 * Colors, and is a little more efficient and clear than using
+	 * {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards a more-red color. Unlike
+	 * {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the other channels of start as-is.
+	 * @see #lowerB(float, float) the counterpart method that makes a float color less red
+	 * @param start the starting color as a packed float
+	 * @param change how much to change start to a more-red color, as a float between 0 and 1; higher means more red
+	 * @return a packed float that represents a color between start and a more red color
+	 */
+	public static float raiseR(final float start, final float change) {
+		final int s = NumberUtils.floatToRawIntBits(start), t = s & 0xFF, other = s & 0xFEFFFF00;
+		return NumberUtils.intBitsToFloat(((int) (t + (0xFF - t) * change) & 0xFF) | other);
+	}
+
+	/**
+	 * Interpolates from the packed float color start to decrease its red channel by change.
+	 * While change must be between 0f (return start as-is) and 1f (return minimum red), start should be a packed
+	 * color, as from {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary
+	 * Colors, and is a little more efficient and clear than using
+	 * {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards a less-red color. Unlike
+	 * {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the other channels of start as-is.
+	 * @see #raiseB(float, float) the counterpart method that makes a float color more red
+	 * @param start the starting color as a packed float
+	 * @param change how much to change start to a less-red color, as a float between 0 and 1; higher means less red
+	 * @return a packed float that represents a color between start and a less red color
+	 */
+	public static float lowerR(final float start, final float change) {
+		final int s = NumberUtils.floatToRawIntBits(start), t = s & 0xFF, other = s & 0xFEFFFF00;
+		return NumberUtils.intBitsToFloat(((int) (t * (1f - change)) & 0xFF) | other);
+	}
+
+	/**
+	 * Interpolates from the packed float color start to increase its green channel by change.
+	 * While change must be between 0f (return start as-is) and 1f (return maximum green), start should be a packed
+	 * color, as from {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary
+	 * Colors, and is a little more efficient and clear than using
+	 * {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards a more-green color. Unlike
+	 * {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the other channels of start as-is.
+	 * @see #lowerB(float, float) the counterpart method that makes a float color less green
+	 * @param start the starting color as a packed float
+	 * @param change how much to change start to a more-green color, as a float between 0 and 1; higher means more green
+	 * @return a packed float that represents a color between start and a more green color
+	 */
+	public static float raiseG(final float start, final float change) {
+		final int s = NumberUtils.floatToRawIntBits(start), t = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
+		return NumberUtils.intBitsToFloat(((int) (t + (0xFF - t) * change) << 8 & 0xFF00) | other);
+	}
+
+	/**
+	 * Interpolates from the packed float color start to decrease its green channel by change.
+	 * While change must be between 0f (return start as-is) and 1f (return minimum green), start should be a packed
+	 * color, as from {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary
+	 * Colors, and is a little more efficient and clear than using
+	 * {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards a less-green color. Unlike
+	 * {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the other channels of start as-is.
+	 * @see #raiseB(float, float) the counterpart method that makes a float color more green
+	 * @param start the starting color as a packed float
+	 * @param change how much to change start to a less-green color, as a float between 0 and 1; higher means less green
+	 * @return a packed float that represents a color between start and a less green color
+	 */
+	public static float lowerG(final float start, final float change) {
+		final int s = NumberUtils.floatToRawIntBits(start), t = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
+		return NumberUtils.intBitsToFloat(((int) (t * (1f - change)) & 0xFF) << 8 | other);
+	}
+
+	/**
+	 * Interpolates from the packed float color start to increase its blue channel by change.
+	 * While change must be between 0f (return start as-is) and 1f (return maximum blue), start should be a packed
+	 * color, as from {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary
+	 * Colors, and is a little more efficient and clear than using
+	 * {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards a more-blue color. Unlike
+	 * {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the other channels of start as-is.
+	 * @see #lowerB(float, float) the counterpart method that makes a float color less blue
+	 * @param start the starting color as a packed float
+	 * @param change how much to change start to a more-blue color, as a float between 0 and 1; higher means more blue
+	 * @return a packed float that represents a color between start and a more blue color
+	 */
+	public static float raiseB(final float start, final float change) {
+		final int s = NumberUtils.floatToRawIntBits(start), t = s >>> 16 & 0xFF, other = s & 0xFE00FFFF;
+		return NumberUtils.intBitsToFloat(((int) (t + (0xFF - t) * change) << 16 & 0xFF0000) | other);
+	}
+
+	/**
+	 * Interpolates from the packed float color start to decrease its blue channel by change.
+	 * While change must be between 0f (return start as-is) and 1f (return minimum blue), start should be a packed
+	 * color, as from {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary
+	 * Colors, and is a little more efficient and clear than using
+	 * {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards a less-blue color. Unlike
+	 * {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the other channels of start as-is.
+	 * @see #raiseB(float, float) the counterpart method that makes a float color more blue
+	 * @param start the starting color as a packed float
+	 * @param change how much to change start to a less-blue color, as a float between 0 and 1; higher means less blue
+	 * @return a packed float that represents a color between start and a less blue color
+	 */
+	public static float lowerB(final float start, final float change) {
+		final int s = NumberUtils.floatToRawIntBits(start), t = s >>> 16 & 0xFF, other = s & 0xFE00FFFF;
+		return NumberUtils.intBitsToFloat(((int) (t * (1f - change)) & 0xFF) << 16 | other);
+	}
 
 	/**
 	 * Interpolates from the packed float color start towards that color made opaque by change. While change should be
