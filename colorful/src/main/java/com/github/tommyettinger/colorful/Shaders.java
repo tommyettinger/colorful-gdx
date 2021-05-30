@@ -7,15 +7,30 @@ import com.github.tommyettinger.colorful.ycwcm.ColorfulBatch;
 import com.github.tommyettinger.colorful.ycwcm.ColorfulSprite;
 
 /**
- * Constants that contain the critical shader code to construct a {@link ShaderProgram} that can render the rest of this
+ * Shader code to construct a {@link ShaderProgram} that can render the specialized colors produced by the rest of this
  * library. The shader code is meant for use in a {@link com.badlogic.gdx.graphics.g2d.SpriteBatch}; a convenience
- * method, {@link #makeBatch()}, is provided to generate and return a SpriteBatch that uses the correct ShaderProgram.
+ * method, {@link #makeBatch()}, is provided to generate and return a SpriteBatch that uses a correct ShaderProgram.
+ * Many of the shaders here are experimental and meant as a basis for user code, rather than a complete solution.
+ * If you aren't familiar with shaders in libGDX, <a href="https://github.com/libgdx/libgdx/wiki/Shaders">see this
+ * libGDX wiki article</a> for more information.
  * <br>
- * Created by Tommy Ettinger on 12/2/2019.
+ * Many of these shaders would need at least some changing to work with kinds of
+ * {@link com.badlogic.gdx.graphics.g2d.Batch} that aren't SpriteBatch (or at least very similar). You should compare
+ * the names of {@code uniform} variables in the vertex and fragment shader if you use a different kind of Batch; if all
+ * of them are the same and there are the same amount, then you should be able to use these shaders without issue.
+ * <br>
+ * Note that you don't need to specify a shader from here at all if you use a ColorfulBatch from this library!
+ * There is a ColorfulBatch in each of the color space subpackages, such as {@code rgb}, {@code oklab}, and {@code ipt}.
+ * All of those allow a multiplicative "tweak" to each color channel before an additive change is applied to that
+ * channel; to contrast, all of the shaders here can only permit one or the other for a given channel. ColorfulBatch may
+ * act oddly if it has to interact with SpriteBatch-specific classes like {@link com.badlogic.gdx.graphics.g2d.Sprite},
+ * so there are ColorfulSprite classes that also allow setting the "tweak" and additive change per-sprite. Still, it can
+ * be a good idea to use the shaders here if you have an existing SpriteBatch, or want to use the various experimental
+ * shaders as a test-bed.
  */
 public class Shaders {
     /**
-     * This is the default vertex shader from libGDX.
+     * This is the default vertex shader from libGDX. It is used without change by most of the fragment shaders here.
      */
     public static final String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
             + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
@@ -40,6 +55,11 @@ public class Shaders {
      * tinting with white, this looks like <a href="https://i.imgur.com/iAb1rig.png">The Mona Lisa on the left</a>, when
      * tinting with 50% gray, it makes no change, and when tinting with black, it almost reaches all black, but some
      * faint part of the image is still barely visible.
+     * <br>
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
+     * <br>
+     * Meant for use with {@link #vertexShader}.
      */
     public static final String fragmentShaderRGBA =
             "#ifdef GL_ES\n" +
@@ -64,6 +84,11 @@ public class Shaders {
      * desaturating it), and black multiplies the RGB channels by 0 (reducing the color always to black). When tinting
      * with white, this looks like <a href="https://i.imgur.com/gKRSzKv.png">The Mona Lisa on the left</a>; when tinting
      * with 50% gray, it makes no change, and when tinting with black, it produces an all-black image.
+     * <br>
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
+     * <br>
+     * Meant for use with {@link #vertexShader}.
      * <br>
      * Credit for finding this goes to CypherCove, who uses a similar version in
      * <a href="https://github.com/CypherCove/gdx-tween/blob/5047eeae9250d1f1c52e87aaf572956045a523f9/gdx-tween/src/main/java/com/cyphercove/gdxtween/graphics/GtColor.java">gdx=tween</a>.
@@ -90,6 +115,9 @@ public class Shaders {
      * A simple helper method that builds the simplest shader here; this shader allows tinting with light colors to
      * lighten an image. You can assign the result to a SpriteBatch with its
      * {@link SpriteBatch#setShader(ShaderProgram)} method.
+     * <br>
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
      * @return a ShaderProgram that uses the RGBA shader {@link #fragmentShaderRGBA}
      */
     public static ShaderProgram makeRGBAShader()
@@ -103,6 +131,9 @@ public class Shaders {
      * A simple helper method that builds the simplest shader here; this shader allows tinting with light colors to
      * lighten an image, and also smooths changes well. You can assign the result to a SpriteBatch with its
      * {@link SpriteBatch#setShader(ShaderProgram)} method.
+     * <br>
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
      * @return a ShaderProgram that uses the RGBA shader {@link #fragmentShaderGammaRGBA}
      */
     public static ShaderProgram makeGammaRGBAShader()
@@ -121,6 +152,11 @@ public class Shaders {
      * that {@link ColorfulBatch} does, which include multiplicative counterparts to the additive operations this
      * supports on luma, chromatic warmth, and chromatic mildness, plus a contrast adjustment. If you want to adjust
      * contrast globally, you can use {@link #makeBatch(float)} to set the contrast for a new Batch with a new shader.
+     * <br>
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
+     * <br>
+     * Meant for use with {@link #vertexShader}.
      */
     public static final String fragmentShader =
             "#ifdef GL_ES\n" +
@@ -136,12 +172,12 @@ public class Shaders {
                     "void main()\n" +
                     "{\n" +
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                    //use the following line to match the color exactly
+                    "////use the following line to match the color exactly\n" +
                     "   vec3 ycc = vec3(v_color.r - 0.5 + dot(tgt.rgb, bright), ((v_color.g - 0.5) * 2.0 + tgt.r - tgt.b), ((v_color.b - 0.5) * 2.0 + tgt.g - tgt.b));\n" +
-                    //use the following line to increase contrast
-//                    "   vec3 ycc = vec3(v_color.r * dot(sin(tgt.rgb * 1.5707963267948966) * sqrt(tgt.rgb), bright), ((v_color.g - 0.5) * 2.0 + tgt.r - tgt.b), ((v_color.b - 0.5) * 2.0 + tgt.g - tgt.b));\n" +
-                    //use the following line to increase contrast more
-//                    "   vec3 ycc = vec3(v_color.r * pow(dot(tgt.rgb, bright), 1.25), ((v_color.g - 0.5) * 2.0 + tgt.r - tgt.b), ((v_color.b - 0.5) * 2.0 + tgt.g - tgt.b));\n" +
+                    "////use the following line to increase contrast\n" +
+                    "//   vec3 ycc = vec3(v_color.r * dot(sin(tgt.rgb * 1.5707963267948966) * sqrt(tgt.rgb), bright), ((v_color.g - 0.5) * 2.0 + tgt.r - tgt.b), ((v_color.b - 0.5) * 2.0 + tgt.g - tgt.b));\n" +
+                    "////use the following line to increase contrast more\n" +
+                    "//   vec3 ycc = vec3(v_color.r * pow(dot(tgt.rgb, bright), 1.25), ((v_color.g - 0.5) * 2.0 + tgt.r - tgt.b), ((v_color.b - 0.5) * 2.0 + tgt.g - tgt.b));\n" +
                     //uses a specific matrix (related to bright, above) multiplied with ycc to get back to rgb.
                     "   gl_FragColor = vec4( (clamp(mat3(1.0, 1.0, 1.0, 0.625, -0.375, -0.375, -0.5, 0.5, -0.5) * ycc, 0.0, 1.0)), v_color.a * tgt.a);\n" +
                     "}";
@@ -151,6 +187,11 @@ public class Shaders {
      * the same as what this uses (1.375 here, which is roughly 0.875f in a tweak value). ColorfulBatch does some work
      * in the vertex shader so it may be a little faster than this approach, and it seems to have less severe effects on
      * the overall brightness of an image that has adjusted contrast.
+     * <br>
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
+     * <br>
+     * Meant for use with {@link #vertexShader}.
      */
     public static final String fragmentShaderHigherContrast =
             "#ifdef GL_ES\n" +
@@ -162,7 +203,7 @@ public class Shaders {
                     "varying vec2 v_texCoords;\n" +
                     "varying LOWP vec4 v_color;\n" +
                     "uniform sampler2D u_texture;\n" +
-                    "const float contrast =    1.375   ;\n" + // you can make contrast a uniform if you want
+                    "const float contrast =    1.375   ; // You can make contrast a uniform if you want.\n" +
                     "const vec3 bright = vec3(0.375, 0.5, 0.125) * (4.0 / 3.0);\n" +
                     "void main()\n" +
                     "{\n" +
@@ -177,6 +218,11 @@ public class Shaders {
      * tweak is the same as what this uses (0.625 here, which is roughly 0.125f in a tweak value). ColorfulBatch does
      * some work in the vertex shader so it may be a little faster than this approach, and it seems to have less severe
      * effects on the overall brightness of an image that has adjusted contrast.
+     * <br>
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
+     * <br>
+     * Meant for use with {@link #vertexShader}.
      */
     public static final String fragmentShaderLowerContrast = fragmentShaderHigherContrast.replace("   1.375   ", "0.625");
 
@@ -186,6 +232,9 @@ public class Shaders {
      * {@link ColorfulBatch} (those can adjust colors in more ways); you can simply use {@code new ColorfulBatch()} to
      * make one of those. Note that a SpriteBatch like this produces won't be able to render a {@link ColorfulSprite},
      * but ColorfulBatch can.
+     * <br>
+     * You can generate YCwCm colors using any of various methods in the {@code ycwcm} package, such as
+     * {@link com.github.tommyettinger.colorful.ycwcm.ColorTools#ycwcm(float, float, float, float)}.
      * @return a freshly allocated SpriteBatch that will also have a new ShaderProgram for rendering YCwCm
      */
     public static SpriteBatch makeBatch()
@@ -207,6 +256,9 @@ public class Shaders {
      * contrast differently from the shader this uses, including doing some work in the vertex shader (which may be
      * faster). It also takes a contrast in its tweak value that is limited to a 0.0 to 1.0 range, rather than 0.1 to
      * 2.0 here (this can technically tolerate 0.01 to 10.0, but those extremes aren't recommended).
+     * <br>
+     * You can generate YCwCm colors using any of various methods in the {@code ycwcm} package, such as
+     * {@link com.github.tommyettinger.colorful.ycwcm.ColorTools#ycwcm(float, float, float, float)}.
      * @param contrast how much contrast should be emphasized; higher than 1.0 is more contrasting, and this should usually be between 0.1 and 2.0
      * @return a freshly allocated SpriteBatch that will also have a new ShaderProgram for rendering YCwCm
      */
@@ -230,6 +282,9 @@ public class Shaders {
      * shader and batch color). Contrast affects changes in lightness; low contrast makes all lightness closer to the
      * mid-range, while high contrast makes even small changes in the mid-range of an image's color have stark lightness
      * changes in the result. Note, this does not support changing an image's alpha with the batch color.
+     * <br>
+     * You can generate HSLC colors using {@link FloatColors#rgb2hsl(float, float, float, float)}, using the last
+     * parameter to store contrast.
      * @return a freshly allocated SpriteBatch that will also have a new ShaderProgram for rendering HSLC
      */
     public static SpriteBatch makeBatchHSLC()
@@ -257,6 +312,12 @@ public class Shaders {
      * increases, tritan can be viewed as going from artificial to natural, or perhaps fluid to solid. Alpha is treated
      * exactly as it is in the standard libGDX fragment shader, with the alpha in the batch color multiplied by the
      * alpha in the image pixel to get the result alpha.
+     * <br>
+     * You can generate IPT colors using any of various methods in the {@code ipt} package, such as
+     * {@link com.github.tommyettinger.colorful.ipt.ColorTools#ipt(float, float, float, float)}. Note that IPT is
+     * intended to share an API with the {@code ipt_hq} package, but IPT_HQ is usually preferred.
+     * <br>
+     * Meant for use with {@link #vertexShader}.
      */
     public static String fragmentShaderIPT =
             "#ifdef GL_ES\n" +
@@ -285,6 +346,12 @@ public class Shaders {
      * lightness uniformity) and uses an exponential step internally to change how colors are distributed within the
      * gamut. These steps are more computationally expensive than the bare-bones ones in {@link #fragmentShaderIPT}, but
      * they seem to improve some aspects of color transitions quite a bit.
+     * <br>
+     * You can generate IPT_HQ colors using any of various methods in the {@code ipt_hq} package, such as
+     * {@link com.github.tommyettinger.colorful.ipt_hq.ColorTools#ipt(float, float, float, float)}. Note that IPT_HQ is
+     * intended to share an API with the {@code ipt} package, but IPT_HQ is usually preferred.
+     * <br>
+     * Meant for use with {@link #vertexShader}.
      */
     public static String fragmentShaderIPT_HQ =
             "#ifdef GL_ES\n" +
@@ -315,6 +382,18 @@ public class Shaders {
 
     /**
      * Just like {@link #fragmentShaderIPT_HQ}, but uses the Oklab color space instead of the very similar IPT_HQ one.
+     * This also gamma-corrects the inputs and outputs, though it uses subtly different math internally. Oklab colors
+     * tend to have more variation on their L channel, which represents lightness, than their A or B channels, which
+     * represent green-to-red and blue-to-yellow chromatic axes; indeed, A and B tend to be no more than about 1/6 away
+     * from their middle point at 1/2, which is used for grayscale. This is normal for Oklab, and allows colors to be
+     * compared for approximate difference using Euclidean distance. Importantly, Oklab preserves the meaning of its L
+     * channel (lightness) very well when comparing two arbitrary colors, while also doing well when comparing chroma
+     * (see {@link com.github.tommyettinger.colorful.oklab.ColorTools#chroma(float)}.
+     * <br>
+     * You can generate Oklab colors using any of various methods in the {@code oklab} package, such as
+     * {@link com.github.tommyettinger.colorful.oklab.ColorTools#oklab(float, float, float, float)}.
+     * <br>
+     * Meant for use with {@link #vertexShader}.
      */
     public static String fragmentShaderOklab =
             "#ifdef GL_ES\n" +
@@ -350,6 +429,14 @@ public class Shaders {
      * {@link #fragmentShaderIPT} does this, and it's the same as {@link #fragmentShaderHSI}). This vertex shader does
      * a lot more than most vertex shaders here, but since it is executed relatively rarely (unless you're drawing many
      * 1-pixel textures), there shouldn't be a heavy performance penalty.
+     * <br>
+     * There is no special code to generate HSI colors; you can use
+     * {@link com.github.tommyettinger.colorful.ipt.ColorTools#ipt(float, float, float, float)}, or any ColorTools
+     * method that generates a packed float color directly from the channel values, to specify hue, saturation,
+     * intensity, and alpha in that order. You can also just specify the batch color directly with
+     * {@link SpriteBatch#setColor(float, float, float, float)}, taking the channels in the same order as above.
+     * <br>
+     * EXPERIMENTAL. Meant more for reading and editing than serious usage.
      */
     public static final String vertexShaderHSI = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
         + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
@@ -382,33 +469,51 @@ public class Shaders {
         + "    v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
         + "    gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
         + "}\n";
+    /**
+     * This is an alias for {@link #fragmentShaderIPT}. If used with {@link #vertexShaderHSI}, you can specify a batch
+     * color using an HSL-like system.
+     * <br>
+     * There is no special code to generate HSI colors; you can use
+     * {@link com.github.tommyettinger.colorful.ipt.ColorTools#ipt(float, float, float, float)}, or any ColorTools
+     * method that generates a packed float color directly from the channel values, to specify hue, saturation,
+     * intensity, and alpha in that order. You can also just specify the batch color directly with
+     * {@link SpriteBatch#setColor(float, float, float, float)}, taking the channels in the same order as above.
+     * <br>
+     * Meant for use with {@link #vertexShaderHSI}.
+     */
     public static String fragmentShaderHSI = fragmentShaderIPT;
 
     /**
+     * Not a full shader, this is a snippet used by most of the other HSL-based shaders to implement the complex
+     * rgb2hsl() and hsl2rgb() methods. There are also comments in the code snippet that you can use if you want to
+     * change the distribution of colors across the color wheel.
+     * <br>
      * Credit to Sam Hocevar, https://gamedev.stackexchange.com/a/59808 .
+     * <br>
+     * EXPERIMENTAL. Meant more for reading and editing than serious usage.
      */
     public static final String partialCodeHSL =
-            "const float eps = 1.0e-10;\n" +
-//                    //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a
-//                    //different distribution that matches primary colors in painting (where purple is opposite yellow).
-//                    "float official2primaries(float hue) {\n" +
-//                    "    return  hue * (  2.137\n" +
-//                    "          + hue * (  0.542\n" +
-//                    "          + hue * (-15.141\n" +
-//                    "          + hue * ( 30.120\n" +
-//                    "          + hue * (-22.541\n" +
-//                    "          + hue *   5.883)))));\n" +
-//                    "}\n" +
-//                    //Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a
-//                    //different distribution that matches primary colors in painting (where purple is opposite yellow).
-//                    "float primaries2official(float hue) {\n" +
-//                    "    return  hue * (  0.677\n" +
-//                    "          + hue * ( -0.123\n" +
-//                    "          + hue * (-11.302\n" +
-//                    "          + hue * ( 46.767\n" +
-//                    "          + hue * (-58.493\n" +
-//                    "          + hue *   23.474)))));\n" +
-//                    "}\n" +
+                    "const float eps = 1.0e-10;\n" +
+                    "////Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a\n" +
+                    "////different distribution that matches primary colors in painting (where purple is opposite yellow).\n" +
+                    "//float official2primaries(float hue) {\n" +
+                    "//    return  hue * (  2.137\n" +
+                    "//          + hue * (  0.542\n" +
+                    "//          + hue * (-15.141\n" +
+                    "//          + hue * ( 30.120\n" +
+                    "//          + hue * (-22.541\n" +
+                    "//          + hue *   5.883)))));\n" +
+                    "//}\n" +
+                    "////Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a\n" +
+                    "////different distribution that matches primary colors in painting (where purple is opposite yellow).\n" +
+                    "//float primaries2official(float hue) {\n" +
+                    "//    return  hue * (  0.677\n" +
+                    "//          + hue * ( -0.123\n" +
+                    "//          + hue * (-11.302\n" +
+                    "//          + hue * ( 46.767\n" +
+                    "//          + hue * (-58.493\n" +
+                    "//          + hue *   23.474)))));\n" +
+                    "//}\n" +
                     "vec4 rgb2hsl(vec4 c)\n" +
                     "{\n" +
                     "    const vec4 J = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n" +
@@ -429,8 +534,12 @@ public class Shaders {
 
     /**
      * Adjusted-hue version of {@link #partialCodeHSL}, supplying HSL to-and-from RGB conversions with a smaller range
-     * of hue used for cyan and a larger range for orange. Not currently used. Credit to Sam Hocevar,
-     * https://gamedev.stackexchange.com/a/59808 .
+     * of hue used for cyan and a larger range for orange. Not currently used. This is pretty much only meant so people
+     * reading the source code and trying different variations on HSL can see some of the attempts I made.
+     * <br>
+     * Credit to Sam Hocevar, https://gamedev.stackexchange.com/a/59808 .
+     * <br>
+     * EXPERIMENTAL. Meant more for reading and editing than serious usage.
      */
     public static final String partialCodeHSLStretched =
             "const float eps = 1.0e-10;\n" +
@@ -539,7 +648,30 @@ public class Shaders {
                     "    float v = (c.z + c.y * min(c.z, 1.0 - c.z));\n" +
                     "    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n" +
                     "}";
+    /**
+     * This GLSL snippet takes an RGB vec3 and a float that represents a hue rotation in radians, and returns the
+     * rotated RGB vec3. It is not a full shader, and is used by inserting it into shader code to provide the applyHue()
+     * method to that code.
+     * <br>
+     * Credit for this challenging method goes to Andrey-Postelzhuk,
+     * <a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/">Unity Forums</a>.
+     */
+    public static final String partialHueRodrigues =
+            "vec3 applyHue(vec3 rgb, float hue)\n" +
+                    "{\n" +
+                    "    vec3 k = vec3(0.57735);\n" +
+                    "    float c = cos(hue);\n" +
+                    "    //Rodrigues' rotation formula\n" +
+                    "    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n" +
+                    "}\n";
 
+
+    /**
+     * Treats the color as hue, saturation, lightness, and... uh... well, this is pretty much only useful when the batch
+     * color's {@code a} is 1 . You probably want {@link #fragmentShaderHSLC} or {@link #fragmentShaderHSLA}.
+     * <br>
+     * EXPERIMENTAL. Meant more for reading and editing than serious usage.
+     */
     public static final String fragmentShaderHSL =
             "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
@@ -559,7 +691,13 @@ public class Shaders {
                     "   hsl.yz = mix(hsl.yz, v_color.yz, v_color.w);\n" +
                     "   gl_FragColor = hsl2rgb(hsl);\n" +
                     "}";
-    
+
+    /**
+     * I can't even remember what this does, to be honest. It's probably not what you want. Instead, you probably want
+     * {@link #fragmentShaderHSLC} or {@link #fragmentShaderHSLA}.
+     * <br>
+     * EXPERIMENTAL. Meant more for reading and editing than serious usage.
+     */
     public static final String fragmentShaderRotateHSL =
             "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
@@ -581,8 +719,8 @@ public class Shaders {
                     "}";
 
     /**
-     * This is the default vertex shader from libGDX, but also sets a varying value for contrast. It is needed if you
-     * use {@link #fragmentShaderHSLC}.
+     * This is similar to the default vertex shader from libGDX, but also sets a varying value for contrast. It is
+     * needed if you use {@link #fragmentShaderHSLC}.
      */
     public static final String vertexShaderHSLC = "attribute vec4 a_position;\n"
             + "attribute vec4 a_color;\n"
@@ -602,13 +740,18 @@ public class Shaders {
             + "}\n";
 
     /**
-     * Allows changing Hue/Saturation/Lightness/Contrast, with hue as a rotation. Expects the vertex shader to be
-     * {@link #vertexShaderHSLC}, which sets {@code varying float v_lightFix} so contrast can use it.
+     * Allows changing Hue/Saturation/Lightness/Contrast, with hue as a rotation. If hue continuously goes from 0 to 1,
+     * then 0 to 1, 0 to 1, and so on, then this will smoothly rotate the hue of the image.
+     * <br>
+     * You can generate HSLC colors using methods like {@link FloatColors#rgb2hsl(float, float, float, float)}.
      * <br>
      * Credit for HLSL version goes to Andrey-Postelzhuk,
      * <a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/">Unity Forums</a>.
      * The YCC adaptation, and different approach to contrast (this has close to neutral contrast when a is 0.5,
      * while the original had a fair bit higher contrast than expected), is from this codebase.
+     * <br>
+     * Meant only for use with {@link #vertexShaderHSLC}, which sets {@code varying float v_lightFix} so contrast can
+     * use it.
      */
     public static final String fragmentShaderHSLC = 
                     "#ifdef GL_ES\n" +
@@ -621,13 +764,7 @@ public class Shaders {
                     "varying float v_lightFix;\n" +
                     "varying LOWP vec4 v_color;\n" +
                     "uniform sampler2D u_texture;\n" +
-                    "vec3 applyHue(vec3 rgb, float hue)\n" +
-                    "{\n" +
-                    "    vec3 k = vec3(0.57735);\n" +
-                    "    float c = cos(hue);\n" +
-                    "    //Rodrigues' rotation formula\n" +
-                    "    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n" +
-                    "}\n" +
+                            partialHueRodrigues +
                     "void main()\n" +
                     "{\n" +
                     "    float hue = 6.2831853 * (v_color.x - 0.5);\n" +
@@ -646,12 +783,15 @@ public class Shaders {
                     "     tgt.a), 0.0, 1.0);\n" + // keep alpha, then clamp
                     "}";
     /**
-     * Allows changing Hue/Saturation/Lightness/Alpha, with hue as a rotation. Expects the vertex shader to be
-     * {@link #vertexShader}, unlike what {@link #fragmentShaderHSLC} expects.
+     * Allows changing Hue/Saturation/Lightness/Alpha, with hue as a rotation.
+     * <br>
+     * You can generate HSLA colors using methods like {@link FloatColors#rgb2hsl(float, float, float, float)}.
      * <br>
      * Credit for HLSL version goes to Andrey-Postelzhuk,
      * <a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/">Unity Forums</a>.
      * The YCC adaptation, and change to use alpha, is from this codebase.
+     * <br>
+     * Meant to be used with {@link #vertexShader}, unlike what {@link #fragmentShaderHSLC} expects.
      */
     public static final String fragmentShaderHSLA = 
                     "#ifdef GL_ES\n" +
@@ -663,13 +803,7 @@ public class Shaders {
                     "varying vec2 v_texCoords;\n" +
                     "varying LOWP vec4 v_color;\n" +
                     "uniform sampler2D u_texture;\n" +
-                    "vec3 applyHue(vec3 rgb, float hue)\n" +
-                    "{\n" +
-                    "    vec3 k = vec3(0.57735);\n" +
-                    "    float c = cos(hue);\n" +
-                    "    //Rodrigues' rotation formula\n" +
-                    "    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n" +
-                    "}\n" +
+                            partialHueRodrigues +
                     "void main()\n" +
                     "{\n" +
                     "    float hue = 6.2831853 * (v_color.x - 0.5);\n" +
@@ -688,23 +822,14 @@ public class Shaders {
                     "     tgt.a * v_color.w), 0.0, 1.0);\n" + // keep alpha, then clamp
                     "}";
     /**
-     * GLSL: Takes an RGB vec3 and a float that represents a hue rotation in radians, and returns the rotated RGB vec3.
-     * Credit for this challenging method goes to Andrey-Postelzhuk,
-     * <a href="https://forum.unity.com/threads/hue-saturation-brightness-contrast-shader.260649/">Unity Forums</a>.
-     */
-    public static final String hueRodrigues =
-            "vec3 applyHue(vec3 rgb, float hue)\n" +
-            "{\n" +
-            "    vec3 k = vec3(0.57735);\n" +
-            "    float c = cos(hue);\n" +
-            "    //Rodrigues' rotation formula\n" +
-            "    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n" +
-            "}\n";
-
-    /**
      * Generally a lower-quality hue rotation than {@link #fragmentShaderHSLC}; this is here as a work in progress.
-     * Expects the vertex shader to be {@link #vertexShaderHSLC}, which sets {@code varying float v_lightFix} so
+     * <br>
+     * You can generate HSLC colors using methods like {@link FloatColors#rgb2hsl(float, float, float, float)}.
+     * <br>
+     * Meant to be used with {@link #vertexShaderHSLC}, which sets {@code varying float v_lightFix} so
      * contrast can use it.
+     * <br>
+     * EXPERIMENTAL. Meant more for reading and editing than serious usage.
      */
     public static final String fragmentShaderHSLC2 = 
                     "#ifdef GL_ES\n" +
@@ -739,8 +864,13 @@ public class Shaders {
                     "}";
     /**
      * Cycles lightness in a psychedelic way as hue and lightness change; not a general-purpose usage.
-     * Expects the vertex shader to be {@link #vertexShaderHSLC}, which sets {@code varying float v_lightFix} so
+     * <br>
+     * You can generate HSLC colors using methods like {@link FloatColors#rgb2hsl(float, float, float, float)}.
+     * <br>
+     * Meant to be used with {@link #vertexShaderHSLC}, which sets {@code varying float v_lightFix} so
      * contrast can use it.
+     * <br>
+     * EXPERIMENTAL. Meant more for reading and editing than serious usage.
      */
     public static final String fragmentShaderHSLC3 =
             "#ifdef GL_ES\n" +
@@ -754,12 +884,7 @@ public class Shaders {
                     "varying LOWP vec4 v_color;\n" +
                     "uniform sampler2D u_texture;\n" +
                     "vec3 applyHue(vec3 rgb, float hue)\n" +
-                    "{\n" +
-                    "    vec3 k = vec3(0.57735);\n" +
-                    "    float c = cos(hue);\n" +
-                    "    //Rodrigues' rotation formula\n" +
-                    "    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n" +
-                    "}\n" +
+                    partialHueRodrigues +
                     "void main()\n" +
                     "{\n" +
                     "    float hue = 6.2831853 * (v_color.x - 0.5);\n" +
@@ -780,9 +905,13 @@ public class Shaders {
                     "}";
     /**
      * Cycles hue, but not lightness; otherwise this is like {@link #fragmentShaderHSLC3} without contrast, and keeping
-     * alpha intact.
-     * Internally, this uses Sam Hocevar's RGB/HSL conversion instead of Andrey-Postelzhuk's HSLC code.
+     * alpha intact. Internally, this uses Sam Hocevar's RGB/HSL conversion instead of Andrey-Postelzhuk's HSLC code.
+     * <br>
+     * You can generate HSLA colors using methods like {@link FloatColors#rgb2hsl(float, float, float, float)}.
+     * <br>
      * Expects the vertex shader to be {@link #vertexShader}, not the HSLC variant.
+     * <br>
+     * EXPERIMENTAL. Meant more for reading and editing than serious usage.
      */
     public static final String fragmentShaderHSLPsychedelic =
             "#ifdef GL_ES\n" +
@@ -817,6 +946,8 @@ public class Shaders {
      * with 0.0 as grayscale and 1.0 as a fully-saturated target color. Lightness is specified from 0.0 to 1.0, with 0.0
      * as black, the 0.3 to 0.7 range as most colors, and 1.0 white; saturation is clamped to a smaller value as
      * lightness moves away from 0.5 (toward black or white).
+     * <br>
+     * You can generate HSL(P) colors using methods like {@link FloatColors#rgb2hsl(float, float, float, float)}.
      */
     public static final String fragmentShaderHSLP =
             "#ifdef GL_ES\n" +
@@ -839,7 +970,16 @@ public class Shaders {
                     "   hsl.xy = vec2(fract(atan(hsl.y, hsl.x) / 6.2831853), length(hsl.xy));\n" +
                     "   gl_FragColor = hsl2rgb(hsl);\n" +
                     "}";
-    
+
+    /**
+     * This is supposed to look for RGBA colors that are similar to {@code search}, and if it finds
+     * one, to replace it with {@code replace} (also an RGBA color). It isn't great at the searching part.
+     * <br>
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
+     * <br>
+     * EXPERIMENTAL. Meant more for reading and editing than serious usage.
+     */
     public static final String fragmentShaderReplacement = 
                     "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
@@ -862,9 +1002,14 @@ public class Shaders {
      * A drop-in replacement for the default fragment shader that eliminates lightness differences in the output colors.
      * Specifically, it does the normal SpriteBatch shader's step with the multiplicative batch color, converts to IPT,
      * sets intensity to 0.5, shrinks the P and T components so the color is less saturated, and then converts back to
-     * an RGBA color. Editing this shader is strongly encouraged to fit your needs!
+     * an RGBA color. Even though this uses IPT internally, it expects the batch color to be normal RGBA.
      * <br>
-     * This uses {@link #vertexShader}, as usual.
+     * Editing this shader is strongly encouraged to fit your needs!
+     * <br>
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
+     * <br>
+     * Meant for use with {@link #vertexShader}.
      * @see #fragmentShaderConfigurableContrast a per-sprite-configurable version of this
      */
     public static String fragmentShaderFlatLightness =
@@ -901,7 +1046,11 @@ public class Shaders {
      * slightly reduce saturation (g), sharply flatten the original texture's lightness (b), and leave alpha alone (a):
      * 0.7, 0.4, 0.2, 1.0 .
      * <br>
-     * This uses {@link #vertexShader}, as usual.
+     * This doesn't use a standard type of color; you should use something like
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)} to set the channels in
+     * the specific way this uses them.
+     * <br>
+     * Meant for use with {@link #vertexShader}.
      * @see #fragmentShaderFlatLightness if you only need one contrast setting and still want to set color tints
      */
     public static String fragmentShaderConfigurableContrast =
@@ -930,7 +1079,14 @@ public class Shaders {
      * uniform {@code u_timeOfDay} to any float; the rate at which you change this float affects how fast the day/night
      * cycle occurs. This is meant to be used with {@link #fragmentShaderDayNight}. Together, they make the color
      * adjustment go from bluish and dark at night, to purplish at dawn, to orange/yellow and bright at mid-day, toward
-     * red at dusk, and then back to bluish at night.
+     * red at dusk, and then back to bluish at night. This uses an RGBA batch color.
+     * <br>
+     * Editing this shader is strongly encouraged to fit your needs! The time-based variables st, ct, and dd can all be
+     * adjusted to increase or decrease the strength of the effect, and their effects can also be adjusted upon v_color
+     * and v_tweak.
+     * <br>
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
      */
     public static String vertexShaderDayNight = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
             + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
@@ -945,14 +1101,15 @@ public class Shaders {
             + "\n"
             + "void main()\n"
             + "{\n"
-            + "   float st = sin(1.5707963 * sin(0.2617994 * u_timeOfDay));\n"
-            + "   float ct = sin(1.5707963 * cos(0.2617994 * u_timeOfDay));\n"
-            + "   float dd = ct * ct;\n"
+            + "   float st = sin(1.5707963 * sin(0.2617994 * u_timeOfDay)); // Whenever st is very high or low... \n"
+            + "   float ct = sin(1.5707963 * cos(0.2617994 * u_timeOfDay)); // ...ct is close to 0, and vice versa. \n"
+            + "   float dd = ct * ct; // Positive, small; used for dawn and dusk. \n"
             + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
             + "   v_color.w = v_color.w * (255.0/254.0);\n"
             + "   vec3 oklab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *"
             + "     pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n"
             + "     * (v_color.rgb * v_color.rgb), forward);\n"
+            + "   // The next four lines make use of the time-based variables st, ct, and dd. Edit to fit. \n"
             + "   v_color.x = clamp(oklab.x + (0.0625 * st), 0.0, 1.0);\n"
             + "   v_color.yz = clamp(oklab.yz + vec2(0.0625 * dd + 0.03125 * st, 0.1 * st), -1.0, 1.0) * ((dd + 0.25) * 0.5);\n"
             + "   v_tweak = vec4(0.2 * st + 0.5);\n"
@@ -963,7 +1120,12 @@ public class Shaders {
             + "}\n";
     /**
      * The fragment shader counterpart to {@link #vertexShaderDayNight}; must be used with that vertex shader. See its
-     * docs for more info, particularly about the one uniform this needs set.
+     * docs for more info, particularly about the one uniform this needs set. This uses an RGBA batch color.
+     * <br>
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
+     * <br>
+     * Meant only for use with {@link #vertexShaderDayNight}.
      */
     public static String fragmentShaderDayNight =
             "#ifdef GL_ES\n" +
