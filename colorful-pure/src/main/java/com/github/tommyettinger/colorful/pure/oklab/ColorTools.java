@@ -1080,6 +1080,65 @@ public class ColorTools {
 						(int) (MathTools.cos_(hue) * dist + 128f) << 8 |
 						(int) (L * 255.999f));
 	}
+	/**
+	 * Given a packed float Oklab color, this edits its L, A, B, and alpha channels by adding the corresponding "add"
+	 * parameter and then clamping. This returns a different float value (of course, the given float can't be edited
+	 * in-place). You can give a value of 0 for any "add" parameter you want to stay unchanged. This clamps the
+	 * resulting color to remain in-gamut, so it should be safe to convert it back to RGBA.
+	 * @param encoded a packed float Oklab color
+	 * @param addL how much to add to the L channel; typically in the -1 to 1 range
+	 * @param addA how much to add to the A channel; typically in the -1 to 1 range
+	 * @param addB how much to add to the B channel; typically in the -1 to 1 range
+	 * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range
+	 * @return a packed float Oklab color with the requested edits applied to {@code encoded}
+	 */
+	public static float editOklab(float encoded, float addL, float addA, float addB, float addAlpha) {
+		return editOklab(encoded, addL, addA, addB, addAlpha, 1f, 1f, 1f, 1f);
+	}
+	/**
+	 * Given a packed float Oklab color, this edits its L, A, B, and alpha channels by first multiplying each channel by
+	 * the corresponding "mul" parameter and then adding the corresponding "add" parameter, before clamping. This means
+	 * the lightness value {@code L} is multiplied by {@code mulL}, then has {@code addL} added, and then is clamped to
+	 * the normal range for L (0 to 1). This returns a different float value (of course, the given float can't be edited
+	 * in-place). You can give a value of 0 for any "add" parameter you want to stay unchanged, or a value of 1 for any
+	 * "mul" parameter that shouldn't change. Note that this manipulates A and B in the -0.5 to 0.5 range, so if you
+	 * multiply by a small number like {@code 0.25f}, then this will produce a less-saturated color, and if you multiply
+	 * by a larger number like {@code 4f}, then you will get a much more-saturated color. This clamps the resulting
+	 * color to remain in-gamut, so it should be safe to convert it back to RGBA.
+	 * @param encoded a packed float Oklab color
+	 * @param addL how much to add to the L channel; typically in the -1 to 1 range
+	 * @param addA how much to add to the A channel; typically in the -1 to 1 range
+	 * @param addB how much to add to the B channel; typically in the -1 to 1 range
+	 * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range
+	 * @param mulL how much to multiply the L channel by; should be non-negative
+	 * @param mulA how much to multiply the A channel by; usually non-negative (not always)
+	 * @param mulB how much to multiply the B channel by; usually non-negative (not always)
+	 * @param mulAlpha how much to multiply the alpha channel by; should be non-negative
+	 * @return a packed float Oklab color with the requested edits applied to {@code encoded}
+	 */
+	public static float editOklab(float encoded, float addL, float addA, float addB, float addAlpha,
+								  float mulL, float mulA, float mulB, float mulAlpha) {
+		final int decoded = BitConversion.floatToRawIntBits(encoded);
+		float L = (decoded & 0xff) / 255f;
+		float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		float alpha = (decoded >>> 25) / 127f;
+
+		L = Math.min(Math.max(L * mulL + addL, 0f), 1f);
+		A = Math.min(Math.max(A * mulA + addA * 2f, -1f), 1f) * 0.5f;
+		B = Math.min(Math.max(B * mulB + addB * 2f, -1f), 1f) * 0.5f;
+		alpha = Math.min(Math.max(alpha * mulAlpha + addAlpha, 0f), 1f);
+		final float hue = MathTools.atan2_(B, A);
+		final int idx = (int) (L * 255.999f) << 8 | (int)(256f * hue);
+		final float dist = GAMUT_DATA[idx] ;
+		if(dist * 0x1p-9f >= (float) Math.sqrt(A * A + B * B))
+			return oklab(L, A + 0.5f, B + 0.5f, alpha);
+		return BitConversion.intBitsToFloat(
+				(int) (alpha * 127.999f) << 25 |
+						(int) (MathTools.sin_(hue) * dist + 128f) << 16 |
+						(int) (MathTools.cos_(hue) * dist + 128f) << 8 |
+						(int) (L * 255.999f));
+	}
 
 	/**
 	 * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.

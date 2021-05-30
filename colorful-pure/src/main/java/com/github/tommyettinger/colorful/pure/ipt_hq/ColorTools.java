@@ -981,6 +981,71 @@ public class ColorTools {
 		}
 		return ipt(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, a);
 	}
+	/**
+	 * Given a packed float IPT_HQ color, this edits its intensity, protan, tritan, and alpha channels by adding the
+	 * corresponding "add" parameter and then clamping. This returns a different float value (of course, the given float
+	 * can't be edited in-place). You can give a value of 0 for any "add" parameter you want to stay unchanged. This
+	 * clamps the resulting color to remain in-gamut, so it should be safe to convert it back to RGBA.
+	 * @param encoded a packed float IPT_HQ color
+	 * @param addI how much to add to the intensity channel; typically in the -1 to 1 range
+	 * @param addP how much to add to the protan channel; typically in the -2 to 2 range
+	 * @param addT how much to add to the tritan channel; typically in the -2 to 2 range
+	 * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range
+	 * @return a packed float IPT_HQ color with the requested edits applied to {@code encoded}
+	 */
+	public static float editIPT(float encoded, float addI, float addP, float addT, float addAlpha) {
+		return editIPT(encoded, addI, addP, addT, addAlpha, 1f, 1f, 1f, 1f);
+	}
+	/**
+	 * Given a packed float IPT_HQ color, this edits its intensity, protan, tritan, and alpha channels by first
+	 * multiplying each channel by the corresponding "mul" parameter and then adding the corresponding "add" parameter,
+	 * before clamping. This means the intensity value is multiplied by {@code mulI}, then has {@code addI} added, and
+	 * then is clamped to the normal range for intensity (0 to 1). This returns a different float value (of course, the
+	 * given float can't be edited in-place). You can give a value of 0 for any "add" parameter you want to stay
+	 * unchanged, or a value of 1 for any "mul" parameter that shouldn't change. Note that this manipulates protan and
+	 * tritan in the -1 to 1 range, so if you multiply by a small number like {@code 0.25f}, then this will produce a
+	 * less-saturated color, and if you multiply by a larger number like {@code 4f}, then you will get a much
+	 * more-saturated color. This clamps the resulting color to remain in-gamut, so it should be safe to convert it back
+	 * to RGBA.
+	 * @param encoded a packed float IPT_HQ color
+	 * @param addI how much to add to the intensity channel; typically in the -1 to 1 range
+	 * @param addP how much to add to the protan channel; typically in the -2 to 2 range
+	 * @param addT how much to add to the tritan channel; typically in the -2 to 2 range
+	 * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range
+	 * @param mulI how much to multiply the intensity channel by; should be non-negative
+	 * @param mulP how much to multiply the protan channel by; usually non-negative (not always)
+	 * @param mulT how much to multiply the tritan channel by; usually non-negative (not always)
+	 * @param mulAlpha how much to multiply the alpha channel by; should be non-negative
+	 * @return a packed float IPT_HQ color with the requested edits applied to {@code encoded}
+	 */
+	public static float editIPT(float encoded, float addI, float addP, float addT, float addAlpha,
+								float mulI, float mulP, float mulT, float mulAlpha) {
+		final int decoded = BitConversion.floatToRawIntBits(encoded);
+		float i = (decoded & 0xff) / 255f;
+		float p = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		float t = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		float alpha = (decoded >>> 25) / 127f;
+
+		float i2 = Math.min(Math.max(i * mulI + addI, 0f), 1f);
+		float p2 = p = Math.min(Math.max(p * mulP + addP, -1f), 1f);
+		float t2 = t = Math.min(Math.max(t * mulT + addT, -1f), 1f);
+		alpha = Math.min(Math.max(alpha * mulAlpha + addAlpha, 0f), 1f);
+		for (int attempt = 31; attempt >= 0; attempt--) {
+			final float l = reverseTransform(i2 + 0.097569f * p2 + 0.205226f * t2);
+			final float m = reverseTransform(i2 + -0.11388f * p2 + 0.133217f * t2);
+			final float s = reverseTransform(i2 + 0.032615f * p2 + -0.67689f * t2);
+
+			final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;
+			final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;
+			final float b = 0.028104f * l + -0.19466f * m + 1.166325f * s;
+			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
+				break;
+			final float progress = attempt * 0x1p-5f;
+			p2 = MathTools.lerp(0, p, progress);
+			t2 = MathTools.lerp(0, t, progress);
+		}
+		return ipt(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, alpha);
+	}
 
 	/**
 	 * Produces a random packed float color that is always in-gamut and should be uniformly distributed.
