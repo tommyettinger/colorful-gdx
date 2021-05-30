@@ -1,6 +1,7 @@
 package com.github.tommyettinger.colorful.oklab;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.Shaders;
@@ -425,14 +426,14 @@ public class ColorTools {
 	/**
 	 * Gets the "chroma" or "colorfulness" of a given Oklab color. Chroma is similar to saturation in that grayscale
 	 * values have 0 saturation and 0 chroma, while brighter colors have high saturation and chroma. The difference is
-	 * that colors that are perceptually more-colorful have higher chroma that colors that are perceptually
-	 * less-colorful, regardless of hue, whereas saturation changes its range depending on how colorful a value can be
-	 * at its hue. That is, the most saturated color always has a saturation of 1, but if that color isn't perceptually
-	 * very colorful, it could have a chroma that is somewhat lower than 1. I don't yet know the range of this function,
-	 * other than it can't be negative, grayscale values have 0 chroma, and the most colorful values should be near 1,
-	 * maybe as high as the square root of 2.
+	 * that colors that are perceptually more-colorful have higher chroma than colors that are perceptually
+	 * less-colorful, regardless of hue, whereas saturation changes its meaning depending on the hue and lightness. That
+	 * is, the most saturated color for a given hue and lightness always has a saturation of 1, but if that color
+	 * isn't perceptually very colorful (as is the case for very dark and very light colors), it will have a chroma that
+	 * is much lower than the maximum. The result of this method can't be negative, grayscale values have very close to
+	 * 0 chroma, and the most colorful values (all very close to magenta) should have 0.63226f chroma.
 	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
-	 * @return a non-negative float that represents how colorful the given value is
+	 * @return a float between 0.0f and 0.63226f that represents how colorful the given value is
 	 */
 	public static float chroma(final float encoded) {
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
@@ -1068,7 +1069,8 @@ public class ColorTools {
 	 * @param B blue-to-yellow chromatic component; will be clamped between 0 and 1 if it isn't already
 	 * @param alpha alpha component; will be clamped between 0 and 1 if it isn't already
 	 * @return the color that is as far from grayscale as this can get while keeping the L and hue of packed
-	 * @see #limitToGamut(float, float, float, float) You can use limitToGamut() if you only want max saturation for out-of-gamut colors.
+	 * @see #limitToGamut(float, float, float, float) You can use limitToGamut() if you only want max saturation
+	 * for out-of-gamut colors.
 	 */
 	public static float maximizeSaturation(float L, float A, float B, float alpha) {
 		L = Math.min(Math.max(L, 0f), 1f);
@@ -1085,6 +1087,36 @@ public class ColorTools {
 						(int) (TrigTools.sin_(hue) * dist + 128f) << 16 |
 						(int) (TrigTools.cos_(hue) * dist + 128f) << 8 |
 						(int) (L * 255.999f));
+	}
+
+	/**
+	 * A different way to specify an Oklab color, using hue, saturation, lightness, and alpha like a normal HSL(A) color
+	 * but calculating them directly in the Oklab color space. This should produce more accurate luminance and chroma
+	 * values than other methods that do a more complicated series of transforms from HSL to the desired color space,
+	 * because that series can lose some accuracy at each step. Plus, specifying HSL in its normal way, as two cones
+	 * with a circular rim, already cause problems with lightness and chroma. Note that this takes a different value for
+	 * its {@code hue} that the method {@link #hue(float)} produces, just like its {@code saturation} and the method
+	 * {@link #saturation(float)}, and {@code lightness} and the method {@link #lightness(float)}. The hue is just
+	 * distributed differently, and the lightness should be equivalent to {@link #channelL(float)}, but the saturation
+	 * here refers to what fraction the chroma should be of the maximum chroma for the given hue and lightness.
+	 * @param hue between 0 and 1, usually, but this will automatically wrap if too high or too low
+	 * @param saturation will be clamped between 0 and 1
+	 * @param lightness will be clamped between 0 and 1
+	 * @param alpha will be clamped between 0 and 1
+	 * @return a packed Oklab float color that tries to match the requested hue, saturation, and lightness
+	 */
+	public static float oklabByHSL(float hue, float saturation, float lightness, float alpha) {
+		lightness = Math.min(Math.max(lightness, 0f), 1f);
+		saturation = Math.min(Math.max(saturation, 0f), 1f);
+		hue -= MathUtils.floor(hue);
+		alpha = Math.min(Math.max(alpha, 0f), 1f);
+		final int idx = (int) (lightness * 255.999f) << 8 | (int) (256f * hue);
+		final float dist = GAMUT_DATA[idx] * saturation;
+		return NumberUtils.intBitsToFloat(
+				(int) (alpha * 127.999f) << 25 |
+						(int) (TrigTools.sin_(hue) * dist + 128f) << 16 |
+						(int) (TrigTools.cos_(hue) * dist + 128f) << 8 |
+						(int) (lightness * 255.999f));
 	}
 	/**
 	 * Checks whether the given Oklab color is in-gamut; if it isn't in-gamut, brings the color just inside

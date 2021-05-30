@@ -90,6 +90,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.enableBlending();
 
+        /*
         final int frameCount = 120;
         Array<Pixmap> pixmaps = new Array<>(frameCount);
         for (int i = 0; i < frameCount; i++) {
@@ -116,8 +117,9 @@ public class OklabGamutDemo extends ApplicationAdapter {
         AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
         png.write(Gdx.files.local("OklabGamut.png"), pixmaps, 24);
+         */
 
-        float minA = 1000f, minB = 1000f, maxA = -1000f, maxB = -1000f, ok, A, B;
+        float minA = 1000f, minB = 1000f, maxA = -1000f, maxB = -1000f, ok, A, B, maxChroma = 0f, chroma;
         int c = 0xFF;
         for (int r = 0; r < 256; r++, c += 0x01000000) {
             int c2 = c;
@@ -136,6 +138,8 @@ public class OklabGamutDemo extends ApplicationAdapter {
                 minB = Math.min(B, minB);
                 maxA = Math.max(A, maxA);
                 maxB = Math.max(B, maxB);
+                maxChroma = Math.max(maxChroma, chroma = ColorTools.chroma(ok));
+                if(chroma > 0.6322) System.out.printf("RGBA 0x%08X has chroma %1.5f\n", c2, chroma);
             }
         }
         c = 0xFFFF;
@@ -150,6 +154,8 @@ public class OklabGamutDemo extends ApplicationAdapter {
                 minB = Math.min(B, minB);
                 maxA = Math.max(A, maxA);
                 maxB = Math.max(B, maxB);
+                maxChroma = Math.max(maxChroma, chroma = ColorTools.chroma(ok));
+                if(chroma > 0.6322) System.out.printf("RGBA 0x%08X has chroma %1.5f\n", c2, chroma);
             }
         }
         c = 0xFF;
@@ -164,6 +170,8 @@ public class OklabGamutDemo extends ApplicationAdapter {
                 minB = Math.min(B, minB);
                 maxA = Math.max(A, maxA);
                 maxB = Math.max(B, maxB);
+                maxChroma = Math.max(maxChroma, chroma = ColorTools.chroma(ok));
+                if(chroma > 0.6322) System.out.printf("RGBA 0x%08X has chroma %1.5f\n", c2, chroma);
             }
         }
         c = 0xFF00FF;
@@ -178,6 +186,8 @@ public class OklabGamutDemo extends ApplicationAdapter {
                 minB = Math.min(B, minB);
                 maxA = Math.max(A, maxA);
                 maxB = Math.max(B, maxB);
+                maxChroma = Math.max(maxChroma, chroma = ColorTools.chroma(ok));
+                if(chroma > 0.6322) System.out.printf("RGBA 0x%08X has chroma %1.5f\n", c2, chroma);
             }
         }
         c = 0xFF;
@@ -192,6 +202,8 @@ public class OklabGamutDemo extends ApplicationAdapter {
                 minB = Math.min(B, minB);
                 maxA = Math.max(A, maxA);
                 maxB = Math.max(B, maxB);
+                maxChroma = Math.max(maxChroma, chroma = ColorTools.chroma(ok));
+                if(chroma > 0.6322) System.out.printf("RGBA 0x%08X has chroma %1.5f\n", c2, chroma);
             }
         }
         c = 0xFF0000FF;
@@ -206,10 +218,12 @@ public class OklabGamutDemo extends ApplicationAdapter {
                 minB = Math.min(B, minB);
                 maxA = Math.max(A, maxA);
                 maxB = Math.max(B, maxB);
+                maxChroma = Math.max(maxChroma, chroma = ColorTools.chroma(ok));
+                if(chroma > 0.6322) System.out.printf("RGBA 0x%08X has chroma %1.5f\n", c2, chroma);
             }
         }
-        System.out.printf("minimum A: %1.5f\nmaximum A: %1.5f\nminimum B: %1.5f\nmaximum B: %1.5f\n",
-                minA - 0.5f, maxA - 0.5f, minB - 0.5f, maxB - 0.5f);
+        System.out.printf("minimum A: %1.5f\nmaximum A: %1.5f\nminimum B: %1.5f\nmaximum B: %1.5f\nmaximum chroma: %1.5f\n",
+                minA - 0.5f, maxA - 0.5f, minB - 0.5f, maxB - 0.5f, maxChroma);
 
         ////Prints:
         //minimum A: -0.11961
