@@ -132,10 +132,10 @@ public class FloatColors {
 
     /**
      * Interpolates from the packed float color start towards end by change. Both start and end should be packed colors,
-     * as from {@link ColorTools#ycwcm(float, float, float, float)} or
+     * as from {@link com.github.tommyettinger.colorful.pure.oklab.ColorTools#oklab(float, float, float, float)} or
      * {@link com.github.tommyettinger.colorful.pure.ipt.ColorTools#ipt(float, float, float, float)}, and change can be
      * between 0f (keep start) and 1f (only use end). Both start and end should use the same color space; that is, both
-     * could be produced using YCwCm, both could be produced using IPT, or both could be libGDX-native RGB, but they
+     * could be produced using Oklab, both could be produced using IPT, or both could be libGDX-native RGB, but they
      * can't mix. This is a good way to reduce allocations of temporary Colors.
      * @param start the starting color as a packed float
      * @param end the target color as a packed float
@@ -155,11 +155,11 @@ public class FloatColors {
     /**
      * Interpolates from the packed float color start towards end by change, but keeps the alpha of start and uses the
      * alpha of end as an extra factor that can affect how much to change. Both start and end should be packed colors,
-     * as from {@link ColorTools#ycwcm(float, float, float, float)} or
-     * {@link com.github.tommyettinger.colorful.pure.ipt.ColorTools#ipt(float, float, float, float)}, and change can be between 0f
-     * (keep start) and 1f (only use end). Both start and end should use the same color space; that is, both could be
-     * produced using YCwCm, or both could be produced using IPT, but not a mix of the two. This is a good way to
-     * reduce allocations of temporary Colors.
+     * as from {@link com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools#ipt(float, float, float, float)} or
+     * {@link com.github.tommyettinger.colorful.pure.ycwcm.ColorTools#ycwcm(float, float, float, float)}, and change can
+     * be between 0f (keep start) and 1f (only use end). Both start and end should use the same color space; that is,
+     * both could be produced using IPT_HQ, or both could be produced using YCwCm, but not a mix of the two. This is a
+     * good way to reduce allocations of temporary Colors.
      * @param start the starting color as a packed float; alpha will be preserved
      * @param end the target color as a packed float; alpha will not be used directly, and will instead be multiplied with change
      * @param change how much to go from start toward end, as a float between 0 and 1; higher means closer to end
@@ -229,7 +229,9 @@ public class FloatColors {
     /**
      * Given several colors, this gets an even mix of all colors in equal measure.
      * If {@code colors} is null or has no items, this returns 0f (usually transparent in most color spaces).
-     * @param colors an array or varargs of packed float colors; all should use the same color space
+     * This is mostly useful in conjunction with {@link com.github.tommyettinger.ds.FloatList}, using its {@code items}
+     * for colors, typically 0 for offset, and its {@code size} for size.
+     * @param colors an array of packed float colors; all should use the same color space
      * @param offset the index of the first item in {@code colors} to use
      * @param size how many items from {@code colors} to use
      * @return an even mix of all colors given, as a packed float color
