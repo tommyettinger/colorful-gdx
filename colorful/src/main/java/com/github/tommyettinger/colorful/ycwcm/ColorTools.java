@@ -826,19 +826,18 @@ public class ColorTools {
 		final float y = (decoded & 0xff) / 255f;
 		final float cw = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float cm = ((decoded >>> 16 & 0xff) - 127.5f) / 255f;
-		float y2 = y, cw2 = cw, cm2 = cm;
+		float cw2 = cw, cm2 = cm;
 		for (int attempt = 31; attempt >= 0; attempt--) {
-			final float r = y2 + 0.625f * cw2 - cm2;
-			final float g = y2 - 0.375f * cw2 + cm2;
-			final float b = y2 - 0.375f * cw2 - cm2;
+			final float r = y + 0.625f * cw2 - cm2;
+			final float g = y - 0.375f * cw2 + cm2;
+			final float b = y - 0.375f * cw2 - cm2;
 			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
 				break;
 			final float progress = attempt * 0x1p-5f;
-			y2 = MathUtils.lerp(0.5f, y, progress);
 			cw2 = MathUtils.lerp(0, cw, progress);
 			cm2 = MathUtils.lerp(0, cm, progress);
 		}
-		return ycwcm(y2, cw2 * 0.5f + 0.5f, cm2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
+		return ycwcm(y, cw2 * 0.5f + 0.5f, cm2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
 	}
 
 	/**
@@ -866,7 +865,7 @@ public class ColorTools {
 	 */
 	public static float limitToGamut(float y, float cw, float cm, float a)
 	{
-		float y2 = y = Math.min(Math.max(y, 0f), 1f);
+		float y2 = Math.min(Math.max(y, 0f), 1f);
 		float cw2 = cw = Math.min(Math.max((cw - 0.5f) * 2f, -1f), 1f);
 		float cm2 = cm = Math.min(Math.max((cm - 0.5f) * 2f, -1f), 1f);
 		for (int attempt = 31; attempt >= 0; attempt--) {
@@ -876,7 +875,6 @@ public class ColorTools {
 			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
 				break;
 			final float progress = attempt * 0x1p-5f;
-			y2 = MathUtils.lerp(0.5f, y, progress);
 			cw2 = MathUtils.lerp(0, cw, progress);
 			cm2 = MathUtils.lerp(0, cm, progress);
 		}
@@ -940,7 +938,6 @@ public class ColorTools {
 			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
 				break;
 			final float progress = attempt * 0x1p-5f;
-			y2 = MathUtils.lerp(0.5f, y, progress);
 			cw2 = MathUtils.lerp(0, cw, progress);
 			cm2 = MathUtils.lerp(0, cm, progress);
 		}

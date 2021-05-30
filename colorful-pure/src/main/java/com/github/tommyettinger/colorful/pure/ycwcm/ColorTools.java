@@ -774,19 +774,18 @@ public class ColorTools {
 		final float y = (decoded & 0xff) / 255f;
 		final float cw = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
 		final float cm = ((decoded >>> 16 & 0xff) - 127.5f) / 255f;
-		float y2 = y, cw2 = cw, cm2 = cm;
+		float cw2 = cw, cm2 = cm;
 		for (int attempt = 31; attempt >= 0; attempt--) {
-			final float r = y2 + 0.625f * cw2 - cm2;
-			final float g = y2 - 0.375f * cw2 + cm2;
-			final float b = y2 - 0.375f * cw2 - cm2;
+			final float r = y + 0.625f * cw2 - cm2;
+			final float g = y - 0.375f * cw2 + cm2;
+			final float b = y - 0.375f * cw2 - cm2;
 			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
 				break;
 			final float progress = attempt * 0x1p-5f;
-			y2 = MathTools.lerp(0.5f, y, progress);
 			cw2 = MathTools.lerp(0, cw, progress);
 			cm2 = MathTools.lerp(0, cm, progress);
 		}
-		return ycwcm(y2, cw2 * 0.5f + 0.5f, cm2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
+		return ycwcm(y, cw2 * 0.5f + 0.5f, cm2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
 	}
 
 	/**
@@ -814,7 +813,7 @@ public class ColorTools {
 	 */
 	public static float limitToGamut(float y, float cw, float cm, float a)
 	{
-		float y2 = y = Math.min(Math.max(y, 0f), 1f);
+		float y2 = Math.min(Math.max(y, 0f), 1f);
 		float cw2 = cw = Math.min(Math.max((cw - 0.5f) * 2f, -1f), 1f);
 		float cm2 = cm = Math.min(Math.max((cm - 0.5f) * 2f, -1f), 1f);
 		for (int attempt = 31; attempt >= 0; attempt--) {
@@ -824,14 +823,74 @@ public class ColorTools {
 			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
 				break;
 			final float progress = attempt * 0x1p-5f;
-			y2 = MathTools.lerp(0.5f, y, progress);
 			cw2 = MathTools.lerp(0, cw, progress);
 			cm2 = MathTools.lerp(0, cm, progress);
 		}
 		return ycwcm(y2, cw2 * 0.5f + 0.5f, cm2 * 0.5f + 0.5f, Math.min(Math.max(a, 0f), 1f));
 	}
 
+	/**
+	 * Given a packed float YCwCm color, this edits its luma (Y), chromatic warmth (Cw), chromatic mildness (Cm), and
+	 * alpha channels by adding the corresponding "add" parameter and then clamping. This returns a different float
+	 * value (of course, the given float can't be edited in-place). You can give a value of 0 for any "add" parameter
+	 * you want to stay unchanged. This clamps the resulting color to remain in-gamut, so it should be safe to convert
+	 * it back to RGBA.
+	 * @param encoded a packed float YCwCm color
+	 * @param addY how much to add to the luma channel; typically in the -1 to 1 range
+	 * @param addCw how much to add to the chromatic warmth channel; typically in the -2 to 2 range
+	 * @param addCm how much to add to the chromatic mildness channel; typically in the -2 to 2 range
+	 * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range
+	 * @return a packed float YCwCm color with the requested edits applied to {@code encoded}
+	 */
+	public static float editYCwCm(float encoded, float addY, float addCw, float addCm, float addAlpha) {
+		return editYCwCm(encoded, addY, addCw, addCm, addAlpha, 1f, 1f, 1f, 1f);
+	}
+	/**
+	 * Given a packed float YCwCm color, this edits its luma (Y), chromatic warmth (Cw), chromatic mildness (Cm), and
+	 * alpha channels by first multiplying each channel by the corresponding "mul" parameter and then adding the
+	 * corresponding "add" parameter, before clamping. This means the luma value is multiplied by {@code mulY}, then has
+	 * {@code addY} added, and then is clamped to the normal range for luma (0 to 1). This returns a different float
+	 * value (of course, the given float can't be edited in-place). You can give a value of 0 for any "add" parameter
+	 * you want to stay unchanged, or a value of 1 for any "mul" parameter that shouldn't change. Note that this
+	 * manipulates chromatic warmth and mildness in the -1 to 1 range, so if you multiply by a small number like
+	 * {@code 0.25f}, then this will produce a less-saturated color, and if you multiply by a larger number like
+	 * {@code 4f}, then you will get a much more-saturated color. This clamps the resulting color to remain in-gamut,
+	 * so it should be safe to convert it back to RGBA.
+	 * @param encoded a packed float YCwCm color
+	 * @param addY how much to add to the luma channel; typically in the -1 to 1 range
+	 * @param addCw how much to add to the chromatic warmth channel; typically in the -2 to 2 range
+	 * @param addCm how much to add to the chromatic mildness channel; typically in the -2 to 2 range
+	 * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range
+	 * @param mulY how much to multiply the luma channel by; should be non-negative
+	 * @param mulCw how much to multiply the chromatic warmth channel by; usually non-negative (not always)
+	 * @param mulCm how much to multiply the chromatic mildness channel by; usually non-negative (not always)
+	 * @param mulAlpha how much to multiply the alpha channel by; should be non-negative
+	 * @return a packed float YCwCm color with the requested edits applied to {@code encoded}
+	 */
+	public static float editYCwCm(float encoded, float addY, float addCw, float addCm, float addAlpha,
+								  float mulY, float mulCw, float mulCm, float mulAlpha) {
+		final int decoded = BitConversion.floatToRawIntBits(encoded);
+		float y = (decoded & 0xff) / 255f;
+		float cw = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		float cm = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		float alpha = (decoded >>> 25) / 127f;
 
+		float y2 = Math.min(Math.max(y * mulY + addY, 0f), 1f);
+		float cw2 = cw = Math.min(Math.max(cw * mulCw + addCw, -1f), 1f);
+		float cm2 = cm = Math.min(Math.max(cm * mulCm + addCm, -1f), 1f);
+		alpha = Math.min(Math.max(alpha * mulAlpha + addAlpha, 0f), 1f);
+		for (int attempt = 31; attempt >= 0; attempt--) {
+			final float r = y2 + 0.625f * cw2 - cm2;
+			final float g = y2 - 0.375f * cw2 + cm2;
+			final float b = y2 - 0.375f * cw2 - cm2;
+			if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
+				break;
+			final float progress = attempt * 0x1p-5f;
+			cw2 = MathTools.lerp(0, cw, progress);
+			cm2 = MathTools.lerp(0, cm, progress);
+		}
+		return ycwcm(y2, cw2 * 0.5f + 0.5f, cm2 * 0.5f + 0.5f, alpha);
+	}
 
 	/**
 	 * Produces a random packed float color that is always in-gamut and should be uniformly distributed.
