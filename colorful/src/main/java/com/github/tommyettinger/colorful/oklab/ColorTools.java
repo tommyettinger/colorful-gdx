@@ -1160,6 +1160,7 @@ public class ColorTools {
 						(int) (TrigTools.cos_(hue) * dist + 128f) << 8 |
 						(int) (lightness * 255.999f));
 	}
+
 	/**
 	 * Checks whether the given Oklab color is in-gamut; if it isn't in-gamut, brings the color just inside
 	 * the gamut at the same lightness, or if it is already in-gamut, returns the color as-is.

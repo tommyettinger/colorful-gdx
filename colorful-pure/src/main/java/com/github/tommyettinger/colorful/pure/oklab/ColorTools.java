@@ -362,14 +362,14 @@ public class ColorTools {
 	/**
 	 * Gets the "chroma" or "colorfulness" of a given Oklab color. Chroma is similar to saturation in that grayscale
 	 * values have 0 saturation and 0 chroma, while brighter colors have high saturation and chroma. The difference is
-	 * that colors that are perceptually more-colorful have higher chroma that colors that are perceptually
-	 * less-colorful, regardless of hue, whereas saturation changes its range depending on how colorful a value can be
-	 * at its hue. That is, the most saturated color always has a saturation of 1, but if that color isn't perceptually
-	 * very colorful, it could have a chroma that is somewhat lower than 1. I don't yet know the range of this function,
-	 * other than it can't be negative, grayscale values have 0 chroma, and the most colorful values should be near 1,
-	 * maybe as high as the square root of 2.
+	 * that colors that are perceptually more-colorful have higher chroma than colors that are perceptually
+	 * less-colorful, regardless of hue, whereas saturation changes its meaning depending on the hue and lightness. That
+	 * is, the most saturated color for a given hue and lightness always has a saturation of 1, but if that color
+	 * isn't perceptually very colorful (as is the case for very dark and very light colors), it will have a chroma that
+	 * is much lower than the maximum. The result of this method can't be negative, grayscale values have very close to
+	 * 0 chroma, and the most colorful values (all very close to magenta) should have 0.63226f chroma.
 	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
-	 * @return a non-negative float that represents how colorful the given value is
+	 * @return a float between 0.0f and 0.63226f that represents how colorful the given value is
 	 */
 	public static float chroma(final float encoded) {
 		final int decoded = BitConversion.floatToRawIntBits(encoded);
@@ -1016,6 +1016,79 @@ public class ColorTools {
 						(int) (MathTools.cos_(hue) * dist + 128f) << 8 |
 						(int) (L * 255.999f));
 	}
+	
+	/**
+	 * Gets the hue of the given Oklab float color, but as Oklab understands hue rather than how HSL does.
+	 * This gives a float between 0 (inclusive) and 1 (exclusive).
+	 * @param packed a packed Oklab float color
+	 * @return a float between 0 (inclusive) and 1 (exclusive) that represents hue in the Oklab color space
+	 */
+	public static float oklabHue(final float packed) {
+		final int decoded = BitConversion.floatToRawIntBits(packed);
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		return MathTools.atan2_(B, A);
+	}
+
+	/**
+	 * Gets the saturation of the given Oklab float color, but as Oklab understands saturation rather than how HSL does.
+	 * This gives a float between 0 (inclusive) and 1 (inclusive).
+	 * @param packed a packed Oklab float color
+	 * @return a float between 0 (inclusive) and 1 (inclusive) that represents saturation in the Oklab color space
+	 */
+	public static float oklabSaturation(final float packed) {
+		final int decoded = BitConversion.floatToRawIntBits(packed);
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float hue = MathTools.atan2_(B, A);
+		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
+		final float dist = GAMUT_DATA[idx];
+		return (float) Math.sqrt(A * A + B * B) * 256f / dist;
+	}
+	/**
+	 * Gets the lightness of the given Oklab float color, but as Oklab understands lightness rather than how HSL does.
+	 * This gives a float between 0 (inclusive) and 1 (inclusive).
+	 * <br>
+	 * This is the same as {@link #channelL(float)}.
+	 * @param packed a packed Oklab float color
+	 * @return a float between 0 (inclusive) and 1 (inclusive) that represents lightness in the Oklab color space
+	 */
+	public static float oklabLightness(final float packed){
+		return (BitConversion.floatToRawIntBits(packed) & 0xff) / 255f;
+	}
+
+	/**
+	 * A different way to specify an Oklab color, using hue, saturation, lightness, and alpha like a normal HSL(A) color
+	 * but calculating them directly in the Oklab color space. This should produce more accurate luminance and chroma
+	 * values than other methods that do a more complicated series of transforms from HSL to the desired color space,
+	 * because that series can lose some accuracy at each step. Plus, specifying HSL in its normal way, as two cones
+	 * with a circular rim, already cause problems with lightness and chroma. Note that this takes a different value for
+	 * its {@code hue} that the method {@link #hue(float)} produces, just like its {@code saturation} and the method
+	 * {@link #saturation(float)}, and {@code lightness} and the method {@link #lightness(float)}. The hue is just
+	 * distributed differently, and the lightness should be equivalent to {@link #channelL(float)}, but the saturation
+	 * here refers to what fraction the chroma should be of the maximum chroma for the given hue and lightness. You can
+	 * use {@link #oklabHue(float)}, {@link #oklabSaturation(float)}, and {@link #oklabLightness(float)} to get the hue,
+	 * saturation, and lightness values from an existing color that this will understand ({@link #alpha(float)} too).
+	 * @param hue between 0 and 1, usually, but this will automatically wrap if too high or too low
+	 * @param saturation will be clamped between 0 and 1
+	 * @param lightness will be clamped between 0 and 1
+	 * @param alpha will be clamped between 0 and 1
+	 * @return a packed Oklab float color that tries to match the requested hue, saturation, and lightness
+	 */
+	public static float oklabByHSL(float hue, float saturation, float lightness, float alpha) {
+		lightness = Math.min(Math.max(lightness, 0f), 1f);
+		saturation = Math.min(Math.max(saturation, 0f), 1f);
+		hue -= (int)(hue + 0x1p14) - 0x4000;
+		alpha = Math.min(Math.max(alpha, 0f), 1f);
+		final int idx = (int) (lightness * 255.999f) << 8 | (int) (256f * hue);
+		final float dist = GAMUT_DATA[idx] * saturation;
+		return BitConversion.intBitsToFloat(
+				(int) (alpha * 127.999f) << 25 |
+						(int) (MathTools.sin_(hue) * dist + 128f) << 16 |
+						(int) (MathTools.cos_(hue) * dist + 128f) << 8 |
+						(int) (lightness * 255.999f));
+	}
+
 	/**
 	 * Checks whether the given Oklab color is in-gamut; if it isn't in-gamut, brings the color just inside
 	 * the gamut at the same lightness, or if it is already in-gamut, returns the color as-is.
