@@ -1090,6 +1090,46 @@ public class ColorTools {
 	}
 
 	/**
+	 * Gets the hue of the given Oklab float color, but as Oklab understands hue rather than how HSL does.
+	 * This gives a float between 0 (inclusive) and 1 (exclusive).
+	 * @param packed a packed Oklab float color
+	 * @return a float between 0 (inclusive) and 1 (exclusive) that represents hue in the Oklab color space
+	 */
+	public static float oklabHue(final float packed) {
+		final int decoded = NumberUtils.floatToRawIntBits(packed);
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		return TrigTools.atan2_(B, A);
+	}
+
+	/**
+	 * Gets the saturation of the given Oklab float color, but as Oklab understands saturation rather than how HSL does.
+	 * This gives a float between 0 (inclusive) and 1 (inclusive).
+	 * @param packed a packed Oklab float color
+	 * @return a float between 0 (inclusive) and 1 (inclusive) that represents saturation in the Oklab color space
+	 */
+	public static float oklabSaturation(final float packed) {
+		final int decoded = NumberUtils.floatToRawIntBits(packed);
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float hue = TrigTools.atan2_(B, A);
+		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
+		final float dist = GAMUT_DATA[idx];
+		return (float) Math.sqrt(A * A + B * B) * 256f / dist;
+	}
+	/**
+	 * Gets the lightness of the given Oklab float color, but as Oklab understands lightness rather than how HSL does.
+	 * This gives a float between 0 (inclusive) and 1 (inclusive).
+	 * <br>
+	 * This is the same as {@link #channelL(float)}.
+	 * @param packed a packed Oklab float color
+	 * @return a float between 0 (inclusive) and 1 (inclusive) that represents lightness in the Oklab color space
+	 */
+	public static float oklabLightness(final float packed){
+		return (NumberUtils.floatToRawIntBits(packed) & 0xff) / 255f;
+	}
+
+	/**
 	 * A different way to specify an Oklab color, using hue, saturation, lightness, and alpha like a normal HSL(A) color
 	 * but calculating them directly in the Oklab color space. This should produce more accurate luminance and chroma
 	 * values than other methods that do a more complicated series of transforms from HSL to the desired color space,
@@ -1098,7 +1138,9 @@ public class ColorTools {
 	 * its {@code hue} that the method {@link #hue(float)} produces, just like its {@code saturation} and the method
 	 * {@link #saturation(float)}, and {@code lightness} and the method {@link #lightness(float)}. The hue is just
 	 * distributed differently, and the lightness should be equivalent to {@link #channelL(float)}, but the saturation
-	 * here refers to what fraction the chroma should be of the maximum chroma for the given hue and lightness.
+	 * here refers to what fraction the chroma should be of the maximum chroma for the given hue and lightness. You can
+	 * use {@link #oklabHue(float)}, {@link #oklabSaturation(float)}, and {@link #oklabLightness(float)} to get the hue,
+	 * saturation, and lightness values from an existing color that this will understand ({@link #alpha(float)} too).
 	 * @param hue between 0 and 1, usually, but this will automatically wrap if too high or too low
 	 * @param saturation will be clamped between 0 and 1
 	 * @param lightness will be clamped between 0 and 1
