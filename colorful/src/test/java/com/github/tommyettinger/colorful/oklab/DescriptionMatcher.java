@@ -15,8 +15,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.OrderedMap;
 
 import static com.badlogic.gdx.Gdx.input;
-import static com.github.tommyettinger.colorful.oklab.internal.FullPalette.*;
+import static com.github.tommyettinger.colorful.oklab.FullPalette.*;
 
+/**
+ * Pretty specialized to a task needed for SquidSquad, where older named colors needed to be transitioned to the new
+ * descriptive color system using Oklab.
+ */
 public class DescriptionMatcher extends ApplicationAdapter {
     public static final OrderedMap<String, Float> viewer = new OrderedMap<>(53);
     public static final String[] heat = "COLDEST, COLDER, COLD, HOT, HOTTER, HOTTEST".split(", ");

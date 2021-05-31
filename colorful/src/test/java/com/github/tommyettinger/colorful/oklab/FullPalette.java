@@ -1,4 +1,4 @@
-package com.github.tommyettinger.colorful.oklab.internal;
+package com.github.tommyettinger.colorful.oklab;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
@@ -8,16 +8,19 @@ import com.github.tommyettinger.colorful.oklab.ColorTools;
 import java.util.Comparator;
 
 /**
- * A palette of predefined colors as packed IPT floats, the kind {@link ColorTools} works with.
+ * A palette of predefined colors as packed Oklab floats, the kind {@link ColorTools} works with.
  * You can access colors by their constant name, such as {@code OCEAN_BLUE}, by the {@link #NAMED} map using
  * {@code NAMED.get("Ocean Blue", 0f)}, or by index in the FloatArray called {@link #LIST}. Note that to access a float
  * color from NAMED, you need to give a default value if the name is not found; {@code 0f} is a good default because it
- * will not occur in a valid IPT color. You can access the names in a specific order with {@link #NAMES} (which is
+ * will not occur in a valid Oklab color. You can access the names in a specific order with {@link #NAMES} (which is
  * alphabetical), {@link #NAMES_BY_HUE} (which is sorted by the hue of the matching color, from red to yellow to blue
  * (with gray around here) to purple to red again), or {@link #NAMES_BY_LIGHTNESS} (which is sorted by the intensity of
  * the matching color, from darkest to lightest). Having a name lets you look up the matching color in {@link #NAMED}.
  * <br>
- * Created by Tommy Ettinger on 10/13/2020.
+ * This file is in the test folder for colorful because it's, well, rather large, and most usage doesn't need it. If you
+ * do want the 1019 colors described here available in your program, you can copy the file into your code without any
+ * issue. Still, most usage should be absolutely fine with the 256 colors in Palette already, or the color description
+ * in SimplePalette.
  */
 public class FullPalette {
     public static final ObjectFloatMap<String> NAMED = new ObjectFloatMap<String>(1019);

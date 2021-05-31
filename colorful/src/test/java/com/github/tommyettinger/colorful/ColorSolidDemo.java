@@ -196,8 +196,8 @@ public class ColorSolidDemo extends ApplicationAdapter {
                             "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +
                             "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +
                             "             * (tgt.rgb * tgt.rgb), forward);\n" +
-                            "  lab.x = clamp(pow(lab.x, v_tweak.w) * v_lightFix * v_tweak.x + v_color.x - 0.63, 0.0, 1.0);\n" +
-                            "  lab.yz = clamp((lab.yz * v_tweak.yz + v_color.yz - 0.5) * 2.0, -1.0, 1.0);\n" +
+                            "  lab.x = clamp(lab.x + v_color.r - 0.63, 0.0, 1.0);\n" +
+                            "  lab.yz = clamp(lab.yz + v_color.gb * 2.0 - 1.0, -1.0, 1.0);\n" +
                             "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +
                             "  gl_FragColor = vec4(sqrt(" +
                             "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +
@@ -215,14 +215,14 @@ public class ColorSolidDemo extends ApplicationAdapter {
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        recording = true;
-        for (int i = 0; i < 256; i++) {
-            render();
-            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        }
-        gif.write(Gdx.files.local("ColorSolids.gif"), pixmaps, 30);
-        png.write(Gdx.files.local("ColorSolids.png"), pixmaps, 30);
-        recording = false;
+//        recording = true;
+//        for (int i = 0; i < 256; i++) {
+//            render();
+//            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+//        }
+//        gif.write(Gdx.files.local("ColorSolids.gif"), pixmaps, 30);
+//        png.write(Gdx.files.local("ColorSolids.png"), pixmaps, 30);
+//        recording = false;
     }
 
     private float layer(){

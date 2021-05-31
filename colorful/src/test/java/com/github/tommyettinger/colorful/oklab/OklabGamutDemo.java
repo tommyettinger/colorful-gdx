@@ -90,7 +90,6 @@ public class OklabGamutDemo extends ApplicationAdapter {
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.enableBlending();
 
-        /*
         final int frameCount = 120;
         Array<Pixmap> pixmaps = new Array<>(frameCount);
         for (int i = 0; i < frameCount; i++) {
@@ -117,7 +116,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
         AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
         png.write(Gdx.files.local("OklabGamut.png"), pixmaps, 24);
-         */
+
 
         float minA = 1000f, minB = 1000f, maxA = -1000f, maxB = -1000f, ok, A, B, maxChroma = 0f, chroma;
         int c = 0xFF;

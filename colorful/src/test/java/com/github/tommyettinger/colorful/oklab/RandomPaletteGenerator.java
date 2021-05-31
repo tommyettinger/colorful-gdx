@@ -286,9 +286,11 @@ And trying the same as above for another 512, but with much more stringent dista
 0xE0B8ACFF, 0x295B54FF, 0x8D61FEFF, 0x0AE49AFF, 0xD8D2FFFF, 0x0E8EA6FF, 0xFFDEFFFF, 0xBC0078FF,
 }
 
+
+
  */
 public class RandomPaletteGenerator {
-    private static final int limit = 512;
+    private static final int limit = 256;
     private static float minDistance = Float.MAX_VALUE;
     private static final IntArray rgba = new IntArray(limit);
     private static final FloatArray labs = new FloatArray(limit);
@@ -308,15 +310,15 @@ public class RandomPaletteGenerator {
         labs.add(oklab);
     }
     private static void add(float oklab){
-        float L = ColorTools.channelL(oklab),
-                A = ColorTools.channelA(oklab),
-                B = ColorTools.channelB(oklab);
+//        float L = ColorTools.channelL(oklab),
+//                A = ColorTools.channelA(oklab),
+//                B = ColorTools.channelB(oklab);
 //                A = (float) Math.pow(ColorTools.channelA(oklab) * 2f - 1f, 3f) * 0.5f + 0.5f,
 //                B = (float) Math.pow(ColorTools.channelB(oklab) * 2f - 1f, 3f) * 0.5f + 0.5f;
 //                A = OtherMath.barronSpline(ColorTools.channelA(oklab), 0.5f, 0.5f),
 //                B = OtherMath.barronSpline(ColorTools.channelB(oklab), 0.5f, 0.5f);
-        oklab = ColorTools.limitToGamut(L, A, B);
-        final double limit = Math.pow(0.031 - Math.log(idx) * 0.00015, 2.0);
+        oklab = ColorTools.limitToGamut(oklab);
+        final double limit = 0.0025;
         for (int idx = 0; idx < labs.size; idx++) {
             float o = labs.get(idx),
                     d = Vector3.dst2(ColorTools.channelL(oklab), ColorTools.channelA(oklab), ColorTools.channelB(oklab),
@@ -368,7 +370,7 @@ public class RandomPaletteGenerator {
         RandomXS128 random = new RandomXS128(0xB0BAFE77BA77L, 0xCAFEF00D15BADL);
         while (rgba.size < limit) {
 //            add(ColorTools.randomColor(random));
-            add(haltonColor(idx));
+            add(haltonHSLColor(idx));
             if(++idx % 10000 == 0)
                 System.out.println(idx + " tries, " + rgba.size + " placed, " + minDistance + " min distance");
 //            ++idx;
@@ -416,6 +418,28 @@ public class RandomPaletteGenerator {
             denominator *= 5.0;
         }
         return ColorTools.oklab((float) resX, (float) resY, (float) resZ, 1f);
+    }
+    public static float haltonHSLColor(int index)
+    {
+        double denominator = 3.0, resY = 0.0, resZ = 0.0,
+                resX = (Integer.reverse(index) >>> 1) * 0x1p-31;
+        int n = (index & 0x7fffffff);
+        while (n > 0)
+        {
+            resY += (n % 3) / denominator;
+            n /= 3;
+            denominator *= 3.0;
+        }
+
+        denominator = 5;
+        n = (index & 0x7fffffff);
+        while (n > 0)
+        {
+            resZ += (n % 5) / denominator;
+            n /= 5;
+            denominator *= 5.0;
+        }
+        return ColorTools.oklabByHSL((float) resX, (float) resY, (float) resZ, 1f);
     }
     public static float gaussianColor(int index)
     {

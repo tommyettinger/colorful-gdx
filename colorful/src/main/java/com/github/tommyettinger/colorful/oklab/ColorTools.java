@@ -450,6 +450,12 @@ public class ColorTools {
 	 * to 0, especially if the hue is different. A lightness of 0.001f or less is always black (also using a shortcut if
 	 * this is the case, respecting opacity), while a lightness of 1f is white. Very bright colors are mostly in a band
 	 * of high-saturation where lightness is 0.5f.
+	 * <br>
+	 * This method considers its hue, saturation, and lightness parameters as the HSL color space does. You may instead
+	 * want the method {@link #oklabByHSL(float, float, float, float)}, which treats lightness exactly as Oklab does,
+	 * and handles hue and saturation with the Oklab color solid (which is shaped oddly) instead of the HSL color solid
+	 * (which is a bicone, with a wide cone pointing up attached at the base to another wide cone pointing down).
+	 * Using oklabByHSL() should be faster in many cases, and the lightness handling alone may be a reason to use it.
 	 *
 	 * @param hue        0f to 1f, color wheel position
 	 * @param saturation 0f to 1f, 0f is grayscale and 1f is brightly colored
@@ -467,7 +473,10 @@ public class ColorTools {
 
 	/**
 	 * Gets the saturation of the given encoded color as HSL would calculate it, as a float ranging from 0.0f to 1.0f,
-	 * inclusive. This is different from {@link #chroma(float)}; see that method's documentation for details.
+	 * inclusive. This is different from {@link #chroma(float)}; see that method's documentation for details. It is also
+	 * different from {@link #oklabSaturation(float)}, which gets the saturation as Oklab understands it rather than how
+	 * HSL understands it.
+
 	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
 	 * @return the saturation of the color from 0.0 (a grayscale color; inclusive) to 1.0 (a bright color, inclusive)
 	 */
@@ -503,8 +512,9 @@ public class ColorTools {
 	}
 
 	/**
-	 * Defined as per HSL; normally you only need {@link #channelL(float)} to get accurate lightness for Oklab.
-	 * This ranges from 0.0f (black) to 1.0f (white).
+	 * Defined as per HSL; normally you only need {@link #channelL(float)} to get accurate lightness for Oklab. You can
+	 * also use {@link #oklabLightness(float)}, which is an alias for channelL(). This ranges from 0.0f (black) to 1.0f
+	 * (white).
 	 * @param encoded a packed float Oklab color
 	 * @return the lightness of the given color as HSL would calculate it
 	 */
@@ -541,7 +551,10 @@ public class ColorTools {
 
 	/**
 	 * Gets the hue of the given encoded color, as a float from 0f (inclusive, red and approaching orange if increased)
-	 * to 1f (exclusive, red and approaching purple if decreased).
+	 * to 1f (exclusive, red and approaching purple if decreased). You can also use {@link #oklabHue(float)}, which
+	 * positions the different hues at different values, somewhat, from this, but is how accurate to how Oklab handles
+	 * hues.
+	 *
 	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
 	 * @return The hue of the color from 0.0 (red, inclusive) towards orange, then yellow, and
 	 * eventually to purple before looping back to almost the same red (1.0, exclusive)
@@ -634,6 +647,9 @@ public class ColorTools {
 	 * used. As an example, if you give this 0.4f for saturation, and the current color has saturation 0.7f, then the
 	 * resulting color will have 1f for saturation. If you gave this -0.1f for saturation and the current color again
 	 * has saturation 0.7f, then resulting color will have 0.6f for saturation.
+	 * <br>
+	 * You may want {@link #editOklab(float, float, float, float, float, float, float, float, float)} instead, which
+	 * adjusts the L, A, B, and alpha channels directly instead of converting to HSL and back.
 	 *
 	 * @param basis      a packed float color that will be used as the starting point to make the next color
 	 * @param hue        -1f to 1f, the hue change that can be applied to the new float color (not clamped, wraps)
