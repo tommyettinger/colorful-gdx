@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -20,13 +21,14 @@ import com.github.tommyettinger.colorful.TrigTools;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class OklabByHSLWheelDemo extends ApplicationAdapter {
+public class OklabByHCLWheelDemo extends ApplicationAdapter {
     public static final int SCREEN_WIDTH = 512;
     public static final int SCREEN_HEIGHT = 512;
     private SpriteBatch batch;
     private Viewport screenView;
     private BitmapFont font;
     private Texture blank;
+    private RandomXS128 random;
     private long lastProcessedTime = 0L, startTime;
     private float layer = 0.5f;
 
@@ -38,13 +40,14 @@ public class OklabByHSLWheelDemo extends ApplicationAdapter {
         config.useVsync(true);
 //        config.setResizable(false);
 
-        final OklabByHSLWheelDemo app = new OklabByHSLWheelDemo();
+        final OklabByHCLWheelDemo app = new OklabByHCLWheelDemo();
         new Lwjgl3Application(app, config);
     }
 
     @Override
     public void create() {
         startTime = TimeUtils.millis();
+        random = new RandomXS128(startTime);
         Pixmap b = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         b.drawPixel(0, 0, 0x7F7F81FF);
         blank = new Texture(b);
@@ -66,14 +69,15 @@ public class OklabByHSLWheelDemo extends ApplicationAdapter {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1f);
+        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         handleInput();
-        layer = TimeUtils.timeSinceMillis(startTime) * 0x1p-13f;
+        layer = TimeUtils.timeSinceMillis(startTime) * 0x1p-12f;
+//        boolean showOut = (TimeUtils.timeSinceMillis(startTime) & 0x100L) == 0L;
         int floor = MathUtils.floorPositive(layer);
         layer = (floor & 1) + (layer - floor) * (-(floor & 1) | 1);
         batch.setProjectionMatrix(screenView.getCamera().combined);
-        batch.setColor(0f, 0f, 0.5f, 1f);
+        batch.setColor(0.5f, 0.5f, 0.5f, 1f);
         batch.begin();
         batch.draw(blank, 0, 0, 512, 512);
         final float
@@ -86,11 +90,14 @@ public class OklabByHSLWheelDemo extends ApplicationAdapter {
                 final float angle = t * ic, x = TrigTools.cos_(angle), y = TrigTools.sin_(angle);
 //                final float g = ColorTools.getRawGamutValue((int)(layer * 255.999f) << 8 | (int)(angle * 256f));
 //                if(g < dist) continue;
-                final float sat = dist * iMax;// * (0.5f - Math.abs(layer - 0.5f)) * 2f;
-                batch.setPackedColor(ColorTools.oklabByHSL(angle, sat, layer, 1f));
+                final float chr = dist * iMax;// * (0.5f - Math.abs(layer - 0.5f)) * 2f;
+                if(random.nextLong() < 0x6800000000000000L && chr > ColorTools.chromaLimit(angle, layer)) continue;
+                batch.setPackedColor(ColorTools.oklabByHCL(angle, chr, layer, 1f));
                 batch.draw(blank, 255.5f + x * dist, 255.5f + y * dist, 1f, 1f);
             }
         }
+        batch.setColor(layer * 0.9f + 0.05f, 0.5f, 0.5f, 1f);
+        batch.draw(blank, 255f, 255f, 2f, 2f);
         batch.end();
     }
 
@@ -112,7 +119,7 @@ public class OklabByHSLWheelDemo extends ApplicationAdapter {
                 layer = MathUtils.clamp(layer - 0x1p-7f, 0f, 1f);
             } else if (input.isKeyPressed(Input.Keys.R)) // random
             {
-                layer = MathUtils.random();
+                layer = random.nextFloat();
             }
         }
     }

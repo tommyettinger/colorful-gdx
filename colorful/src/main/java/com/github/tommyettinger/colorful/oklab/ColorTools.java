@@ -441,6 +441,21 @@ public class ColorTools {
 		final float b = ((decoded >>> 15 & 0x1FE) - 255) / 255f;
 		return (float) Math.sqrt(a * a + b * b);
 	}
+
+	/**
+	 * Given a hue and lightness, this gets the (approximate) maximum chroma possible for that hue-lightness
+	 * combination. This is useful to know the bounds of {@link #chroma(float)}. This should be no greater
+	 * than 0.63226f .
+	 * @param hue the hue, typically between 0.0f and 1.0f, to look up
+	 * @param lightness the lightness, clamped between 0.0f and 1.0f, to look up
+	 * @return the maximum possible chroma for the given hue and lightness, between 0.0f and 0.63226f
+	 */
+	public static float chromaLimit(final float hue, final float lightness){
+		final int idx = (int) (Math.min(Math.max(lightness, 0f), 1f) * 255.999f) << 8
+				| (int) (256f * (hue - MathUtils.floor(hue)));
+		return GAMUT_DATA[idx] * 0x1p-8f;
+	}
+
 	/**
 	 * Gets a color as an Oklab packed float given floats representing hue, saturation, lightness, and opacity.
 	 * All parameters should normally be between 0 and 1 inclusive, though any hue is tolerated (precision loss may
@@ -1147,16 +1162,20 @@ public class ColorTools {
 
 	/**
 	 * A different way to specify an Oklab color, using hue, saturation, lightness, and alpha like a normal HSL(A) color
-	 * but calculating them directly in the Oklab color space. This should produce more accurate luminance and chroma
-	 * values than other methods that do a more complicated series of transforms from HSL to the desired color space,
-	 * because that series can lose some accuracy at each step. Plus, specifying HSL in its normal way, as two cones
-	 * with a circular rim, already cause problems with lightness and chroma. Note that this takes a different value for
-	 * its {@code hue} that the method {@link #hue(float)} produces, just like its {@code saturation} and the method
-	 * {@link #saturation(float)}, and {@code lightness} and the method {@link #lightness(float)}. The hue is just
-	 * distributed differently, and the lightness should be equivalent to {@link #channelL(float)}, but the saturation
-	 * here refers to what fraction the chroma should be of the maximum chroma for the given hue and lightness. You can
-	 * use {@link #oklabHue(float)}, {@link #oklabSaturation(float)}, and {@link #oklabLightness(float)} to get the hue,
-	 * saturation, and lightness values from an existing color that this will understand ({@link #alpha(float)} too).
+	 * but calculating them directly in the Oklab color space. This is more efficient than
+	 * {@link #floatGetHSL(float, float, float, float)}, but for colors with less than 0.5f lightness, it can be very
+	 * unpredictable in how it handles saturation. Most colors between 0.5 and 0.75 hue that also have less than 0.5
+	 * lightness are extremely desaturated and close to gray, regardless of what you give for saturation, and these
+	 * colors suddenly jump to very saturated around 0.75 hue and higher. To avoid this issue, you may prefer using
+	 * {@link #oklabByHCL(float, float, float, float)}, which takes an absolute chroma as opposed to the saturation here
+	 * (which is a fraction of the maximum chroma).
+	 * Note that this takes a different value for its {@code hue} that the method {@link #hue(float)} produces, just
+	 * like its {@code saturation} and the method {@link #saturation(float)}, and {@code lightness} and the method
+	 * {@link #lightness(float)}. The hue is just distributed differently, and the lightness should be equivalent to
+	 * {@link #channelL(float)}, but the saturation here refers to what fraction the chroma should be of the maximum
+	 * chroma for the given hue and lightness. You can use {@link #oklabHue(float)}, {@link #oklabSaturation(float)},
+	 * and {@link #oklabLightness(float)} to get the hue, saturation, and lightness values from an existing color that
+	 * this will understand ({@link #alpha(float)} too).
 	 * @param hue between 0 and 1, usually, but this will automatically wrap if too high or too low
 	 * @param saturation will be clamped between 0 and 1
 	 * @param lightness will be clamped between 0 and 1
@@ -1170,6 +1189,39 @@ public class ColorTools {
 		alpha = Math.min(Math.max(alpha, 0f), 1f);
 		final int idx = (int) (lightness * 255.999f) << 8 | (int) (256f * hue);
 		final float dist = GAMUT_DATA[idx] * saturation;
+		return NumberUtils.intBitsToFloat(
+				(int) (alpha * 127.999f) << 25 |
+						(int) (TrigTools.sin_(hue) * dist + 128f) << 16 |
+						(int) (TrigTools.cos_(hue) * dist + 128f) << 8 |
+						(int) (lightness * 255.999f));
+	}
+
+	/**
+	 * A different way to specify an Oklab color, using hue, chroma, lightness, and alpha something like a normal HSL(A)
+	 * color but calculating them directly in the Oklab color space. This has you specify the desired chroma directly,
+	 * as obtainable with {@link #chroma(float)}, rather than the saturation, which is a fraction of the maximum chroma
+	 * (saturation is what {@link #oklabByHSL(float, float, float, float)} uses). Note that this takes a different value
+	 * for its {@code hue} that the method {@link #hue(float)} produces, just like {@code lightness} and the method
+	 * {@link #lightness(float)}. The hue is just distributed differently, and the lightness should be equivalent to
+	 * {@link #channelL(float)}. If you use this to get two colors with the same chroma and lightness, but different
+	 * hue, then the resulting colors should have similar colorfulness unless one or both chroma values exceeded the
+	 * gamut limit (you can get this limit with {@link #chromaLimit(float, float)}). If a chroma value given is greater
+	 * than the chroma limit, this clamps chroma to that limit. You can use {@link #oklabHue(float)},
+	 * {@link #chroma(float)}, and {@link #oklabLightness(float)} to get the hue, chroma, and lightness values from an
+	 * existing color that this will understand ({@link #alpha(float)} too).
+	 * @param hue between 0 and 1, usually, but this will automatically wrap if too high or too low
+	 * @param chroma will be clamped between 0 and the maximum chroma possible for the given hue and lightness
+	 * @param lightness will be clamped between 0 and 1
+	 * @param alpha will be clamped between 0 and 1
+	 * @return a packed Oklab float color that tries to match the requested hue, chroma, and lightness
+	 */
+	public static float oklabByHCL(float hue, float chroma, float lightness, float alpha) {
+		lightness = Math.min(Math.max(lightness, 0f), 1f);
+		chroma = Math.max(chroma, 0f);
+		hue -= MathUtils.floor(hue);
+		alpha = Math.min(Math.max(alpha, 0f), 1f);
+		final int idx = (int) (lightness * 255.999f) << 8 | (int) (256f * hue);
+		final float dist = Math.min(chroma * 128f, GAMUT_DATA[idx]);
 		return NumberUtils.intBitsToFloat(
 				(int) (alpha * 127.999f) << 25 |
 						(int) (TrigTools.sin_(hue) * dist + 128f) << 16 |
