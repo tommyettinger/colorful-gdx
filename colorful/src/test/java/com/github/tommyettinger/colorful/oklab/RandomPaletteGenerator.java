@@ -396,10 +396,38 @@ And trying the same as above for another 512, but with much more stringent dista
 0xB64574FF, 0xFF439AFF, 0x140B4EFF, 0x5C869CFF, 0x819E00FF, 0xB4A291FF, 0x532F4EFF, 0x1F997DFF,
 }
 
+// hsl halton, smaller, rotated, weird parameters
+//resY = Math.PI - 3.0, resZ = Math.E - 2.5,
+//oklabByHSL((float) (resX * Math.E + Math.PI % 1.0), OtherMath.barronSpline((float) resY, 0.625f, 0.5f), (float) resZ, 1f);
+// this might omit the darkest and least saturated colors?
+{
+0x00000000, 0x000000FF, 0xFFFFFFFF, 0x888888FF, 0x444444FF, 0xCCCCCCFF, 0x222222FF, 0xAAAAAAFF,
+0x666666FF, 0xEEEEEEFF, 0x005B4AFF, 0xAF00FFFF, 0xE8B282FF, 0x3D007FFF, 0x74411EFF, 0x00B1A1FF,
+0xD9DB00FF, 0x6D0027FF, 0x326D00FF, 0x4FA0CEFF, 0xFFB9D3FF, 0xA04F00FF, 0x00C7FFFF, 0xB339A3FF,
+0xFF9700FF, 0xCB0000FF, 0xA7BFFDFF, 0x7500FFFF, 0xFF4D00FF, 0x58E9ECFF, 0xFF00FFFF, 0x0033FFFF,
+0xF87C8EFF, 0x8FFF7DFF, 0x009400FF, 0x6CAAFFFF, 0xFF7ADDFF, 0x8981D8FF, 0x00D069FF, 0x833FD0FF,
+0xAFC068FF, 0x004BB2FF, 0xFF0031FF, 0x9FDF2EFF, 0xAB00C7FF, 0xA97E3CFF, 0x0D1E65FF, 0x00CC00FF,
+0x004100FF, 0x4356C6FF, 0xC59F00FF, 0x007FCFFF, 0xFDFF5EFF, 0xBB2850FF, 0x78C000FF, 0x007683FF,
+0xFFD029FF, 0xD1FDAFFF, 0x4800CEFF, 0x264D7CFF, 0x44D995FF, 0x4BFF70FF, 0xFF1ABEFF, 0x6E4399FF,
+}
+
+// hsl halton, smaller, rotated, less-weird, min dst2 3000
+//oklabByHSL((float) (resX * Math.E + Math.PI) % 1f,
+//  OtherMath.barronSpline((float) (resY + Math.PI) % 1f, 0.625f, 0.5f), (float) (resZ + Math.E - 2.5) % 1f, 1f);
+{
+0x00000000, 0x000000FF, 0xFFFFFFFF, 0x888888FF, 0x444444FF, 0xCCCCCCFF, 0x222222FF, 0xAAAAAAFF,
+0x666666FF, 0xEEEEEEFF, 0x005B4AFF, 0xAF00FFFF, 0xE8B282FF, 0x3D007FFF, 0x74411EFF, 0x00B1A1FF,
+0x6D0027FF, 0x326D00FF, 0x4FA0CEFF, 0xFFB9D3FF, 0xA04F00FF, 0xB339A3FF, 0xFF9700FF, 0xA7BFFDFF,
+0x7500FFFF, 0xFF4D00FF, 0x58E9ECFF, 0xFF00FFFF, 0x0033FFFF, 0xF87C8EFF, 0x8FFF7DFF, 0x009400FF,
+0x6CAAFFFF, 0x009BE5FF, 0x8981D8FF, 0xD00000FF, 0x833FD0FF, 0xAFC068FF, 0x004BB2FF, 0x9FDF2EFF,
+0xFFD400FF, 0x00FF6EFF, 0x00E7FFFF, 0xAB00C7FF, 0xA97E3CFF, 0x0D1E65FF, 0x004100FF, 0x4356C6FF,
+0xC59F00FF, 0xFDFF5EFF, 0xBB2850FF, 0x78C000FF, 0xD1FDAFFF, 0x2DB5FFFF, 0xFF76EEFF, 0x264D7CFF,
+0xFF0044FF, 0x00FF00FF, 0x44D995FF, 0x4BFF70FF, 0x6E4399FF, 0xE26153FF, 0x6900ADFF, 0x4F9393FF,
+}
 
  */
 public class RandomPaletteGenerator {
-    private static final int limit = 256;
+    private static final int limit = 64;
     private static float minDistance = Float.MAX_VALUE;
     private static final IntArray rgba = new IntArray(limit);
     private static final FloatArray labs = new FloatArray(limit);
@@ -428,7 +456,7 @@ public class RandomPaletteGenerator {
 //                B = OtherMath.barronSpline(ColorTools.channelB(oklab), 0.5f, 0.5f);
         oklab = ColorTools.limitToGamut(oklab);
         int reg = ColorTools.toRGBA8888(oklab);
-        final float limit = 400f;
+        final float limit = 3000f;
         for (int idx = 0; idx < labs.size; idx++) {
             int o = rgba.get(idx);
             float d = Vector3.dst2(reg >>> 24, reg >>> 16 & 255, reg >>> 8 & 255,
@@ -476,13 +504,13 @@ public class RandomPaletteGenerator {
         add(0xAAAAAAFF);
         add(0x666666FF);
         add(0xEEEEEEFF);
-        add(0x111111FF);
-        add(0x999999FF);
-        add(0x555555FF);
-        add(0xDDDDDDFF);
-        add(0x333333FF);
-        add(0xBBBBBBFF);
-        add(0x777777FF);
+//        add(0x111111FF);
+//        add(0x999999FF);
+//        add(0x555555FF);
+//        add(0xDDDDDDFF);
+//        add(0x333333FF);
+//        add(0xBBBBBBFF);
+//        add(0x777777FF);
 
 //        int idx = 1, initial = rgba.size;
 //        RandomXS128 random = new RandomXS128(1L);
@@ -558,7 +586,7 @@ public class RandomPaletteGenerator {
             n /= 5;
             denominator *= 5.0;
         }
-        return ColorTools.oklabByHSL((float) resX, OtherMath.barronSpline((float) resY, 0.75f, 0.618f), (float) resZ, 1f);
+        return ColorTools.oklabByHSL((float) (resX * Math.E + Math.PI) % 1f, OtherMath.barronSpline((float) (resY + Math.PI) % 1f, 0.625f, 0.5f), (float) (resZ + Math.E - 2.5) % 1f, 1f);
     }
     public static float gaussianColor(int index)
     {
