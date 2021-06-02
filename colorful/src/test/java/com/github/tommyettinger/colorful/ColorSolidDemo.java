@@ -215,14 +215,14 @@ public class ColorSolidDemo extends ApplicationAdapter {
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-//        recording = true;
-//        for (int i = 0; i < 256; i++) {
-//            render();
-//            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-//        }
-//        gif.write(Gdx.files.local("ColorSolids.gif"), pixmaps, 30);
-//        png.write(Gdx.files.local("ColorSolids.png"), pixmaps, 30);
-//        recording = false;
+        recording = true;
+        for (int i = 0; i < 256; i++) {
+            render();
+            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        }
+        gif.write(Gdx.files.local("ColorSolids.gif"), pixmaps, 30);
+        png.write(Gdx.files.local("ColorSolids.png"), pixmaps, 30);
+        recording = false;
     }
 
     private float layer(){
@@ -282,25 +282,6 @@ public class ColorSolidDemo extends ApplicationAdapter {
 
         oklabBatch.draw(blank, 255, layer * 511, 4f, 4f);
         oklabBatch.end();
-
-
-
-//        final float maxDist = 254f * TrigTools.sin_(layer * 0.5f) + 1f, iMax = 1f / maxDist;
-//        final float circumference = MathUtils.PI * 511f;
-//        batch.setPackedColor(ColorTools.ycwcm(layer, 0.5f, 0.5f, 1f));
-//        batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
-//        for (int dist = 1; dist <= maxDist; dist++) {
-//            final int circ = dist * 6;
-//            final float ic = 1f / circ;
-//            final float id = dist * iMax;
-//            for (int t = 0; t < circ; t++) {
-//                final float angle = t * ic, x = TrigTools.cos_(angle), y = TrigTools.sin_(angle);
-////                if((Math.abs(x) + Math.abs(y) + Math.abs(2f * (layer - 0.5f))) * dist > maxDist)
-////                    continue;
-//                batch.setPackedColor(FloatColors.floatColor(layer, x * id * 0.5f + 0.5f, y * id * 0.5f + 0.5f, 1f));
-//                batch.draw(blank, 254.75f + x * dist, 254.75f + y * dist, 1.5f, 1.5f);
-//            }
-//        }
     }
 
     @Override

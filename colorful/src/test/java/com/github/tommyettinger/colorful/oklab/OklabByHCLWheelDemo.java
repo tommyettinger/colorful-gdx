@@ -61,9 +61,11 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-//        for (int i = 0; i < 256; i++) {
-//            System.out.printf("%03d: %02d\n", i, ColorTools.getRawGamutValue(0x8900 | i));
-//        }
+        for (int li = 0; li < 256; li++) {
+            for (int h = 0; h < 256; h++) {
+                System.out.printf("%d %d %1.5f: %01.5f\n", h, li, ColorTools.chromaLimit(h * 0x1p-8f, li * 0x1p-8f), ColorTools.chroma(ColorTools.oklabByHSL(h * 0x1p-8f, 1f, li * 0x1p-8f, 1f)));
+            }
+        }
     }
 
 

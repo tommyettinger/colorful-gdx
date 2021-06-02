@@ -367,24 +367,24 @@ public class ColorTools {
 	 * is, the most saturated color for a given hue and lightness always has a saturation of 1, but if that color
 	 * isn't perceptually very colorful (as is the case for very dark and very light colors), it will have a chroma that
 	 * is much lower than the maximum. The result of this method can't be negative, grayscale values have very close to
-	 * 0 chroma, and the most colorful values (all very close to magenta) should have 0.63226f chroma.
+	 * 0 chroma, and the most colorful values (all very close to magenta) should have 0.31613f chroma.
 	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
-	 * @return a float between 0.0f and 0.63226f that represents how colorful the given value is
+	 * @return a float between 0.0f and 0.31613f that represents how colorful the given value is
 	 */
 	public static float chroma(final float encoded) {
 		final int decoded = BitConversion.floatToRawIntBits(encoded);
-		final float a = ((decoded >>> 7 & 0x1FE) - 255) / 255f;
-		final float b = ((decoded >>> 15 & 0x1FE) - 255) / 255f;
+		final float a = ((decoded >>> 7 & 0x1FE) - 255) / 510f;
+		final float b = ((decoded >>> 15 & 0x1FE) - 255) / 510f;
 		return (float) Math.sqrt(a * a + b * b);
 	}
 
 	/**
 	 * Given a hue and lightness, this gets the (approximate) maximum chroma possible for that hue-lightness
 	 * combination. This is useful to know the bounds of {@link #chroma(float)}. This should be no greater
-	 * than 0.63226f .
+	 * than 0.31613f .
 	 * @param hue the hue, typically between 0.0f and 1.0f, to look up
 	 * @param lightness the lightness, clamped between 0.0f and 1.0f, to look up
-	 * @return the maximum possible chroma for the given hue and lightness, between 0.0f and 0.63226f
+	 * @return the maximum possible chroma for the given hue and lightness, between 0.0f and 0.31613f
 	 */
 	public static float chromaLimit(final float hue, final float lightness){
 		final int idx = (int) (Math.min(Math.max(lightness, 0f), 1f) * 255.999f) << 8
