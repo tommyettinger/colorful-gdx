@@ -471,6 +471,8 @@ public class ColorTools {
 	 * and handles hue and saturation with the Oklab color solid (which is shaped oddly) instead of the HSL color solid
 	 * (which is a bicone, with a wide cone pointing up attached at the base to another wide cone pointing down).
 	 * Using oklabByHSL() should be faster in many cases, and the lightness handling alone may be a reason to use it.
+	 * There is also {@link #oklabByHCL(float, float, float, float)}, which may be preferable if you want a specific
+	 * amount of chroma (colorful-ness) and no greater.
 	 *
 	 * @param hue        0f to 1f, color wheel position
 	 * @param saturation 0f to 1f, 0f is grayscale and 1f is brightly colored
@@ -491,7 +493,7 @@ public class ColorTools {
 	 * inclusive. This is different from {@link #chroma(float)}; see that method's documentation for details. It is also
 	 * different from {@link #oklabSaturation(float)}, which gets the saturation as Oklab understands it rather than how
 	 * HSL understands it.
-
+	 *
 	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
 	 * @return the saturation of the color from 0.0 (a grayscale color; inclusive) to 1.0 (a bright color, inclusive)
 	 */
@@ -530,6 +532,7 @@ public class ColorTools {
 	 * Defined as per HSL; normally you only need {@link #channelL(float)} to get accurate lightness for Oklab. You can
 	 * also use {@link #oklabLightness(float)}, which is an alias for channelL(). This ranges from 0.0f (black) to 1.0f
 	 * (white).
+	 *
 	 * @param encoded a packed float Oklab color
 	 * @return the lightness of the given color as HSL would calculate it
 	 */
@@ -567,7 +570,7 @@ public class ColorTools {
 	/**
 	 * Gets the hue of the given encoded color, as a float from 0f (inclusive, red and approaching orange if increased)
 	 * to 1f (exclusive, red and approaching purple if decreased). You can also use {@link #oklabHue(float)}, which
-	 * positions the different hues at different values, somewhat, from this, but is how accurate to how Oklab handles
+	 * positions the different hues at different values, somewhat, from this, but is more accurate to how Oklab handles
 	 * hues.
 	 *
 	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
@@ -1122,7 +1125,9 @@ public class ColorTools {
 
 	/**
 	 * Gets the hue of the given Oklab float color, but as Oklab understands hue rather than how HSL does.
-	 * This gives a float between 0 (inclusive) and 1 (exclusive).
+	 * This is different from {@link #hue(float)}, which uses HSL. This gives a float between 0 (inclusive)
+	 * and 1 (exclusive).
+	 *
 	 * @param packed a packed Oklab float color
 	 * @return a float between 0 (inclusive) and 1 (exclusive) that represents hue in the Oklab color space
 	 */
@@ -1135,7 +1140,9 @@ public class ColorTools {
 
 	/**
 	 * Gets the saturation of the given Oklab float color, but as Oklab understands saturation rather than how HSL does.
-	 * This gives a float between 0 (inclusive) and 1 (inclusive).
+	 * Saturation here is a fraction of the chroma limit (see {@link #chromaLimit(float, float)}) for a given hue and
+	 * lightness, and is between 0 and 1. This gives a float between 0 (inclusive) and 1 (inclusive).
+	 *
 	 * @param packed a packed Oklab float color
 	 * @return a float between 0 (inclusive) and 1 (inclusive) that represents saturation in the Oklab color space
 	 */
@@ -1150,9 +1157,11 @@ public class ColorTools {
 	}
 	/**
 	 * Gets the lightness of the given Oklab float color, but as Oklab understands lightness rather than how HSL does.
-	 * This gives a float between 0 (inclusive) and 1 (inclusive).
+	 * This is different from {@link #lightness(float)}, which uses HSL. This gives a float between 0 (inclusive)
+	 * and 1 (inclusive).
 	 * <br>
 	 * This is the same as {@link #channelL(float)}.
+	 *
 	 * @param packed a packed Oklab float color
 	 * @return a float between 0 (inclusive) and 1 (inclusive) that represents lightness in the Oklab color space
 	 */
@@ -1169,6 +1178,7 @@ public class ColorTools {
 	 * colors suddenly jump to very saturated around 0.75 hue and higher. To avoid this issue, you may prefer using
 	 * {@link #oklabByHCL(float, float, float, float)}, which takes an absolute chroma as opposed to the saturation here
 	 * (which is a fraction of the maximum chroma).
+	 * <br>
 	 * Note that this takes a different value for its {@code hue} that the method {@link #hue(float)} produces, just
 	 * like its {@code saturation} and the method {@link #saturation(float)}, and {@code lightness} and the method
 	 * {@link #lightness(float)}. The hue is just distributed differently, and the lightness should be equivalent to

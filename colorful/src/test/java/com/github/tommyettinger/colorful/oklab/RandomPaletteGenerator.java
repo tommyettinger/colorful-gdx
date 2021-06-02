@@ -425,6 +425,22 @@ And trying the same as above for another 512, but with much more stringent dista
 0xFF0044FF, 0x00FF00FF, 0x44D995FF, 0x4BFF70FF, 0x6E4399FF, 0xE26153FF, 0x6900ADFF, 0x4F9393FF,
 }
 
+// hcl halton, smaller, rotated, min dst2 3000
+//        float hue = (float) (resX * Math.E + Math.PI) % 1f;
+//        float lig = (float) (resZ + Math.E - 2.5) % 1f;
+//        float chr = OtherMath.barronSpline((float) (resY + Math.PI) % 1f, 0.75f, 0.5f) * 0.666f;
+//        return (chr > ColorTools.chromaLimit(hue, lig)) ? 0f : ColorTools.oklabByHCL(hue, chr, lig, 1f);
+{
+0x00000000, 0x000000FF, 0xFFFFFFFF, 0x888888FF, 0x444444FF, 0xCCCCCCFF, 0x222222FF, 0xAAAAAAFF,
+0x666666FF, 0xEEEEEEFF, 0xC020ACFF, 0x35955EFF, 0xFAA7CFFF, 0x8835D9FF, 0x3E51D9FF, 0x272FE2FF,
+0xB481D4FF, 0x009512FF, 0x806CCFFF, 0x723BA7FF, 0x8D2969FF, 0xED3BEEFF, 0x5DF67BFF, 0xCDB080FF,
+0x3E518BFF, 0xA0911FFF, 0x61FCE3FF, 0x172E78FF, 0x99F166FF, 0x766E19FF, 0x4AB7F1FF, 0x47EFADFF,
+0xC5574BFF, 0x9CF0D4FF, 0x84E2A3FF, 0x829651FF, 0x5CC162FF, 0x560C1DFF, 0xE05097FF, 0xD1D94DFF,
+0xFEEFA8FF, 0xD78B22FF, 0x93BFEBFF, 0xFB906DFF, 0x0032ABFF, 0xA03133FF, 0x97C824FF, 0xEF3466FF,
+0x359AAEFF, 0x54BC99FF, 0x5AF536FF, 0x050B50FF, 0x367D22FF, 0xFB75F5FF, 0xF0C41BFF, 0x5C1B80FF,
+0x19DE54FF, 0xCDFD90FF, 0x74A2BFFF, 0x1F6CFFFF, 0x00ECFFFF, 0xC9A7F9FF, 0xFF0000FF, 0xA65979FF,
+}
+
  */
 public class RandomPaletteGenerator {
     private static final int limit = 64;
@@ -447,6 +463,7 @@ public class RandomPaletteGenerator {
         labs.add(oklab);
     }
     private static void add(float oklab){
+        if(oklab == 0f) return;
 //        float L = ColorTools.channelL(oklab),
 //                A = ColorTools.channelA(oklab),
 //                B = ColorTools.channelB(oklab);
@@ -586,7 +603,10 @@ public class RandomPaletteGenerator {
             n /= 5;
             denominator *= 5.0;
         }
-        return ColorTools.oklabByHSL((float) (resX * Math.E + Math.PI) % 1f, OtherMath.barronSpline((float) (resY + Math.PI) % 1f, 0.625f, 0.5f), (float) (resZ + Math.E - 2.5) % 1f, 1f);
+        float hue = (float) (resX * Math.E + Math.PI) % 1f;
+        float lig = (float) (resZ + Math.E - 2.5) % 1f;
+        float chr = OtherMath.barronSpline((float) (resY + Math.PI) % 1f, 0.75f, 0.5f) * 0.666f;
+        return (chr > ColorTools.chromaLimit(hue, lig)) ? 0f : ColorTools.oklabByHCL(hue, chr, lig, 1f);
     }
     public static float gaussianColor(int index)
     {
