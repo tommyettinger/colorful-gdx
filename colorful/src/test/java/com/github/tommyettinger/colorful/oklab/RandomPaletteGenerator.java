@@ -441,9 +441,76 @@ And trying the same as above for another 512, but with much more stringent dista
 0x19DE54FF, 0xCDFD90FF, 0x74A2BFFF, 0x1F6CFFFF, 0x00ECFFFF, 0xC9A7F9FF, 0xFF0000FF, 0xA65979FF,
 }
 
+//trying oklab distance, eliminating out-of-gamut colors
+{
+0x00000000, 0x000000FF, 0xFFFFFFFF, 0x888888FF, 0x444444FF, 0xCCCCCCFF, 0x222222FF, 0xAAAAAAFF,
+0x666666FF, 0xEEEEEEFF, 0xB339A3FF, 0x721523FF, 0x8A78F7FF, 0xA9C449FF, 0xFC12DEFF, 0x090A10FF,
+0x4457C1FF, 0xF18AB2FF, 0x293CCBFF, 0x530E60FF, 0x498447FF, 0xF78C21FF, 0x4C5C3CFF, 0xF05546FF,
+0x833565FF, 0x3B21A9FF, 0xFDAA7CFF, 0x78F090FF, 0x6FB734FF, 0xB46257FF, 0x2C324CFF, 0xA94532FF,
+0x1D0A25FF, 0xB68CF7FF, 0xCDF43DFF, 0x4F73CDFF, 0x47A227FF, 0x271A59FF, 0x9010D3FF, 0x4EDBC5FF,
+0xE5388AFF, 0x2A4111FF, 0x45A9CFFF, 0xCD75A4FF, 0xB346F5FF, 0xB08D36FF, 0x1DEF2BFF, 0xE4CD20FF,
+0x760884FF, 0x71FBF2FF, 0x500A23FF, 0x061293FF, 0x1E5887FF, 0x9ABBFDFF, 0x8F2313FF, 0xF2FF91FF,
+0xFA56FBFF, 0x081905FF, 0xFFA5F0FF, 0xFFD588FF, 0x051150FF, 0xDD0D4BFF, 0x7D48F5FF, 0x13790FFF,
+}
+//and again
+{
+0x00000000, 0x000000FF, 0xFFFFFFFF, 0x888888FF, 0x444444FF, 0xCCCCCCFF, 0x222222FF, 0xAAAAAAFF,
+0x666666FF, 0xEEEEEEFF, 0x96FFA7FF, 0x614CE7FF, 0xA8607EFF, 0x451F76FF, 0x557FFBFF, 0xEE9D2AFF,
+0x1E557FFF, 0x04080FFF, 0xAD2A0FFF, 0xF570EFFF, 0xDC6151FF, 0x532324FF, 0x58863EFF, 0x9B24A9FF,
+0x0C25ACFF, 0x101617FF, 0x52D2BEFF, 0x6E218DFF, 0xB374C9FF, 0xDA2842FF, 0xD211ADFF, 0x68A02AFF,
+0x20AEA7FF, 0xA7E23FFF, 0x3B7FACFF, 0x7F333CFF, 0x86B637FF, 0xF238A6FF, 0x609FF0FF, 0x171374FF,
+0x372FD0FF, 0xE6A2E5FF, 0x525A37FF, 0x123F35FF, 0xE67D95FF, 0x28F3BCFF, 0xA55522FF, 0x9D51D7FF,
+0x420A47FF, 0x130A4DFF, 0xFDFF7BFF, 0xB6904BFF, 0xFCBB57FF, 0x1CE245FF, 0xA9781BFF, 0xD326F7FF,
+0x247632FF, 0x700D4CFF, 0x2065B1FF, 0x12550DFF, 0xFEDC8CFF, 0x71477EFF, 0xFF29F3FF, 0x7409DCFF,
+}
+
+//smaller
+{
+0x00000000, 0x000000FF, 0xFFFFFFFF, 0x888888FF, 0x444444FF, 0xCCCCCCFF, 0x96FFA7FF, 0x614CE7FF,
+0x2B232FFF, 0x451F76FF, 0x8F626CFF, 0xEE9D2AFF, 0x04080FFF, 0xAD2A0FFF, 0xA798F5FF, 0x1D1123FF,
+0x74BA8FFF, 0xED3A7DFF, 0xBA5AEBFF, 0x961676FF, 0x547819FF, 0x295B91FF, 0x3CA733FF, 0x2888FDFF,
+0x1F1AEFFF, 0x6CE35EFF, 0xF97082FF, 0xB915BCFF, 0x650F1CFF, 0xF998FFFF, 0x05400BFF, 0xFF5AFBFF,
+}
+
+//BIGGER
+{
+0x00000000, 0x000000FF, 0xFFFFFFFF, 0x888888FF, 0x444444FF, 0xCCCCCCFF, 0x222222FF, 0xAAAAAAFF,
+0x666666FF, 0xEEEEEEFF, 0x111111FF, 0x999999FF, 0x555555FF, 0xDDDDDDFF, 0x333333FF, 0xBBBBBBFF,
+0x777777FF, 0x96FFA7FF, 0x614CE7FF, 0xA8607EFF, 0x451F76FF, 0x181917FF, 0xBBB3F2FF, 0x557FFBFF,
+0x8F626CFF, 0xEE9D2AFF, 0x1E557FFF, 0x04080FFF, 0xAF7B92FF, 0xBEDD8EFF, 0xAD2A0FFF, 0xA798F5FF,
+0x460922FF, 0x3FFCA9FF, 0x7423E5FF, 0xF570EFFF, 0x70A26AFF, 0x27177EFF, 0xFC7C26FF, 0xDC6151FF,
+0x532324FF, 0x74BA8FFF, 0x58863EFF, 0x3D4DA3FF, 0x9B24A9FF, 0x88673AFF, 0x7BAFF8FF, 0xD44B6EFF,
+0x0C25ACFF, 0x76321EFF, 0x6775ABFF, 0x52D2BEFF, 0x6E218DFF, 0xB374C9FF, 0x1F1644FF, 0xB77A3EFF,
+0x4760B3FF, 0xF5F57AFF, 0xDA2842FF, 0x3E502CFF, 0xA261CCFF, 0x282555FF, 0x177578FF, 0xDF8987FF,
+0x384517FF, 0xD211ADFF, 0x770D59FF, 0x378DCCFF, 0x563964FF, 0x11302CFF, 0x99344CFF, 0xDDBE79FF,
+0x68A02AFF, 0xFD8BC4FF, 0x2E1127FF, 0xAA0FD0FF, 0xCC9531FF, 0x98D56AFF, 0x685B31FF, 0x8792DAFF,
+0x87FFFFFF, 0xBF5F40FF, 0xBA5AEBFF, 0xADBC73FF, 0x961676FF, 0x20AEA7FF, 0x1B424AFF, 0xB94C3BFF,
+0x5C11B2FF, 0x335F40FF, 0x547819FF, 0x2198FAFF, 0xEFDD7AFF, 0xBB2850FF, 0xD3499EFF, 0xE36385FF,
+0xA7E23FFF, 0x8447A6FF, 0x0F0C30FF, 0xD9197BFF, 0x610F4DFF, 0xE8A5B4FF, 0xEC55D4FF, 0x4E9648FF,
+0x25F7EFFF, 0x86B637FF, 0x2F99A1FF, 0x7FFF37FF, 0x9A4B29FF, 0x9147D0FF, 0x274399FF, 0x93792AFF,
+0xFF4BFFFF, 0x0B081EFF, 0x7BD0E8FF, 0xB52280FF, 0x811031FF, 0x71CB1EFF, 0x372FD0FF, 0x842F59FF,
+0x3052D0FF, 0x2B0715FF, 0xF7BFE5FF, 0x814039FF, 0x4FF06DFF, 0x5113F8FF, 0x29B4EAFF, 0x411940FF,
+0x0856F9FF, 0x635584FF, 0xB324F0FF, 0x3C2515FF, 0x543336FF, 0xF4D318FF, 0xF8397CFF, 0x020304FF,
+0x2FE8C7FF, 0x7C1FA6FF, 0xBD85C8FF, 0x280E66FF, 0x28DE82FF, 0x20446DFF, 0x4F2A7EFF, 0x6163E8FF,
+0x1F5C0AFF, 0x5F473DFF, 0x8E5DA4FF, 0x348377FF, 0x9B0D13FF, 0x9C497BFF, 0xEF3F35FF, 0xEA77B6FF,
+0x40681CFF, 0xD5CB38FF, 0xFC22CFFF, 0x091736FF, 0xA2ECD2FF, 0x534677FF, 0xF96C74FF, 0x3F3256FF,
+0x8F74ABFF, 0x7A4F59FF, 0xF8A9E3FF, 0x6E8969FF, 0xD6AD88FF, 0x1C3581FF, 0xCB7B6CFF, 0x3CC5CFFF,
+0x473416FF, 0x1B4121FF, 0xB03DAAFF, 0x5D7089FF, 0x2F1407FF, 0x1F7DEAFF, 0x108E1AFF, 0xC670F4FF,
+0xF96716FF, 0xC8F7C6FF, 0xC99DDEFF, 0x8CE2FBFF, 0xBF9E78FF, 0x153659FF, 0x2A72C5FF, 0xC634F5FF,
+0x741612FF, 0x918D2FFF, 0xE4EC18FF, 0x8A58FBFF, 0x112B09FF, 0x21C57CFF, 0x0BB81DFF, 0xFDB8A0FF,
+0x9AA559FF, 0x6F3EADFF, 0x440C65FF, 0x9C7661FF, 0x9CD6B2FF, 0x29618CFF, 0x0B1AF4FF, 0x7E82FCFF,
+0x629ABAFF, 0x9026F7FF, 0x4403B5FF, 0x0A0FA1FF, 0xA79163FF, 0x5237A0FF, 0x6A4D11FF, 0x150307FF,
+0xBDB31BFF, 0x873B79FF, 0xFAFBC5FF, 0xE4B419FF, 0x00360BFF, 0x51E332FF, 0xBE44C6FF, 0xCF171DFF,
+0x1A39F1FF, 0x621FCAFF, 0x4D38FFFF, 0x2686A5FF, 0xFD8E73FF, 0x0C7F56FF, 0x186D58FF, 0xBB416FFF,
+0x0F2642FF, 0x37059FFF, 0x18B676FF, 0xF60F67FF, 0x1B2BC4FF, 0x82A5D1FF, 0x1DA675FF, 0x715D95FF,
+0x081061FF, 0x135556FF, 0xE813C6FF, 0xFCCCADFF, 0xEF90FBFF, 0x7272D6FF, 0x580915FF, 0x370A44FF,
+0x3CC41FFF, 0x7A84CAFF, 0xF6C86EFF, 0xE036F8FF, 0xFD529FFF, 0xF1FF1DFF, 0x052307FF, 0xCF8124FF,
+0x4CC6FFFF, 0x1C66FFFF, 0xFEA654FF, 0x05791CFF, 0x07A423FF, 0x23FC2AFF, 0xA6F171FF, 0x776410FF,
+}
+
  */
 public class RandomPaletteGenerator {
-    private static final int limit = 64;
+    private static final int limit = 256;
     private static float minDistance = Float.MAX_VALUE;
     private static final IntArray rgba = new IntArray(limit);
     private static final FloatArray labs = new FloatArray(limit);
@@ -471,26 +538,27 @@ public class RandomPaletteGenerator {
 //                B = (float) Math.pow(ColorTools.channelB(oklab) * 2f - 1f, 3f) * 0.5f + 0.5f;
 //                A = OtherMath.barronSpline(ColorTools.channelA(oklab), 0.5f, 0.5f),
 //                B = OtherMath.barronSpline(ColorTools.channelB(oklab), 0.5f, 0.5f);
-        oklab = ColorTools.limitToGamut(oklab);
+        if(!ColorTools.inGamut(oklab))
+            return;
         int reg = ColorTools.toRGBA8888(oklab);
-        final float limit = 3000f;
-        for (int idx = 0; idx < labs.size; idx++) {
-            int o = rgba.get(idx);
-            float d = Vector3.dst2(reg >>> 24, reg >>> 16 & 255, reg >>> 8 & 255,
-                            o >>> 24, o >>> 16 & 255, o >>> 8 & 255);
-            if(d < limit)
-                return;
-            minDistance = Math.min(minDistance, d);
-        }
-//        final double limit = 0.0025;
+//        final float limit = 3000f;
 //        for (int idx = 0; idx < labs.size; idx++) {
-//            float o = labs.get(idx),
-//                    d = Vector3.dst2(ColorTools.channelL(oklab), ColorTools.channelA(oklab), ColorTools.channelB(oklab),
-//                            ColorTools.channelL(o), ColorTools.channelA(o), ColorTools.channelB(o));
+//            int o = rgba.get(idx);
+//            float d = Vector3.dst2(reg >>> 24, reg >>> 16 & 255, reg >>> 8 & 255,
+//                            o >>> 24, o >>> 16 & 255, o >>> 8 & 255);
 //            if(d < limit)
 //                return;
 //            minDistance = Math.min(minDistance, d);
 //        }
+        final double limit = 0.00137;
+        for (int idx = 0; idx < labs.size; idx++) {
+            float o = labs.get(idx),
+                    d = Vector3.dst2(ColorTools.channelL(oklab), ColorTools.channelA(oklab), ColorTools.channelB(oklab),
+                            ColorTools.channelL(o), ColorTools.channelA(o), ColorTools.channelB(o));
+            if(d < limit)
+                return;
+            minDistance = Math.min(minDistance, d);
+        }
         rgba.add(reg);
         labs.add(oklab);
     }
@@ -521,13 +589,13 @@ public class RandomPaletteGenerator {
         add(0xAAAAAAFF);
         add(0x666666FF);
         add(0xEEEEEEFF);
-//        add(0x111111FF);
-//        add(0x999999FF);
-//        add(0x555555FF);
-//        add(0xDDDDDDFF);
-//        add(0x333333FF);
-//        add(0xBBBBBBFF);
-//        add(0x777777FF);
+        add(0x111111FF);
+        add(0x999999FF);
+        add(0x555555FF);
+        add(0xDDDDDDFF);
+        add(0x333333FF);
+        add(0xBBBBBBFF);
+        add(0x777777FF);
 
 //        int idx = 1, initial = rgba.size;
 //        RandomXS128 random = new RandomXS128(1L);
@@ -553,13 +621,14 @@ public class RandomPaletteGenerator {
             if(7 == (i & 7)) sb.append('\n');
         }
         System.out.println(sb.append('}'));
-//
-//        System.out.println();
-//        for (int i = 0; i < labs.size; i++) {
-//            float c = labs.get(i);
-//            System.out.printf("I=%f, P=%f, T=%f, RGBA=%08X\n",
-//                    ColorTools.channelL(c), ColorTools.channelA(c), ColorTools.channelB(c), ColorTools.toRGBA8888(c));
-//        }
+
+        System.out.println();
+        for (int i = 0; i < labs.size; i++) {
+            float c = labs.get(i);
+            System.out.printf("I=%f,P=%f,T=%f,RGBA=%08X ",
+                    ColorTools.channelL(c), ColorTools.channelA(c), ColorTools.channelB(c), ColorTools.toRGBA8888(c));
+            if(7 == (i & 7)) System.out.println();;
+        }
     }
     public static float haltonColor(int index)
     {
@@ -603,9 +672,9 @@ public class RandomPaletteGenerator {
             n /= 5;
             denominator *= 5.0;
         }
-        float hue = (float) (resX * Math.E + Math.PI) % 1f;
-        float lig = (float) (resZ + Math.E - 2.5) % 1f;
-        float chr = OtherMath.barronSpline((float) (resY + Math.PI) % 1f, 0.75f, 0.5f) * 0.666f;
+        float hue = (float) (resX + Math.PI - 3.01) % 1f;
+        float lig = (float) (resZ + Math.E - 2.52) % 1f;
+        float chr = OtherMath.barronSpline((float) (resY + Math.PI) % 1f, 0.875f, 0.03125f) * 0.7f;
         return (chr > ColorTools.chromaLimit(hue, lig)) ? 0f : ColorTools.oklabByHCL(hue, chr, lig, 1f);
     }
     public static float gaussianColor(int index)
