@@ -77,21 +77,23 @@ public class Shaders {
                     "   gl_FragColor = clamp(vec4(tgt.rgb * pow((v_color.rgb + 0.1) * 1.666, vec3(1.5)), v_color.a * tgt.a), 0.0, 1.0);\n" +
                     "}";
     /**
-     * A simple shader that uses multiplicative blending with "normal" RGBA colors, but internally uses gamma correction
-     * to make changes in color smoother. With the default SpriteBatch ShaderProgram, white is the neutral color, 50%
-     * gray darkens a color by about 50%, and black darkens a color to black, but nothing can brighten a color. With
-     * this, 50% gray is the neutral color, white multiplies the RGB channels by about 2 (brightening it and slightly
-     * desaturating it), and black multiplies the RGB channels by 0 (reducing the color always to black). When tinting
-     * with white, this looks like <a href="https://i.imgur.com/gKRSzKv.png">The Mona Lisa on the left</a>; when tinting
-     * with 50% gray, it makes no change, and when tinting with black, it produces an all-black image.
+     * A simple shader that uses multiplicative blending with "normal" RGBA colors, and is simpler than
+     * {@link #fragmentShaderRGBA} but can make changes in color smoother. With the default SpriteBatch ShaderProgram,
+     * white is the neutral color, 50% gray darkens a color by about 50%, and black darkens a color to black, but
+     * nothing can brighten a color. With this, 50% gray is the neutral color, white multiplies the RGB channels by
+     * 2.0 (brightening it and slightly desaturating it), and black multiplies the RGB channels by 0 (reducing the color
+     * always to black). When tinting with white, this looks like <a href="https://i.imgur.com/I30jeXv.png">The Mona
+     * Lisa on the left</a>; when tinting with 50% gray, it makes no change, and when tinting with black, it produces an
+     * all-black image.
      * <br>
      * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
      * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
      * <br>
      * Meant for use with {@link #vertexShader}.
      * <br>
-     * Credit for finding this goes to CypherCove, who uses a similar version in
-     * <a href="https://github.com/CypherCove/gdx-tween/blob/5047eeae9250d1f1c52e87aaf572956045a523f9/gdx-tween/src/main/java/com/cyphercove/gdxtween/graphics/GtColor.java">gdx=tween</a>.
+     * An earlier version of this attempted to use some useful code by CypherCove in gdx-tween, but the current version
+     * doesn't share any code, and doesn't really do any gamma correction either. It does less... gamma... un-correction
+     * than {@link #fragmentShaderRGBA}, though, so if the source images are gamma-corrected this should be fine.
      */
     public static final String fragmentShaderGammaRGBA =
             "#ifdef GL_ES\n" +
@@ -106,7 +108,7 @@ public class Shaders {
                     "void main()\n" +
                     "{\n" +
                     "   vec4 tgt = texture2D(u_texture, v_texCoords);\n" +
-                    "   gl_FragColor = clamp(vec4(sqrt(tgt.rgb * tgt.rgb * v_color.rgb * v_color.rgb * 4.0), v_color.a * tgt.a), 0.0, 1.0);\n" +
+                    "   gl_FragColor = clamp(vec4(tgt.rgb * v_color.rgb * 2.0, v_color.a * tgt.a), 0.0, 1.0);\n" +
                     "}";
     //// save the result as shader, and set it on your batch with
     // ShaderProgram shader = makeRGBAShader();
