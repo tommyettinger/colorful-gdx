@@ -16,20 +16,21 @@ specifically how it handles color tinting with `setColor(float, float, float, fl
 We address this in colorful by representing tint colors differently. While there's some support here for HSLC tints
 (hue, saturation, lightness, contrast) via `Shaders.makeBatchHSLC()`, much more of the library focuses on four color
 spaces: RGB, YCwCm, IPT, and Oklab. Most of this library's users will only employ one of these color spaces at a time,
-and the APIs for all the color spaces are extremely similar.
+and the APIs for all the color spaces are extremely similar. You most likely want to use RGB (because it is the most
+compatible with existing colors) and/or Oklab (because it is the most expressive and makes changing colors intuitive).
 
 ### RGB
 
 RGB is familiar to almost everyone who works with color on computers; it has a red, a green, and a blue channel, plus
-alpha here. The difference between the way an RGB color tint works with a standard libGDX SpriteBatch and the way one
-works here is that a SpriteBatch is neutral at the value `(1.0, 1.0, 1.0, 1.0)` and can only reduce channels as they go
+alpha here. The difference between the way an RGB color tint works with a standard libGDX SpriteBatch, and the way one
+works here, is that a SpriteBatch is neutral at the value `(1.0, 1.0, 1.0, 1.0)` and can only reduce channels as they go
 lower, while here, a ColorfulBatch is neutral at the value `(0.5, 0.5, 0.5, 1.0)` and can lower channels in the same way
 or raise channels if they go above 0.5. Typically, RGB is used with the `com.github.tommyettinger.colorful.rgb` package,
 with the `ColorfulBatch` class replacing `SpriteBatch`. The `ColorTools` class in the same package provides various
 RGB-specific color manipulation, while `FloatColors` in the parent package provides non-specific manipulation of colors
 as packed floats (which are the default here). `Palette` has 256 predefined colors from the DawnBringer Aurora palette,
 which is well-distributed for almost any pixel art or digital painting, as packed floats that have substantial
-documentation; these colors can be accessed with their names via an ObjectFloatMap, `NAMED`, and those names in usefully'
+documentation. These colors can be accessed with their names via an ObjectFloatMap, `NAMED`, and those names in usefully
 sorted orders as `NAMES_BY_LIGHTNESS` and `NAMES_BY_HUE`. There's also `SimplePalette`, which has fewer named colors
 predefined, but allows specifying edited and/or combined colors using simple `String`s; more on that later.
 
@@ -39,7 +40,8 @@ int color, except that they never use or set one bit in alpha (so they really on
 significant ones), and the RGBA bytes are in reversed order. The conversion from int color to packed float color is very
 efficient thanks to how the JVM (and GWT, with a caveat) handle this operation. GWT, used for the HTML backend in
 libGDX, actually defaults to a very slow conversion between int bits and float, but provides a way for libGDX (or other
-libraries) to convert quite efficiently; libGDX does this with its `NumberUtils` class.
+libraries) to convert quite efficiently; libGDX does this with its `NumberUtils` class. The `ColorTools` class in each
+color space's package provides many ways to manipulate and query packed floats.
 
 `ColorfulBatch` doesn't just provide the option for tints to brighten and darken. It effectively has two batch colors;
 one is multiplicative and is called the "tweak," while the regular color is now additive. The changes from the tweak can
@@ -57,6 +59,13 @@ least get a bit closer to a leafy background. Because libGDX's `Sprite` class de
 `SpriteBatch` that aren't as useful with `ColorfulBatch`, we have a `ColorfulSprite` class here that allows setting its
 color and its tweak, but otherwise can be treated like a Sprite. You can still use a `Sprite` with a `ColorfulBatch`,
 you just can't set its tweak.
+
+If you don't want to use `ColorfulBatch`, then `Shaders` provides `ShaderProgram` generators and GLSL code for shaders
+that handle various color spaces. There are convenient functions that produce ShaderPrograms, like `makeRGBAShader()`
+and `makeGammaRGBAShader()`, from the GLSL sources `fragmentShaderRGBA` and `fragmentShaderGammaRGBA`, respectively.
+With these, you still use 50% gray as the neutral value, tinting with white brightens, and tinting with black eliminates
+all color. However, you don't have the "tweak" that `ColorfulBatch` has, so there's no contrast adjustment with this.
+You can use these `ShaderProgram`s with a standard `SpriteBatch`
 
 ### YCwCm
 
@@ -157,17 +166,16 @@ introduced in [this recent blog post](https://bottosson.github.io/posts/oklab/),
 between hue and the other aspects of color comparison. It has the components L (lightness), A (one chromatic channel,
 roughly describing how cool or warm a color is, with high values closer to magenta and low values closer to green), and
 B (the other chromatic channel, also in a sense describing something like cool to warm, but with high values closer to
-orange and low values closer to blue). It's like a slightly-rotated version of IPT, or YCwCm with the chromatic channels
-in reversed order. The main benefits of Oklab are for comparing colors, where you can use a standard Euclidean distance
-if you just halve L when measuring, and for making smooth gradients. It may also be a slight bit faster than IPT_HQ,
-even though its calculations are extremely similar, because Oklab uses a fast approximation of cube root when it's
-processed by Java, where IPT_HQ uses a slightly slower call to `Math.pow()` with 0.43 as the exponent. Going in reverse,
-Oklab can just do `n * n * n` where IPT_HQ needs to use `Math.pow()` again but also preserve the sign of its argument.
-This difference probably won't be noticeable in practice, since most color processing will be done on the GPU for the
-most intensive applications.
+orange and low values closer to blue). It's like a slightly-rotated version of IPT or YCwCm. The main benefits of Oklab
+are for comparing colors, where you can use a standard Euclidean distance, and for making smooth gradients. It may also
+be a slight bit faster than IPT_HQ, even though its calculations are extremely similar, because Oklab uses a fast
+approximation of cube root when it's processed by Java, where IPT_HQ uses a slightly slower call to `Math.pow()` with
+0.43 as the exponent. Going in reverse, Oklab can just do `n * n * n` where IPT_HQ needs to use `Math.pow()` again but
+also preserve the sign of its argument. This difference probably won't be noticeable in practice, since most color
+processing will be done on the GPU for the most intensive applications.
 
 The `com.github.tommyettinger.colorful.oklab` package has parallels to all the classes in the `ipt_hq` package, which
-includes those in `ycwcm` and `ipt` as well.
+includes those in `ycwcm` and `ipt` as well. Its `SimplePalette` is particularly adept at smoothly changing colors.
 
 ### Describing Colors
 
@@ -182,6 +190,11 @@ colors in SimplePalette for Oklab can be previewed in
 [this list alphabetically](https://tommyettinger.github.io/colorful-gdx/ColorTableSimpleOklab.html),
 [this list by hue](https://tommyettinger.github.io/colorful-gdx/ColorTableSimpleHueOklab.html), or
 [this list by lightness](https://tommyettinger.github.io/colorful-gdx/ColorTableSimpleValueOklab.html).
+
+You can use [this small libGDX web app](https://tommyettinger.github.io/colorful-gdx/description/) to experiment with
+different descriptions and what they produce. Use the `[` and `]` keys to change modes; there's an RGB, Oklab, IPT_HQ,
+and comparison mode. The comparison mode may be the most useful; it has 3 bars that change color using different color
+spaces and their SimplePalette transformations.
 
 ### HSLC
 
@@ -245,12 +258,12 @@ Using the Maven Central dependency is recommended, and Gradle and Maven can both
 
 Gradle dependency (`implementation` should be changed to `api` if any other dependencies use `api`):
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.5.1'
+implementation 'com.github.tommyettinger:colorful:0.6.0'
 ```
 
 Gradle dependency if also using GWT to make an HTML application:
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.5.1:sources'
+implementation 'com.github.tommyettinger:colorful:0.6.0:sources'
 ```
 
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
@@ -263,7 +276,7 @@ If you don't use Gradle, here's the Maven dependency:
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful</artifactId>
-  <version>0.5.1</version>
+  <version>0.6.0</version>
 </dependency>
 ```
 
@@ -271,12 +284,12 @@ Using colorful-pure is similar:
 
 Gradle dependency (`implementation` should be changed to `api` if any other dependencies use `api`):
 ```groovy
-implementation 'com.github.tommyettinger:colorful-pure:0.5.1'
+implementation 'com.github.tommyettinger:colorful-pure:0.6.0'
 ```
 
 Gradle dependency if also using GWT to make an HTML application:
 ```groovy
-implementation 'com.github.tommyettinger:colorful-pure:0.5.1:sources'
+implementation 'com.github.tommyettinger:colorful-pure:0.6.0:sources'
 ```
 
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
@@ -289,8 +302,8 @@ If you don't use Gradle, here's the Maven dependency:
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful-pure</artifactId>
-  <version>0.5.1</version>
+  <version>0.6.0</version>
 </dependency>
 ```
 
-If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.5.1).
+If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.6.0).

@@ -138,10 +138,10 @@
 <span class="source-line-no">125</span><span id="line.125"></span>
 <span class="source-line-no">126</span><span id="line.126">    /**</span>
 <span class="source-line-no">127</span><span id="line.127">     * Interpolates from the packed float color start towards end by change. Both start and end should be packed colors,</span>
-<span class="source-line-no">128</span><span id="line.128">     * as from {@link ColorTools#ycwcm(float, float, float, float)} or</span>
+<span class="source-line-no">128</span><span id="line.128">     * as from {@link com.github.tommyettinger.colorful.oklab.ColorTools#oklab(float, float, float, float)} or</span>
 <span class="source-line-no">129</span><span id="line.129">     * {@link com.github.tommyettinger.colorful.ipt.ColorTools#ipt(float, float, float, float)}, and change can be</span>
 <span class="source-line-no">130</span><span id="line.130">     * between 0f (keep start) and 1f (only use end). Both start and end should use the same color space; that is, both</span>
-<span class="source-line-no">131</span><span id="line.131">     * could be produced using YCwCm, both could be produced using IPT, or both could be libGDX-native RGB, but they</span>
+<span class="source-line-no">131</span><span id="line.131">     * could be produced using Oklab, both could be produced using IPT, or both could be libGDX-native RGB, but they</span>
 <span class="source-line-no">132</span><span id="line.132">     * can't mix. This is a good way to reduce allocations of temporary Colors.</span>
 <span class="source-line-no">133</span><span id="line.133">     * @param start the starting color as a packed float</span>
 <span class="source-line-no">134</span><span id="line.134">     * @param end the target color as a packed float</span>
@@ -161,11 +161,11 @@
 <span class="source-line-no">148</span><span id="line.148">    /**</span>
 <span class="source-line-no">149</span><span id="line.149">     * Interpolates from the packed float color start towards end by change, but keeps the alpha of start and uses the</span>
 <span class="source-line-no">150</span><span id="line.150">     * alpha of end as an extra factor that can affect how much to change. Both start and end should be packed colors,</span>
-<span class="source-line-no">151</span><span id="line.151">     * as from {@link ColorTools#ycwcm(float, float, float, float)} or</span>
-<span class="source-line-no">152</span><span id="line.152">     * {@link com.github.tommyettinger.colorful.ipt.ColorTools#ipt(float, float, float, float)}, and change can be between 0f</span>
-<span class="source-line-no">153</span><span id="line.153">     * (keep start) and 1f (only use end). Both start and end should use the same color space; that is, both could be</span>
-<span class="source-line-no">154</span><span id="line.154">     * produced using YCwCm, or both could be produced using IPT, but not a mix of the two. This is a good way to</span>
-<span class="source-line-no">155</span><span id="line.155">     * reduce allocations of temporary Colors.</span>
+<span class="source-line-no">151</span><span id="line.151">     * as from {@link com.github.tommyettinger.colorful.ipt_hq.ColorTools#ipt(float, float, float, float)} or</span>
+<span class="source-line-no">152</span><span id="line.152">     * {@link ColorTools#ycwcm(float, float, float, float)}, and change can be between 0f (keep start) and 1f (only use</span>
+<span class="source-line-no">153</span><span id="line.153">     * end). Both start and end should use the same color space; that is, both could be produced using IPT_HQ, or both</span>
+<span class="source-line-no">154</span><span id="line.154">     * could be produced using YCwCm, but not a mix of the two. This is a good way to reduce allocations of temporary</span>
+<span class="source-line-no">155</span><span id="line.155">     * Colors.</span>
 <span class="source-line-no">156</span><span id="line.156">     * @param start the starting color as a packed float; alpha will be preserved</span>
 <span class="source-line-no">157</span><span id="line.157">     * @param end the target color as a packed float; alpha will not be used directly, and will instead be multiplied with change</span>
 <span class="source-line-no">158</span><span id="line.158">     * @param change how much to go from start toward end, as a float between 0 and 1; higher means closer to end</span>
@@ -235,22 +235,24 @@
 <span class="source-line-no">222</span><span id="line.222">    /**</span>
 <span class="source-line-no">223</span><span id="line.223">     * Given several colors, this gets an even mix of all colors in equal measure.</span>
 <span class="source-line-no">224</span><span id="line.224">     * If {@code colors} is null or has no items, this returns 0f (usually transparent in most color spaces).</span>
-<span class="source-line-no">225</span><span id="line.225">     * @param colors an array or varargs of packed float colors; all should use the same color space</span>
-<span class="source-line-no">226</span><span id="line.226">     * @param offset the index of the first item in {@code colors} to use</span>
-<span class="source-line-no">227</span><span id="line.227">     * @param size how many items from {@code colors} to use</span>
-<span class="source-line-no">228</span><span id="line.228">     * @return an even mix of all colors given, as a packed float color</span>
-<span class="source-line-no">229</span><span id="line.229">     */</span>
-<span class="source-line-no">230</span><span id="line.230">    public static float mix(float[] colors, int offset, int size) {</span>
-<span class="source-line-no">231</span><span id="line.231">        if(colors == null || colors.length &lt; offset + size || offset &lt; 0 || size &lt;= 0)</span>
-<span class="source-line-no">232</span><span id="line.232">            return 0f; // transparent, usually</span>
-<span class="source-line-no">233</span><span id="line.233">        float result = colors[offset];</span>
-<span class="source-line-no">234</span><span id="line.234">        for (int i = offset + 1, o = offset + size, denom = 2; i &lt; o; i++, denom++) {</span>
-<span class="source-line-no">235</span><span id="line.235">            result = lerpFloatColors(result, colors[i], 1f / denom);</span>
-<span class="source-line-no">236</span><span id="line.236">        }</span>
-<span class="source-line-no">237</span><span id="line.237">        return result;</span>
-<span class="source-line-no">238</span><span id="line.238">    }</span>
-<span class="source-line-no">239</span><span id="line.239"></span>
-<span class="source-line-no">240</span><span id="line.240">}</span>
+<span class="source-line-no">225</span><span id="line.225">     * This is mostly useful in conjunction with {@link com.badlogic.gdx.utils.FloatArray}, using its {@code items}</span>
+<span class="source-line-no">226</span><span id="line.226">     * for colors, typically 0 for offset, and its {@code size} for size.</span>
+<span class="source-line-no">227</span><span id="line.227">     * @param colors an array of packed float colors; all should use the same color space</span>
+<span class="source-line-no">228</span><span id="line.228">     * @param offset the index of the first item in {@code colors} to use</span>
+<span class="source-line-no">229</span><span id="line.229">     * @param size how many items from {@code colors} to use</span>
+<span class="source-line-no">230</span><span id="line.230">     * @return an even mix of all colors given, as a packed float color</span>
+<span class="source-line-no">231</span><span id="line.231">     */</span>
+<span class="source-line-no">232</span><span id="line.232">    public static float mix(float[] colors, int offset, int size) {</span>
+<span class="source-line-no">233</span><span id="line.233">        if(colors == null || colors.length &lt; offset + size || offset &lt; 0 || size &lt;= 0)</span>
+<span class="source-line-no">234</span><span id="line.234">            return 0f; // transparent, usually</span>
+<span class="source-line-no">235</span><span id="line.235">        float result = colors[offset];</span>
+<span class="source-line-no">236</span><span id="line.236">        for (int i = offset + 1, o = offset + size, denom = 2; i &lt; o; i++, denom++) {</span>
+<span class="source-line-no">237</span><span id="line.237">            result = lerpFloatColors(result, colors[i], 1f / denom);</span>
+<span class="source-line-no">238</span><span id="line.238">        }</span>
+<span class="source-line-no">239</span><span id="line.239">        return result;</span>
+<span class="source-line-no">240</span><span id="line.240">    }</span>
+<span class="source-line-no">241</span><span id="line.241"></span>
+<span class="source-line-no">242</span><span id="line.242">}</span>
 
 
 

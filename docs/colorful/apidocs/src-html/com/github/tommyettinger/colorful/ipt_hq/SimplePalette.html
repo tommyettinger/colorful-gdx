@@ -753,13 +753,13 @@
 <span class="source-line-no">740</span><span id="line.740">                    if (len &gt; 2 &amp;&amp; term.charAt(2) == 'g') {</span>
 <span class="source-line-no">741</span><span id="line.741">                        switch (len) {</span>
 <span class="source-line-no">742</span><span id="line.742">                            case 9:</span>
-<span class="source-line-no">743</span><span id="line.743">                                intensity += 0.125f;</span>
+<span class="source-line-no">743</span><span id="line.743">                                intensity += 0.14f;</span>
 <span class="source-line-no">744</span><span id="line.744">                            case 8:</span>
-<span class="source-line-no">745</span><span id="line.745">                                intensity += 0.125f;</span>
+<span class="source-line-no">745</span><span id="line.745">                                intensity += 0.14f;</span>
 <span class="source-line-no">746</span><span id="line.746">                            case 7:</span>
-<span class="source-line-no">747</span><span id="line.747">                                intensity += 0.125f;</span>
+<span class="source-line-no">747</span><span id="line.747">                                intensity += 0.14f;</span>
 <span class="source-line-no">748</span><span id="line.748">                            case 5:</span>
-<span class="source-line-no">749</span><span id="line.749">                                intensity += 0.125f;</span>
+<span class="source-line-no">749</span><span id="line.749">                                intensity += 0.14f;</span>
 <span class="source-line-no">750</span><span id="line.750">                                break;</span>
 <span class="source-line-no">751</span><span id="line.751">                            default:</span>
 <span class="source-line-no">752</span><span id="line.752">                                mixing.add(TRANSPARENT);</span>
@@ -793,13 +793,13 @@
 <span class="source-line-no">780</span><span id="line.780">                    if (len &gt; 1 &amp;&amp; term.charAt(1) == 'a') {</span>
 <span class="source-line-no">781</span><span id="line.781">                        switch (len) {</span>
 <span class="source-line-no">782</span><span id="line.782">                            case 8:</span>
-<span class="source-line-no">783</span><span id="line.783">                                intensity -= 0.125f;</span>
+<span class="source-line-no">783</span><span id="line.783">                                intensity -= 0.14f;</span>
 <span class="source-line-no">784</span><span id="line.784">                            case 7:</span>
-<span class="source-line-no">785</span><span id="line.785">                                intensity -= 0.125f;</span>
+<span class="source-line-no">785</span><span id="line.785">                                intensity -= 0.14f;</span>
 <span class="source-line-no">786</span><span id="line.786">                            case 6:</span>
-<span class="source-line-no">787</span><span id="line.787">                                intensity -= 0.125f;</span>
+<span class="source-line-no">787</span><span id="line.787">                                intensity -= 0.14f;</span>
 <span class="source-line-no">788</span><span id="line.788">                            case 4:</span>
-<span class="source-line-no">789</span><span id="line.789">                                intensity -= 0.125f;</span>
+<span class="source-line-no">789</span><span id="line.789">                                intensity -= 0.14f;</span>
 <span class="source-line-no">790</span><span id="line.790">                                break;</span>
 <span class="source-line-no">791</span><span id="line.791">                            default:</span>
 <span class="source-line-no">792</span><span id="line.792">                                mixing.add(TRANSPARENT);</span>
@@ -884,7 +884,7 @@
 <span class="source-line-no">871</span><span id="line.871">                mixing.set(i, colorsByHue.get((c / e) % paletteSize));</span>
 <span class="source-line-no">872</span><span id="line.872">            }</span>
 <span class="source-line-no">873</span><span id="line.873">            int idxI = ((c / colorTries) % 9 - 4), idxS = (c / (colorTries * 9) - 4);</span>
-<span class="source-line-no">874</span><span id="line.874">            float intensity = idxI * 0.125f, saturation = idxS * 0.2f;</span>
+<span class="source-line-no">874</span><span id="line.874">            float intensity = idxI * 0.14f, saturation = idxS * 0.2f;</span>
 <span class="source-line-no">875</span><span id="line.875"></span>
 <span class="source-line-no">876</span><span id="line.876">            float result = FloatColors.mix(mixing.items, 0, mixCount);</span>
 <span class="source-line-no">877</span><span id="line.877">            if(intensity &gt; 0) result = ColorTools.lighten(result, intensity);</span>

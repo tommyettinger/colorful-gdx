@@ -919,98 +919,164 @@
 <span class="source-line-no">906</span><span id="line.906">        }</span>
 <span class="source-line-no">907</span><span id="line.907"></span>
 <span class="source-line-no">908</span><span id="line.908">        /**</span>
-<span class="source-line-no">909</span><span id="line.909">         * Iteratively checks whether the given IPT color is in-gamut, and either brings the color closer to 50% gray if it</span>
-<span class="source-line-no">910</span><span id="line.910">         * isn't in-gamut, or returns it as soon as it is in-gamut.</span>
-<span class="source-line-no">911</span><span id="line.911">         * @param packed a packed float color in IPT format; often this color is not in-gamut</span>
-<span class="source-line-no">912</span><span id="line.912">         * @return the first color this finds that is between the given IPT color and 50% gray, and is in-gamut</span>
-<span class="source-line-no">913</span><span id="line.913">         * @see #inGamut(float) You can use inGamut() if you just want to check whether a color is in-gamut.</span>
-<span class="source-line-no">914</span><span id="line.914">         */</span>
-<span class="source-line-no">915</span><span id="line.915">        public static float limitToGamut(final float packed) {</span>
-<span class="source-line-no">916</span><span id="line.916">                final int decoded = BitConversion.floatToRawIntBits(packed);</span>
-<span class="source-line-no">917</span><span id="line.917">                final float i = (decoded &amp; 0xff) / 255f;</span>
-<span class="source-line-no">918</span><span id="line.918">                final float p = ((decoded &gt;&gt;&gt; 8 &amp; 0xff) - 127.5f) / 127.5f;</span>
-<span class="source-line-no">919</span><span id="line.919">                final float t = ((decoded &gt;&gt;&gt; 16 &amp; 0xff) - 127.5f) / 127.5f;</span>
-<span class="source-line-no">920</span><span id="line.920">                float i2 = i, p2 = p, t2 = t;</span>
-<span class="source-line-no">921</span><span id="line.921">                for (int attempt = 31; attempt &gt;= 0; attempt--) {</span>
-<span class="source-line-no">922</span><span id="line.922">                        final float l = reverseTransform(i2 + 0.097569f * p2 + 0.205226f * t2);</span>
-<span class="source-line-no">923</span><span id="line.923">                        final float m = reverseTransform(i2 + -0.11388f * p2 + 0.133217f * t2);</span>
-<span class="source-line-no">924</span><span id="line.924">                        final float s = reverseTransform(i2 + 0.032615f * p2 + -0.67689f * t2);</span>
-<span class="source-line-no">925</span><span id="line.925"></span>
-<span class="source-line-no">926</span><span id="line.926">                        final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;</span>
-<span class="source-line-no">927</span><span id="line.927">                        final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;</span>
-<span class="source-line-no">928</span><span id="line.928">                        final float b = 0.028104f * l + -0.19466f * m + 1.166325f * s;</span>
-<span class="source-line-no">929</span><span id="line.929">                        if(r &gt;= 0f &amp;&amp; r &lt;= 1f &amp;&amp; g &gt;= 0f &amp;&amp; g &lt;= 1f &amp;&amp; b &gt;= 0f &amp;&amp; b &lt;= 1f)</span>
-<span class="source-line-no">930</span><span id="line.930">                                break;</span>
-<span class="source-line-no">931</span><span id="line.931">                        final float progress = attempt * 0x1p-5f;</span>
-<span class="source-line-no">932</span><span id="line.932">                        i2 = MathTools.lerp(0.55f, i, progress);</span>
+<span class="source-line-no">909</span><span id="line.909">         * Iteratively checks whether the given IPT color is in-gamut, and either brings the color closer to grayscale if it</span>
+<span class="source-line-no">910</span><span id="line.910">         * isn't in-gamut, or returns it as soon as it is in-gamut. Maintains the intensity of the color, only bringing</span>
+<span class="source-line-no">911</span><span id="line.911">         * protan and tritan closer to grayscale.</span>
+<span class="source-line-no">912</span><span id="line.912">         * @param packed a packed float color in IPT format; often this color is not in-gamut</span>
+<span class="source-line-no">913</span><span id="line.913">         * @return the first color this finds that is between the given IPT color and grayscale, and is in-gamut</span>
+<span class="source-line-no">914</span><span id="line.914">         * @see #inGamut(float) You can use inGamut() if you just want to check whether a color is in-gamut.</span>
+<span class="source-line-no">915</span><span id="line.915">         */</span>
+<span class="source-line-no">916</span><span id="line.916">        public static float limitToGamut(final float packed) {</span>
+<span class="source-line-no">917</span><span id="line.917">                final int decoded = BitConversion.floatToRawIntBits(packed);</span>
+<span class="source-line-no">918</span><span id="line.918">                final float i = (decoded &amp; 0xff) / 255f;</span>
+<span class="source-line-no">919</span><span id="line.919">                final float p = ((decoded &gt;&gt;&gt; 8 &amp; 0xff) - 127.5f) / 127.5f;</span>
+<span class="source-line-no">920</span><span id="line.920">                final float t = ((decoded &gt;&gt;&gt; 16 &amp; 0xff) - 127.5f) / 127.5f;</span>
+<span class="source-line-no">921</span><span id="line.921">                float p2 = p, t2 = t;</span>
+<span class="source-line-no">922</span><span id="line.922">                for (int attempt = 31; attempt &gt;= 0; attempt--) {</span>
+<span class="source-line-no">923</span><span id="line.923">                        final float l = reverseTransform(i + 0.097569f * p2 + 0.205226f * t2);</span>
+<span class="source-line-no">924</span><span id="line.924">                        final float m = reverseTransform(i + -0.11388f * p2 + 0.133217f * t2);</span>
+<span class="source-line-no">925</span><span id="line.925">                        final float s = reverseTransform(i + 0.032615f * p2 + -0.67689f * t2);</span>
+<span class="source-line-no">926</span><span id="line.926"></span>
+<span class="source-line-no">927</span><span id="line.927">                        final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;</span>
+<span class="source-line-no">928</span><span id="line.928">                        final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;</span>
+<span class="source-line-no">929</span><span id="line.929">                        final float b = 0.028104f * l + -0.19466f * m + 1.166325f * s;</span>
+<span class="source-line-no">930</span><span id="line.930">                        if(r &gt;= 0f &amp;&amp; r &lt;= 1f &amp;&amp; g &gt;= 0f &amp;&amp; g &lt;= 1f &amp;&amp; b &gt;= 0f &amp;&amp; b &lt;= 1f)</span>
+<span class="source-line-no">931</span><span id="line.931">                                break;</span>
+<span class="source-line-no">932</span><span id="line.932">                        final float progress = attempt * 0x1p-5f;</span>
 <span class="source-line-no">933</span><span id="line.933">                        p2 = MathTools.lerp(0, p, progress);</span>
 <span class="source-line-no">934</span><span id="line.934">                        t2 = MathTools.lerp(0, t, progress);</span>
 <span class="source-line-no">935</span><span id="line.935">                }</span>
-<span class="source-line-no">936</span><span id="line.936">                return ipt(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, (decoded &gt;&gt;&gt; 25) / 127f);</span>
+<span class="source-line-no">936</span><span id="line.936">                return ipt(i, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, (decoded &gt;&gt;&gt; 25) / 127f);</span>
 <span class="source-line-no">937</span><span id="line.937">        }</span>
 <span class="source-line-no">938</span><span id="line.938"></span>
 <span class="source-line-no">939</span><span id="line.939">        /**</span>
-<span class="source-line-no">940</span><span id="line.940">         * Iteratively checks whether the given IPT color is in-gamut, and either brings the color closer to 50% gray if it</span>
-<span class="source-line-no">941</span><span id="line.941">         * isn't in-gamut, or returns it as soon as it is in-gamut. This always produces an opaque color.</span>
-<span class="source-line-no">942</span><span id="line.942">         * @param i intensity component; will be clamped between 0 and 1 if it isn't already</span>
-<span class="source-line-no">943</span><span id="line.943">         * @param p protan component; will be clamped between 0 and 1 if it isn't already</span>
-<span class="source-line-no">944</span><span id="line.944">         * @param t tritan component; will be clamped between 0 and 1 if it isn't already</span>
-<span class="source-line-no">945</span><span id="line.945">         * @return the first color this finds that is between the given IPT color and 50% gray, and is in-gamut</span>
-<span class="source-line-no">946</span><span id="line.946">         * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.</span>
-<span class="source-line-no">947</span><span id="line.947">         */</span>
-<span class="source-line-no">948</span><span id="line.948">        public static float limitToGamut(float i, float p, float t) {</span>
-<span class="source-line-no">949</span><span id="line.949">                return limitToGamut(i, p, t, 1f);</span>
-<span class="source-line-no">950</span><span id="line.950">        }</span>
-<span class="source-line-no">951</span><span id="line.951">        /**</span>
-<span class="source-line-no">952</span><span id="line.952">         * Iteratively checks whether the given IPT color is in-gamut, and either brings the color closer to 50% gray if it</span>
-<span class="source-line-no">953</span><span id="line.953">         * isn't in-gamut, or returns it as soon as it is in-gamut.</span>
-<span class="source-line-no">954</span><span id="line.954">         * @param i intensity component; will be clamped between 0 and 1 if it isn't already</span>
-<span class="source-line-no">955</span><span id="line.955">         * @param p protan component; will be clamped between 0 and 1 if it isn't already</span>
-<span class="source-line-no">956</span><span id="line.956">         * @param t tritan component; will be clamped between 0 and 1 if it isn't already</span>
-<span class="source-line-no">957</span><span id="line.957">         * @param a alpha component; will be clamped between 0 and 1 if it isn't already</span>
-<span class="source-line-no">958</span><span id="line.958">         * @return the first color this finds that is between the given IPT color and 50% gray, and is in-gamut</span>
-<span class="source-line-no">959</span><span id="line.959">         * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.</span>
-<span class="source-line-no">960</span><span id="line.960">         */</span>
-<span class="source-line-no">961</span><span id="line.961">        public static float limitToGamut(float i, float p, float t, float a) {</span>
-<span class="source-line-no">962</span><span id="line.962">                float i2 = i = Math.min(Math.max(i, 0f), 1f);</span>
-<span class="source-line-no">963</span><span id="line.963">                float p2 = p = Math.min(Math.max((p - 0.5f) * 2f, -1f), 1f);</span>
-<span class="source-line-no">964</span><span id="line.964">                float t2 = t = Math.min(Math.max((t - 0.5f) * 2f, -1f), 1f);</span>
-<span class="source-line-no">965</span><span id="line.965">                a = Math.min(Math.max(a, 0f), 1f);</span>
-<span class="source-line-no">966</span><span id="line.966">                for (int attempt = 31; attempt &gt;= 0; attempt--) {</span>
-<span class="source-line-no">967</span><span id="line.967">                        final float l = reverseTransform(i2 + 0.097569f * p2 + 0.205226f * t2);</span>
-<span class="source-line-no">968</span><span id="line.968">                        final float m = reverseTransform(i2 + -0.11388f * p2 + 0.133217f * t2);</span>
-<span class="source-line-no">969</span><span id="line.969">                        final float s = reverseTransform(i2 + 0.032615f * p2 + -0.67689f * t2);</span>
-<span class="source-line-no">970</span><span id="line.970"></span>
-<span class="source-line-no">971</span><span id="line.971">                        final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;</span>
-<span class="source-line-no">972</span><span id="line.972">                        final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;</span>
-<span class="source-line-no">973</span><span id="line.973">                        final float b = 0.028104f * l + -0.19466f * m + 1.166325f * s;</span>
-<span class="source-line-no">974</span><span id="line.974">                        if(r &gt;= 0f &amp;&amp; r &lt;= 1f &amp;&amp; g &gt;= 0f &amp;&amp; g &lt;= 1f &amp;&amp; b &gt;= 0f &amp;&amp; b &lt;= 1f)</span>
-<span class="source-line-no">975</span><span id="line.975">                                break;</span>
-<span class="source-line-no">976</span><span id="line.976">                        final float progress = attempt * 0x1p-5f;</span>
-<span class="source-line-no">977</span><span id="line.977">                        i2 = MathTools.lerp(0.55f, i, progress);</span>
-<span class="source-line-no">978</span><span id="line.978">                        p2 = MathTools.lerp(0, p, progress);</span>
-<span class="source-line-no">979</span><span id="line.979">                        t2 = MathTools.lerp(0, t, progress);</span>
-<span class="source-line-no">980</span><span id="line.980">                }</span>
-<span class="source-line-no">981</span><span id="line.981">                return ipt(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, a);</span>
-<span class="source-line-no">982</span><span id="line.982">        }</span>
-<span class="source-line-no">983</span><span id="line.983"></span>
+<span class="source-line-no">940</span><span id="line.940">         * Iteratively checks whether the given IPT color is in-gamut, and either brings the color closer to grayscale if it</span>
+<span class="source-line-no">941</span><span id="line.941">         * isn't in-gamut, or returns it as soon as it is in-gamut. Maintains the intensity of the color, only bringing</span>
+<span class="source-line-no">942</span><span id="line.942">         * protan and tritan closer to grayscale. This always produces an opaque color.</span>
+<span class="source-line-no">943</span><span id="line.943">         * @param i intensity component; will be clamped between 0 and 1 if it isn't already</span>
+<span class="source-line-no">944</span><span id="line.944">         * @param p protan component; will be clamped between 0 and 1 if it isn't already</span>
+<span class="source-line-no">945</span><span id="line.945">         * @param t tritan component; will be clamped between 0 and 1 if it isn't already</span>
+<span class="source-line-no">946</span><span id="line.946">         * @return the first color this finds that is between the given IPT color and grayscale, and is in-gamut</span>
+<span class="source-line-no">947</span><span id="line.947">         * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.</span>
+<span class="source-line-no">948</span><span id="line.948">         */</span>
+<span class="source-line-no">949</span><span id="line.949">        public static float limitToGamut(float i, float p, float t) {</span>
+<span class="source-line-no">950</span><span id="line.950">                return limitToGamut(i, p, t, 1f);</span>
+<span class="source-line-no">951</span><span id="line.951">        }</span>
+<span class="source-line-no">952</span><span id="line.952">        /**</span>
+<span class="source-line-no">953</span><span id="line.953">         * Iteratively checks whether the given IPT color is in-gamut, and either brings the color closer to grayscale if it</span>
+<span class="source-line-no">954</span><span id="line.954">         * isn't in-gamut, or returns it as soon as it is in-gamut. Maintains the intensity of the color, only bringing</span>
+<span class="source-line-no">955</span><span id="line.955">         * protan and tritan closer to grayscale.</span>
+<span class="source-line-no">956</span><span id="line.956">         * @param i intensity component; will be clamped between 0 and 1 if it isn't already</span>
+<span class="source-line-no">957</span><span id="line.957">         * @param p protan component; will be clamped between 0 and 1 if it isn't already</span>
+<span class="source-line-no">958</span><span id="line.958">         * @param t tritan component; will be clamped between 0 and 1 if it isn't already</span>
+<span class="source-line-no">959</span><span id="line.959">         * @param a alpha component; will be clamped between 0 and 1 if it isn't already</span>
+<span class="source-line-no">960</span><span id="line.960">         * @return the first color this finds that is between the given IPT color and grayscale, and is in-gamut</span>
+<span class="source-line-no">961</span><span id="line.961">         * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.</span>
+<span class="source-line-no">962</span><span id="line.962">         */</span>
+<span class="source-line-no">963</span><span id="line.963">        public static float limitToGamut(float i, float p, float t, float a) {</span>
+<span class="source-line-no">964</span><span id="line.964">                float i2 = Math.min(Math.max(i, 0f), 1f);</span>
+<span class="source-line-no">965</span><span id="line.965">                float p2 = p = Math.min(Math.max((p - 0.5f) * 2f, -1f), 1f);</span>
+<span class="source-line-no">966</span><span id="line.966">                float t2 = t = Math.min(Math.max((t - 0.5f) * 2f, -1f), 1f);</span>
+<span class="source-line-no">967</span><span id="line.967">                a = Math.min(Math.max(a, 0f), 1f);</span>
+<span class="source-line-no">968</span><span id="line.968">                for (int attempt = 31; attempt &gt;= 0; attempt--) {</span>
+<span class="source-line-no">969</span><span id="line.969">                        final float l = reverseTransform(i2 + 0.097569f * p2 + 0.205226f * t2);</span>
+<span class="source-line-no">970</span><span id="line.970">                        final float m = reverseTransform(i2 + -0.11388f * p2 + 0.133217f * t2);</span>
+<span class="source-line-no">971</span><span id="line.971">                        final float s = reverseTransform(i2 + 0.032615f * p2 + -0.67689f * t2);</span>
+<span class="source-line-no">972</span><span id="line.972"></span>
+<span class="source-line-no">973</span><span id="line.973">                        final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;</span>
+<span class="source-line-no">974</span><span id="line.974">                        final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;</span>
+<span class="source-line-no">975</span><span id="line.975">                        final float b = 0.028104f * l + -0.19466f * m + 1.166325f * s;</span>
+<span class="source-line-no">976</span><span id="line.976">                        if(r &gt;= 0f &amp;&amp; r &lt;= 1f &amp;&amp; g &gt;= 0f &amp;&amp; g &lt;= 1f &amp;&amp; b &gt;= 0f &amp;&amp; b &lt;= 1f)</span>
+<span class="source-line-no">977</span><span id="line.977">                                break;</span>
+<span class="source-line-no">978</span><span id="line.978">                        final float progress = attempt * 0x1p-5f;</span>
+<span class="source-line-no">979</span><span id="line.979">                        p2 = MathTools.lerp(0, p, progress);</span>
+<span class="source-line-no">980</span><span id="line.980">                        t2 = MathTools.lerp(0, t, progress);</span>
+<span class="source-line-no">981</span><span id="line.981">                }</span>
+<span class="source-line-no">982</span><span id="line.982">                return ipt(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, a);</span>
+<span class="source-line-no">983</span><span id="line.983">        }</span>
 <span class="source-line-no">984</span><span id="line.984">        /**</span>
-<span class="source-line-no">985</span><span id="line.985">         * Produces a random packed float color that is always in-gamut and should be uniformly distributed.</span>
-<span class="source-line-no">986</span><span id="line.986">         * @param random a Random object (preferably a subclass of Random, like {@link com.github.tommyettinger.ds.support.LaserRandom})</span>
-<span class="source-line-no">987</span><span id="line.987">         * @return a packed float color that is always in-gamut</span>
-<span class="source-line-no">988</span><span id="line.988">         */</span>
-<span class="source-line-no">989</span><span id="line.989">        public static float randomColor(Random random) {</span>
-<span class="source-line-no">990</span><span id="line.990">                float i = random.nextFloat();</span>
-<span class="source-line-no">991</span><span id="line.991">                float p = random.nextFloat();</span>
-<span class="source-line-no">992</span><span id="line.992">                float t = random.nextFloat();</span>
-<span class="source-line-no">993</span><span id="line.993">                while (!inGamut(i, p, t)) {</span>
-<span class="source-line-no">994</span><span id="line.994">                        i = random.nextFloat();</span>
-<span class="source-line-no">995</span><span id="line.995">                        p = random.nextFloat();</span>
-<span class="source-line-no">996</span><span id="line.996">                        t = random.nextFloat();</span>
-<span class="source-line-no">997</span><span id="line.997">                }</span>
-<span class="source-line-no">998</span><span id="line.998">                return ipt(i, p, t, 1f);</span>
-<span class="source-line-no">999</span><span id="line.999">        }</span>
-<span class="source-line-no">1000</span><span id="line.1000">}</span>
+<span class="source-line-no">985</span><span id="line.985">         * Given a packed float IPT_HQ color, this edits its intensity, protan, tritan, and alpha channels by adding the</span>
+<span class="source-line-no">986</span><span id="line.986">         * corresponding "add" parameter and then clamping. This returns a different float value (of course, the given float</span>
+<span class="source-line-no">987</span><span id="line.987">         * can't be edited in-place). You can give a value of 0 for any "add" parameter you want to stay unchanged. This</span>
+<span class="source-line-no">988</span><span id="line.988">         * clamps the resulting color to remain in-gamut, so it should be safe to convert it back to RGBA.</span>
+<span class="source-line-no">989</span><span id="line.989">         * @param encoded a packed float IPT_HQ color</span>
+<span class="source-line-no">990</span><span id="line.990">         * @param addI how much to add to the intensity channel; typically in the -1 to 1 range</span>
+<span class="source-line-no">991</span><span id="line.991">         * @param addP how much to add to the protan channel; typically in the -2 to 2 range</span>
+<span class="source-line-no">992</span><span id="line.992">         * @param addT how much to add to the tritan channel; typically in the -2 to 2 range</span>
+<span class="source-line-no">993</span><span id="line.993">         * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range</span>
+<span class="source-line-no">994</span><span id="line.994">         * @return a packed float IPT_HQ color with the requested edits applied to {@code encoded}</span>
+<span class="source-line-no">995</span><span id="line.995">         */</span>
+<span class="source-line-no">996</span><span id="line.996">        public static float editIPT(float encoded, float addI, float addP, float addT, float addAlpha) {</span>
+<span class="source-line-no">997</span><span id="line.997">                return editIPT(encoded, addI, addP, addT, addAlpha, 1f, 1f, 1f, 1f);</span>
+<span class="source-line-no">998</span><span id="line.998">        }</span>
+<span class="source-line-no">999</span><span id="line.999">        /**</span>
+<span class="source-line-no">1000</span><span id="line.1000">         * Given a packed float IPT_HQ color, this edits its intensity, protan, tritan, and alpha channels by first</span>
+<span class="source-line-no">1001</span><span id="line.1001">         * multiplying each channel by the corresponding "mul" parameter and then adding the corresponding "add" parameter,</span>
+<span class="source-line-no">1002</span><span id="line.1002">         * before clamping. This means the intensity value is multiplied by {@code mulI}, then has {@code addI} added, and</span>
+<span class="source-line-no">1003</span><span id="line.1003">         * then is clamped to the normal range for intensity (0 to 1). This returns a different float value (of course, the</span>
+<span class="source-line-no">1004</span><span id="line.1004">         * given float can't be edited in-place). You can give a value of 0 for any "add" parameter you want to stay</span>
+<span class="source-line-no">1005</span><span id="line.1005">         * unchanged, or a value of 1 for any "mul" parameter that shouldn't change. Note that this manipulates protan and</span>
+<span class="source-line-no">1006</span><span id="line.1006">         * tritan in the -1 to 1 range, so if you multiply by a small number like {@code 0.25f}, then this will produce a</span>
+<span class="source-line-no">1007</span><span id="line.1007">         * less-saturated color, and if you multiply by a larger number like {@code 4f}, then you will get a much</span>
+<span class="source-line-no">1008</span><span id="line.1008">         * more-saturated color. This clamps the resulting color to remain in-gamut, so it should be safe to convert it back</span>
+<span class="source-line-no">1009</span><span id="line.1009">         * to RGBA.</span>
+<span class="source-line-no">1010</span><span id="line.1010">         * @param encoded a packed float IPT_HQ color</span>
+<span class="source-line-no">1011</span><span id="line.1011">         * @param addI how much to add to the intensity channel; typically in the -1 to 1 range</span>
+<span class="source-line-no">1012</span><span id="line.1012">         * @param addP how much to add to the protan channel; typically in the -2 to 2 range</span>
+<span class="source-line-no">1013</span><span id="line.1013">         * @param addT how much to add to the tritan channel; typically in the -2 to 2 range</span>
+<span class="source-line-no">1014</span><span id="line.1014">         * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range</span>
+<span class="source-line-no">1015</span><span id="line.1015">         * @param mulI how much to multiply the intensity channel by; should be non-negative</span>
+<span class="source-line-no">1016</span><span id="line.1016">         * @param mulP how much to multiply the protan channel by; usually non-negative (not always)</span>
+<span class="source-line-no">1017</span><span id="line.1017">         * @param mulT how much to multiply the tritan channel by; usually non-negative (not always)</span>
+<span class="source-line-no">1018</span><span id="line.1018">         * @param mulAlpha how much to multiply the alpha channel by; should be non-negative</span>
+<span class="source-line-no">1019</span><span id="line.1019">         * @return a packed float IPT_HQ color with the requested edits applied to {@code encoded}</span>
+<span class="source-line-no">1020</span><span id="line.1020">         */</span>
+<span class="source-line-no">1021</span><span id="line.1021">        public static float editIPT(float encoded, float addI, float addP, float addT, float addAlpha,</span>
+<span class="source-line-no">1022</span><span id="line.1022">                                                                float mulI, float mulP, float mulT, float mulAlpha) {</span>
+<span class="source-line-no">1023</span><span id="line.1023">                final int decoded = BitConversion.floatToRawIntBits(encoded);</span>
+<span class="source-line-no">1024</span><span id="line.1024">                float i = (decoded &amp; 0xff) / 255f;</span>
+<span class="source-line-no">1025</span><span id="line.1025">                float p = ((decoded &gt;&gt;&gt; 8 &amp; 0xff) - 127.5f) / 127.5f;</span>
+<span class="source-line-no">1026</span><span id="line.1026">                float t = ((decoded &gt;&gt;&gt; 16 &amp; 0xff) - 127.5f) / 127.5f;</span>
+<span class="source-line-no">1027</span><span id="line.1027">                float alpha = (decoded &gt;&gt;&gt; 25) / 127f;</span>
+<span class="source-line-no">1028</span><span id="line.1028"></span>
+<span class="source-line-no">1029</span><span id="line.1029">                float i2 = Math.min(Math.max(i * mulI + addI, 0f), 1f);</span>
+<span class="source-line-no">1030</span><span id="line.1030">                float p2 = p = Math.min(Math.max(p * mulP + addP, -1f), 1f);</span>
+<span class="source-line-no">1031</span><span id="line.1031">                float t2 = t = Math.min(Math.max(t * mulT + addT, -1f), 1f);</span>
+<span class="source-line-no">1032</span><span id="line.1032">                alpha = Math.min(Math.max(alpha * mulAlpha + addAlpha, 0f), 1f);</span>
+<span class="source-line-no">1033</span><span id="line.1033">                for (int attempt = 31; attempt &gt;= 0; attempt--) {</span>
+<span class="source-line-no">1034</span><span id="line.1034">                        final float l = reverseTransform(i2 + 0.097569f * p2 + 0.205226f * t2);</span>
+<span class="source-line-no">1035</span><span id="line.1035">                        final float m = reverseTransform(i2 + -0.11388f * p2 + 0.133217f * t2);</span>
+<span class="source-line-no">1036</span><span id="line.1036">                        final float s = reverseTransform(i2 + 0.032615f * p2 + -0.67689f * t2);</span>
+<span class="source-line-no">1037</span><span id="line.1037"></span>
+<span class="source-line-no">1038</span><span id="line.1038">                        final float r = 5.432622f * l + -4.67910f * m + 0.246257f * s;</span>
+<span class="source-line-no">1039</span><span id="line.1039">                        final float g = -1.10517f * l + 2.311198f * m + -0.20588f * s;</span>
+<span class="source-line-no">1040</span><span id="line.1040">                        final float b = 0.028104f * l + -0.19466f * m + 1.166325f * s;</span>
+<span class="source-line-no">1041</span><span id="line.1041">                        if(r &gt;= 0f &amp;&amp; r &lt;= 1f &amp;&amp; g &gt;= 0f &amp;&amp; g &lt;= 1f &amp;&amp; b &gt;= 0f &amp;&amp; b &lt;= 1f)</span>
+<span class="source-line-no">1042</span><span id="line.1042">                                break;</span>
+<span class="source-line-no">1043</span><span id="line.1043">                        final float progress = attempt * 0x1p-5f;</span>
+<span class="source-line-no">1044</span><span id="line.1044">                        p2 = MathTools.lerp(0, p, progress);</span>
+<span class="source-line-no">1045</span><span id="line.1045">                        t2 = MathTools.lerp(0, t, progress);</span>
+<span class="source-line-no">1046</span><span id="line.1046">                }</span>
+<span class="source-line-no">1047</span><span id="line.1047">                return ipt(i2, p2 * 0.5f + 0.5f, t2 * 0.5f + 0.5f, alpha);</span>
+<span class="source-line-no">1048</span><span id="line.1048">        }</span>
+<span class="source-line-no">1049</span><span id="line.1049"></span>
+<span class="source-line-no">1050</span><span id="line.1050">        /**</span>
+<span class="source-line-no">1051</span><span id="line.1051">         * Produces a random packed float color that is always in-gamut and should be uniformly distributed.</span>
+<span class="source-line-no">1052</span><span id="line.1052">         * @param random a Random object (preferably a subclass of Random, like {@link com.github.tommyettinger.ds.support.LaserRandom})</span>
+<span class="source-line-no">1053</span><span id="line.1053">         * @return a packed float color that is always in-gamut</span>
+<span class="source-line-no">1054</span><span id="line.1054">         */</span>
+<span class="source-line-no">1055</span><span id="line.1055">        public static float randomColor(Random random) {</span>
+<span class="source-line-no">1056</span><span id="line.1056">                float i = random.nextFloat();</span>
+<span class="source-line-no">1057</span><span id="line.1057">                float p = random.nextFloat();</span>
+<span class="source-line-no">1058</span><span id="line.1058">                float t = random.nextFloat();</span>
+<span class="source-line-no">1059</span><span id="line.1059">                while (!inGamut(i, p, t)) {</span>
+<span class="source-line-no">1060</span><span id="line.1060">                        i = random.nextFloat();</span>
+<span class="source-line-no">1061</span><span id="line.1061">                        p = random.nextFloat();</span>
+<span class="source-line-no">1062</span><span id="line.1062">                        t = random.nextFloat();</span>
+<span class="source-line-no">1063</span><span id="line.1063">                }</span>
+<span class="source-line-no">1064</span><span id="line.1064">                return ipt(i, p, t, 1f);</span>
+<span class="source-line-no">1065</span><span id="line.1065">        }</span>
+<span class="source-line-no">1066</span><span id="line.1066">}</span>
 
 
 

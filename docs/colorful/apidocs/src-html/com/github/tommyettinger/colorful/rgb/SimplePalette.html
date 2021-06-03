@@ -762,11 +762,11 @@
 <span class="source-line-no">749</span><span id="line.749">                                intensity += 0.085f;</span>
 <span class="source-line-no">750</span><span id="line.750">                                break;</span>
 <span class="source-line-no">751</span><span id="line.751">                            default:</span>
-<span class="source-line-no">752</span><span id="line.752">                                mixing.add(TRANSPARENT);</span>
+<span class="source-line-no">752</span><span id="line.752">                                mixing.add(0f);</span>
 <span class="source-line-no">753</span><span id="line.753">                                break;</span>
 <span class="source-line-no">754</span><span id="line.754">                        }</span>
 <span class="source-line-no">755</span><span id="line.755">                    } else {</span>
-<span class="source-line-no">756</span><span id="line.756">                        mixing.add(NAMED.get(term, TRANSPARENT));</span>
+<span class="source-line-no">756</span><span id="line.756">                        mixing.add(NAMED.get(term, 0f));</span>
 <span class="source-line-no">757</span><span id="line.757">                    }</span>
 <span class="source-line-no">758</span><span id="line.758">                    break;</span>
 <span class="source-line-no">759</span><span id="line.759">                case 'r':</span>

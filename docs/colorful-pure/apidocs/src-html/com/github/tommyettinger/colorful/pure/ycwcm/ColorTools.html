@@ -787,82 +787,141 @@
 <span class="source-line-no">774</span><span id="line.774">                final float y = (decoded &amp; 0xff) / 255f;</span>
 <span class="source-line-no">775</span><span id="line.775">                final float cw = ((decoded &gt;&gt;&gt; 8 &amp; 0xff) - 127.5f) / 127.5f;</span>
 <span class="source-line-no">776</span><span id="line.776">                final float cm = ((decoded &gt;&gt;&gt; 16 &amp; 0xff) - 127.5f) / 255f;</span>
-<span class="source-line-no">777</span><span id="line.777">                float y2 = y, cw2 = cw, cm2 = cm;</span>
+<span class="source-line-no">777</span><span id="line.777">                float cw2 = cw, cm2 = cm;</span>
 <span class="source-line-no">778</span><span id="line.778">                for (int attempt = 31; attempt &gt;= 0; attempt--) {</span>
-<span class="source-line-no">779</span><span id="line.779">                        final float r = y2 + 0.625f * cw2 - cm2;</span>
-<span class="source-line-no">780</span><span id="line.780">                        final float g = y2 - 0.375f * cw2 + cm2;</span>
-<span class="source-line-no">781</span><span id="line.781">                        final float b = y2 - 0.375f * cw2 - cm2;</span>
+<span class="source-line-no">779</span><span id="line.779">                        final float r = y + 0.625f * cw2 - cm2;</span>
+<span class="source-line-no">780</span><span id="line.780">                        final float g = y - 0.375f * cw2 + cm2;</span>
+<span class="source-line-no">781</span><span id="line.781">                        final float b = y - 0.375f * cw2 - cm2;</span>
 <span class="source-line-no">782</span><span id="line.782">                        if(r &gt;= 0f &amp;&amp; r &lt;= 1f &amp;&amp; g &gt;= 0f &amp;&amp; g &lt;= 1f &amp;&amp; b &gt;= 0f &amp;&amp; b &lt;= 1f)</span>
 <span class="source-line-no">783</span><span id="line.783">                                break;</span>
 <span class="source-line-no">784</span><span id="line.784">                        final float progress = attempt * 0x1p-5f;</span>
-<span class="source-line-no">785</span><span id="line.785">                        y2 = MathTools.lerp(0.5f, y, progress);</span>
-<span class="source-line-no">786</span><span id="line.786">                        cw2 = MathTools.lerp(0, cw, progress);</span>
-<span class="source-line-no">787</span><span id="line.787">                        cm2 = MathTools.lerp(0, cm, progress);</span>
-<span class="source-line-no">788</span><span id="line.788">                }</span>
-<span class="source-line-no">789</span><span id="line.789">                return ycwcm(y2, cw2 * 0.5f + 0.5f, cm2 * 0.5f + 0.5f, (decoded &gt;&gt;&gt; 25) / 127f);</span>
-<span class="source-line-no">790</span><span id="line.790">        }</span>
-<span class="source-line-no">791</span><span id="line.791"></span>
-<span class="source-line-no">792</span><span id="line.792">        /**</span>
-<span class="source-line-no">793</span><span id="line.793">         * Iteratively checks whether the given YCwCm color is in-gamut, and either brings the color closer to 50% gray if</span>
-<span class="source-line-no">794</span><span id="line.794">         * it isn't in-gamut, or returns it as soon as it is in-gamut. This always produces an opaque color.</span>
-<span class="source-line-no">795</span><span id="line.795">         * @param y luma component; will be clamped between 0 and 1 if it isn't already</span>
-<span class="source-line-no">796</span><span id="line.796">         * @param cw chromatic warmth component; will be clamped between 0 and 1 if it isn't already</span>
-<span class="source-line-no">797</span><span id="line.797">         * @param cm chromatic mildness component; will be clamped between 0 and 1 if it isn't already</span>
-<span class="source-line-no">798</span><span id="line.798">         * @return the first color this finds that is between the given YCwCm color and 50% gray, and is in-gamut</span>
-<span class="source-line-no">799</span><span id="line.799">         * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.</span>
-<span class="source-line-no">800</span><span id="line.800">         */</span>
-<span class="source-line-no">801</span><span id="line.801">        public static float limitToGamut(float y, float cw, float cm) {</span>
-<span class="source-line-no">802</span><span id="line.802">                return limitToGamut(y, cw, cm, 1f);</span>
-<span class="source-line-no">803</span><span id="line.803">        }</span>
-<span class="source-line-no">804</span><span id="line.804"></span>
-<span class="source-line-no">805</span><span id="line.805">        /**</span>
-<span class="source-line-no">806</span><span id="line.806">         * Iteratively checks whether the given YCwCm color is in-gamut, and either brings the color closer to 50% gray if</span>
-<span class="source-line-no">807</span><span id="line.807">         * it isn't in-gamut, or returns it as soon as it is in-gamut.</span>
-<span class="source-line-no">808</span><span id="line.808">         * @param y luma component; will be clamped between 0 and 1 if it isn't already</span>
-<span class="source-line-no">809</span><span id="line.809">         * @param cw chromatic warmth component; will be clamped between 0 and 1 if it isn't already</span>
-<span class="source-line-no">810</span><span id="line.810">         * @param cm chromatic mildness component; will be clamped between 0 and 1 if it isn't already</span>
-<span class="source-line-no">811</span><span id="line.811">         * @param a alpha component; will be clamped between 0 and 1 if it isn't already</span>
-<span class="source-line-no">812</span><span id="line.812">         * @return the first color this finds that is between the given YCwCm color and 50% gray, and is in-gamut</span>
-<span class="source-line-no">813</span><span id="line.813">         * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.</span>
-<span class="source-line-no">814</span><span id="line.814">         */</span>
-<span class="source-line-no">815</span><span id="line.815">        public static float limitToGamut(float y, float cw, float cm, float a)</span>
-<span class="source-line-no">816</span><span id="line.816">        {</span>
-<span class="source-line-no">817</span><span id="line.817">                float y2 = y = Math.min(Math.max(y, 0f), 1f);</span>
-<span class="source-line-no">818</span><span id="line.818">                float cw2 = cw = Math.min(Math.max((cw - 0.5f) * 2f, -1f), 1f);</span>
-<span class="source-line-no">819</span><span id="line.819">                float cm2 = cm = Math.min(Math.max((cm - 0.5f) * 2f, -1f), 1f);</span>
-<span class="source-line-no">820</span><span id="line.820">                for (int attempt = 31; attempt &gt;= 0; attempt--) {</span>
-<span class="source-line-no">821</span><span id="line.821">                        final float r = y2 + 0.625f * cw2 - cm2;</span>
-<span class="source-line-no">822</span><span id="line.822">                        final float g = y2 - 0.375f * cw2 + cm2;</span>
-<span class="source-line-no">823</span><span id="line.823">                        final float b = y2 - 0.375f * cw2 - cm2;</span>
-<span class="source-line-no">824</span><span id="line.824">                        if(r &gt;= 0f &amp;&amp; r &lt;= 1f &amp;&amp; g &gt;= 0f &amp;&amp; g &lt;= 1f &amp;&amp; b &gt;= 0f &amp;&amp; b &lt;= 1f)</span>
-<span class="source-line-no">825</span><span id="line.825">                                break;</span>
-<span class="source-line-no">826</span><span id="line.826">                        final float progress = attempt * 0x1p-5f;</span>
-<span class="source-line-no">827</span><span id="line.827">                        y2 = MathTools.lerp(0.5f, y, progress);</span>
-<span class="source-line-no">828</span><span id="line.828">                        cw2 = MathTools.lerp(0, cw, progress);</span>
-<span class="source-line-no">829</span><span id="line.829">                        cm2 = MathTools.lerp(0, cm, progress);</span>
-<span class="source-line-no">830</span><span id="line.830">                }</span>
-<span class="source-line-no">831</span><span id="line.831">                return ycwcm(y2, cw2 * 0.5f + 0.5f, cm2 * 0.5f + 0.5f, Math.min(Math.max(a, 0f), 1f));</span>
-<span class="source-line-no">832</span><span id="line.832">        }</span>
-<span class="source-line-no">833</span><span id="line.833"></span>
-<span class="source-line-no">834</span><span id="line.834"></span>
-<span class="source-line-no">835</span><span id="line.835"></span>
-<span class="source-line-no">836</span><span id="line.836">        /**</span>
-<span class="source-line-no">837</span><span id="line.837">         * Produces a random packed float color that is always in-gamut and should be uniformly distributed.</span>
-<span class="source-line-no">838</span><span id="line.838">         * @param random a Random object (or preferably a subclass of Random, like {@link com.github.tommyettinger.ds.support.LaserRandom})</span>
-<span class="source-line-no">839</span><span id="line.839">         * @return a random opaque packed float color that is always in-gamut</span>
-<span class="source-line-no">840</span><span id="line.840">         */</span>
-<span class="source-line-no">841</span><span id="line.841">        public static float randomColor(Random random) {</span>
-<span class="source-line-no">842</span><span id="line.842">                final float yr = +0.375f, wr = +0.5f, mr = +0.0f;</span>
-<span class="source-line-no">843</span><span id="line.843">                final float yg = +0.500f, wg = +0.0f, mg = +0.5f;</span>
-<span class="source-line-no">844</span><span id="line.844">                final float yb = +0.125f, wb = -0.5f, mb = -0.5f;</span>
-<span class="source-line-no">845</span><span id="line.845">                final float r = random.nextFloat(), g = random.nextFloat(), b = random.nextFloat();</span>
-<span class="source-line-no">846</span><span id="line.846">                return BitConversion.intBitsToFloat(0xFE000000</span>
-<span class="source-line-no">847</span><span id="line.847">                                | ((int) ((mr * r + mg * g + mb * b) * 128f + 128f) &lt;&lt; 16 &amp; 0xFF0000)</span>
-<span class="source-line-no">848</span><span id="line.848">                                | ((int) ((wr * r + wg * g + wb * b) * 128f + 128f) &lt;&lt; 8 &amp; 0xFF00)</span>
-<span class="source-line-no">849</span><span id="line.849">                                | ((int) ((yr * r + yg * g + yb * b) * 256f) &amp; 0xFF));</span>
-<span class="source-line-no">850</span><span id="line.850">        }</span>
-<span class="source-line-no">851</span><span id="line.851"></span>
-<span class="source-line-no">852</span><span id="line.852">}</span>
+<span class="source-line-no">785</span><span id="line.785">                        cw2 = MathTools.lerp(0, cw, progress);</span>
+<span class="source-line-no">786</span><span id="line.786">                        cm2 = MathTools.lerp(0, cm, progress);</span>
+<span class="source-line-no">787</span><span id="line.787">                }</span>
+<span class="source-line-no">788</span><span id="line.788">                return ycwcm(y, cw2 * 0.5f + 0.5f, cm2 * 0.5f + 0.5f, (decoded &gt;&gt;&gt; 25) / 127f);</span>
+<span class="source-line-no">789</span><span id="line.789">        }</span>
+<span class="source-line-no">790</span><span id="line.790"></span>
+<span class="source-line-no">791</span><span id="line.791">        /**</span>
+<span class="source-line-no">792</span><span id="line.792">         * Iteratively checks whether the given YCwCm color is in-gamut, and either brings the color closer to 50% gray if</span>
+<span class="source-line-no">793</span><span id="line.793">         * it isn't in-gamut, or returns it as soon as it is in-gamut. This always produces an opaque color.</span>
+<span class="source-line-no">794</span><span id="line.794">         * @param y luma component; will be clamped between 0 and 1 if it isn't already</span>
+<span class="source-line-no">795</span><span id="line.795">         * @param cw chromatic warmth component; will be clamped between 0 and 1 if it isn't already</span>
+<span class="source-line-no">796</span><span id="line.796">         * @param cm chromatic mildness component; will be clamped between 0 and 1 if it isn't already</span>
+<span class="source-line-no">797</span><span id="line.797">         * @return the first color this finds that is between the given YCwCm color and 50% gray, and is in-gamut</span>
+<span class="source-line-no">798</span><span id="line.798">         * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.</span>
+<span class="source-line-no">799</span><span id="line.799">         */</span>
+<span class="source-line-no">800</span><span id="line.800">        public static float limitToGamut(float y, float cw, float cm) {</span>
+<span class="source-line-no">801</span><span id="line.801">                return limitToGamut(y, cw, cm, 1f);</span>
+<span class="source-line-no">802</span><span id="line.802">        }</span>
+<span class="source-line-no">803</span><span id="line.803"></span>
+<span class="source-line-no">804</span><span id="line.804">        /**</span>
+<span class="source-line-no">805</span><span id="line.805">         * Iteratively checks whether the given YCwCm color is in-gamut, and either brings the color closer to 50% gray if</span>
+<span class="source-line-no">806</span><span id="line.806">         * it isn't in-gamut, or returns it as soon as it is in-gamut.</span>
+<span class="source-line-no">807</span><span id="line.807">         * @param y luma component; will be clamped between 0 and 1 if it isn't already</span>
+<span class="source-line-no">808</span><span id="line.808">         * @param cw chromatic warmth component; will be clamped between 0 and 1 if it isn't already</span>
+<span class="source-line-no">809</span><span id="line.809">         * @param cm chromatic mildness component; will be clamped between 0 and 1 if it isn't already</span>
+<span class="source-line-no">810</span><span id="line.810">         * @param a alpha component; will be clamped between 0 and 1 if it isn't already</span>
+<span class="source-line-no">811</span><span id="line.811">         * @return the first color this finds that is between the given YCwCm color and 50% gray, and is in-gamut</span>
+<span class="source-line-no">812</span><span id="line.812">         * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.</span>
+<span class="source-line-no">813</span><span id="line.813">         */</span>
+<span class="source-line-no">814</span><span id="line.814">        public static float limitToGamut(float y, float cw, float cm, float a)</span>
+<span class="source-line-no">815</span><span id="line.815">        {</span>
+<span class="source-line-no">816</span><span id="line.816">                float y2 = Math.min(Math.max(y, 0f), 1f);</span>
+<span class="source-line-no">817</span><span id="line.817">                float cw2 = cw = Math.min(Math.max((cw - 0.5f) * 2f, -1f), 1f);</span>
+<span class="source-line-no">818</span><span id="line.818">                float cm2 = cm = Math.min(Math.max((cm - 0.5f) * 2f, -1f), 1f);</span>
+<span class="source-line-no">819</span><span id="line.819">                for (int attempt = 31; attempt &gt;= 0; attempt--) {</span>
+<span class="source-line-no">820</span><span id="line.820">                        final float r = y2 + 0.625f * cw2 - cm2;</span>
+<span class="source-line-no">821</span><span id="line.821">                        final float g = y2 - 0.375f * cw2 + cm2;</span>
+<span class="source-line-no">822</span><span id="line.822">                        final float b = y2 - 0.375f * cw2 - cm2;</span>
+<span class="source-line-no">823</span><span id="line.823">                        if(r &gt;= 0f &amp;&amp; r &lt;= 1f &amp;&amp; g &gt;= 0f &amp;&amp; g &lt;= 1f &amp;&amp; b &gt;= 0f &amp;&amp; b &lt;= 1f)</span>
+<span class="source-line-no">824</span><span id="line.824">                                break;</span>
+<span class="source-line-no">825</span><span id="line.825">                        final float progress = attempt * 0x1p-5f;</span>
+<span class="source-line-no">826</span><span id="line.826">                        cw2 = MathTools.lerp(0, cw, progress);</span>
+<span class="source-line-no">827</span><span id="line.827">                        cm2 = MathTools.lerp(0, cm, progress);</span>
+<span class="source-line-no">828</span><span id="line.828">                }</span>
+<span class="source-line-no">829</span><span id="line.829">                return ycwcm(y2, cw2 * 0.5f + 0.5f, cm2 * 0.5f + 0.5f, Math.min(Math.max(a, 0f), 1f));</span>
+<span class="source-line-no">830</span><span id="line.830">        }</span>
+<span class="source-line-no">831</span><span id="line.831"></span>
+<span class="source-line-no">832</span><span id="line.832">        /**</span>
+<span class="source-line-no">833</span><span id="line.833">         * Given a packed float YCwCm color, this edits its luma (Y), chromatic warmth (Cw), chromatic mildness (Cm), and</span>
+<span class="source-line-no">834</span><span id="line.834">         * alpha channels by adding the corresponding "add" parameter and then clamping. This returns a different float</span>
+<span class="source-line-no">835</span><span id="line.835">         * value (of course, the given float can't be edited in-place). You can give a value of 0 for any "add" parameter</span>
+<span class="source-line-no">836</span><span id="line.836">         * you want to stay unchanged. This clamps the resulting color to remain in-gamut, so it should be safe to convert</span>
+<span class="source-line-no">837</span><span id="line.837">         * it back to RGBA.</span>
+<span class="source-line-no">838</span><span id="line.838">         * @param encoded a packed float YCwCm color</span>
+<span class="source-line-no">839</span><span id="line.839">         * @param addY how much to add to the luma channel; typically in the -1 to 1 range</span>
+<span class="source-line-no">840</span><span id="line.840">         * @param addCw how much to add to the chromatic warmth channel; typically in the -2 to 2 range</span>
+<span class="source-line-no">841</span><span id="line.841">         * @param addCm how much to add to the chromatic mildness channel; typically in the -2 to 2 range</span>
+<span class="source-line-no">842</span><span id="line.842">         * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range</span>
+<span class="source-line-no">843</span><span id="line.843">         * @return a packed float YCwCm color with the requested edits applied to {@code encoded}</span>
+<span class="source-line-no">844</span><span id="line.844">         */</span>
+<span class="source-line-no">845</span><span id="line.845">        public static float editYCwCm(float encoded, float addY, float addCw, float addCm, float addAlpha) {</span>
+<span class="source-line-no">846</span><span id="line.846">                return editYCwCm(encoded, addY, addCw, addCm, addAlpha, 1f, 1f, 1f, 1f);</span>
+<span class="source-line-no">847</span><span id="line.847">        }</span>
+<span class="source-line-no">848</span><span id="line.848">        /**</span>
+<span class="source-line-no">849</span><span id="line.849">         * Given a packed float YCwCm color, this edits its luma (Y), chromatic warmth (Cw), chromatic mildness (Cm), and</span>
+<span class="source-line-no">850</span><span id="line.850">         * alpha channels by first multiplying each channel by the corresponding "mul" parameter and then adding the</span>
+<span class="source-line-no">851</span><span id="line.851">         * corresponding "add" parameter, before clamping. This means the luma value is multiplied by {@code mulY}, then has</span>
+<span class="source-line-no">852</span><span id="line.852">         * {@code addY} added, and then is clamped to the normal range for luma (0 to 1). This returns a different float</span>
+<span class="source-line-no">853</span><span id="line.853">         * value (of course, the given float can't be edited in-place). You can give a value of 0 for any "add" parameter</span>
+<span class="source-line-no">854</span><span id="line.854">         * you want to stay unchanged, or a value of 1 for any "mul" parameter that shouldn't change. Note that this</span>
+<span class="source-line-no">855</span><span id="line.855">         * manipulates chromatic warmth and mildness in the -1 to 1 range, so if you multiply by a small number like</span>
+<span class="source-line-no">856</span><span id="line.856">         * {@code 0.25f}, then this will produce a less-saturated color, and if you multiply by a larger number like</span>
+<span class="source-line-no">857</span><span id="line.857">         * {@code 4f}, then you will get a much more-saturated color. This clamps the resulting color to remain in-gamut,</span>
+<span class="source-line-no">858</span><span id="line.858">         * so it should be safe to convert it back to RGBA.</span>
+<span class="source-line-no">859</span><span id="line.859">         * @param encoded a packed float YCwCm color</span>
+<span class="source-line-no">860</span><span id="line.860">         * @param addY how much to add to the luma channel; typically in the -1 to 1 range</span>
+<span class="source-line-no">861</span><span id="line.861">         * @param addCw how much to add to the chromatic warmth channel; typically in the -2 to 2 range</span>
+<span class="source-line-no">862</span><span id="line.862">         * @param addCm how much to add to the chromatic mildness channel; typically in the -2 to 2 range</span>
+<span class="source-line-no">863</span><span id="line.863">         * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range</span>
+<span class="source-line-no">864</span><span id="line.864">         * @param mulY how much to multiply the luma channel by; should be non-negative</span>
+<span class="source-line-no">865</span><span id="line.865">         * @param mulCw how much to multiply the chromatic warmth channel by; usually non-negative (not always)</span>
+<span class="source-line-no">866</span><span id="line.866">         * @param mulCm how much to multiply the chromatic mildness channel by; usually non-negative (not always)</span>
+<span class="source-line-no">867</span><span id="line.867">         * @param mulAlpha how much to multiply the alpha channel by; should be non-negative</span>
+<span class="source-line-no">868</span><span id="line.868">         * @return a packed float YCwCm color with the requested edits applied to {@code encoded}</span>
+<span class="source-line-no">869</span><span id="line.869">         */</span>
+<span class="source-line-no">870</span><span id="line.870">        public static float editYCwCm(float encoded, float addY, float addCw, float addCm, float addAlpha,</span>
+<span class="source-line-no">871</span><span id="line.871">                                                                  float mulY, float mulCw, float mulCm, float mulAlpha) {</span>
+<span class="source-line-no">872</span><span id="line.872">                final int decoded = BitConversion.floatToRawIntBits(encoded);</span>
+<span class="source-line-no">873</span><span id="line.873">                float y = (decoded &amp; 0xff) / 255f;</span>
+<span class="source-line-no">874</span><span id="line.874">                float cw = ((decoded &gt;&gt;&gt; 8 &amp; 0xff) - 127.5f) / 127.5f;</span>
+<span class="source-line-no">875</span><span id="line.875">                float cm = ((decoded &gt;&gt;&gt; 16 &amp; 0xff) - 127.5f) / 127.5f;</span>
+<span class="source-line-no">876</span><span id="line.876">                float alpha = (decoded &gt;&gt;&gt; 25) / 127f;</span>
+<span class="source-line-no">877</span><span id="line.877"></span>
+<span class="source-line-no">878</span><span id="line.878">                float y2 = Math.min(Math.max(y * mulY + addY, 0f), 1f);</span>
+<span class="source-line-no">879</span><span id="line.879">                float cw2 = cw = Math.min(Math.max(cw * mulCw + addCw, -1f), 1f);</span>
+<span class="source-line-no">880</span><span id="line.880">                float cm2 = cm = Math.min(Math.max(cm * mulCm + addCm, -1f), 1f);</span>
+<span class="source-line-no">881</span><span id="line.881">                alpha = Math.min(Math.max(alpha * mulAlpha + addAlpha, 0f), 1f);</span>
+<span class="source-line-no">882</span><span id="line.882">                for (int attempt = 31; attempt &gt;= 0; attempt--) {</span>
+<span class="source-line-no">883</span><span id="line.883">                        final float r = y2 + 0.625f * cw2 - cm2;</span>
+<span class="source-line-no">884</span><span id="line.884">                        final float g = y2 - 0.375f * cw2 + cm2;</span>
+<span class="source-line-no">885</span><span id="line.885">                        final float b = y2 - 0.375f * cw2 - cm2;</span>
+<span class="source-line-no">886</span><span id="line.886">                        if(r &gt;= 0f &amp;&amp; r &lt;= 1f &amp;&amp; g &gt;= 0f &amp;&amp; g &lt;= 1f &amp;&amp; b &gt;= 0f &amp;&amp; b &lt;= 1f)</span>
+<span class="source-line-no">887</span><span id="line.887">                                break;</span>
+<span class="source-line-no">888</span><span id="line.888">                        final float progress = attempt * 0x1p-5f;</span>
+<span class="source-line-no">889</span><span id="line.889">                        cw2 = MathTools.lerp(0, cw, progress);</span>
+<span class="source-line-no">890</span><span id="line.890">                        cm2 = MathTools.lerp(0, cm, progress);</span>
+<span class="source-line-no">891</span><span id="line.891">                }</span>
+<span class="source-line-no">892</span><span id="line.892">                return ycwcm(y2, cw2 * 0.5f + 0.5f, cm2 * 0.5f + 0.5f, alpha);</span>
+<span class="source-line-no">893</span><span id="line.893">        }</span>
+<span class="source-line-no">894</span><span id="line.894"></span>
+<span class="source-line-no">895</span><span id="line.895">        /**</span>
+<span class="source-line-no">896</span><span id="line.896">         * Produces a random packed float color that is always in-gamut and should be uniformly distributed.</span>
+<span class="source-line-no">897</span><span id="line.897">         * @param random a Random object (or preferably a subclass of Random, like {@link com.github.tommyettinger.ds.support.LaserRandom})</span>
+<span class="source-line-no">898</span><span id="line.898">         * @return a random opaque packed float color that is always in-gamut</span>
+<span class="source-line-no">899</span><span id="line.899">         */</span>
+<span class="source-line-no">900</span><span id="line.900">        public static float randomColor(Random random) {</span>
+<span class="source-line-no">901</span><span id="line.901">                final float yr = +0.375f, wr = +0.5f, mr = +0.0f;</span>
+<span class="source-line-no">902</span><span id="line.902">                final float yg = +0.500f, wg = +0.0f, mg = +0.5f;</span>
+<span class="source-line-no">903</span><span id="line.903">                final float yb = +0.125f, wb = -0.5f, mb = -0.5f;</span>
+<span class="source-line-no">904</span><span id="line.904">                final float r = random.nextFloat(), g = random.nextFloat(), b = random.nextFloat();</span>
+<span class="source-line-no">905</span><span id="line.905">                return BitConversion.intBitsToFloat(0xFE000000</span>
+<span class="source-line-no">906</span><span id="line.906">                                | ((int) ((mr * r + mg * g + mb * b) * 128f + 128f) &lt;&lt; 16 &amp; 0xFF0000)</span>
+<span class="source-line-no">907</span><span id="line.907">                                | ((int) ((wr * r + wg * g + wb * b) * 128f + 128f) &lt;&lt; 8 &amp; 0xFF00)</span>
+<span class="source-line-no">908</span><span id="line.908">                                | ((int) ((yr * r + yg * g + yb * b) * 256f) &amp; 0xFF));</span>
+<span class="source-line-no">909</span><span id="line.909">        }</span>
+<span class="source-line-no">910</span><span id="line.910"></span>
+<span class="source-line-no">911</span><span id="line.911">}</span>
 
 
 
