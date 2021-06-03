@@ -113,11 +113,11 @@ public class HSIVersusHSLDemo extends ApplicationAdapter {
         gif.palette = new PaletteReducer();
 //        gif.palette.analyze(pixmaps, 500); // this can be used to attempt to analyze the image to get a palette...
 ////        // 24 is how many frames per second the animated GIF should play back at.
-        gif.write(Gdx.files.local("HSIVersusHSV.gif"), pixmaps, 24);
+        gif.write(Gdx.files.local("HSIVersusHSL.gif"), pixmaps, 24);
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
         AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
-        png.write(Gdx.files.local("HSIVersusHSV.png"), pixmaps, 24);
+        png.write(Gdx.files.local("HSIVersusHSL.png"), pixmaps, 24);
     }
 
 

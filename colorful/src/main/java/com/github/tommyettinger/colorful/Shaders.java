@@ -190,8 +190,8 @@ public class Shaders {
      * in the vertex shader so it may be a little faster than this approach, and it seems to have less severe effects on
      * the overall brightness of an image that has adjusted contrast.
      * <br>
-     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
-     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
+     * You can generate YCwCm colors using any of various methods in the {@code ycwcm} package, such as
+     * {@link com.github.tommyettinger.colorful.ycwcm.ColorTools#ycwcm(float, float, float, float)}.
      * <br>
      * Meant for use with {@link #vertexShader}.
      */
@@ -221,8 +221,8 @@ public class Shaders {
      * some work in the vertex shader so it may be a little faster than this approach, and it seems to have less severe
      * effects on the overall brightness of an image that has adjusted contrast.
      * <br>
-     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
-     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
+     * You can generate YCwCm colors using any of various methods in the {@code ycwcm} package, such as
+     * {@link com.github.tommyettinger.colorful.ycwcm.ColorTools#ycwcm(float, float, float, float)}.
      * <br>
      * Meant for use with {@link #vertexShader}.
      */
