@@ -204,16 +204,6 @@ public class ColorTools {
 						| (abgr & 0xFE000000));
 	}
 
-	// original multipliers for LMS when obtaining the non-shrunken A and B values:
-	//+0.2104542553 +0.7936177850 -0.0040720468
-	//+1.9779984951 -2.4285922050 +0.4505937099
-	//+0.0259040371 +0.7827717662 -0.8086757660
-
-	// shrunken multipliers:
-	//+0.2104542553 +0.7936177850 -0.0040720468
-	//+0.9889992500 -1.2142961000 +0.2252968500
-	//+0.0129520185 +0.3913858800 -0.4043378800
-
 	/**
 	 * Takes RGBA components from 0.0 to 1.0 each and converts to a packed float in the Oklab format this uses.
 	 * @param r red, from 0.0 to 1.0 (both inclusive)
@@ -1175,12 +1165,12 @@ public class ColorTools {
 	 */
 	public static float limitToGamut(final float packed) {
 		final int decoded = BitConversion.floatToRawIntBits(packed);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f);
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f);
 		final float hue = MathTools.atan2_(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
 		final float dist = GAMUT_DATA[idx];
-		if (dist * 0x1p-8f >= (float) Math.sqrt(A * A + B * B))
+		if (dist * 0.5f >= (float) Math.sqrt(A * A + B * B))
 			return packed;
 		return BitConversion.intBitsToFloat(
 				(decoded & 0xFE0000FF) |

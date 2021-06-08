@@ -1248,12 +1248,12 @@ public class ColorTools {
 	 */
 	public static float limitToGamut(final float packed) {
 		final int decoded = NumberUtils.floatToRawIntBits(packed);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f);
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f);
 		final float hue = TrigTools.atan2_(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
 		final float dist = GAMUT_DATA[idx];
-		if (dist * 0x1p-8f >= (float) Math.sqrt(A * A + B * B))
+		if (dist * 0.5f >= (float) Math.sqrt(A * A + B * B))
 			return packed;
 		return NumberUtils.intBitsToFloat(
 				(decoded & 0xFE0000FF) |
