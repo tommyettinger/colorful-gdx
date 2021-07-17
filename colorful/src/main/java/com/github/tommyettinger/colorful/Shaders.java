@@ -1161,7 +1161,7 @@ public class Shaders {
      * Takes a batch color in CIE LAB format (but ranging from 0 to 1 instead of its normal larger range).
      * Adapted from <a href="https://www.shadertoy.com/view/lsdGzN">This ShaderToy by nmz</a>.
      */
-    public static String fragmentShaderLab =
+    public static String fragmentShaderCielab =
             "#ifdef GL_ES\n" +
             "#define LOWP lowp\n" +
             "precision mediump float;\n" +
@@ -1172,10 +1172,16 @@ public class Shaders {
             "varying LOWP vec4 v_color;\n" +
             "uniform sampler2D u_texture;\n" +
             "const vec3 forward = vec3(1.0 / 3.0);\n" +
+            "const vec3 sRGBFrom = vec3(2.4);\n" +
+            "const vec3 sRGBThresholdFrom = vec3(0.04045);\n" +
+            "const vec3 sRGBTo = vec3(1.0 / 2.4);\n" +
+            "const vec3 sRGBThresholdTo = vec3(0.0031308);\n" +
             "const vec3 epsilon = vec3(0.00885645);\n" +
-            "float xyzF(float t){ return mix(pow(t,1./3.), 7.787037*t + 0.139731, step(t,0.00885645)); }\n" +
-            "vec3 xyzF(vec3 t){ return mix(pow(t,forward), 7.787037*t + 0.139731, step(t,epsilon)); }\n" +
-            "float xyzR(float t){ return mix(t*t*t , 0.1284185*(t - 0.139731), step(t,0.20689655)); }\n" +
+            "vec3 linear(vec3 t){ return mix(pow((t + 0.055) * (1.0 / 1.055), sRGBFrom), t * (1.0/12.92), step(t, sRGBThresholdFrom)); }\n" +
+            "vec3 sRGB(vec3 t){ return mix(1.055 * pow(t, sRGBTo) - 0.055, 12.92*t, step(t, sRGBThresholdTo)); }\n" +
+            "float xyzF(float t){ return mix(pow(t,1./3.), 7.787037 * t + 0.139731, step(t, 0.00885645)); }\n" +
+            "vec3 xyzF(vec3 t){ return mix(pow(t, forward), 7.787037 * t + 0.139731, step(t, epsilon)); }\n" +
+            "float xyzR(float t){ return mix(t*t*t , 0.1284185 * (t - 0.139731), step(t, 0.20689655)); }\n" +
             "vec3 rgb2lab(vec3 c)\n" +
             "{\n" +
             "    c *= mat3(0.4124, 0.3576, 0.1805,\n" +
@@ -1195,16 +1201,16 @@ public class Shaders {
             "                    xyzR(lg - 0.5*c.z));\n" +
             "    vec3 rgb = xyz*mat3( 3.2406, -1.5372,-0.4986,\n" +
             "                        -0.9689,  1.8758, 0.0415,\n" +
-            "                         0.0557,  -0.2040, 1.0570);\n" +
+            "                         0.0557, -0.2040, 1.0570);\n" +
             "    return rgb;\n" +
             "}\n" +
             "void main()\n" +
             "{\n" +
             "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-            "  vec3 lab = rgb2lab(tgt.rgb);\n" +
+            "  vec3 lab = rgb2lab(linear(tgt.rgb));\n" +
             "  lab.x = clamp(lab.x + v_color.r - 0.5, 0.0, 1.0);\n" +
             "  lab.yz = clamp(lab.yz + v_color.gb * 2.0 - 1.0, -1.0, 1.0);\n" +
-            "  gl_FragColor = vec4(lab2rgb(lab), v_color.a * tgt.a);\n" +
+            "  gl_FragColor = vec4(sRGB(lab2rgb(lab)), v_color.a * tgt.a);\n" +
             "}";
 
 }

@@ -1,4 +1,4 @@
-package com.github.tommyettinger.colorful.lab;
+package com.github.tommyettinger.colorful.cielab;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -19,7 +19,7 @@ import com.github.tommyettinger.colorful.Shaders;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class LabTintDemo extends ApplicationAdapter {
+public class CielabTintDemo extends ApplicationAdapter {
     //public static final int backgroundColor = Color.rgba8888(Color.DARK_GRAY);
 //    public static final int SCREEN_WIDTH = 1531;
 //    public static final int SCREEN_HEIGHT = 862;
@@ -32,7 +32,7 @@ public class LabTintDemo extends ApplicationAdapter {
     private long lastProcessedTime = 0L;
     private ShaderProgram defaultShader;
     private ShaderProgram shader;
-    private float L = 0.63f, A = 0.5f, B = 0.5f, opacity = 1f;
+    private float L = 0.5f, A = 0.5f, B = 0.5f, opacity = 1f;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -42,7 +42,7 @@ public class LabTintDemo extends ApplicationAdapter {
         config.useVsync(true);
 //        config.setResizable(false);
 
-        final LabTintDemo app = new LabTintDemo();
+        final CielabTintDemo app = new CielabTintDemo();
         config.setWindowListener(new Lwjgl3WindowAdapter() {
             @Override
             public void filesDropped(String[] files) {
@@ -78,7 +78,7 @@ public class LabTintDemo extends ApplicationAdapter {
     public void create() {
         batch = new SpriteBatch();
         defaultShader = SpriteBatch.createDefaultShader();
-        shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderLab);
+        shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderCielab);
         if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
@@ -138,37 +138,37 @@ public class LabTintDemo extends ApplicationAdapter {
         else if (input.isKeyPressed(Input.Keys.Q) || input.isKeyPressed(Input.Keys.ESCAPE)) //quit
             Gdx.app.exit();
         else {
-            // only process once every 150 ms, or just over 6 times a second, at most
-            if (TimeUtils.timeSinceMillis(lastProcessedTime) < 150)
+            // only process once every 50 ms, or just over 18 times a second, at most
+            if (TimeUtils.timeSinceMillis(lastProcessedTime) < 50)
                 return;
             lastProcessedTime = TimeUtils.millis();
             if (input.isKeyPressed(Input.Keys.L)) //light
             {
 //                if (ColorTools.inGamut(L + 0x3p-7f, A, B))
-                    L += 0x3p-7f;
+                    L += 0x1p-7f;
             } else if (input.isKeyPressed(Input.Keys.D)) //dark
             {
 //                if (ColorTools.inGamut(L - 0x3p-7f, A, B))
-                    L -= 0x3p-7f;
+                    L -= 0x1p-7f;
             } else if (input.isKeyPressed(Input.Keys.RIGHT)) //raise A
             {
 //                if (ColorTools.inGamut(L, A + 0x3p-7f, B))
-                    A += 0x3p-7f;
+                    A += 0x1p-7f;
             } else if (input.isKeyPressed(Input.Keys.LEFT)) //lower A
             {
 //                if (ColorTools.inGamut(L, A - 0x3p-7f, B))
-                    A -= 0x3p-7f;
+                    A -= 0x1p-7f;
             } else if (input.isKeyPressed(Input.Keys.UP)) //raise B
             {
 //                if (ColorTools.inGamut(L, A, B + 0x3p-7f))
-                    B += 0x3p-7f;
+                    B += 0x1p-7f;
             } else if (input.isKeyPressed(Input.Keys.DOWN)) //lower B
             {
 //                if (ColorTools.inGamut(L, A, B - 0x3p-7f))
-                    B -= 0x3p-7f;
+                    B -= 0x1p-7f;
             } else if (input.isKeyPressed(Input.Keys.R)) // reset
             {
-                L = 0.63f;
+                L = 0.5f;
                 A = 0.5f;
                 B = 0.5f;
                 opacity = 1f;
