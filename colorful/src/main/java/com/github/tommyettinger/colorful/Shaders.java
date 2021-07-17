@@ -1157,4 +1157,54 @@ public class Shaders {
                     "                 0.0, 1.0)), v_color.a * tgt.a);\n" +
                     "}";
 
+    /**
+     * Takes a batch color in CIE LAB format (but ranging from 0 to 1 instead of its normal larger range).
+     * Adapted from <a href="https://www.shadertoy.com/view/lsdGzN">This ShaderToy by nmz</a>.
+     */
+    public static String fragmentShaderLab =
+            "#ifdef GL_ES\n" +
+            "#define LOWP lowp\n" +
+            "precision mediump float;\n" +
+            "#else\n" +
+            "#define LOWP \n" +
+            "#endif\n" +
+            "varying vec2 v_texCoords;\n" +
+            "varying LOWP vec4 v_color;\n" +
+            "uniform sampler2D u_texture;\n" +
+            "const vec3 forward = vec3(1.0 / 3.0);\n" +
+            "const vec3 epsilon = vec3(0.00885645);\n" +
+            "float xyzF(float t){ return mix(pow(t,1./3.), 7.787037*t + 0.139731, step(t,0.00885645)); }\n" +
+            "vec3 xyzF(vec3 t){ return mix(pow(t,forward), 7.787037*t + 0.139731, step(t,epsilon)); }\n" +
+            "float xyzR(float t){ return mix(t*t*t , 0.1284185*(t - 0.139731), step(t,0.20689655)); }\n" +
+            "vec3 rgb2lab(vec3 c)\n" +
+            "{\n" +
+            "    c *= mat3(0.4124, 0.3576, 0.1805,\n" +
+            "              0.2126, 0.7152, 0.0722,\n" +
+            "              0.0193, 0.1192, 0.9505);\n" +
+            "    c = xyzF(c);\n" +
+            "    vec3 lab = vec3(max(0.,1.16*c.y - 0.16), 5.0*(c.x - c.y), 2.0*(c.y - c.z)); \n" +
+            "    return lab;\n" +
+//            "    return vec3(lab.x, length(vec2(lab.y,lab.z)), atan(lab.z, lab.y));\n" +
+            "}\n" +
+            "vec3 lab2rgb(vec3 c)\n" +
+            "{\n" +
+//            "    c = vec3(c.x, cos(c.z) * c.y, sin(c.z) * c.y);\n" +
+            "    float lg = 1./1.16*(c.x + 0.16);\n" +
+            "    vec3 xyz = vec3(xyzR(lg + 0.2*c.y),\n" +
+            "                    xyzR(lg),\n" +
+            "                    xyzR(lg - 0.5*c.z));\n" +
+            "    vec3 rgb = xyz*mat3( 3.2406, -1.5372,-0.4986,\n" +
+            "                        -0.9689,  1.8758, 0.0415,\n" +
+            "                         0.0557,  -0.2040, 1.0570);\n" +
+            "    return rgb;\n" +
+            "}\n" +
+            "void main()\n" +
+            "{\n" +
+            "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+            "  vec3 lab = rgb2lab(tgt.rgb);\n" +
+            "  lab.x = clamp(lab.x + v_color.r - 0.5, 0.0, 1.0);\n" +
+            "  lab.yz = clamp(lab.yz + v_color.gb * 2.0 - 1.0, -1.0, 1.0);\n" +
+            "  gl_FragColor = vec4(lab2rgb(lab), v_color.a * tgt.a);\n" +
+            "}";
+
 }
