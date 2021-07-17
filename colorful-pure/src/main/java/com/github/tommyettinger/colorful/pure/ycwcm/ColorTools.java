@@ -3,6 +3,7 @@ package com.github.tommyettinger.colorful.pure.ycwcm;
 import com.github.tommyettinger.colorful.pure.FloatColors;
 import com.github.tommyettinger.colorful.pure.MathTools;
 import com.github.tommyettinger.ds.support.BitConversion;
+import com.github.tommyettinger.ds.support.EnhancedRandom;
 
 import java.util.Random;
 
@@ -893,7 +894,7 @@ public class ColorTools {
 	}
 
 	/**
-	 * Produces a random packed float color that is always in-gamut and should be uniformly distributed.
+	 * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.
 	 * @param random a Random object (or preferably a subclass of Random, like {@link com.github.tommyettinger.ds.support.LaserRandom})
 	 * @return a random opaque packed float color that is always in-gamut
 	 */
@@ -908,4 +909,23 @@ public class ColorTools {
 				| ((int) ((yr * r + yg * g + yb * b) * 256f) & 0xFF));
 	}
 
+	/**
+	 * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.
+	 * This is named differently from {@link #randomColor(Random)} to avoid confusion when a class both extends Random
+	 * and implements EnhancedRandom.
+	 * @param random any implementation of jdkgdxds' EnhancedRandom, such as a
+	 * {@link com.github.tommyettinger.ds.support.DistinctRandom} or
+	 * {@link com.github.tommyettinger.ds.support.FourWheelRandom}
+	 * @return a packed float color that is always in-gamut
+	 */
+	public static float randomizedColor(EnhancedRandom random) {
+		final float yr = +0.375f, wr = +0.5f, mr = +0.0f;
+		final float yg = +0.500f, wg = +0.0f, mg = +0.5f;
+		final float yb = +0.125f, wb = -0.5f, mb = -0.5f;
+		final float r = random.nextFloat(), g = random.nextFloat(), b = random.nextFloat();
+		return BitConversion.intBitsToFloat(0xFE000000
+				| ((int) ((mr * r + mg * g + mb * b) * 128f + 128f) << 16 & 0xFF0000)
+				| ((int) ((wr * r + wg * g + wb * b) * 128f + 128f) << 8 & 0xFF00)
+				| ((int) ((yr * r + yg * g + yb * b) * 256f) & 0xFF));
+	}
 }

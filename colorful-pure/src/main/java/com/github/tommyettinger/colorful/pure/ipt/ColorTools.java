@@ -3,6 +3,7 @@ package com.github.tommyettinger.colorful.pure.ipt;
 import com.github.tommyettinger.colorful.pure.FloatColors;
 import com.github.tommyettinger.colorful.pure.MathTools;
 import com.github.tommyettinger.ds.support.BitConversion;
+import com.github.tommyettinger.ds.support.EnhancedRandom;
 
 import java.util.Random;
 
@@ -968,7 +969,7 @@ public class ColorTools {
 	}
 
 	/**
-	 * Produces a random packed float color that is always in-gamut and should be uniformly distributed.
+	 * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.
 	 * @param random a Random object (or preferably a subclass of Random, like {@link com.github.tommyettinger.ds.support.LaserRandom})
 	 * @return a packed float color that is always in-gamut
 	 */
@@ -982,6 +983,27 @@ public class ColorTools {
 				| ((int) ((pr * r + pg * g + pb * b) * 128f + 128f) << 8 & 0xFF00)
 				| ((int) ((ir * r + ig * g + ib * b) * 256f) & 0xFF));
 	}
+
+	/**
+	 * Produces a random packed float color that is always opaque and should be uniformly distributed.
+	 * This is named differently from {@link #randomColor(Random)} to avoid confusion when a class both extends Random
+	 * and implements EnhancedRandom.
+	 * @param random any implementation of jdkgdxds' EnhancedRandom, such as a
+	 * {@link com.github.tommyettinger.ds.support.DistinctRandom} or
+	 * {@link com.github.tommyettinger.ds.support.FourWheelRandom}
+	 * @return a packed float color that is always in-gamut
+	 */
+	public static float randomizedColor(EnhancedRandom random) {
+		final float ir = 0.1882353f, pr = 0.83137256f - 0.5f, tr = 0.6431373f - 0.5f;
+		final float ig = 0.5764706f, pg = 0.12941177f - 0.5f, tg = 0.827451f - 0.5f;
+		final float ib = 0.23137255f, pb = 0.53333336f - 0.5f, tb = 0.02745098f - 0.5f;
+		final float r = random.nextFloat(), g = random.nextFloat(), b = random.nextFloat();
+		return BitConversion.intBitsToFloat(0xFE000000
+				| ((int) ((tr * r + tg * g + tb * b) * 128f + 128f) << 16 & 0xFF0000)
+				| ((int) ((pr * r + pg * g + pb * b) * 128f + 128f) << 8 & 0xFF00)
+				| ((int) ((ir * r + ig * g + ib * b) * 256f) & 0xFF));
+	}
+
 	/**
 	 * Limited-use; like {@link #randomColor(Random)} but for cases where you already have three floats (r, g, and b)
 	 * distributed how you want. This can be somewhat useful if you are using a "subrandom" or "quasi-random" sequence,

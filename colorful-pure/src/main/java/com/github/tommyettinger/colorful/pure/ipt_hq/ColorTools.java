@@ -3,6 +3,7 @@ package com.github.tommyettinger.colorful.pure.ipt_hq;
 import com.github.tommyettinger.colorful.pure.FloatColors;
 import com.github.tommyettinger.colorful.pure.MathTools;
 import com.github.tommyettinger.ds.support.BitConversion;
+import com.github.tommyettinger.ds.support.EnhancedRandom;
 
 import java.util.Random;
 
@@ -1048,7 +1049,7 @@ public class ColorTools {
 	}
 
 	/**
-	 * Produces a random packed float color that is always in-gamut and should be uniformly distributed.
+	 * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.
 	 * @param random a Random object (preferably a subclass of Random, like {@link com.github.tommyettinger.ds.support.LaserRandom})
 	 * @return a packed float color that is always in-gamut
 	 */
@@ -1063,4 +1064,26 @@ public class ColorTools {
 		}
 		return ipt(i, p, t, 1f);
 	}
+
+	/**
+	 * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.
+	 * This is named differently from {@link #randomColor(Random)} to avoid confusion when a class both extends Random
+	 * and implements EnhancedRandom.
+	 * @param random any implementation of jdkgdxds' EnhancedRandom, such as a
+	 * {@link com.github.tommyettinger.ds.support.DistinctRandom} or
+	 * {@link com.github.tommyettinger.ds.support.FourWheelRandom}
+	 * @return a packed float color that is always in-gamut
+	 */
+	public static float randomizedColor(EnhancedRandom random) {
+		float i = random.nextFloat();
+		float p = random.nextFloat();
+		float t = random.nextFloat();
+		while (!inGamut(i, p, t)) {
+			i = random.nextFloat();
+			p = random.nextFloat();
+			t = random.nextFloat();
+		}
+		return ipt(i, p, t, 1f);
+	}
+
 }

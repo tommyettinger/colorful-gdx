@@ -2,6 +2,7 @@ package com.github.tommyettinger.colorful.pure.rgb;
 
 import com.github.tommyettinger.colorful.pure.FloatColors;
 import com.github.tommyettinger.ds.support.BitConversion;
+import com.github.tommyettinger.ds.support.EnhancedRandom;
 
 import java.util.Random;
 
@@ -561,6 +562,23 @@ public class ColorTools {
 	 * @return a packed float color that is always opaque
 	 */
 	public static float randomColor(Random random) {
+		final float r = random.nextFloat(), g = random.nextFloat(), b = random.nextFloat();
+		return BitConversion.intBitsToFloat(0xFE000000
+				| ((int) (b * 256f) << 16 & 0xFF0000)
+				| ((int) (g * 256f) << 8 & 0xFF00)
+				| ((int) (r * 256f) & 0xFF));
+	}
+
+	/**
+	 * Produces a random packed float color that is always opaque and should be uniformly distributed.
+	 * This is named differently from {@link #randomColor(Random)} to avoid confusion when a class both extends Random
+	 * and implements EnhancedRandom.
+	 * @param random any implementation of jdkgdxds' EnhancedRandom, such as a
+	 * {@link com.github.tommyettinger.ds.support.DistinctRandom} or
+	 * {@link com.github.tommyettinger.ds.support.FourWheelRandom}
+	 * @return a packed float color that is always in-gamut
+	 */
+	public static float randomizedColor(EnhancedRandom random) {
 		final float r = random.nextFloat(), g = random.nextFloat(), b = random.nextFloat();
 		return BitConversion.intBitsToFloat(0xFE000000
 				| ((int) (b * 256f) << 16 & 0xFF0000)
