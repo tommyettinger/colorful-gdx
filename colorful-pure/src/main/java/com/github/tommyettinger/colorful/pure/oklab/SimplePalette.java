@@ -22,7 +22,7 @@ import static com.github.tommyettinger.colorful.pure.oklab.ColorTools.*;
  */
 public class SimplePalette {
     /**
-     * You can look up colors by name here; the names are lower-case, and the colors are packed floats in rgba format.
+     * You can look up colors by name here; the names are lower-case, and the colors are packed floats in Oklab format.
      */
     public static final ObjectFloatOrderedMap<String> NAMED = new ObjectFloatOrderedMap<>(60);
     /**
