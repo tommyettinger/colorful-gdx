@@ -564,4 +564,175 @@ public class ColorTools {
         return Math.abs(Z + (W - Y) / (6f * d + 1e-10f));
     }
 
+    /**
+     * The "L" channel of the given packed float in CIELAB format, which is its lightness; ranges from 0.0f to
+     * 1.0f . You can edit the L of a color with {@link #lighten(float, float)} and {@link #darken(float, float)}.
+     *
+     * @param encoded a color encoded as a packed float, as by {@link #cielab(float, float, float, float)}
+     * @return the L value as a float from 0.0f to 1.0f
+     */
+    public static float channelL(final float encoded)
+    {
+        return (NumberUtils.floatToRawIntBits(encoded) & 0xff) / 255f;
+    }
+
+    /**
+     * The "A" channel of the given packed float in CIELAB format, which when combined with the B channel describes the
+     * hue and saturation of a color; ranges from 0f to 1f . If A is 0f, the color will be cooler, more green or
+     * blue; if A is 1f, the color will be warmer, from magenta to orange. You can edit the A of a color with
+     * {@link #raiseA(float, float)} and {@link #lowerA(float, float)}.
+     * @param encoded a color encoded as a packed float, as by {@link #cielab(float, float, float, float)}
+     * @return the A value as a float from 0.0f to 1.0f
+     */
+    public static float channelA(final float encoded)
+    {
+        return ((NumberUtils.floatToRawIntBits(encoded) >>> 8 & 0xff)) / 255f;
+    }
+
+    /**
+     * The "B" channel of the given packed float in CIELAB format, which when combined with the A channel describes the
+     * hue and saturation of a color; ranges from 0f to 1f . If B is 0f, the color will be more "artificial", more
+     * blue or purple; if B is 1f, the color will be more "natural", from green to yellow to orange. You can edit
+     * the B of a color with {@link #raiseB(float, float)} and {@link #lowerB(float, float)}.
+     * @param encoded a color encoded as a packed float, as by {@link #cielab(float, float, float, float)}
+     * @return the B value as a float from 0.0f to 1.0f
+     */
+    public static float channelB(final float encoded)
+    {
+        return ((NumberUtils.floatToRawIntBits(encoded) >>> 16 & 0xff)) / 255f;
+    }
+
+    /**
+     * Interpolates from the packed float color start towards white by change. While change should be between 0f (return
+     * start as-is) and 1f (return white), start should be a packed color, as from
+     * {@link #cielab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
+     * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
+     * towards white. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and both
+     * chroma of start as-is.
+     * @see #darken(float, float) the counterpart method that darkens a float color
+     * @param start the starting color as a packed float
+     * @param change how much to go from start toward white, as a float between 0 and 1; higher means closer to white
+     * @return a packed float that represents a color between start and white
+     */
+    public static float lighten(final float start, final float change) {
+        final int s = NumberUtils.floatToRawIntBits(start), i = s & 0xFF, other = s & 0xFEFFFF00;
+        return NumberUtils.intBitsToFloat(((int) (i + (0xFF - i) * change) & 0xFF) | other);
+    }
+
+    /**
+     * Interpolates from the packed float color start towards black by change. While change should be between 0f (return
+     * start as-is) and 1f (return black), start should be a packed color, as from
+     * {@link #cielab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
+     * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
+     * towards black. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and both
+     * chroma of start as-is.
+     * @see #lighten(float, float) the counterpart method that lightens a float color
+     * @param start the starting color as a packed float
+     * @param change how much to go from start toward black, as a float between 0 and 1; higher means closer to black
+     * @return a packed float that represents a color between start and black
+     */
+    public static float darken(final float start, final float change) {
+        final int s = NumberUtils.floatToRawIntBits(start), i = s & 0xFF, other = s & 0xFEFFFF00;
+        return NumberUtils.intBitsToFloat(((int) (i * (1f - change)) & 0xFF) | other);
+    }
+
+    /**
+     * Interpolates from the packed float color start towards a warmer color (orange to magenta) by change. While change
+     * should be between 0f (return start as-is) and 1f (return fully warmed), start should be a packed color, as from
+     * {@link #cielab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
+     * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to
+     * lerp towards a warmer color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the
+     * alpha and L of start as-is.
+     * @see #lowerA(float, float) the counterpart method that cools a float color
+     * @param start the starting color as a packed float
+     * @param change how much to warm start, as a float between 0 and 1; higher means a warmer result
+     * @return a packed float that represents a color between start and a warmer color
+     */
+    public static float raiseA(final float start, final float change) {
+        final int s = NumberUtils.floatToRawIntBits(start), p = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
+        return NumberUtils.intBitsToFloat(((int) (p + (0xFF - p) * change) << 8 & 0xFF00) | other);
+    }
+
+    /**
+     * Interpolates from the packed float color start towards a cooler color (green to blue) by change. While change
+     * should be between 0f (return start as-is) and 1f (return fully cooled), start should be a packed color, as from
+     * {@link #cielab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
+     * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
+     * towards a cooler color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and
+     * L of start as-is.
+     * @see #raiseA(float, float) the counterpart method that warms a float color
+     * @param start the starting color as a packed float
+     * @param change how much to cool start, as a float between 0 and 1; higher means a cooler result
+     * @return a packed float that represents a color between start and a cooler color
+     */
+    public static float lowerA(final float start, final float change) {
+        final int s = NumberUtils.floatToRawIntBits(start), p = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
+        return NumberUtils.intBitsToFloat(((int) (p * (1f - change)) & 0xFF) << 8 | other);
+    }
+
+    /**
+     * Interpolates from the packed float color start towards a "natural" color (between green and orange) by change.
+     * While change should be between 0f (return start as-is) and 1f (return fully natural), start should be a packed
+     * color, as from {@link #cielab(float, float, float, float)}. This is a good way to reduce allocations of temporary
+     * Colors, and is a little more efficient and clear than using
+     * {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards a more natural color. Unlike
+     * {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and L of start as-is.
+     * @see #lowerB(float, float) the counterpart method that makes a float color less natural
+     * @param start the starting color as a packed float
+     * @param change how much to change start to a natural color, as a float between 0 and 1; higher means a more natural result
+     * @return a packed float that represents a color between start and a more natural color
+     */
+    public static float raiseB(final float start, final float change) {
+        final int s = NumberUtils.floatToRawIntBits(start), t = s >>> 16 & 0xFF, other = s & 0xFE00FFFF;
+        return NumberUtils.intBitsToFloat(((int) (t + (0xFF - t) * change) << 16 & 0xFF0000) | other);
+    }
+
+    /**
+     * Interpolates from the packed float color start towards an "artificial" color (between blue and purple) by change.
+     * While change should be between 0f (return start as-is) and 1f (return fully artificial), start should be a packed
+     * color, as from {@link #cielab(float, float, float, float)}. This is a good way to reduce allocations of temporary
+     * Colors, and is a little more efficient and clear than using
+     * {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards a more artificial color. Unlike
+     * {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and L of start as-is.
+     * @see #raiseB(float, float) the counterpart method that makes a float color less artificial
+     * @param start the starting color as a packed float
+     * @param change how much to change start to a bolder color, as a float between 0 and 1; higher means a more artificial result
+     * @return a packed float that represents a color between start and a more artificial color
+     */
+    public static float lowerB(final float start, final float change) {
+        final int s = NumberUtils.floatToRawIntBits(start), t = s >>> 16 & 0xFF, other = s & 0xFE00FFFF;
+        return NumberUtils.intBitsToFloat(((int) (t * (1f - change)) & 0xFF) << 16 | other);
+    }
+
+    /**
+     * Interpolates from the packed float color start towards that color made opaque by change. While change should be
+     * between 0f (return start as-is) and 1f (return start with full alpha), start should be a packed color, as from
+     * {@link #cielab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
+     * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
+     * towards transparent. This won't change the L, A, or B of the color.
+     * @see #fade(float, float) the counterpart method that makes a float color more translucent
+     * @param start the starting color as a packed float
+     * @param change how much to go from start toward opaque, as a float between 0 and 1; higher means closer to opaque
+     * @return a packed float that represents a color between start and its opaque version
+     */
+    public static float blot(final float start, final float change) {
+        final int s = NumberUtils.floatToRawIntBits(start), opacity = s >>> 24 & 0xFE, other = s & 0x00FFFFFF;
+        return NumberUtils.intBitsToFloat(((int) (opacity + (0xFE - opacity) * change) & 0xFE) << 24 | other);
+    }
+
+    /**
+     * Interpolates from the packed float color start towards transparent by change. While change should be between 0
+     * (return start as-is) and 1f (return the color with 0 alpha), start should be a packed color, as from
+     * {@link #cielab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
+     * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to
+     * lerp towards transparent. This won't change the L, A, or B of the color.
+     * @see #blot(float, float) the counterpart method that makes a float color more opaque
+     * @param start the starting color as a packed float
+     * @param change how much to go from start toward transparent, as a float between 0 and 1; higher means closer to transparent
+     * @return a packed float that represents a color between start and transparent
+     */
+    public static float fade(final float start, final float change) {
+        final int s = NumberUtils.floatToRawIntBits(start), opacity = s & 0xFE, other = s & 0x00FFFFFF;
+        return NumberUtils.intBitsToFloat(((int) (opacity * (1f - change)) & 0xFE) << 24 | other);
+    }
 }

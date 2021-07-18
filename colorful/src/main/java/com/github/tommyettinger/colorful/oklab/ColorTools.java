@@ -886,7 +886,6 @@ public class ColorTools {
 				(s >>> 25) / 127f);
 	}
 
-
 	/**
 	 * Given a packed float Oklab color {@code mainColor} and another Oklab color that it should be made to contrast with,
 	 * gets a packed float Oklab color with roughly inverted L but the same chromatic channels and opacity (A and B
