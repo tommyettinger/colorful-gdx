@@ -2,6 +2,7 @@ package com.github.tommyettinger.colorful.cielab;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.NumberUtils;
+import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.Shaders;
 import com.github.tommyettinger.colorful.oklab.ColorfulBatch;
 
@@ -398,5 +399,169 @@ public class ColorTools {
         return ((NumberUtils.floatToRawIntBits(encoded) & 0xfe000000) >>> 24) * 0x1.020408p-8f;
     }
 
+
+    //TODO: figure out what the highest chroma is for in-gamut colors
+    /**
+     * Gets the "chroma" or "colorfulness" of a given CIELAB color. Chroma is similar to saturation in that grayscale
+     * values have 0 saturation and 0 chroma, while brighter colors have high saturation and chroma. The difference is
+     * that colors that are perceptually more-colorful have higher chroma than colors that are perceptually
+     * less-colorful, regardless of hue, whereas saturation changes its meaning depending on the hue and lightness. That
+     * is, the most saturated color for a given hue and lightness always has a saturation of 1, but if that color
+     * isn't perceptually very colorful (as is the case for very dark and very light colors), it will have a chroma that
+     * is much lower than the maximum. The result of this method can't be negative, grayscale values have very close to
+     * 0 chroma, and the most colorful values should have ??? chroma.
+     * @param encoded a color as a packed float that can be obtained by {@link #cielab(float, float, float, float)}
+     * @return a float between 0.0f and ??? that represents how colorful the given value is
+     */
+    public static float chroma(final float encoded) {
+        final int decoded = NumberUtils.floatToRawIntBits(encoded);
+        final float a = ((decoded >>> 7 & 0x1FE) - 255) / 255f;
+        final float b = ((decoded >>> 15 & 0x1FE) - 255) / 255f;
+        return (float) Math.sqrt(a * a + b * b);
+    }
+
+    /**
+     * Gets a color as a CIELAB packed float given floats representing hue, saturation, lightness, and opacity.
+     * All parameters should normally be between 0 and 1 inclusive, though any hue is tolerated (precision loss may
+     * affect the color if the hue is too large). A hue of 0 is red, progressively higher hue values go to orange,
+     * yellow, green, blue, and purple before wrapping around to red as it approaches 1. A saturation of 0 is grayscale,
+     * a saturation of 1 is brightly colored, and values close to 1 will usually appear more distinct than values close
+     * to 0, especially if the hue is different. A lightness of 0.001f or less is always black (also using a shortcut if
+     * this is the case, respecting opacity), while a lightness of 1f is white. Very bright colors are mostly in a band
+     * of high-saturation where lightness is 0.5f.
+     *
+     * @param hue        0f to 1f, color wheel position
+     * @param saturation 0f to 1f, 0f is grayscale and 1f is brightly colored
+     * @param lightness  0f to 1f, 0f is black and 1f is white
+     * @param opacity    0f to 1f, 0f is fully transparent and 1f is opaque
+     * @return a CIELAB float encoding a color with the given properties
+     */
+    public static float floatGetHSL(float hue, float saturation, float lightness, float opacity) {
+        if (lightness <= 0.001f) {
+            return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x7F7F00);
+        } else {
+            return fromRGBA(FloatColors.hsl2rgb(hue, saturation, lightness, opacity));
+        }
+    }
+
+    /**
+     * Gets the saturation of the given encoded color as HSL would calculate it, as a float ranging from 0.0f to 1.0f,
+     * inclusive. This is different from {@link #chroma(float)}; see that method's documentation for details.
+     *
+     * @param encoded a color as a packed float that can be obtained by {@link #cielab(float, float, float, float)}
+     * @return the saturation of the color from 0.0 (a grayscale color; inclusive) to 1.0 (a bright color, inclusive)
+     */
+    public static float saturation(final float encoded) {
+        final int decoded = NumberUtils.floatToRawIntBits(encoded);
+        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
+        if(Math.abs(L - 0.5) > 0.495f) return 0f;
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float x = reverseXYZ(L + A);
+        final float y = reverseXYZ(L);
+        final float z = reverseXYZ(L - B);
+        final float r = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f));
+        final float g = reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f));
+        final float b = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f));
+        float X, Y, W;
+        if(g < b) {
+            X = b;
+            Y = g;
+        }
+        else {
+            X = g;
+            Y = b;
+        }
+        if(r < X) {
+            W = r;
+        }
+        else {
+            W = X;
+            X = r;
+        }
+        return X - Math.min(W, Y);
+    }
+
+    /**
+     * Defined as per HSL; normally you only need {@link #channelL(float)} to get accurate lightness for CIELAB. This
+     * ranges from 0.0f (black) to 1.0f (white).
+     *
+     * @param encoded a packed float CIELAB color
+     * @return the lightness of the given color as HSL would calculate it
+     */
+    public static float lightness(final float encoded) {
+        final int decoded = NumberUtils.floatToRawIntBits(encoded);
+        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float x = reverseXYZ(L + A);
+        final float y = reverseXYZ(L);
+        final float z = reverseXYZ(L - B);
+        final float r = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f));
+        final float g = reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f));
+        final float b = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f));
+        float X, Y, W;
+        if(g < b) {
+            X = b;
+            Y = g;
+        }
+        else {
+            X = g;
+            Y = b;
+        }
+        if(r < X) {
+            W = r;
+        }
+        else {
+            W = X;
+            X = r;
+        }
+        float d = X - Math.min(W, Y);
+        return X * (1f - 0.5f * d / (X + 1e-10f));
+    }
+
+    /**
+     * Gets the hue of the given encoded color, as a float from 0f (inclusive, red and approaching orange if increased)
+     * to 1f (exclusive, red and approaching purple if decreased).
+     *
+     * @param encoded a color as a packed float that can be obtained by {@link #cielab(float, float, float, float)}
+     * @return The hue of the color from 0.0 (red, inclusive) towards orange, then yellow, and
+     * eventually to purple before looping back to almost the same red (1.0, exclusive)
+     */
+    public static float hue(final float encoded) {
+        final int decoded = NumberUtils.floatToRawIntBits(encoded);
+        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float x = reverseXYZ(L + A);
+        final float y = reverseXYZ(L);
+        final float z = reverseXYZ(L - B);
+        final float r = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f));
+        final float g = reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f));
+        final float b = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f));
+        float X, Y, Z, W;
+        if(g < b) {
+            X = b;
+            Y = g;
+            Z = -1f;
+            W = 2f / 3f;
+        }
+        else {
+            X = g;
+            Y = b;
+            Z = 0f;
+            W = -1f / 3f;
+        }
+        if(r < X) {
+            Z = W;
+            W = r;
+        }
+        else {
+            W = X;
+            X = r;
+        }
+        float d = X - Math.min(W, Y);
+        return Math.abs(Z + (W - Y) / (6f * d + 1e-10f));
+    }
 
 }
