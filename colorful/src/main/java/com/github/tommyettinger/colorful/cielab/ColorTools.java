@@ -337,5 +337,66 @@ public class ColorTools {
 	{
 		return (NumberUtils.floatToRawIntBits(encoded) & 0xfe000000) >>> 24;
 	}
+    /**
+     * Gets the red channel value of the given encoded color, as a float from 0.0f to 1.0f, inclusive.
+     * @param encoded a color as a packed float that can be obtained by {@link #cielab(float, float, float, float)}
+     * @return a float from 0.0f to 1.0f, inclusive, representing the red channel value of the given encoded color
+     */
+    public static float red(final float encoded)
+    {
+        final int decoded = NumberUtils.floatToRawIntBits(encoded);
+        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float x = reverseXYZ(L + A);
+        final float y = reverseXYZ(L);
+        final float z = reverseXYZ(L - B);
+        return reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f));
+    }
+
+    /**
+     * Gets the green channel value of the given encoded color, as a float from 0.0f to 1.0f, inclusive.
+     * @param encoded a color as a packed float that can be obtained by {@link #cielab(float, float, float, float)}
+     * @return a float from 0.0f to 1.0f, inclusive, representing the green channel value of the given encoded color
+     */
+    public static float green(final float encoded)
+    {
+        final int decoded = NumberUtils.floatToRawIntBits(encoded);
+        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float x = reverseXYZ(L + A);
+        final float y = reverseXYZ(L);
+        final float z = reverseXYZ(L - B);
+        return reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f));
+    }
+
+    /**
+     * Gets the blue channel value of the given encoded color, as a float from 0.0f to 1.0f, inclusive.
+     * @param encoded a color as a packed float that can be obtained by {@link #cielab(float, float, float, float)}
+     * @return a float from 0.0f to 1.0f, inclusive, representing the blue channel value of the given encoded color
+     */
+    public static float blue(final float encoded)
+    {
+        final int decoded = NumberUtils.floatToRawIntBits(encoded);
+        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float x = reverseXYZ(L + A);
+        final float y = reverseXYZ(L);
+        final float z = reverseXYZ(L - B);
+        return reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f));
+    }
+
+    /**
+     * Gets the alpha channel value of the given encoded color, as a float from 0.0f to 1.0f, inclusive.
+     * @param encoded a color as a packed float that can be obtained by {@link #cielab(float, float, float, float)}
+     * @return a float from 0.0f to 1.0f, inclusive, representing the alpha channel value of the given encoded color
+     */
+    public static float alpha(final float encoded)
+    {
+        return ((NumberUtils.floatToRawIntBits(encoded) & 0xfe000000) >>> 24) * 0x1.020408p-8f;
+    }
+
 
 }
