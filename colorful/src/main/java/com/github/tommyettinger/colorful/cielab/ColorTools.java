@@ -82,16 +82,6 @@ public class ColorTools {
     }
 
     /**
-     * Used when converting from CIELAB to RGB, as an intermediate step.
-     * Really just {@code x * x * x}.
-     * @param x one of the LMS Prime channels to be converted to LMS
-     * @return an LMS channel value, which can be converted to RGB
-     */
-    private static float cube(final float x) {
-        return x * x * x;
-    }
-
-    /**
      * Used when given non-linear sRGB inputs to make them linear, using an exact gamma of 2.4 and accounting for the
      * darkest colors with a different formula.
      * @param component any non-linear channel of a color, to be made linear
@@ -190,7 +180,7 @@ public class ColorTools {
     /**
      * Writes a CIELAB-format packed float color (the format produced by {@link #cielab(float, float, float, float)})
      * into a CIELAB-format Color called {@code editing}. This is mostly useful if the rest of your application expects
-     * colors in Oklab format, such as because you use {@link Shaders#fragmentShaderCielab} or {@link ColorfulBatch}.
+     * colors in CIELAB format, such as because you use {@link Shaders#fragmentShaderCielab} or {@link ColorfulBatch}.
      * <br>
      * Internally, this simply calls {@link Color#abgr8888ToColor(Color, float)} and returns the edited Color.
      * @param editing a libGDX Color that will be filled in-place with the color {@code cielab}, unchanged from its color space
@@ -244,5 +234,108 @@ public class ColorTools {
                         | Math.min(Math.max((int)((2f*(y - z)) * 127.999f + 127.5f), 0), 255) << 16
                         | (abgr & 0xFE000000));
     }
+
+    /**
+     * Takes a libGDX Color that uses RGBA8888 channels and converts to a packed float in the CIELAB format this uses.
+     * @param color a libGDX RGBA8888 Color
+     * @return a packed float as CIELAB, which this class can use
+     */
+    public static float fromColor(final Color color) {
+        final float r = forwardGamma(color.r);
+        final float g = forwardGamma(color.g);
+        final float b = forwardGamma(color.b);
+        final float x = forwardXYZ(0.4124f * r + 0.2126f * g + 0.0193f * b);
+        final float y = forwardXYZ(0.3576f * r + 0.7152f * g + 0.1192f * b);
+        final float z = forwardXYZ(0.1805f * r + 0.0722f * g + 0.9505f * b);
+        return NumberUtils.intBitsToFloat(
+                          Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
+                        | Math.min(Math.max((int)((5f*(x - y)) * 127.999f + 127.5f), 0), 255) << 8
+                        | Math.min(Math.max((int)((2f*(y - z)) * 127.999f + 127.5f), 0), 255) << 16
+                        | ((int)(color.a * 255f) << 24 & 0xFE000000));
+    }
+
+    /**
+     * Takes RGBA components from 0.0 to 1.0 each and converts to a packed float in the CIELAB format this uses.
+     * @param r red, from 0.0 to 1.0 (both inclusive)
+     * @param g green, from 0.0 to 1.0 (both inclusive)
+     * @param b blue, from 0.0 to 1.0 (both inclusive)
+     * @param a alpha, from 0.0 to 1.0 (both inclusive)
+     * @return a packed float as CIELAB, which this class can use
+     */
+    public static float fromRGBA(float r, float g, float b, final float a) {
+        r = forwardGamma(r);
+        g = forwardGamma(g);
+        b = forwardGamma(b);
+        final float x = forwardXYZ(0.4124f * r + 0.2126f * g + 0.0193f * b);
+        final float y = forwardXYZ(0.3576f * r + 0.7152f * g + 0.1192f * b);
+        final float z = forwardXYZ(0.1805f * r + 0.0722f * g + 0.9505f * b);
+        return NumberUtils.intBitsToFloat(
+                          Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
+                        | Math.min(Math.max((int)((5f*(x - y)) * 127.999f + 127.5f), 0), 255) << 8
+                        | Math.min(Math.max((int)((2f*(y - z)) * 127.999f + 127.5f), 0), 255) << 16
+                        | ((int)(a * 255f) << 24 & 0xFE000000));
+    }
+
+    	/**
+	 * Gets the red channel value of the given encoded color, as an int ranging from 0 to 255, inclusive.
+	 * @param encoded a color as a packed float that can be obtained by {@link #cielab(float, float, float, float)}
+	 * @return an int from 0 to 255, inclusive, representing the red channel value of the given encoded color
+	 */
+	public static int redInt(final float encoded)
+	{
+        final int decoded = NumberUtils.floatToRawIntBits(encoded);
+        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float x = reverseXYZ(L + A);
+        final float y = reverseXYZ(L);
+        final float z = reverseXYZ(L - B);
+        return (int)(reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f)) * 255.999f);
+	}
+
+	/**
+	 * Gets the green channel value of the given encoded color, as an int ranging from 0 to 255, inclusive.
+	 * @param encoded a color as a packed float that can be obtained by {@link #cielab(float, float, float, float)}
+	 * @return an int from 0 to 255, inclusive, representing the green channel value of the given encoded color
+	 */
+	public static int greenInt(final float encoded)
+	{
+        final int decoded = NumberUtils.floatToRawIntBits(encoded);
+        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float x = reverseXYZ(L + A);
+        final float y = reverseXYZ(L);
+        final float z = reverseXYZ(L - B);
+        return (int)(reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f)) * 255.999f);
+	}
+
+	/**
+	 * Gets the blue channel value of the given encoded color, as an int ranging from 0 to 255, inclusive.
+	 * @param encoded a color as a packed float that can be obtained by {@link #cielab(float, float, float, float)}
+	 * @return an int from 0 to 255, inclusive, representing the blue channel value of the given encoded color
+	 */
+	public static int blueInt(final float encoded)
+	{
+        final int decoded = NumberUtils.floatToRawIntBits(encoded);
+        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float x = reverseXYZ(L + A);
+        final float y = reverseXYZ(L);
+        final float z = reverseXYZ(L - B);
+        return (int)(reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f)) * 255.999f);
+	}
+
+	/**
+	 * Gets the alpha channel value of the given encoded color, as an even int ranging from 0 to 254, inclusive. Because
+	 * of how alpha is stored in libGDX, no odd-number values are possible for alpha.
+	 * @param encoded a color as a packed float that can be obtained by {@link #cielab(float, float, float, float)}
+	 * @return an even int from 0 to 254, inclusive, representing the alpha channel value of the given encoded color
+	 */
+	public static int alphaInt(final float encoded)
+	{
+		return (NumberUtils.floatToRawIntBits(encoded) & 0xfe000000) >>> 24;
+	}
 
 }
