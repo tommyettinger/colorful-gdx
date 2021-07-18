@@ -1,7 +1,9 @@
 package com.github.tommyettinger.colorful.cielab;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.Shaders;
+import com.github.tommyettinger.colorful.oklab.ColorfulBatch;
 
 /**
  * Contains code for manipulating colors as {@code int} and packed {@code float} values in the CIE L*A*B* color space.
@@ -109,8 +111,95 @@ public class ColorTools {
         return component < 0.0031308f ? component * 12.92f : (float)Math.pow(component, 1f/2.4f) * 1.055f - 0.055f;
     }
 
-/*
-            "float xyzF(float t){ return mix(pow(t,1./3.), 7.787037 * t + 0.139731, step(t, 0.00885645)); }\n" +
-            "float xyzR(float t){ return mix(t*t*t , 0.1284185 * (t - 0.139731), step(t, 0.20689655)); }\n" +
- */
+    private static float forwardXYZ(final float t) {
+        return (t < 0.00885645f) ? 7.787037f * t + 0.139731f : cbrtPositive(t);
+    }
+
+    private static float reverseXYZ(final float t) {
+        return (t < 0.20689655f) ? 0.1284185f * (t - 0.139731f) : t * t * t;
+    }
+
+    /*
+     */
+    /**
+     * Converts a packed float color in the format produced by {@link #cielab(float, float, float, float)} to an RGBA8888 int.
+     * This format of int can be used with Pixmap and in some other places in libGDX.
+     * @param packed a packed float color, as produced by {@link #cielab(float, float, float, float)}
+     * @return an RGBA8888 int color
+     */
+    public static int toRGBA8888(final float packed)
+    {
+        final int decoded = NumberUtils.floatToRawIntBits(packed);
+        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float x = reverseXYZ(L + A);
+        final float y = reverseXYZ(L);
+        final float z = reverseXYZ(L - B);
+        final int r = (int)(reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f)) * 255.999f);
+        final int g = (int)(reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f)) * 255.999f);
+        final int b = (int)(reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f)) * 255.999f);
+        return r << 24 | g << 16 | b << 8 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
+    }
+
+    /**
+     * Converts a packed float color in the format produced by {@link #cielab(float, float, float, float)}
+     * to a packed float in ABGR8888 format.
+     * This format of float can be used with the standard SpriteBatch and in some other places in libGDX.
+     * @param packed a packed float color, as produced by {@link #cielab(float, float, float, float)}
+     * @return a packed float color as ABGR8888
+     */
+    public static float toRGBA(final float packed)
+    {
+        final int decoded = NumberUtils.floatToRawIntBits(packed);
+        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float x = reverseXYZ(L + A);
+        final float y = reverseXYZ(L);
+        final float z = reverseXYZ(L - B);
+        final int r = (int)(reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f)) * 255.999f);
+        final int g = (int)(reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f)) * 255.999f);
+        final int b = (int)(reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f)) * 255.999f);
+        return NumberUtils.intBitsToFloat(r | g << 8 | b << 16 | (decoded & 0xfe000000));
+    }
+
+    /**
+     * Writes a CIELAB-format packed float color (the format produced by {@link #cielab(float, float, float, float)})
+     * into an RGBA8888 Color as used by libGDX (called {@code editing}).
+     * @param editing a libGDX color that will be filled in-place with an RGBA conversion of {@code packed}
+     * @param packed a packed float color, as produced by {@link #cielab(float, float, float, float)}
+     * @return an RGBA8888 int color
+     */
+    public static Color toColor(Color editing, final float packed)
+    {
+        final int decoded = NumberUtils.floatToRawIntBits(packed);
+        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float x = reverseXYZ(L + A);
+        final float y = reverseXYZ(L);
+        final float z = reverseXYZ(L - B);
+        editing.r = (reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f));
+        editing.g = (reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f));
+        editing.b = (reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f));
+        editing.a = (decoded >>> 25) * 0x1.020408p-7f; // this is 1/127 as a float
+        return editing.clamp();
+    }
+
+    /**
+     * Writes a CIELAB-format packed float color (the format produced by {@link #cielab(float, float, float, float)})
+     * into a CIELAB-format Color called {@code editing}. This is mostly useful if the rest of your application expects
+     * colors in Oklab format, such as because you use {@link Shaders#fragmentShaderCielab} or {@link ColorfulBatch}.
+     * <br>
+     * Internally, this simply calls {@link Color#abgr8888ToColor(Color, float)} and returns the edited Color.
+     * @param editing a libGDX Color that will be filled in-place with the color {@code cielab}, unchanged from its color space
+     * @param cielab a packed float color, as produced by {@link #cielab(float, float, float, float)}
+     * @return an RGBA8888 int color
+     */
+    public static Color toCIELABColor(Color editing, final float cielab){
+        Color.abgr8888ToColor(editing, cielab);
+        return editing;
+    }
+
 }

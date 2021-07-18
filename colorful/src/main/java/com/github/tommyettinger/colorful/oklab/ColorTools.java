@@ -126,7 +126,6 @@ public class ColorTools {
 		return (float)Math.sqrt(component);
 	}
 
-
 	/**
 	 * Converts a packed float color in the format produced by {@link ColorTools#oklab(float, float, float, float)} to an RGBA8888 int.
 	 * This format of int can be used with Pixmap and in some other places in libGDX.
