@@ -180,9 +180,9 @@ public class ColorTools {
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
-        editing.r = (reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f));
-        editing.g = (reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f));
-        editing.b = (reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f));
+        editing.r = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f));
+        editing.g = reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f));
+        editing.b = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f));
         editing.a = (decoded >>> 25) * 0x1.020408p-7f; // this is 1/127 as a float
         return editing.clamp();
     }
@@ -200,6 +200,49 @@ public class ColorTools {
     public static Color toCIELABColor(Color editing, final float cielab){
         Color.abgr8888ToColor(editing, cielab);
         return editing;
+    }
+
+    /**
+     * Takes a color encoded as an RGBA8888 int and converts to a packed float in the CIELAB format this uses.
+     * @param rgba an int with the channels (in order) red, green, blue, alpha; should have 8 bits per channel
+     * @return a packed float as CIELAB, which this class can use
+     */
+    public static float fromRGBA8888(final int rgba) {
+        final float r = forwardGamma((rgba >>> 24) * 0x1.010101010101p-8f);
+        final float g = forwardGamma((rgba >>> 16 & 0xFF) * 0x1.010101010101p-8f);
+        final float b = forwardGamma((rgba >>> 8 & 0xFF) * 0x1.010101010101p-8f);
+
+        final float x = forwardXYZ(0.4124f * r + 0.2126f * g + 0.0193f * b);
+        final float y = forwardXYZ(0.3576f * r + 0.7152f * g + 0.1192f * b);
+        final float z = forwardXYZ(0.1805f * r + 0.0722f * g + 0.9505f * b);
+
+        return NumberUtils.intBitsToFloat(
+                          Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
+                        | Math.min(Math.max((int)((5f*(x - y)) * 127.999f + 127.5f), 0), 255) << 8
+                        | Math.min(Math.max((int)((2f*(y - z)) * 127.999f + 127.5f), 0), 255) << 16
+                        | (rgba & 0xFE) << 24);
+    }
+
+    /**
+     * Takes a color encoded as an ABGR packed float and converts to a packed float in the CIELAB format this uses.
+     * @param packed a packed float in ABGR8888 format, with A in the MSB and R in the LSB
+     * @return a packed float as CIELAB, which this class can use
+     */
+    public static float fromRGBA(final float packed) {
+        final int abgr = NumberUtils.floatToRawIntBits(packed);
+        final float r = forwardGamma((abgr & 0xFF) * 0x1.010101010101p-8f);
+        final float g = forwardGamma((abgr >>> 8 & 0xFF) * 0x1.010101010101p-8f);
+        final float b = forwardGamma((abgr >>> 16 & 0xFF) * 0x1.010101010101p-8f);
+
+        final float x = forwardXYZ(0.4124f * r + 0.2126f * g + 0.0193f * b);
+        final float y = forwardXYZ(0.3576f * r + 0.7152f * g + 0.1192f * b);
+        final float z = forwardXYZ(0.1805f * r + 0.0722f * g + 0.9505f * b);
+
+        return NumberUtils.intBitsToFloat(
+                          Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
+                        | Math.min(Math.max((int)((5f*(x - y)) * 127.999f + 127.5f), 0), 255) << 8
+                        | Math.min(Math.max((int)((2f*(y - z)) * 127.999f + 127.5f), 0), 255) << 16
+                        | (abgr & 0xFE000000));
     }
 
 }
