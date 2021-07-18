@@ -41,8 +41,29 @@ public class ColorTools {
      * @return a float encoding a color with the given properties
      */
     public static float cielab(float l, float a, float b, float alpha) {
-        return NumberUtils.intBitsToFloat(((int) (alpha * 255) << 24 & 0xFE000000) | ((int) (b * 255) << 16 & 0xFF0000)
-                | ((int) (a * 255) << 8 & 0xFF00) | ((int) (l * 255) & 0xFF));
+        return NumberUtils.intBitsToFloat(((int) (alpha * 255.999f) << 24 & 0xFE000000) | ((int) (b * 255.999f) << 16 & 0xFF0000)
+                | ((int) (a * 255.999f) << 8 & 0xFF00) | ((int) (l * 255.999f) & 0xFF));
+    }
+    /**
+     * Gets a packed float representation of a color given as 4 float components, L, A, B, and alpha, with each
+     * component clamped to the 0f to 1f range before being entered into the packed float color. This is only different
+     * from {@link #cielab(float, float, float, float)} in that it clamps each component. It still permits out-of-gamut
+     * colors to be stored, but as long as the rendering code (such as a shader or ColorfulBatch) does its own
+     * validation or correction of colors, then having out-of-gamut colors shouldn't be a problem.
+     *
+     * @see #cielab(float, float, float, float) This uses the same definitions for L, A, B, and alpha as cielab().
+     * @param l     0f to 1f, lightness or L component of CIELAB, with 0.5f meaning "no change" and 1f brightening
+     * @param a     0f to 1f, protan or A component of CIELAB, with 1f more orange, red, or magenta
+     * @param b     0f to 1f, tritan or B component of CIELAB, with 1f more green, yellow, or red
+     * @param alpha 0f to 1f, 0f makes the color transparent and 1f makes it opaque
+     * @return a float encoding a color with the given properties
+     */
+    public static float clamp(float l, float a, float b, float alpha) {
+        return NumberUtils.intBitsToFloat((Math.min(Math.max((int) (alpha * 127.999f), 0), 127) << 25)
+                | (Math.min(Math.max((int) (b * 255.999f), 0), 255) << 16)
+                | (Math.min(Math.max((int) (a * 255.999f), 0), 255) << 8)
+                | (Math.min(Math.max((int) (l * 255.999f), 0), 255))
+        );
     }
 
 
@@ -735,4 +756,42 @@ public class ColorTools {
         final int s = NumberUtils.floatToRawIntBits(start), opacity = s & 0xFE, other = s & 0x00FFFFFF;
         return NumberUtils.intBitsToFloat(((int) (opacity * (1f - change)) & 0xFE) << 24 | other);
     }
+
+    /**
+     * Brings the chromatic components of {@code start} closer to grayscale by {@code change} (desaturating them). While
+     * change should be between 0f (return start as-is) and 1f (return fully gray), start should be a packed color, as
+     * from {@link #cielab(float, float, float, float)}. This only changes A and B; it leaves L and alpha alone.
+     * @see #enrich(float, float) the counterpart method that makes a float color more saturated
+     * @param start the starting color as a packed float
+     * @param change how much to change start to a desaturated color, as a float between 0 and 1; higher means a less saturated result
+     * @return a packed float that represents a color between start and a desaturated color
+     */
+    public static float dullen(final float start, final float change) {
+        final int s = NumberUtils.floatToRawIntBits(start);
+        return cielab((s & 0xFF) / 255f,
+                ((s >>> 8 & 0xFF) / 255f - 0.5f) * (1f - change) + 0.5f,
+                ((s >>> 16 & 0xFF) / 255f - 0.5f) * (1f - change) + 0.5f,
+                (s >>> 25) / 127f);
+    }
+
+    /**
+     * Pushes the chromatic components of {@code start} away from grayscale by change (saturating them). While change
+     * should be between 0f (return start as-is) and 1f (return maximally saturated), start should be a packed color, as
+     * from {@link #cielab(float, float, float, float)}. This changes only A and B. This prevents high values for change
+     * from pushing A or B out of the valid range by using {@link #clamp(float, float, float, float)}; this doesn't
+     * actually keep the color in-gamut, but usually rendering code can handle out-of-gamut colors in some way.
+     * Alpha. The alpha never changes.
+     * @see #dullen(float, float) the counterpart method that makes a float color less saturated
+     * @param start the starting color as a packed float
+     * @param change how much to change start to a saturated color, as a float between 0 and 1; higher means a more saturated result
+     * @return a packed float that represents a color between start and a saturated color
+     */
+    public static float enrich(final float start, final float change) {
+        final int s = NumberUtils.floatToRawIntBits(start);
+        return clamp((s & 0xFF) / 255f,
+                ((s >>> 8 & 0xFF) / 255f - 0.5f) * (1f + change) + 0.5f,
+                ((s >>> 16 & 0xFF) / 255f - 0.5f) * (1f + change) + 0.5f,
+                (s >>> 25) / 127f);
+    }
+
 }
