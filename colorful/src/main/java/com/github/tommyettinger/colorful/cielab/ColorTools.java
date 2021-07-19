@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.Shaders;
-import com.github.tommyettinger.colorful.oklab.Palette;
 import com.github.tommyettinger.colorful.oklab.ColorfulBatch;
+import com.github.tommyettinger.colorful.oklab.Palette;
 
 /**
  * Contains code for manipulating colors as {@code int} and packed {@code float} values in the CIE L*A*B* color space.
@@ -36,8 +36,8 @@ public class ColorTools {
      * Alpha is the multiplicative opacity of the color, and acts like RGBA's alpha.
      *
      * @param l     0f to 1f, lightness or L component of CIELAB, with 0.5f meaning "no change" and 1f brightening
-     * @param a     0f to 1f, protan or A component of CIELAB, with 1f more orange, red, or magenta
-     * @param b     0f to 1f, tritan or B component of CIELAB, with 1f more green, yellow, or red
+     * @param a     0f to 1f, A component of CIELAB, with 1f more orange, red, or magenta
+     * @param b     0f to 1f, B component of CIELAB, with 1f more green, yellow, or red
      * @param alpha 0f to 1f, 0f makes the color transparent and 1f makes it opaque
      * @return a float encoding a color with the given properties
      */
@@ -54,8 +54,8 @@ public class ColorTools {
      *
      * @see #cielab(float, float, float, float) This uses the same definitions for L, A, B, and alpha as cielab().
      * @param l     0f to 1f, lightness or L component of CIELAB, with 0.5f meaning "no change" and 1f brightening
-     * @param a     0f to 1f, protan or A component of CIELAB, with 1f more orange, red, or magenta
-     * @param b     0f to 1f, tritan or B component of CIELAB, with 1f more green, yellow, or red
+     * @param a     0f to 1f, A component of CIELAB, with 1f more orange, red, or magenta
+     * @param b     0f to 1f, B component of CIELAB, with 1f more green, yellow, or red
      * @param alpha 0f to 1f, 0f makes the color transparent and 1f makes it opaque
      * @return a float encoding a color with the given properties
      */
@@ -991,6 +991,127 @@ public class ColorTools {
                 | (((int) (sA + fraction * (eA - sA)) & 0xFF) << 8)
                 | (((int) (sB + fraction * (eB - sB)) & 0xFF) << 16)
                 | (((int) (sAlpha + fraction * (eAlpha - sAlpha)) & 0xFE) << 24));
+    }
+
+    /**
+     * Returns true if the given packed float color, as CIELAB, is valid to convert losslessly back to RGBA.
+     * @param packed a packed float color as CIELAB
+     * @return true if the given packed float color can be converted back and forth to RGBA
+     */
+    public static boolean inGamut(final float packed)
+    {
+        final int decoded = NumberUtils.floatToRawIntBits(packed);
+        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float x = reverseXYZ(L + A);
+        final float y = reverseXYZ(L);
+        final float z = reverseXYZ(L - B);
+        final float r = (+3.2406f * x + -0.9689f * y + -0.4986f * z);
+        if(r < 0f || r > 1.0f) return false;
+        final float g = (-1.5372f * x + +1.8758f * y + +0.0415f * z);
+        if(g < 0f || g > 1.0f) return false;
+        final float b = (+3.2406f * x + -0.9689f * y + +1.0570f * z);
+        return (b >= 0f && b <= 1.0f);
+    }
+    /**
+     * Returns true if the given CIELAB values are valid to convert losslessly back to RGBA.
+     * @param L lightness, as a float from 0 to 1
+     * @param A cyan-to-red chroma, as a float from 0 to 1
+     * @param B blue-to-yellow chroma, as a float from 0 to 1
+     * @return true if the given packed float color can be converted back and forth to RGBA
+     */
+    public static boolean inGamut(float L, float A, float B)
+    {
+        L = (1f/1.16f)*(L + 0.16f);
+        A = (A - 0.5f) * (0.4f);
+        B = (B - 0.5f);
+        final float x = reverseXYZ(L + A);
+        final float y = reverseXYZ(L);
+        final float z = reverseXYZ(L - B);
+        final float r = (+3.2406f * x + -0.9689f * y + -0.4986f * z);
+        if(r < 0f || r > 1.0f) return false;
+        final float g = (-1.5372f * x + +1.8758f * y + +0.0415f * z);
+        if(g < 0f || g > 1.0f) return false;
+        final float b = (+3.2406f * x + -0.9689f * y + +1.0570f * z);
+        return (b >= 0f && b <= 1.0f);
+    }
+
+    /**
+     * Iteratively checks whether the given CIELAB color is in-gamut, and either brings the color closer to grayscale if
+     * it isn't in-gamut, or returns it as soon as it is in-gamut. Maintains the L of the color, only bringing A and B
+     * closer to grayscale.
+     * @param packed a packed float color in CIELAB format; often this color is not in-gamut
+     * @return the first color this finds that is between the given CIELAB color and grayscale, and is in-gamut
+     * @see #inGamut(float) You can use inGamut() if you just want to check whether a color is in-gamut.
+     */
+    public static float limitToGamut(final float packed) {
+        final int decoded = NumberUtils.floatToRawIntBits(packed);
+        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float y = reverseXYZ(L);
+        float A2 = A, B2 = B;
+        for (int attempt = 31; attempt >= 0; attempt--) {
+            final float x = reverseXYZ(L + A2);
+            final float z = reverseXYZ(L - B2);
+            final float r = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f));
+            final float g = reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f));
+            final float b = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f));
+            if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
+                break;
+            final float progress = attempt * 0x1p-5f;
+            A2 = (A * progress);
+            B2 = (B * progress);
+        }
+        return cielab(L, A2 * 0.5f + 0.5f, B2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
+    }
+
+    /**
+     * Iteratively checks whether the given CIELAB color is in-gamut, and either brings the color closer to grayscale if it
+     * isn't in-gamut, or returns it as soon as it is in-gamut. Maintains the L of the color, only bringing A and B
+     * closer to grayscale. This always produces an opaque color.
+     * @param L lightness; will be clamped between 0 and 1 if it isn't already
+     * @param A cyan-to-red chroma; will be clamped between 0 and 1 if it isn't already
+     * @param B blue-to-yellow chroma; will be clamped between 0 and 1 if it isn't already
+     * @return the first color this finds that is between the given CIELAB color and grayscale, and is in-gamut
+     * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
+     */
+    public static float limitToGamut(float L, float A, float B) {
+        return limitToGamut(L, A, B, 1f);
+    }
+    /**
+     * Iteratively checks whether the given CIELAB color is in-gamut, and either brings the color closer to grayscale if it
+     * isn't in-gamut, or returns it as soon as it is in-gamut.
+     * @param L lightness; will be clamped between 0 and 1 if it isn't already
+     * @param A cyan-to-red chroma; will be clamped between 0 and 1 if it isn't already
+     * @param B blue-to-yellow chroma; will be clamped between 0 and 1 if it isn't already
+     * @param alpha opacity; will be clamped between 0 and 1 if it isn't already
+     * @return the first color this finds that is between the given CIELAB color and grayscale, and is in-gamut
+     * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
+     */
+    public static float limitToGamut(float L, float A, float B, float alpha) {
+
+        L = (1f/1.16f)*(Math.min(Math.max(L, 0f), 1f) + 0.16f);
+        A = (Math.min(Math.max(A, 0f), 1f) - 0.5f) * (0.4f);
+        B = (Math.min(Math.max(B, 0f), 1f) - 0.5f);
+        alpha = Math.min(Math.max(alpha, 0f), 1f);
+
+        final float y = reverseXYZ(L);
+        float A2 = A, B2 = B;
+        for (int attempt = 31; attempt >= 0; attempt--) {
+            final float x = reverseXYZ(L + A2);
+            final float z = reverseXYZ(L - B2);
+            final float r = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f));
+            final float g = reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f));
+            final float b = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f));
+            if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
+                break;
+            final float progress = attempt * 0x1p-5f;
+            A2 = (A * progress);
+            B2 = (B * progress);
+        }
+        return cielab(L, A2 * 0.5f + 0.5f, B2 * 0.5f + 0.5f, alpha);
     }
 
 }

@@ -1131,8 +1131,8 @@ public class ColorTools {
 	 */
 	public static float oklabHue(final float packed) {
 		final int decoded = NumberUtils.floatToRawIntBits(packed);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f);
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f);
 		return TrigTools.atan2_(B, A);
 	}
 
