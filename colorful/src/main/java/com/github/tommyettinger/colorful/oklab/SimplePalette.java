@@ -12,7 +12,7 @@ import java.util.Comparator;
 import static com.github.tommyettinger.colorful.oklab.ColorTools.*;
 
 /**
- * A palette of predefined colors as packed RGB floats, the kind {@link ColorTools} works with, plus a way to describe
+ * A palette of predefined colors as packed Oklab floats, the kind {@link ColorTools} works with, plus a way to describe
  * colors by combinations and adjustments. The description code is probably what you would use this class for; it
  * revolves around {@link #parseDescription(String)}, which takes a color description String and returns a packed float
  * color. The color descriptions look like "darker rich mint sage", where the order of the words doesn't matter. They
