@@ -584,6 +584,123 @@ public class ColorTools {
         float d = X - Math.min(W, Y);
         return Math.abs(Z + (W - Y) / (6f * d + 1e-10f));
     }
+    /**
+     * Gets a variation on the packed float color basis as another packed float that has its hue, saturation, lightness,
+     * and opacity adjusted by the specified amounts. Note that this edits the color in HSL space, not CIELAB! Takes
+     * floats representing the amounts of change to apply to hue, saturation, lightness, and opacity; these can be
+     * between -1f and 1f. Returns a float that can be used as a packed or encoded color with methods like
+     * {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)}. The float is likely to be different than the
+     * result of {@code basis} unless hue, saturation, lightness, and opacity are all 0.
+     * This won't allocate any objects.
+     * <br>
+     * The parameters this takes all specify additive changes for a color component, clamping the final values so they
+     * can't go above 1 or below 0, with an exception for hue, which can rotate around if lower or higher hues would be
+     * used. As an example, if you give this 0.4f for saturation, and the current color has saturation 0.7f, then the
+     * resulting color will have 1f for saturation. If you gave this -0.1f for saturation and the current color again
+     * has saturation 0.7f, then resulting color will have 0.6f for saturation.
+     *
+     * @param basis      a packed float color that will be used as the starting point to make the next color
+     * @param hue        -1f to 1f, the hue change that can be applied to the new float color (not clamped, wraps)
+     * @param saturation -1f to 1f, the saturation change that can be applied to the new float color
+     * @param light      -1f to 1f, the light/brightness change that can be applied to the new float color
+     * @param opacity    -1f to 1f, the opacity/alpha change that can be applied to the new float color
+     * @return a float encoding a variation of basis with the given changes
+     */
+    public static float toEditedFloat(float basis, float hue, float saturation, float light, float opacity) {
+        final int decoded = NumberUtils.floatToRawIntBits(basis);
+        final float li = Math.min(Math.max(light + (decoded & 0xff) / 255f, 0f), 1f);
+        opacity = Math.min(Math.max(opacity + (decoded >>> 24 & 0xfe) * 0x1.020408p-8f, 0f), 1f);
+        if (li <= 0.001f)
+            return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x808000);
+        final float L = (1f/1.16f)*(li + 0.16f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float x = reverseXYZ(L + A);
+        final float y = reverseXYZ(L);
+        final float z = reverseXYZ(L - B);
+        final float r = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f));
+        final float g = reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f));
+        final float b = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f));
+        float X, Y, Z, W;
+        if(g < b) {
+            X = b;
+            Y = g;
+            Z = -1f;
+            W = 2f / 3f;
+        }
+        else {
+            X = g;
+            Y = b;
+            Z = 0f;
+            W = -1f / 3f;
+        }
+        if(r < X) {
+            Z = W;
+            W = r;
+        }
+        else {
+            W = X;
+            X = r;
+        }
+        final float d = X - Math.min(W, Y);
+        final float lum = X * (1f - 0.5f * d / (X + 1e-10f));
+        hue += Math.abs(Z + (W - Y) / (6f * d + 1e-10f)) + 1f;
+        saturation += (X - lum) / (Math.min(lum, 1f - lum) + 1e-10f);
+        return fromRGBA(FloatColors.hsl2rgb(hue - (int)hue, Math.min(Math.max(saturation, 0f), 1f), lum, opacity));
+    }
+
+
+    /**
+     * Given a packed float CIELAB color, this edits its L, A, B, and alpha channels by adding the corresponding "add"
+     * parameter and then clamping. This returns a different float value (of course, the given float can't be edited
+     * in-place). You can give a value of 0 for any "add" parameter you want to stay unchanged. This clamps the
+     * resulting color so it contains in-range L, A, B, and alpha values, but it doesn't guarantee it stays in-gamut.
+     * @param encoded a packed float CIELAB color
+     * @param addL how much to add to the L channel; typically in the -1 to 1 range
+     * @param addA how much to add to the A channel; typically in the -1 to 1 range
+     * @param addB how much to add to the B channel; typically in the -1 to 1 range
+     * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range
+     * @return a packed float CIELAB color with the requested edits applied to {@code encoded}
+     */
+    public static float editCIELAB(float encoded, float addL, float addA, float addB, float addAlpha) {
+        return editCIELAB(encoded, addL, addA, addB, addAlpha, 1f, 1f, 1f, 1f);
+    }
+    /**
+     * Given a packed float CIELAB color, this edits its L, A, B, and alpha channels by first multiplying each channel
+     * by the corresponding "mul" parameter and then adding the corresponding "add" parameter, before clamping. This
+     * means the lightness value {@code L} is multiplied by {@code mulL}, then has {@code addL} added, and then is
+     * clamped to the normal range for L (0 to 1). This returns a different float value (of course, the given float
+     * can't be edited in-place). You can give a value of 0 for any "add" parameter you want to stay unchanged, or a
+     * value of 1 for any "mul" parameter that shouldn't change. Note that this manipulates A and B in the -0.5 to 0.5
+     * range, so if you multiply by a small number like {@code 0.25f}, then this will produce a less-saturated color,
+     * and if you multiply by a larger number like {@code 4f}, then you will get a much more-saturated color. This
+     * clamps the resulting color so it contains in-range L, A, B, and alpha values, but it doesn't guarantee it stays
+     * in-gamut.
+     * @param encoded a packed float CIELAB color
+     * @param addL how much to add to the L channel; typically in the -1 to 1 range
+     * @param addA how much to add to the A channel; typically in the -1 to 1 range
+     * @param addB how much to add to the B channel; typically in the -1 to 1 range
+     * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range
+     * @param mulL how much to multiply the L channel by; should be non-negative
+     * @param mulA how much to multiply the A channel by; usually non-negative (not always)
+     * @param mulB how much to multiply the B channel by; usually non-negative (not always)
+     * @param mulAlpha how much to multiply the alpha channel by; should be non-negative
+     * @return a packed float CIELAB color with the requested edits applied to {@code encoded}
+     */
+    public static float editCIELAB(float encoded, float addL, float addA, float addB, float addAlpha,
+                                  float mulL, float mulA, float mulB, float mulAlpha) {
+        final int decoded = NumberUtils.floatToRawIntBits(encoded);
+        float L = (decoded & 0xff) / 255f;
+        float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+        float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+        float alpha = (decoded >>> 25) / 127f;
+
+        L = Math.min(Math.max(L * mulL + addL, 0f), 1f);
+        A = Math.min(Math.max(A * mulA + addA * 2f, -1f), 1f) * 0.5f;
+        B = Math.min(Math.max(B * mulB + addB * 2f, -1f), 1f) * 0.5f;
+        alpha = Math.min(Math.max(alpha * mulAlpha + addAlpha, 0f), 1f);
+        return clamp(L, A, B, alpha);
+    }
 
     /**
      * The "L" channel of the given packed float in CIELAB format, which is its lightness; ranges from 0.0f to
@@ -780,7 +897,7 @@ public class ColorTools {
      * from {@link #cielab(float, float, float, float)}. This changes only A and B. This prevents high values for change
      * from pushing A or B out of the valid range by using {@link #clamp(float, float, float, float)}; this doesn't
      * actually keep the color in-gamut, but usually rendering code can handle out-of-gamut colors in some way.
-     * Alpha. The alpha never changes.
+     * Alpha. The alpha never changes. It never changes L either.
      * @see #dullen(float, float) the counterpart method that makes a float color less saturated
      * @param start the starting color as a packed float
      * @param change how much to change start to a saturated color, as a float between 0 and 1; higher means a more saturated result
