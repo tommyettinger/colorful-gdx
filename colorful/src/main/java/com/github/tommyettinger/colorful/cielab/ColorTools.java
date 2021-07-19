@@ -7,6 +7,8 @@ import com.github.tommyettinger.colorful.Shaders;
 import com.github.tommyettinger.colorful.oklab.ColorfulBatch;
 import com.github.tommyettinger.colorful.oklab.Palette;
 
+import java.util.Random;
+
 /**
  * Contains code for manipulating colors as {@code int} and packed {@code float} values in the CIE L*A*B* color space.
  * This is the old standard (and for some things, gold standard) of color spaces, introduced in 1976 and never fully
@@ -1112,6 +1114,56 @@ public class ColorTools {
             B2 = (B * progress);
         }
         return cielab(L, A2 * 0.5f + 0.5f, B2 * 0.5f + 0.5f, alpha);
+    }
+
+    /**
+     * Makes a quasi-randomly-edited variant on the given {@code color}, allowing typically a small amount of
+     * {@code variance} (such as 0.05 to 0.25) between the given color and what this can return. The {@code seed} should
+     * be different each time this is called, and can be obtained from a random number generator to make the colors more
+     * random, or can be incremented on each call. If the seed is only incremented or decremented, then this shouldn't
+     * produce two similar colors in a row unless variance is very small. The variance affects the L, A, and B of the
+     * generated color, and each of those channels can go up or down by the given variance as long as the total distance
+     * isn't greater than the variance (this considers P and T extra-wide, going from -1 to 1, while I goes from 0 to 1,
+     * but only internally for measuring distance).
+     * @param color a packed float color, as produced by {@link #cielab(float, float, float, float)}
+     * @param seed a long seed that should be different on each call; should not be 0
+     * @param variance max amount of difference between the given color and the generated color; always less than 1
+     * @return a generated packed float color that should be at least somewhat different from {@code color}
+     */
+    public static float randomEdit(final float color, long seed, final float variance) {
+        final int decoded = NumberUtils.floatToRawIntBits(color);
+        final float L = (decoded & 0xff) / 255f;
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+        final float limit = variance * variance;
+        float dist, x, y, z;
+        for (int j = 0; j < 50; j++) {
+            x = (((seed * 0xD1B54A32D192ED03L >>> 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;
+            y = (((seed * 0xABC98388FB8FAC03L >>> 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;
+            z = (((seed * 0x8CB92BA72F3D8DD7L >>> 41) - 0x7FFFFFp-1f) * 0x1p-22f) * variance;
+            seed += 0x9E3779B97F4A7C15L;
+            dist = x * x + y * y + z * z;
+            if(dist <= limit)
+                return clamp(x + L, (A + y) * 0.5f + 0.5f, (B + z) * 0.5f + 0.5f, (decoded >>> 25) / 127f);
+        }
+        return color;
+    }
+
+    /**
+     * Produces a random packed float color that is always in-gamut and should be uniformly distributed.
+     * @param random a Random object (preferably a subclass of Random, like {@link com.badlogic.gdx.math.RandomXS128})
+     * @return a packed float color that is always in-gamut
+     */
+    public static float randomColor(Random random) {
+        float L = random.nextFloat();
+        float A = random.nextFloat();
+        float B = random.nextFloat();
+        while (!inGamut(L, A, B)) {
+            L = random.nextFloat();
+            A = random.nextFloat();
+            B = random.nextFloat();
+        }
+        return cielab(L, A, B, 1f);
     }
 
 }
