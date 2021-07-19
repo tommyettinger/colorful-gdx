@@ -233,8 +233,8 @@ public class ColorTools {
 
         return NumberUtils.intBitsToFloat(
                           Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
-                        | Math.min(Math.max((int)((5f*(x - y)) * 127.999f + 127.5f), 0), 255) << 8
-                        | Math.min(Math.max((int)((2f*(y - z)) * 127.999f + 127.5f), 0), 255) << 16
+                        | Math.min(Math.max((int)((x - y) * 5f * 127.999f + 127.5f), 0), 255) << 8
+                        | Math.min(Math.max((int)((y - z) * 2f * 127.999f + 127.5f), 0), 255) << 16
                         | (rgba & 0xFE) << 24);
     }
 
