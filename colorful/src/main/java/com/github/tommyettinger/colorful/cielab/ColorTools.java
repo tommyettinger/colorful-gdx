@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.Shaders;
+import com.github.tommyettinger.colorful.oklab.Palette;
 import com.github.tommyettinger.colorful.oklab.ColorfulBatch;
 
 /**
@@ -909,6 +910,87 @@ public class ColorTools {
                 ((s >>> 8 & 0xFF) / 255f - 0.5f) * (1f + change) + 0.5f,
                 ((s >>> 16 & 0xFF) / 255f - 0.5f) * (1f + change) + 0.5f,
                 (s >>> 25) / 127f);
+    }
+
+    /**
+     * Given a packed float CIELAB color {@code mainColor} and another CIELAB color that it should be made to contrast with,
+     * gets a packed float CIELAB color with roughly inverted intnsity but the same chromatic channels and opacity (P and T
+     * are likely to be clamped if the result gets close to white or black). This won't ever produce black or other very
+     * dark colors, and also has a gap in the range it produces for intensity values between 0.5 and 0.55. That allows
+     * most of the colors this method produces to contrast well as a foreground when displayed on a background of
+     * {@code contrastingColor}, or vice versa. This will leave the intensity unchanged if the chromatic channels of the
+     * contrastingColor and those of the mainColor are already very different. This has nothing to do with the contrast
+     * channel of the tweak in ColorfulBatch; where that part of the tweak can make too-similar lightness values further
+     * apart by just a little, this makes a modification on {@code mainColor} to maximize its lightness difference from
+     * {@code contrastingColor} without losing its other qualities.
+     * @param mainColor a packed float color, as produced by {@link #cielab(float, float, float, float)}; this is the color that will be adjusted
+     * @param contrastingColor a packed float color, as produced by {@link #cielab(float, float, float, float)}; the adjusted mainColor will contrast with this
+     * @return a different CIELAB packed float color, based on mainColor but with potentially very different lightness
+     */
+    public static float inverseLightness(final float mainColor, final float contrastingColor)
+    {
+        final int bits = NumberUtils.floatToRawIntBits(mainColor),
+                contrastBits = NumberUtils.floatToRawIntBits(contrastingColor),
+                L = (bits & 0xff),
+                A = (bits >>> 8 & 0xff),
+                B = (bits >>> 16 & 0xff),
+                cL = (contrastBits & 0xff),
+                cA = (contrastBits >>> 8 & 0xff),
+                cB = (contrastBits >>> 16 & 0xff);
+        if((A - cA) * (A - cA) + (B - cB) * (B - cB) >= 0x10000)
+            return mainColor;
+        return cielab(cL < 128 ? L * (0.45f / 255f) + 0.55f : 0.5f - L * (0.45f / 255f), A / 255f, B / 255f, 0x1.0p-8f * (bits >>> 24));
+    }
+
+    /**
+     * Given a packed float CIELAB color {@code mainColor} and another CIELAB color that it should be made to contrast
+     * with, gets a packed float CIELAB color with L that should be quite different from {@code contrastingColor}'s L,
+     * but the same chromatic channels and opacity (A and B are likely to be clamped if the result gets close to white
+     * or black). This allows most of the colors this method produces to contrast well as a foreground when displayed on
+     * a background of {@code contrastingColor}, or vice versa.
+     * <br>
+     * This is similar to {@link #inverseLightness(float, float)}, but is considerably simpler, and this method will
+     * change the lightness of mainColor when the two given colors have close lightness but distant chroma. Because it
+     * averages the original L of mainColor with the modified one, this tends to not produce harsh color changes.
+     * @param mainColor a packed CIELAB float color; this is the color that will be adjusted
+     * @param contrastingColor a packed CIELAB float color; the adjusted mainColor will contrast with the I of this
+     * @return a different packed CIELAB float color, based on mainColor but typically with different lightness
+     */
+    public static float differentiateLightness(final float mainColor, final float contrastingColor)
+    {
+        final int main = NumberUtils.floatToRawIntBits(mainColor), contrast = NumberUtils.floatToRawIntBits(contrastingColor);
+        return NumberUtils.intBitsToFloat((main & 0xFEFFFF00) | (contrast + 128 & 0xFF) + (main & 0xFF) >>> 1);
+    }
+
+    /**
+     * Pretty simple; adds 0.5 to the given color's L and wraps it around if it would go above 1.0, then averages that
+     * with the original L. This means light colors become darker, and dark colors become lighter, with almost all
+     * results in the middle-range of possible lightness.
+     * @param mainColor a packed CIELAB float color
+     * @return a different packed CIELAB float color, with its L channel changed and limited to the correct gamut
+     */
+    public static float offsetLightness(final float mainColor) {
+        final int decoded = NumberUtils.floatToRawIntBits(mainColor);
+        return NumberUtils.intBitsToFloat((decoded & 0xFEFFFF00) | (decoded + 128 & 0xFF) + (decoded & 0xFF) >>> 1);
+    }
+
+    /**
+     * Makes the additive CIELAB color stored in {@code color} cause less of a change when used as a tint, as if it were
+     * mixed with neutral gray. When {@code fraction} is 1.0, this returns color unchanged; when fraction is 0.0, it
+     * returns {@link Palette#GRAY}, and when it is in-between 0.0 and 1.0 it returns something between the two. This is
+     * meant for things like area of effect abilities that make smaller color changes toward their periphery.
+     * @param color a color that should have its tinting effect potentially weakened
+     * @param fraction how much of {@code color} should be kept, from 0.0 to 1.0
+     * @return a CIELAB float color between gray and {@code color}
+     */
+    public static float lessenChange(final float color, float fraction) {
+        final int e = NumberUtils.floatToRawIntBits(color),
+                sL = 0x80, sA = 0x80, sB = 0x80, sAlpha = 0xFE,
+                eL = (e & 0xFF), eA = (e >>> 8) & 0xFF, eB = (e >>> 16) & 0xFF, eAlpha = e >>> 24 & 0xFE;
+        return NumberUtils.intBitsToFloat(((int) (sL + fraction * (eL - sL)) & 0xFF)
+                | (((int) (sA + fraction * (eA - sA)) & 0xFF) << 8)
+                | (((int) (sB + fraction * (eB - sB)) & 0xFF) << 16)
+                | (((int) (sAlpha + fraction * (eAlpha - sAlpha)) & 0xFE) << 24));
     }
 
 }

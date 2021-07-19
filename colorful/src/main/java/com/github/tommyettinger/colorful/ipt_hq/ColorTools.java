@@ -816,7 +816,7 @@ public class ColorTools {
 	/**
 	 * Given a packed float IPT_HQ color {@code mainColor} and another IPT_HQ color that it should be made to contrast
 	 * with, gets a packed float IPT_HQ color with I that should be quite different from {@code contrastingColor}'s I,
-	 * but the same chromatic channels and opacity (A and B are likely to be clamped if the result gets close to white
+	 * but the same chromatic channels and opacity (P and T are likely to be clamped if the result gets close to white
 	 * or black). This allows most of the colors this method produces to contrast well as a foreground when displayed on
 	 * a background of {@code contrastingColor}, or vice versa.
 	 * <br>
