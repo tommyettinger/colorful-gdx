@@ -134,8 +134,6 @@ public class ColorTools {
         return (t < 0.20689655f) ? 0.1284185f * (t - 0.139731f) : t * t * t;
     }
 
-    /*
-     */
     /**
      * Converts a packed float color in the format produced by {@link #cielab(float, float, float, float)} to an RGBA8888 int.
      * This format of int can be used with Pixmap and in some other places in libGDX.
@@ -151,9 +149,9 @@ public class ColorTools {
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
-        final int r = (int)(reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f)) * 255.999f);
-        final int g = (int)(reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f)) * 255.999f);
-        final int b = (int)(reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f)) * 255.999f);
+        final int r = (int)(reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f)) * 255.999f);
+        final int g = (int)(reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f)) * 255.999f);
+        final int b = (int)(reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f)) * 255.999f);
         return r << 24 | g << 16 | b << 8 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
     }
 
@@ -173,9 +171,9 @@ public class ColorTools {
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
-        final int r = (int)(reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f)) * 255.999f);
-        final int g = (int)(reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f)) * 255.999f);
-        final int b = (int)(reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f)) * 255.999f);
+        final int r = (int)(reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f)) * 255.999f);
+        final int g = (int)(reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f)) * 255.999f);
+        final int b = (int)(reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f)) * 255.999f);
         return NumberUtils.intBitsToFloat(r | g << 8 | b << 16 | (decoded & 0xfe000000));
     }
 
@@ -195,9 +193,9 @@ public class ColorTools {
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
-        editing.r = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f));
-        editing.g = reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f));
-        editing.b = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f));
+        editing.r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
+        editing.g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
+        editing.b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
         editing.a = (decoded >>> 25) * 0x1.020408p-7f; // this is 1/127 as a float
         return editing.clamp();
     }
@@ -227,14 +225,14 @@ public class ColorTools {
         final float g = forwardGamma((rgba >>> 16 & 0xFF) * 0x1.010101010101p-8f);
         final float b = forwardGamma((rgba >>> 8 & 0xFF) * 0x1.010101010101p-8f);
 
-        final float x = forwardXYZ(0.4124f * r + 0.2126f * g + 0.0193f * b);
-        final float y = forwardXYZ(0.3576f * r + 0.7152f * g + 0.1192f * b);
-        final float z = forwardXYZ(0.1805f * r + 0.0722f * g + 0.9505f * b);
+        final float x = forwardXYZ(0.4124564f * r  + 0.3575761f * g + 0.1804375f * b);
+        final float y = forwardXYZ(0.2126729f * r  + 0.7151522f * g + 0.0721750f * b);
+        final float z = forwardXYZ(0.0193339f * r  + 0.1191920f * g + 0.9503041f * b);
 
         return NumberUtils.intBitsToFloat(
                           Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
-                        | Math.min(Math.max((int)((x - y) * 5f * 127.999f + 127.5f), 0), 255) << 8
-                        | Math.min(Math.max((int)((y - z) * 2f * 127.999f + 127.5f), 0), 255) << 16
+                        | Math.min(Math.max((int)((x - y) * (5f * 127.999f) + 127.5f), 0), 255) << 8
+                        | Math.min(Math.max((int)((y - z) * (2f * 127.999f) + 127.5f), 0), 255) << 16
                         | (rgba & 0xFE) << 24);
     }
 
@@ -249,9 +247,9 @@ public class ColorTools {
         final float g = forwardGamma((abgr >>> 8 & 0xFF) * 0x1.010101010101p-8f);
         final float b = forwardGamma((abgr >>> 16 & 0xFF) * 0x1.010101010101p-8f);
 
-        final float x = forwardXYZ(0.4124f * r + 0.2126f * g + 0.0193f * b);
-        final float y = forwardXYZ(0.3576f * r + 0.7152f * g + 0.1192f * b);
-        final float z = forwardXYZ(0.1805f * r + 0.0722f * g + 0.9505f * b);
+        final float x = forwardXYZ(0.4124564f * r + 0.3575761f * g + 0.1804375f * b);
+        final float y = forwardXYZ(0.2126729f * r + 0.7151522f * g + 0.0721750f * b);
+        final float z = forwardXYZ(0.0193339f * r + 0.1191920f * g + 0.9503041f * b);
 
         return NumberUtils.intBitsToFloat(
                           Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
@@ -269,9 +267,9 @@ public class ColorTools {
         final float r = forwardGamma(color.r);
         final float g = forwardGamma(color.g);
         final float b = forwardGamma(color.b);
-        final float x = forwardXYZ(0.4124f * r + 0.2126f * g + 0.0193f * b);
-        final float y = forwardXYZ(0.3576f * r + 0.7152f * g + 0.1192f * b);
-        final float z = forwardXYZ(0.1805f * r + 0.0722f * g + 0.9505f * b);
+        final float x = forwardXYZ(0.4124564f * r + 0.3575761f * g + 0.1804375f * b);
+        final float y = forwardXYZ(0.2126729f * r + 0.7151522f * g + 0.0721750f * b);
+        final float z = forwardXYZ(0.0193339f * r + 0.1191920f * g + 0.9503041f * b);
         return NumberUtils.intBitsToFloat(
                           Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
                         | Math.min(Math.max((int)((5f*(x - y)) * 127.999f + 127.5f), 0), 255) << 8
@@ -291,9 +289,9 @@ public class ColorTools {
         r = forwardGamma(r);
         g = forwardGamma(g);
         b = forwardGamma(b);
-        final float x = forwardXYZ(0.4124f * r + 0.2126f * g + 0.0193f * b);
-        final float y = forwardXYZ(0.3576f * r + 0.7152f * g + 0.1192f * b);
-        final float z = forwardXYZ(0.1805f * r + 0.0722f * g + 0.9505f * b);
+        final float x = forwardXYZ(0.4124564f * r + 0.3575761f * g + 0.1804375f * b);
+        final float y = forwardXYZ(0.2126729f * r + 0.7151522f * g + 0.0721750f * b);
+        final float z = forwardXYZ(0.0193339f * r + 0.1191920f * g + 0.9503041f * b);
         return NumberUtils.intBitsToFloat(
                           Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
                         | Math.min(Math.max((int)((5f*(x - y)) * 127.999f + 127.5f), 0), 255) << 8
@@ -315,7 +313,7 @@ public class ColorTools {
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
-        return (int)(reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f)) * 255.999f);
+        return (int)(reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f)) * 255.999f);
 	}
 
 	/**
@@ -332,7 +330,7 @@ public class ColorTools {
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
-        return (int)(reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f)) * 255.999f);
+        return (int)(reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f)) * 255.999f);
 	}
 
 	/**
@@ -349,7 +347,7 @@ public class ColorTools {
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
-        return (int)(reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f)) * 255.999f);
+        return (int)(reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f)) * 255.999f);
 	}
 
 	/**
@@ -376,7 +374,7 @@ public class ColorTools {
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
-        return reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f));
+        return reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
     }
 
     /**
@@ -393,7 +391,7 @@ public class ColorTools {
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
-        return reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f));
+        return reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
     }
 
     /**
@@ -410,7 +408,7 @@ public class ColorTools {
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
-        return reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f));
+        return reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
     }
 
     /**
@@ -484,9 +482,9 @@ public class ColorTools {
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
-        final float r = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f));
-        final float g = reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f));
-        final float b = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f));
+        final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
+        final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
+        final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
         float X, Y, W;
         if(g < b) {
             X = b;
@@ -521,9 +519,9 @@ public class ColorTools {
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
-        final float r = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f));
-        final float g = reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f));
-        final float b = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f));
+        final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
+        final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
+        final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
         float X, Y, W;
         if(g < b) {
             X = b;
@@ -560,9 +558,9 @@ public class ColorTools {
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
-        final float r = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f));
-        final float g = reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f));
-        final float b = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f));
+        final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
+        final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
+        final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
         float X, Y, Z, W;
         if(g < b) {
             X = b;
@@ -621,9 +619,9 @@ public class ColorTools {
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
-        final float r = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f));
-        final float g = reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f));
-        final float b = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f));
+        final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
+        final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
+        final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
         float X, Y, Z, W;
         if(g < b) {
             X = b;
@@ -1009,13 +1007,14 @@ public class ColorTools {
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
-        final float r = (+3.2406f * x + -0.9689f * y + -0.4986f * z);
+        final float r = +3.2404542f * x + -1.5371385f * y + -0.4985314f * z;
         if(r < 0f || r > 1.0f) return false;
-        final float g = (-1.5372f * x + +1.8758f * y + +0.0415f * z);
+        final float g = -0.9692660f * x + +1.8760108f * y + +0.0415560f * z;
         if(g < 0f || g > 1.0f) return false;
-        final float b = (+3.2406f * x + -0.9689f * y + +1.0570f * z);
+        final float b = +0.0556434f * x + -0.2040259f * y + +1.0572252f * z;
         return (b >= 0f && b <= 1.0f);
     }
+
     /**
      * Returns true if the given CIELAB values are valid to convert losslessly back to RGBA.
      * @param L lightness, as a float from 0 to 1
@@ -1031,11 +1030,11 @@ public class ColorTools {
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
-        final float r = (+3.2406f * x + -0.9689f * y + -0.4986f * z);
+        final float r = +3.2404542f * x + -1.5371385f * y + -0.4985314f * z;
         if(r < 0f || r > 1.0f) return false;
-        final float g = (-1.5372f * x + +1.8758f * y + +0.0415f * z);
+        final float g = -0.9692660f * x + +1.8760108f * y + +0.0415560f * z;
         if(g < 0f || g > 1.0f) return false;
-        final float b = (+3.2406f * x + -0.9689f * y + +1.0570f * z);
+        final float b = +0.0556434f * x + -0.2040259f * y + +1.0572252f * z;
         return (b >= 0f && b <= 1.0f);
     }
 
@@ -1057,9 +1056,9 @@ public class ColorTools {
         for (int attempt = 31; attempt >= 0; attempt--) {
             final float x = reverseXYZ(L + A2);
             final float z = reverseXYZ(L - B2);
-            final float r = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f));
-            final float g = reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f));
-            final float b = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f));
+            final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
+            final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
+            final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
             if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
             final float progress = attempt * 0x1p-5f;
@@ -1104,9 +1103,9 @@ public class ColorTools {
         for (int attempt = 31; attempt >= 0; attempt--) {
             final float x = reverseXYZ(L + A2);
             final float z = reverseXYZ(L - B2);
-            final float r = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + -0.4986f * z, 0f), 1f));
-            final float g = reverseGamma(Math.min(Math.max(-1.5372f * x + +1.8758f * y + +0.0415f * z, 0f), 1f));
-            final float b = reverseGamma(Math.min(Math.max(+3.2406f * x + -0.9689f * y + +1.0570f * z, 0f), 1f));
+            final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
+            final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
+            final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
             if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
             final float progress = attempt * 0x1p-5f;

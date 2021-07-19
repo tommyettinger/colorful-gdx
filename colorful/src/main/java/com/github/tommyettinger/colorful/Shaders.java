@@ -1208,7 +1208,7 @@ public class Shaders {
             "{\n" +
             "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
             "  vec3 lab = rgb2lab(linear(tgt.rgb));\n" +
-            "  lab.x = clamp(lab.x + v_color.r - 0.5, 0.0, 1.0);\n" +
+            "  lab.x = clamp(lab.x + v_color.r - 0.54, 0.0, 1.0);\n" +
             "  lab.yz = clamp(lab.yz + v_color.gb * 2.0 - 1.0, -1.0, 1.0);\n" +
             "  gl_FragColor = vec4(sRGB(lab2rgb(lab)), v_color.a * tgt.a);\n" +
             "}";
