@@ -19,7 +19,7 @@ import com.github.tommyettinger.colorful.Shaders;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class CielabTintDemo extends ApplicationAdapter {
+public class CIELABTintDemo extends ApplicationAdapter {
     //public static final int backgroundColor = Color.rgba8888(Color.DARK_GRAY);
 //    public static final int SCREEN_WIDTH = 1531;
 //    public static final int SCREEN_HEIGHT = 862;
@@ -42,7 +42,7 @@ public class CielabTintDemo extends ApplicationAdapter {
         config.useVsync(true);
 //        config.setResizable(false);
 
-        final CielabTintDemo app = new CielabTintDemo();
+        final CIELABTintDemo app = new CIELABTintDemo();
         config.setWindowListener(new Lwjgl3WindowAdapter() {
             @Override
             public void filesDropped(String[] files) {
