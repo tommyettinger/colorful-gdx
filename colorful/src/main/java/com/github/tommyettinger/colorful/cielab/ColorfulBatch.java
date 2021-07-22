@@ -204,7 +204,7 @@ public class ColorfulBatch implements Batch {
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                         "  vec3 lab = rgb2lab(linear(tgt.rgb));\n" +
                         "  lab.x = clamp(pow(lab.x, v_tweak.w) * v_lightFix * v_tweak.x + v_color.x - 0.54, 0.0, 1.0);\n" +
-                        "  lab.yz = clamp((lab.yz * v_tweak.yz + v_color.yz - 0.5) * 2.0, -1.0, 1.0);\n" +
+                        "  lab.yz = clamp((lab.yz * v_tweak.yz * 2.0) + (v_color.yz - 0.5) * 2.5, -1.0, 1.0);\n" +
                         "  gl_FragColor = vec4(sRGB(lab2rgb(lab)), v_color.a * tgt.a);\n" +
                         "}";
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
