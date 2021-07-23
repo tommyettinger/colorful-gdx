@@ -80,15 +80,15 @@ public class CIELABGamutDemo extends ApplicationAdapter {
             "              0.2126, 0.7152, 0.0722,\n" +
             "              0.0193, 0.1192, 0.9505);\n" +
             "    c = xyzF(c);\n" +
-            "    vec3 lab = vec3(max(0.,1.16*c.y - 0.16), 5.0*(c.x - c.y), 2.0*(c.y - c.z)); \n" +
+            "    vec3 lab = vec3(max(0.,1.16*c.y - 0.16), (c.x - c.y), (c.y - c.z)); \n" +
             "    return lab;\n" +
             "}\n" +
             "vec3 lab2rgb(vec3 c)\n" +
             "{\n" +
             "    float lg = 1./1.16*(c.x + 0.16);\n" +
-            "    vec3 xyz = vec3(xyzR(lg + 0.2*c.y),\n" +
+            "    vec3 xyz = vec3(xyzR(lg + c.y),\n" +
             "                    xyzR(lg),\n" +
-            "                    xyzR(lg - 0.5*c.z));\n" +
+            "                    xyzR(lg - c.z));\n" +
             "    vec3 rgb = xyz*mat3( 3.2406, -1.5372,-0.4986,\n" +
             "                        -0.9689,  1.8758, 0.0415,\n" +
             "                         0.0557, -0.2040, 1.0570);\n" +
@@ -98,8 +98,8 @@ public class CIELABGamutDemo extends ApplicationAdapter {
             "{\n" +
             "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
             "  vec3 lab = rgb2lab(linear(tgt.rgb));\n" +
-            "  lab.x = lab.x + v_color.r - 0.54;\n" +
-            "  lab.yz = (lab.yz + v_color.gb - 0.5) * 2.5;\n" +
+            "  lab.x = lab.x + v_color.r - 0.5372549;\n" +
+            "  lab.yz = (lab.yz + v_color.gb - 0.5) * 2.0;\n" +
             "  lab = lab2rgb(lab);\n" +
             "  vec3 back = clamp(lab, 0.0, 1.0);\n" +
             "  if(any(notEqual(back, lab))) discard;\n" +

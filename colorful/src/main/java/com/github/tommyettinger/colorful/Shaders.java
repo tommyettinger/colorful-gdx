@@ -1188,7 +1188,7 @@ public class Shaders {
             "              0.2126, 0.7152, 0.0722,\n" +
             "              0.0193, 0.1192, 0.9505);\n" +
             "    c = xyzF(c);\n" +
-            "    vec3 lab = vec3(max(0.,1.16*c.y - 0.16), 5.0*(c.x - c.y), 2.0*(c.y - c.z)); \n" +
+            "    vec3 lab = vec3(max(0.,1.16*c.y - 0.16), (c.x - c.y), (c.y - c.z)); \n" +
             "    return lab;\n" +
 //            "    return vec3(lab.x, length(vec2(lab.y,lab.z)), atan(lab.z, lab.y));\n" +
             "}\n" +
@@ -1196,9 +1196,9 @@ public class Shaders {
             "{\n" +
 //            "    c = vec3(c.x, cos(c.z) * c.y, sin(c.z) * c.y);\n" +
             "    float lg = 1./1.16*(c.x + 0.16);\n" +
-            "    vec3 xyz = vec3(xyzR(lg + 0.2*c.y),\n" +
+            "    vec3 xyz = vec3(xyzR(lg + c.y),\n" +
             "                    xyzR(lg),\n" +
-            "                    xyzR(lg - 0.5*c.z));\n" +
+            "                    xyzR(lg - c.z));\n" +
             "    vec3 rgb = xyz*mat3( 3.2406, -1.5372,-0.4986,\n" +
             "                        -0.9689,  1.8758, 0.0415,\n" +
             "                         0.0557, -0.2040, 1.0570);\n" +
@@ -1208,8 +1208,8 @@ public class Shaders {
             "{\n" +
             "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
             "  vec3 lab = rgb2lab(linear(tgt.rgb));\n" +
-            "  lab.x = lab.x + v_color.r - 0.54;\n" +
-            "  lab.yz = lab.yz + (v_color.gb - 0.5) * 2.5;\n" +
+            "  lab.x = lab.x + v_color.r - 0.5372549;\n" +
+            "  lab.yz = lab.yz + (v_color.gb - 0.5) * 2.0;\n" +
             "  gl_FragColor = vec4(sRGB(clamp(lab2rgb(lab), 0.0, 1.0)), v_color.a * tgt.a);\n" +
             "}";
 

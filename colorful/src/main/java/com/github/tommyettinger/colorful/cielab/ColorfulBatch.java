@@ -59,7 +59,7 @@ public class ColorfulBatch implements Batch {
     private boolean ownsShader;
 
     protected float color = Palette.GRAY;
-    private final Color tempColor = new Color(0.6313726f, 0.5019608f, 0.49803922f, 1f); // LAB from Palette.GRAY
+    private final Color tempColor = new Color(0.5372549f, 0.49411765f, 0.49019608f, 1f); // LAB from Palette.GRAY
 
     /**
      * A constant packed float that can be assigned to this ColorfulBatch's tweak with {@link #setTweak(float)} to make
@@ -185,15 +185,15 @@ public class ColorfulBatch implements Batch {
                         "              0.2126, 0.7152, 0.0722,\n" +
                         "              0.0193, 0.1192, 0.9505);\n" +
                         "    c = xyzF(c);\n" +
-                        "    vec3 lab = vec3(max(0.,1.16*c.y - 0.16), 5.0*(c.x - c.y), 2.0*(c.y - c.z)); \n" +
+                        "    vec3 lab = vec3(max(0.,1.16*c.y - 0.16), (c.x - c.y), (c.y - c.z)); \n" +
                         "    return lab;\n" +
                         "}\n" +
                         "vec3 lab2rgb(vec3 c)\n" +
                         "{\n" +
                         "    float lg = 1./1.16*(c.x + 0.16);\n" +
-                        "    vec3 xyz = vec3(xyzR(lg + 0.2*c.y),\n" +
+                        "    vec3 xyz = vec3(xyzR(lg + c.y),\n" +
                         "                    xyzR(lg),\n" +
-                        "                    xyzR(lg - 0.5*c.z));\n" +
+                        "                    xyzR(lg - c.z));\n" +
                         "    vec3 rgb = xyz*mat3( 3.2406, -1.5372,-0.4986,\n" +
                         "                        -0.9689,  1.8758, 0.0415,\n" +
                         "                         0.0557, -0.2040, 1.0570);\n" +
@@ -203,8 +203,8 @@ public class ColorfulBatch implements Batch {
                         "{\n" +
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                         "  vec3 lab = rgb2lab(linear(tgt.rgb));\n" +
-                        "  lab.x = clamp(pow(lab.x, v_tweak.w) * v_lightFix * v_tweak.x + v_color.x - 0.54, 0.0, 1.0);\n" +
-                        "  lab.yz = clamp((lab.yz * v_tweak.yz * 2.0) + (v_color.yz - 0.5) * 2.5, -1.0, 1.0);\n" +
+                        "  lab.x = clamp(pow(lab.x, v_tweak.w) * v_lightFix * v_tweak.x + v_color.x - 0.5372549, 0.0, 1.0);\n" +
+                        "  lab.yz = clamp((lab.yz * v_tweak.yz * 2.0) + (v_color.yz - 0.5) * 2.0, -1.0, 1.0);\n" +
                         "  gl_FragColor = vec4(sRGB(lab2rgb(lab)), v_color.a * tgt.a);\n" +
                         "}";
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
