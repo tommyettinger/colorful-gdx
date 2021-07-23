@@ -1027,8 +1027,8 @@ public class ColorTools {
     public static boolean inGamut(float L, float A, float B)
     {
         L = (1f/1.16f)*(L + 0.16f);
-        A = (A - 0.5f);// * (0.4f);
-        B = (B - 0.5f);
+        A = (A - 0.5f) * 2f;// * (0.4f);
+        B = (B - 0.5f) * 2f;
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
@@ -1096,8 +1096,8 @@ public class ColorTools {
     public static float limitToGamut(float L, float A, float B, float alpha) {
 
         L = (1f/1.16f)*(Math.min(Math.max(L, 0f), 1f) + 0.16f);
-        A = (Math.min(Math.max(A, 0f), 1f) - 0.5f);// * (0.4f);
-        B = (Math.min(Math.max(B, 0f), 1f) - 0.5f);
+        A = (Math.min(Math.max(A, 0f), 1f) - 0.5f) * 2f;// * (0.4f);
+        B = (Math.min(Math.max(B, 0f), 1f) - 0.5f) * 2f;
         alpha = Math.min(Math.max(alpha, 0f), 1f);
 
         final float y = reverseXYZ(L);
