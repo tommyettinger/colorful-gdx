@@ -144,8 +144,8 @@ public class ColorTools {
     {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
         final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (1f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (1f / 127.5f);
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
@@ -166,8 +166,8 @@ public class ColorTools {
     {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
         final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (1f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (1f / 127.5f);
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
@@ -188,8 +188,10 @@ public class ColorTools {
     {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
         final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (1f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (1f / 127.5f);
+//        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
+//        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
@@ -231,8 +233,8 @@ public class ColorTools {
 
         return NumberUtils.intBitsToFloat(
                           Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
-                        | Math.min(Math.max((int)((x - y) * (5f * 127.999f) + 127.5f), 0), 255) << 8
-                        | Math.min(Math.max((int)((y - z) * (2f * 127.999f) + 127.5f), 0), 255) << 16
+                        | Math.min(Math.max((int)((x - y) * (127.999f) + 127.5f), 0), 255) << 8
+                        | Math.min(Math.max((int)((y - z) * (127.999f) + 127.5f), 0), 255) << 16
                         | (rgba & 0xFE) << 24);
     }
 
@@ -253,8 +255,8 @@ public class ColorTools {
 
         return NumberUtils.intBitsToFloat(
                           Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
-                        | Math.min(Math.max((int)((5f*(x - y)) * 127.999f + 127.5f), 0), 255) << 8
-                        | Math.min(Math.max((int)((2f*(y - z)) * 127.999f + 127.5f), 0), 255) << 16
+                        | Math.min(Math.max((int)(((x - y)) * 127.999f + 127.5f), 0), 255) << 8
+                        | Math.min(Math.max((int)(((y - z)) * 127.999f + 127.5f), 0), 255) << 16
                         | (abgr & 0xFE000000));
     }
 
@@ -272,8 +274,8 @@ public class ColorTools {
         final float z = forwardXYZ(0.0193339f * r + 0.1191920f * g + 0.9503041f * b);
         return NumberUtils.intBitsToFloat(
                           Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
-                        | Math.min(Math.max((int)((5f*(x - y)) * 127.999f + 127.5f), 0), 255) << 8
-                        | Math.min(Math.max((int)((2f*(y - z)) * 127.999f + 127.5f), 0), 255) << 16
+                        | Math.min(Math.max((int)(((x - y)) * 127.999f + 127.5f), 0), 255) << 8
+                        | Math.min(Math.max((int)(((y - z)) * 127.999f + 127.5f), 0), 255) << 16
                         | ((int)(color.a * 255f) << 24 & 0xFE000000));
     }
 
@@ -294,8 +296,8 @@ public class ColorTools {
         final float z = forwardXYZ(0.0193339f * r + 0.1191920f * g + 0.9503041f * b);
         return NumberUtils.intBitsToFloat(
                           Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
-                        | Math.min(Math.max((int)((5f*(x - y)) * 127.999f + 127.5f), 0), 255) << 8
-                        | Math.min(Math.max((int)((2f*(y - z)) * 127.999f + 127.5f), 0), 255) << 16
+                        | Math.min(Math.max((int)(((x - y)) * 127.999f + 127.5f), 0), 255) << 8
+                        | Math.min(Math.max((int)(((y - z)) * 127.999f + 127.5f), 0), 255) << 16
                         | ((int)(a * 255f) << 24 & 0xFE000000));
     }
 
@@ -308,8 +310,8 @@ public class ColorTools {
 	{
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (1f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (1f / 127.5f);
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
@@ -325,8 +327,8 @@ public class ColorTools {
 	{
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (1f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (1f / 127.5f);
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
@@ -342,8 +344,8 @@ public class ColorTools {
 	{
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (1f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (1f / 127.5f);
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
@@ -369,8 +371,8 @@ public class ColorTools {
     {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (1f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (1f / 127.5f);
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
@@ -386,8 +388,8 @@ public class ColorTools {
     {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (1f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (1f / 127.5f);
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
@@ -403,8 +405,8 @@ public class ColorTools {
     {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (1f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (1f / 127.5f);
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
@@ -477,8 +479,8 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
         if(Math.abs(L - 0.5) > 0.495f) return 0f;
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (1f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (1f / 127.5f);
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
@@ -514,8 +516,8 @@ public class ColorTools {
     public static float lightness(final float encoded) {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (1f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (1f / 127.5f);
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
@@ -553,8 +555,8 @@ public class ColorTools {
     public static float hue(final float encoded) {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (1f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (1f / 127.5f);
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
@@ -614,8 +616,8 @@ public class ColorTools {
         if (li <= 0.001f)
             return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x808000);
         final float L = (1f/1.16f)*(li + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (1f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (1f / 127.5f);
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
@@ -1002,8 +1004,8 @@ public class ColorTools {
     {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
         final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (1f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (1f / 127.5f);
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
         final float z = reverseXYZ(L - B);
@@ -1025,7 +1027,7 @@ public class ColorTools {
     public static boolean inGamut(float L, float A, float B)
     {
         L = (1f/1.16f)*(L + 0.16f);
-        A = (A - 0.5f) * (0.4f);
+        A = (A - 0.5f);// * (0.4f);
         B = (B - 0.5f);
         final float x = reverseXYZ(L + A);
         final float y = reverseXYZ(L);
@@ -1049,8 +1051,8 @@ public class ColorTools {
     public static float limitToGamut(final float packed) {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
         final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (1f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (1f / 127.5f);
         final float y = reverseXYZ(L);
         float A2 = A, B2 = B;
         for (int attempt = 31; attempt >= 0; attempt--) {
@@ -1094,7 +1096,7 @@ public class ColorTools {
     public static float limitToGamut(float L, float A, float B, float alpha) {
 
         L = (1f/1.16f)*(Math.min(Math.max(L, 0f), 1f) + 0.16f);
-        A = (Math.min(Math.max(A, 0f), 1f) - 0.5f) * (0.4f);
+        A = (Math.min(Math.max(A, 0f), 1f) - 0.5f);// * (0.4f);
         B = (Math.min(Math.max(B, 0f), 1f) - 0.5f);
         alpha = Math.min(Math.max(alpha, 0f), 1f);
 
