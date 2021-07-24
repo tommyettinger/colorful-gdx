@@ -50,8 +50,10 @@ public class CIELABDescriptiveDemo extends ApplicationAdapter {
     @Override
     public void render() {
         float c = SimplePalette.parseDescription(tf.getText());
-        if(ColorTools.alphaInt(c) >= 254)
+        if(ColorTools.alphaInt(c) >= 254) {
+//            System.out.printf("L=%1.8f, A=%1.8f, B=%1.8f\n", ColorTools.channelL(c), ColorTools.channelA(c), ColorTools.channelB(c));
             ColorTools.toColor(color, c);
+        }
         Gdx.gl.glClearColor(color.r, color.g, color.b, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
