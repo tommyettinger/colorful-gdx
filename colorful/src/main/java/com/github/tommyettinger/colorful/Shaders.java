@@ -1188,7 +1188,7 @@ public class Shaders {
             "              0.2126, 0.7152, 0.0722,\n" +
             "              0.0193, 0.1192, 0.9505);\n" +
             "    c = xyzF(c);\n" +
-            "    vec3 lab = vec3(max(0.,1.16*c.y - 0.16), (c.x - c.y), (c.y - c.z)); \n" +
+            "    vec3 lab = vec3(max(0.,1.16*c.y - 0.16), (c.x - c.y) * 5.0, (c.y - c.z) * 2.0); \n" +
             "    return lab;\n" +
 //            "    return vec3(lab.x, length(vec2(lab.y,lab.z)), atan(lab.z, lab.y));\n" +
             "}\n" +
@@ -1196,9 +1196,9 @@ public class Shaders {
             "{\n" +
 //            "    c = vec3(c.x, cos(c.z) * c.y, sin(c.z) * c.y);\n" +
             "    float lg = 1./1.16*(c.x + 0.16);\n" +
-            "    vec3 xyz = vec3(xyzR(lg + c.y * 0.22),\n" +
+            "    vec3 xyz = vec3(xyzR(lg + c.y * 0.2),\n" +
             "                    xyzR(lg),\n" +
-            "                    xyzR(lg - c.z * 0.55));\n" +
+            "                    xyzR(lg - c.z * 0.5));\n" +
             "    vec3 rgb = xyz*mat3( 3.2406, -1.5372,-0.4986,\n" +
             "                        -0.9689,  1.8758, 0.0415,\n" +
             "                         0.0557, -0.2040, 1.0570);\n" +
