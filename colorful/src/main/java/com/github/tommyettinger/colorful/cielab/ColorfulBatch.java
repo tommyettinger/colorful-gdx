@@ -185,15 +185,15 @@ public class ColorfulBatch implements Batch {
                         "              0.2126, 0.7152, 0.0722,\n" +
                         "              0.0193, 0.1192, 0.9505);\n" +
                         "    c = xyzF(c);\n" +
-                        "    vec3 lab = vec3(max(0.,1.16*c.y - 0.16), (c.x - c.y), (c.y - c.z)); \n" +
+                        "    vec3 lab = vec3(max(0.,1.16*c.y - 0.16), (c.x - c.y) * (50.0/11.0), (c.y - c.z) * (20.0/11.0)); \n" +
                         "    return lab;\n" +
                         "}\n" +
                         "vec3 lab2rgb(vec3 c)\n" +
                         "{\n" +
                         "    float lg = 1./1.16*(c.x + 0.16);\n" +
-                        "    vec3 xyz = vec3(xyzR(lg + c.y),\n" +
+                        "    vec3 xyz = vec3(xyzR(lg + c.y * 0.22),\n" +
                         "                    xyzR(lg),\n" +
-                        "                    xyzR(lg - c.z));\n" +
+                        "                    xyzR(lg - c.z * 0.55));\n" +
                         "    vec3 rgb = xyz*mat3( 3.2406, -1.5372,-0.4986,\n" +
                         "                        -0.9689,  1.8758, 0.0415,\n" +
                         "                         0.0557, -0.2040, 1.0570);\n" +
@@ -204,8 +204,8 @@ public class ColorfulBatch implements Batch {
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                         "  vec3 lab = rgb2lab(linear(tgt.rgb));\n" +
                         "  lab.x = clamp(pow(lab.x, v_tweak.w) * v_lightFix * v_tweak.x + v_color.x - 0.5372549, 0.0, 1.0);\n" +
-                        "  lab.yz = clamp((lab.yz * v_tweak.yz * 2.0) + (v_color.yz - 0.5) * 2.0, -1.0, 1.0);\n" +
-                        "  gl_FragColor = vec4(sRGB(lab2rgb(lab)), v_color.a * tgt.a);\n" +
+                        "  lab.yz = (lab.yz * v_tweak.yz * 2.0) + (v_color.yz - 0.5) * 2.0;\n" +
+                        "  gl_FragColor = vec4(sRGB(clamp(lab2rgb(lab), 0.0, 1.0)), v_color.a * tgt.a);\n" +
                         "}";
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
         if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
