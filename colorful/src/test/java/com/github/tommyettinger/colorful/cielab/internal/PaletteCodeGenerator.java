@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import static com.github.tommyettinger.colorful.cielab.ColorTools.fromRGBA8888;
-import static com.github.tommyettinger.colorful.cielab.ColorTools.toRGBA8888;
+import static com.github.tommyettinger.colorful.cielab.ColorTools.*;
 
 /**
  * A tool, not a demo, used to generate the data used in Palette and in the javadocs.
