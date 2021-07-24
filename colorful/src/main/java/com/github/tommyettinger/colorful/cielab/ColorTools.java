@@ -233,8 +233,8 @@ public class ColorTools {
 
         return NumberUtils.intBitsToFloat(
                           Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
-                        | Math.min(Math.max((int)((x - y) * (127.999f * 50f / 11f) + 127.5f), 0), 255) << 8
-                        | Math.min(Math.max((int)((y - z) * (127.999f * 20f / 11f) + 127.5f), 0), 255) << 16
+                        | Math.min(Math.max((int)((x - y) * (127.999f * 5f) + 127.5f), 0), 255) << 8
+                        | Math.min(Math.max((int)((y - z) * (127.999f * 2f) + 127.5f), 0), 255) << 16
                         | (rgba & 0xFE) << 24);
     }
 
@@ -255,8 +255,8 @@ public class ColorTools {
 
         return NumberUtils.intBitsToFloat(
                           Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
-                        | Math.min(Math.max((int)(((x - y)) * (127.999f * 50f / 11f) + 127.5f), 0), 255) << 8
-                        | Math.min(Math.max((int)(((y - z)) * (127.999f * 20f / 11f) + 127.5f), 0), 255) << 16
+                        | Math.min(Math.max((int)(((x - y)) * (127.999f * 5f) + 127.5f), 0), 255) << 8
+                        | Math.min(Math.max((int)(((y - z)) * (127.999f * 2f) + 127.5f), 0), 255) << 16
                         | (abgr & 0xFE000000));
     }
 
@@ -274,8 +274,8 @@ public class ColorTools {
         final float z = forwardXYZ(0.0193339f * r + 0.1191920f * g + 0.9503041f * b);
         return NumberUtils.intBitsToFloat(
                           Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
-                        | Math.min(Math.max((int)(((x - y)) * (127.999f * 50f / 11f) + 127.5f), 0), 255) << 8
-                        | Math.min(Math.max((int)(((y - z)) * (127.999f * 20f / 11f) + 127.5f), 0), 255) << 16
+                        | Math.min(Math.max((int)(((x - y)) * (127.999f * 5f) + 127.5f), 0), 255) << 8
+                        | Math.min(Math.max((int)(((y - z)) * (127.999f * 2f) + 127.5f), 0), 255) << 16
                         | ((int)(color.a * 255f) << 24 & 0xFE000000));
     }
 
@@ -296,8 +296,8 @@ public class ColorTools {
         final float z = forwardXYZ(0.0193339f * r + 0.1191920f * g + 0.9503041f * b);
         return NumberUtils.intBitsToFloat(
                           Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
-                        | Math.min(Math.max((int)(((x - y)) * (127.999f * 50f / 11f) + 127.5f), 0), 255) << 8
-                        | Math.min(Math.max((int)(((y - z)) * (127.999f * 20f / 11f) + 127.5f), 0), 255) << 16
+                        | Math.min(Math.max((int)(((x - y)) * (127.999f * 5f) + 127.5f), 0), 255) << 8
+                        | Math.min(Math.max((int)(((y - z)) * (127.999f * 2f) + 127.5f), 0), 255) << 16
                         | ((int)(a * 255f) << 24 & 0xFE000000));
     }
 
