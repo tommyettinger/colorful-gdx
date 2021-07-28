@@ -1,9 +1,11 @@
 package com.github.tommyettinger.colorful.cielab;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.Shaders;
+import com.github.tommyettinger.colorful.TrigTools;
 import com.github.tommyettinger.colorful.oklab.ColorfulBatch;
 import com.github.tommyettinger.colorful.oklab.Palette;
 
@@ -441,6 +443,35 @@ public class ColorTools {
         final float a = ((decoded >>> 7 & 0x1FE) - 255) / 255f;
         final float b = ((decoded >>> 15 & 0x1FE) - 255) / 255f;
         return (float) Math.sqrt(a * a + b * b);
+    }
+    /**
+     * Given a hue and lightness, this gets the (approximate) maximum chroma possible for that hue-lightness
+     * combination. This is useful to know the bounds of {@link #chroma(float)}. This should be no greater
+     * than 1.26365817f .
+     * @param hue the hue, typically between 0.0f and 1.0f, to look up
+     * @param lightness the lightness, clamped between 0.0f and 1.0f, to look up
+     * @return the maximum possible chroma for the given hue and lightness, between 0.0f and 1.26365817f
+     */
+    public static float chromaLimit(final float hue, final float lightness) {
+        final float h = hue - MathUtils.floor(hue);
+        final float L = (1f/1.16f)*(lightness + 0.16f);
+        final float A = TrigTools.cos_(h) * 1.26365817f;
+        final float B = TrigTools.sin_(h) * 1.26365817f;
+        final float y = reverseXYZ(L);
+        float A2 = A, B2 = B;
+        for (int attempt = 39; attempt >= 0; attempt--) {
+            final float x = reverseXYZ(L + A2);
+            final float z = reverseXYZ(L - B2);
+            final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
+            final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
+            final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
+            if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
+                break;
+            final float progress = attempt * 0.025f;
+            A2 = (A * progress);
+            B2 = (B * progress);
+        }
+        return (float) Math.sqrt(A2 * A2 + B2 * B2);
     }
 
     /**
