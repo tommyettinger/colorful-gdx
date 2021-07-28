@@ -568,8 +568,12 @@ public class ColorTools {
         final float L = (1f/1.16f)*(((decoded & 0xff) / 255f) + 0.16f);
         final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
         final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-        final float y = reverseXYZ(L);
-        float A2 = A, B2 = B;
+        final float h = TrigTools.atan2_(B - 0.5f, A - 0.5f);
+        final float L0 = (1f/1.16f)*(L + 0.16f);
+        final float A0 = TrigTools.cos_(h) * 1.26365817f;
+        final float B0 = TrigTools.sin_(h) * 1.26365817f;
+        final float y = reverseXYZ(L0);
+        float A2 = A0, B2 = B0;
         for (int attempt = 39; attempt >= 0; attempt--) {
             final float x = reverseXYZ(L + A2);
             final float z = reverseXYZ(L - B2);
@@ -579,8 +583,8 @@ public class ColorTools {
             if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
             final float progress = attempt * 0.025f;
-            A2 = (A * progress);
-            B2 = (B * progress);
+            A2 = (A0 * progress);
+            B2 = (B0 * progress);
         }
         final float dist = (float) Math.sqrt(A2 * A2 + B2 * B2);
         return (float) Math.sqrt(A * A + B * B) / dist;
@@ -597,6 +601,90 @@ public class ColorTools {
      */
     public static float cielabLightness(final float packed){
         return (NumberUtils.floatToRawIntBits(packed) & 0xff) / 255f;
+    }
+
+    /**
+     * A different way to specify a CIELAB color, using hue, saturation, lightness, and alpha like a normal HSL(A) color
+     * but calculating them directly in the CIELAB color space. This is more efficient than
+     * {@link #floatGetHSL(float, float, float, float)}. You may prefer using
+     * {@link #cielabByHCL(float, float, float, float)}, which takes an absolute chroma as opposed to the saturation
+     * here (which is a fraction of the maximum chroma).
+     * <br>
+     * Note that this takes a different value for its {@code hue} that the method {@link #hue(float)} produces, just
+     * like its {@code saturation} and the method {@link #saturation(float)}, and {@code lightness} and the method
+     * {@link #lightness(float)}. The hue is just distributed differently, and the lightness should be equivalent to
+     * {@link #channelL(float)}, but the saturation here refers to what fraction the chroma should be of the maximum
+     * chroma for the given hue and lightness. You can use {@link #cielabHue(float)}, {@link #cielabSaturation(float)},
+     * and {@link #cielabLightness(float)} to get the hue, saturation, and lightness values from an existing color that
+     * this will understand ({@link #alpha(float)} too).
+     * @param hue between 0 and 1, usually, but this will automatically wrap if too high or too low
+     * @param saturation will be clamped between 0 and 1
+     * @param lightness will be clamped between 0 and 1
+     * @param alpha will be clamped between 0 and 1
+     * @return a packed CIELAB float color that tries to match the requested hue, saturation, and lightness
+     */
+    public static float cielabByHSL(float hue, float saturation, float lightness, float alpha) {
+        lightness = Math.min(Math.max(lightness, 0f), 1f);
+        saturation = Math.min(Math.max(saturation, 0f), 1f);
+        hue -= MathUtils.floor(hue);
+        alpha = Math.min(Math.max(alpha, 0f), 1f);
+        final float L = (1f/1.16f)*(lightness + 0.16f);
+        final float L0 = (1f/1.16f)*(L + 0.16f);
+        final float cos = TrigTools.cos_(hue);
+        final float sin = TrigTools.sin_(hue);
+        final float A0 = cos * 1.26365817f;
+        final float B0 = sin * 1.26365817f;
+        final float y = reverseXYZ(L0);
+        float A2 = A0, B2 = B0;
+        for (int attempt = 39; attempt >= 0; attempt--) {
+            final float x = reverseXYZ(L + A2);
+            final float z = reverseXYZ(L - B2);
+            final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
+            final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
+            final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
+            if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
+                break;
+            final float progress = attempt * 0.025f;
+            A2 = (A0 * progress);
+            B2 = (B0 * progress);
+        }
+        final float dist = (float) Math.sqrt(A2 * A2 + B2 * B2) * saturation;
+        return NumberUtils.intBitsToFloat(
+                (int) (alpha * 127.999f) << 25 |
+                        (int) (sin * dist + 128f) << 16 |
+                        (int) (cos * dist + 128f) << 8 |
+                        (int) (lightness * 255.999f));
+    }
+
+    /**
+     * A different way to specify a CIELAB color, using hue, chroma, lightness, and alpha something like a normal HSL(A)
+     * color but calculating them directly in the CIELAB color space. This has you specify the desired chroma directly,
+     * as obtainable with {@link #chroma(float)}, rather than the saturation, which is a fraction of the maximum chroma
+     * (saturation is what {@link #cielabByHSL(float, float, float, float)} uses). Note that this takes a different
+     * value for its {@code hue} that the method {@link #hue(float)} produces, just like {@code lightness} and the
+     * method {@link #lightness(float)}. The hue is just distributed differently, and the lightness should be equivalent
+     * to {@link #channelL(float)}. If you use this to get two colors with the same chroma and lightness, but different
+     * hue, then the resulting colors should have similar colorfulness unless one or both chroma values exceeded the
+     * gamut limit (you can get this limit with {@link #chromaLimit(float, float)}). If a chroma value given is greater
+     * than the chroma limit, this clamps chroma to that limit. You can use {@link #cielabHue(float)},
+     * {@link #chroma(float)}, and {@link #cielabLightness(float)} to get the hue, chroma, and lightness values from an
+     * existing color that this will understand ({@link #alpha(float)} too).
+     * @param hue between 0 and 1, usually, but this will automatically wrap if too high or too low
+     * @param chroma will be clamped between 0 and the maximum chroma possible for the given hue and lightness
+     * @param lightness will be clamped between 0 and 1
+     * @param alpha will be clamped between 0 and 1
+     * @return a packed CIELAB float color that tries to match the requested hue, chroma, and lightness
+     */
+    public static float cielabByHCL(float hue, float chroma, float lightness, float alpha) {
+        lightness = Math.min(Math.max(lightness, 0f), 1f);
+        chroma = Math.max(chroma, 0f) * 127.5f;
+        hue -= MathUtils.floor(hue);
+        alpha = Math.min(Math.max(alpha, 0f), 1f);
+        return NumberUtils.intBitsToFloat(
+                (int) (alpha * 127.999f) << 25 |
+                        Math.min(Math.max((int) (TrigTools.sin_(hue) * chroma + 127.5f), 0), 255) << 16 |
+                        Math.min(Math.max((int) (TrigTools.cos_(hue) * chroma + 127.5f), 0), 255) << 8 |
+                        (int) (lightness * 255.999f));
     }
 
     /**
