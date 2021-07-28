@@ -424,7 +424,6 @@ public class ColorTools {
     }
 
 
-    //TODO: figure out what the highest chroma is for in-gamut colors
     /**
      * Gets the "chroma" or "colorfulness" of a given CIELAB color. Chroma is similar to saturation in that grayscale
      * values have 0 saturation and 0 chroma, while brighter colors have high saturation and chroma. The difference is
@@ -433,9 +432,9 @@ public class ColorTools {
      * is, the most saturated color for a given hue and lightness always has a saturation of 1, but if that color
      * isn't perceptually very colorful (as is the case for very dark and very light colors), it will have a chroma that
      * is much lower than the maximum. The result of this method can't be negative, grayscale values have very close to
-     * 0 chroma, and the most colorful values should have ??? chroma.
+     * 0 chroma, and the most colorful value (a shade of purple) should have 1.26365817 chroma.
      * @param encoded a color as a packed float that can be obtained by {@link #cielab(float, float, float, float)}
-     * @return a float between 0.0f and ??? that represents how colorful the given value is
+     * @return a float between 0.0f and 1.26365817 that represents how colorful the given value is
      */
     public static float chroma(final float encoded) {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
