@@ -6,8 +6,6 @@ import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.Shaders;
 import com.github.tommyettinger.colorful.TrigTools;
-import com.github.tommyettinger.colorful.oklab.ColorfulBatch;
-import com.github.tommyettinger.colorful.oklab.Palette;
 
 import java.util.Random;
 
@@ -446,8 +444,8 @@ public class ColorTools {
     }
     /**
      * Given a hue and lightness, this gets the (approximate) maximum chroma possible for that hue-lightness
-     * combination. This is useful to know the bounds of {@link #chroma(float)}. This should be no greater
-     * than 1.26365817f .
+     * combination, using CIELAB's versions of lightness and hue (not HSL). This is useful to know the bounds of
+     * {@link #chroma(float)}. This should be no greater than 1.26365817f .
      * @param hue the hue, typically between 0.0f and 1.0f, to look up
      * @param lightness the lightness, clamped between 0.0f and 1.0f, to look up
      * @return the maximum possible chroma for the given hue and lightness, between 0.0f and 1.26365817f
@@ -472,6 +470,133 @@ public class ColorTools {
             B2 = (B * progress);
         }
         return (float) Math.sqrt(A2 * A2 + B2 * B2);
+    }
+    /**
+     * Gets the color with the same L as the CIELAB color stored in the given packed float, but the furthest A
+     * B from gray possible for that lightness while keeping the same hue as the given color. This is very
+     * similar to calling {@link #enrich(float, float)} with a very large {@code change} value.
+     * @param packed a packed float color in CIELAB format; does not need to be in-gamut
+     * @return the color that is as far from grayscale as this can get while keeping the L and hue of packed
+     * @see #limitToGamut(float) You can use limitToGamut() if you only want max saturation for out-of-gamut colors.
+     */
+    public static float maximizeSaturation(final float packed) {
+        final int decoded = NumberUtils.floatToRawIntBits(packed);
+        final float lightness = (decoded & 255) / 255f;
+        final float h = TrigTools.atan2_(((decoded >>> 16 & 0xff) - 127.5f), ((decoded >>> 8 & 0xff) - 127.5f));
+        final float L = (1f/1.16f)*(lightness + 0.16f);
+        final float A = TrigTools.cos_(h) * 1.26365817f;
+        final float B = TrigTools.sin_(h) * 1.26365817f;
+        final float y = reverseXYZ(L);
+        float A2 = A, B2 = B;
+        for (int attempt = 39; attempt >= 0; attempt--) {
+            final float x = reverseXYZ(L + A2);
+            final float z = reverseXYZ(L - B2);
+            final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
+            final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
+            final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
+            if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
+                break;
+            final float progress = attempt * 0.025f;
+            A2 = (A * progress);
+            B2 = (B * progress);
+        }
+        return cielab(lightness, A2 * 0.5f + 0.5f, B2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
+    }
+    /**
+     * Gets the color with the same L as the CIELAB color stored in the given packed float, but the furthest A
+     * B from gray possible for that lightness while keeping the same hue as the given color. This is very
+     * similar to calling {@link #enrich(float, float)} with a very large {@code change} value.
+     * @param L lightness component; will be clamped between 0 and 1 if it isn't already
+     * @param A green-to-red chromatic component; will be clamped between 0 and 1 if it isn't already
+     * @param B blue-to-yellow chromatic component; will be clamped between 0 and 1 if it isn't already
+     * @param alpha alpha component; will be clamped between 0 and 1 if it isn't already
+     * @return the color that is as far from grayscale as this can get while keeping the L and hue of packed
+     * @see #limitToGamut(float, float, float, float) You can use limitToGamut() if you only want max saturation
+     * for out-of-gamut colors.
+     */
+    public static float maximizeSaturation(float L, float A, float B, float alpha) {
+        L = Math.min(Math.max(L, 0f), 1f);
+        A = Math.min(Math.max(A, 0f), 1f);
+        B = Math.min(Math.max(B, 0f), 1f);
+        alpha = Math.min(Math.max(alpha, 0f), 1f);
+        final float h = TrigTools.atan2_(B - 0.5f, A - 0.5f);
+        final float L0 = (1f/1.16f)*(L + 0.16f);
+        final float A0 = TrigTools.cos_(h) * 1.26365817f;
+        final float B0 = TrigTools.sin_(h) * 1.26365817f;
+        final float y = reverseXYZ(L0);
+        float A2 = A0, B2 = B0;
+        for (int attempt = 39; attempt >= 0; attempt--) {
+            final float x = reverseXYZ(L0 + A2);
+            final float z = reverseXYZ(L0 - B2);
+            final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
+            final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
+            final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
+            if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
+                break;
+            final float progress = attempt * 0.025f;
+            A2 = (A0 * progress);
+            B2 = (B0 * progress);
+        }
+        return cielab(L, A2, B2, alpha);
+    }
+
+    /**
+     * Gets the hue of the given CIELAB float color, but as CIELAB understands hue rather than how HSL does.
+     * This is different from {@link #hue(float)}, which uses HSL. This gives a float between 0 (inclusive)
+     * and 1 (exclusive).
+     *
+     * @param packed a packed CIELAB float color
+     * @return a float between 0 (inclusive) and 1 (exclusive) that represents hue in the CIELAB color space
+     */
+    public static float cielabHue(final float packed) {
+        final int decoded = NumberUtils.floatToRawIntBits(packed);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f);
+        return TrigTools.atan2_(B, A);
+    }
+
+    /**
+     * Gets the saturation of the given CIELAB float color, but as CIELAB understands saturation rather than how HSL
+     * does. Saturation here is a fraction of the chroma limit (see {@link #chromaLimit(float, float)}) for a given hue
+     * and lightness, and is between 0 and 1. This gives a float between 0 (inclusive) and 1 (inclusive).
+     *
+     * @param packed a packed CIELAB float color
+     * @return a float between 0 (inclusive) and 1 (inclusive) that represents saturation in the CIELAB color space
+     */
+    public static float cielabSaturation(final float packed) {
+        final int decoded = NumberUtils.floatToRawIntBits(packed);
+        final float L = (1f/1.16f)*(((decoded & 0xff) / 255f) + 0.16f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+        final float y = reverseXYZ(L);
+        float A2 = A, B2 = B;
+        for (int attempt = 39; attempt >= 0; attempt--) {
+            final float x = reverseXYZ(L + A2);
+            final float z = reverseXYZ(L - B2);
+            final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
+            final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
+            final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
+            if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
+                break;
+            final float progress = attempt * 0.025f;
+            A2 = (A * progress);
+            B2 = (B * progress);
+        }
+        final float dist = (float) Math.sqrt(A2 * A2 + B2 * B2);
+        return (float) Math.sqrt(A * A + B * B) / dist;
+    }
+    /**
+     * Gets the lightness of the given CIELAB float color, but as CIELAB understands lightness rather than how HSL does.
+     * This is different from {@link #lightness(float)}, which uses HSL. This gives a float between 0 (inclusive)
+     * and 1 (inclusive).
+     * <br>
+     * This is the same as {@link #channelL(float)}.
+     *
+     * @param packed a packed CIELAB float color
+     * @return a float between 0 (inclusive) and 1 (inclusive) that represents lightness in the CIELAB color space
+     */
+    public static float cielabLightness(final float packed){
+        return (NumberUtils.floatToRawIntBits(packed) & 0xff) / 255f;
     }
 
     /**
