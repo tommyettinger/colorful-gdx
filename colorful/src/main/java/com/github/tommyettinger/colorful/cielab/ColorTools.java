@@ -460,9 +460,9 @@ public class ColorTools {
         for (int attempt = 39; attempt >= 0; attempt--) {
             final float x = reverseXYZ(L + A2);
             final float z = reverseXYZ(L - B2);
-            final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
-            final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
-            final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
+            final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
+            final float g = reverseGamma(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z);
+            final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
             if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
             final float progress = attempt * 0.025f;
@@ -491,9 +491,9 @@ public class ColorTools {
         for (int attempt = 39; attempt >= 0; attempt--) {
             final float x = reverseXYZ(L + A2);
             final float z = reverseXYZ(L - B2);
-            final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
-            final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
-            final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
+            final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
+            final float g = reverseGamma(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z);
+            final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
             if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
             final float progress = attempt * 0.025f;
@@ -528,9 +528,9 @@ public class ColorTools {
         for (int attempt = 39; attempt >= 0; attempt--) {
             final float x = reverseXYZ(L0 + A2);
             final float z = reverseXYZ(L0 - B2);
-            final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
-            final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
-            final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
+            final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
+            final float g = reverseGamma(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z);
+            final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
             if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
             final float progress = attempt * 0.025f;
@@ -577,9 +577,9 @@ public class ColorTools {
         for (int attempt = 39; attempt >= 0; attempt--) {
             final float x = reverseXYZ(L + A2);
             final float z = reverseXYZ(L - B2);
-            final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
-            final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
-            final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
+            final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
+            final float g = reverseGamma(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z);
+            final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
             if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
             final float progress = attempt * 0.025f;
@@ -639,9 +639,9 @@ public class ColorTools {
         for (int attempt = 39; attempt >= 0; attempt--) {
             final float x = reverseXYZ(L + A2);
             final float z = reverseXYZ(L - B2);
-            final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
-            final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
-            final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
+            final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
+            final float g = reverseGamma(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z);
+            final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
             if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
             final float progress = attempt * 0.025f;
@@ -1322,9 +1322,9 @@ public class ColorTools {
         for (int attempt = 31; attempt >= 0; attempt--) {
             final float x = reverseXYZ(L + A2);
             final float z = reverseXYZ(L - B2);
-            final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
-            final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
-            final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
+            final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
+            final float g = reverseGamma(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z);
+            final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
             if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
             final float progress = attempt * 0x1p-5f;
@@ -1369,9 +1369,9 @@ public class ColorTools {
         for (int attempt = 31; attempt >= 0; attempt--) {
             final float x = reverseXYZ(L + A2);
             final float z = reverseXYZ(L - B2);
-            final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
-            final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
-            final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
+            final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
+            final float g = reverseGamma(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z);
+            final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
             if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
             final float progress = attempt * 0x1p-5f;
