@@ -453,8 +453,8 @@ public class ColorTools {
     public static float chromaLimit(final float hue, final float lightness) {
         final float h = hue - MathUtils.floor(hue);
         final float L = (1f/1.16f)*(lightness + 0.16f);
-        final float A = TrigTools.cos_(h) * 1.26365817f;
-        final float B = TrigTools.sin_(h) * 1.26365817f;
+        final float A = TrigTools.cos_(h) * 1.26365817f * 0.2f;
+        final float B = TrigTools.sin_(h) * 1.26365817f * 0.5f;
         final float y = reverseXYZ(L);
         float A2 = A, B2 = B;
         for (int attempt = 39; attempt >= 0; attempt--) {
@@ -484,8 +484,8 @@ public class ColorTools {
         final float lightness = (decoded & 255) / 255f;
         final float h = TrigTools.atan2_(((decoded >>> 16 & 0xff) - 127.5f), ((decoded >>> 8 & 0xff) - 127.5f));
         final float L = (1f/1.16f)*(lightness + 0.16f);
-        final float A = TrigTools.cos_(h) * 1.26365817f;
-        final float B = TrigTools.sin_(h) * 1.26365817f;
+        final float A = TrigTools.cos_(h) * 1.26365817f * 0.2f;
+        final float B = TrigTools.sin_(h) * 1.26365817f * 0.5f;
         final float y = reverseXYZ(L);
         float A2 = A, B2 = B;
         for (int attempt = 39; attempt >= 0; attempt--) {
@@ -550,8 +550,8 @@ public class ColorTools {
      */
     public static float cielabHue(final float packed) {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
         return TrigTools.atan2_(B, A);
     }
 
@@ -566,9 +566,9 @@ public class ColorTools {
     public static float cielabSaturation(final float packed) {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
         final float L = (1f/1.16f)*(((decoded & 0xff) / 255f) + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
-        final float h = TrigTools.atan2_(B - 0.5f, A - 0.5f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        final float h = TrigTools.atan2_(B, A);
         final float L0 = (1f/1.16f)*(L + 0.16f);
         final float A0 = TrigTools.cos_(h) * 1.26365817f;
         final float B0 = TrigTools.sin_(h) * 1.26365817f;
@@ -632,8 +632,8 @@ public class ColorTools {
         final float L0 = (1f/1.16f)*(L + 0.16f);
         final float cos = TrigTools.cos_(hue);
         final float sin = TrigTools.sin_(hue);
-        final float A0 = cos * 1.26365817f;
-        final float B0 = sin * 1.26365817f;
+        final float A0 = cos * 1.26365817f * 0.2f;
+        final float B0 = sin * 1.26365817f * 0.5f;
         final float y = reverseXYZ(L0);
         float A2 = A0, B2 = B0;
         for (int attempt = 39; attempt >= 0; attempt--) {
@@ -651,8 +651,8 @@ public class ColorTools {
         final float dist = (float) Math.sqrt(A2 * A2 + B2 * B2) * saturation;
         return NumberUtils.intBitsToFloat(
                 (int) (alpha * 127.999f) << 25 |
-                        (int) (sin * dist + 128f) << 16 |
-                        (int) (cos * dist + 128f) << 8 |
+                        Math.min(Math.max((int) (sin * dist + 127.5f), 0), 255) << 16 |
+                        Math.min(Math.max((int) (cos * dist + 127.5f), 0), 255) << 8 |
                         (int) (lightness * 255.999f));
     }
 
@@ -682,8 +682,8 @@ public class ColorTools {
         alpha = Math.min(Math.max(alpha, 0f), 1f);
         return NumberUtils.intBitsToFloat(
                 (int) (alpha * 127.999f) << 25 |
-                        Math.min(Math.max((int) (TrigTools.sin_(hue) * chroma + 127.5f), 0), 255) << 16 |
-                        Math.min(Math.max((int) (TrigTools.cos_(hue) * chroma + 127.5f), 0), 255) << 8 |
+                        Math.min(Math.max((int) (TrigTools.sin_(hue) /* * 2f */ * chroma + 127.5f), 0), 255) << 16 |
+                        Math.min(Math.max((int) (TrigTools.cos_(hue) /* * 5f */ * chroma + 127.5f), 0), 255) << 8 |
                         (int) (lightness * 255.999f));
     }
 
@@ -937,8 +937,8 @@ public class ColorTools {
                                   float mulL, float mulA, float mulB, float mulAlpha) {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float L = (decoded & 0xff) / 255f;
-        float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-        float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+        float A = ((decoded >>> 8 & 0xff) - 127.5f)  * (0.2f / 127.5f);
+        float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
         float alpha = (decoded >>> 25) / 127f;
 
         L = Math.min(Math.max(L * mulL + addL, 0f), 1f);
@@ -1315,8 +1315,8 @@ public class ColorTools {
     public static float limitToGamut(final float packed) {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
         final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (1f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (1f / 127.5f);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
         final float y = reverseXYZ(L);
         float A2 = A, B2 = B;
         for (int attempt = 31; attempt >= 0; attempt--) {
@@ -1360,8 +1360,8 @@ public class ColorTools {
     public static float limitToGamut(float L, float A, float B, float alpha) {
 
         L = (1f/1.16f)*(Math.min(Math.max(L, 0f), 1f) + 0.16f);
-        A = (Math.min(Math.max(A, 0f), 1f) - 0.5f) * 2f;// * (0.4f);
-        B = (Math.min(Math.max(B, 0f), 1f) - 0.5f) * 2f;
+        A = (Math.min(Math.max(A, 0f), 1f) - 0.5f) * 0.4f;
+        B = (Math.min(Math.max(B, 0f), 1f) - 0.5f);
         alpha = Math.min(Math.max(alpha, 0f), 1f);
 
         final float y = reverseXYZ(L);
@@ -1398,8 +1398,8 @@ public class ColorTools {
     public static float randomEdit(final float color, long seed, final float variance) {
         final int decoded = NumberUtils.floatToRawIntBits(color);
         final float L = (decoded & 0xff) / 255f;
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (0.2f / 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
         final float limit = variance * variance;
         float dist, x, y, z;
         for (int j = 0; j < 50; j++) {
