@@ -113,16 +113,5 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
     public void handleInput() {
         if (input.isKeyPressed(Input.Keys.Q) || input.isKeyPressed(Input.Keys.ESCAPE)) //quit
             Gdx.app.exit();
-        else if (TimeUtils.timeSinceMillis(lastProcessedTime) > 150) {
-            lastProcessedTime = TimeUtils.millis();
-            if (input.isKeyPressed(Input.Keys.RIGHT) || input.isKeyPressed(Input.Keys.UP)) {
-                layer = MathUtils.clamp(layer + 0x1p-7f, 0f, 1f);
-            } else if (input.isKeyPressed(Input.Keys.LEFT) || input.isKeyPressed(Input.Keys.DOWN)) {
-                layer = MathUtils.clamp(layer - 0x1p-7f, 0f, 1f);
-            } else if (input.isKeyPressed(Input.Keys.R)) // random
-            {
-                layer = random.nextFloat();
-            }
-        }
     }
 }

@@ -1213,4 +1213,48 @@ public class Shaders {
             "  gl_FragColor = vec4(sRGB(clamp(lab2rgb(lab), 0.0, 1.0)), v_color.a * tgt.a);\n" +
             "}";
 
+    /**
+     * Just like {@link #fragmentShaderIPT_HQ}, but uses the Oklab color space instead of the very similar IPT_HQ one.
+     * This also gamma-corrects the inputs and outputs, though it uses subtly different math internally. Oklab colors
+     * tend to have more variation on their L channel, which represents lightness, than their A or B channels, which
+     * represent green-to-red and blue-to-yellow chromatic axes; indeed, A and B tend to be no more than about 1/6 away
+     * from their middle point at 1/2, which is used for grayscale. This is normal for Oklab, and allows colors to be
+     * compared for approximate difference using Euclidean distance. Importantly, Oklab preserves the meaning of its L
+     * channel (lightness) very well when comparing two arbitrary colors, while also doing well when comparing chroma
+     * (see {@link com.github.tommyettinger.colorful.oklab.ColorTools#chroma(float)}.
+     * <br>
+     * You can generate Oklab colors using any of various methods in the {@code oklab} package, such as
+     * {@link com.github.tommyettinger.colorful.oklab.ColorTools#oklab(float, float, float, float)}.
+     * <br>
+     * Meant for use with {@link #vertexShader}.
+     */
+    public static String fragmentShaderColorize =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "const vec3 forward = vec3(1.0 / 3.0);\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "  vec3 base = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +
+                    "              pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +
+                    "              * (tgt.rgb * tgt.rgb), forward);\n" +
+                    "  vec3 tint = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +
+                    "              pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +
+                    "              * (v_color.rgb * v_color.rgb), forward);\n" +
+                    "  tint.x = clamp(base.x, 0.0, 1.0);\n" +
+                    "  tint.yz = clamp(tint.yz * (0.6 + length(base.yz)) + base.yz * 0.25, -1.0, 1.0);\n" +
+                    "  tint = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * tint;\n" +
+                    "  gl_FragColor = vec4(sqrt(clamp(" +
+                    "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +
+                    "                 (tint * tint * tint)," +
+                    "                 0.0, 1.0)), v_color.a * tgt.a);\n" +
+                    "}";
+
 }
