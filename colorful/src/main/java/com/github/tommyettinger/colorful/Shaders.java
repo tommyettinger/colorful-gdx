@@ -1214,17 +1214,14 @@ public class Shaders {
             "}";
 
     /**
-     * Just like {@link #fragmentShaderIPT_HQ}, but uses the Oklab color space instead of the very similar IPT_HQ one.
-     * This also gamma-corrects the inputs and outputs, though it uses subtly different math internally. Oklab colors
-     * tend to have more variation on their L channel, which represents lightness, than their A or B channels, which
-     * represent green-to-red and blue-to-yellow chromatic axes; indeed, A and B tend to be no more than about 1/6 away
-     * from their middle point at 1/2, which is used for grayscale. This is normal for Oklab, and allows colors to be
-     * compared for approximate difference using Euclidean distance. Importantly, Oklab preserves the meaning of its L
-     * channel (lightness) very well when comparing two arbitrary colors, while also doing well when comparing chroma
-     * (see {@link com.github.tommyettinger.colorful.oklab.ColorTools#chroma(float)}.
+     * Makes the colors in the given textures almost-grayscale, then moves their chromatic channels much closer to the
+     * batch color, without changing the lightness. The result is almost all the same hue as the batch color, and can be
+     * gray if the batch color is any grayscale color. This uses an RGB batch color for simpler usage in most code that
+     * doesn't already use colorful-gdx. There is some contribution from the original texture, so even if the batch
+     * color is gray, then the result will probably have some very muted colors. I hope this shader is... bearable.
      * <br>
-     * You can generate Oklab colors using any of various methods in the {@code oklab} package, such as
-     * {@link com.github.tommyettinger.colorful.oklab.ColorTools#oklab(float, float, float, float)}.
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
      * <br>
      * Meant for use with {@link #vertexShader}.
      */
@@ -1249,7 +1246,9 @@ public class Shaders {
                     "              pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +
                     "              * (v_color.rgb * v_color.rgb), forward);\n" +
                     "  tint.x = clamp(base.x, 0.0, 1.0);\n" +
-                    "  tint.yz = clamp(tint.yz * (0.6 + length(base.yz)) + base.yz * 0.25, -1.0, 1.0);\n" +
+                    "  float blen = length(base.yz);\n" +
+                    "  blen *= blen;\n" +
+                    "  tint.yz = clamp(tint.yz * (0.7 + blen) + base.yz * (0.3 - blen), -1.0, 1.0);\n" + // change 0.7 and 0.3 to, say, 0.85 and 0.15 to reduce the original image's contribution
                     "  tint = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * tint;\n" +
                     "  gl_FragColor = vec4(sqrt(clamp(" +
                     "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +
