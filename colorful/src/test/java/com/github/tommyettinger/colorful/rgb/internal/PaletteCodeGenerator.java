@@ -7,6 +7,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.utils.ObjectFloatMap;
 import com.github.tommyettinger.colorful.internal.StringKit;
 import com.github.tommyettinger.colorful.rgb.ColorTools;
+import com.github.tommyettinger.colorful.rgb.FullPalette;
 import com.github.tommyettinger.colorful.rgb.NamedMunsellPalette;
 
 import java.util.ArrayList;
@@ -22,13 +23,13 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String inputName = "AuroraColorData.txt";
 //    public static final ObjectFloatMap<String> named = Palette.NAMED;
 
-//    public static final String outputAdd = "FullRGB";
-//    public static final String inputName = "ColorData.txt";
-//    public static final ObjectFloatMap<String> named = FullPalette.NAMED;
+    public static final String outputAdd = "FullRGB";
+    public static final String inputName = "ColorData.txt";
+    public static final ObjectFloatMap<String> named = FullPalette.NAMED;
 
-    public static final String outputAdd = "NamedMunsellRGB";
-    public static final String inputName = "ISCCNBSData.txt";
-    public static final ObjectFloatMap<String> named = NamedMunsellPalette.NAMED;
+//    public static final String outputAdd = "NamedMunsellRGB";
+//    public static final String inputName = "ISCCNBSData.txt";
+//    public static final ObjectFloatMap<String> named = NamedMunsellPalette.NAMED;
 
     public static void tabSplit(String[] receiving, String source) {
         int dl = 1, idx = -1, idx2;
