@@ -7,7 +7,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.utils.ObjectFloatMap;
 import com.github.tommyettinger.colorful.internal.StringKit;
 import com.github.tommyettinger.colorful.rgb.ColorTools;
-import com.github.tommyettinger.colorful.rgb.Palette;
+import com.github.tommyettinger.colorful.rgb.NamedMunsellPalette;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,12 +20,15 @@ import java.util.Comparator;
 public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String outputAdd = "RGB";
 //    public static final String inputName = "AuroraColorData.txt";
+//    public static final ObjectFloatMap<String> named = Palette.NAMED;
 
 //    public static final String outputAdd = "FullRGB";
 //    public static final String inputName = "ColorData.txt";
+//    public static final ObjectFloatMap<String> named = FullPalette.NAMED;
 
     public static final String outputAdd = "NamedMunsellRGB";
     public static final String inputName = "ISCCNBSData.txt";
+    public static final ObjectFloatMap<String> named = NamedMunsellPalette.NAMED;
 
     public static void tabSplit(String[] receiving, String source) {
         int dl = 1, idx = -1, idx2;
@@ -88,9 +91,9 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         Gdx.files.local("ColorOutput"+outputAdd+".txt").writeString(sb.toString(), false);
 
         String templateTable = "<tr>\n<td style='background-color: #FEDCBA;'></td>\n<td>Name</td>\n<td>0x`RGBA8888</td>\n<td>`HUE</td>\n<td>`SAT</td>\n<td>`LUMA</td>\n<td>`ALPH</td>\n<td>`PACK</td>\n</tr>\n";
-        final int size = Palette.NAMED.size;
+        final int size = named.size;
         ArrayList<ObjectFloatMap.Entry<String>> PAL = new ArrayList<>(size);
-        for(ObjectFloatMap.Entry<String> e : Palette.NAMED.entries())
+        for(ObjectFloatMap.Entry<String> e : named.entries())
         {
             ObjectFloatMap.Entry<String> ee = new ObjectFloatMap.Entry<>();
             ee.key = e.key;
@@ -128,11 +131,11 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                 if (ColorTools.alphaInt(c1.value) < 128) return -10000;
                 else if (ColorTools.alphaInt(c2.value) < 128) return 10000;
                 float s1 = ColorTools.saturation(c1.value), s2 = ColorTools.saturation(c2.value);
-                if(s1 <= 0x1p-6f && s2 > 0x1p-6f)
+                if(s1 <= 0.04f && s2 > 0.04f)
                     return -1000;
-                else if(s1 > 0x1p-6f && s2 <= 0x1p-6f)
+                else if(s1 > 0.04f && s2 <= 0.04f)
                     return 1000;
-                else if(s1 <= 0x1p-6f && s2 <= 0x1p-6f)
+                else if(s1 <= 0.04f && s2 <= 0.04f)
                     return (int)Math.signum(ColorTools.lightness(c1.value) - ColorTools.lightness(c2.value));
                 else
                     return 2 * (int)Math.signum(ColorTools.hue(c1.value) - ColorTools.hue(c2.value))

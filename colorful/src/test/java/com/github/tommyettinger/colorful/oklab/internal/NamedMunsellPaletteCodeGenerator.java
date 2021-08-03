@@ -26,6 +26,8 @@ import static com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA8888;
  * <a href="https://www.munsellcolourscienceforpainters.com/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html">That data, and other Munsell-related color code, is available here.</a>
  */
 public class NamedMunsellPaletteCodeGenerator extends ApplicationAdapter {
+    public static final ObjectFloatMap<String> named = NamedMunsellPalette.NAMED;
+
     public static void tabSplit(String[] receiving, String source) {
         int dl = 1, idx = -1, idx2;
         for (int i = 0; i < 2; i++) {
@@ -90,9 +92,9 @@ public class NamedMunsellPaletteCodeGenerator extends ApplicationAdapter {
         Gdx.files.local("ColorOutputNamedMunsellOklab.txt").writeString(sb.toString(), false);
 
         String templateTable = "<tr>\n<td style='background-color: #FEDCBA;'></td>\n<td>Name</td>\n<td>0x`RGBA8888</td>\n<td>`LCHAN</td>\n<td>`ACHAN</td>\n<td>`BCHAN</td>\n<td>`ALPH</td>\n<td>`HUE</td>\n<td>`SAT</td>\n<td>`PACKF</td>\n</tr>\n";
-        final int size = NamedMunsellPalette.NAMED.size;
+        final int size = named.size;
         ArrayList<ObjectFloatMap.Entry<String>> PAL = new ArrayList<>(size);
-        for(ObjectFloatMap.Entry<String> e : NamedMunsellPalette.NAMED.entries())
+        for(ObjectFloatMap.Entry<String> e : named.entries())
         {
             ObjectFloatMap.Entry<String> ee = new ObjectFloatMap.Entry<>();
             ee.key = e.key;
