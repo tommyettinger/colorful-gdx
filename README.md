@@ -184,12 +184,12 @@ an extra palette, `SimplePalette`, with a key extra feature. You can use the `Si
 method to describe a color with a combination of one or more (clearly-named) color names and optionally with adjectives
 like "light", "dull", "darker", or "richest". The predefined colors in SimplePalette for IPT_HQ can be previewed in
 [this list alphabetically](https://tommyettinger.github.io/colorful-gdx/ColorTableSimpleIPT_HQ.html),
-[this list by hue](https://tommyettinger.github.io/colorful-gdx/ColorTableSimpleHueIPT_HQ.html), or
-[this list by lightness](https://tommyettinger.github.io/colorful-gdx/ColorTableSimpleValueIPT_HQ.html). The predefined
+[this list by hue](https://tommyettinger.github.io/colorful-gdx/ColorTableHueSimpleIPT_HQ.html), or
+[this list by lightness](https://tommyettinger.github.io/colorful-gdx/ColorTableValueSimpleIPT_HQ.html). The predefined
 colors in SimplePalette for Oklab can be previewed in
 [this list alphabetically](https://tommyettinger.github.io/colorful-gdx/ColorTableSimpleOklab.html),
-[this list by hue](https://tommyettinger.github.io/colorful-gdx/ColorTableSimpleHueOklab.html), or
-[this list by lightness](https://tommyettinger.github.io/colorful-gdx/ColorTableSimpleValueOklab.html).
+[this list by hue](https://tommyettinger.github.io/colorful-gdx/ColorTableHueSimpleOklab.html), or
+[this list by lightness](https://tommyettinger.github.io/colorful-gdx/ColorTableValueSimpleOklab.html).
 
 You can use [this small libGDX web app](https://tommyettinger.github.io/colorful-gdx/description/) to experiment with
 different descriptions and what they produce. Use the `[` and `]` keys to change modes; there's an RGB, Oklab, IPT_HQ,
