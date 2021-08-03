@@ -21,8 +21,11 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String outputAdd = "RGB";
 //    public static final String inputName = "AuroraColorData.txt";
 
-    public static final String outputAdd = "FullRGB";
-    public static final String inputName = "ColorData.txt";
+//    public static final String outputAdd = "FullRGB";
+//    public static final String inputName = "ColorData.txt";
+
+    public static final String outputAdd = "NamedMunsellRGB";
+    public static final String inputName = "ISCCNBSData.txt";
 
     public static void tabSplit(String[] receiving, String source) {
         int dl = 1, idx = -1, idx2;
