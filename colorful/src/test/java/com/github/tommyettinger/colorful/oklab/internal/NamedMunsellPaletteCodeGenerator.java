@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.ObjectFloatMap;
 import com.github.tommyettinger.colorful.internal.StringKit;
 import com.github.tommyettinger.colorful.oklab.ColorTools;
-import com.github.tommyettinger.colorful.oklab.FullPalette;
+import com.github.tommyettinger.colorful.oklab.NamedMunsellPalette;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -90,9 +90,9 @@ public class NamedMunsellPaletteCodeGenerator extends ApplicationAdapter {
         Gdx.files.local("ColorOutputNamedMunsellOklab.txt").writeString(sb.toString(), false);
 
         String templateTable = "<tr>\n<td style='background-color: #FEDCBA;'></td>\n<td>Name</td>\n<td>0x`RGBA8888</td>\n<td>`LCHAN</td>\n<td>`ACHAN</td>\n<td>`BCHAN</td>\n<td>`ALPH</td>\n<td>`HUE</td>\n<td>`SAT</td>\n<td>`PACKF</td>\n</tr>\n";
-        final int size = FullPalette.NAMED.size;
+        final int size = NamedMunsellPalette.NAMED.size;
         ArrayList<ObjectFloatMap.Entry<String>> PAL = new ArrayList<>(size);
-        for(ObjectFloatMap.Entry<String> e : FullPalette.NAMED.entries())
+        for(ObjectFloatMap.Entry<String> e : NamedMunsellPalette.NAMED.entries())
         {
             ObjectFloatMap.Entry<String> ee = new ObjectFloatMap.Entry<>();
             ee.key = e.key;
@@ -159,7 +159,7 @@ public class NamedMunsellPaletteCodeGenerator extends ApplicationAdapter {
             );
         }
         sb.append("</table>\n</body>\n</html>");
-        Gdx.files.local("ColorTableNamedMunsellHueOklab.html").writeString(sb.toString(), false);
+        Gdx.files.local("ColorTableHueNamedMunsellOklab.html").writeString(sb.toString(), false);
 
         sb.setLength(0);
         Collections.sort(PAL, new Comparator<ObjectFloatMap.Entry<String>>() {
@@ -184,7 +184,7 @@ public class NamedMunsellPaletteCodeGenerator extends ApplicationAdapter {
             );
         }
         sb.append("</table>\n</body>\n</html>");
-        Gdx.files.local("ColorTableNamedMunsellValueOklab.html").writeString(sb.toString(), false);
+        Gdx.files.local("ColorTableValueNamedMunsellOklab.html").writeString(sb.toString(), false);
         
         Gdx.app.exit();
     }
