@@ -24,6 +24,7 @@ import com.github.tommyettinger.colorful.TrigTools;
 import static com.badlogic.gdx.Gdx.input;
 
 public class YCwCmGamutDemo extends ApplicationAdapter {
+    public static final boolean RENDER_FILES = false;
     public static final int SCREEN_WIDTH = 512;
     public static final int SCREEN_HEIGHT = 512;
     private ColorfulBatch batch;
@@ -31,7 +32,8 @@ public class YCwCmGamutDemo extends ApplicationAdapter {
     private Texture blank;
     private long lastProcessedTime = 0L, startTime;
     private float layer = 0.5f;
-    private float L = 0.5f, A = 0.5f, B = 0.5f, contrast = 0.5f;
+    private float Y = 0.5f, Cw = 0.5f, Cm = 0.5f, contrast = 0.5f;
+    private boolean paused = false;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -88,39 +90,42 @@ public class YCwCmGamutDemo extends ApplicationAdapter {
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.enableBlending();
-        final int frameCount = 120;
-        Array<Pixmap> pixmaps = new Array<>(frameCount);
-        for (int i = 0; i < frameCount; i++) {
-            layer = i / (frameCount - 1f);
-            renderInternal();
-            // this gets a screenshot of the current window and adds it to the Array of Pixmap.
-            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        }
+        if (RENDER_FILES) {
+            final int frameCount = 120;
+            Array<Pixmap> pixmaps = new Array<>(frameCount);
+            for (int i = 0; i < frameCount; i++) {
+                layer = i / (frameCount - 1f);
+                renderInternal();
+                // this gets a screenshot of the current window and adds it to the Array of Pixmap.
+                pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+            }
 
 
 //// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
 //// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
-        AnimatedGif gif = new AnimatedGif();
+            AnimatedGif gif = new AnimatedGif();
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
-        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
+            gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // this should be dithered before usage
-        gif.palette = new PaletteReducer();
+            gif.palette = new PaletteReducer();
 //        gif.palette = new PaletteReducer(pixmaps);
 //        // 24 is how many frames per second the animated GIF should play back at.
-        gif.write(Gdx.files.local("YCwCmGamut.gif"), pixmaps, 24);
+            gif.write(Gdx.files.local("YCwCmGamut.gif"), pixmaps, 24);
 
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
-        AnimatedPNG png = new AnimatedPNG();
+            AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
-        png.write(Gdx.files.local("YCwCmGamut.png"), pixmaps, 24);
+            png.write(Gdx.files.local("YCwCmGamut.png"), pixmaps, 24);
+        }
     }
 
 
     @Override
     public void render() {
         handleInput();
-        layer = TrigTools.acos_(TrigTools.sin_(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) * 2f;
+        if(!paused)
+            layer = TrigTools.acos_(TrigTools.sin_(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) * 2f;
         renderInternal();
     }
     
@@ -163,20 +168,20 @@ public class YCwCmGamutDemo extends ApplicationAdapter {
                 layer = MathUtils.random();
             } else if (input.isKeyPressed(Input.Keys.P)) // print
                 System.out.println("Using layer=" + layer
-                        +", and using tweak with L="+ L
-                        + ",A="+ A + ",B="+ B +",contrast="+contrast + " .");
+                        +", and using tweak with Y="+ Y
+                        + ",Cw="+ Cw + ",Cm="+ Cm +",contrast="+contrast + " .");
             else if (input.isKeyPressed(Input.Keys.L)) //light
-                L = MathUtils.clamp(L + 0x3p-7f, 0f, 1f);
+                Y = MathUtils.clamp(Y + 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.D)) //dark
-                L = MathUtils.clamp(L - 0x3p-7f, 0f, 1f);
+                Y = MathUtils.clamp(Y - 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.W)) //warm
-                A = MathUtils.clamp(A + 0x3p-7f, 0f, 1f);
+                Cw = MathUtils.clamp(Cw + 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.C)) //cool
-                A = MathUtils.clamp(A - 0x3p-7f, 0f, 1f);
+                Cw = MathUtils.clamp(Cw - 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.M)) //mild
-                B = MathUtils.clamp(B + 0x3p-7f, 0f, 1f);
+                Cm = MathUtils.clamp(Cm + 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.B)) //bold
-                B = MathUtils.clamp(B - 0x3p-7f, 0f, 1f);
+                Cm = MathUtils.clamp(Cm - 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.S)) //sharp contrast
                 contrast = MathUtils.clamp(contrast + 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.F)) //fuzzy contrast
@@ -184,11 +189,14 @@ public class YCwCmGamutDemo extends ApplicationAdapter {
             else if (input.isKeyPressed(Input.Keys.BACKSPACE)) //reset
             {
                 layer = 0.5f;
-                L = 0.5f;
-                A = 0.5f;
-                B = 0.5f;
+                Y = 0.5f;
+                Cw = 0.5f;
+                Cm = 0.5f;
                 contrast = 0.5f;
             }
+            else if(input.isKeyPressed(Input.Keys.SPACE))
+                paused = !paused;
+
         }
     }
 }
