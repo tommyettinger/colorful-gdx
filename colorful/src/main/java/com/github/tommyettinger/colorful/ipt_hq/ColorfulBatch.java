@@ -137,7 +137,15 @@ public class ColorfulBatch implements Batch {
             shader = defaultShader;
     }
 
-    /** Returns a new instance of the default shader used by ColorfulBatch for GL2 when no shader is specified. */
+    /**
+     * Makes a new instance of the default ShaderProgram used for this ColorfulBatch, without any {@code #version}
+     * specified in the shader source. This expects an extra attribute (relative to a normal SpriteBatch) that is used
+     * for the tweak. You may want to set the code to prepend before you call this, as with:
+     * {@code ShaderProgram.prependVertexCode = "#version 110\n";
+     * ShaderProgram.prependFragmentCode = "#version 110\n";}
+     * The actual version can be different, and may need to be different for compatibility with some hardware.
+     * @return a new instance of the default shader used by ColorfulBatch for GL2 when no shader is specified
+     */
     public static ShaderProgram createDefaultShader () {
         String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
                 + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"

@@ -133,10 +133,15 @@ public class ColorfulBatch implements Batch {
             shader = defaultShader;
     }
 
-    //// Previous shader used the IPT recommendation for intensity as its lightness calculation:
-    //  "  tgt.rgb *= pow(dot(vec3(0.189786, 0.576951, 0.233221), tgt.rgb) + 0.625, v_tweak.a) * v_lightFix;\n" +
-    //// It also didn't use sqrt() or any non-linearity.
-    /** Returns a new instance of the default shader used by ColorfulBatch for GL2 when no shader is specified. */
+    /**
+     * Makes a new instance of the default ShaderProgram used for this ColorfulBatch, without any {@code #version}
+     * specified in the shader source. This expects an extra attribute (relative to a normal SpriteBatch) that is used
+     * for the tweak. You may want to set the code to prepend before you call this, as with:
+     * {@code ShaderProgram.prependVertexCode = "#version 110\n";
+     * ShaderProgram.prependFragmentCode = "#version 110\n";}
+     * The actual version can be different, and may need to be different for compatibility with some hardware.
+     * @return a new instance of the default shader used by ColorfulBatch for GL2 when no shader is specified
+     */
     public static ShaderProgram createDefaultShader () {
         String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
                 + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
@@ -156,9 +161,6 @@ public class ColorfulBatch implements Batch {
                 + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
                 + "   v_tweak.a = v_tweak.a * (255.0/254.0);\n"
                 + "   v_lightFix = 1.0 + pow(v_tweak.a + 0.5, 1.41421356);\n"
-                //// old; may have produced NaN when a negative v_tweak.a was raised to a power.
-//                + "   v_tweak.a = v_tweak.a * (153.0/127.0) - 0.6;\n" // -0.6 to 0.6 range
-//                + "   v_lightFix = 2.0 * (1.0 + pow(v_tweak.a, 1.4));\n"
                 + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
                 + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
                 + "}\n";

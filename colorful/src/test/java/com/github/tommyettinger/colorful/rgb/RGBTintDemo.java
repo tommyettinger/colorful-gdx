@@ -10,6 +10,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -39,6 +40,9 @@ public class RGBTintDemo extends ApplicationAdapter {
         config.setIdleFPS(10);
         config.useVsync(true);
 //        config.setResizable(false);
+        config.enableGLDebugOutput(true, System.out);
+        ShaderProgram.prependVertexCode = "#version 110\n";
+        ShaderProgram.prependFragmentCode = "#version 110\n";
 
         final RGBTintDemo app = new RGBTintDemo();
         config.setWindowListener(new Lwjgl3WindowAdapter() {

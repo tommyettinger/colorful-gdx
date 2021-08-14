@@ -44,6 +44,7 @@ public class RGBDemo extends ApplicationAdapter {
         config.setIdleFPS(10);
         config.useVsync(true);
 //        config.setResizable(false);
+        config.enableGLDebugOutput(true, System.out);
 
         final RGBDemo app = new RGBDemo();
         config.setWindowListener(new Lwjgl3WindowAdapter() {

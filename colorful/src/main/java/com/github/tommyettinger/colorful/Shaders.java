@@ -14,6 +14,12 @@ import com.github.tommyettinger.colorful.ycwcm.ColorfulSprite;
  * If you aren't familiar with shaders in libGDX, <a href="https://github.com/libgdx/libgdx/wiki/Shaders">see this
  * libGDX wiki article</a> for more information.
  * <br>
+ * None of the shaders here specify a {@code #version}, and some combinations of OS, driver, and GPU hardware may
+ * require the version to be set to a specific value. You may need to put:
+ * {@code ShaderProgram.prependVertexCode = "#version 110\n";
+ * ShaderProgram.prependFragmentCode = "#version 110\n";} in your launchers, with whatever version you can support, in
+ * order to avoid some warnings or errors on some systems.
+ * <br>
  * Many of these shaders would need at least some changing to work with kinds of
  * {@link com.badlogic.gdx.graphics.g2d.Batch} that aren't SpriteBatch (or at least very similar). You should compare
  * the names of {@code uniform} variables in the vertex and fragment shader if you use a different kind of Batch; if all
