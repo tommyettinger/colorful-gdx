@@ -83,9 +83,9 @@ public class CIELABByHCLWheelDemo extends ApplicationAdapter {
         batch.begin();
         batch.draw(blank, 0, 0, 512, 512);
         final float
-                maxDist = 320f,
+                maxDist = 254f,
 //                maxDist = 254f * TrigTools.sin_(layer * 0.5f) + 1f,
-                iMax = 1f / 220f;
+                iMax = 1f / maxDist;
         for (int dist = 0; dist <= maxDist; dist++) {
             final int circ = dist * 16;
             final float ic = 1f / circ;

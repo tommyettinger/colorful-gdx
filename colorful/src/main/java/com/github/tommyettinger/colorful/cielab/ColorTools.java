@@ -443,9 +443,10 @@ public class ColorTools {
         return (float) Math.sqrt(a * a + b * b);
     }
     /**
-     * Given a hue and lightness, this gets the (approximate) maximum chroma possible for that hue-lightness
+     * Given a hue and lightness, this gets the (very approximate) maximum chroma possible for that hue-lightness
      * combination, using CIELAB's versions of lightness and hue (not HSL). This is useful to know the bounds of
-     * {@link #chroma(float)}. This should be no greater than 1.26365817f .
+     * {@link #chroma(float)}. This should be no greater than 1.26365817f . Note that this version of chromaLimit() is
+     * much slower than Oklab's version, because this has to go to much greater lengths to become accurate.
      * @param hue the hue, typically between 0.0f and 1.0f, to look up
      * @param lightness the lightness, clamped between 0.0f and 1.0f, to look up
      * @return the maximum possible chroma for the given hue and lightness, between 0.0f and 1.26365817f
@@ -453,11 +454,11 @@ public class ColorTools {
     public static float chromaLimit(final float hue, final float lightness) {
         final float h = hue - MathUtils.floor(hue);
         final float L = (1f/1.16f)*(lightness + 0.16f);
-        final float A = TrigTools.cos_(h) * 1.26365817f * 0.2f;
-        final float B = TrigTools.sin_(h) * 1.26365817f * 0.5f;
+        final float A = TrigTools.cos_(h) * (1.26365817f);
+        final float B = TrigTools.sin_(h) * (1.26365817f);
         final float y = reverseXYZ(L);
         float A2 = A, B2 = B;
-        for (int attempt = 39; attempt >= 0; attempt--) {
+        for (int attempt = 127; attempt >= 0; attempt--) {
             final float x = reverseXYZ(L + A2);
             final float z = reverseXYZ(L - B2);
             final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
@@ -465,7 +466,7 @@ public class ColorTools {
             final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
             if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
-            final float progress = attempt * 0.025f;
+            final float progress = attempt * 0x1p-7f;
             A2 = (A * progress);
             B2 = (B * progress);
         }
@@ -488,7 +489,7 @@ public class ColorTools {
         final float B = TrigTools.sin_(h) * 1.26365817f * 0.5f;
         final float y = reverseXYZ(L);
         float A2 = A, B2 = B;
-        for (int attempt = 39; attempt >= 0; attempt--) {
+        for (int attempt = 127; attempt >= 0; attempt--) {
             final float x = reverseXYZ(L + A2);
             final float z = reverseXYZ(L - B2);
             final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
@@ -496,7 +497,7 @@ public class ColorTools {
             final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
             if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
-            final float progress = attempt * 0.025f;
+            final float progress = attempt * 0x1p-7f;
             A2 = (A * progress);
             B2 = (B * progress);
         }
@@ -525,7 +526,7 @@ public class ColorTools {
         final float B0 = TrigTools.sin_(h) * 1.26365817f;
         final float y = reverseXYZ(L0);
         float A2 = A0, B2 = B0;
-        for (int attempt = 39; attempt >= 0; attempt--) {
+        for (int attempt = 127; attempt >= 0; attempt--) {
             final float x = reverseXYZ(L0 + A2);
             final float z = reverseXYZ(L0 - B2);
             final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
@@ -533,7 +534,7 @@ public class ColorTools {
             final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
             if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
-            final float progress = attempt * 0.025f;
+            final float progress = attempt * 0x1p-7f;
             A2 = (A0 * progress);
             B2 = (B0 * progress);
         }
@@ -574,7 +575,7 @@ public class ColorTools {
         final float B0 = TrigTools.sin_(h) * 1.26365817f;
         final float y = reverseXYZ(L0);
         float A2 = A0, B2 = B0;
-        for (int attempt = 39; attempt >= 0; attempt--) {
+        for (int attempt = 127; attempt >= 0; attempt--) {
             final float x = reverseXYZ(L + A2);
             final float z = reverseXYZ(L - B2);
             final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
@@ -582,7 +583,7 @@ public class ColorTools {
             final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
             if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
-            final float progress = attempt * 0.025f;
+            final float progress = attempt * 0x1p-7f;
             A2 = (A0 * progress);
             B2 = (B0 * progress);
         }
@@ -616,7 +617,8 @@ public class ColorTools {
      * {@link #channelL(float)}, but the saturation here refers to what fraction the chroma should be of the maximum
      * chroma for the given hue and lightness. You can use {@link #cielabHue(float)}, {@link #cielabSaturation(float)},
      * and {@link #cielabLightness(float)} to get the hue, saturation, and lightness values from an existing color that
-     * this will understand ({@link #alpha(float)} too).
+     * this will understand ({@link #alpha(float)} too). This method is likely to be significantly slower than
+     * {@link #cielabByHCL(float, float, float, float)} because this needs to calculate the gamut.
      * @param hue between 0 and 1, usually, but this will automatically wrap if too high or too low
      * @param saturation will be clamped between 0 and 1
      * @param lightness will be clamped between 0 and 1
@@ -636,7 +638,7 @@ public class ColorTools {
         final float B0 = sin * 1.26365817f * 0.5f;
         final float y = reverseXYZ(L0);
         float A2 = A0, B2 = B0;
-        for (int attempt = 39; attempt >= 0; attempt--) {
+        for (int attempt = 127; attempt >= 0; attempt--) {
             final float x = reverseXYZ(L + A2);
             final float z = reverseXYZ(L - B2);
             final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
@@ -644,7 +646,7 @@ public class ColorTools {
             final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
             if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
-            final float progress = attempt * 0.025f;
+            final float progress = attempt * 0x1p-7f;
             A2 = (A0 * progress);
             B2 = (B0 * progress);
         }
@@ -668,7 +670,8 @@ public class ColorTools {
      * gamut limit (you can get this limit with {@link #chromaLimit(float, float)}). If a chroma value given is greater
      * than the chroma limit, this clamps chroma to that limit. You can use {@link #cielabHue(float)},
      * {@link #chroma(float)}, and {@link #cielabLightness(float)} to get the hue, chroma, and lightness values from an
-     * existing color that this will understand ({@link #alpha(float)} too).
+     * existing color that this will understand ({@link #alpha(float)} too). This method should be significantly faster
+     * than {@link #cielabByHSL(float, float, float, float)} because it doesn't need to calculate the gamut.
      * @param hue between 0 and 1, usually, but this will automatically wrap if too high or too low
      * @param chroma will be clamped between 0 and the maximum chroma possible for the given hue and lightness
      * @param lightness will be clamped between 0 and 1
@@ -1307,7 +1310,8 @@ public class ColorTools {
     /**
      * Iteratively checks whether the given CIELAB color is in-gamut, and either brings the color closer to grayscale if
      * it isn't in-gamut, or returns it as soon as it is in-gamut. Maintains the L of the color, only bringing A and B
-     * closer to grayscale.
+     * closer to grayscale. Note that this version of limitToGamut() is much slower than Oklab's version, because Oklab
+     * stores its entire gamut as a large constant, while this has to calculate it.
      * @param packed a packed float color in CIELAB format; often this color is not in-gamut
      * @return the first color this finds that is between the given CIELAB color and grayscale, and is in-gamut
      * @see #inGamut(float) You can use inGamut() if you just want to check whether a color is in-gamut.
@@ -1319,7 +1323,7 @@ public class ColorTools {
         final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
         final float y = reverseXYZ(L);
         float A2 = A, B2 = B;
-        for (int attempt = 31; attempt >= 0; attempt--) {
+        for (int attempt = 127; attempt >= 0; attempt--) {
             final float x = reverseXYZ(L + A2);
             final float z = reverseXYZ(L - B2);
             final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
@@ -1327,7 +1331,7 @@ public class ColorTools {
             final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
             if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
-            final float progress = attempt * 0x1p-5f;
+            final float progress = attempt * 0x1p-7f;
             A2 = (A * progress);
             B2 = (B * progress);
         }
@@ -1349,7 +1353,8 @@ public class ColorTools {
     }
     /**
      * Iteratively checks whether the given CIELAB color is in-gamut, and either brings the color closer to grayscale if it
-     * isn't in-gamut, or returns it as soon as it is in-gamut.
+     * isn't in-gamut, or returns it as soon as it is in-gamut. Note that this version of limitToGamut() is much slower
+     * than Oklab's version, because Oklab stores its entire gamut as a large constant, while this has to calculate it.
      * @param L lightness; will be clamped between 0 and 1 if it isn't already
      * @param A cyan-to-red chroma; will be clamped between 0 and 1 if it isn't already
      * @param B blue-to-yellow chroma; will be clamped between 0 and 1 if it isn't already
@@ -1366,7 +1371,7 @@ public class ColorTools {
 
         final float y = reverseXYZ(L);
         float A2 = A, B2 = B;
-        for (int attempt = 31; attempt >= 0; attempt--) {
+        for (int attempt = 127; attempt >= 0; attempt--) {
             final float x = reverseXYZ(L + A2);
             final float z = reverseXYZ(L - B2);
             final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
@@ -1374,7 +1379,7 @@ public class ColorTools {
             final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
             if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
                 break;
-            final float progress = attempt * 0x1p-5f;
+            final float progress = attempt * 0x1p-7f;
             A2 = (A * progress);
             B2 = (B * progress);
         }
