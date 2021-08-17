@@ -6,8 +6,8 @@
  * its chromatic channels down to the 0 to 1 range by shrinking them and re-centering on 0.5 instead of 0.0. This is
  * different from Oklab, which just offsets its -0.5 to 0.5 range.
  * <br>
- * This package offers a {@link com.github.tommyettinger.colorful.cielab.SimplePalette} class like the one in the ipt_hq
- * and oklab package, and compatible with the same descriptions (though the resulting colors will be a little
+ * This package offers a {@link com.github.tommyettinger.colorful.pure.cielab.SimplePalette} class like the one in the
+ * ipt_hq and oklab package, and compatible with the same descriptions (though the resulting colors will be a little
  * different). IPT_HQ, Oklab, and CIELAB are all very good at mixing colors evenly, with CIELAB or Oklab probably best.
  * <br>
  * <ul>
@@ -19,4 +19,4 @@
  * <li><a href="https://tommyettinger.github.io/colorful-gdx/ColorTableSimpleCIELAB.html">Palette by name</a></li>
  * </ul>
  */
-package com.github.tommyettinger.colorful.cielab;
+package com.github.tommyettinger.colorful.pure.cielab;
