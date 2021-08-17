@@ -15,7 +15,7 @@ import static com.github.tommyettinger.colorful.oklab.ColorTools.*;
  * A palette of predefined colors as packed Oklab floats, the kind {@link ColorTools} works with, plus a way to describe
  * colors by combinations and adjustments. The description code is probably what you would use this class for; it
  * revolves around {@link #parseDescription(String)}, which takes a color description String and returns a packed float
- * color. The color descriptions look like "darker rich mint sage", where the order of the words doesn't matter. They
+ * color. The color descriptions look like "darker rich mint yellow", where the order of the words doesn't matter. They
  * can optionally include lightness changes (light/dark), and saturation changes (rich/dull), and must include one or
  * more color names that will be mixed together (repeats are allowed to use a color more heavily). The changes can be
  * suffixed with "er", "est", or "most", such as "duller", "lightest", or "richmost", to progressively increase their

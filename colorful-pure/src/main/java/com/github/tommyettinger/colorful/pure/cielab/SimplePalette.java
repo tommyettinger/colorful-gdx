@@ -1,15 +1,13 @@
-package com.github.tommyettinger.colorful.cielab;
+package com.github.tommyettinger.colorful.pure.cielab;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Colors;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.FloatArray;
-import com.badlogic.gdx.utils.ObjectFloatMap;
-import com.github.tommyettinger.colorful.FloatColors;
+import com.github.tommyettinger.colorful.pure.FloatColors;
+import com.github.tommyettinger.ds.FloatList;
+import com.github.tommyettinger.ds.ObjectFloatOrderedMap;
+import com.github.tommyettinger.ds.ObjectList;
 
 import java.util.Comparator;
 
-import static com.github.tommyettinger.colorful.cielab.ColorTools.*;
+import static com.github.tommyettinger.colorful.pure.cielab.ColorTools.*;
 
 /**
  * A palette of predefined colors as packed CIELAB floats, the kind {@link ColorTools} works with, plus a way to describe
@@ -35,9 +33,9 @@ import static com.github.tommyettinger.colorful.cielab.ColorTools.*;
  */
 public class SimplePalette {
     /**
-     * You can look up colors by name here; the names are lower-case, and the colors are packed floats in CIELAB format.
+     * You can look up colors by name here; the names are lower-case, and the colors are packed floats in Oklab format.
      */
-    public static final ObjectFloatMap<String> NAMED = new ObjectFloatMap<String>(50);
+    public static final ObjectFloatOrderedMap<String> NAMED = new ObjectFloatOrderedMap<>(60);
     /**
      * Stores alternative names for colors in {@link #NAMED}, like "grey" as an alias for {@link #GRAY} or "gold" as an
      * alias for {@link #SAFFRON}. Currently, the list of aliases is as follows:
@@ -55,11 +53,11 @@ public class SimplePalette {
      * Note that these aliases are not duplicated in {@link #NAMES}, {@link #NAMES_BY_HUE}, or
      * {@link #NAMES_BY_LIGHTNESS}; they are primarily there so blind attempts to name a color might still work.
      */
-    public static final ObjectFloatMap<String> ALIASES = new ObjectFloatMap<String>(20);
+    public static final ObjectFloatOrderedMap<String> ALIASES = new ObjectFloatOrderedMap<>(10);
     /**
      * Lists the packed float color values in this, in no particular order. Does not include duplicates from aliases.
      */
-    public static final FloatArray LIST = new FloatArray(50);
+    public static final FloatList LIST = new FloatList(50);
 
     /**
      * This color constant "transparent" has RGBA8888 code {@code 00000000}, L 0.0, A 0.49803922, B 0.49803922, alpha 0.0, hue 0.6666667, and saturation 6.5281347E-4.
@@ -665,24 +663,29 @@ public class SimplePalette {
      * All names for colors in this palette, in alphabetical order. You can fetch the corresponding packed float color
      * by looking up a name in {@link #NAMED}.
      */
-    public static final Array<String> NAMES = NAMED.keys().toArray();
-    static { NAMES.sort(); }
+    public static final ObjectList<String> NAMES = NAMED.order();
+    static {
+        NAMED.setDefaultValue(TRANSPARENT);
+        NAMES.sort(null);
+    }
     /**
      * All names for colors in this palette, with grayscale first, then sorted by hue from red to yellow to green to
      * blue. You can fetch the corresponding packed float color by looking up a name in {@link #NAMED}.
      */
-    public static final Array<String> NAMES_BY_HUE = new Array<>(NAMES);
-
-    public static final FloatArray COLORS_BY_HUE = new FloatArray(NAMES_BY_HUE.size);
+    public static final ObjectList<String> NAMES_BY_HUE = new ObjectList<>(NAMES);
+    /**
+     * The packed IPT float colors that correspond to items in {@link #NAMES_BY_HUE}, with the same order.
+     */
+    public static final FloatList COLORS_BY_HUE = new FloatList(NAMES_BY_HUE.size());
     /**
      * All names for colors in this palette, sorted by lightness from black to white. You can fetch the
      * corresponding packed float color by looking up a name in {@link #NAMED}.
      */
-    public static final Array<String> NAMES_BY_LIGHTNESS = new Array<>(NAMES);
+    public static final ObjectList<String> NAMES_BY_LIGHTNESS = new ObjectList<>(NAMES);
     static {
         NAMES_BY_HUE.sort(new Comparator<String>() {
             public int compare(String o1, String o2) {
-                final float c1 = NAMED.get(o1, TRANSPARENT), c2 = NAMED.get(o2, TRANSPARENT);
+                final float c1 = NAMED.get(o1), c2 = NAMED.get(o2);
                 final float s1 = ColorTools.saturation(c1), s2 = ColorTools.saturation(c2);
                 if(alphaInt(c1) < 128) return -10000;
                 else if(alphaInt(c2) < 128) return 10000;
@@ -698,16 +701,16 @@ public class SimplePalette {
             }
         });
         for(String name : NAMES_BY_HUE) {
-            COLORS_BY_HUE.add(NAMED.get(name, TRANSPARENT));
+            COLORS_BY_HUE.add(NAMED.get(name));
         }
         NAMES_BY_LIGHTNESS.sort(new Comparator<String>() {
             public int compare(String o1, String o2) {
-                return Float.compare(channelL(NAMED.get(o1, TRANSPARENT)), channelL(NAMED.get(o2, TRANSPARENT)));
+                return Float.compare(channelL(NAMED.get(o1)), channelL(NAMED.get(o2)));
             }
         });
     }
 
-    private static final FloatArray mixing = new FloatArray(4);
+    private static final FloatList mixing = new FloatList(4);
 
     /**
      * Parses a color description and returns the approximate color it describes, as a packed float color.
@@ -753,7 +756,7 @@ public class SimplePalette {
                                 break;
                         }
                     } else {
-                        mixing.add(NAMED.get(term, TRANSPARENT));
+                        mixing.add(NAMED.getOrDefault(term, 0f));
                     }
                     break;
                 case 'r':
@@ -773,7 +776,7 @@ public class SimplePalette {
                                 break;
                         }
                     } else {
-                        mixing.add(NAMED.get(term, 0f));
+                        mixing.add(NAMED.getOrDefault(term, 0f));
                     }
                     break;
                 case 'd':
@@ -808,15 +811,15 @@ public class SimplePalette {
                                 break;
                         }
                     } else {
-                        mixing.add(NAMED.get(term, 0f));
+                        mixing.add(NAMED.getOrDefault(term, 0f));
                     }
                     break;
                 default:
-                    mixing.add(NAMED.get(term, 0f));
+                    mixing.add(NAMED.getOrDefault(term, 0f));
                     break;
             }
         }
-        float result = FloatColors.mix(mixing.items, 0, mixing.size);
+        float result = FloatColors.mix(mixing.items, 0, mixing.size());
         if(result == 0f) return result;
 
         if(intensity > 0) result = ColorTools.lighten(result, intensity);
@@ -824,16 +827,15 @@ public class SimplePalette {
 
         if(saturation > 0) result = (ColorTools.enrich(result, saturation));
         else if(saturation < 0) result = (ColorTools.dullen(result, -saturation));
-//        else result = ColorTools.limitToGamut(result);
 
         return result;
     }
-    private static final Array<String> namesByHue = new Array<>(NAMES_BY_HUE);
-    private static final FloatArray colorsByHue = new FloatArray(COLORS_BY_HUE);
+    private static final ObjectList<String> namesByHue = new ObjectList<>(NAMES_BY_HUE);
+    private static final FloatList colorsByHue = new FloatList(COLORS_BY_HUE);
     static {
-        int trn = namesByHue.indexOf("transparent", false);
-        namesByHue.removeIndex(trn);
-        colorsByHue.removeIndex(trn);
+        int trn = namesByHue.indexOf("transparent");
+        namesByHue.removeAt(trn);
+        colorsByHue.removeAt(trn);
         ALIASES.put("grey", GRAY);
         ALIASES.put("gold", SAFFRON);
         ALIASES.put("puce", MAUVE);
@@ -858,7 +860,7 @@ public class SimplePalette {
     public static String bestMatch(final float cielab, int mixCount) {
         mixCount = Math.max(1, mixCount);
         float bestDistance = Float.POSITIVE_INFINITY;
-        final int paletteSize = namesByHue.size, colorTries = (int)Math.pow(paletteSize, mixCount), totalTries = colorTries * 81;
+        final int paletteSize = namesByHue.size(), colorTries = (int)Math.pow(paletteSize, mixCount), totalTries = colorTries * 81;
         final float targetL = ColorTools.channelL(cielab), targetA = ColorTools.channelA(cielab), targetB = ColorTools.channelB(cielab);
         final String[] lightAdjectives = {"darkmost ", "darkest ", "darker ", "dark ", "", "light ", "lighter ", "lightest ", "lightmost "};
         final String[] satAdjectives = {"dullmost ", "dullest ", "duller ", "dull ", "", "rich ", "richer ", "richest ", "richmost "};
@@ -893,37 +895,5 @@ public class SimplePalette {
                 description.append(' ');
         }
         return description.toString();
-    }
-
-    /**
-     * Changes the existing RGBA Color instances in {@link Colors} to use CIELAB and so be able to be shown normally by
-     * {@link ColorfulBatch} or a Batch using {@link com.github.tommyettinger.colorful.Shaders#fragmentShaderCielab}.
-     * Any colors used in libGDX text markup look up their values in Colors, so calling this can help display fonts
-     * where markup is enabled. This only needs to be called once, and if you call {@link #appendToKnownColors()}, then
-     * that should be done after this to avoid mixing RGBA and CIELAB colors.
-     * <br>
-     * This is a duplicate of a method with the same name in Palette; you should still only call this method once,
-     * regardless of where it was from.
-     */
-    public static void editKnownColors(){
-        for(Color c : Colors.getColors().values()) {
-            final float f = ColorTools.fromColor(c);
-            c.set(channelL(f), channelA(f), channelB(f), c.a);
-        }
-    }
-
-    /**
-     * Appends CIELAB-compatible Color instances to the map in {@link Colors}, using the names in {@link #NAMES} (which
-     * are "lower cased" instead of "ALL UPPER CASE"). If you intend to still use the existing values in Colors, you
-     * should call {@link #editKnownColors()} first; otherwise you can just always use "lower cased" color names.
-     * This does append aliases as well, so some color values will be duplicates.
-     * <br>
-     * This can be used alongside the method with the same name in Palette, since that uses "Title Cased" names.
-     */
-    public static void appendToKnownColors(){
-        for(ObjectFloatMap.Entry<String> ent : NAMED) {
-            final float f = ent.value;
-            Colors.put(ent.key, new Color(channelL(f), channelA(f), channelB(f), alpha(f)));
-        }
     }
 }
