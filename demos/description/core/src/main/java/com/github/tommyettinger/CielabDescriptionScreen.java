@@ -13,24 +13,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.github.tommyettinger.colorful.oklab.ColorTools;
-import com.github.tommyettinger.colorful.oklab.SimplePalette;
+import com.github.tommyettinger.colorful.cielab.ColorTools;
+import com.github.tommyettinger.colorful.cielab.SimplePalette;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class OklabDescriptionScreen extends ScreenAdapter {
+public class CielabDescriptionScreen extends ScreenAdapter {
     private Stage stage;
     private TextField tf;
     private final Color color = new Color();
     private final DescriptionDemo mainGame;
 
-    public OklabDescriptionScreen(DescriptionDemo main){
+    public CielabDescriptionScreen(DescriptionDemo main){
         mainGame = main;
     }
 
     @Override
     public void show() {
-        Gdx.graphics.setTitle("Oklab Color Description");
+        Gdx.graphics.setTitle("CIELAB Color Description");
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
         skin.getFont("default-font").getData().scale(2f);
         stage = new Stage();
@@ -39,7 +39,7 @@ public class OklabDescriptionScreen extends ScreenAdapter {
         Table tab = new Table(skin);
         tab.align(Align.center);
         tab.setFillParent(true);
-        Label title = new Label("Oklab Color Description", skin);
+        Label title = new Label("CIELAB Color Description", skin);
         title.setAlignment(Align.center);
         tab.add(title).growX().minWidth(300).row();
         tab.add(tf).center().growX();

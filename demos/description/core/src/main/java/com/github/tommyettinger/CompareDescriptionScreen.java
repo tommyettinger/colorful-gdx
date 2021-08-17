@@ -30,6 +30,7 @@ public class CompareDescriptionScreen extends ScreenAdapter {
     private float r = SimplePalette.TRANSPARENT;
     private float o = com.github.tommyettinger.colorful.oklab.SimplePalette.TRANSPARENT;
     private float i = com.github.tommyettinger.colorful.ipt_hq.SimplePalette.TRANSPARENT;
+    private float c = com.github.tommyettinger.colorful.cielab.SimplePalette.TRANSPARENT;
 
     public CompareDescriptionScreen(DescriptionDemo main){
         mainGame = main;
@@ -55,6 +56,7 @@ public class CompareDescriptionScreen extends ScreenAdapter {
         tab.add(nameField).center().growX().minHeight(100).row();
         tab.add("RGB:         ").center().grow().minWidth(200).row();
         tab.add("Oklab:       ").center().grow().minWidth(200).row();
+        tab.add("CIELAB:      ").center().grow().minWidth(200).row();
         tab.add("IPT_HQ:      ").center().grow().minWidth(200);
         stage.getRoot().addActor(tab);
         stage.addListener(new InputListener(){
@@ -88,6 +90,7 @@ public class CompareDescriptionScreen extends ScreenAdapter {
                 r = t;
                 o = com.github.tommyettinger.colorful.oklab.SimplePalette.parseDescription(nameField.getText());
                 i = com.github.tommyettinger.colorful.ipt_hq.SimplePalette.parseDescription(nameField.getText());
+                c = com.github.tommyettinger.colorful.cielab.SimplePalette.parseDescription(nameField.getText());
             }
         }
         ScreenUtils.clear(0.5f, 0.5f, 0.5f, 1f);
@@ -104,11 +107,13 @@ public class CompareDescriptionScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.setPackedColor(r);
-        batch.draw(pixel, 0f, height * 0.5f, width, height * 0.25f);
+        batch.draw(pixel, 0f, height * 0.6f, width, height * 0.2f);
         batch.setPackedColor(com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA(o));
-        batch.draw(pixel, 0f, height * 0.25f, width, height * 0.25f);
+        batch.draw(pixel, 0f, height * 0.4f, width, height * 0.2f);
+        batch.setPackedColor(com.github.tommyettinger.colorful.cielab.ColorTools.toRGBA(c));
+        batch.draw(pixel, 0f, height * 0.2f, width, height * 0.2f);
         batch.setPackedColor(com.github.tommyettinger.colorful.ipt_hq.ColorTools.toRGBA(i));
-        batch.draw(pixel, 0f, 0f, width, height * 0.25f);
+        batch.draw(pixel, 0f, 0f, width, height * 0.2f);
         batch.setPackedColor(Color.WHITE_FLOAT_BITS);
         stage.getRoot().draw(batch, 1);
         batch.end();
