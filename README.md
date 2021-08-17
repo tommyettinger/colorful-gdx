@@ -14,9 +14,9 @@ specifically how it handles color tinting with `setColor(float, float, float, fl
     reducing red, green, and blue by some percentage each.
 
 We address this in colorful by representing tint colors differently. While there's some support here for HSLC tints
-(hue, saturation, lightness, contrast) via `Shaders.makeBatchHSLC()`, much more of the library focuses on four color
-spaces: RGB, YCwCm, IPT, and Oklab. Most of this library's users will only employ one of these color spaces at a time,
-and the APIs for all the color spaces are extremely similar. You most likely want to use RGB (because it is the most
+(hue, saturation, lightness, contrast) via `Shaders.makeBatchHSLC()`, much more of the library focuses on five color
+spaces: RGB, YCwCm, IPT, Oklab, and CIELAB. Most of this library's users will only employ one of these color spaces at a
+time, and the APIs for all the color spaces are extremely similar. You most likely want to use RGB (because it is the most
 compatible with existing colors) and/or Oklab (because it is the most expressive and makes changing colors intuitive).
 
 ### RGB
@@ -139,7 +139,7 @@ black. Here, we avoid any `Math.pow()` calculations, which evens out the intensi
 hue and chroma components should be fairly similar, but aren't quite identical. You might want to prefer IPT over YCwCm
 if you want color transitions to look as smooth as possible, and don't mind a tiny bit of extra calculation this needs
 to do internally. Even with the different calculation for intensity/lightness, most colors that are perceptually similar
-in lightness should have similar intensity here.
+in lightness should have somewhat similar intensity here.
 
 The `com.github.tommyettinger.colorful.ipt` package has parallels to all the classes in the `ycmcw` package, and the
 `ColorfulBatch`, `ColorfulSprite`, and `Palette` classes work almost identically. For ColorfulBatch, this means there's
@@ -174,8 +174,26 @@ approximation of cube root when it's processed by Java, where IPT_HQ uses a slig
 also preserve the sign of its argument. This difference probably won't be noticeable in practice, since most color
 processing will be done on the GPU for the most intensive applications.
 
+Also, the more I use Oklab, the more I want to keep using Oklab, so future work is probably going to continue on
+improving features in Oklab or making variants on Oklab for mysterious purposes.
+
 The `com.github.tommyettinger.colorful.oklab` package has parallels to all the classes in the `ipt_hq` package, which
 includes those in `ycwcm` and `ipt` as well. Its `SimplePalette` is particularly adept at smoothly changing colors.
+
+### CIELAB
+
+CIELAB, or more accurately, the `1976 CIE L*A*B* Color Space`, is mostly here for completeness; in practice, many common
+operations are done better by the implementation of Oklab here. Both Oklab and CIELAB use L for lightness, A for red vs.
+cyan, and B for yellow vs. blue, but they calculate lots of little things differently, and CIELAB is sometimes smoother.
+However, we only store the full gamut information for Oklab (it's stored in a giant String that gets read as bytes),
+while CIELAB needs to calculate the approximate gamut for each color as requested. The full gamut is large, and I didn't
+want to store it multiple times for two similar color spaces, so CIELAB is just generally slower at gamut-related code,
+and less precise. CIELAB is slower at most operations by at least a little bit, relative to Oklab. It does handle some
+gradients more accurately, and also some less accurately, so every use case may encounter trade-offs.
+
+The `com.github.tommyettinger.colorful.cielab` package has parallels to all the classes in the `ipt_hq` package, which
+includes those in `ycwcm`, `ipt`, and `oklab` as well. Its `SimplePalette` is fairly good, though it tends to change the
+hue of colors slightly when it lightens or darkens them.
 
 ### Describing Colors
 
@@ -218,39 +236,58 @@ have a dependency on libGDX, then you might want colorful-pure instead. Instead 
 [jdkgdxds](https://github.com/tommyettinger/jdkgdxds) for its primitive-backed data structures, and needs Java 8 or
 higher (colorful needs Java 7 or higher). Both colorful and colorful-pure produce compatible packed float colors when
 they use the same color space, and even though their `Palette` classes use different data structures, the colors in
-those palettes are the same. The descriptive color system in `SimplePalette` for the `ipt_hq` and `oklab` packages may
-be especially useful in colorful-pure.
+those palettes are the same. The descriptive color system in `SimplePalette` for the `rgb`, `ipt_hq`, `oklab`, and
+`cielab` packages may be especially useful in colorful-pure.
 
 ## Samples
 
-These all show YCwCm changes.
+These all show Oklab changes.
 
 Tinting with gray as the color causes no change to the original image.
-![Tinting with gray](https://i.imgur.com/1Nq43hx.png)
+![Tinting with gray](https://i.imgur.com/5a4LUDr.png)
 
-Tinting with black as the color makes it much darker, but keeps very colorful areas where they are.
+Tinting with black as the color makes it much darker, but keeps the most colorful areas where they are.
 ![Tinting with black](https://i.imgur.com/O5oeoWA.png)
 
 Tinting with white as the color makes it much lighter, which isn't possible with the default SpriteBatch shader and color representation.
-![Tinting with white](https://i.imgur.com/AiycJSn.png)
+![Tinting with white](https://i.imgur.com/Rg4CSrY.png)
 
 It's a common request to be able to make a Sprite or other texture flash red when a character is hurt; you can tint with the predefined color `Palette.RED` to tint any image to vivid red (including images that have `0.0f` in their red channel).
-![Tinting with red](https://i.imgur.com/gRaLsAL.png)
+![Tinting with red](https://i.imgur.com/BKQ0NwN.png)
 
-Tinting with gray, but using a tweak with 0.0 for chromatic warmth and mildness makes the image grayscale.
-![Tint with gray, tweak with 0.0 chroma](https://i.imgur.com/hOih4Dr.png)
+Tinting with gray, but using a tweak with 0.0 for the chromatic channels A and B makes the image grayscale.
+![Tint with gray, tweak with 0.0 chroma](https://i.imgur.com/RbyjQ3f.png)
 
-Tinting with the palette color `WOODLANDS`, but using a tweak with 0.0 for chromatic warmth and mildness makes the image "green-scale."
-![Tint with "Woodlands", tweak with 0.0 chroma](https://i.imgur.com/3Mzi8ai.png)
+Tinting with the palette color `WOODLANDS`, but using a tweak with 0.0 for the chromatic channels A and B makes the image "green-scale."
+![Tint with "Woodlands", tweak with 0.0 A and B](https://i.imgur.com/iQNumNc.png)
 
-Tinting with gray, but using a tweak with 1.0 for chromatic warmth and mildness makes the image more saturated.
-![Tint with gray, tweak with 1.0 chroma](https://i.imgur.com/jlaJ75c.png)
+Tinting with gray, but using a tweak with 1.0 for the chromatic channels A and B makes the image more saturated.
+![Tint with gray, tweak with 1.0 chroma](https://i.imgur.com/RhyLtFT.png)
 
-Tinting with gray, but using a tweak with 0.5 for chromatic warmth and 0.0 for chromatic mildness distorts the colors used.
-![Tint with gray, tweak with 0.0 chroma](https://i.imgur.com/gxR4k71.png)
+Tinting with gray, but using a tweak with 0.5 for the chromatic channel A and 0.0 for the chromatic channel B distorts the colors used.
+![Tint with gray, tweak with 0.0 chroma](https://i.imgur.com/Gar7qBU.png)
 
-Tinting with the Palette color `THISTLE`, but using a tweak with about 0.75 luma and about 0.25 contrast achieves the aforementioned "magic fog" effect.
-![Magic Fog](https://i.imgur.com/mUghcVg.png)
+Tinting with the Palette color `THISTLE`, but using a tweak with about 0.6 L and about 0.25 contrast achieves the aforementioned "magic fog" effect.
+![Magic Fog](https://i.imgur.com/71c4MNG.png)
+
+Tinting with the Palette color `OCHRE` and using a tweak with L=0.43, A=0.14, B=0.258, contrast=0.8125 changes the cartoon-y graphics to a more gritty palette.
+![Gritty Tint](https://i.imgur.com/ZQqRJTA.png)
+
+## Compatibility Notes
+
+### ProGuard
+
+Proguard doesn't do well with some code here, at least out-of-the-box.
+You need to add this line to your `proguard-rules.pro` file to use ProGuard with colorful-gdx or colorful-pure:
+
+```
+-optimizations !code/simplification/string
+```
+
+### GPU/Shader Incompatibility
+
+Older versions of colorful-gdx had issues on some particular GPUs, and would show nothing but black textures. This
+has been fixed since 0.6.0 , and shouldn't affect code using the current version. If it does, please post an issue.
 
 ## How to Obtain
 
@@ -258,12 +295,12 @@ Using the Maven Central dependency is recommended, and Gradle and Maven can both
 
 Gradle dependency (`implementation` should be changed to `api` if any other dependencies use `api`):
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.6.0'
+implementation 'com.github.tommyettinger:colorful:0.6.1'
 ```
 
 Gradle dependency if also using GWT to make an HTML application:
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.6.0:sources'
+implementation 'com.github.tommyettinger:colorful:0.6.1:sources'
 ```
 
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
@@ -276,7 +313,7 @@ If you don't use Gradle, here's the Maven dependency:
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful</artifactId>
-  <version>0.6.0</version>
+  <version>0.6.1</version>
 </dependency>
 ```
 
@@ -284,12 +321,12 @@ Using colorful-pure is similar:
 
 Gradle dependency (`implementation` should be changed to `api` if any other dependencies use `api`):
 ```groovy
-implementation 'com.github.tommyettinger:colorful-pure:0.6.0'
+implementation 'com.github.tommyettinger:colorful-pure:0.6.1'
 ```
 
 Gradle dependency if also using GWT to make an HTML application:
 ```groovy
-implementation 'com.github.tommyettinger:colorful-pure:0.6.0:sources'
+implementation 'com.github.tommyettinger:colorful-pure:0.6.1:sources'
 ```
 
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
@@ -302,8 +339,9 @@ If you don't use Gradle, here's the Maven dependency:
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful-pure</artifactId>
-  <version>0.6.0</version>
+  <version>0.6.1</version>
 </dependency>
 ```
 
-If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.6.0).
+If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.6.1).
+

@@ -2,11 +2,9 @@
 buildscript {
 	repositories {
 		mavenCentral()
-		maven { url 'https://jitpack.io' }
 	}
 	dependencies {
-	// temporarily uses a JitPack dependency on a working version of Gretty until the next 3.x release
-		classpath "com.github.tommyettinger.gretty:gretty:3.0.4.5"
+		classpath "org.gretty:gretty:3.0.6"
 	}
 }
 apply plugin: "gwt"
@@ -75,23 +73,36 @@ task superDev(type: GwtSuperDev) {
 		gwt.modules = gwt.devModules
 	}
 }
+String outputPath = "../../../docs/${appName}"
+
 task dist(dependsOn: [clean, compileGwt]) {
-    doLast {
-		file("../../../docs/${appName}").mkdirs()
+	doLast {
+		file(outputPath).mkdirs()
 		copy {
-			from "build/gwt/out"
-			into "../../../docs/${appName}"
+			from("build/gwt/out"){
+				exclude '**/*.symbolMap' // Not used by a dist, and these can be large.
+			}
+			into outputPath
 		}
 		copy {
 			from("webapp") {
-				include '**/*.html'
+				exclude 'index.html' // We edit this HTML file later.
+				exclude 'refresh.png' // We don't need this button; this saves some bytes.
+			}
+			into outputPath
+		}
+		copy {
+			from("webapp") {
+				// These next two lines take the index.html page and remove the superdev refresh button.
+				include 'index.html'
 				filter { String line -> line.replaceAll('<a class="superdev" .+', '') }
+				// This does not modify the original index.html, only the copy in the dist.
 			}
-			into "../../../docs/${appName}"
-			}
+			into outputPath
+		}
 		copy {
 			from "war"
-			into "../../../docs/${appName}"
+			into outputPath
 		}
 	}
 }
@@ -99,21 +110,14 @@ task dist(dependsOn: [clean, compileGwt]) {
 task addSource {
 	doLast {
 		sourceSets.main.compileClasspath += files(project(':core').sourceSets.main.allJava.srcDirs)
-		
 	}
 }
 
 task distZip(type: Zip, dependsOn: dist){
-	//// The next lines copy the dist but remove the recompile button (circling arrow) from the HTML page.
-	from('build/dist/') {
-		exclude '**/*.html'
-	}
-	from('build/dist/') {
-		include '**/*.html'
-		filter { String line -> line.replaceAll('<a class="superdev" .+', '') }
-	}
+	//// This uses the output of the dist task, which removes the superdev buttons from index.html .
+	from(outputPath)
 	archiveBaseName.set("${appName}-dist")
-	//// The result will be in html/build/ with a name containing "dist".
+	//// The result will be in html/build/ with a name containing "-dist".
 	destinationDir(file("build"))
 }
 

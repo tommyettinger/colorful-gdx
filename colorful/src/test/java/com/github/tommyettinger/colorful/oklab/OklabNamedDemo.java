@@ -25,7 +25,7 @@ import static com.badlogic.gdx.Gdx.input;
 public class OklabNamedDemo extends ApplicationAdapter {
     public static final int SCREEN_WIDTH = 808;
     public static final int SCREEN_HEIGHT = 600;
-    private SpriteBatch batch;
+    private ColorfulBatch batch;
     private Viewport screenView;
     private Texture screenTexture;
     private BitmapFont font;
@@ -84,10 +84,7 @@ public class OklabNamedDemo extends ApplicationAdapter {
         blank = new Texture(b);
         font = new BitmapFont(Gdx.files.internal("font.fnt"));
         font.setColor(1f, 0.5f, 0.5f, 1f);
-        ShaderProgram shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderOklab);
-        if(!shader.isCompiled())
-            System.out.println(shader.getLog());
-        batch = new SpriteBatch(2000, shader);
+        batch = new ColorfulBatch(1000);
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -123,16 +120,16 @@ public class OklabNamedDemo extends ApplicationAdapter {
 //        basicBatch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) {
             batch.setPackedColor(selected);
+            batch.setTweak(L, A, B, contrast);
             batch.begin();
-//            batch.setTweak(L, A, B, contrast);
             batch.draw(screenTexture, 0, 0);
+            batch.setTweak(ColorfulBatch.TWEAK_RESET);
             int i = -1;
             final float width = screenTexture.getWidth() / 5f, height = screenTexture.getHeight() / 51f;
             for (int y = 0; y < 51; y++) {
                 for (int x = 0; x < 5; x++) {
                     String name = Palette.NAMES_BY_HUE.get(++i);
                     float color = Palette.NAMED.get(name, Palette.WHITE);
-//                    System.out.printf("0x%08X : %s\n", Float.floatToRawIntBits(color), name);
                     batch.setPackedColor(color);
                     batch.draw(blank, screenTexture.getWidth() + width * x, height * (50 - y), width, height);
                 }
@@ -196,32 +193,32 @@ public class OklabNamedDemo extends ApplicationAdapter {
                 System.out.println("Using color " + selectedName
                         + " with L="+ ColorTools.channelL(selected) + ",A="+ ColorTools.channelA(selected)
                         + ",B="+ ColorTools.channelB(selected)+",alpha=1.0 ."
-//                        +"\nUsing tweak with L="+ L
-//                        + ",A="+ A + ",B="+ B +",contrast="+contrast + " ."
+                        +"\nUsing tweak with L="+ L
+                        + ",A="+ A + ",B="+ B +",contrast="+contrast + " ."
                 );
-//            else if (input.isKeyPressed(Input.Keys.L)) //light
-//                L = MathUtils.clamp(L + 0x3p-7f, 0f, 1f);
-//            else if (input.isKeyPressed(Input.Keys.D)) //dark
-//                L = MathUtils.clamp(L - 0x3p-7f, 0f, 1f);
-//            else if (input.isKeyPressed(Input.Keys.R)) //A up
-//                A = MathUtils.clamp(A + 0x3p-7f, 0f, 1f);
-//            else if (input.isKeyPressed(Input.Keys.G)) //A down
-//                A = MathUtils.clamp(A - 0x3p-7f, 0f, 1f);
-//            else if (input.isKeyPressed(Input.Keys.Y)) //B up
-//                B = MathUtils.clamp(B + 0x3p-7f, 0f, 1f);
-//            else if (input.isKeyPressed(Input.Keys.B)) //B down
-//                B = MathUtils.clamp(B - 0x3p-7f, 0f, 1f);
-//            else if (input.isKeyPressed(Input.Keys.S)) //sharp contrast
-//                contrast = MathUtils.clamp(contrast + 0x3p-7f, 0f, 1f);
-//            else if (input.isKeyPressed(Input.Keys.F)) //fuzzy contrast
-//                contrast = MathUtils.clamp(contrast - 0x3p-7f, 0f, 1f);
-//            else if (input.isKeyPressed(Input.Keys.BACKSPACE)) //reset
-//            {
-//                L = 0.5f;
-//                A = 0.5f;
-//                B = 0.5f;
-//                contrast = 0.5f;
-//            }
+            else if (input.isKeyPressed(Input.Keys.L)) //light
+                L = MathUtils.clamp(L + 0x3p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.D)) //dark
+                L = MathUtils.clamp(L - 0x3p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.R)) //A up
+                A = MathUtils.clamp(A + 0x3p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.G)) //A down
+                A = MathUtils.clamp(A - 0x3p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.Y)) //B up
+                B = MathUtils.clamp(B + 0x3p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.B)) //B down
+                B = MathUtils.clamp(B - 0x3p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.S)) //sharp contrast
+                contrast = MathUtils.clamp(contrast + 0x3p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.F)) //fuzzy contrast
+                contrast = MathUtils.clamp(contrast - 0x3p-7f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.BACKSPACE)) //reset
+            {
+                L = 0.5f;
+                A = 0.5f;
+                B = 0.5f;
+                contrast = 0.5f;
+            }
         }
     }
 }

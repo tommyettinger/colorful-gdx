@@ -1040,7 +1040,17 @@
 <span class="source-line-no">1027</span><span id="line.1027">        return fromValue + (toValue - fromValue) * progress;</span>
 <span class="source-line-no">1028</span><span id="line.1028">    }</span>
 <span class="source-line-no">1029</span><span id="line.1029"></span>
-<span class="source-line-no">1030</span><span id="line.1030">}</span>
+<span class="source-line-no">1030</span><span id="line.1030">    /**</span>
+<span class="source-line-no">1031</span><span id="line.1031">     * Returns the largest integer less than or equal to the specified float. This method will only properly floor</span>
+<span class="source-line-no">1032</span><span id="line.1032">     * floats from {@code -16384} to (Float.MAX_VALUE - 16384).</span>
+<span class="source-line-no">1033</span><span id="line.1033">     * @param value the float to find the floor of</span>
+<span class="source-line-no">1034</span><span id="line.1034">     * @return the int floor of {@code value}, that is, the largest int that is less than or equal to {@code value}</span>
+<span class="source-line-no">1035</span><span id="line.1035">     */</span>
+<span class="source-line-no">1036</span><span id="line.1036">    static public int floor (float value) {</span>
+<span class="source-line-no">1037</span><span id="line.1037">        return (int)(value + 16384.0) - 16384;</span>
+<span class="source-line-no">1038</span><span id="line.1038">    }</span>
+<span class="source-line-no">1039</span><span id="line.1039"></span>
+<span class="source-line-no">1040</span><span id="line.1040">}</span>
 
 
 
