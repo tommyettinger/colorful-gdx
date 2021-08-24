@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.tommyettinger.colorful.FourWheelRandom;
 import com.github.tommyettinger.colorful.Shaders;
 import com.github.tommyettinger.colorful.TrigTools;
 
@@ -28,7 +29,7 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
     private Viewport screenView;
     private BitmapFont font;
     private Texture blank;
-    private RandomXS128 random;
+    private FourWheelRandom random;
     private long lastProcessedTime = 0L, startTime;
     private float layer = 0.5f;
 
@@ -47,7 +48,7 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
     @Override
     public void create() {
         startTime = TimeUtils.millis();
-        random = new RandomXS128(startTime);
+        random = new FourWheelRandom(startTime);
         Pixmap b = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         b.drawPixel(0, 0, 0x7F7F81FF);
         blank = new Texture(b);
@@ -83,7 +84,8 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
         batch.begin();
         batch.draw(blank, 0, 0, 512, 512);
         final float
-                maxDist = 254f * TrigTools.sin_(layer * 0.5f) + 1f,
+                maxDist = 254f * TrigTools.sin_(layer * layer * 0.5f) + 1f,
+//                maxDist = 254f * TrigTools.sin_(layer * 0.5f) + 1f,
                 iMax = 1f / maxDist;
         for (int dist = 0; dist <= maxDist; dist++) {
             final int circ = dist * 16;
@@ -93,8 +95,9 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
 //                final float g = ColorTools.getRawGamutValue((int)(layer * 255.999f) << 8 | (int)(angle * 256f));
 //                if(g < dist) continue;
                 final float chr = dist * iMax;// * (0.5f - Math.abs(layer - 0.5f)) * 2f;
-                if(random.nextLong() < 0x6800000000000000L && chr > ColorTools.chromaLimit(angle, layer)) continue;
-                batch.setPackedColor(ColorTools.oklabByHCL(angle, chr, layer, 1f));
+//                if(random.nextLong() < 0x6800000000000000L && chr > ColorTools.chromaLimit(angle, layer)) continue;
+//                batch.setPackedColor(ColorTools.oklabByHCL(angle, chr, layer, 1f));
+                batch.setPackedColor(ColorTools.oklabByHCL(angle, chr * ColorTools.chromaLimit(angle, layer), layer, 1f));
                 batch.draw(blank, 255.5f + x * dist, 255.5f + y * dist, 1f, 1f);
             }
         }
