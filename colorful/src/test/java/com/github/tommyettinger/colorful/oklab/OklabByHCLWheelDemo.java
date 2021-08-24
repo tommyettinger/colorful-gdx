@@ -75,7 +75,7 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         handleInput();
-        layer = TimeUtils.timeSinceMillis(startTime) * 0x1p-12f;
+        layer = TimeUtils.timeSinceMillis(startTime) * 0x1p-13f;
 //        boolean showOut = (TimeUtils.timeSinceMillis(startTime) & 0x100L) == 0L;
         int floor = MathUtils.floorPositive(layer);
         layer = (floor & 1) + (layer - floor) * (-(floor & 1) | 1);
@@ -84,7 +84,8 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
         batch.begin();
         batch.draw(blank, 0, 0, 512, 512);
         final float
-                maxDist = 254f * TrigTools.sin_(layer * layer * 0.5f) + 1f,
+                maxDist = 255f,
+//                maxDist = 254f * TrigTools.sin_(layer * layer * 0.5f) + 1f,
 //                maxDist = 254f * TrigTools.sin_(layer * 0.5f) + 1f,
                 iMax = 1f / maxDist;
         for (int dist = 0; dist <= maxDist; dist++) {

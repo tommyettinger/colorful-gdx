@@ -786,14 +786,14 @@ public class ColorTools {
 	 */
 	public static boolean inGamut(final float packed)
 	{
-		final int decoded = NumberUtils.floatToRawIntBits(packed), y = (decoded & 0xff),
-				cw = ((decoded >>> 7 & 0x1fe) - 0xff),
-				cm = (((decoded >>> 15 & 0x1fe) - 0xff) / 2);
-		final int r = y + (cw * 5 / 8) - cm;
+		final int decoded = NumberUtils.floatToRawIntBits(packed), yi = (decoded & 0xff),
+				cwi = ((decoded >>> 7 & 0x1fe) - 0xff),
+				cmi = (((decoded >>> 15 & 0x1fe) - 0xff) / 2);
+		final int r = yi + (cwi * 5 / 8) - cmi;
 		if(r < 0 || r > 255) return false;
-		final int g = y - (cw * 3 / 8) + cm;
+		final int g = yi - (cwi * 3 / 8) + cmi;
 		if(g < 0 || g > 255) return false;
-		final int b = y - (cw * 3 / 8) - cm;
+		final int b = yi - (cwi * 3 / 8) - cmi;
 		return (b >= 0) && (b <= 255);
 	}
 	/**
