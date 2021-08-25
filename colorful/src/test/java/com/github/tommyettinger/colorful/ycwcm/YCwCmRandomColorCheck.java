@@ -4,6 +4,8 @@ import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FourWheelRandom;
 
+import java.util.Random;
+
 public class YCwCmRandomColorCheck {
 
     /**
@@ -35,7 +37,15 @@ public class YCwCmRandomColorCheck {
         final float b = yi - (cwi * 0.375f) - cmi;
         final float high = Math.max(r, Math.max(g, b));
         final float low  = Math.min(r, Math.min(g, b));
-        return high >= 256 || low <= -1 ? (high - 256 >= -low ? high : low) : 128;
+        float ret;
+        if(high >= 256 || low <= -1)
+        {
+            ret = (high - 256 >= -low ? high : low);
+            System.out.printf("y: %.4f, w: %.4f, m: %.4f\n", yi, cwi, cmi);
+            System.out.printf("r: %.4f, g: %.4f, b: %.4f\n", r, g, b);
+        }
+        else ret = 128;
+        return ret;
     }
 
 //    public static int howOutOfGamut(final float packed)
@@ -51,11 +61,23 @@ public class YCwCmRandomColorCheck {
 //        return high > 255 || low < 0 ? (high - 255 > -low ? high : low) : 128;
 //    }
 //
+
+    public static float randomColor(FourWheelRandom random) {
+        final float yr = +0.375f, wr = +0.5f, mr = +0.0f;
+        final float yg = +0.500f, wg = +0.0f, mg = +0.5f;
+        final float yb = +0.125f, wb = -0.5f, mb = -0.5f;
+        final int r = random.next(8), g = random.next(8), b = random.next(8);
+        return NumberUtils.intBitsToFloat(0xFE000000
+                | ((int) ((mr * r + mg * g + mb * b) * 0.5f + 128f) << 16 & 0xFF0000)
+                | ((int) ((wr * r + wg * g + wb * b) * 0.5f + 128f) << 8 & 0xFF00)
+                | ((int) ((yr * r + yg * g + yb * b)) & 0xFF));
+    }
+
     public static void main(String[] args) {
         FourWheelRandom random = new FourWheelRandom(1L);
 //        RandomXS128 random = new RandomXS128(1L);
         for (int i = 0; i < 100000000; i++) {
-            float color = ColorTools.randomColor(random);
+            float color = randomColor(random);
             float out = howOutOfGamut(color);
             if (out != 128) {
                 System.out.printf("Color with YCwCm values: Y=%f, Cw=%f, Cm=%f\n",
