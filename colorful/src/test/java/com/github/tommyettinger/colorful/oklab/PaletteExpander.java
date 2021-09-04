@@ -1,5 +1,6 @@
 package com.github.tommyettinger.colorful.oklab;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.IntSet;
@@ -143,10 +144,57 @@ A different try, without a palette as a base, "enclave":
 0x8ADCADFF, 0x11493EFF, 0x105F51FF, 0x197261FF, 0x0A8571FF, 0x119780FF, 0x1AAB91FF, 0x00CCA3FF,
 0x00D6B3FF, 0x0B3930FF, 0x074E42FF, 0x105F51FF, 0x0A725BFF, 0x00926CFF, 0x00A07AFF, 0x00AC89FF,
 0x1ABA9EFF,
+
+// batty256, based on betts64
+0x00000000, 0x000000FF, 0x121212FF, 0x242424FF, 0x363636FF, 0x484848FF, 0x5B5B5BFF, 0x6D6D6DFF,
+0x7F7F7FFF, 0x919191FF, 0xA3A3A3FF, 0xB6B6B6FF, 0xC8C8C8FF, 0xDADADAFF, 0xECECECFF, 0xFFFFFFFF,
+0xA6D755FF, 0x071315FF, 0xC6C0D1FF, 0x1C0B06FF, 0x8ABF5EFF, 0x101E24FF, 0xBF9ECFFF, 0x281710FF,
+0x7AA221FF, 0x0B323AFF, 0x919099FF, 0x511709FF, 0x6E8A31FF, 0x18414DFF, 0x887598FF, 0x632617FF,
+0x0A4111FF, 0x1991D3FF, 0x373432FF, 0xCE690FFF, 0x0F661DFF, 0x166998FF, 0x545255FF, 0x994A06FF,
+0x147E25FF, 0x0F547CFF, 0x6A6664FF, 0x793D09FF, 0x229E35FF, 0x143B54FF, 0x86808AFF, 0x532C0DFF,
+0x42C372FF, 0x0D2135FF, 0xB49EADFF, 0x2C1C0AFF, 0x8CE7A6FF, 0x090C10FF, 0xE5C2DCFF, 0x0E0B08FF,
+0x78FAE6FF, 0x040310FF, 0xE3DEDCFF, 0x060603FF, 0x00C7A5FF, 0x0E0261FF, 0xACA7A5FF, 0x261D09FF,
+0x009282FF, 0x2F09B2FF, 0x807B7AFF, 0x483A0AFF, 0x163135FF, 0xA27AE7FF, 0x352826FF, 0x8A9D41FF,
+0x21526BFF, 0xA619CAFF, 0x4E4A49FF, 0x337F1AFF, 0x3B768FFF, 0x682285FF, 0x82675BFF, 0x335320FF,
+0x53A1ADFF, 0x341A5AFF, 0xB2877EFF, 0x282F16FF, 0x8CDAFFFF, 0x140018FF, 0xD2CDCBFF, 0x070E00FF,
+0x50AAF7FF, 0x3B0A32FF, 0xA7A199FF, 0x0D2816FF, 0x3E83EBFF, 0x5D1745FF, 0x8B8376FF, 0x183F2DFF,
+0x354AD7FF, 0x972B56FF, 0x635C51FF, 0x2C6456FF, 0x1D2DAAFF, 0xCB3D79FF, 0x463F36FF, 0x3B8776FF,
+0x152135FF, 0xDF84B4FF, 0x252018FF, 0x65B998FF, 0x66397EFF, 0x95523EFF, 0x465536FF, 0x416D7CFF,
+0x7E5596FF, 0x674338FF, 0x55723DFF, 0x3E5158FF, 0xA68ABFFF, 0x39221BFF, 0x8DA25BFF, 0x1D2B2EFF,
+0xDFBFEFFF, 0x150806FF, 0xC0D5ACFF, 0x070E10FF, 0xC772FFFF, 0x421400FF, 0xA19D9BFF, 0x0A2931FF,
+0x9245E7FF, 0x7A2010FF, 0x727768FF, 0x174A56FF, 0x6E05C3FF, 0xC21B08FF, 0x54504FFF, 0x18707FFF,
+0x350082FF, 0xFF4058FF, 0x322F2EFF, 0x13A2A7FF, 0x721C2FFF, 0x8A7930FF, 0x384041FF, 0x6669E3FF,
+0xB22E69FF, 0x644B1FFF, 0x5B6963FF, 0x1E45B1FF, 0xE54286FF, 0x403319FF, 0x748B83FF, 0x122490FF,
+0xFF6EAFFF, 0x291E01FF, 0xA4A6A3FF, 0x0B1C48FF, 0xFF9AC7FF, 0x191203FF, 0xBCBEBBFF, 0x04112AFF,
+0xFFD7F3FF, 0x060401FF, 0xD7ECD6FF, 0x030505FF, 0xE3B3C3FF, 0x13100CFF, 0x83D7C2FF, 0x080F24FF,
+0xCB96A2FF, 0x231E16FF, 0x61BBA6FF, 0x151E37FF, 0xAA768AFF, 0x39332AFF, 0x419C7CFF, 0x2B3444FF,
+0xCF4929FF, 0x384517FF, 0x697C80FF, 0x541E83FF, 0xF3820DFF, 0x092912FF, 0x9EA3A4FF, 0x390838FF,
+0xFFAA0DFF, 0x001813FF, 0xB8BDBFFF, 0x250217FF, 0xFFD3A6FF, 0x000806FF, 0xD8DDDFFF, 0x0C0209FF,
+0xFFBB8AFF, 0x061007FF, 0xC7CCCEFF, 0x160415FF, 0xE7A67AFF, 0x101A10FF, 0x9CBAD5FF, 0x230E20FF,
+0xBB7251FF, 0x2B3A23FF, 0x5D8FA4FF, 0x43274FFF, 0x82491DFF, 0x226E33FF, 0x4F5B5FFF, 0x922A90FF,
+0x513115FF, 0x36975FFF, 0x2F3B43FF, 0xD03DB4FF, 0xB7515AFF, 0x45442AFF, 0x557D7DFF, 0x3F3580FF,
+0x6E5A51FF, 0x4F594AFF, 0x236983FF, 0x604D68FF, 0x8A7A5AFF, 0x2E403AFF, 0x5679CFFF, 0x50313DFF,
+0xB79E5EFF, 0x152725FF, 0x949EC9FF, 0x361820FF, 0xDFC721FF, 0x071111FF, 0xC7C5C8FF, 0x1E030BFF,
+0xFFDF00FF, 0x020708FF, 0xE2DDDAFF, 0x0D0005FF, 0xFFF3B3FF, 0x000102FF, 0xF4F1F5FF, 0x030000FF,
+0xEDEFA0FF, 0x020304FF, 0xE6E8F9FF, 0x050202FF, 0xD0E290FF, 0x070909FF, 0xDED2EDFF, 0x0C0705FF,
+0xBFDB76FF, 0x080D0DFF, 0xD4C9E2FF, 0x140805FF, 0xB4D968FF, 0x090F12FF, 0xCEC3DDFF, 0x170A07FF,
+
+
  */
 
 public class PaletteExpander {
-    private static final int[] BASE_PALETTE = new int[]{
+    private static final int[] BASE_PALETTE = {
+            0x00000000, 0x000000FF, 0x282828FF, 0x585858FF, 0x868686FF, 0xA2A2A2FF, 0xCBCBCBFF, 0xFFFFFFFF,
+            0xA6D755FF, 0x8ABF5EFF, 0x7AA221FF, 0x6E8A31FF, 0x0A4111FF, 0x0F661DFF, 0x147E25FF, 0x229E35FF,
+            0x42C372FF, 0x8CE7A6FF, 0x78FAE6FF, 0x00C7A5FF, 0x009282FF, 0x163135FF, 0x21526BFF, 0x3B768FFF,
+            0x53A1ADFF, 0x8CDAFFFF, 0x50AAF7FF, 0x3E83EBFF, 0x354AD7FF, 0x1D2DAAFF, 0x152135FF, 0x66397EFF,
+            0x7E5596FF, 0xA68ABFFF, 0xDFBFEFFF, 0xC772FFFF, 0x9245E7FF, 0x6E05C3FF, 0x350082FF, 0x721C2FFF,
+            0xB22E69FF, 0xE54286FF, 0xFF6EAFFF, 0xFF9AC7FF, 0xFFD7F3FF, 0xE3B3C3FF, 0xCB96A2FF, 0xAA768AFF,
+            0xCF4929FF, 0xF3820DFF, 0xFFAA0DFF, 0xFFD3A6FF, 0xFFBB8AFF, 0xE7A67AFF, 0xBB7251FF, 0x82491DFF,
+            0x513115FF, 0xB7515AFF, 0x6E5A51FF, 0x8A7A5AFF, 0xB79E5EFF, 0xDFC721FF, 0xFFDF00FF, 0xFFF3B3FF,
+            0xEDEFA0FF, 0xD0E290FF, 0xBFDB76FF, 0xB4D968FF,
+    };
+            //new int[]{
             //0x15111BFF, 0xFFEDD4FF,
 //            0x6E6550FF, 0x372B26FF, 0xC37C6BFF, 0xDD997EFF, 0x9A765EFF, 0xE1AD56FF,
 //            0xC6B5A5FF, 0xE9B58CFF, 0xEFCBB3FF, 0xF7DFAAFF, 0xBBD18AFF, 0x355525FF, 0x557A41FF, 0x112D19FF,
@@ -159,14 +207,14 @@ public class PaletteExpander {
 //            0x9E4539FF, 0x7A3045FF, 0x6B3E75FF, 0x905EA9FF, 0xA874F0FF, 0xEA6DE0FF, 0x8FD3FFFF, 0x4D9BE6FF,
 //            0x4D65B4FF, 0x484A77FF, 0x30E1B9FF, 0x8FF8E2FF,
 ////// downgraded-32, minus 5, plus a dark green, and then tweaked for balance in this case
+//            0x7B334CFF, 0xA14D55FF, 0xC77369FF, 0xE3A084FF, 0xF2CB9BFF, 0xD37B86FF, 0xAF5D8BFF,
+//            0x804085FF, 0x64336BFF, 0x38185CFF, 0x5C486AFF,
+//            0x76E0CBFF, 0x89D9D9FF, 0x72B6CFFF, 0x7C6BA8FF, 0x4E6679FF, 0x44355DFF, 0x3D003DFF,
+//            0x621748FF, 0x942C4BFF, 0xC7424FFF, 0xE06B51FF, 0xF2A561FF, 0xFCF448FF, 0xB1F460FF, 0x80B878FF,
+//            0x658D78FF, 0x3C6C54FF,
+//
 //            0x00000000, 0x887D8DFF, 0xB8B4B2FF, 0xDCDAC9FF, 0xFFFFE0FF, 0x464969FF,
-            0x7B334CFF, 0xA14D55FF, 0xC77369FF, 0xE3A084FF, 0xF2CB9BFF, 0xD37B86FF, 0xAF5D8BFF,
-            0x804085FF, 0x64336BFF, 0x38185CFF, 0x5C486AFF,
-            0x76E0CBFF, 0x89D9D9FF, 0x72B6CFFF, 0x7C6BA8FF, 0x4E6679FF, 0x44355DFF, 0x3D003DFF,
-            0x621748FF, 0x942C4BFF, 0xC7424FFF, 0xE06B51FF, 0xF2A561FF, 0xFCF448FF, 0xB1F460FF, 0x80B878FF,
-            0x658D78FF, 0x3C6C54FF,
-
-    };
+//    };
     private static final int limit = 256;
     private static float minDistance = Float.MAX_VALUE;
     private static final IntArray rgba = new IntArray(limit);
@@ -212,22 +260,22 @@ public class PaletteExpander {
 //        add(0xEEEEEEFF);
 //        add(0xFFFFFFFF);
 
-        add(0x000000FF);
-        add(0x111111FF);
-        add(0x222222FF);
-        add(0x333333FF);
-        add(0x444444FF);
-        add(0x555555FF);
-        add(0x666666FF);
-        add(0x777777FF);
-        add(0x888888FF);
-        add(0x999999FF);
-        add(0xAAAAAAFF);
-        add(0xBBBBBBFF);
-        add(0xCCCCCCFF);
-        add(0xDDDDDDFF);
-        add(0xEEEEEEFF);
-        add(0xFFFFFFFF);
+//        add(0x000000FF);
+//        add(0x111111FF);
+//        add(0x222222FF);
+//        add(0x333333FF);
+//        add(0x444444FF);
+//        add(0x555555FF);
+//        add(0x666666FF);
+//        add(0x777777FF);
+//        add(0x888888FF);
+//        add(0x999999FF);
+//        add(0xAAAAAAFF);
+//        add(0xBBBBBBFF);
+//        add(0xCCCCCCFF);
+//        add(0xDDDDDDFF);
+//        add(0xEEEEEEFF);
+//        add(0xFFFFFFFF);
 
 //        for (int i = 0; i < 30; i++) {
 //            float hue = i / 30f + (1f / 60f);
@@ -281,30 +329,52 @@ public class PaletteExpander {
 //            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L + 0.075f, gA2, gB2)));
 //            rgba.add(ColorTools.toRGBA8888(ColorTools.limitToGamut(L - 0.125f, gA2, gB2)));
 //        }
+//
+//        for (int i = 0; i < BASE_PALETTE.length; i++) {
+//            float lab = ColorTools.fromRGBA8888(BASE_PALETTE[i]);
+//            int dec = NumberUtils.floatToRawIntBits(lab);
+//            int light = dec & 0xFF;
+//            float L = MathUtils.lerp(light / 255f, 0.666f, 0.5f);
+//            float A = ColorTools.channelA(lab);
+//            float B = ColorTools.channelB(lab);
+//            float hue = TrigTools.atan2_((dec >>> 8 & 0xFF) - 127.5f, (dec >>> 16 & 0xFF) - 127.5f);
+//            int hi = (int)(hue * 256f);
+//            float cosHue = TrigTools.cos_(hue);
+//            float sinHue = TrigTools.sin_(hue);
+//            float gamut = ColorTools.getRawGamutValue(light << 8 | hi) * 0x1p-8f;
+//            float gA = Math.abs(cosHue * gamut);
+//            float gB = Math.abs(sinHue * gamut);
+//            float fractionA = (A - 0.5f) / gA;
+//            float fractionB = (B - 0.5f) / gB;
+//            for (int j = 0; j < 8; j++) {
+//                float L2 = L - 0.26f + 0.045f * j + 0.03f * (float) Math.sqrt(j);
+//                float gamut2 = ColorTools.getRawGamutValue(((int) (L2 * 65535.999f) & 0xFF00) | hi) * 0x1p-8f;
+//                float color = ColorTools.limitToGamut(L2, fractionA * gamut2 + 0.5f, fractionB * gamut2 + 0.5f);
+////                System.out.printf("%1.4f, %1.4f, %1.4f\n", ColorTools.channelL(color), ColorTools.channelA(color), ColorTools.channelB(color));
+//                rgba.add(ColorTools.toRGBA8888(color));
+//            }
+//        }
 
-        for (int i = 0; i < BASE_PALETTE.length; i++) {
+        int grayCount = 1;
+        for (int i = 1; i < BASE_PALETTE.length; i++) {
             float lab = ColorTools.fromRGBA8888(BASE_PALETTE[i]);
-            int dec = NumberUtils.floatToRawIntBits(lab);
-            int light = dec & 0xFF;
-            float L = MathUtils.lerp(light / 255f, 0.666f, 0.5f);
-            float A = ColorTools.channelA(lab);
-            float B = ColorTools.channelB(lab);
-            float hue = TrigTools.atan2_((dec >>> 8 & 0xFF) - 127.5f, (dec >>> 16 & 0xFF) - 127.5f);
-            int hi = (int)(hue * 256f);
-            float cosHue = TrigTools.cos_(hue);
-            float sinHue = TrigTools.sin_(hue);
-            float gamut = ColorTools.getRawGamutValue(light << 8 | hi) * 0x1p-8f;
-            float gA = Math.abs(cosHue * gamut);
-            float gB = Math.abs(sinHue * gamut);
-            float fractionA = (A - 0.5f) / gA;
-            float fractionB = (B - 0.5f) / gB;
-            for (int j = 0; j < 8; j++) {
-                float L2 = L - 0.26f + 0.045f * j + 0.03f * (float) Math.sqrt(j);
-                float gamut2 = ColorTools.getRawGamutValue(((int) (L2 * 65535.999f) & 0xFF00) | hi) * 0x1p-8f;
-                float color = ColorTools.limitToGamut(L2, fractionA * gamut2 + 0.5f, fractionB * gamut2 + 0.5f);
-//                System.out.printf("%1.4f, %1.4f, %1.4f\n", ColorTools.channelL(color), ColorTools.channelA(color), ColorTools.channelB(color));
-                rgba.add(ColorTools.toRGBA8888(color));
+            if(ColorTools.chroma(lab) <= (2f/255f)){
+                grayCount+=2;
+                continue;
             }
+            add(BASE_PALETTE[i]);
+            float S = ColorTools.oklabSaturation(lab);
+            float H = ColorTools.oklabHue(lab);
+            float L = ColorTools.oklabLightness(lab);
+//            L = TrigTools.sin_(0.5f * L * L);
+//            System.out.printf("for 0x%08X: %.4f reported before, %.4f reported after\n", BASE_PALETTE[i], S, ColorTools.oklabSaturation(color));
+            add(ColorTools.toRGBA8888(ColorTools.oklabByHSL(H + 0.25f, S, 1f - L, 1f)));
+            add(ColorTools.toRGBA8888(ColorTools.oklabByHSL(H + 0.5f, 1f - S, L, 1f)));
+            add(ColorTools.toRGBA8888(ColorTools.oklabByHSL(H + 0.75f, S, 1f - L, 1f)));
+        }
+        for (int i = 0; i < grayCount; i++) {
+            float gray = MathUtils.lerp(0f, 1f, i / (grayCount - 1f));
+            rgba.insert(i + 1, Color.rgba8888(gray, gray, gray, 1f));
         }
 
         StringBuilder sb = new StringBuilder(12 * rgba.size + 35).append("{\n");
@@ -313,6 +383,8 @@ public class PaletteExpander {
             if(7 == (i & 7)) sb.append('\n');
         }
         System.out.println(sb.append('}'));
+
+        System.out.println("\n" + rgba.size);
 //
 //        System.out.println();
 //        for (int i = 0; i < labs.size; i++) {
