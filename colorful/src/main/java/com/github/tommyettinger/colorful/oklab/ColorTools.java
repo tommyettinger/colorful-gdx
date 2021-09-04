@@ -1196,7 +1196,7 @@ public class ColorTools {
 		hue -= MathUtils.floor(hue);
 		alpha = Math.min(Math.max(alpha, 0f), 1f);
 		final int idx = (int) (lightness * 255.999f) << 8 | (int) (256f * hue);
-		final float dist = GAMUT_DATA[idx] * saturation;
+		final float dist = GAMUT_DATA[idx] * saturation * 0.5f;
 		return NumberUtils.intBitsToFloat(
 				(int) (alpha * 127.999f) << 25 |
 						(int) (TrigTools.sin_(hue) * dist + 128f) << 16 |
