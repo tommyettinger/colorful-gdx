@@ -100,22 +100,22 @@ public class OklabGamutDemo extends ApplicationAdapter {
         }
 
 
-//// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
-//// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
-        AnimatedGif gif = new AnimatedGif();
-//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
-//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
-        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
-//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // this should be dithered before usage
-        gif.palette = new PaletteReducer();
-//        gif.palette = new PaletteReducer(pixmaps);
-//        // 24 is how many frames per second the animated GIF should play back at.
-        gif.write(Gdx.files.local("OklabGamut.gif"), pixmaps, 24);
-
-//// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
-        AnimatedPNG png = new AnimatedPNG();
-//// 24 is how many frames per second the animated PNG should play back at.
-        png.write(Gdx.files.local("OklabGamut.png"), pixmaps, 24);
+////// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
+////// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
+//        AnimatedGif gif = new AnimatedGif();
+////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
+////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
+////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // this should be dithered before usage
+//        gif.palette = new PaletteReducer();
+////        gif.palette = new PaletteReducer(pixmaps);
+////        // 24 is how many frames per second the animated GIF should play back at.
+//        gif.write(Gdx.files.local("OklabGamut.gif"), pixmaps, 24);
+//
+////// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
+//        AnimatedPNG png = new AnimatedPNG();
+////// 24 is how many frames per second the animated PNG should play back at.
+//        png.write(Gdx.files.local("OklabGamut.png"), pixmaps, 24);
 
 
         float minA = 1000f, minB = 1000f, maxA = -1000f, maxB = -1000f, ok, A, B, maxChroma = 0f, chroma;

@@ -1054,7 +1054,7 @@ public class ColorTools {
 		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 255f;
 		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 255f;
 		final byte g = GAMUT_DATA[(decoded & 0xff) << 8 | (int)(256f * TrigTools.atan2_(B, A))];
-		return g * g * 0x1p-18 >= (A * A + B * B);
+		return g * g * 0x1p-16 >= (A * A + B * B);
 	}
 
 	/**
@@ -1066,10 +1066,18 @@ public class ColorTools {
 	 */
 	public static boolean inGamut(float L, float A, float B)
 	{
-		A = (A - 0.5f);
-		B = (B - 0.5f);
-		final byte g = GAMUT_DATA[((int)(L * 255.999f) << 8) | (int)(256f * TrigTools.atan2_(B, A))];
-		return g * g * 0x1p-18 >= (A * A + B * B);
+		A = ((int) (A * 255) - 127.5f) / 255f;
+		B = ((int) (B * 255) - 127.5f) / 255f;
+		final byte g = GAMUT_DATA[((int) (L * 255) & 0xFF) << 8 | (int)(256f * TrigTools.atan2_(B, A))];
+		return g * g * 0x1p-16 >= (A * A + B * B);
+
+		////This was the old code for this inGamut(), which was subtly different from the other inGamut() when called
+		/// on a packed float. The packed floats can go ever-so-slightly towards or away from the edge.
+//		A = (A - 0.5f);
+//		B = (B - 0.5f);
+//		final byte g = GAMUT_DATA[((int)(L * 255.999f) << 8) | (int)(256f * TrigTools.atan2_(B, A))];
+//		return g * g * 0x1p-16 >= (A * A + B * B);
+
 	}
 
 	/**
@@ -1251,7 +1259,7 @@ public class ColorTools {
 		final float hue = TrigTools.atan2_(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
 		final float dist = GAMUT_DATA[idx];
-		if (dist * dist * 0.25f >= (A * A + B * B))
+		if (dist * dist >= (A * A + B * B))
 			return packed;
 		return NumberUtils.intBitsToFloat(
 				(decoded & 0xFE0000FF) |
@@ -1292,7 +1300,7 @@ public class ColorTools {
 		final float hue = TrigTools.atan2_(B2, A2);
 		final int idx = (int) (L * 255.999f) << 8 | (int)(256f * hue);
 		final float dist = GAMUT_DATA[idx];
-		if(dist * dist * 0x1p-18f >= (A2 * A2 + B2 * B2))
+		if(dist * dist * 0x1p-16f >= (A2 * A2 + B2 * B2))
 			return oklab(L, A, B, alpha);
 		return NumberUtils.intBitsToFloat(
 				(int) (alpha * 127.999f) << 25 |
@@ -1352,7 +1360,7 @@ public class ColorTools {
 		final float hue = TrigTools.atan2_(B, A);
 		final int idx = (int) (L * 255.999f) << 8 | (int)(256f * hue);
 		final float dist = GAMUT_DATA[idx] ;
-		if(dist * dist * 0x1p-18f >= (A * A + B * B))
+		if(dist * dist * 0x1p-16f >= (A * A + B * B))
 			return oklab(L, A + 0.5f, B + 0.5f, alpha);
 		return NumberUtils.intBitsToFloat(
 				(int) (alpha * 127.999f) << 25 |
