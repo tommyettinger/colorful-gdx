@@ -2,6 +2,7 @@ package com.github.tommyettinger.colorful.oklab;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.FloatArray;
+import com.github.tommyettinger.colorful.TrigTools;
 import com.github.tommyettinger.colorful.internal.StringKit;
 
 import static com.badlogic.gdx.math.MathUtils.lerp;
@@ -39,8 +40,8 @@ public class YamPaletteGenerator {
                 oklabHue(ORANGE),
                 oklabHue(BRONZE),
                 oklabHue(YELLOW),
-                oklabHue(CHARTREUSE),
-                oklabHue(GREEN),
+                oklabHue(LIME),
+                oklabHue(JADE),
                 oklabHue(CYAN),
                 oklabHue(BLUE),
                 oklabHue(VIOLET),
@@ -85,7 +86,8 @@ public class YamPaletteGenerator {
                     break;
             }
             for (int i = 0; i < hueKeys.length; i++) {
-                float hue = hueKeys[i], quart = wave * 0.25f;
+                float hue = hueKeys[i], quart = wave * 0.25f, fraction = i / (float)hueKeys.length,
+                        lightAdjust = 1f - (fraction >= 0.48f && fraction < 0.58f ? TrigTools.sin_((fraction - 0.48f) * 5f) * 0.2f : 0.0f);
                 int chroma = 0, outerLight = 0;
                 for (int l = 0, gamut = (int) (hue * 256f); l < 256; l++, gamut += 256) {
                     if (chroma != (chroma = Math.max(chroma, ColorTools.getRawGamutValue(gamut))))
@@ -109,9 +111,9 @@ public class YamPaletteGenerator {
                         break;
                     }
                 }
-                float maxL = maxLight / 255f;
+                float maxL = (maxLight / 255f) * lightAdjust;
                 for (int j = 0, cr = 1; j < crest; j++, cr += 2) {
-                    pal.add(oklabByHCL(hue, outerC * quart, lerp(minL, maxL, cr / (crest * 2f)), 1f));
+                    pal.add(oklabByHCL(hue, (float) Math.pow(outerC * quart, 1.375f), lerp(minL, maxL, cr / (crest * 2f)), 1f));
                 }
             }
         }
