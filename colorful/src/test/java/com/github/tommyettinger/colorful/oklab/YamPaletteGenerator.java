@@ -118,11 +118,26 @@ public class YamPaletteGenerator {
             }
         }
 
-        StringBuilder sb = new StringBuilder(12 * pal.size + 35).append("{\n");
+        StringBuilder sb = new StringBuilder(24 * pal.size + 90).append("{\n");
         for (int i = 0; i < pal.size; i++) {
             StringKit.appendHex(sb.append("0x"), toRGBA8888(pal.get(i))).append(", ");
             if(7 == (i & 7)) sb.append('\n');
         }
+
+        sb.append("}\n\nOklab:\n{\n");
+        for (int i = 0; i < pal.size; i++) {
+            sb.append("0x00");
+            StringKit.appendHex(sb, (byte) (ColorTools.channelL(pal.get(i)) * 255));
+            float a = ((ColorTools.channelA(pal.get(i)) - 0.5f) * 255 * 5f + 127.5f);
+            float b = ((ColorTools.channelB(pal.get(i)) - 0.5f) * 255 * 5f + 127.5f);
+            if(a <= -1 || a >= 256) System.out.println(a + " is bad");
+            if(b <= -1 || b >= 256) System.out.println(b + " is bad");
+            StringKit.appendHex(sb, (byte) a);
+            StringKit.appendHex(sb, (byte) b);
+            sb.append(", ");
+            if(7 == (i & 7)) sb.append('\n');
+        }
+
         System.out.println(sb.append('}'));
 
     }
