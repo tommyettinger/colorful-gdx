@@ -113,7 +113,7 @@ public class YamPaletteGenerator {
                 }
                 float maxL = (maxLight / 255f) * lightAdjust;
                 for (int j = 0, cr = 1; j < crest; j++, cr += 2) {
-                    pal.add(oklabByHCL(hue, (float) Math.pow(outerC * quart, 1.375f), lerp(minL, maxL, cr / (crest * 2f)), 1f));
+                    pal.add(oklabByHCL(hue, outerC * (float) Math.pow(quart, 1.375f), lerp(minL, maxL, cr / (crest * 2f)), 1f));
                 }
             }
         }
@@ -128,8 +128,8 @@ public class YamPaletteGenerator {
         for (int i = 0; i < pal.size; i++) {
             sb.append("0x00");
             StringKit.appendHex(sb, (byte) (ColorTools.channelL(pal.get(i)) * 255));
-            float a = ((ColorTools.channelA(pal.get(i)) - 0.5f) * 255 * 5f + 127.5f);
-            float b = ((ColorTools.channelB(pal.get(i)) - 0.5f) * 255 * 5f + 127.5f);
+            float a = ((ColorTools.channelA(pal.get(i)) - 0.5f) * 255 * 3.25f + 127.5f);
+            float b = ((ColorTools.channelB(pal.get(i)) - 0.5f) * 255 * 3.25f + 127.5f);
             if(a <= -1 || a >= 256) System.out.println(a + " is bad");
             if(b <= -1 || b >= 256) System.out.println(b + " is bad");
             StringKit.appendHex(sb, (byte) a);
