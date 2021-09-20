@@ -45,7 +45,7 @@ public class NamedMunsellPaletteCodeGenerator extends ApplicationAdapter {
 
     public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("FullPalette codegen tool");
+        config.setTitle("NamedMunsellPalette codegen tool");
         config.setIdleFPS(1);
         config.useVsync(true);
 

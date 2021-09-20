@@ -1,19 +1,31 @@
 package com.github.tommyettinger.colorful.oklab;
 
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.utils.FloatArray;
 import com.github.tommyettinger.colorful.TrigTools;
 import com.github.tommyettinger.colorful.internal.StringKit;
+import com.github.tommyettinger.colorful.oklab.internal.GamutWriter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 import static com.badlogic.gdx.math.MathUtils.lerp;
 import static com.github.tommyettinger.colorful.oklab.ColorTools.*;
 import static com.github.tommyettinger.colorful.oklab.SimplePalette.*;
 
-public class YamPaletteGenerator {
+public class YamPaletteGenerator extends ApplicationAdapter {
+
+    public static void main(String[] arg) {
+        Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+        config.setTitle("Yam Palette Generator");
+        config.setWindowedMode(320, 320);
+        config.setIdleFPS(1);
+        config.setResizable(false);
+        new Lwjgl3Application(new YamPaletteGenerator(), config);
+    }
     /**
      * Like {@link Math#floor(double)}, but takes a float and returns an int.
      * Doesn't consider "weird floats" like INFINITY and NaN.
@@ -37,7 +49,7 @@ public class YamPaletteGenerator {
         return d - fastFloor(d);
     }
 
-    public static void main(String[] args){
+    public void create(){
         float[] coreHues = new float[]{
                 oklabHue(RED),
                 oklabHue(BROWN),
@@ -86,7 +98,7 @@ public class YamPaletteGenerator {
                     System.arraycopy(coreHues, 0, hueKeys, 0, 12);
                     nameKeys = new String[12];
                     System.arraycopy(hueNames, 0, nameKeys, 0, 12);
-                    levelNames = new String[]{"black ", "lead ", "silver ", "white "};
+                    levelNames = new String[]{"darker gray ", "dark gray ", "light gray ", "lighter gray "};
                     break;
                 case 2:
                     hueKeys = new float[24];
@@ -118,13 +130,13 @@ public class YamPaletteGenerator {
                     levelNames = new String[]{""};
                     for (int i = 0, c = -1; i < 12; i++) {
                         hueKeys[++c] = lerpAngle_(coreHues[i], coreHues[(i+1)%12], 1f/8f);
-                        nameKeys[c] = "some-" + hueNames[(i+1)%12] + ' ' + hueNames[i];
+                        nameKeys[c] = "some " + hueNames[(i+1)%12] + ' ' + hueNames[i];
                         hueKeys[++c] = lerpAngle_(coreHues[i], coreHues[(i+1)%12], 3f/8f);
-                        nameKeys[c] = "more-" + hueNames[(i+1)%12] + ' ' + hueNames[i];
+                        nameKeys[c] = "more " + hueNames[(i+1)%12] + ' ' + hueNames[i];
                         hueKeys[++c] = lerpAngle_(coreHues[i], coreHues[(i+1)%12], 5f/8f);
-                        nameKeys[c] = "more-" + hueNames[i] + ' ' + hueNames[(i+1)%12];
+                        nameKeys[c] = "more " + hueNames[i] + ' ' + hueNames[(i+1)%12];
                         hueKeys[++c] = lerpAngle_(coreHues[i], coreHues[(i+1)%12], 7f/8f);
-                        nameKeys[c] = "some-" + hueNames[i] + ' ' + hueNames[(i+1)%12];
+                        nameKeys[c] = "some " + hueNames[i] + ' ' + hueNames[(i+1)%12];
                     }
                     break;
             }
@@ -183,11 +195,18 @@ public class YamPaletteGenerator {
         }
 
         sb.append("}\n\nNamed:\n{\n");
+        StringBuilder sb2 = new StringBuilder(8192);
         for (int i = 0; i < pal.size; i++) {
-            sb.append(names.get(i)).append(" :: ").append(Float.toHexString(pal.get(i))).append(",\n");
+            sb2.append(names.get(i).toUpperCase().replace(' ', '_')).append('\t');
+            StringKit.appendHex(sb2, toRGBA8888(pal.get(i)));
+            sb2.append('\t').append(names.get(i)).append('\n');
         }
+        sb2.setLength(sb2.length() - 1);
+        Gdx.files.local("YamColorData.txt").writeString(sb2.toString(), false, "UTF8");
 
-        System.out.println(sb.append('}'));
+        System.out.println(sb.append(sb2).append("\n}"));
+
+        Gdx.app.exit();
 
     }
 }
