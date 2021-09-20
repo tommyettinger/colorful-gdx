@@ -196,6 +196,7 @@ public class YamPaletteGenerator extends ApplicationAdapter {
 
         sb.append("}\n\nNamed:\n{\n");
         StringBuilder sb2 = new StringBuilder(8192);
+        sb2.append("YAM_");
         for (int i = 0; i < pal.size; i++) {
             sb2.append(names.get(i).toUpperCase().replace(' ', '_')).append('\t');
             StringKit.appendHex(sb2, toRGBA8888(pal.get(i)));

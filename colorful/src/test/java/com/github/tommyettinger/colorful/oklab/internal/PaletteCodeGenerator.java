@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.ObjectFloatMap;
 import com.github.tommyettinger.colorful.internal.StringKit;
 import com.github.tommyettinger.colorful.oklab.ColorTools;
 import com.github.tommyettinger.colorful.oklab.Palette;
+import com.github.tommyettinger.colorful.oklab.YamPalette;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +23,22 @@ import static com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA8888;
  * Created by Tommy Ettinger on 12/8/2019.
  */
 public class PaletteCodeGenerator extends ApplicationAdapter {
+//    public static final String outputAdd = "Oklab";
+//    public static final String inputName = "AuroraColorData.txt";
+//    public static final ObjectFloatMap<String> named = Palette.NAMED;
+
+    public static final String outputAdd = "YamOklab";
+    public static final String inputName = "YamColorData.txt";
+    public static final ObjectFloatMap<String> named = YamPalette.NAMED;
+//
+//    public static final String outputAdd = "FullOklab";
+//    public static final String inputName = "ColorData.txt";
+//    public static final ObjectFloatMap<String> named = FullPalette.NAMED;
+
+//    public static final String outputAdd = "NamedMunsellOklab";
+//    public static final String inputName = "ISCCNBSData.txt";
+//    public static final ObjectFloatMap<String> named = NamedMunsellPalette.NAMED;
+
     public static void tabSplit(String[] receiving, String source) {
         int dl = 1, idx = -1, idx2;
         for (int i = 0; i < 2; i++) {
@@ -58,7 +75,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                 "*/\n" +
                 "public static final float `NAME = `PACKEDF;\n" +
                 "static { NAMED.put(\"`Name\", `PACKEDF); LIST.add(`PACKEDF); }\n";
-        String data = Gdx.files.classpath("AuroraColorData.txt").readString();
+        String data = Gdx.files.classpath(inputName).readString();
         String[] lines = StringKit.split(data, "\n"), rec = new String[3];
         StringBuilder sb = new StringBuilder(100000).append("public static final ObjectFloatMap<String> NAMED = new ObjectFloatMap<String>(").append(lines.length).append(");\n")
                 .append("public static final FloatArray LIST = new FloatArray(").append(lines.length).append(");\n");
@@ -83,12 +100,12 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                     + ", decoded L=" + ColorTools.channelL(c) + ", decoded A=" + (ColorTools.channelA(c)*2f-1f) + ", decoded B=" + (ColorTools.channelB(c)*2f-1f)
             );
         }
-        Gdx.files.local("ColorOutputOklab.txt").writeString(sb.toString(), false);
+        Gdx.files.local("ColorOutput"+outputAdd+".txt").writeString(sb.toString(), false);
 
         String templateTable = "<tr>\n<td style='background-color: #FEDCBA;'></td>\n<td>Name</td>\n<td>0x`RGBA8888</td>\n<td>`LCHAN</td>\n<td>`ACHAN</td>\n<td>`BCHAN</td>\n<td>`ALPH</td>\n<td>`HUE</td>\n<td>`SAT</td>\n<td>`PACKF</td>\n</tr>\n";
-        final int size = Palette.NAMED.size;
+        final int size = named.size;
         ArrayList<ObjectFloatMap.Entry<String>> PAL = new ArrayList<>(size);
-        for(ObjectFloatMap.Entry<String> e : Palette.NAMED.entries())
+        for(ObjectFloatMap.Entry<String> e : named.entries())
         {
             ObjectFloatMap.Entry<String> ee = new ObjectFloatMap.Entry<>();
             ee.key = e.key;
@@ -119,7 +136,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
             );
         }
         sb.append("</table>\n</body>\n</html>");
-        Gdx.files.local("ColorTableOklab.html").writeString(sb.toString(), false);
+        Gdx.files.local("ColorTable"+outputAdd+".html").writeString(sb.toString(), false);
 
         sb.setLength(0);
         Collections.sort(PAL, new Comparator<ObjectFloatMap.Entry<String>>() {
@@ -155,7 +172,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
             );
         }
         sb.append("</table>\n</body>\n</html>");
-        Gdx.files.local("ColorTableHueOklab.html").writeString(sb.toString(), false);
+        Gdx.files.local("ColorTableHue"+outputAdd+".html").writeString(sb.toString(), false);
 
         sb.setLength(0);
         Collections.sort(PAL, new Comparator<ObjectFloatMap.Entry<String>>() {
@@ -180,7 +197,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
             );
         }
         sb.append("</table>\n</body>\n</html>");
-        Gdx.files.local("ColorTableValueOklab.html").writeString(sb.toString(), false);
+        Gdx.files.local("ColorTableValue"+outputAdd+".html").writeString(sb.toString(), false);
         
         Gdx.app.exit();
     }
