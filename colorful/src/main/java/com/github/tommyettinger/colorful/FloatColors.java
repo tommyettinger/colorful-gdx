@@ -31,7 +31,9 @@ public class FloatColors {
      * @return an RGBA-format packed float
      */
     public static float hsl2rgb(final float h, final float s, final float l, final float a){
-        float x = Math.min(Math.max(Math.abs(h * 6f - 3f) - 1f, 0f), 1f), y = h + (2f / 3f), z = h + (1f / 3f);
+        float x = Math.min(Math.max(Math.abs(h * 6f - 3f) - 1f, 0f), 1f);
+        float y = h + (2f / 3f);
+        float z = h + (1f / 3f);
         y -= (int)y;
         z -= (int)z;
         y = Math.min(Math.max(Math.abs(y * 6f - 3f) - 1f, 0f), 1f);

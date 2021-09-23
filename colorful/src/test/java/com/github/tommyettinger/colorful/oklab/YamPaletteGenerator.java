@@ -142,7 +142,8 @@ public class YamPaletteGenerator extends ApplicationAdapter {
             }
             for (int i = 0; i < hueKeys.length; i++) {
                 float hue = hueKeys[i], quart = wave * 0.25f, fraction = i / (float)hueKeys.length,
-                        lightAdjust = 1f - (fraction >= 0.48f && fraction < 0.58f ? TrigTools.sin_((fraction - 0.48f) * 5f) * 0.2f : 0.0f);
+                        lightAdjust = (fraction >= 0.48f && fraction < 0.58f ? 1f - TrigTools.sin_((fraction - 0.48f) * 5f) * 0.2f : 1.0f),
+                        satAdjust = (fraction >= (0.06f) && fraction < (0.13f) ? 0.75f - TrigTools.sin_((fraction - 0.06f) * 20f) * 0.25f : 1.0f);
                 int chroma = 0, outerLight = 0;
                 for (int l = 0, gamut = (int) (hue * 256f); l < 256; l++, gamut += 256) {
                     if (chroma != (chroma = Math.max(chroma, ColorTools.getRawGamutValue(gamut))))
@@ -168,11 +169,33 @@ public class YamPaletteGenerator extends ApplicationAdapter {
                 }
                 float maxL = (maxLight / 255f) * lightAdjust;
                 for (int j = 0, cr = 1; j < crest; j++, cr += 2) {
-                    pal.add(oklabByHCL(hue, outerC * (float) Math.pow(quart, 1.375f), lerp(minL, maxL, cr / (crest * 2f)), 1f));
+                    pal.add(oklabByHCL(hue, lerp(0.11f, outerC, (float) Math.pow(quart, 1.375f)) * satAdjust, lerp(minL, maxL, cr / (crest * 2f)), 1f));
                     names.add(levelNames[j] + nameKeys[i]);
                 }
             }
         }
+        double lowestDistance = Double.POSITIVE_INFINITY;
+        float worst0 = 0f, worst1 = 0f;
+        int worstIndex0 = 0, worstIndex1 = 0;
+        for (int i = 1; i < pal.size; i++) {
+            float color0 = pal.get(i);
+            double L0 = channelL(color0), A0 = channelA(color0), B0 = channelB(color0);
+            for (int j = i + 1; j < pal.size; j++) {
+                float color1 = pal.get(j);
+                double L1 = channelL(color1) - L0, A1 = channelA(color1) - A0, B1 = channelB(color1) - B0;
+                if(lowestDistance != (lowestDistance = Math.min(lowestDistance, L1 * L1 + A1 * A1 + B1 * B1))){
+                    worst0 = color0;
+                    worstIndex0 = i;
+                    worst1 = color1;
+                    worstIndex1 = j;
+                }
+            }
+        }
+
+        System.out.printf("Worst distance was %1.8f between colors %d and %d: L=%.4f A=%.4f B=%.4f and L=%.4f A=%.4f B=%.4f\n",
+                lowestDistance, worstIndex0, worstIndex1,
+                channelL(worst0), channelA(worst0), channelB(worst0),
+                channelL(worst1), channelA(worst1), channelB(worst1));
 
         StringBuilder sb = new StringBuilder(24 * pal.size + 90).append("{\n");
         for (int i = 0; i < pal.size; i++) {
