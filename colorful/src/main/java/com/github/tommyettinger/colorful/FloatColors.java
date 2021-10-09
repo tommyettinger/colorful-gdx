@@ -42,6 +42,28 @@ public class FloatColors {
         float d = 2f * (1f - l / (v + 1e-10f));
         return Color.toFloatBits(v * MathUtils.lerp(1f, x, d), v * MathUtils.lerp(1f, y, d), v * MathUtils.lerp(1f, z, d), a);
     }
+    /**
+     * Converts the four HSLA components, each in the 0.0 to 1.0 range, to RGBA and assigns them into changing.
+     * @param changing a non-null Color that will be modified
+     * @param h hue, from 0.0 to 1.0
+     * @param s saturation, from 0.0 to 1.0
+     * @param l lightness, from 0.0 to 1.0
+     * @param a alpha, from 0.0 to 1.0
+     * @return changing, after assignment
+     */
+    public static Color hslColor(Color changing, final float h, final float s, final float l, final float a){
+        float x = Math.min(Math.max(Math.abs(h * 6f - 3f) - 1f, 0f), 1f);
+        float y = h + (2f / 3f);
+        float z = h + (1f / 3f);
+        y -= (int)y;
+        z -= (int)z;
+        y = Math.min(Math.max(Math.abs(y * 6f - 3f) - 1f, 0f), 1f);
+        z = Math.min(Math.max(Math.abs(z * 6f - 3f) - 1f, 0f), 1f);
+        float v = (l + s * Math.min(l, 1f - l));
+        float d = 2f * (1f - l / (v + 1e-10f));
+        changing.set(v * MathUtils.lerp(1f, x, d), v * MathUtils.lerp(1f, y, d), v * MathUtils.lerp(1f, z, d), a);
+        return changing;
+    }
 
     /**
      * Converts a packed float in RGBA format to a packed float in "HSLA format" (hue, saturation, lightness, alpha),

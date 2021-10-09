@@ -52,6 +52,23 @@ public class Shaders {
             + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
             + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
             + "}\n";
+    /*
+attribute vec4 a_position;
+attribute vec4 a_color;
+attribute vec2 a_texCoord0;
+uniform mat4 u_projTrans;
+varying vec4 v_color;
+varying vec2 v_texCoords;
+
+void main()
+{
+   v_color = a_color;
+   v_color.a = v_color.a * (255.0/254.0);
+   v_texCoords = a_texCoord0;
+   gl_Position =  u_projTrans * a_position;
+}
+     */
+
     /**
      * A simple shader that uses additive blending with "normal" RGBA colors (alpha is still multiplicative).
      * With the default SpriteBatch ShaderProgram, white is the neutral color, 50% gray darkens a color by about 50%,
