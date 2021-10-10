@@ -2,24 +2,62 @@ package com.github.tommyettinger.colorful.oklab;
 
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FourWheelRandom;
+import com.github.tommyettinger.colorful.TrigTools;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static com.github.tommyettinger.colorful.oklab.ColorTools.*;
+
 public class BasicChecks {
+    public static float limitToGamut(float L, float A, float B, float alpha) {
+        L = Math.min(Math.max(L, 0f), 1f);
+        A = Math.min(Math.max(A, 0f), 1f);
+        B = Math.min(Math.max(B, 0f), 1f);
+        alpha = Math.min(Math.max(alpha, 0f), 1f);
+        final float A2 = (A - 0.5f);
+        final float B2 = (B - 0.5f);
+        final float hue = TrigTools.atan2_(B2, A2);
+        final int idx = (int) (L * 255.999f) << 8 | (int)(256f * hue);
+        final float dist = getRawGamutValue(idx);
+        if(dist * dist * 0x1p-16f >= (A2 * A2 + B2 * B2))
+            return //(TimeUtils.millis() >>> 9 & 1L) == 0L ? Palette.LEAD :
+                    ColorTools.oklab(L, A, B, alpha);
+        return NumberUtils.intBitsToFloat(
+                (int) (alpha * 127.999f) << 25 |
+                        (int) (TrigTools.sin_(hue) * dist + 128f) << 16 |
+                        (int) (TrigTools.cos_(hue) * dist + 128f) << 8 |
+                        (int) (L * 255f));
+    }
+    public static float limitToGamut(final float packed) {
+        final int decoded = NumberUtils.floatToRawIntBits(packed);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f);
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f);
+        final float hue = TrigTools.atan2_(B, A);
+        final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
+        final float dist = getRawGamutValue(idx);
+        if (dist * dist >= (A * A + B * B))
+            return packed;
+        return NumberUtils.intBitsToFloat(
+                (decoded & 0xFE0000FF) |
+                        (int) (TrigTools.cos_(hue) * dist + 128f) << 8 |
+                        (int) (TrigTools.sin_(hue) * dist + 128f) << 16);
+    }
+
+
     @Test
     public void testLimitToGamut(){
-        Assert.assertEquals(NumberUtils.floatToRawIntBits(ColorTools.limitToGamut(0.5f, 0f, 0f, 1f)),
-                NumberUtils.floatToRawIntBits(ColorTools.limitToGamut(ColorTools.oklab(0.5f, 0f, 0f, 1f))));
-        Assert.assertEquals(NumberUtils.floatToRawIntBits(ColorTools.limitToGamut(0.5f, 1f, 0f, 1f)),
-                NumberUtils.floatToRawIntBits(ColorTools.limitToGamut(ColorTools.oklab(0.5f, 1f, 0f, 1f))));
-        Assert.assertEquals(NumberUtils.floatToRawIntBits(ColorTools.limitToGamut(0.5f, 1f, 1f, 1f)),
-                NumberUtils.floatToRawIntBits(ColorTools.limitToGamut(ColorTools.oklab(0.5f, 1f, 1f, 1f))));
-        Assert.assertEquals(NumberUtils.floatToRawIntBits(ColorTools.limitToGamut(0.5f, 0f, 1f, 1f)),
-                NumberUtils.floatToRawIntBits(ColorTools.limitToGamut(ColorTools.oklab(0.5f, 0f, 1f, 1f))));
-        Assert.assertEquals(NumberUtils.floatToRawIntBits(ColorTools.limitToGamut(0.5f, 0.126f, 0f, 1f)),
-                NumberUtils.floatToRawIntBits(ColorTools.limitToGamut(ColorTools.oklab(0.5f, 0.126f, 0f, 1f))));
-        Assert.assertEquals(NumberUtils.floatToRawIntBits(ColorTools.limitToGamut(0.61960787f, 0.60784316f, 0.3882353f, 1f)),
-                NumberUtils.floatToRawIntBits(ColorTools.limitToGamut(ColorTools.oklab(0.61960787f, 0.60784316f, 0.3882353f, 1f))));
+        Assert.assertEquals(NumberUtils.floatToRawIntBits(limitToGamut(0.5f, 0f, 0f, 1f)),
+                NumberUtils.floatToRawIntBits(limitToGamut(ColorTools.oklab(0.5f, 0f, 0f, 1f))));
+        Assert.assertEquals(NumberUtils.floatToRawIntBits(limitToGamut(0.5f, 1f, 0f, 1f)),
+                NumberUtils.floatToRawIntBits(limitToGamut(ColorTools.oklab(0.5f, 1f, 0f, 1f))));
+        Assert.assertEquals(NumberUtils.floatToRawIntBits(limitToGamut(0.5f, 1f, 1f, 1f)),
+                NumberUtils.floatToRawIntBits(limitToGamut(ColorTools.oklab(0.5f, 1f, 1f, 1f))));
+        Assert.assertEquals(NumberUtils.floatToRawIntBits(limitToGamut(0.5f, 0f, 1f, 1f)),
+                NumberUtils.floatToRawIntBits(limitToGamut(ColorTools.oklab(0.5f, 0f, 1f, 1f))));
+        Assert.assertEquals(NumberUtils.floatToRawIntBits(limitToGamut(0.5f, 0.126f, 0f, 1f)),
+                NumberUtils.floatToRawIntBits(limitToGamut(ColorTools.oklab(0.5f, 0.126f, 0f, 1f))));
+        Assert.assertEquals(NumberUtils.floatToRawIntBits(limitToGamut(0.61960787f, 0.60784316f, 0.3882353f, 1f)),
+                NumberUtils.floatToRawIntBits(limitToGamut(ColorTools.oklab(0.61960787f, 0.60784316f, 0.3882353f, 1f))));
     }
 
     @Test
