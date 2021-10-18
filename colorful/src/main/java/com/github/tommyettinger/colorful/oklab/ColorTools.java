@@ -1003,7 +1003,7 @@ public class ColorTools {
 		return color;
 	}
 
-	static byte[] GAMUT_DATA;
+	private static byte[] GAMUT_DATA;
 
 	static {
 		try {
@@ -1053,8 +1053,8 @@ public class ColorTools {
 		final int decoded = NumberUtils.floatToRawIntBits(packed);
 		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 255f;
 		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 255f;
-		final float g = GAMUT_DATA[(decoded & 0xff) << 8 | (int)(256f * TrigTools.atan2_(B, A))] * 0.5f;
-		return g * g * 0x1p-16 >= (A * A + B * B);
+		final float g = GAMUT_DATA[(decoded & 0xff) << 8 | (int)(256f * TrigTools.atan2_(B, A))];
+		return g * g * 0x1p-18 >= (A * A + B * B);
 	}
 
 	/**
@@ -1068,8 +1068,8 @@ public class ColorTools {
 	{
 		A = ((int) (A * 255) - 127.5f) / 255f;
 		B = ((int) (B * 255) - 127.5f) / 255f;
-		final float g = GAMUT_DATA[((int) (L * 255) & 0xFF) << 8 | (int)(256f * TrigTools.atan2_(B, A))] * 0.5f;
-		return g * g * 0x1p-16 >= (A * A + B * B);
+		final float g = GAMUT_DATA[((int) (L * 255) & 0xFF) << 8 | (int)(256f * TrigTools.atan2_(B, A))];
+		return g * g * 0x1p-18 >= (A * A + B * B);
 
 		////This was the old code for this inGamut(), which was subtly different from the other inGamut() when called
 		/// on a packed float. The packed floats can go ever-so-slightly towards or away from the edge.
@@ -1090,8 +1090,8 @@ public class ColorTools {
 	 */
 	public static float maximizeSaturation(final float packed) {
 		final int decoded = NumberUtils.floatToRawIntBits(packed);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float A = ((decoded >>> 8 & 0xff) - 127.5f);
+		final float B = ((decoded >>> 16 & 0xff) - 127.5f);
 		final float hue = TrigTools.atan2_(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
 		final float dist = GAMUT_DATA[idx] * 0.5f;
