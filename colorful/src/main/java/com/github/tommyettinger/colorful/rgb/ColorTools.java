@@ -1,6 +1,7 @@
 package com.github.tommyettinger.colorful.rgb;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.Shaders;
@@ -345,7 +346,7 @@ public class ColorTools {
 		final float d = x - Math.min(w, y);
 		light = Math.min(Math.max(x * (1f - 0.5f * d / (x + 1e-10f)) + light, 0f), 1f);
 		hue += Math.abs(z + (w - y) / (6f * d + 1e-10f)) + 1f;
-		saturation += (x - light) / (Math.min(light, 1f - light) + 1e-10f);
+		saturation += x - Math.min(w, y);
 		return FloatColors.hsl2rgb(hue - (int)hue, Math.min(Math.max(saturation, 0f), 1f), light, opacity);
 	}
 
