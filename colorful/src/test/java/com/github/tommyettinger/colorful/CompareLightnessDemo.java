@@ -61,8 +61,8 @@ public class CompareLightnessDemo extends ApplicationAdapter {
         tab.add(title).colspan(2).growX().minWidth(300).row();
         tab.add("RGB:         ").center().grow().minWidth(200).row();
         tab.add("YCwCm:       ").center().grow().minWidth(200).row();
-        tab.add("IPT_HQ:      ").center().grow().minWidth(200).row();
-        tab.add("Oklab:       ").center().grow().minWidth(200);
+        tab.add("Oklab:       ").center().grow().minWidth(200).row();
+        tab.add("IPT_HQ:      ").center().grow().minWidth(200);
         stage.getRoot().addActor(tab);
         input.setInputProcessor(new InputMultiplexer(new InputAdapter(){
             @Override
@@ -107,9 +107,9 @@ public class CompareLightnessDemo extends ApplicationAdapter {
             batch.draw(pixel, 256f + j * 2f, height * 0.6f, 2f, height * 0.2f);
             batch.setPackedColor(com.github.tommyettinger.colorful.ycwcm.ColorTools.toRGBA(com.github.tommyettinger.colorful.ycwcm.ColorTools.ycwcm(r, 0.5f, 0.5f, 1f)));
             batch.draw(pixel, 256f + j * 2f, height * 0.4f, 2f, height * 0.2f);
-            batch.setPackedColor(com.github.tommyettinger.colorful.ipt_hq.ColorTools.toRGBA(com.github.tommyettinger.colorful.ipt_hq.ColorTools.ipt(r, 0.5f, 0.5f, 1f)));
-            batch.draw(pixel, 256f + j * 2f, height * 0.2f, 2f, height * 0.2f);
             batch.setPackedColor(com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA(com.github.tommyettinger.colorful.oklab.ColorTools.oklab(barronSpline(r, shape, turning), 0.5f, 0.5f, 1f)));
+            batch.draw(pixel, 256f + j * 2f, height * 0.2f, 2f, height * 0.2f);
+            batch.setPackedColor(com.github.tommyettinger.colorful.ipt_hq.ColorTools.toRGBA(com.github.tommyettinger.colorful.ipt_hq.ColorTools.ipt(r, 0.5f, 0.5f, 1f)));
             batch.draw(pixel, 256f + j * 2f, 0f, 2f, height * 0.2f);
         }
         batch.setPackedColor(Color.WHITE_FLOAT_BITS);
