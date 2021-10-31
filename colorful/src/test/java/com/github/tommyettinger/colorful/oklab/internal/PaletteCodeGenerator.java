@@ -7,9 +7,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.ObjectFloatMap;
 import com.github.tommyettinger.colorful.internal.StringKit;
-import com.github.tommyettinger.colorful.oklab.ColorTools;
-import com.github.tommyettinger.colorful.oklab.Palette;
-import com.github.tommyettinger.colorful.oklab.YamPalette;
+import com.github.tommyettinger.colorful.oklab.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,10 +25,10 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String inputName = "AuroraColorData.txt";
 //    public static final ObjectFloatMap<String> named = Palette.NAMED;
 
-    public static final String outputAdd = "YamOklab";
-    public static final String inputName = "YamColorData.txt";
-    public static final ObjectFloatMap<String> named = YamPalette.NAMED;
-//
+//    public static final String outputAdd = "YamOklab";
+//    public static final String inputName = "YamColorData.txt";
+//    public static final ObjectFloatMap<String> named = YamPalette.NAMED;
+
 //    public static final String outputAdd = "FullOklab";
 //    public static final String inputName = "ColorData.txt";
 //    public static final ObjectFloatMap<String> named = FullPalette.NAMED;
@@ -38,6 +36,10 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String outputAdd = "NamedMunsellOklab";
 //    public static final String inputName = "ISCCNBSData.txt";
 //    public static final ObjectFloatMap<String> named = NamedMunsellPalette.NAMED;
+
+    public static final String outputAdd = "SimpleOklab";
+    public static final String inputName = "SimpleColorData.txt";
+    public static final ObjectFloatMap<String> named = SimplePalette.NAMED;
 
     public static void tabSplit(String[] receiving, String source) {
         int dl = 1, idx = -1, idx2;
