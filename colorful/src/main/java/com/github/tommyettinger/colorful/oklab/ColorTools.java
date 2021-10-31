@@ -147,6 +147,7 @@ public class ColorTools {
 	private static float reverseLight(final float L) {
 		return (L - 1f) / (1f + L * 0.75f) + 1f;
 	}
+
 	/**
 	 * Converts a packed float color in the format produced by {@link ColorTools#oklab(float, float, float, float)} to an RGBA8888 int.
 	 * This format of int can be used with Pixmap and in some other places in libGDX.
