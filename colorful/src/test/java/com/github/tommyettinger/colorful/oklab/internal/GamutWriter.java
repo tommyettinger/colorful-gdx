@@ -19,7 +19,7 @@ public class GamutWriter extends ApplicationAdapter {
     public void create() {
         byte[] all = new byte[65536];
         int idx = 0, largestDist = -1;
-        double minA = 1000.0, maxA = -1000.0, minB = 1000.0, maxB = -1000.0;
+        double minA = 1000.0, maxA = -1000.0, minB = 1000.0, maxB = -1000.0, maxDist = -1000.0, furthest = 300.0;
         for (int light = 0; light < 256; light++) {
             double L = light * 0x1p-8;
             PER_HUE:
@@ -36,6 +36,8 @@ public class GamutWriter extends ApplicationAdapter {
                         maxA = Math.max(maxA, A);
                         minB = Math.min(minB, B);
                         maxB = Math.max(maxB, B);
+                        if(maxDist != (maxDist = Math.max(maxDist, Math.sqrt(A * A + B * B))))
+                            furthest = L;
                         continue PER_HUE;
                     }
                 }
@@ -48,6 +50,8 @@ public class GamutWriter extends ApplicationAdapter {
         System.out.println("max A: " + maxA);
         System.out.println("min B: " + minB);
         System.out.println("max B: " + maxB);
+        System.out.println("dist : " + maxDist);
+        System.out.println("at   : " + furthest);
         Gdx.files.local("OklabGamut.dat").writeBytes(all, false);
         generateByteString(all, "OklabGamut.txt");
         Gdx.app.exit();

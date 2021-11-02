@@ -140,7 +140,7 @@ public class ColorTools {
 	 * @param L lightness, from 0 to 1 inclusive
 	 * @return an adjusted L value that can be fed into a conversion to RGBA or something similar
 	 */
-	private static float reverseLight(final float L) {
+	public static float reverseLight(final float L) {
 		return (L - 1f) / (1f + L * 0.75f) + 1f;
 	}
 
@@ -387,8 +387,8 @@ public class ColorTools {
 	 */
 	public static float chroma(final float encoded) {
 		final int decoded = BitConversion.floatToRawIntBits(encoded);
-		final float a = ((decoded >>> 7 & 0x1FE) - 255) / 510f;
-		final float b = ((decoded >>> 15 & 0x1FE) - 255) / 510f;
+		final float a = ((decoded >>> 7 & 0x1FE) - 255)  * 0x1p-8f;
+		final float b = ((decoded >>> 15 & 0x1FE) - 255) * 0x1p-8f;
 		return (float) Math.sqrt(a * a + b * b);
 	}
 
@@ -403,7 +403,7 @@ public class ColorTools {
 	public static float chromaLimit(final float hue, final float lightness){
 		final int idx = (int) (Math.min(Math.max(lightness, 0f), 1f) * 255.999f) << 8
 				| (int) (256f * (hue - ((int)(hue + 0x1p14) - 0x4000)));
-		return GAMUT_DATA[idx] * 0x1p-8f;
+		return (GAMUT_DATA[idx]+1) * 0x1p-8f;
 	}
 
 	/**

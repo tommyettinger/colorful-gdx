@@ -70,7 +70,7 @@ public class AlternatePaletteCodeGenerator {
                     .replace("FEDCBA", rec[1].substring(0, 6))
                     .replace("`CHANL", Float.toString(ColorTools.channelL(c)))
                     .replace("`CHANA", Float.toString(ColorTools.chroma(c)))
-                    .replace("`CHANB", Float.toString(ColorTools.chromaLimit(oklabHue(c), oklabLightness(c))))
+                    .replace("`CHANB", Float.toString(ColorTools.chromaLimit(oklabHue(c), reverseLight(oklabLightness(c)))))
 //                    .replace("`CHANA", Float.toString(ColorTools.channelA(c)))
 //                    .replace("`CHANB", Float.toString(ColorTools.channelB(c)))
                     .replace("`ALPHA", Float.toString(ColorTools.alpha(c)))
