@@ -60,36 +60,42 @@ public class GamutWriter extends ApplicationAdapter {
      */
     public static void generateByteString(final byte[] data, String filename){
         StringBuilder sb = new StringBuilder(data.length + 400);
-        sb.append('"');
+        sb.append("new StringBuilder().append(\"");
         for (int i = 0; i < data.length;) {
-            for (int j = 0; j < 0x80 && i < data.length; j++) {
-                byte b = data[i++];
-                switch (b)
-                {
-                    case '\t': sb.append("\\t");
-                        break;
-                    case '\b': sb.append("\\b");
-                        break;
-                    case '\n': sb.append("\\n");
-                        break;
-                    case '\r': sb.append("\\r");
-                        break;
-                    case '\f': sb.append("\\f");
-                        break;
-                    case '\"': sb.append("\\\"");
-                        break;
-                    case '\\': sb.append("\\\\");
-                        break;
-                    default:
-                        if(Character.isISOControl(b))
-                            sb.append(String.format("\\%03o", b));
-                        else
-                            sb.append((char) (b&0xFF));
-                        break;
-                }
+            byte b = data[i++];
+            switch (b) {
+                case '\t':
+                    sb.append("\\t");
+                    break;
+                case '\b':
+                    sb.append("\\b");
+                    break;
+                case '\n':
+                    sb.append("\\n");
+                    break;
+                case '\r':
+                    sb.append("\\r");
+                    break;
+                case '\f':
+                    sb.append("\\f");
+                    break;
+                case '\"':
+                    sb.append("\\\"");
+                    break;
+                case '\\':
+                    sb.append("\\\\");
+                    break;
+                default:
+                    if (Character.isISOControl(b))
+                        sb.append(String.format("\\%03o", b));
+                    else
+                        sb.append((char) (b & 0xFF));
+                    break;
             }
+            if((sb.length() & 0xFFFF) == 0xFFFF)
+                sb.append("\").append(\"");
         }
-        sb.append("\".getBytes(\"ISO_8859_1\");\n");
+        sb.append("\").toString().getBytes(\"ISO_8859_1\");\n");
         Gdx.files.local(filename).writeString(sb.toString(), false, "ISO-8859-1");
         System.out.println("Wrote code snippet to " + filename);
     }
@@ -104,7 +110,10 @@ public class GamutWriter extends ApplicationAdapter {
     public static boolean inGamut(double L, double A, double B)
     {
         //reverseLight() for double
-        L = (L - 1.0) / (1.0 + L * 0.75) + 1.0;
+//        L = (L - 1.0) / (1.0 + L * 0.75) + 1.0;
+        //forwardLight() for double
+//        L = (L - 1.0) / (1.0 - L * 0.4285714) + 1.0;
+
 
         double l = (L + 0.3963377774 * A + 0.2158037573 * B); l *= l * l;
         double m = (L - 0.1055613458 * A - 0.0638541728 * B); m *= m * m;
