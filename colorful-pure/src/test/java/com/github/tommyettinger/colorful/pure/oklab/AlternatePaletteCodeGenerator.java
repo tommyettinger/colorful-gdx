@@ -80,7 +80,8 @@ public class AlternatePaletteCodeGenerator {
             );
             System.out.println(rec[2] + " : correct RGBA=" + rec[1] + ", decoded RGBA=" + StringKit.hex(toRGBA8888(c)) + ", raw=" + StringKit.hex(ci)
                     + ", decoded L=" + ColorTools.channelL(c) + ", decoded A=" + (ColorTools.channelA(c)*2f-1f) + ", decoded B=" + ((ColorTools.channelB(c)*2f-1f)
-                    + ", chroma=" + ColorTools.chroma(c) + ", max chroma=" + ColorTools.chroma(ColorTools.maximizeSaturation(c)) +  ", in gamut=" + ColorTools.inGamut(c))
+                    + ", chroma=" + ColorTools.chroma(c) + ", max chroma=" + ColorTools.chroma(ColorTools.maximizeSaturation(c))
+                    + ", chroma limit=" + ColorTools.chromaLimit(ColorTools.oklabHue(c), ColorTools.channelL(c)) + ", in gamut=" + ColorTools.inGamut(c))
             );
         }
         try {
