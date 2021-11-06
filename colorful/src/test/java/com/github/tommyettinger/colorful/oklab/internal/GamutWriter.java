@@ -30,7 +30,7 @@ public class GamutWriter extends ApplicationAdapter {
                     double d = dist * 0x1p-8, A = c * d, B = s * d;
                     if(inGamut(L, A, B))
                     {
-                        all[idx++] = (byte) (dist+1);
+                        all[idx++] = (byte) (dist);
                         largestDist = Math.max(largestDist, dist);
                         minA = Math.min(minA, A);
                         maxA = Math.max(maxA, A);
@@ -117,6 +117,8 @@ public class GamutWriter extends ApplicationAdapter {
         L = (L - 1.0) / (1.0 + L * 0.75) + 1.0;
         //forwardLight() for double
 //        L = (L - 1.0) / (1.0 - L * 0.4285714) + 1.0;
+//        A += 0.0039215684;
+//        B += 0.0039215684;
 
         double l = (L + +0.3963377774 * A + +0.2158037573 * B); l *= l * l;
         double m = (L + -0.1055613458 * A + -0.0638541728 * B); m *= m * m;

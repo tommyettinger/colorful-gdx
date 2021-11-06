@@ -37,7 +37,7 @@ public class AlternatePaletteCodeGenerator {
         float c;
         int ci;
         String templateSimple = "\n/**\n" +
-                "* This color constant \"`Name\" has RGBA8888 code {@code `RRGGBBAA}, L `CHANL, Chro `CHANA, CLim `CHANB, alpha `ALPHA, hue `HUE, and saturation `SAT.\n" +
+                "* This color constant \"`Name\" has RGBA8888 code {@code `RRGGBBAA}, L `CHANL, A `CHANA, B `CHANB, alpha `ALPHA, hue `HUE, and saturation `SAT.\n" +
                 "* It has the encoded Oklab value `PACKED .\n" +
                 "* <pre>\n" +
                 "* <font style='background-color: #FEDCBA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FEDCBA; color: #000000'>&nbsp;@&nbsp;</font>\n" +
@@ -69,10 +69,10 @@ public class AlternatePaletteCodeGenerator {
                     .replace("`RRGGBBAA", rec[1])
                     .replace("FEDCBA", rec[1].substring(0, 6))
                     .replace("`CHANL", Float.toString(ColorTools.channelL(c)))
-                    .replace("`CHANA", Float.toString(ColorTools.chroma(c)))
-                    .replace("`CHANB", Float.toString(ColorTools.chromaLimit(oklabHue(c), (channelL(c)))))
-//                    .replace("`CHANA", Float.toString(ColorTools.channelA(c)))
-//                    .replace("`CHANB", Float.toString(ColorTools.channelB(c)))
+//                    .replace("`CHANA", Float.toString(ColorTools.chroma(c)))
+//                    .replace("`CHANB", Float.toString(ColorTools.chromaLimit(oklabHue(c), (channelL(c)))))
+                    .replace("`CHANA", Float.toString(ColorTools.channelA(c)))
+                    .replace("`CHANB", Float.toString(ColorTools.channelB(c)))
                     .replace("`ALPHA", Float.toString(ColorTools.alpha(c)))
                     .replace("`HUE", Float.toString(ColorTools.oklabHue(c)))
                     .replace("`SAT", Float.toString(ColorTools.oklabSaturation(c)))
