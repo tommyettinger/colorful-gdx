@@ -79,8 +79,9 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                 "static { NAMED.put(\"`Name\", `PACKEDF); LIST.add(`PACKEDF); }\n";
         String data = Gdx.files.classpath(inputName).readString();
         String[] lines = StringKit.split(data, "\n"), rec = new String[3];
-        StringBuilder sb = new StringBuilder(100000).append("public static final ObjectFloatMap<String> NAMED = new ObjectFloatMap<String>(").append(lines.length).append(");\n")
-                .append("public static final FloatArray LIST = new FloatArray(").append(lines.length).append(");\n");
+        StringBuilder sb = new StringBuilder(100000);
+//        .append("public static final ObjectFloatMap<String> NAMED = new ObjectFloatMap<String>(").append(lines.length).append(");\n")
+//                .append("public static final FloatArray LIST = new FloatArray(").append(lines.length).append(");\n");
 
         for (int i = 0; i < lines.length; i++) {
             tabSplit(rec, lines[i]);
