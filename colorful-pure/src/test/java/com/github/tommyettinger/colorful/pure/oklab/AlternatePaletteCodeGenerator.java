@@ -70,7 +70,7 @@ public class AlternatePaletteCodeGenerator {
                     .replace("FEDCBA", rec[1].substring(0, 6))
                     .replace("`CHANL", Float.toString(ColorTools.channelL(c)))
                     .replace("`CHANA", Float.toString(ColorTools.chroma(c)))
-                    .replace("`CHANB", Float.toString(ColorTools.chromaLimit(oklabHue(c), reverseLight(channelL(c)))))
+                    .replace("`CHANB", Float.toString(ColorTools.chromaLimit(oklabHue(c), (channelL(c)))))
 //                    .replace("`CHANA", Float.toString(ColorTools.channelA(c)))
 //                    .replace("`CHANB", Float.toString(ColorTools.channelB(c)))
                     .replace("`ALPHA", Float.toString(ColorTools.alpha(c)))
@@ -81,7 +81,7 @@ public class AlternatePaletteCodeGenerator {
             System.out.println(rec[2] + " : correct RGBA=" + rec[1] + ", decoded RGBA=" + StringKit.hex(toRGBA8888(c)) + ", raw=" + StringKit.hex(ci)
                     + ", decoded L=" + ColorTools.channelL(c) + ", decoded A=" + (ColorTools.channelA(c)*2f-1f) + ", decoded B=" + ((ColorTools.channelB(c)*2f-1f)
                     + ", chroma=" + ColorTools.chroma(c) + ", max chroma=" + ColorTools.chroma(ColorTools.maximizeSaturation(c))
-                    + ", chroma limit=" + ColorTools.chromaLimit(ColorTools.oklabHue(c), ColorTools.channelL(c)) + ", in gamut=" + ColorTools.inGamut(c))
+                    + ", chroma limit=" + ColorTools.chromaLimit(ColorTools.oklabHue(c), (ColorTools.channelL(c))) + ", in gamut=" + ColorTools.inGamut(c))
             );
         }
         try {
@@ -191,7 +191,7 @@ public class AlternatePaletteCodeGenerator {
 
         for (int i = 0; i < 256; i++) {
             float L = (i / 255f);
-            System.out.printf("At L=%.5f, limit is %.5f\n", L, chromaLimit(0.7323789f, (L)));
+            System.out.printf("At L=%.5f (i=%d), limit is %.5f\n", L, i, chromaLimit(0.7323789f, (L)));
 //            System.out.printf("At L=%.5f, limit is %.5f\n", L, chromaLimit(0.9091779f, (L)));
         }
 

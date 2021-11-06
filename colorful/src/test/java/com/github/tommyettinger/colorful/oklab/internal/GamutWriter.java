@@ -30,7 +30,7 @@ public class GamutWriter extends ApplicationAdapter {
                     double d = dist * 0x1p-8, A = c * d, B = s * d;
                     if(inGamut(L, A, B))
                     {
-                        all[idx++] = (byte) dist;
+                        all[idx++] = (byte) (dist+1);
                         largestDist = Math.max(largestDist, dist);
                         minA = Math.min(minA, A);
                         maxA = Math.max(maxA, A);
@@ -114,21 +114,29 @@ public class GamutWriter extends ApplicationAdapter {
     public static boolean inGamut(double L, double A, double B)
     {
         //reverseLight() for double
-//        L = (L - 1.0) / (1.0 + L * 0.75) + 1.0;
+        L = (L - 1.0) / (1.0 + L * 0.75) + 1.0;
         //forwardLight() for double
 //        L = (L - 1.0) / (1.0 - L * 0.4285714) + 1.0;
 
+        double l = (L + +0.3963377774 * A + +0.2158037573 * B); l *= l * l;
+        double m = (L + -0.1055613458 * A + -0.0638541728 * B); m *= m * m;
+        double s = (L + -0.0894841775 * A + -1.2914855480 * B); s *= s * s;
 
-        double l = (L + 0.3963377774 * A + 0.2158037573 * B); l *= l * l;
-        double m = (L - 0.1055613458 * A - 0.0638541728 * B); m *= m * m;
-        double s = (L - 0.0894841775 * A - 1.2914855480 * B); s *= s * s;
+        final double r = (int)((255.0 * +4.0767245293) * l + (255.0 * -3.3072168827) * m + (255.0 * +0.2307590544) * s + 0.5);
+        final double g = (int)((255.0 * -1.2681437731) * l + (255.0 * +2.6093323231) * m + (255.0 * -0.3411344290) * s + 0.5);
+        final double b = (int)((255.0 * -0.0041119885) * l + (255.0 * -0.7034763098) * m + (255.0 * +1.7068625689) * s + 0.5);
+        return (r >= 0.0 && r <= 255.0) && (g >= 0.0 && g <= 255.0) && (b >= 0.0 && b <= 255.0);
 
-        final double r = +4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s;
-        if(r < 0.0 || r > 1.0) return false;
-        final double g = -1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s;
-        if(g < 0.0 || g > 1.0) return false;
-        final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
-        return (b >= 0.0 && b <= 1.0);
+//        double l = (L + 0.3963377774 * A + 0.2158037573 * B); l *= l * l;
+//        double m = (L - 0.1055613458 * A - 0.0638541728 * B); m *= m * m;
+//        double s = (L - 0.0894841775 * A - 1.2914855480 * B); s *= s * s;
+//
+//        final double r = +4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s;
+//        if(r < 0.0 || r > 1.0) return false;
+//        final double g = -1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s;
+//        if(g < 0.0 || g > 1.0) return false;
+//        final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
+//        return (b >= 0.0 && b <= 1.0);
 //        return (r >= 0.0 && r <= 1.0) || (g >= 0.0 && g <= 1.0) || (b >= 0.0 && b <= 1.0);
     }
 }
