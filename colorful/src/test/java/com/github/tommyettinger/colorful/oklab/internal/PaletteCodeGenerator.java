@@ -17,7 +17,7 @@ import static com.github.tommyettinger.colorful.oklab.ColorTools.fromRGBA8888;
 import static com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA8888;
 
 /**
- * A tool, not a demo, used to generate the data used in Palette and in the javadocs.
+ * A tool, not a demo, used to generate the data used in any of various Palette classes and in the Javadocs.
  * Created by Tommy Ettinger on 12/8/2019.
  */
 public class PaletteCodeGenerator extends ApplicationAdapter {
@@ -93,8 +93,8 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                     .replace("`ACHAN", Float.toString(ColorTools.channelA(c)))
                     .replace("`BCHAN", Float.toString(ColorTools.channelB(c)))
                     .replace("`ALPHA", Float.toString(ColorTools.alpha(c)))
-                    .replace("`HUE", Float.toString(ColorTools.hue(c)))
-                    .replace("`SAT", Float.toString(ColorTools.saturation(c)))
+                    .replace("`HUE", Float.toString(ColorTools.oklabHue(c)))
+                    .replace("`SAT", Float.toString(ColorTools.oklabSaturation(c)))
                     .replace("`PACKED", Float.toHexString(c))
             );
             System.out.println(rec[2] + " : correct RGBA=" + rec[1] + ", decoded RGBA=" + StringKit.hex(toRGBA8888(c)) + ", raw=" + StringKit.hex(NumberUtils.floatToRawIntBits(c))
@@ -128,8 +128,8 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
             sb.append(templateTable.replace("Name", sc.key)
                     .replace("`RGBA8888", StringKit.hex(toRGBA8888(c)))
                     .replace("FEDCBA", StringKit.hex(toRGBA8888(c)).substring(0, 6))
-                    .replace("`HUE", Float.toString(ColorTools.hue(c)))
-                    .replace("`SAT", Float.toString(ColorTools.saturation(c)))
+                    .replace("`HUE", Float.toString(ColorTools.oklabHue(c)))
+                    .replace("`SAT", Float.toString(ColorTools.oklabSaturation(c)))
                     .replace("`LCHAN", Float.toString(ColorTools.channelL(c)))
                     .replace("`ACHAN", Float.toString(ColorTools.channelA(c)))
                     .replace("`BCHAN", Float.toString(ColorTools.channelB(c)))
@@ -164,8 +164,8 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
             sb.append(templateTable.replace("Name", sc.key)
                     .replace("`RGBA8888", StringKit.hex(toRGBA8888(c)))
                     .replace("FEDCBA", StringKit.hex(toRGBA8888(c)).substring(0, 6))
-                    .replace("`HUE", Float.toString(ColorTools.hue(c)))
-                    .replace("`SAT", Float.toString(ColorTools.saturation(c)))
+                    .replace("`HUE", Float.toString(ColorTools.oklabHue(c)))
+                    .replace("`SAT", Float.toString(ColorTools.oklabSaturation(c)))
                     .replace("`LCHAN", Float.toString(ColorTools.channelL(c)))
                     .replace("`ACHAN", Float.toString(ColorTools.channelA(c)))
                     .replace("`BCHAN", Float.toString(ColorTools.channelB(c)))
@@ -189,8 +189,8 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
             sb.append(templateTable.replace("Name", sc.key)
                     .replace("`RGBA8888", StringKit.hex(toRGBA8888(c)))
                     .replace("FEDCBA", StringKit.hex(toRGBA8888(c)).substring(0, 6))
-                    .replace("`HUE", Float.toString(ColorTools.hue(c)))
-                    .replace("`SAT", Float.toString(ColorTools.saturation(c)))
+                    .replace("`HUE", Float.toString(ColorTools.oklabHue(c)))
+                    .replace("`SAT", Float.toString(ColorTools.oklabSaturation(c)))
                     .replace("`LCHAN", Float.toString(ColorTools.channelL(c)))
                     .replace("`ACHAN", Float.toString(ColorTools.channelA(c)))
                     .replace("`BCHAN", Float.toString(ColorTools.channelB(c)))
