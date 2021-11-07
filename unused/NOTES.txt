@@ -1,3 +1,4 @@
+Late October 2021
 In release 0.6.1, the oklabSaturation() method is just wrong. But, so are chromaLimit() and maybe chroma(). I really
 have no idea what's happening, but the saturation is exceeding 1.0 by a significant factor, and mostly for blue or
 nearby colors. I noticed this while in the middle of a change to how lightness is handled, but the issue predates that
@@ -6,3 +7,10 @@ have, and working around that isn't too hard (it involves removing some `* 0.5` 
 I think the way the gamut is generated probably has some bug in it. For example, pure blue (0x0000FFFF) claims a
 chroma of 0.31835338, and a chroma limit of 0.22460938 (or 0.16016015 in a case with different lightness). The chroma
 seems accurate for the reported A and B channels, so the limit is much too small.
+
+November 6, 2021
+This saturation/chroma-limit bug seems to be fixed now. I had to re-generate the gamut data using a different inGamut()
+check, one that permits the same amount of room for error as our 8-bit channels in ColorTools. The above-mentioned
+changes relating to `* 0.5` almost all apply still without changes. Lightness needed to be adjusted in the gamut in the
+same way it was adjusted in toRGBA conversions. There still needs to be some tolerance for error in chroma calculations;
+this is currently about 2/255, and it doesn't seem to need changing yet.
