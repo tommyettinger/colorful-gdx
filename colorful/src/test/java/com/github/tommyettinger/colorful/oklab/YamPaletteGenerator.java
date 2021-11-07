@@ -51,7 +51,7 @@ public class YamPaletteGenerator extends ApplicationAdapter {
     public void create(){
         float[] coreHues = new float[]{
                 oklabHue(RED),
-                oklabHue(BROWN),
+                0.119f,//oklabHue(BROWN),
                 oklabHue(ORANGE),
                 oklabHue(BRONZE),
                 oklabHue(YELLOW),
@@ -168,7 +168,10 @@ public class YamPaletteGenerator extends ApplicationAdapter {
                 }
                 float maxL = (maxLight / 255f) * lightAdjust;
                 for (int j = 0, cr = 1; j < crest; j++, cr += 2) {
-                    pal.add(oklabByHCL(hue, lerp(0.11f, outerC, (float) Math.pow(quart, 1.375f)) * satAdjust, lerp(minL, maxL, cr / (crest * 2f)), 1f));
+                    if(crest == 1)
+                        pal.add(oklabByHCL(hue, lerp(0.11f, outerC, (float) Math.pow(quart, 1.375f)) * satAdjust, outerL, 1f));
+                    else
+                        pal.add(oklabByHCL(hue, lerp(0.11f, outerC, (float) Math.pow(quart, 1.375f)) * satAdjust, lerp(minL, maxL, cr / (crest * 2f)), 1f));
                     names.add(levelNames[j] + nameKeys[i]);
                 }
             }
@@ -205,10 +208,10 @@ public class YamPaletteGenerator extends ApplicationAdapter {
         sb.append("}\n\nOklab:\n{\n0x00808000, ");
         for (int i = 1; i < pal.size; i++) {
             sb.append("0xFF");
-            float a = ((ColorTools.channelA(pal.get(i)) - 0.5f) * 255 * 3.25f + 127.5f);
-            float b = ((ColorTools.channelB(pal.get(i)) - 0.5f) * 255 * 3.25f + 127.5f);
-            if(a <= -1 || a >= 256) System.out.println(a + " is bad");
-            if(b <= -1 || b >= 256) System.out.println(b + " is bad");
+            float a = ((ColorTools.channelA(pal.get(i)) - 0.5f) * 255 + 127.5f);
+            float b = ((ColorTools.channelB(pal.get(i)) - 0.5f) * 255 + 127.5f);
+            if(a <= -1 || a >= 256) System.out.println(a + " is bad a for entry " + i);
+            if(b <= -1 || b >= 256) System.out.println(b + " is bad b for entry " + i);
             StringKit.appendHex(sb, (byte) b);
             StringKit.appendHex(sb, (byte) a);
             StringKit.appendHex(sb, (byte) (ColorTools.channelL(pal.get(i)) * 255));
