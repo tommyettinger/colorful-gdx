@@ -29,13 +29,13 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String inputName = "YamColorData.txt";
 //    public static final ObjectFloatMap<String> named = YamPalette.NAMED;
 
-    public static final String outputAdd = "FullOklab";
-    public static final String inputName = "ColorData.txt";
-    public static final ObjectFloatMap<String> named = FullPalette.NAMED;
+//    public static final String outputAdd = "FullOklab";
+//    public static final String inputName = "ColorData.txt";
+//    public static final ObjectFloatMap<String> named = FullPalette.NAMED;
 
-//    public static final String outputAdd = "NamedMunsellOklab";
-//    public static final String inputName = "ISCCNBSData.txt";
-//    public static final ObjectFloatMap<String> named = NamedMunsellPalette.NAMED;
+    public static final String outputAdd = "NamedMunsellOklab";
+    public static final String inputName = "ISCCNBSData.txt";
+    public static final ObjectFloatMap<String> named = NamedMunsellPalette.NAMED;
 
 //    public static final String outputAdd = "SimpleOklab";
 //    public static final String inputName = "SimpleColorData.txt";
