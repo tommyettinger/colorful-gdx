@@ -80,6 +80,7 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
                         "                 (lab * lab * lab);" +
                         "  vec3 back = clamp(lab, 0.0, 1.0);\n" +
 //                        "  if(any(notEqual(back, lab))) gl_FragColor = vec4(u_flash + sqrt(back), v_color.a * tgt.a);\n" +
+//                        "  else gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
                         "  gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
                         "}";
 
@@ -188,7 +189,12 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
         batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
         for (int x = 0; x < 512; x++) {
             for (int y = 0; y < 512; y++) {
-                batch.setPackedColor(limitToGamut(layer, x * 0x1p-8f, y * 0x1p-8f, 1f));
+                float color = oklab(layer, x * 0x1p-8f, y * 0x1p-8f, 1f);
+                if(!ColorTools.inGamut(color))
+                    batch.setPackedColor(Palette.LEAD);
+                else
+                    batch.setPackedColor(color);
+//                    batch.setPackedColor(oklab(layer, x / 255f, y / 255f, 1f));
                 batch.draw(blank, x, y, 1f, 1f);
             }
         }

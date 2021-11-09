@@ -82,7 +82,7 @@ public class YamPaletteGenerator extends ApplicationAdapter {
         pal.add(TRANSPARENT);
         names.add("transparent");
         for (int i = 0; i < 15; i++) {
-            pal.add(oklabByHCL(0.1f, 0.01f, i / 14f, 1f));
+            pal.add(oklabByHSL(0.1f, 0f, i / 14f, 1f));
         }
         Collections.addAll(names, "pure black", "almost black", "lead black",
                 "black lead", "pure lead", "gray lead",
@@ -169,9 +169,9 @@ public class YamPaletteGenerator extends ApplicationAdapter {
                 float maxL = (maxLight / 255f) * lightAdjust;
                 for (int j = 0, cr = 1; j < crest; j++, cr += 2) {
                     if(crest == 1)
-                        pal.add(oklabByHCL(hue, lerp(0.11f, outerC, (float) Math.pow(quart, 1.375f)) * satAdjust, outerL, 1f));
+                        pal.add(oklabByHSL(hue, lerp(0.11f, outerC, (float) Math.pow(quart, 1.375f)) * satAdjust, outerL, 1f));
                     else
-                        pal.add(oklabByHCL(hue, lerp(0.11f, outerC, (float) Math.pow(quart, 1.375f)) * satAdjust, lerp(minL, maxL, cr / (crest * 2f)), 1f));
+                        pal.add(oklabByHSL(hue, lerp(0.11f, outerC, (float) Math.pow(quart, 1.375f)) * satAdjust, lerp(minL, maxL, cr / (crest * 2f)), 1f));
                     names.add(levelNames[j] + nameKeys[i]);
                 }
             }
