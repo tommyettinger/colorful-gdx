@@ -64,24 +64,30 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
                         "varying vec2 v_texCoords;\n" +
                         "varying LOWP vec4 v_color;\n" +
                         "uniform sampler2D u_texture;\n" +
-//                        "uniform float u_flash;\n" +
+                        "uniform float u_flash;\n" +
                         "const vec3 forward = vec3(1.0 / 3.0);\n" +
+                        "float toOklab(float L) {\n" +
+                        "  return (L - 1.0) / (1.0 - L * 0.4285714) + 1.0;\n" +
+                        "}\n" +
+                        "float fromOklab(float L) {\n" +
+                        "  return (L - 1.0) / (1.0 + L * 0.75) + 1.0;\n" +
+                        "}\n" +
                         "void main()\n" +
                         "{\n" +
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                         "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +
                         "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +
                         "             * (tgt.rgb * tgt.rgb), forward);\n" +
-                        "  lab.x = clamp(lab.x + v_color.r - 0.63, 0.0, 1.0);\n" +
+                        "  lab.x = fromOklab(clamp(toOklab(lab.x) + toOklab(v_color.r) - 0.5, 0.0, 1.0));\n" +
                         "  lab.yz = clamp(lab.yz + v_color.gb * 2.0 - 1.0, -1.0, 1.0);\n" +
                         "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +
                         "  lab = " +
                         "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +
                         "                 (lab * lab * lab);" +
                         "  vec3 back = clamp(lab, 0.0, 1.0);\n" +
-//                        "  if(any(notEqual(back, lab))) gl_FragColor = vec4(u_flash + sqrt(back), v_color.a * tgt.a);\n" +
-//                        "  else gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
-                        "  gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
+                        "  if(any(notEqual(back, lab))) gl_FragColor = vec4(u_flash + sqrt(back), v_color.a * tgt.a);\n" +
+                        "  else gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
+//                        "  gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
                         "}";
 
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
@@ -185,16 +191,16 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
         batch.begin();
         batch.draw(blank, 0, 0, 512, 512);
         batch.setColor(layer, 0.5f, 0.5f, 1f);
-//        batch.getShader().setUniformf("u_flash", TimeUtils.millis() >>> 9 & 1);
+        batch.getShader().setUniformf("u_flash", TimeUtils.millis() >>> 9 & 1);
         batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
         for (int x = 0; x < 512; x++) {
             for (int y = 0; y < 512; y++) {
-                float color = oklab(layer, x * 0x1p-8f, y * 0x1p-8f, 1f);
-                if(!ColorTools.inGamut(color))
-                    batch.setPackedColor(Palette.LEAD);
-                else
-                    batch.setPackedColor(color);
-//                    batch.setPackedColor(oklab(layer, x / 255f, y / 255f, 1f));
+//                float color = oklab(layer, x * 0x1p-8f, y * 0x1p-8f, 1f);
+//                if(!ColorTools.inGamut(color))
+//                    batch.setPackedColor(Palette.LEAD);
+//                else
+//                    batch.setPackedColor(color);
+                batch.setPackedColor(oklab(layer, x / 255f, y / 255f, 1f));
                 batch.draw(blank, x, y, 1f, 1f);
             }
         }
