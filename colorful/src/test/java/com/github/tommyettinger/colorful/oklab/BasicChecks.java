@@ -56,6 +56,8 @@ public class BasicChecks {
                 NumberUtils.floatToRawIntBits(limitToGamut(ColorTools.oklab(0.5f, 0f, 1f, 1f))));
         Assert.assertEquals(NumberUtils.floatToRawIntBits(limitToGamut(0.5f, 0.126f, 0f, 1f)),
                 NumberUtils.floatToRawIntBits(limitToGamut(ColorTools.oklab(0.5f, 0.126f, 0f, 1f))));
+        Assert.assertEquals(NumberUtils.floatToRawIntBits(limitToGamut(0.6f, 0.75f, 0.75f, 1f)),
+                NumberUtils.floatToRawIntBits(limitToGamut(ColorTools.oklab(0.6f, 0.75f, 0.75f, 1f))));
         Assert.assertEquals(NumberUtils.floatToRawIntBits(limitToGamut(0.61960787f, 0.60784316f, 0.3882353f, 1f)),
                 NumberUtils.floatToRawIntBits(limitToGamut(ColorTools.oklab(0.61960787f, 0.60784316f, 0.3882353f, 1f))));
     }
@@ -65,8 +67,8 @@ public class BasicChecks {
         FourWheelRandom random = new FourWheelRandom(1);
         for (int i = 0; i < 1000000; i++) {
             float l = random.nextInclusiveFloat();
-            float a = random.nextFloat(0.4f, 0.6f);
-            float b = random.nextFloat(0.4f, 0.6f);
+            float a = random.nextFloat(0.2f, 0.8f);
+            float b = random.nextFloat(0.2f, 0.8f);
             float f = ColorTools.oklab(l, a, b, 1f);
             if(ColorTools.inGamut(f) != ColorTools.inGamut(l, a, b)){
                 System.out.printf("%.4f %.4f %.4f is having problems! ColorTools.inGamut(f)=%s, ColorTools.inGamut(l, a, b)=%s\n", l, a, b,

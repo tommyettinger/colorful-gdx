@@ -125,7 +125,7 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
         AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
-        png.write(Gdx.files.local("OklabGamutCPU-special.png"), pixmaps, 24);
+        png.write(Gdx.files.local("OklabGamutCPU-16.png"), pixmaps, 24);
 
         layer = 0.5f;
     }
@@ -234,7 +234,7 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
         for (int x = 0; x < 512; x++) {
             for (int y = 0; y < 512; y++) {
                 float color = oklab(layer, x * 0x1p-8f, y * 0x1p-8f, 1f);
-                if(!inGamut(color))
+                if(!ColorTools.inGamut(color))
                     batch.setPackedColor(Palette.LEAD);
                 else
                     batch.setPackedColor(color);
