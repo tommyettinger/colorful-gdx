@@ -65,7 +65,7 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
                         "varying vec2 v_texCoords;\n" +
                         "varying LOWP vec4 v_color;\n" +
                         "uniform sampler2D u_texture;\n" +
-                        "uniform float u_flash;\n" +
+//                        "uniform float u_flash;\n" +
                         "const vec3 forward = vec3(1.0 / 3.0);\n" +
                         "float toOklab(float L) {\n" +
                         "  return (L - 1.0) / (1.0 - L * 0.4285714) + 1.0;\n" +
@@ -86,9 +86,9 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
                         "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +
                         "                 (lab * lab * lab);" +
                         "  vec3 back = clamp(lab, 0.0, 1.0);\n" +
-                        "  if(any(notEqual(back, lab))) gl_FragColor = vec4(u_flash + sqrt(back), v_color.a * tgt.a);\n" +
-                        "  else gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
-//                        "  gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
+//                        "  if(any(notEqual(back, lab))) gl_FragColor = vec4(u_flash + sqrt(back), v_color.a * tgt.a);\n" +
+//                        "  else gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
+                        "  gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
                         "}";
 
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
@@ -125,7 +125,7 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
         AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
-        png.write(Gdx.files.local("OklabGamutGPU.png"), pixmaps, 24);
+        png.write(Gdx.files.local("OklabGamutCPU-special.png"), pixmaps, 24);
 
         layer = 0.5f;
     }
@@ -179,16 +179,41 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
                         (int) (TrigTools.cos_(hue) * dist + 127.5f) << 8 |
                         (int) (L * 255f));
     }
-    public static boolean inGamut(final float packed)
-    {
+//    public static boolean inGamut(final float packed)
+//    {
+//        final int decoded = NumberUtils.floatToRawIntBits(packed);
+//        final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 255f;
+//        final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 255f;
+//        final float g = ColorTools.getRawGamutValue((decoded & 0xff) << 8 | (int)(256f * TrigTools.atan2_(B, A)));
+//        return g * g * 0x1p-18 + 0x1p-14 >= (A * A + B * B);
+//    }
+
+    public static boolean inGamut(final float packed) {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 255f;
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 255f;
-        final float g = ColorTools.getRawGamutValue((decoded & 0xff) << 8 | (int)(256f * TrigTools.atan2_(B, A)));
-        return g * g * 0x1p-18 + 0x1p-14 >= (A * A + B * B);
+        double L = (decoded & 0xFF) / 255f;
+        double A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
+        double B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+        //reverseLight() for double
+        L = (L - 1.0) / (1.0 + L * 0.75) + 1.0;
+        //forwardLight() for double
+//        L = (L - 1.0) / (1.0 - L * 0.4285714) + 1.0;
+
+        double l = (L + +0.3963377774 * A + +0.2158037573 * B);
+        l *= l * l;
+        double m = (L + -0.1055613458 * A + -0.0638541728 * B);
+        m *= m * m;
+        double s = (L + -0.0894841775 * A + -1.2914855480 * B);
+        s *= s * s;
+
+        final double r = +4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s;
+        if(r < 0.0 || r > 1.0) return false;
+        final double g = -1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s;
+        if(g < 0.0 || g > 1.0) return false;
+        final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
+        return (b >= 0.0 && b <= 1.0);
     }
 
-    @Override
+        @Override
     public void render() {
         handleInput();
         startTime = System.currentTimeMillis();
@@ -204,16 +229,16 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
         batch.begin();
         batch.draw(blank, 0, 0, 512, 512);
         batch.setColor(layer, 0.5f, 0.5f, 1f);
-        batch.getShader().setUniformf("u_flash", startTime >>> 9 & 1);
+//        batch.getShader().setUniformf("u_flash", startTime >>> 9 & 1);
         batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
         for (int x = 0; x < 512; x++) {
             for (int y = 0; y < 512; y++) {
-//                float color = oklab(layer, x * 0x1p-8f, y * 0x1p-8f, 1f);
-//                if(!inGamut(color))
-//                    batch.setPackedColor(Palette.LEAD);
-//                else
-//                    batch.setPackedColor(color);
-                batch.setPackedColor(oklab(layer, x / 255f, y / 255f, 1f));
+                float color = oklab(layer, x * 0x1p-8f, y * 0x1p-8f, 1f);
+                if(!inGamut(color))
+                    batch.setPackedColor(Palette.LEAD);
+                else
+                    batch.setPackedColor(color);
+//                batch.setPackedColor(oklab(layer, x / 255f, y / 255f, 1f));
                 batch.draw(blank, x, y, 1f, 1f);
             }
         }
