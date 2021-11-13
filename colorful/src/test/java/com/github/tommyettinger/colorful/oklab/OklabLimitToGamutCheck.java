@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.tommyettinger.anim8.AnimatedPNG;
 import com.github.tommyettinger.colorful.Shaders;
 import com.github.tommyettinger.colorful.TrigTools;
 
@@ -98,14 +99,15 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.enableBlending();
 
-//        final int frameCount = 120;
-//        Array<Pixmap> pixmaps = new Array<>(frameCount);
-//        for (int i = 0; i < frameCount; i++) {
-//            layer = i / (frameCount - 1f);
-//            renderInternal();
-////             this gets a screenshot of the current window and adds it to the Array of Pixmap.
-//            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-//        }
+        startTime = -1L;
+        final int frameCount = 120;
+        Array<Pixmap> pixmaps = new Array<>(frameCount);
+        for (int i = 0; i < frameCount; i++) {
+            layer = i / (frameCount - 1f);
+            renderInternal();
+//             this gets a screenshot of the current window and adds it to the Array of Pixmap.
+            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        }
 //
 //
 ////// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
@@ -120,10 +122,12 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
 ////        // 24 is how many frames per second the animated GIF should play back at.
 //        gif.write(Gdx.files.local("OklabGamut.gif"), pixmaps, 24);
 //
-////// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
-//        AnimatedPNG png = new AnimatedPNG();
-////// 24 is how many frames per second the animated PNG should play back at.
-//        png.write(Gdx.files.local("OklabGamut.png"), pixmaps, 24);
+//// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
+        AnimatedPNG png = new AnimatedPNG();
+//// 24 is how many frames per second the animated PNG should play back at.
+        png.write(Gdx.files.local("OklabGamutGPU.png"), pixmaps, 24);
+
+        layer = 0.5f;
     }
 
     /**
@@ -175,10 +179,19 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
                         (int) (TrigTools.cos_(hue) * dist + 127.5f) << 8 |
                         (int) (L * 255f));
     }
+    public static boolean inGamut(final float packed)
+    {
+        final int decoded = NumberUtils.floatToRawIntBits(packed);
+        final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 255f;
+        final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 255f;
+        final float g = ColorTools.getRawGamutValue((decoded & 0xff) << 8 | (int)(256f * TrigTools.atan2_(B, A)));
+        return g * g * 0x1p-18 + 0x1p-14 >= (A * A + B * B);
+    }
 
     @Override
     public void render() {
         handleInput();
+        startTime = System.currentTimeMillis();
 //        layer = zigzag(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f) * 0.5f + 0.5f;
         renderInternal();
     }
@@ -191,12 +204,12 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
         batch.begin();
         batch.draw(blank, 0, 0, 512, 512);
         batch.setColor(layer, 0.5f, 0.5f, 1f);
-        batch.getShader().setUniformf("u_flash", TimeUtils.millis() >>> 9 & 1);
+        batch.getShader().setUniformf("u_flash", startTime >>> 9 & 1);
         batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
         for (int x = 0; x < 512; x++) {
             for (int y = 0; y < 512; y++) {
 //                float color = oklab(layer, x * 0x1p-8f, y * 0x1p-8f, 1f);
-//                if(!ColorTools.inGamut(color))
+//                if(!inGamut(color))
 //                    batch.setPackedColor(Palette.LEAD);
 //                else
 //                    batch.setPackedColor(color);
