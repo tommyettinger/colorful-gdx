@@ -231,14 +231,31 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
         batch.setColor(layer, 0.5f, 0.5f, 1f);
 //        batch.getShader().setUniformf("u_flash", startTime >>> 9 & 1);
         batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
-        for (int x = 0; x < 512; x++) {
-            for (int y = 0; y < 512; y++) {
-                float color = oklab(layer, x * 0x1p-8f, y * 0x1p-8f, 1f);
-                if(!ColorTools.inGamut(color))
-                    batch.setPackedColor(Palette.LEAD);
+        for (int x = 0; x < 256; x++) {
+            for (int y = 0; y < 256; y++) {
+//                if((startTime >>> 9 & 1) == 0) {
+//                    if (Math.sqrt((x * 0x1p-8f - 0.5f) * (x * 0x1p-8f - 0.5f) + (y * 0x1p-8f - 0.5f) * (y * 0x1p-8f - 0.5f)) < chromaLimit(TrigTools.atan2_(y - 127.5f, x - 127.5f), layer))
+//                        batch.setPackedColor(Palette.SILVER);
+//                    else
+//                        batch.setPackedColor(Palette.LEAD);
+//                }
+//                else {
+//                    float color = oklab(layer, x / 255f, y / 255f, 1f);
+//                    if (!ColorTools.inGamut(color)) {
+//                        batch.setPackedColor(Palette.LEAD);
+//                    } else
+//                        batch.setPackedColor(color);
+//                }
+                float color = oklab(layer, x / 255f, y / 255f, 1f), sat = oklabSaturation(color);
+                if (Math.sqrt((x * 0x1p-8f - 0.5f) * (x * 0x1p-8f - 0.5f) + (y * 0x1p-8f - 0.5f) * (y * 0x1p-8f - 0.5f)) < chromaLimit(TrigTools.atan2_(y - 127.5f, x - 127.5f), layer)) {
+                    if (sat > 1) color = Palette.RED;
+                    else if (sat < 0) color = Palette.AIR_FORCE_BLUE;
+                    else color = oklab(sat, 0.5f, 0.5f, 1f);
+                }
                 else
-                    batch.setPackedColor(color);
-//                batch.setPackedColor(oklab(layer, x / 255f, y / 255f, 1f));
+                    color = Palette.BLACK;
+                batch.setPackedColor(color);
+////                batch.setPackedColor(oklab(layer, x / 255f, y / 255f, 1f));
                 batch.draw(blank, x, y, 1f, 1f);
             }
         }
