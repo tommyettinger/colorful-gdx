@@ -234,7 +234,7 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
         for (int x = 0; x < 256; x++) {
             for (int y = 0; y < 256; y++) {
 //                if((startTime >>> 9 & 1) == 0) {
-//                    if (Math.sqrt((x * 0x1p-8f - 0.5f) * (x * 0x1p-8f - 0.5f) + (y * 0x1p-8f - 0.5f) * (y * 0x1p-8f - 0.5f)) < chromaLimit(TrigTools.atan2_(y - 127.5f, x - 127.5f), layer))
+//                    if (Math.sqrt((x * 0x1p-7f - 1f) * (x * 0x1p-7f - 1f) + (y * 0x1p-7f - 1f) * (y * 0x1p-7f - 1f)) < chromaLimit(TrigTools.atan2_(y - 127.5f, x - 127.5f), layer))
 //                        batch.setPackedColor(Palette.SILVER);
 //                    else
 //                        batch.setPackedColor(Palette.LEAD);
@@ -247,7 +247,7 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
 //                        batch.setPackedColor(color);
 //                }
                 float color = oklab(layer, x / 255f, y / 255f, 1f), sat = oklabSaturation(color);
-                if (Math.sqrt((x * 0x1p-8f - 0.5f) * (x * 0x1p-8f - 0.5f) + (y * 0x1p-8f - 0.5f) * (y * 0x1p-8f - 0.5f)) < chromaLimit(TrigTools.atan2_(y - 127.5f, x - 127.5f), layer)) {
+                if (Math.sqrt((x * 0x1p-7f - 1f) * (x * 0x1p-7f - 1f) + (y * 0x1p-7f - 1f) * (y * 0x1p-7f - 1f)) < chromaLimit(TrigTools.atan2_(y - 127.5f, x - 127.5f), layer)) {
                     if (sat > 1) color = Palette.RED;
                     else if (sat < 0) color = Palette.AIR_FORCE_BLUE;
                     else color = oklab(sat, 0.5f, 0.5f, 1f);
