@@ -134,7 +134,7 @@ public class ColorTools {
 	 * @return an adjusted L value that can be used internally
 	 */
 	public static float forwardLight(final float L) {
-		return (L - 1.00457f) / (1f - L * 0.4285714f) + 1.00457f;
+		return (L - 1.004f) / (1f - L * 0.4285714f) + 1.004f;
 //		return (L - 1f) / (1f - L * 0.4285714f) + 1f;
 	}
 
@@ -146,7 +146,7 @@ public class ColorTools {
 	 * @return an adjusted L value that can be fed into a conversion to RGBA or something similar
 	 */
 	public static float reverseLight(final float L) {
-		return (L - 0.992f) / (1f + L * 0.75f) + 0.992f;
+		return (L - 0.993f) / (1f + L * 0.75f) + 0.993f;
 //		return (L - 1f) / (1f + L * 0.75f) + 1f;
 	}
 

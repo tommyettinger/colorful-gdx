@@ -24,7 +24,7 @@ public class GamutWriter extends ApplicationAdapter {
             double L = light * 0x1p-8;
             PER_HUE:
             for (int angle = 0; angle < 256; angle++) {
-                double theta = angle * 0x1p-7 * Math.PI;
+                double theta = (angle - 0.5) * 0x1p-7 * Math.PI;
                 double s = Math.sin(theta), c = Math.cos(theta);
                 for (int dist = 255; dist >= 0; dist--) {
                     double d = dist * 0x1p-8, A = c * d, B = s * d;
@@ -132,9 +132,9 @@ public class GamutWriter extends ApplicationAdapter {
 //        return (b >= 0.0 && b <= 1.0);
 
         //reverseLight() for double
-        L = (L - 0.992) / (1.0 + L * 0.75) + 0.992;
+        L = (L - 0.993) / (1.0 + L * 0.75) + 0.993;
         //forwardLight() for double
-//        L = (L - 1.00457) / (1.0 - L * 0.4285714) + 1.00457;
+//        L = (L - 1.004) / (1.0 - L * 0.4285714) + 1.004;
 
         double l = (L + +0.3963377774 * A + +0.2158037573 * B);
         l *= l * l;

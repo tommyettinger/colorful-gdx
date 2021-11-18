@@ -141,4 +141,11 @@ public class BasicChecks {
         return (b >= -0x1p-8 && b <= 0x101p-8);
     }
 
+    @Test
+    public void testBlues() {
+        for (float f = 0.70934484f; f < 0.74934484f; f += 0.001f) {
+            System.out.printf("hue %1.8f : limit %1.8f\n", f, chromaLimit(f, 0.2627451f));
+        }
+    }
+
 }
