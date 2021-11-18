@@ -14,3 +14,10 @@ check, one that permits the same amount of room for error as our 8-bit channels 
 changes relating to `* 0.5` almost all apply still without changes. Lightness needed to be adjusted in the gamut in the
 same way it was adjusted in toRGBA conversions. There still needs to be some tolerance for error in chroma calculations;
 this is currently about 2/255, and it doesn't seem to need changing yet.
+
+November 17, 2021
+NOPE. Not fixed. ColorTools.oklabSaturation() seems very broken for some colors (mostly green and blue), and fine for
+others (mostly reddish). Working on this, I found the inGamut() used by GamutWriter seems to expect colors mapped to the
+-0.5 to 0.5 range for A and B (matching most of the rest of the library). It also needed some tweaks to avoid receiving
+L values of 1.0 (or similarly very high values); this can be done in reverseLight(). I'm going to try remaking the gamut
+again; hopefully things will work this time.

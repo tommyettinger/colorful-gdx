@@ -132,9 +132,9 @@ public class GamutWriter extends ApplicationAdapter {
 //        return (b >= 0.0 && b <= 1.0);
 
         //reverseLight() for double
-        L = (L - 1.0) / (1.0 + L * 0.75) + 1.0;
+        L = (L - 0.992) / (1.0 + L * 0.75) + 0.992;
         //forwardLight() for double
-//        L = (L - 1.0) / (1.0 - L * 0.4285714) + 1.0;
+//        L = (L - 1.00457) / (1.0 - L * 0.4285714) + 1.00457;
 
         double l = (L + +0.3963377774 * A + +0.2158037573 * B);
         l *= l * l;
@@ -142,6 +142,13 @@ public class GamutWriter extends ApplicationAdapter {
         m *= m * m;
         double s = (L + -0.0894841775 * A + -1.2914855480 * B);
         s *= s * s;
+
+//        final double r = +4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s;
+//        if(r < -0x1p-8 || r > 0x101p-8) return false;
+//        final double g = -1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s;
+//        if(g < -0x1p-8 || g > 0x101p-8) return false;
+//        final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
+//        return (b >= -0x1p-8 && b <= 0x101p-8);
 
         final double r = +4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s;
         if(r < 0.0 || r > 1.0) return false;
