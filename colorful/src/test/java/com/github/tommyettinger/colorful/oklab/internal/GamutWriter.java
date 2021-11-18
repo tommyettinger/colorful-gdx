@@ -24,7 +24,7 @@ public class GamutWriter extends ApplicationAdapter {
             double L = light * 0x1p-8;
             PER_HUE:
             for (int angle = 0; angle < 256; angle++) {
-                double theta = (angle - 0.5) * 0x1p-7 * Math.PI;
+                double theta = (angle + 1.0) * 0x1p-7 * Math.PI;
                 double s = Math.sin(theta), c = Math.cos(theta);
                 for (int dist = 255; dist >= 0; dist--) {
                     double d = dist * 0x1p-8, A = c * d, B = s * d;
@@ -63,8 +63,17 @@ public class GamutWriter extends ApplicationAdapter {
      * @param filename the name of the text file to append to
      */
     public static void generateByteString(final byte[] data, String filename){
-        StringBuilder sb = new StringBuilder(data.length + 400);
-        sb.append("new StringBuilder().append(\"");
+        StringBuilder sb = new StringBuilder(data.length + 1000);
+        sb.append("package com.github.tommyettinger.colorful.oklab;\n" +
+                "\n" +
+                "import java.io.UnsupportedEncodingException;\n" +
+                "\n" +
+                "final class Gamut {\n" +
+                "    private Gamut(){}\n" +
+                "    static byte[] GAMUT_DATA;\n" +
+                "    static {\n" +
+                "        try {\n" +
+                "            GAMUT_DATA = new StringBuilder().append(\"");
         for (int i = 0; i < data.length;) {
             byte b = data[i++];
             switch (b) {
@@ -90,16 +99,22 @@ public class GamutWriter extends ApplicationAdapter {
                     sb.append("\\\\");
                     break;
                 default:
-                    if (Character.isISOControl(b))
-                        sb.append(String.format("\\%03o", b));
-                    else
+//                    if (Character.isISOControl(b))
+//                        sb.append(String.format("\\%03o", b));
+//                    else
                         sb.append((char) (b & 0xFF));
                     break;
             }
             if((sb.length() & 0xFFFF) == 0xFFFF)
                 sb.append("\").append(\"");
         }
-        sb.append("\").toString().getBytes(\"ISO_8859_1\");\n");
+        sb.append("\").toString().getBytes(\"ISO_8859_1\");\n" +
+                "        } catch (UnsupportedEncodingException e) {\n" +
+                "            e.printStackTrace();\n" +
+                "            GAMUT_DATA = new byte[65536];\n" +
+                "        }\n" +
+                "    }\n" +
+                "}\n");
         Gdx.files.local(filename).writeString(sb.toString(), false, "ISO-8859-1");
         System.out.println("Wrote code snippet to " + filename);
     }
