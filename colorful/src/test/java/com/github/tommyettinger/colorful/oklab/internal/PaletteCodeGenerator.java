@@ -66,8 +66,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
     public void create() {
         float c;
         String templateFull = "\n/**\n" +
-                "* This color constant \"`Name\" has RGBA8888 code {@code `RRGGBBAA}, L `LCHAN, A `ACHAN, B `BCHAN, alpha `ALPHA, hue `HUE, and saturation `SAT.\n" +
-                "* Chroma is `CHR, out of chroma limit `CHLIM. Raw gamut value is `RAW.\n" +
+                "* This color constant \"`Name\" has RGBA8888 code {@code `RRGGBBAA}, L `LCHAN, A `ACHAN, B `BCHAN, alpha `ALPHA, hue `HUE, saturation `SAT, and chroma `CHR.\n" +
                 "* It can be represented as a packed float with the constant {@code `PACKEDF}.\n" +
                 "* <pre>\n" +
                 "* <font style='background-color: #FEDCBA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FEDCBA; color: #000000'>&nbsp;@&nbsp;</font>\n" +
@@ -97,8 +96,8 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                     .replace("`HUE", Float.toString(ColorTools.oklabHue(c)))
                     .replace("`SAT", Float.toString(ColorTools.oklabSaturation(c)))
                     .replace("`CHR", Float.toString(ColorTools.chroma(c)))
-                    .replace("`CHLIM", Float.toString(ColorTools.chromaLimit(ColorTools.hue(c), channelL(c))))
-                    .replace("`RAW", Integer.toString(ColorTools.getRawGamutValue((int)(channelL(c) * 255.999f) << 8 | (int)(hue(c) * 256f))))
+//                    .replace("`CHLIM", Float.toString(ColorTools.chromaLimit(ColorTools.hue(c), channelL(c))))
+//                    .replace("`RAW", Integer.toString(ColorTools.getRawGamutValue((int)(channelL(c) * 255.999f) << 8 | (int)(hue(c) * 256f))))
                     .replace("`PACKED", Float.toHexString(c))
             );
             System.out.println(rec[2] + " : correct RGBA=" + rec[1] + ", decoded RGBA=" + StringKit.hex(toRGBA8888(c)) + ", raw=" + StringKit.hex(NumberUtils.floatToRawIntBits(c))
@@ -108,7 +107,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         }
         Gdx.files.local("ColorOutput"+outputAdd+".txt").writeString(sb.toString(), false);
 
-        String templateTable = "<tr>\n<td style='background-color: #FEDCBA;'></td>\n<td>Name</td>\n<td>0x`RGBA8888</td>\n<td>`LCHAN</td>\n<td>`ACHAN</td>\n<td>`BCHAN</td>\n<td>`ALPH</td>\n<td>`HUE</td>\n<td>`SAT</td>\n<td>`PACKF</td>\n</tr>\n";
+        String templateTable = "<tr>\n<td style='background-color: #FEDCBA;'></td>\n<td>Name</td>\n<td>0x`RGBA8888</td>\n<td>`LCHAN</td>\n<td>`ACHAN</td>\n<td>`BCHAN</td>\n<td>`ALPH</td>\n<td>`HUE</td>\n<td>`SAT</td>\n<td>`CHR</td>\n<td>`PACKF</td>\n</tr>\n";
         final int size = named.size;
         ArrayList<ObjectFloatMap.Entry<String>> PAL = new ArrayList<>(size);
         for(ObjectFloatMap.Entry<String> e : named.entries())
@@ -126,7 +125,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                 return c1.key.compareTo(c2.key);
             }
         });
-        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Chroma</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
             sb.append(templateTable.replace("Name", sc.key)
@@ -134,6 +133,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                     .replace("FEDCBA", StringKit.hex(toRGBA8888(c)).substring(0, 6))
                     .replace("`HUE", Float.toString(ColorTools.oklabHue(c)))
                     .replace("`SAT", Float.toString(ColorTools.oklabSaturation(c)))
+                    .replace("`CHR", Float.toString(ColorTools.chroma(c)))
                     .replace("`LCHAN", Float.toString(ColorTools.channelL(c)))
                     .replace("`ACHAN", Float.toString(ColorTools.channelA(c)))
                     .replace("`BCHAN", Float.toString(ColorTools.channelB(c)))
@@ -162,7 +162,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                             + (int)Math.signum(ColorTools.channelL(c1.value) - ColorTools.channelL(c2.value));
             }
         });
-        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Chroma</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
             sb.append(templateTable.replace("Name", sc.key)
@@ -170,6 +170,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                     .replace("FEDCBA", StringKit.hex(toRGBA8888(c)).substring(0, 6))
                     .replace("`HUE", Float.toString(ColorTools.oklabHue(c)))
                     .replace("`SAT", Float.toString(ColorTools.oklabSaturation(c)))
+                    .replace("`CHR", Float.toString(ColorTools.chroma(c)))
                     .replace("`LCHAN", Float.toString(ColorTools.channelL(c)))
                     .replace("`ACHAN", Float.toString(ColorTools.channelA(c)))
                     .replace("`BCHAN", Float.toString(ColorTools.channelB(c)))
@@ -187,7 +188,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                 return (int)Math.signum(ColorTools.channelL(c1.value) - ColorTools.channelL(c2.value));
             }
         });
-        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Chroma</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
             sb.append(templateTable.replace("Name", sc.key)
@@ -195,6 +196,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                     .replace("FEDCBA", StringKit.hex(toRGBA8888(c)).substring(0, 6))
                     .replace("`HUE", Float.toString(ColorTools.oklabHue(c)))
                     .replace("`SAT", Float.toString(ColorTools.oklabSaturation(c)))
+                    .replace("`CHR", Float.toString(ColorTools.chroma(c)))
                     .replace("`LCHAN", Float.toString(ColorTools.channelL(c)))
                     .replace("`ACHAN", Float.toString(ColorTools.channelA(c)))
                     .replace("`BCHAN", Float.toString(ColorTools.channelB(c)))
