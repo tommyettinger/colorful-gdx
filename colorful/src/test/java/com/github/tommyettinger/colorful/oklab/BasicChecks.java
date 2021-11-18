@@ -85,15 +85,49 @@ public class BasicChecks {
             float L = ColorTools.channelL(color);
             float A = ColorTools.channelA(color);
             float B = ColorTools.channelB(color);
-            if(!ColorTools.inGamut(color)){
+            if(!inGamut(L, A, B)){
                 System.out.printf("%s is having problems! It has L=%f,A=%f,B=%f\n", name, L, A, B);
+            }
+            if(inGamut(L, A, B)){
+                System.out.printf("%s is doing fine.    It has L=%f,A=%f,B=%f\n", name, L, A, B);
             }
             A = (A + 0.5f) % 1f;
             B = (B + 0.5f) % 1f;
-            color = ColorTools.oklab(L, A, B, 1f);
-            if(ColorTools.inGamut(color)){
-                System.out.printf("%s's inverse should not be in gamut! It has L=%f,A=%f,B=%f\n", name, L, A, B);
+            if(inGamut(L, A, B)){
+                System.out.printf("%s's inverse should not be in gamut!!!!! It has L=%f,A=%f,B=%f\n", name, L, A, B);
             }
         }
     }
+
+    /**
+     * Returns true if the given Oklab values are valid to convert losslessly back to RGBA.
+     * @param L lightness channel, as a double from 0 to 1
+     * @param A green-to-red chromatic channel, as a double from 0 to 1
+     * @param B blue-to-yellow chromatic channel, as a double from 0 to 1
+     * @return true if the given Oklab channels can be converted back and forth to RGBA
+     */
+    public static boolean inGamut(double L, double A, double B)
+    {
+        //reverseLight() for double
+        L = (L - 1.0) / (1.0 + L * 0.75) + 1.0;
+        //forwardLight() for double
+//        L = (L - 1.0) / (1.0 - L * 0.4285714) + 1.0;
+        A = A * 2.0 - 1.0;
+        B = B * 2.0 - 1.0;
+
+        double l = (L + +0.3963377774 * A + +0.2158037573 * B);
+        l *= l * l;
+        double m = (L + -0.1055613458 * A + -0.0638541728 * B);
+        m *= m * m;
+        double s = (L + -0.0894841775 * A + -1.2914855480 * B);
+        s *= s * s;
+
+        final double r = +4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s;
+        if(r < 0.0 || r > 1.0) return false;
+        final double g = -1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s;
+        if(g < 0.0 || g > 1.0) return false;
+        final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
+        return (b >= 0.0 && b <= 1.0);
+    }
+
 }
