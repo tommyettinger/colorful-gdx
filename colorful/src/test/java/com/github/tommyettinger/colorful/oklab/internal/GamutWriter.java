@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.github.tommyettinger.colorful.oklab.ColorTools;
 
 public class GamutWriter extends ApplicationAdapter {
 
@@ -17,20 +18,20 @@ public class GamutWriter extends ApplicationAdapter {
     }
 
     public void create() {
-        byte[] all = new byte[65536];
+        byte[] initial = new byte[65536], all = new byte[65536];
         int idx = 0, largestDist = -1;
         double minA = 1000.0, maxA = -1000.0, minB = 1000.0, maxB = -1000.0, maxDist = -1000.0, furthest = 300.0;
         for (int light = 0; light < 256; light++) {
             double L = light * 0x1p-8;
             PER_HUE:
             for (int angle = 0; angle < 256; angle++) {
-                double theta = (angle + 1.0) * 0x1p-7 * Math.PI;
+                double theta = (angle + 2.5 - L - L) * 0x1p-7 * Math.PI;
                 double s = Math.sin(theta), c = Math.cos(theta);
-                for (int dist = 255; dist >= 0; dist--) {
+                for (int dist = 252; dist >= 0; dist--) {
                     double d = dist * 0x1p-8, A = c * d, B = s * d;
                     if(inGamut(L, A, B))
                     {
-                        all[idx++] = (byte) (dist);
+                        initial[idx++] = (byte) (dist+=2);
                         largestDist = Math.max(largestDist, dist);
                         minA = Math.min(minA, A);
                         maxA = Math.max(maxA, A);
@@ -44,6 +45,12 @@ public class GamutWriter extends ApplicationAdapter {
                 System.out.println("Problem at light " + light + " angle " + angle);
             }
         }
+        for (int light = 0; light < 256; light++) {
+            for (int angle = 0; angle < 256; angle++) {
+                all[light << 8 | angle] = (byte) Math.max(Math.max(initial[light << 8 | angle],
+                        initial[light << 8 | (angle + 1 & 255)]), initial[light << 8 | (angle - 1 & 255)]);
+            }
+        }
         System.out.println("Assigned " + idx + " distances");
         System.out.println("largest distance: " + largestDist);
         System.out.println("min A: " + minA);
@@ -52,6 +59,12 @@ public class GamutWriter extends ApplicationAdapter {
         System.out.println("max B: " + maxB);
         System.out.println("dist : " + maxDist);
         System.out.println("at   : " + furthest);
+
+        System.out.println("Blue has raw value " + all[20923] + " vs. current raw value " + ColorTools.getRawGamutValue(20923));
+        System.out.println("Yellow has raw value " + all[61775] + " vs. current raw value " + ColorTools.getRawGamutValue(61775));
+        System.out.println("Green has raw value " + all[51558] + " vs. current raw value " + ColorTools.getRawGamutValue(51558));
+        System.out.println("Navy has raw value " + all[12218] + " vs. current raw value " + ColorTools.getRawGamutValue(12218));
+
         Gdx.files.local("OklabGamut.dat").writeBytes(all, false);
         generateByteString(all, "OklabGamut.txt");
         Gdx.app.exit();

@@ -3129,7 +3129,7 @@ public class YamPalette {
                 final float c1 = NAMED.get(o1, YAM_TRANSPARENT), c2 = NAMED.get(o2, YAM_TRANSPARENT);
                 if(ColorTools.alphaInt(c1) < 128) return -10000;
                 else if(ColorTools.alphaInt(c2) < 128) return 10000;
-                final float s1 = ColorTools.saturation(c1), s2 = ColorTools.saturation(c2);
+                final float s1 = ColorTools.oklabSaturation(c1), s2 = ColorTools.oklabSaturation(c2);
                 if(s1 <= 0.05f && s2 > 0.05f)
                     return -1000;
                 else if(s1 > 0.05f && s2 <= 0.05f)
@@ -3137,7 +3137,7 @@ public class YamPalette {
                 else if(s1 <= 0.05f && s2 <= 0.05f)
                     return (int)Math.signum(ColorTools.channelL(c1) - ColorTools.channelL(c2));
                 else
-                    return 2 * (int)Math.signum(ColorTools.hue(c1) - ColorTools.hue(c2))
+                    return 2 * (int)Math.signum(ColorTools.oklabHue(c1) - ColorTools.oklabHue(c2))
                             + (int)Math.signum(ColorTools.channelL(c1) - ColorTools.channelL(c2));
             }
         });

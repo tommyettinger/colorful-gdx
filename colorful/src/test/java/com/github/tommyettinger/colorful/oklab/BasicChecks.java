@@ -88,7 +88,7 @@ public class BasicChecks {
             float A = ColorTools.channelA(color);
             float B = ColorTools.channelB(color);
             if(!inGamut(L, A, B)){
-                System.out.printf("%s is having problems! It has L=%f,A=%f,B=%f\n", name, L, A, B);
+                System.out.printf("%s is having problems! It has L=%a,A=%a,B=%a\n", name, L, A, B);
                 hues.add(oklabHue(color));
             }
 //            if(inGamut(L, A, B)){
@@ -120,11 +120,11 @@ public class BasicChecks {
     public static boolean inGamut(double L, double A, double B)
     {
         //reverseLight() for double
-        L = (L - 0.992) / (1.0 + L * 0.75) + 0.992;
+        L = (L - 0.993) / (1.0 + L * 0.75) + 0.993;
         //forwardLight() for double
 //        L = (L - 1.00457) / (1.0 - L * 0.4285714) + 1.00457;
-        A = A - 0.5;
-        B = B - 0.5;
+        A -= 0x1.fdfdfep-2;
+        B -= 0x1.fdfdfep-2;
 
         double l = (L + +0.3963377774 * A + +0.2158037573 * B);
         l *= l * l;
@@ -134,11 +134,18 @@ public class BasicChecks {
         s *= s * s;
 
         final double r = +4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s;
-        if(r < -0x1p-8 || r > 0x101p-8) return false;
+        if(r < 0.0 || r > 1.0) return false;
         final double g = -1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s;
-        if(g < -0x1p-8 || g > 0x101p-8) return false;
+        if(g < 0.0 || g > 1.0) return false;
         final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
-        return (b >= -0x1p-8 && b <= 0x101p-8);
+        return (b >= 0.0 && b <= 1.0);
+
+//        final double r = +4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s;
+//        if(r < -0x1p-8 || r > 0x101p-8) return false;
+//        final double g = -1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s;
+//        if(g < -0x1p-8 || g > 0x101p-8) return false;
+//        final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
+//        return (b >= -0x1p-8 && b <= 0x101p-8);
     }
 
     @Test
