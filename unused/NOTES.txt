@@ -21,3 +21,8 @@ others (mostly reddish). Working on this, I found the inGamut() used by GamutWri
 -0.5 to 0.5 range for A and B (matching most of the rest of the library). It also needed some tweaks to avoid receiving
 L values of 1.0 (or similarly very high values); this can be done in reverseLight(). I'm going to try remaking the gamut
 again; hopefully things will work this time.
+
+November 18, 2021
+YES...? It seems fixed now that I tracked down a major bug. Some shown chroma limit and raw gamut info used hue() when
+it should have used oklabHue(), and that threw off the gamut a lot. Colors appear fully saturated when they should be,
+and saturation stays between 0 and 1.0.

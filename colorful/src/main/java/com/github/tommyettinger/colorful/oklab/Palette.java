@@ -28,7 +28,6 @@ public class Palette {
 
     /**
      * This color constant "Transparent" has RGBA8888 code {@code 00000000}, L 0.0, A 0.49803922, B 0.49803922, alpha 0.0, hue 0.625, saturation 0.0, and chroma 0.0055242716.
-     * Chroma limit is 0.013671875, raw gamut value is 2.
      * It can be represented as a packed float with the constant {@code 0x0.fefep-126F}.
      * <pre>
      * <font style='background-color: #000000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;@&nbsp;</font>
@@ -41,7 +40,6 @@ public class Palette {
 
     /**
      * This color constant "Black" has RGBA8888 code {@code 000000FF}, L 0.0, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.0, and chroma 0.0055242716.
-     * Chroma limit is 0.013671875, raw gamut value is 2.
      * It can be represented as a packed float with the constant {@code -0x1.fefep125F}.
      * <pre>
      * <font style='background-color: #000000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;@&nbsp;</font>
@@ -54,7 +52,6 @@ public class Palette {
 
     /**
      * This color constant "Coal Black" has RGBA8888 code {@code 131313FF}, L 0.105882354, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.015122874, and chroma 0.0055242716.
-     * Chroma limit is 0.044921875, raw gamut value is 10.
      * It can be represented as a packed float with the constant {@code -0x1.fefe36p125F}.
      * <pre>
      * <font style='background-color: #131313;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #131313; color: #000000'>&nbsp;@&nbsp;</font>
@@ -67,7 +64,6 @@ public class Palette {
 
     /**
      * This color constant "Shadow" has RGBA8888 code {@code 252525FF}, L 0.1764706, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.007346189, and chroma 0.0055242716.
-     * Chroma limit is 0.064453125, raw gamut value is 15.
      * It can be represented as a packed float with the constant {@code -0x1.fefe5ap125F}.
      * <pre>
      * <font style='background-color: #252525;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #252525; color: #000000'>&nbsp;@&nbsp;</font>
@@ -80,7 +76,6 @@ public class Palette {
 
     /**
      * This color constant "Graphite" has RGBA8888 code {@code 373737FF}, L 0.24313726, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.004326663, and chroma 0.0055242716.
-     * Chroma limit is 0.083984375, raw gamut value is 20.
      * It can be represented as a packed float with the constant {@code -0x1.fefe7cp125F}.
      * <pre>
      * <font style='background-color: #373737;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #373737; color: #000000'>&nbsp;@&nbsp;</font>
@@ -93,7 +88,6 @@ public class Palette {
 
     /**
      * This color constant "Dark Gray" has RGBA8888 code {@code 494949FF}, L 0.3019608, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.003331945, and chroma 0.0055242716.
-     * Chroma limit is 0.095703125, raw gamut value is 23.
      * It can be represented as a packed float with the constant {@code -0x1.fefe9ap125F}.
      * <pre>
      * <font style='background-color: #494949;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #494949; color: #000000'>&nbsp;@&nbsp;</font>
@@ -106,7 +100,6 @@ public class Palette {
 
     /**
      * This color constant "Lead" has RGBA8888 code {@code 5B5B5BFF}, L 0.3647059, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.002462296, and chroma 0.0055242716.
-     * Chroma limit is 0.111328125, raw gamut value is 27.
      * It can be represented as a packed float with the constant {@code -0x1.fefebap125F}.
      * <pre>
      * <font style='background-color: #5B5B5B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #5B5B5B; color: #000000'>&nbsp;@&nbsp;</font>
@@ -119,7 +112,6 @@ public class Palette {
 
     /**
      * This color constant "Iron" has RGBA8888 code {@code 6E6E6EFF}, L 0.43137255, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.0020156212, and chroma 0.0055242716.
-     * Chroma limit is 0.123046875, raw gamut value is 30.
      * It can be represented as a packed float with the constant {@code -0x1.fefedcp125F}.
      * <pre>
      * <font style='background-color: #6E6E6E;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #6E6E6E; color: #000000'>&nbsp;@&nbsp;</font>
@@ -132,7 +124,6 @@ public class Palette {
 
     /**
      * This color constant "Gray" has RGBA8888 code {@code 808080FF}, L 0.49411765, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.0016803193, and chroma 0.0055242716.
-     * Chroma limit is 0.13476562, raw gamut value is 33.
      * It can be represented as a packed float with the constant {@code -0x1.fefefcp125F}.
      * <pre>
      * <font style='background-color: #808080;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #808080; color: #000000'>&nbsp;@&nbsp;</font>
@@ -145,7 +136,6 @@ public class Palette {
 
     /**
      * This color constant "Chinchilla" has RGBA8888 code {@code 929292FF}, L 0.5568628, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.0014222222, and chroma 0.0055242716.
-     * Chroma limit is 0.14648438, raw gamut value is 36.
      * It can be represented as a packed float with the constant {@code -0x1.feff1cp125F}.
      * <pre>
      * <font style='background-color: #929292;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #929292; color: #000000'>&nbsp;@&nbsp;</font>
@@ -158,7 +148,6 @@ public class Palette {
 
     /**
      * This color constant "Greyhound" has RGBA8888 code {@code A4A4A4FF}, L 0.62352943, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.0012818458, and chroma 0.0055242716.
-     * Chroma limit is 0.15429688, raw gamut value is 38.
      * It can be represented as a packed float with the constant {@code -0x1.feff3ep125F}.
      * <pre>
      * <font style='background-color: #A4A4A4;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A4A4A4; color: #000000'>&nbsp;@&nbsp;</font>
@@ -171,7 +160,6 @@ public class Palette {
 
     /**
      * This color constant "Silver" has RGBA8888 code {@code B6B6B6FF}, L 0.69411767, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.0013493, and chroma 0.0055242716.
-     * Chroma limit is 0.15039062, raw gamut value is 37.
      * It can be represented as a packed float with the constant {@code -0x1.feff62p125F}.
      * <pre>
      * <font style='background-color: #B6B6B6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B6B6B6; color: #000000'>&nbsp;@&nbsp;</font>
@@ -184,7 +172,6 @@ public class Palette {
 
     /**
      * This color constant "Light Gray" has RGBA8888 code {@code C9C9C9FF}, L 0.76862746, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.002462296, and chroma 0.0055242716.
-     * Chroma limit is 0.111328125, raw gamut value is 27.
      * It can be represented as a packed float with the constant {@code -0x1.feff88p125F}.
      * <pre>
      * <font style='background-color: #C9C9C9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C9C9C9; color: #000000'>&nbsp;@&nbsp;</font>
@@ -197,7 +184,6 @@ public class Palette {
 
     /**
      * This color constant "Platinum" has RGBA8888 code {@code DBDBDBFF}, L 0.84313726, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.004759072, and chroma 0.0055242716.
-     * Chroma limit is 0.080078125, raw gamut value is 19.
      * It can be represented as a packed float with the constant {@code -0x1.feffaep125F}.
      * <pre>
      * <font style='background-color: #DBDBDB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #DBDBDB; color: #000000'>&nbsp;@&nbsp;</font>
@@ -210,7 +196,6 @@ public class Palette {
 
     /**
      * This color constant "Cloud" has RGBA8888 code {@code EDEDEDFF}, L 0.91764706, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.015122874, and chroma 0.0055242716.
-     * Chroma limit is 0.044921875, raw gamut value is 10.
      * It can be represented as a packed float with the constant {@code -0x1.feffd4p125F}.
      * <pre>
      * <font style='background-color: #EDEDED;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #EDEDED; color: #000000'>&nbsp;@&nbsp;</font>
@@ -223,7 +208,6 @@ public class Palette {
 
     /**
      * This color constant "White" has RGBA8888 code {@code FFFFFFFF}, L 1.0, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.0, and chroma 0.0055242716.
-     * Chroma limit is 0.013671875, raw gamut value is 2.
      * It can be represented as a packed float with the constant {@code -0x1.fefffep125F}.
      * <pre>
      * <font style='background-color: #FFFFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFFFFF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -236,7 +220,6 @@ public class Palette {
 
     /**
      * This color constant "Seawater" has RGBA8888 code {@code 007F7FFF}, L 0.42745098, A 0.4509804, B 0.4862745, alpha 1.0, hue 0.543443, saturation 0.89123964, and chroma 0.10141215.
-     * Chroma limit is 0.107421875, raw gamut value is 26.
      * It can be represented as a packed float with the constant {@code -0x1.f8e6dap125F}.
      * <pre>
      * <font style='background-color: #007F7F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #007F7F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -249,7 +232,6 @@ public class Palette {
 
     /**
      * This color constant "Hospital Green" has RGBA8888 code {@code 3FBFBFFF}, L 0.6392157, A 0.44313726, B 0.48235294, alpha 1.0, hue 0.54788184, saturation 0.7316009, and chroma 0.11861114.
-     * Chroma limit is 0.13867188, raw gamut value is 34.
      * It can be represented as a packed float with the constant {@code -0x1.f6e346p125F}.
      * <pre>
      * <font style='background-color: #3FBFBF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3FBFBF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -262,7 +244,6 @@ public class Palette {
 
     /**
      * This color constant "Cyan" has RGBA8888 code {@code 00FFFFFF}, L 0.84313726, A 0.42352942, B 0.47843137, alpha 1.0, hue 0.54374534, saturation 0.9090657, and chroma 0.1582875.
-     * Chroma limit is 0.16601562, raw gamut value is 41.
      * It can be represented as a packed float with the constant {@code -0x1.f4d9aep125F}.
      * <pre>
      * <font style='background-color: #00FFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00FFFF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -275,7 +256,6 @@ public class Palette {
 
     /**
      * This color constant "Bubble" has RGBA8888 code {@code BFFFFFFF}, L 0.93333334, A 0.47058824, B 0.49019608, alpha 1.0, hue 0.5511957, saturation 0.73046017, and chroma 0.061763234.
-     * Chroma limit is 0.072265625, raw gamut value is 17.
      * It can be represented as a packed float with the constant {@code -0x1.faf1dcp125F}.
      * <pre>
      * <font style='background-color: #BFFFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BFFFFF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -288,7 +268,6 @@ public class Palette {
 
     /**
      * This color constant "Periwinkle" has RGBA8888 code {@code 8181FFFF}, L 0.5568628, A 0.5137255, B 0.41568628, alpha 1.0, hue 0.77569586, saturation 0.8777893, and chroma 0.17017984.
-     * Chroma limit is 0.18164062, raw gamut value is 45.
      * It can be represented as a packed float with the constant {@code -0x1.d5071cp125F}.
      * <pre>
      * <font style='background-color: #8181FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8181FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -301,7 +280,6 @@ public class Palette {
 
     /**
      * This color constant "Blue" has RGBA8888 code {@code 0000FFFF}, L 0.31764707, A 0.48235294, B 0.34117648, alpha 1.0, hue 0.7323789, saturation 0.97586775, and chroma 0.31835338.
-     * Chroma limit is 0.32226562, raw gamut value is 81.
      * It can be represented as a packed float with the constant {@code -0x1.aef6a2p125F}.
      * <pre>
      * <font style='background-color: #0000FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0000FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -314,7 +292,6 @@ public class Palette {
 
     /**
      * This color constant "Faded Blue" has RGBA8888 code {@code 3F3FBFFF}, L 0.34117648, A 0.50980395, B 0.4, alpha 1.0, hue 0.7655599, saturation 0.42614305, and chroma 0.20017387.
-     * Chroma limit is 0.30664062, raw gamut value is 77.
      * It can be represented as a packed float with the constant {@code -0x1.cd04aep125F}.
      * <pre>
      * <font style='background-color: #3F3FBF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3F3FBF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -327,7 +304,6 @@ public class Palette {
 
     /**
      * This color constant "Ocean Blue" has RGBA8888 code {@code 00007FFF}, L 0.18431373, A 0.4862745, B 0.4, alpha 1.0, hue 0.7282781, saturation 0.96145123, and chroma 0.20108652.
-     * Chroma limit is 0.20507812, raw gamut value is 51.
      * It can be represented as a packed float with the constant {@code -0x1.ccf85ep125F}.
      * <pre>
      * <font style='background-color: #00007F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00007F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -340,7 +316,6 @@ public class Palette {
 
     /**
      * This color constant "Stygian Blue" has RGBA8888 code {@code 0F0F50FF}, L 0.14509805, A 0.49803922, B 0.43137255, alpha 1.0, hue 0.7454664, saturation 0.71185946, and chroma 0.13677454.
-     * Chroma limit is 0.16210938, raw gamut value is 40.
      * It can be represented as a packed float with the constant {@code -0x1.dcfe4ap125F}.
      * <pre>
      * <font style='background-color: #0F0F50;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0F0F50; color: #000000'>&nbsp;@&nbsp;</font>
@@ -353,7 +328,6 @@ public class Palette {
 
     /**
      * This color constant "Deep Purple" has RGBA8888 code {@code 7F007FFF}, L 0.30980393, A 0.58431375, B 0.44313726, alpha 1.0, hue 0.9055531, saturation 0.87330574, and chroma 0.20259848.
-     * Chroma limit is 0.21679688, raw gamut value is 54.
      * It can be represented as a packed float with the constant {@code -0x1.e32a9ep125F}.
      * <pre>
      * <font style='background-color: #7F007F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7F007F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -366,7 +340,6 @@ public class Palette {
 
     /**
      * This color constant "Tyrian Purple" has RGBA8888 code {@code BF3FBFFF}, L 0.47843137, A 0.5882353, B 0.4392157, alpha 1.0, hue 0.9039804, saturation 0.51023114, and chroma 0.21345432.
-     * Chroma limit is 0.29882812, raw gamut value is 75.
      * It can be represented as a packed float with the constant {@code -0x1.e12cf4p125F}.
      * <pre>
      * <font style='background-color: #BF3FBF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BF3FBF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -379,7 +352,6 @@ public class Palette {
 
     /**
      * This color constant "Magenta" has RGBA8888 code {@code F500F5FF}, L 0.54901963, A 0.6313726, B 0.41568628, alpha 1.0, hue 0.9091779, saturation 0.9090322, and chroma 0.31098264.
-     * Chroma limit is 0.32617188, raw gamut value is 82.
      * It can be represented as a packed float with the constant {@code -0x1.d54318p125F}.
      * <pre>
      * <font style='background-color: #F500F5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F500F5; color: #000000'>&nbsp;@&nbsp;</font>
@@ -392,7 +364,6 @@ public class Palette {
 
     /**
      * This color constant "Bubblegum Pink" has RGBA8888 code {@code FD81FFFF}, L 0.69411767, A 0.5803922, B 0.44313726, alpha 1.0, hue 0.9020082, saturation 0.84908676, and chroma 0.19616999.
-     * Chroma limit is 0.21289062, raw gamut value is 53.
      * It can be represented as a packed float with the constant {@code -0x1.e32962p125F}.
      * <pre>
      * <font style='background-color: #FD81FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FD81FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -405,7 +376,6 @@ public class Palette {
 
     /**
      * This color constant "Pork Chop" has RGBA8888 code {@code FFC0CBFF}, L 0.80784315, A 0.5294118, B 0.5019608, alpha 1.0, hue 0.010589795, saturation 0.48891294, and chroma 0.058723815.
-     * Chroma limit is 0.083984375, raw gamut value is 20.
      * It can be represented as a packed float with the constant {@code -0x1.010f9cp126F}.
      * <pre>
      * <font style='background-color: #FFC0CB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFC0CB; color: #000000'>&nbsp;@&nbsp;</font>
@@ -418,7 +388,6 @@ public class Palette {
 
     /**
      * This color constant "Raw Meat" has RGBA8888 code {@code FF8181FF}, L 0.64705884, A 0.5647059, B 0.52156866, alpha 1.0, hue 0.05119568, saturation 0.7376924, and chroma 0.13587911.
-     * Chroma limit is 0.15820312, raw gamut value is 39.
      * It can be represented as a packed float with the constant {@code -0x1.0b214ap126F}.
      * <pre>
      * <font style='background-color: #FF8181;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF8181; color: #000000'>&nbsp;@&nbsp;</font>
@@ -431,7 +400,6 @@ public class Palette {
 
     /**
      * This color constant "Red" has RGBA8888 code {@code FF0000FF}, L 0.49019608, A 0.6117647, B 0.56078434, alpha 1.0, hue 0.07928106, saturation 0.8972241, and chroma 0.25345513.
-     * Chroma limit is 0.26757812, raw gamut value is 67.
      * It can be represented as a packed float with the constant {@code -0x1.1f38fap126F}.
      * <pre>
      * <font style='background-color: #FF0000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF0000; color: #000000'>&nbsp;@&nbsp;</font>
@@ -444,7 +412,6 @@ public class Palette {
 
     /**
      * This color constant "Putty" has RGBA8888 code {@code BF3F3FFF}, L 0.43137255, A 0.57254905, B 0.5294118, alpha 1.0, hue 0.06128862, saturation 0.42144227, and chroma 0.15595676.
-     * Chroma limit is 0.24023438, raw gamut value is 60.
      * It can be represented as a packed float with the constant {@code -0x1.0f24dcp126F}.
      * <pre>
      * <font style='background-color: #BF3F3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BF3F3F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -457,7 +424,6 @@ public class Palette {
 
     /**
      * This color constant "Sienna" has RGBA8888 code {@code 7F0000FF}, L 0.27058825, A 0.5686275, B 0.5372549, alpha 1.0, hue 0.07915777, saturation 0.8381556, and chroma 0.1555649.
-     * Chroma limit is 0.16992188, raw gamut value is 42.
      * It can be represented as a packed float with the constant {@code -0x1.13228ap126F}.
      * <pre>
      * <font style='background-color: #7F0000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7F0000; color: #000000'>&nbsp;@&nbsp;</font>
@@ -470,7 +436,6 @@ public class Palette {
 
     /**
      * This color constant "Seal Brown" has RGBA8888 code {@code 551414FF}, L 0.20784314, A 0.54509807, B 0.52156866, alpha 1.0, hue 0.07099588, saturation 0.5157707, and chroma 0.09959023.
-     * Chroma limit is 0.13867188, raw gamut value is 34.
      * It can be represented as a packed float with the constant {@code -0x1.0b166ap126F}.
      * <pre>
      * <font style='background-color: #551414;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #551414; color: #000000'>&nbsp;@&nbsp;</font>
@@ -483,7 +448,6 @@ public class Palette {
 
     /**
      * This color constant "Mummy Brown" has RGBA8888 code {@code 7F3F00FF}, L 0.33333334, A 0.5294118, B 0.54509807, alpha 1.0, hue 0.15801254, saturation 0.7598891, and chroma 0.107261956.
-     * Chroma limit is 0.123046875, raw gamut value is 30.
      * It can be represented as a packed float with the constant {@code -0x1.170eaap126F}.
      * <pre>
      * <font style='background-color: #7F3F00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7F3F00; color: #000000'>&nbsp;@&nbsp;</font>
@@ -496,7 +460,6 @@ public class Palette {
 
     /**
      * This color constant "Fawn" has RGBA8888 code {@code BF7F3FFF}, L 0.5411765, A 0.52156866, B 0.54901963, alpha 1.0, hue 0.18403731, saturation 0.4548087, and chroma 0.106691405.
-     * Chroma limit is 0.15820312, raw gamut value is 39.
      * It can be represented as a packed float with the constant {@code -0x1.190b14p126F}.
      * <pre>
      * <font style='background-color: #BF7F3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BF7F3F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -509,7 +472,6 @@ public class Palette {
 
     /**
      * This color constant "Orange" has RGBA8888 code {@code FF7F00FF}, L 0.62352943, A 0.54901963, B 0.57254905, alpha 1.0, hue 0.15541562, saturation 0.8137945, and chroma 0.17443058.
-     * Chroma limit is 0.19335938, raw gamut value is 48.
      * It can be represented as a packed float with the constant {@code -0x1.25193ep126F}.
      * <pre>
      * <font style='background-color: #FF7F00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF7F00; color: #000000'>&nbsp;@&nbsp;</font>
@@ -522,7 +484,6 @@ public class Palette {
 
     /**
      * This color constant "Peach" has RGBA8888 code {@code FFBF81FF}, L 0.78039217, A 0.5176471, B 0.54509807, alpha 1.0, hue 0.19064914, saturation 0.61476445, and chroma 0.096477255.
-     * Chroma limit is 0.123046875, raw gamut value is 30.
      * It can be represented as a packed float with the constant {@code -0x1.17098ep126F}.
      * <pre>
      * <font style='background-color: #FFBF81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFBF81; color: #000000'>&nbsp;@&nbsp;</font>
@@ -535,7 +496,6 @@ public class Palette {
 
     /**
      * This color constant "Cream" has RGBA8888 code {@code FFFFBFFF}, L 0.9764706, A 0.4862745, B 0.53333336, alpha 1.0, hue 0.31215638, saturation 0.51980007, and chroma 0.071815535.
-     * Chroma limit is 0.099609375, raw gamut value is 24.
      * It can be represented as a packed float with the constant {@code -0x1.10f9f2p126F}.
      * <pre>
      * <font style='background-color: #FFFFBF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFFFBF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -548,7 +508,6 @@ public class Palette {
 
     /**
      * This color constant "Yellow" has RGBA8888 code {@code FFFF00FF}, L 0.94509804, A 0.4627451, B 0.59607846, alpha 1.0, hue 0.30886024, saturation 0.8652204, and chroma 0.20529193.
-     * Chroma limit is 0.22070312, raw gamut value is 55.
      * It can be represented as a packed float with the constant {@code -0x1.30ede2p126F}.
      * <pre>
      * <font style='background-color: #FFFF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFFF00; color: #000000'>&nbsp;@&nbsp;</font>
@@ -561,7 +520,6 @@ public class Palette {
 
     /**
      * This color constant "Earwax" has RGBA8888 code {@code BFBF3FFF}, L 0.69411767, A 0.4745098, B 0.5686275, alpha 1.0, hue 0.30658844, saturation 0.59262407, and chroma 0.14584495.
-     * Chroma limit is 0.18945312, raw gamut value is 47.
      * It can be represented as a packed float with the constant {@code -0x1.22f362p126F}.
      * <pre>
      * <font style='background-color: #BFBF3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BFBF3F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -574,7 +532,6 @@ public class Palette {
 
     /**
      * This color constant "Umber" has RGBA8888 code {@code 7F7F00FF}, L 0.46666667, A 0.4745098, B 0.56078434, alpha 1.0, hue 0.31318712, saturation 0.76235455, and chroma 0.13131043.
-     * Chroma limit is 0.15039062, raw gamut value is 37.
      * It can be represented as a packed float with the constant {@code -0x1.1ef2eep126F}.
      * <pre>
      * <font style='background-color: #7F7F00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7F7F00; color: #000000'>&nbsp;@&nbsp;</font>
@@ -587,7 +544,6 @@ public class Palette {
 
     /**
      * This color constant "Ivy Green" has RGBA8888 code {@code 007F00FF}, L 0.40392157, A 0.42352942, B 0.5529412, alpha 1.0, hue 0.4036119, saturation 1.0868253, and chroma 0.18528971.
-     * Chroma limit is 0.17773438, raw gamut value is 44.
      * It can be represented as a packed float with the constant {@code -0x1.1ad8cep126F}.
      * <pre>
      * <font style='background-color: #007F00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #007F00; color: #000000'>&nbsp;@&nbsp;</font>
@@ -600,7 +556,6 @@ public class Palette {
 
     /**
      * This color constant "Jade" has RGBA8888 code {@code 3FBF3FFF}, L 0.6039216, A 0.41568628, B 0.5568628, alpha 1.0, hue 0.4055531, saturation 0.73492247, and chroma 0.20259848.
-     * Chroma limit is 0.23632812, raw gamut value is 59.
      * It can be represented as a packed float with the constant {@code -0x1.1cd534p126F}.
      * <pre>
      * <font style='background-color: #3FBF3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3FBF3F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -613,7 +568,6 @@ public class Palette {
 
     /**
      * This color constant "Green" has RGBA8888 code {@code 00FF00FF}, L 0.7882353, A 0.38039216, B 0.5882353, alpha 1.0, hue 0.39883053, saturation 0.9818446, and chroma 0.29610303.
-     * Chroma limit is 0.29882812, raw gamut value is 75.
      * It can be represented as a packed float with the constant {@code -0x1.2cc392p126F}.
      * <pre>
      * <font style='background-color: #00FF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00FF00; color: #000000'>&nbsp;@&nbsp;</font>
@@ -626,7 +580,6 @@ public class Palette {
 
     /**
      * This color constant "Celadon" has RGBA8888 code {@code AFFFAFFF}, L 0.8901961, A 0.44705883, B 0.53333336, alpha 1.0, hue 0.41055703, saturation 0.8077762, and chroma 0.12463325.
-     * Chroma limit is 0.13867188, raw gamut value is 34.
      * It can be represented as a packed float with the constant {@code -0x1.10e5c6p126F}.
      * <pre>
      * <font style='background-color: #AFFFAF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AFFFAF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -639,7 +592,6 @@ public class Palette {
 
     /**
      * This color constant "Puce" has RGBA8888 code {@code BCAFC0FF}, L 0.6862745, A 0.5058824, B 0.49019608, alpha 1.0, hue 0.83601886, saturation 0.025520736, and chroma 0.022777155.
-     * Chroma limit is 0.14257812, raw gamut value is 35.
      * It can be represented as a packed float with the constant {@code -0x1.fb035ep125F}.
      * <pre>
      * <font style='background-color: #BCAFC0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BCAFC0; color: #000000'>&nbsp;@&nbsp;</font>
@@ -652,7 +604,6 @@ public class Palette {
 
     /**
      * This color constant "Beige" has RGBA8888 code {@code CBAA89FF}, L 0.67058825, A 0.50980395, B 0.5254902, alpha 1.0, hue 0.19157475, saturation 0.08972135, and chroma 0.054407768.
-     * Chroma limit is 0.18164062, raw gamut value is 45.
      * It can be represented as a packed float with the constant {@code -0x1.0d0556p126F}.
      * <pre>
      * <font style='background-color: #CBAA89;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #CBAA89; color: #000000'>&nbsp;@&nbsp;</font>
@@ -665,7 +616,6 @@ public class Palette {
 
     /**
      * This color constant "Wet Stone" has RGBA8888 code {@code A6A090FF}, L 0.60784316, A 0.49803922, B 0.50980395, alpha 1.0, hue 0.28142345, saturation 0.014394464, and chroma 0.019918045.
-     * Chroma limit is 0.16601562, raw gamut value is 41.
      * It can be represented as a packed float with the constant {@code -0x1.04ff36p126F}.
      * <pre>
      * <font style='background-color: #A6A090;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A6A090; color: #000000'>&nbsp;@&nbsp;</font>
@@ -678,7 +628,6 @@ public class Palette {
 
     /**
      * This color constant "Slow Creek" has RGBA8888 code {@code 7E9494FF}, L 0.54509807, A 0.4862745, B 0.49411765, alpha 1.0, hue 0.5644313, saturation 0.05491124, and chroma 0.029749114.
-     * Chroma limit is 0.12695312, raw gamut value is 31.
      * It can be represented as a packed float with the constant {@code -0x1.fcf916p125F}.
      * <pre>
      * <font style='background-color: #7E9494;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7E9494; color: #000000'>&nbsp;@&nbsp;</font>
@@ -691,7 +640,6 @@ public class Palette {
 
     /**
      * This color constant "Slate Gray" has RGBA8888 code {@code 6E8287FF}, L 0.4862745, A 0.4862745, B 0.49019608, alpha 1.0, hue 0.59872866, saturation 0.07457798, and chroma 0.033602834.
-     * Chroma limit is 0.123046875, raw gamut value is 30.
      * It can be represented as a packed float with the constant {@code -0x1.faf8f8p125F}.
      * <pre>
      * <font style='background-color: #6E8287;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #6E8287; color: #000000'>&nbsp;@&nbsp;</font>
@@ -704,7 +652,6 @@ public class Palette {
 
     /**
      * This color constant "Light Skin 1" has RGBA8888 code {@code 7E6E60FF}, L 0.4392157, A 0.5058824, B 0.50980395, alpha 1.0, hue 0.16398115, saturation 0.0229381, and chroma 0.022777155.
-     * Chroma limit is 0.15039062, raw gamut value is 37.
      * It can be represented as a packed float with the constant {@code -0x1.0502ep126F}.
      * <pre>
      * <font style='background-color: #7E6E60;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7E6E60; color: #000000'>&nbsp;@&nbsp;</font>
@@ -717,7 +664,6 @@ public class Palette {
 
     /**
      * This color constant "Light Skin 2" has RGBA8888 code {@code A0695FFF}, L 0.46666667, A 0.5294118, B 0.5176471, alpha 1.0, hue 0.08601887, saturation 0.08090422, and chroma 0.068331465.
-     * Chroma limit is 0.24023438, raw gamut value is 60.
      * It can be represented as a packed float with the constant {@code -0x1.090eeep126F}.
      * <pre>
      * <font style='background-color: #A0695F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A0695F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -730,7 +676,6 @@ public class Palette {
 
     /**
      * This color constant "Light Skin 3" has RGBA8888 code {@code C07872FF}, L 0.5411765, A 0.5372549, B 0.5176471, alpha 1.0, hue 0.070401505, saturation 0.1291548, and chroma 0.0821242.
-     * Chroma limit is 0.22851562, raw gamut value is 57.
      * It can be represented as a packed float with the constant {@code -0x1.091314p126F}.
      * <pre>
      * <font style='background-color: #C07872;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C07872; color: #000000'>&nbsp;@&nbsp;</font>
@@ -743,7 +688,6 @@ public class Palette {
 
     /**
      * This color constant "Light Skin 4" has RGBA8888 code {@code D08A74FF}, L 0.59607846, A 0.53333336, B 0.5254902, alpha 1.0, hue 0.10391619, saturation 0.1869197, and chroma 0.0835974.
-     * Chroma limit is 0.19335938, raw gamut value is 48.
      * It can be represented as a packed float with the constant {@code -0x1.0d113p126F}.
      * <pre>
      * <font style='background-color: #D08A74;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D08A74; color: #000000'>&nbsp;@&nbsp;</font>
@@ -756,7 +700,6 @@ public class Palette {
 
     /**
      * This color constant "Light Skin 5" has RGBA8888 code {@code E19B7DFF}, L 0.65882355, A 0.5294118, B 0.5294118, alpha 1.0, hue 0.125, saturation 0.2612861, and chroma 0.082864076.
-     * Chroma limit is 0.16210938, raw gamut value is 40.
      * It can be represented as a packed float with the constant {@code -0x1.0f0f5p126F}.
      * <pre>
      * <font style='background-color: #E19B7D;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E19B7D; color: #000000'>&nbsp;@&nbsp;</font>
@@ -769,7 +712,6 @@ public class Palette {
 
     /**
      * This color constant "Light Skin 6" has RGBA8888 code {@code EBAA8CFF}, L 0.70980394, A 0.5254902, B 0.5254902, alpha 1.0, hue 0.125, saturation 0.30118066, and chroma 0.071815535.
-     * Chroma limit is 0.13085938, raw gamut value is 32.
      * It can be represented as a packed float with the constant {@code -0x1.0d0d6ap126F}.
      * <pre>
      * <font style='background-color: #EBAA8C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #EBAA8C; color: #000000'>&nbsp;@&nbsp;</font>
@@ -782,7 +724,6 @@ public class Palette {
 
     /**
      * This color constant "Light Skin 7" has RGBA8888 code {@code F5B99BFF}, L 0.7607843, A 0.52156866, B 0.5254902, alpha 1.0, hue 0.138223, saturation 0.38347107, and chroma 0.06652104.
-     * Chroma limit is 0.107421875, raw gamut value is 26.
      * It can be represented as a packed float with the constant {@code -0x1.0d0b84p126F}.
      * <pre>
      * <font style='background-color: #F5B99B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F5B99B; color: #000000'>&nbsp;@&nbsp;</font>
@@ -795,7 +736,6 @@ public class Palette {
 
     /**
      * This color constant "Light Skin 8" has RGBA8888 code {@code F6C8AFFF}, L 0.80784315, A 0.5176471, B 0.52156866, alpha 1.0, hue 0.14085212, saturation 0.39901236, and chroma 0.055518243.
-     * Chroma limit is 0.087890625, raw gamut value is 21.
      * It can be represented as a packed float with the constant {@code -0x1.0b099cp126F}.
      * <pre>
      * <font style='background-color: #F6C8AF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F6C8AF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -808,7 +748,6 @@ public class Palette {
 
     /**
      * This color constant "Light Skin 9" has RGBA8888 code {@code F5E1D2FF}, L 0.88235295, A 0.5058824, B 0.50980395, alpha 1.0, hue 0.16398115, saturation 0.14151925, and chroma 0.022777155.
-     * Chroma limit is 0.060546875, raw gamut value is 14.
      * It can be represented as a packed float with the constant {@code -0x1.0503c2p126F}.
      * <pre>
      * <font style='background-color: #F5E1D2;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F5E1D2; color: #000000'>&nbsp;@&nbsp;</font>
@@ -821,7 +760,6 @@ public class Palette {
 
     /**
      * This color constant "Dark Skin 1" has RGBA8888 code {@code 573B3BFF}, L 0.28235295, A 0.5176471, B 0.5058824, alpha 1.0, hue 0.05119568, saturation 0.045448806, and chroma 0.03705794.
-     * Chroma limit is 0.17382812, raw gamut value is 43.
      * It can be represented as a packed float with the constant {@code -0x1.03089p126F}.
      * <pre>
      * <font style='background-color: #573B3B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #573B3B; color: #000000'>&nbsp;@&nbsp;</font>
@@ -834,7 +772,6 @@ public class Palette {
 
     /**
      * This color constant "Dark Skin 2" has RGBA8888 code {@code 73413CFF}, L 0.32941177, A 0.5294118, B 0.5137255, alpha 1.0, hue 0.06948605, saturation 0.103308514, and chroma 0.064659946.
-     * Chroma limit is 0.20117188, raw gamut value is 50.
      * It can be represented as a packed float with the constant {@code -0x1.070ea8p126F}.
      * <pre>
      * <font style='background-color: #73413C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #73413C; color: #000000'>&nbsp;@&nbsp;</font>
@@ -847,7 +784,6 @@ public class Palette {
 
     /**
      * This color constant "Dark Skin 3" has RGBA8888 code {@code 8E5555FF}, L 0.40392157, A 0.53333336, B 0.50980395, alpha 1.0, hue 0.045517046, saturation 0.0917525, and chroma 0.069218926.
-     * Chroma limit is 0.22851562, raw gamut value is 57.
      * It can be represented as a packed float with the constant {@code -0x1.0510cep126F}.
      * <pre>
      * <font style='background-color: #8E5555;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8E5555; color: #000000'>&nbsp;@&nbsp;</font>
@@ -860,7 +796,6 @@ public class Palette {
 
     /**
      * This color constant "Pink Skin 1" has RGBA8888 code {@code AB7373FF}, L 0.5058824, A 0.5294118, B 0.50980395, alpha 1.0, hue 0.05119568, saturation 0.05653231, and chroma 0.061763234.
-     * Chroma limit is 0.25976562, raw gamut value is 65.
      * It can be represented as a packed float with the constant {@code -0x1.050f02p126F}.
      * <pre>
      * <font style='background-color: #AB7373;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AB7373; color: #000000'>&nbsp;@&nbsp;</font>
@@ -873,7 +808,6 @@ public class Palette {
 
     /**
      * This color constant "Pink Skin 2" has RGBA8888 code {@code C78F8FFF}, L 0.6039216, A 0.5294118, B 0.50980395, alpha 1.0, hue 0.05119568, saturation 0.11080332, and chroma 0.061763234.
-     * Chroma limit is 0.18554688, raw gamut value is 46.
      * It can be represented as a packed float with the constant {@code -0x1.050f34p126F}.
      * <pre>
      * <font style='background-color: #C78F8F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C78F8F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -886,7 +820,6 @@ public class Palette {
 
     /**
      * This color constant "Pink Skin 3" has RGBA8888 code {@code E3ABABFF}, L 0.70980394, A 0.5254902, B 0.5058824, alpha 1.0, hue 0.03609712, saturation 0.17939028, and chroma 0.052115876.
-     * Chroma limit is 0.123046875, raw gamut value is 30.
      * It can be represented as a packed float with the constant {@code -0x1.030d6ap126F}.
      * <pre>
      * <font style='background-color: #E3ABAB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E3ABAB; color: #000000'>&nbsp;@&nbsp;</font>
@@ -899,7 +832,6 @@ public class Palette {
 
     /**
      * This color constant "Pink Skin 4" has RGBA8888 code {@code F8D2DAFF}, L 0.8509804, A 0.5176471, B 0.49803922, alpha 1.0, hue 0.9823789, saturation 0.2677551, and chroma 0.0353726.
-     * Chroma limit is 0.068359375, raw gamut value is 16.
      * It can be represented as a packed float with the constant {@code -0x1.ff09b2p125F}.
      * <pre>
      * <font style='background-color: #F8D2DA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F8D2DA; color: #000000'>&nbsp;@&nbsp;</font>
@@ -912,7 +844,6 @@ public class Palette {
 
     /**
      * This color constant "Bronze Skin 4" has RGBA8888 code {@code E3C7ABFF}, L 0.78039217, A 0.5058824, B 0.5176471, alpha 1.0, hue 0.19880433, saturation 0.08019604, and chroma 0.03705794.
-     * Chroma limit is 0.13085938, raw gamut value is 32.
      * It can be represented as a packed float with the constant {@code -0x1.09038ep126F}.
      * <pre>
      * <font style='background-color: #E3C7AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E3C7AB; color: #000000'>&nbsp;@&nbsp;</font>
@@ -925,7 +856,6 @@ public class Palette {
 
     /**
      * This color constant "Bronze Skin 3" has RGBA8888 code {@code C49E73FF}, L 0.627451, A 0.50980395, B 0.5294118, alpha 1.0, hue 0.19880433, saturation 0.13211785, and chroma 0.061763234.
-     * Chroma limit is 0.16992188, raw gamut value is 42.
      * It can be represented as a packed float with the constant {@code -0x1.0f054p126F}.
      * <pre>
      * <font style='background-color: #C49E73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C49E73; color: #000000'>&nbsp;@&nbsp;</font>
@@ -938,7 +868,6 @@ public class Palette {
 
     /**
      * This color constant "Bronze Skin 2" has RGBA8888 code {@code 8F7357FF}, L 0.46666667, A 0.50980395, B 0.52156866, alpha 1.0, hue 0.18210676, saturation 0.103822224, and chroma 0.0471994.
-     * Chroma limit is 0.14648438, raw gamut value is 36.
      * It can be represented as a packed float with the constant {@code -0x1.0b04eep126F}.
      * <pre>
      * <font style='background-color: #8F7357;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8F7357; color: #000000'>&nbsp;@&nbsp;</font>
@@ -951,7 +880,6 @@ public class Palette {
 
     /**
      * This color constant "Bronze Skin 1" has RGBA8888 code {@code 73573BFF}, L 0.37254903, A 0.50980395, B 0.5254902, alpha 1.0, hue 0.19157475, saturation 0.19551525, and chroma 0.054407768.
-     * Chroma limit is 0.123046875, raw gamut value is 30.
      * It can be represented as a packed float with the constant {@code -0x1.0d04bep126F}.
      * <pre>
      * <font style='background-color: #73573B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #73573B; color: #000000'>&nbsp;@&nbsp;</font>
@@ -964,7 +892,6 @@ public class Palette {
 
     /**
      * This color constant "Taupe" has RGBA8888 code {@code 3B2D1FFF}, L 0.21568628, A 0.5058824, B 0.5137255, alpha 1.0, hue 0.18556869, saturation 0.12547323, and chroma 0.029749114.
-     * Chroma limit is 0.083984375, raw gamut value is 20.
      * It can be represented as a packed float with the constant {@code -0x1.07026ep126F}.
      * <pre>
      * <font style='background-color: #3B2D1F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3B2D1F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -977,7 +904,6 @@ public class Palette {
 
     /**
      * This color constant "Drab Green" has RGBA8888 code {@code 414123FF}, L 0.26666668, A 0.49019608, B 0.52156866, alpha 1.0, hue 0.31789324, saturation 0.20790316, and chroma 0.0471994.
-     * Chroma limit is 0.103515625, raw gamut value is 25.
      * It can be represented as a packed float with the constant {@code -0x1.0afa88p126F}.
      * <pre>
      * <font style='background-color: #414123;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #414123; color: #000000'>&nbsp;@&nbsp;</font>
@@ -990,7 +916,6 @@ public class Palette {
 
     /**
      * This color constant "Lizard Scales" has RGBA8888 code {@code 73733BFF}, L 0.43529412, A 0.4862745, B 0.5372549, alpha 1.0, hue 0.30616736, saturation 0.32533228, and chroma 0.079095535.
-     * Chroma limit is 0.13867188, raw gamut value is 34.
      * It can be represented as a packed float with the constant {@code -0x1.12f8dep126F}.
      * <pre>
      * <font style='background-color: #73733B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #73733B; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1003,7 +928,6 @@ public class Palette {
 
     /**
      * This color constant "Cricket" has RGBA8888 code {@code 8F8F57FF}, L 0.53333336, A 0.4862745, B 0.53333336, alpha 1.0, hue 0.31215638, saturation 0.1962549, and chroma 0.071815535.
-     * Chroma limit is 0.16210938, raw gamut value is 40.
      * It can be represented as a packed float with the constant {@code -0x1.10f91p126F}.
      * <pre>
      * <font style='background-color: #8F8F57;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8F8F57; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1016,7 +940,6 @@ public class Palette {
 
     /**
      * This color constant "Olive Oil" has RGBA8888 code {@code A2A255FF}, L 0.59607846, A 0.48235294, B 0.54509807, alpha 1.0, hue 0.30935085, saturation 0.3080419, and chroma 0.096477255.
-     * Chroma limit is 0.17382812, raw gamut value is 43.
      * It can be represented as a packed float with the constant {@code -0x1.16f73p126F}.
      * <pre>
      * <font style='background-color: #A2A255;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A2A255; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1029,7 +952,6 @@ public class Palette {
 
     /**
      * This color constant "Dun" has RGBA8888 code {@code B5B572FF}, L 0.67058825, A 0.4862745, B 0.5372549, alpha 1.0, hue 0.30616736, saturation 0.18171746, and chroma 0.079095535.
-     * Chroma limit is 0.18554688, raw gamut value is 46.
      * It can be represented as a packed float with the constant {@code -0x1.12f956p126F}.
      * <pre>
      * <font style='background-color: #B5B572;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B5B572; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1042,7 +964,6 @@ public class Palette {
 
     /**
      * This color constant "Corn Silk" has RGBA8888 code {@code C7C78FFF}, L 0.7411765, A 0.4862745, B 0.5294118, alpha 1.0, hue 0.31948605, saturation 0.103308514, and chroma 0.064659946.
-     * Chroma limit is 0.20117188, raw gamut value is 50.
      * It can be represented as a packed float with the constant {@code -0x1.0ef97ap126F}.
      * <pre>
      * <font style='background-color: #C7C78F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C7C78F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1055,7 +976,6 @@ public class Palette {
 
     /**
      * This color constant "Tan" has RGBA8888 code {@code DADAABFF}, L 0.81960785, A 0.49019608, B 0.5254902, alpha 1.0, hue 0.30842525, saturation 0.06777885, and chroma 0.054407768.
-     * Chroma limit is 0.20898438, raw gamut value is 52.
      * It can be represented as a packed float with the constant {@code -0x1.0cfba2p126F}.
      * <pre>
      * <font style='background-color: #DADAAB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #DADAAB; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1068,7 +988,6 @@ public class Palette {
 
     /**
      * This color constant "Straw" has RGBA8888 code {@code EDEDC7FF}, L 0.90588236, A 0.49019608, B 0.5176471, alpha 1.0, hue 0.33071172, saturation 0.029941387, and chroma 0.040217306.
-     * Chroma limit is 0.23242188, raw gamut value is 58.
      * It can be represented as a packed float with the constant {@code -0x1.08fbcep126F}.
      * <pre>
      * <font style='background-color: #EDEDC7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #EDEDC7; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1081,7 +1000,6 @@ public class Palette {
 
     /**
      * This color constant "Honeydew" has RGBA8888 code {@code C7E3ABFF}, L 0.827451, A 0.4745098, B 0.5254902, alpha 1.0, hue 0.375, saturation 0.06800463, and chroma 0.071815535.
-     * Chroma limit is 0.27539062, raw gamut value is 69.
      * It can be represented as a packed float with the constant {@code -0x1.0cf3a6p126F}.
      * <pre>
      * <font style='background-color: #C7E3AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C7E3AB; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1094,7 +1012,6 @@ public class Palette {
 
     /**
      * This color constant "Tarnish" has RGBA8888 code {@code ABC78FFF}, L 0.7137255, A 0.4745098, B 0.5294118, alpha 1.0, hue 0.3636593, saturation 0.100864, and chroma 0.07753685.
-     * Chroma limit is 0.24414062, raw gamut value is 61.
      * It can be represented as a packed float with the constant {@code -0x1.0ef36cp126F}.
      * <pre>
      * <font style='background-color: #ABC78F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABC78F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1107,7 +1024,6 @@ public class Palette {
 
     /**
      * This color constant "Pea Soup" has RGBA8888 code {@code 8EBE55FF}, L 0.6509804, A 0.45490196, B 0.5529412, alpha 1.0, hue 0.36230367, saturation 0.3804915, and chroma 0.13854803.
-     * Chroma limit is 0.22460938, raw gamut value is 56.
      * It can be represented as a packed float with the constant {@code -0x1.1ae94cp126F}.
      * <pre>
      * <font style='background-color: #8EBE55;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8EBE55; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1120,7 +1036,6 @@ public class Palette {
 
     /**
      * This color constant "Marsh" has RGBA8888 code {@code 738F57FF}, L 0.5058824, A 0.47058824, B 0.5294118, alpha 1.0, hue 0.375, saturation 0.15721898, and chroma 0.082864076.
-     * Chroma limit is 0.20898438, raw gamut value is 52.
      * It can be represented as a packed float with the constant {@code -0x1.0ef102p126F}.
      * <pre>
      * <font style='background-color: #738F57;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #738F57; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1133,7 +1048,6 @@ public class Palette {
 
     /**
      * This color constant "Asparagus" has RGBA8888 code {@code 587D3EFF}, L 0.43529412, A 0.4627451, B 0.5372549, alpha 1.0, hue 0.375, saturation 0.30694017, and chroma 0.104961164.
-     * Chroma limit is 0.18945312, raw gamut value is 47.
      * It can be represented as a packed float with the constant {@code -0x1.12ecdep126F}.
      * <pre>
      * <font style='background-color: #587D3E;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #587D3E; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1146,7 +1060,6 @@ public class Palette {
 
     /**
      * This color constant "Peat Bog" has RGBA8888 code {@code 465032FF}, L 0.30980393, A 0.48235294, B 0.52156866, alpha 1.0, hue 0.35914788, saturation 0.16971225, and chroma 0.055518243.
-     * Chroma limit is 0.13476562, raw gamut value is 33.
      * It can be represented as a packed float with the constant {@code -0x1.0af69ep126F}.
      * <pre>
      * <font style='background-color: #465032;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #465032; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1159,7 +1072,6 @@ public class Palette {
 
     /**
      * This color constant "Deep Jungle" has RGBA8888 code {@code 191E0FFF}, L 0.14117648, A 0.4862745, B 0.5137255, alpha 1.0, hue 0.375, saturation 0.2120065, and chroma 0.038669903.
-     * Chroma limit is 0.083984375, raw gamut value is 20.
      * It can be represented as a packed float with the constant {@code -0x1.06f848p126F}.
      * <pre>
      * <font style='background-color: #191E0F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #191E0F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1172,7 +1084,6 @@ public class Palette {
 
     /**
      * This color constant "Pine Green" has RGBA8888 code {@code 235037FF}, L 0.2901961, A 0.4627451, B 0.5137255, alpha 1.0, hue 0.44383267, saturation 0.5838377, and chroma 0.079095535.
-     * Chroma limit is 0.103515625, raw gamut value is 25.
      * It can be represented as a packed float with the constant {@code -0x1.06ec94p126F}.
      * <pre>
      * <font style='background-color: #235037;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #235037; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1185,7 +1096,6 @@ public class Palette {
 
     /**
      * This color constant "Olive Green" has RGBA8888 code {@code 3B573BFF}, L 0.32156864, A 0.4745098, B 0.5137255, alpha 1.0, hue 0.42138404, saturation 0.19425261, and chroma 0.05767509.
-     * Chroma limit is 0.13085938, raw gamut value is 32.
      * It can be represented as a packed float with the constant {@code -0x1.06f2a4p126F}.
      * <pre>
      * <font style='background-color: #3B573B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3B573B; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1198,7 +1108,6 @@ public class Palette {
 
     /**
      * This color constant "Gray Green" has RGBA8888 code {@code 506450FF}, L 0.37254903, A 0.48235294, B 0.50980395, alpha 1.0, hue 0.41928825, saturation 0.07537778, and chroma 0.040217306.
-     * Chroma limit is 0.14648438, raw gamut value is 36.
      * It can be represented as a packed float with the constant {@code -0x1.04f6bep126F}.
      * <pre>
      * <font style='background-color: #506450;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #506450; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1211,7 +1120,6 @@ public class Palette {
 
     /**
      * This color constant "Maidenhair Fern" has RGBA8888 code {@code 3B7349FF}, L 0.39607844, A 0.45882353, B 0.52156866, alpha 1.0, hue 0.42320445, saturation 0.3791533, and chroma 0.09260367.
-     * Chroma limit is 0.15039062, raw gamut value is 37.
      * It can be represented as a packed float with the constant {@code -0x1.0aeacap126F}.
      * <pre>
      * <font style='background-color: #3B7349;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3B7349; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1224,7 +1132,6 @@ public class Palette {
 
     /**
      * This color constant "Kelly Green" has RGBA8888 code {@code 578F57FF}, L 0.4862745, A 0.45490196, B 0.5294118, alpha 1.0, hue 0.40801254, saturation 0.29565728, and chroma 0.107261956.
-     * Chroma limit is 0.19726562, raw gamut value is 49.
      * It can be represented as a packed float with the constant {@code -0x1.0ee8f8p126F}.
      * <pre>
      * <font style='background-color: #578F57;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #578F57; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1237,7 +1144,6 @@ public class Palette {
 
     /**
      * This color constant "Dusty Green" has RGBA8888 code {@code 73AB73FF}, L 0.5882353, A 0.45882353, B 0.5254902, alpha 1.0, hue 0.41176948, saturation 0.19803588, and chroma 0.096477255.
-     * Chroma limit is 0.21679688, raw gamut value is 54.
      * It can be represented as a packed float with the constant {@code -0x1.0ceb2cp126F}.
      * <pre>
      * <font style='background-color: #73AB73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #73AB73; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1250,7 +1156,6 @@ public class Palette {
 
     /**
      * This color constant "Garter Snake" has RGBA8888 code {@code 64C082FF}, L 0.6392157, A 0.44313726, B 0.5254902, alpha 1.0, hue 0.43293634, saturation 0.3960396, and chroma 0.124142565.
-     * Chroma limit is 0.19726562, raw gamut value is 49.
      * It can be represented as a packed float with the constant {@code -0x1.0ce346p126F}.
      * <pre>
      * <font style='background-color: #64C082;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #64C082; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1263,7 +1168,6 @@ public class Palette {
 
     /**
      * This color constant "Silver Green" has RGBA8888 code {@code 8FC78FFF}, L 0.6901961, A 0.45882353, B 0.5254902, alpha 1.0, hue 0.41176948, saturation 0.16127966, and chroma 0.096477255.
-     * Chroma limit is 0.24023438, raw gamut value is 60.
      * It can be represented as a packed float with the constant {@code -0x1.0ceb6p126F}.
      * <pre>
      * <font style='background-color: #8FC78F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8FC78F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1276,7 +1180,6 @@ public class Palette {
 
     /**
      * This color constant "Pistachio" has RGBA8888 code {@code A2D8A2FF}, L 0.75686276, A 0.4627451, B 0.52156866, alpha 1.0, hue 0.41646945, saturation 0.119536236, and chroma 0.08575976.
-     * Chroma limit is 0.24804688, raw gamut value is 62.
      * It can be represented as a packed float with the constant {@code -0x1.0aed82p126F}.
      * <pre>
      * <font style='background-color: #A2D8A2;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A2D8A2; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1289,7 +1192,6 @@ public class Palette {
 
     /**
      * This color constant "Angel Wing" has RGBA8888 code {@code E1F8FAFF}, L 0.9411765, A 0.4862745, B 0.49411765, alpha 1.0, hue 0.5644313, saturation 0.27586207, and chroma 0.029749114.
-     * Chroma limit is 0.056640625, raw gamut value is 13.
      * It can be represented as a packed float with the constant {@code -0x1.fcf9ep125F}.
      * <pre>
      * <font style='background-color: #E1F8FA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E1F8FA; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1302,7 +1204,6 @@ public class Palette {
 
     /**
      * This color constant "Sage Green" has RGBA8888 code {@code B4EECAFF}, L 0.8509804, A 0.46666667, B 0.50980395, alpha 1.0, hue 0.45448294, saturation 0.17384084, and chroma 0.069218926.
-     * Chroma limit is 0.16601562, raw gamut value is 41.
      * It can be represented as a packed float with the constant {@code -0x1.04efb2p126F}.
      * <pre>
      * <font style='background-color: #B4EECA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B4EECA; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1315,7 +1216,6 @@ public class Palette {
 
     /**
      * This color constant "Dried Sage" has RGBA8888 code {@code ABE3C5FF}, L 0.80784315, A 0.46666667, B 0.50980395, alpha 1.0, hue 0.45448294, saturation 0.118390046, and chroma 0.069218926.
-     * Chroma limit is 0.20117188, raw gamut value is 50.
      * It can be represented as a packed float with the constant {@code -0x1.04ef9cp126F}.
      * <pre>
      * <font style='background-color: #ABE3C5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABE3C5; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1328,7 +1228,6 @@ public class Palette {
 
     /**
      * This color constant "Artichoke" has RGBA8888 code {@code 87B48EFF}, L 0.6313726, A 0.46666667, B 0.5137255, alpha 1.0, hue 0.4378436, saturation 0.1498061, and chroma 0.071815535.
-     * Chroma limit is 0.18554688, raw gamut value is 46.
      * It can be represented as a packed float with the constant {@code -0x1.06ef42p126F}.
      * <pre>
      * <font style='background-color: #87B48E;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #87B48E; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1341,7 +1240,6 @@ public class Palette {
 
     /**
      * This color constant "Viridian" has RGBA8888 code {@code 507D5FFF}, L 0.4392157, A 0.46666667, B 0.5137255, alpha 1.0, hue 0.4378436, saturation 0.24035555, and chroma 0.071815535.
-     * Chroma limit is 0.14648438, raw gamut value is 36.
      * It can be represented as a packed float with the constant {@code -0x1.06eeep126F}.
      * <pre>
      * <font style='background-color: #507D5F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #507D5F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1354,7 +1252,6 @@ public class Palette {
 
     /**
      * This color constant "Floral Foam" has RGBA8888 code {@code 0F6946FF}, L 0.3529412, A 0.44705883, B 0.5137255, alpha 1.0, hue 0.4596309, saturation 0.9578332, and chroma 0.10895567.
-     * Chroma limit is 0.111328125, raw gamut value is 27.
      * It can be represented as a packed float with the constant {@code -0x1.06e4b4p126F}.
      * <pre>
      * <font style='background-color: #0F6946;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0F6946; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1367,7 +1264,6 @@ public class Palette {
 
     /**
      * This color constant "Hunter Green" has RGBA8888 code {@code 1E2D23FF}, L 0.19215687, A 0.48235294, B 0.5058824, alpha 1.0, hue 0.44880432, saturation 0.2366864, and chroma 0.03705794.
-     * Chroma limit is 0.076171875, raw gamut value is 18.
      * It can be represented as a packed float with the constant {@code -0x1.02f662p126F}.
      * <pre>
      * <font style='background-color: #1E2D23;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #1E2D23; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1380,7 +1276,6 @@ public class Palette {
 
     /**
      * This color constant "Dark Teal" has RGBA8888 code {@code 234146FF}, L 0.25490198, A 0.47843137, B 0.4862745, alpha 1.0, hue 0.59020853, saturation 0.4470743, and chroma 0.050931267.
-     * Chroma limit is 0.076171875, raw gamut value is 18.
      * It can be represented as a packed float with the constant {@code -0x1.f8f482p125F}.
      * <pre>
      * <font style='background-color: #234146;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #234146; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1393,7 +1288,6 @@ public class Palette {
 
     /**
      * This color constant "Kyanite" has RGBA8888 code {@code 3B7373FF}, L 0.40784314, A 0.46666667, B 0.49019608, alpha 1.0, hue 0.545517, saturation 0.4471342, and chroma 0.069218926.
-     * Chroma limit is 0.103515625, raw gamut value is 25.
      * It can be represented as a packed float with the constant {@code -0x1.faeedp125F}.
      * <pre>
      * <font style='background-color: #3B7373;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3B7373; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1406,7 +1300,6 @@ public class Palette {
 
     /**
      * This color constant "Spearmint" has RGBA8888 code {@code 64ABABFF}, L 0.5921569, A 0.4627451, B 0.49019608, alpha 1.0, hue 0.5409493, saturation 0.32430163, and chroma 0.07674564.
-     * Chroma limit is 0.13476562, raw gamut value is 33.
      * It can be represented as a packed float with the constant {@code -0x1.faed2ep125F}.
      * <pre>
      * <font style='background-color: #64ABAB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #64ABAB; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1419,7 +1312,6 @@ public class Palette {
 
     /**
      * This color constant "Amazonite" has RGBA8888 code {@code 8FC7C7FF}, L 0.70980394, A 0.47058824, B 0.49019608, alpha 1.0, hue 0.5511957, saturation 0.1686625, and chroma 0.061763234.
-     * Chroma limit is 0.15039062, raw gamut value is 37.
      * It can be represented as a packed float with the constant {@code -0x1.faf16ap125F}.
      * <pre>
      * <font style='background-color: #8FC7C7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8FC7C7; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1432,7 +1324,6 @@ public class Palette {
 
     /**
      * This color constant "Pastel Sky" has RGBA8888 code {@code ABE3E3FF}, L 0.81960785, A 0.4745098, B 0.49019608, alpha 1.0, hue 0.55842525, saturation 0.112643346, and chroma 0.054407768.
-     * Chroma limit is 0.16210938, raw gamut value is 40.
      * It can be represented as a packed float with the constant {@code -0x1.faf3a2p125F}.
      * <pre>
      * <font style='background-color: #ABE3E3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABE3E3; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1445,7 +1336,6 @@ public class Palette {
 
     /**
      * This color constant "Aquamarine" has RGBA8888 code {@code C7F1F1FF}, L 0.89411765, A 0.47843137, B 0.49411765, alpha 1.0, hue 0.54236877, saturation 0.13974738, and chroma 0.044538103.
-     * Chroma limit is 0.119140625, raw gamut value is 29.
      * It can be represented as a packed float with the constant {@code -0x1.fcf5c8p125F}.
      * <pre>
      * <font style='background-color: #C7F1F1;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C7F1F1; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1458,7 +1348,6 @@ public class Palette {
 
     /**
      * This color constant "Dust Bunny" has RGBA8888 code {@code BED2F0FF}, L 0.79607844, A 0.49411765, B 0.47843137, alpha 1.0, hue 0.70763123, saturation 0.34188035, and chroma 0.044538103.
-     * Chroma limit is 0.076171875, raw gamut value is 18.
      * It can be represented as a packed float with the constant {@code -0x1.f4fd96p125F}.
      * <pre>
      * <font style='background-color: #BED2F0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BED2F0; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1471,7 +1360,6 @@ public class Palette {
 
     /**
      * This color constant "Patina" has RGBA8888 code {@code ABC7E3FF}, L 0.74509805, A 0.49019608, B 0.47843137, alpha 1.0, hue 0.68210673, saturation 0.20790316, and chroma 0.0471994.
-     * Chroma limit is 0.103515625, raw gamut value is 25.
      * It can be represented as a packed float with the constant {@code -0x1.f4fb7cp125F}.
      * <pre>
      * <font style='background-color: #ABC7E3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABC7E3; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1484,7 +1372,6 @@ public class Palette {
 
     /**
      * This color constant "Chipped Granite" has RGBA8888 code {@code A8B9DCFF}, L 0.7019608, A 0.49411765, B 0.4745098, alpha 1.0, hue 0.7139029, saturation 0.20453893, and chroma 0.052115876.
-     * Chroma limit is 0.115234375, raw gamut value is 28.
      * It can be represented as a packed float with the constant {@code -0x1.f2fd66p125F}.
      * <pre>
      * <font style='background-color: #A8B9DC;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A8B9DC; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1497,7 +1384,6 @@ public class Palette {
 
     /**
      * This color constant "Blue Smoke" has RGBA8888 code {@code 8FABC7FF}, L 0.63529414, A 0.49019608, B 0.4745098, alpha 1.0, hue 0.69157475, saturation 0.13795556, and chroma 0.054407768.
-     * Chroma limit is 0.14648438, raw gamut value is 36.
      * It can be represented as a packed float with the constant {@code -0x1.f2fb44p125F}.
      * <pre>
      * <font style='background-color: #8FABC7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8FABC7; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1510,7 +1396,6 @@ public class Palette {
 
     /**
      * This color constant "Air Force Blue" has RGBA8888 code {@code 578FC7FF}, L 0.5294118, A 0.47843137, B 0.4509804, alpha 1.0, hue 0.6840373, saturation 0.29252034, and chroma 0.106691405.
-     * Chroma limit is 0.19726562, raw gamut value is 49.
      * It can be represented as a packed float with the constant {@code -0x1.e6f50ep125F}.
      * <pre>
      * <font style='background-color: #578FC7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #578FC7; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1523,7 +1408,6 @@ public class Palette {
 
     /**
      * This color constant "Cold Iron" has RGBA8888 code {@code 57738FFF}, L 0.43529412, A 0.4862745, B 0.4745098, alpha 1.0, hue 0.67138404, saturation 0.1397212, and chroma 0.05767509.
-     * Chroma limit is 0.15429688, raw gamut value is 38.
      * It can be represented as a packed float with the constant {@code -0x1.f2f8dep125F}.
      * <pre>
      * <font style='background-color: #57738F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #57738F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1536,7 +1420,6 @@ public class Palette {
 
     /**
      * This color constant "Dreary Blue" has RGBA8888 code {@code 3B5773FF}, L 0.34117648, A 0.4862745, B 0.47058824, alpha 1.0, hue 0.680514, saturation 0.20566711, and chroma 0.064659946.
-     * Chroma limit is 0.14257812, raw gamut value is 35.
      * It can be represented as a packed float with the constant {@code -0x1.f0f8aep125F}.
      * <pre>
      * <font style='background-color: #3B5773;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3B5773; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1549,7 +1432,6 @@ public class Palette {
 
     /**
      * This color constant "Murk" has RGBA8888 code {@code 0F192DFF}, L 0.13333334, A 0.49411765, B 0.47058824, alpha 1.0, hue 0.71857655, saturation 0.30942148, and chroma 0.059754133.
-     * Chroma limit is 0.107421875, raw gamut value is 26.
      * It can be represented as a packed float with the constant {@code -0x1.f0fc44p125F}.
      * <pre>
      * <font style='background-color: #0F192D;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0F192D; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1562,7 +1444,6 @@ public class Palette {
 
     /**
      * This color constant "Ninja" has RGBA8888 code {@code 1F1F3BFF}, L 0.16862746, A 0.5058824, B 0.46666667, alpha 1.0, hue 0.7778107, saturation 0.1649827, and chroma 0.06743233.
-     * Chroma limit is 0.16601562, raw gamut value is 41.
      * It can be represented as a packed float with the constant {@code -0x1.ef0256p125F}.
      * <pre>
      * <font style='background-color: #1F1F3B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #1F1F3B; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1575,7 +1456,6 @@ public class Palette {
 
     /**
      * This color constant "Watercolor Black" has RGBA8888 code {@code 3B3B57FF}, L 0.26666668, A 0.5058824, B 0.4745098, alpha 1.0, hue 0.7860971, saturation 0.047061935, and chroma 0.052115876.
-     * Chroma limit is 0.24023438, raw gamut value is 60.
      * It can be represented as a packed float with the constant {@code -0x1.f30288p125F}.
      * <pre>
      * <font style='background-color: #3B3B57;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3B3B57; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1588,7 +1468,6 @@ public class Palette {
 
     /**
      * This color constant "Iolite" has RGBA8888 code {@code 494973FF}, L 0.32156864, A 0.5058824, B 0.4627451, alpha 1.0, hue 0.7749365, saturation 0.07039239, and chroma 0.07513822.
-     * Chroma limit is 0.28320312, raw gamut value is 71.
      * It can be represented as a packed float with the constant {@code -0x1.ed02a4p125F}.
      * <pre>
      * <font style='background-color: #494973;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #494973; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1601,7 +1480,6 @@ public class Palette {
 
     /**
      * This color constant "Boysenberry" has RGBA8888 code {@code 57578FFF}, L 0.37254903, A 0.50980395, B 0.45490196, alpha 1.0, hue 0.7840724, saturation 0.09223726, and chroma 0.091942206.
-     * Chroma limit is 0.30273438, raw gamut value is 76.
      * It can be represented as a packed float with the constant {@code -0x1.e904bep125F}.
      * <pre>
      * <font style='background-color: #57578F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #57578F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1614,7 +1492,6 @@ public class Palette {
 
     /**
      * This color constant "Watercolor Gray" has RGBA8888 code {@code 736EAAFF}, L 0.45882353, A 0.50980395, B 0.45490196, alpha 1.0, hue 0.7840724, saturation 0.141824, and chroma 0.091942206.
-     * Chroma limit is 0.24414062, raw gamut value is 61.
      * It can be represented as a packed float with the constant {@code -0x1.e904eap125F}.
      * <pre>
      * <font style='background-color: #736EAA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #736EAA; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1627,7 +1504,6 @@ public class Palette {
 
     /**
      * This color constant "Blue Steel" has RGBA8888 code {@code 7676CAFF}, L 0.49411765, A 0.50980395, B 0.4392157, alpha 1.0, hue 0.77546334, saturation 0.32010388, and chroma 0.12265874.
-     * Chroma limit is 0.21679688, raw gamut value is 54.
      * It can be represented as a packed float with the constant {@code -0x1.e104fcp125F}.
      * <pre>
      * <font style='background-color: #7676CA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7676CA; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1640,7 +1516,6 @@ public class Palette {
 
     /**
      * This color constant "Twilight Cloud" has RGBA8888 code {@code 8F8FC7FF}, L 0.5686275, A 0.5058824, B 0.45882353, alpha 1.0, hue 0.77259654, saturation 0.21736506, and chroma 0.082864076.
-     * Chroma limit is 0.17773438, raw gamut value is 44.
      * It can be represented as a packed float with the constant {@code -0x1.eb0322p125F}.
      * <pre>
      * <font style='background-color: #8F8FC7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8F8FC7; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1653,7 +1528,6 @@ public class Palette {
 
     /**
      * This color constant "Smog" has RGBA8888 code {@code ABABE3FF}, L 0.6745098, A 0.5058824, B 0.4627451, alpha 1.0, hue 0.7749365, saturation 0.35029587, and chroma 0.07513822.
-     * Chroma limit is 0.12695312, raw gamut value is 31.
      * It can be represented as a packed float with the constant {@code -0x1.ed0358p125F}.
      * <pre>
      * <font style='background-color: #ABABE3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABABE3; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1666,7 +1540,6 @@ public class Palette {
 
     /**
      * This color constant "Tropic Mist" has RGBA8888 code {@code D0DAF8FF}, L 0.8392157, A 0.49803922, B 0.47843137, alpha 1.0, hue 0.735567, saturation 0.5078044, and chroma 0.04314594.
-     * Chroma limit is 0.060546875, raw gamut value is 14.
      * It can be represented as a packed float with the constant {@code -0x1.f4ffacp125F}.
      * <pre>
      * <font style='background-color: #D0DAF8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D0DAF8; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1679,7 +1552,6 @@ public class Palette {
 
     /**
      * This color constant "Feather Down" has RGBA8888 code {@code E3E3FFFF}, L 0.8862745, A 0.5019608, B 0.48235294, alpha 1.0, hue 0.7676211, saturation 0.5248, and chroma 0.0353726.
-     * Chroma limit is 0.048828125, raw gamut value is 11.
      * It can be represented as a packed float with the constant {@code -0x1.f701c4p125F}.
      * <pre>
      * <font style='background-color: #E3E3FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E3E3FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1692,7 +1564,6 @@ public class Palette {
 
     /**
      * This color constant "Mild Violet" has RGBA8888 code {@code AB8FC7FF}, L 0.59607846, A 0.52156866, B 0.46666667, alpha 1.0, hue 0.84141475, saturation 0.16076855, and chroma 0.079095535.
-     * Chroma limit is 0.19726562, raw gamut value is 49.
      * It can be represented as a packed float with the constant {@code -0x1.ef0b3p125F}.
      * <pre>
      * <font style='background-color: #AB8FC7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AB8FC7; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1705,7 +1576,6 @@ public class Palette {
 
     /**
      * This color constant "Violet Cushions" has RGBA8888 code {@code 8F57C7FF}, L 0.45882353, A 0.54509807, B 0.43137255, alpha 1.0, hue 0.8425412, saturation 0.3077058, and chroma 0.16359681.
-     * Chroma limit is 0.29492188, raw gamut value is 74.
      * It can be represented as a packed float with the constant {@code -0x1.dd16eap125F}.
      * <pre>
      * <font style='background-color: #8F57C7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8F57C7; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1718,7 +1588,6 @@ public class Palette {
 
     /**
      * This color constant "Dull Violet" has RGBA8888 code {@code 73578FFF}, L 0.4, A 0.5254902, B 0.4627451, alpha 1.0, hue 0.84551346, saturation 0.09549119, and chroma 0.08992863.
-     * Chroma limit is 0.29101562, raw gamut value is 73.
      * It can be represented as a packed float with the constant {@code -0x1.ed0cccp125F}.
      * <pre>
      * <font style='background-color: #73578F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #73578F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1731,7 +1600,6 @@ public class Palette {
 
     /**
      * This color constant "Royal Violet" has RGBA8888 code {@code 573B73FF}, L 0.30588236, A 0.5294118, B 0.45882353, alpha 1.0, hue 0.84872866, saturation 0.18195479, and chroma 0.1008085.
-     * Chroma limit is 0.23632812, raw gamut value is 59.
      * It can be represented as a packed float with the constant {@code -0x1.eb0e9cp125F}.
      * <pre>
      * <font style='background-color: #573B73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #573B73; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1744,7 +1612,6 @@ public class Palette {
 
     /**
      * This color constant "Eminence" has RGBA8888 code {@code 3C233CFF}, L 0.20784314, A 0.5254902, B 0.48235294, alpha 1.0, hue 0.9036119, saturation 0.1524158, and chroma 0.061763234.
-     * Chroma limit is 0.15820312, raw gamut value is 39.
      * It can be represented as a packed float with the constant {@code -0x1.f70c6ap125F}.
      * <pre>
      * <font style='background-color: #3C233C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3C233C; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1757,7 +1624,6 @@ public class Palette {
 
     /**
      * This color constant "Prune" has RGBA8888 code {@code 463246FF}, L 0.2509804, A 0.5176471, B 0.4862745, alpha 1.0, hue 0.8947796, saturation 0.057617728, and chroma 0.044538103.
-     * Chroma limit is 0.18554688, raw gamut value is 46.
      * It can be represented as a packed float with the constant {@code -0x1.f9088p125F}.
      * <pre>
      * <font style='background-color: #463246;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #463246; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1770,7 +1636,6 @@ public class Palette {
 
     /**
      * This color constant "Dusty Grape" has RGBA8888 code {@code 724072FF}, L 0.34509805, A 0.5411765, B 0.47058824, alpha 1.0, hue 0.90127134, saturation 0.18195479, and chroma 0.1008085.
-     * Chroma limit is 0.23632812, raw gamut value is 59.
      * It can be represented as a packed float with the constant {@code -0x1.f114bp125F}.
      * <pre>
      * <font style='background-color: #724072;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #724072; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1783,7 +1648,6 @@ public class Palette {
 
     /**
      * This color constant "Pink Violet" has RGBA8888 code {@code 8F578FFF}, L 0.42745098, A 0.5411765, B 0.47058824, alpha 1.0, hue 0.90127134, saturation 0.13399728, and chroma 0.1008085.
-     * Chroma limit is 0.27539062, raw gamut value is 69.
      * It can be represented as a packed float with the constant {@code -0x1.f114dap125F}.
      * <pre>
      * <font style='background-color: #8F578F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8F578F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1796,7 +1660,6 @@ public class Palette {
 
     /**
      * This color constant "Ripe Plum" has RGBA8888 code {@code AB57ABFF}, L 0.4745098, A 0.56078434, B 0.45882353, alpha 1.0, hue 0.9052252, saturation 0.24595413, and chroma 0.14626285.
-     * Chroma limit is 0.29492188, raw gamut value is 74.
      * It can be represented as a packed float with the constant {@code -0x1.eb1ef2p125F}.
      * <pre>
      * <font style='background-color: #AB57AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AB57AB; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1809,7 +1672,6 @@ public class Palette {
 
     /**
      * This color constant "Mauve" has RGBA8888 code {@code AB73ABFF}, L 0.5254902, A 0.5411765, B 0.47058824, alpha 1.0, hue 0.90127134, saturation 0.10026723, and chroma 0.1008085.
-     * Chroma limit is 0.31835938, raw gamut value is 80.
      * It can be represented as a packed float with the constant {@code -0x1.f1150cp125F}.
      * <pre>
      * <font style='background-color: #AB73AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AB73AB; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1822,7 +1684,6 @@ public class Palette {
 
     /**
      * This color constant "Ham" has RGBA8888 code {@code EBACE1FF}, L 0.74509805, A 0.5372549, B 0.4745098, alpha 1.0, hue 0.90448654, saturation 0.26764297, and chroma 0.08992863.
-     * Chroma limit is 0.17382812, raw gamut value is 43.
      * It can be represented as a packed float with the constant {@code -0x1.f3137cp125F}.
      * <pre>
      * <font style='background-color: #EBACE1;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #EBACE1; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1835,7 +1696,6 @@ public class Palette {
 
     /**
      * This color constant "Cotton Candy" has RGBA8888 code {@code FFDCF5FF}, L 0.89411765, A 0.5176471, B 0.49019608, alpha 1.0, hue 0.9192883, saturation 0.34612244, and chroma 0.040217306.
-     * Chroma limit is 0.068359375, raw gamut value is 16.
      * It can be represented as a packed float with the constant {@code -0x1.fb09c8p125F}.
      * <pre>
      * <font style='background-color: #FFDCF5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFDCF5; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1848,7 +1708,6 @@ public class Palette {
 
     /**
      * This color constant "Silver Pink" has RGBA8888 code {@code E3C7E3FF}, L 0.8, A 0.5176471, B 0.4862745, alpha 1.0, hue 0.8947796, saturation 0.12307692, and chroma 0.044538103.
-     * Chroma limit is 0.12695312, raw gamut value is 31.
      * It can be represented as a packed float with the constant {@code -0x1.f90998p125F}.
      * <pre>
      * <font style='background-color: #E3C7E3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E3C7E3; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1861,7 +1720,6 @@ public class Palette {
 
     /**
      * This color constant "Tea Rose" has RGBA8888 code {@code E1B9D2FF}, L 0.75686276, A 0.52156866, B 0.49019608, alpha 1.0, hue 0.93210673, saturation 0.10958904, and chroma 0.0471994.
-     * Chroma limit is 0.14257812, raw gamut value is 35.
      * It can be represented as a packed float with the constant {@code -0x1.fb0b82p125F}.
      * <pre>
      * <font style='background-color: #E1B9D2;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E1B9D2; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1874,7 +1732,6 @@ public class Palette {
 
     /**
      * This color constant "Old Rose" has RGBA8888 code {@code D7A0BEFF}, L 0.6784314, A 0.53333336, B 0.49019608, alpha 1.0, hue 0.954483, saturation 0.1516725, and chroma 0.069218926.
-     * Chroma limit is 0.17773438, raw gamut value is 44.
      * It can be represented as a packed float with the constant {@code -0x1.fb115ap125F}.
      * <pre>
      * <font style='background-color: #D7A0BE;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D7A0BE; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1887,7 +1744,6 @@ public class Palette {
 
     /**
      * This color constant "Dusty Pink" has RGBA8888 code {@code C78FB9FF}, L 0.61960787, A 0.5372549, B 0.48235294, alpha 1.0, hue 0.9295985, saturation 0.09994912, and chroma 0.0821242.
-     * Chroma limit is 0.25976562, raw gamut value is 65.
      * It can be represented as a packed float with the constant {@code -0x1.f7133cp125F}.
      * <pre>
      * <font style='background-color: #C78FB9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C78FB9; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1900,7 +1756,6 @@ public class Palette {
 
     /**
      * This color constant "Roseate Spoonbill" has RGBA8888 code {@code C87DA0FF}, L 0.5764706, A 0.54509807, B 0.49019608, alpha 1.0, hue 0.96592754, saturation 0.13739227, and chroma 0.091942206.
-     * Chroma limit is 0.24804688, raw gamut value is 62.
      * It can be represented as a packed float with the constant {@code -0x1.fb1726p125F}.
      * <pre>
      * <font style='background-color: #C87DA0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C87DA0; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1913,7 +1768,6 @@ public class Palette {
 
     /**
      * This color constant "Thulian Pink" has RGBA8888 code {@code C35A91FF}, L 0.49803922, A 0.5686275, B 0.48235294, alpha 1.0, hue 0.95994633, saturation 0.25546482, and chroma 0.1411665.
-     * Chroma limit is 0.27929688, raw gamut value is 70.
      * It can be represented as a packed float with the constant {@code -0x1.f722fep125F}.
      * <pre>
      * <font style='background-color: #C35A91;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C35A91; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1926,7 +1780,6 @@ public class Palette {
 
     /**
      * This color constant "Brown Velvet" has RGBA8888 code {@code 4B2837FF}, L 0.23137255, A 0.5294118, B 0.49411765, alpha 1.0, hue 0.96857655, saturation 0.14997597, and chroma 0.059754133.
-     * Chroma limit is 0.15429688, raw gamut value is 38.
      * It can be represented as a packed float with the constant {@code -0x1.fd0e76p125F}.
      * <pre>
      * <font style='background-color: #4B2837;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #4B2837; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1939,7 +1792,6 @@ public class Palette {
 
     /**
      * This color constant "Nightshade" has RGBA8888 code {@code 321623FF}, L 0.16078432, A 0.5294118, B 0.49411765, alpha 1.0, hue 0.96857655, saturation 0.26888826, and chroma 0.059754133.
-     * Chroma limit is 0.115234375, raw gamut value is 28.
      * It can be represented as a packed float with the constant {@code -0x1.fd0e52p125F}.
      * <pre>
      * <font style='background-color: #321623;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #321623; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1952,7 +1804,6 @@ public class Palette {
 
     /**
      * This color constant "Scribe Ink" has RGBA8888 code {@code 280A1EFF}, L 0.1254902, A 0.53333336, B 0.4862745, alpha 1.0, hue 0.9378436, saturation 0.51980007, and chroma 0.071815535.
-     * Chroma limit is 0.099609375, raw gamut value is 24.
      * It can be represented as a packed float with the constant {@code -0x1.f9104p125F}.
      * <pre>
      * <font style='background-color: #280A1E;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #280A1E; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1965,7 +1816,6 @@ public class Palette {
 
     /**
      * This color constant "Varnish" has RGBA8888 code {@code 401811FF}, L 0.18039216, A 0.5294118, B 0.5176471, alpha 1.0, hue 0.08601887, saturation 0.3516231, and chroma 0.068331465.
-     * Chroma limit is 0.115234375, raw gamut value is 28.
      * It can be represented as a packed float with the constant {@code -0x1.090e5cp126F}.
      * <pre>
      * <font style='background-color: #401811;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #401811; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1978,7 +1828,6 @@ public class Palette {
 
     /**
      * This color constant "Cedar Wood" has RGBA8888 code {@code 621800FF}, L 0.23137255, A 0.54901963, B 0.53333336, alpha 1.0, hue 0.095056064, saturation 0.8144353, and chroma 0.11809544.
-     * Chroma limit is 0.13085938, raw gamut value is 32.
      * It can be represented as a packed float with the constant {@code -0x1.111876p126F}.
      * <pre>
      * <font style='background-color: #621800;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #621800; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1991,7 +1840,6 @@ public class Palette {
 
     /**
      * This color constant "Hot Sauce" has RGBA8888 code {@code A5140AFF}, L 0.34117648, A 0.5803922, B 0.54509807, alpha 1.0, hue 0.08136994, saturation 0.8018141, and chroma 0.1836353.
-     * Chroma limit is 0.20507812, raw gamut value is 51.
      * It can be represented as a packed float with the constant {@code -0x1.1728aep126F}.
      * <pre>
      * <font style='background-color: #A5140A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A5140A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2004,7 +1852,6 @@ public class Palette {
 
     /**
      * This color constant "Lurid Red" has RGBA8888 code {@code DA2010FF}, L 0.43529412, A 0.5921569, B 0.5529412, alpha 1.0, hue 0.08299518, saturation 0.8026774, and chroma 0.21173172.
-     * Chroma limit is 0.23632812, raw gamut value is 59.
      * It can be represented as a packed float with the constant {@code -0x1.1b2edep126F}.
      * <pre>
      * <font style='background-color: #DA2010;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #DA2010; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2017,7 +1864,6 @@ public class Palette {
 
     /**
      * This color constant "Brick" has RGBA8888 code {@code D5524AFF}, L 0.49019608, A 0.5686275, B 0.53333336, alpha 1.0, hue 0.07195936, saturation 0.3226597, and chroma 0.15199278.
-     * Chroma limit is 0.26757812, raw gamut value is 67.
      * It can be represented as a packed float with the constant {@code -0x1.1122fap126F}.
      * <pre>
      * <font style='background-color: #D5524A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D5524A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2030,7 +1876,6 @@ public class Palette {
 
     /**
      * This color constant "Bright Red" has RGBA8888 code {@code FF3C0AFF}, L 0.52156866, A 0.5921569, B 0.5647059, alpha 1.0, hue 0.097439915, saturation 0.844288, and chroma 0.22432896.
-     * Chroma limit is 0.24414062, raw gamut value is 61.
      * It can be represented as a packed float with the constant {@code -0x1.212f0ap126F}.
      * <pre>
      * <font style='background-color: #FF3C0A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF3C0A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2043,7 +1888,6 @@ public class Palette {
 
     /**
      * This color constant "Embers" has RGBA8888 code {@code F55A32FF}, L 0.54901963, A 0.57254905, B 0.5568628, alpha 1.0, hue 0.10581406, saturation 0.645774, and chroma 0.1836353.
-     * Chroma limit is 0.22851562, raw gamut value is 57.
      * It can be represented as a packed float with the constant {@code -0x1.1d2518p126F}.
      * <pre>
      * <font style='background-color: #F55A32;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F55A32; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2056,7 +1900,6 @@ public class Palette {
 
     /**
      * This color constant "Salmon" has RGBA8888 code {@code FF6262FF}, L 0.58431375, A 0.5803922, B 0.53333336, alpha 1.0, hue 0.06254671, saturation 0.7724733, and chroma 0.17337766.
-     * Chroma limit is 0.19726562, raw gamut value is 49.
      * It can be represented as a packed float with the constant {@code -0x1.11292ap126F}.
      * <pre>
      * <font style='background-color: #FF6262;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF6262; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2069,7 +1912,6 @@ public class Palette {
 
     /**
      * This color constant "Taxicab Yellow" has RGBA8888 code {@code F6BD31FF}, L 0.7529412, A 0.5019608, B 0.5764706, alpha 1.0, hue 0.24593177, saturation 0.7038964, and chroma 0.15239382.
-     * Chroma limit is 0.18164062, raw gamut value is 45.
      * It can be represented as a packed float with the constant {@code -0x1.27018p126F}.
      * <pre>
      * <font style='background-color: #F6BD31;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F6BD31; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2082,7 +1924,6 @@ public class Palette {
 
     /**
      * This color constant "Apricot" has RGBA8888 code {@code FFA53CFF}, L 0.7058824, A 0.5254902, B 0.5686275, alpha 1.0, hue 0.19341156, saturation 0.6733486, and chroma 0.14584495.
-     * Chroma limit is 0.17773438, raw gamut value is 44.
      * It can be represented as a packed float with the constant {@code -0x1.230d68p126F}.
      * <pre>
      * <font style='background-color: #FFA53C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFA53C; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2095,7 +1936,6 @@ public class Palette {
 
     /**
      * This color constant "Burnt Yellow" has RGBA8888 code {@code D79B0FFF}, L 0.6313726, A 0.5058824, B 0.57254905, alpha 1.0, hue 0.23712316, saturation 0.76290655, and chroma 0.14500555.
-     * Chroma limit is 0.16601562, raw gamut value is 41.
      * It can be represented as a packed float with the constant {@code -0x1.250342p126F}.
      * <pre>
      * <font style='background-color: #D79B0F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D79B0F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2108,7 +1948,6 @@ public class Palette {
 
     /**
      * This color constant "Dry Pepper" has RGBA8888 code {@code DA6E0AFF}, L 0.5411765, A 0.5411765, B 0.5647059, alpha 1.0, hue 0.15979148, saturation 0.77262974, and chroma 0.15279381.
-     * Chroma limit is 0.17382812, raw gamut value is 43.
      * It can be represented as a packed float with the constant {@code -0x1.211514p126F}.
      * <pre>
      * <font style='background-color: #DA6E0A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #DA6E0A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2121,7 +1960,6 @@ public class Palette {
 
     /**
      * This color constant "Redwood" has RGBA8888 code {@code B45A00FF}, L 0.4509804, A 0.5372549, B 0.5568628, alpha 1.0, hue 0.15767807, saturation 0.7703894, and chroma 0.13542919.
-     * Chroma limit is 0.15429688, raw gamut value is 38.
      * It can be represented as a packed float with the constant {@code -0x1.1d12e6p126F}.
      * <pre>
      * <font style='background-color: #B45A00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B45A00; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2134,7 +1972,6 @@ public class Palette {
 
     /**
      * This color constant "Koa" has RGBA8888 code {@code A04B05FF}, L 0.39607844, A 0.5372549, B 0.5529412, alpha 1.0, hue 0.15239218, saturation 0.81816477, and chroma 0.12896542.
-     * Chroma limit is 0.14257812, raw gamut value is 35.
      * It can be represented as a packed float with the constant {@code -0x1.1b12cap126F}.
      * <pre>
      * <font style='background-color: #A04B05;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A04B05; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2147,7 +1984,6 @@ public class Palette {
 
     /**
      * This color constant "Ochre" has RGBA8888 code {@code 5F3214FF}, L 0.26666668, A 0.52156866, B 0.53333336, alpha 1.0, hue 0.15858527, saturation 0.5838377, and chroma 0.079095535.
-     * Chroma limit is 0.103515625, raw gamut value is 25.
      * It can be represented as a packed float with the constant {@code -0x1.110a88p126F}.
      * <pre>
      * <font style='background-color: #5F3214;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #5F3214; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2160,7 +1996,6 @@ public class Palette {
 
     /**
      * This color constant "Dull Green" has RGBA8888 code {@code 53500AFF}, L 0.31764707, A 0.48235294, B 0.54509807, alpha 1.0, hue 0.30935085, saturation 0.7510003, and chroma 0.096477255.
-     * Chroma limit is 0.111328125, raw gamut value is 27.
      * It can be represented as a packed float with the constant {@code -0x1.16f6a2p126F}.
      * <pre>
      * <font style='background-color: #53500A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #53500A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2173,7 +2008,6 @@ public class Palette {
 
     /**
      * This color constant "Army Green" has RGBA8888 code {@code 626200FF}, L 0.37254903, A 0.47843137, B 0.54901963, alpha 1.0, hue 0.31596267, saturation 0.7062722, and chroma 0.106691405.
-     * Chroma limit is 0.12695312, raw gamut value is 31.
      * It can be represented as a packed float with the constant {@code -0x1.18f4bep126F}.
      * <pre>
      * <font style='background-color: #626200;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #626200; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2186,7 +2020,6 @@ public class Palette {
 
     /**
      * This color constant "Driftwood" has RGBA8888 code {@code 8C805AFF}, L 0.49411765, A 0.49803922, B 0.5254902, alpha 1.0, hue 0.26221767, saturation 0.12760368, and chroma 0.050931267.
-     * Chroma limit is 0.14257812, raw gamut value is 35.
      * It can be represented as a packed float with the constant {@code -0x1.0cfefcp126F}.
      * <pre>
      * <font style='background-color: #8C805A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8C805A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2199,7 +2032,6 @@ public class Palette {
 
     /**
      * This color constant "Dry Brush" has RGBA8888 code {@code AC9400FF}, L 0.5647059, A 0.4862745, B 0.5686275, alpha 1.0, hue 0.28142345, saturation 0.77671087, and chroma 0.13942632.
-     * Chroma limit is 0.15820312, raw gamut value is 39.
      * It can be represented as a packed float with the constant {@code -0x1.22f92p126F}.
      * <pre>
      * <font style='background-color: #AC9400;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AC9400; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2212,7 +2044,6 @@ public class Palette {
 
     /**
      * This color constant "Mush" has RGBA8888 code {@code B1B10AFF}, L 0.6431373, A 0.47058824, B 0.5764706, alpha 1.0, hue 0.30842525, saturation 0.8074922, and chroma 0.1632233.
-     * Chroma limit is 0.18164062, raw gamut value is 45.
      * It can be represented as a packed float with the constant {@code -0x1.26f148p126F}.
      * <pre>
      * <font style='background-color: #B1B10A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B1B10A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2225,7 +2056,6 @@ public class Palette {
 
     /**
      * This color constant "Banana Pudding" has RGBA8888 code {@code E6D55AFF}, L 0.8, A 0.48235294, B 0.5647059, alpha 1.0, hue 0.29236877, saturation 0.45877856, and chroma 0.1336143.
-     * Chroma limit is 0.19726562, raw gamut value is 49.
      * It can be represented as a packed float with the constant {@code -0x1.20f798p126F}.
      * <pre>
      * <font style='background-color: #E6D55A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E6D55A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2238,7 +2068,6 @@ public class Palette {
 
     /**
      * This color constant "Saffron" has RGBA8888 code {@code FFD510FF}, L 0.8235294, A 0.4862745, B 0.5882353, alpha 1.0, hue 0.27457327, saturation 0.8132536, and chroma 0.17789528.
-     * Chroma limit is 0.19726562, raw gamut value is 49.
      * It can be represented as a packed float with the constant {@code -0x1.2cf9a4p126F}.
      * <pre>
      * <font style='background-color: #FFD510;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFD510; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2251,7 +2080,6 @@ public class Palette {
 
     /**
      * This color constant "Pencil Yellow" has RGBA8888 code {@code FFEA4AFF}, L 0.8862745, A 0.47843137, B 0.5803922, alpha 1.0, hue 0.29171178, saturation 0.62957466, and chroma 0.1658202.
-     * Chroma limit is 0.20898438, raw gamut value is 52.
      * It can be represented as a packed float with the constant {@code -0x1.28f5c4p126F}.
      * <pre>
      * <font style='background-color: #FFEA4A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFEA4A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2264,7 +2092,6 @@ public class Palette {
 
     /**
      * This color constant "Chartreuse" has RGBA8888 code {@code C8FF41FF}, L 0.8901961, A 0.4392157, B 0.58431375, alpha 1.0, hue 0.34942675, saturation 0.82109725, and chroma 0.2070681.
-     * Chroma limit is 0.22851562, raw gamut value is 57.
      * It can be represented as a packed float with the constant {@code -0x1.2ae1c6p126F}.
      * <pre>
      * <font style='background-color: #C8FF41;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C8FF41; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2277,7 +2104,6 @@ public class Palette {
 
     /**
      * This color constant "Absinthe" has RGBA8888 code {@code 9BF046FF}, L 0.8039216, A 0.42745098, B 0.5764706, alpha 1.0, hue 0.37081593, saturation 0.6159092, and chroma 0.209995.
-     * Chroma limit is 0.26757812, raw gamut value is 67.
      * It can be represented as a packed float with the constant {@code -0x1.26db9ap126F}.
      * <pre>
      * <font style='background-color: #9BF046;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #9BF046; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2290,7 +2116,6 @@ public class Palette {
 
     /**
      * This color constant "Infection" has RGBA8888 code {@code 96DC19FF}, L 0.7372549, A 0.43137255, B 0.5803922, alpha 1.0, hue 0.3624701, saturation 0.76832575, and chroma 0.2105755.
-     * Chroma limit is 0.24023438, raw gamut value is 60.
      * It can be represented as a packed float with the constant {@code -0x1.28dd78p126F}.
      * <pre>
      * <font style='background-color: #96DC19;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #96DC19; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2303,7 +2128,6 @@ public class Palette {
 
     /**
      * This color constant "Frog Green" has RGBA8888 code {@code 73C805FF}, L 0.6509804, A 0.42745098, B 0.5764706, alpha 1.0, hue 0.37081593, saturation 0.78956354, and chroma 0.209995.
-     * Chroma limit is 0.23632812, raw gamut value is 59.
      * It can be represented as a packed float with the constant {@code -0x1.26db4cp126F}.
      * <pre>
      * <font style='background-color: #73C805;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #73C805; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2316,7 +2140,6 @@ public class Palette {
 
     /**
      * This color constant "Avocado" has RGBA8888 code {@code 6AA805FF}, L 0.5568628, A 0.4392157, B 0.5686275, alpha 1.0, hue 0.3653732, saturation 0.7637348, and chroma 0.18263547.
-     * Chroma limit is 0.20898438, raw gamut value is 52.
      * It can be represented as a packed float with the constant {@code -0x1.22e11cp126F}.
      * <pre>
      * <font style='background-color: #6AA805;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #6AA805; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2329,7 +2152,6 @@ public class Palette {
 
     /**
      * This color constant "Woodlands" has RGBA8888 code {@code 3C6E14FF}, L 0.3764706, A 0.4509804, B 0.54901963, alpha 1.0, hue 0.375, saturation 0.63123345, and chroma 0.1381068.
-     * Chroma limit is 0.17382812, raw gamut value is 43.
      * It can be represented as a packed float with the constant {@code -0x1.18e6cp126F}.
      * <pre>
      * <font style='background-color: #3C6E14;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3C6E14; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2342,7 +2164,6 @@ public class Palette {
 
     /**
      * This color constant "Dark Pine" has RGBA8888 code {@code 283405FF}, L 0.21176471, A 0.4745098, B 0.5294118, alpha 1.0, hue 0.3636593, saturation 0.56105375, and chroma 0.07753685.
-     * Chroma limit is 0.103515625, raw gamut value is 25.
      * It can be represented as a packed float with the constant {@code -0x1.0ef26cp126F}.
      * <pre>
      * <font style='background-color: #283405;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #283405; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2355,7 +2176,6 @@ public class Palette {
 
     /**
      * This color constant "Moss Green" has RGBA8888 code {@code 204608FF}, L 0.25490198, A 0.45882353, B 0.5372549, alpha 1.0, hue 0.38294512, saturation 0.6363817, and chroma 0.11062346.
-     * Chroma limit is 0.13867188, raw gamut value is 34.
      * It can be represented as a packed float with the constant {@code -0x1.12ea82p126F}.
      * <pre>
      * <font style='background-color: #204608;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #204608; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2368,7 +2188,6 @@ public class Palette {
 
     /**
      * This color constant "Fern Green" has RGBA8888 code {@code 0C5C0CFF}, L 0.30980393, A 0.4392157, B 0.5411765, alpha 1.0, hue 0.40522522, saturation 0.9969778, and chroma 0.14626285.
-     * Chroma limit is 0.14648438, raw gamut value is 36.
      * It can be represented as a packed float with the constant {@code -0x1.14e09ep126F}.
      * <pre>
      * <font style='background-color: #0C5C0C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0C5C0C; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2381,7 +2200,6 @@ public class Palette {
 
     /**
      * This color constant "Forest Glen" has RGBA8888 code {@code 149605FF}, L 0.47058824, A 0.41568628, B 0.56078434, alpha 1.0, hue 0.40057325, saturation 1.0195011, and chroma 0.2070681.
-     * Chroma limit is 0.20507812, raw gamut value is 51.
      * It can be represented as a packed float with the constant {@code -0x1.1ed4fp126F}.
      * <pre>
      * <font style='background-color: #149605;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #149605; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2394,7 +2212,6 @@ public class Palette {
 
     /**
      * This color constant "Malachite" has RGBA8888 code {@code 0AD70AFF}, L 0.65882355, A 0.39215687, B 0.5764706, alpha 1.0, hue 0.40182015, saturation 0.99775034, and chroma 0.26337513.
-     * Chroma limit is 0.26367188, raw gamut value is 66.
      * It can be represented as a packed float with the constant {@code -0x1.26c95p126F}.
      * <pre>
      * <font style='background-color: #0AD70A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0AD70A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2407,7 +2224,6 @@ public class Palette {
 
     /**
      * This color constant "Apple Green" has RGBA8888 code {@code 14E60AFF}, L 0.7058824, A 0.3882353, B 0.5803922, alpha 1.0, hue 0.4007443, saturation 0.9919018, and chroma 0.27427328.
-     * Chroma limit is 0.27539062, raw gamut value is 69.
      * It can be represented as a packed float with the constant {@code -0x1.28c768p126F}.
      * <pre>
      * <font style='background-color: #14E60A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #14E60A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2420,7 +2236,6 @@ public class Palette {
 
     /**
      * This color constant "Celery" has RGBA8888 code {@code 7DFF73FF}, L 0.8392157, A 0.41960785, B 0.56078434, alpha 1.0, hue 0.39695174, saturation 0.77200675, and chroma 0.20078278.
-     * Chroma limit is 0.22851562, raw gamut value is 57.
      * It can be represented as a packed float with the constant {@code -0x1.1ed7acp126F}.
      * <pre>
      * <font style='background-color: #7DFF73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7DFF73; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2433,7 +2248,6 @@ public class Palette {
 
     /**
      * This color constant "Mint Green" has RGBA8888 code {@code 4BF05AFF}, L 0.7607843, A 0.40392157, B 0.5647059, alpha 1.0, hue 0.40565702, saturation 0.682674, and chroma 0.23076649.
-     * Chroma limit is 0.27929688, raw gamut value is 70.
      * It can be represented as a packed float with the constant {@code -0x1.20cf84p126F}.
      * <pre>
      * <font style='background-color: #4BF05A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #4BF05A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2446,7 +2260,6 @@ public class Palette {
 
     /**
      * This color constant "Emerald" has RGBA8888 code {@code 00C514FF}, L 0.6039216, A 0.4, B 0.57254905, alpha 1.0, hue 0.40009674, saturation 0.984562, and chroma 0.24612474.
-     * Chroma limit is 0.24804688, raw gamut value is 62.
      * It can be represented as a packed float with the constant {@code -0x1.24cd34p126F}.
      * <pre>
      * <font style='background-color: #00C514;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00C514; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2459,7 +2272,6 @@ public class Palette {
 
     /**
      * This color constant "Prase" has RGBA8888 code {@code 05B450FF}, L 0.56078434, A 0.41568628, B 0.54509807, alpha 1.0, hue 0.4218265, saturation 0.9324576, and chroma 0.19048727.
-     * Chroma limit is 0.19726562, raw gamut value is 49.
      * It can be represented as a packed float with the constant {@code -0x1.16d51ep126F}.
      * <pre>
      * <font style='background-color: #05B450;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #05B450; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2472,7 +2284,6 @@ public class Palette {
 
     /**
      * This color constant "Eucalyptus" has RGBA8888 code {@code 1C8C4EFF}, L 0.4509804, A 0.43529412, B 0.5294118, alpha 1.0, hue 0.43210676, saturation 0.84217274, and chroma 0.1415982.
-     * Chroma limit is 0.15429688, raw gamut value is 38.
      * It can be represented as a packed float with the constant {@code -0x1.0edee6p126F}.
      * <pre>
      * <font style='background-color: #1C8C4E;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #1C8C4E; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2485,7 +2296,6 @@ public class Palette {
 
     /**
      * This color constant "Zucchini" has RGBA8888 code {@code 123832FF}, L 0.21960784, A 0.47058824, B 0.49803922, alpha 1.0, hue 0.5105898, saturation 0.7379592, and chroma 0.058723815.
-     * Chroma limit is 0.068359375, raw gamut value is 16.
      * It can be represented as a packed float with the constant {@code -0x1.fef07p125F}.
      * <pre>
      * <font style='background-color: #123832;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #123832; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2498,7 +2308,6 @@ public class Palette {
 
     /**
      * This color constant "Soft Teal" has RGBA8888 code {@code 129880FF}, L 0.49803922, A 0.4392157, B 0.5019608, alpha 1.0, hue 0.49488065, saturation 0.9107692, and chroma 0.12115674.
-     * Chroma limit is 0.12695312, raw gamut value is 31.
      * It can be represented as a packed float with the constant {@code -0x1.00e0fep126F}.
      * <pre>
      * <font style='background-color: #129880;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #129880; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2511,7 +2320,6 @@ public class Palette {
 
     /**
      * This color constant "Medium Teal" has RGBA8888 code {@code 06C491FF}, L 0.62352943, A 0.42352942, B 0.5137255, alpha 1.0, hue 0.47172436, saturation 0.95717114, and chroma 0.15477823.
-     * Chroma limit is 0.15820312, raw gamut value is 39.
      * It can be represented as a packed float with the constant {@code -0x1.06d93ep126F}.
      * <pre>
      * <font style='background-color: #06C491;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #06C491; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2524,7 +2332,6 @@ public class Palette {
 
     /**
      * This color constant "Spring Green" has RGBA8888 code {@code 00DE6AFF}, L 0.6901961, A 0.40392157, B 0.54901963, alpha 1.0, hue 0.42491466, saturation 0.94792074, and chroma 0.21487926.
-     * Chroma limit is 0.22070312, raw gamut value is 55.
      * It can be represented as a packed float with the constant {@code -0x1.18cf6p126F}.
      * <pre>
      * <font style='background-color: #00DE6A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00DE6A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2537,7 +2344,6 @@ public class Palette {
 
     /**
      * This color constant "Turquoise" has RGBA8888 code {@code 2DEBA8FF}, L 0.7529412, A 0.41568628, B 0.52156866, alpha 1.0, hue 0.46014452, saturation 0.83749604, and chroma 0.17337766.
-     * Chroma limit is 0.18945312, raw gamut value is 47.
      * It can be represented as a packed float with the constant {@code -0x1.0ad58p126F}.
      * <pre>
      * <font style='background-color: #2DEBA8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #2DEBA8; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2550,7 +2356,6 @@ public class Palette {
 
     /**
      * This color constant "Seafoam" has RGBA8888 code {@code 3CFEA5FF}, L 0.8156863, A 0.4117647, B 0.5294118, alpha 1.0, hue 0.44880432, saturation 0.78609484, and chroma 0.18528971.
-     * Chroma limit is 0.20898438, raw gamut value is 52.
      * It can be represented as a packed float with the constant {@code -0x1.0ed3ap126F}.
      * <pre>
      * <font style='background-color: #3CFEA5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3CFEA5; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2563,7 +2368,6 @@ public class Palette {
 
     /**
      * This color constant "Variscite" has RGBA8888 code {@code 6AFFCDFF}, L 0.8509804, A 0.43137255, B 0.50980395, alpha 1.0, hue 0.47740343, saturation 0.72579473, and chroma 0.1381068.
-     * Chroma limit is 0.16210938, raw gamut value is 40.
      * It can be represented as a packed float with the constant {@code -0x1.04ddb2p126F}.
      * <pre>
      * <font style='background-color: #6AFFCD;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #6AFFCD; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2576,7 +2380,6 @@ public class Palette {
 
     /**
      * This color constant "Refreshing Mist" has RGBA8888 code {@code 91EBFFFF}, L 0.8352941, A 0.4627451, B 0.4745098, alpha 1.0, hue 0.59551346, saturation 0.8150711, and chroma 0.08992863.
-     * Chroma limit is 0.099609375, raw gamut value is 24.
      * It can be represented as a packed float with the constant {@code -0x1.f2edaap125F}.
      * <pre>
      * <font style='background-color: #91EBFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #91EBFF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2589,7 +2392,6 @@ public class Palette {
 
     /**
      * This color constant "Shining Sky" has RGBA8888 code {@code 55E6FFFF}, L 0.78431374, A 0.44313726, B 0.46666667, alpha 1.0, hue 0.5843938, saturation 0.8481892, and chroma 0.13131043.
-     * Chroma limit is 0.14257812, raw gamut value is 35.
      * It can be represented as a packed float with the constant {@code -0x1.eee39p125F}.
      * <pre>
      * <font style='background-color: #55E6FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #55E6FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2602,7 +2404,6 @@ public class Palette {
 
     /**
      * This color constant "Steam" has RGBA8888 code {@code 7DD7F0FF}, L 0.75686276, A 0.4627451, B 0.47058824, alpha 1.0, hue 0.6063733, saturation 0.49233353, and chroma 0.0945603.
-     * Chroma limit is 0.13476562, raw gamut value is 33.
      * It can be represented as a packed float with the constant {@code -0x1.f0ed82p125F}.
      * <pre>
      * <font style='background-color: #7DD7F0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7DD7F0; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2615,7 +2416,6 @@ public class Palette {
 
     /**
      * This color constant "Robin Egg Blue" has RGBA8888 code {@code 08DED5FF}, L 0.7254902, A 0.42745098, B 0.4862745, alpha 1.0, hue 0.5297675, saturation 0.90882874, and chroma 0.14709508.
-     * Chroma limit is 0.15429688, raw gamut value is 38.
      * It can be represented as a packed float with the constant {@code -0x1.f8db72p125F}.
      * <pre>
      * <font style='background-color: #08DED5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #08DED5; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2628,7 +2428,6 @@ public class Palette {
 
     /**
      * This color constant "Denim Blue" has RGBA8888 code {@code 109CDEFF}, L 0.54509807, A 0.45490196, B 0.4392157, alpha 1.0, hue 0.6483954, saturation 0.9549752, and chroma 0.15078327.
-     * Chroma limit is 0.15429688, raw gamut value is 38.
      * It can be represented as a packed float with the constant {@code -0x1.e0e916p125F}.
      * <pre>
      * <font style='background-color: #109CDE;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #109CDE; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2641,7 +2440,6 @@ public class Palette {
 
     /**
      * This color constant "Deep Teal" has RGBA8888 code {@code 055A5CFF}, L 0.32156864, A 0.4627451, B 0.4862745, alpha 1.0, hue 0.55616736, saturation 0.80987656, and chroma 0.079095535.
-     * Chroma limit is 0.087890625, raw gamut value is 21.
      * It can be represented as a packed float with the constant {@code -0x1.f8eca4p125F}.
      * <pre>
      * <font style='background-color: #055A5C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #055A5C; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2654,7 +2452,6 @@ public class Palette {
 
     /**
      * This color constant "Navy Blue" has RGBA8888 code {@code 162C52FF}, L 0.20392157, A 0.49019608, B 0.45882353, alpha 1.0, hue 0.7127991, saturation 0.3697679, and chroma 0.084324345.
-     * Chroma limit is 0.13867188, raw gamut value is 34.
      * It can be represented as a packed float with the constant {@code -0x1.eafa68p125F}.
      * <pre>
      * <font style='background-color: #162C52;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #162C52; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2667,7 +2464,6 @@ public class Palette {
 
     /**
      * This color constant "Blueberry" has RGBA8888 code {@code 0F377DFF}, L 0.25490198, A 0.4862745, B 0.43137255, alpha 1.0, hue 0.71857655, saturation 0.61538464, and chroma 0.13942632.
-     * Chroma limit is 0.17773438, raw gamut value is 44.
      * It can be represented as a packed float with the constant {@code -0x1.dcf882p125F}.
      * <pre>
      * <font style='background-color: #0F377D;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0F377D; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2680,7 +2476,6 @@ public class Palette {
 
     /**
      * This color constant "Prussian Blue" has RGBA8888 code {@code 004A9CFF}, L 0.3137255, A 0.47843137, B 0.42352942, alpha 1.0, hue 0.70625466, saturation 0.86775005, and chroma 0.1582875.
-     * Chroma limit is 0.16992188, raw gamut value is 42.
      * It can be represented as a packed float with the constant {@code -0x1.d8f4ap125F}.
      * <pre>
      * <font style='background-color: #004A9C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #004A9C; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2693,7 +2488,6 @@ public class Palette {
 
     /**
      * This color constant "Desert Rain" has RGBA8888 code {@code 326496FF}, L 0.38431373, A 0.47843137, B 0.4509804, alpha 1.0, hue 0.6840373, saturation 0.4548087, and chroma 0.106691405.
-     * Chroma limit is 0.15820312, raw gamut value is 39.
      * It can be represented as a packed float with the constant {@code -0x1.e6f4c4p125F}.
      * <pre>
      * <font style='background-color: #326496;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #326496; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2706,7 +2500,6 @@ public class Palette {
 
     /**
      * This color constant "Electric Blue" has RGBA8888 code {@code 0052F6FF}, L 0.39607844, A 0.48235294, B 0.3764706, alpha 1.0, hue 0.72740346, saturation 0.8384659, and chroma 0.24859223.
-     * Chroma limit is 0.27148438, raw gamut value is 68.
      * It can be represented as a packed float with the constant {@code -0x1.c0f6cap125F}.
      * <pre>
      * <font style='background-color: #0052F6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0052F6; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2719,7 +2512,6 @@ public class Palette {
 
     /**
      * This color constant "Hidden Blue" has RGBA8888 code {@code 186ABDFF}, L 0.40784314, A 0.4745098, B 0.42745098, alpha 1.0, hue 0.696238, saturation 0.681662, and chroma 0.15319274.
-     * Chroma limit is 0.18554688, raw gamut value is 46.
      * It can be represented as a packed float with the constant {@code -0x1.daf2dp125F}.
      * <pre>
      * <font style='background-color: #186ABD;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #186ABD; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2732,7 +2524,6 @@ public class Palette {
 
     /**
      * This color constant "Dull Azure" has RGBA8888 code {@code 2378DCFF}, L 0.4627451, A 0.4745098, B 0.41960785, alpha 1.0, hue 0.70114374, saturation 0.64634466, and chroma 0.16801417.
-     * Chroma limit is 0.20898438, raw gamut value is 52.
      * It can be represented as a packed float with the constant {@code -0x1.d6f2ecp125F}.
      * <pre>
      * <font style='background-color: #2378DC;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #2378DC; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2745,7 +2536,6 @@ public class Palette {
 
     /**
      * This color constant "Ripped Denim" has RGBA8888 code {@code 699DC3FF}, L 0.57254905, A 0.47843137, B 0.46666667, alpha 1.0, hue 0.65858525, saturation 0.21667327, and chroma 0.079095535.
-     * Chroma limit is 0.16992188, raw gamut value is 42.
      * It can be represented as a packed float with the constant {@code -0x1.eef524p125F}.
      * <pre>
      * <font style='background-color: #699DC3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #699DC3; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2758,7 +2548,6 @@ public class Palette {
 
     /**
      * This color constant "Calm Sky" has RGBA8888 code {@code 4AA4FFFF}, L 0.6, A 0.47058824, B 0.42745098, alpha 1.0, hue 0.6887114, saturation 0.88249135, and chroma 0.15595676.
-     * Chroma limit is 0.16601562, raw gamut value is 41.
      * It can be represented as a packed float with the constant {@code -0x1.daf132p125F}.
      * <pre>
      * <font style='background-color: #4AA4FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #4AA4FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2771,7 +2560,6 @@ public class Palette {
 
     /**
      * This color constant "Vapor" has RGBA8888 code {@code 90B0FFFF}, L 0.6745098, A 0.49411765, B 0.44313726, alpha 1.0, hue 0.7335864, saturation 0.85663897, and chroma 0.11388578.
-     * Chroma limit is 0.123046875, raw gamut value is 30.
      * It can be represented as a packed float with the constant {@code -0x1.e2fd58p125F}.
      * <pre>
      * <font style='background-color: #90B0FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #90B0FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2784,7 +2572,6 @@ public class Palette {
 
     /**
      * This color constant "Powder Blue" has RGBA8888 code {@code 5AC5FFFF}, L 0.69411767, A 0.4627451, B 0.4509804, alpha 1.0, hue 0.6465574, saturation 0.78238446, and chroma 0.12265874.
-     * Chroma limit is 0.13867188, raw gamut value is 34.
      * It can be represented as a packed float with the constant {@code -0x1.e6ed62p125F}.
      * <pre>
      * <font style='background-color: #5AC5FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #5AC5FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2797,7 +2584,6 @@ public class Palette {
 
     /**
      * This color constant "Suds" has RGBA8888 code {@code BEB9FAFF}, L 0.7372549, A 0.50980395, B 0.45882353, alpha 1.0, hue 0.7872009, saturation 0.6635814, and chroma 0.084324345.
-     * Chroma limit is 0.103515625, raw gamut value is 25.
      * It can be represented as a packed float with the constant {@code -0x1.eb0578p125F}.
      * <pre>
      * <font style='background-color: #BEB9FA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BEB9FA; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2810,7 +2596,6 @@ public class Palette {
 
     /**
      * This color constant "Strong Cyan" has RGBA8888 code {@code 00BFFFFF}, L 0.654902, A 0.44705883, B 0.44313726, alpha 1.0, hue 0.63067734, saturation 0.9115982, and chroma 0.15477823.
-     * Chroma limit is 0.16210938, raw gamut value is 40.
      * It can be represented as a packed float with the constant {@code -0x1.e2e54ep125F}.
      * <pre>
      * <font style='background-color: #00BFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00BFFF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2823,7 +2608,6 @@ public class Palette {
 
     /**
      * This color constant "Sharp Azure" has RGBA8888 code {@code 007FFFFF}, L 0.49411765, A 0.47058824, B 0.4, alpha 1.0, hue 0.704483, saturation 0.917458, and chroma 0.20765679.
-     * Chroma limit is 0.21679688, raw gamut value is 54.
      * It can be represented as a packed float with the constant {@code -0x1.ccf0fcp125F}.
      * <pre>
      * <font style='background-color: #007FFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #007FFF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2836,7 +2620,6 @@ public class Palette {
 
     /**
      * This color constant "Blue Eye" has RGBA8888 code {@code 4B7DC8FF}, L 0.47843137, A 0.48235294, B 0.4392157, alpha 1.0, hue 0.70503896, saturation 0.3151607, and chroma 0.12609385.
-     * Chroma limit is 0.22460938, raw gamut value is 56.
      * It can be represented as a packed float with the constant {@code -0x1.e0f6f4p125F}.
      * <pre>
      * <font style='background-color: #4B7DC8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #4B7DC8; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2849,7 +2632,6 @@ public class Palette {
 
     /**
      * This color constant "Subtlety" has RGBA8888 code {@code 786EF0FF}, L 0.5019608, A 0.5176471, B 0.4117647, alpha 1.0, hue 0.78142345, saturation 0.68371075, and chroma 0.1792624.
-     * Chroma limit is 0.21679688, raw gamut value is 54.
      * It can be represented as a packed float with the constant {@code -0x1.d309p125F}.
      * <pre>
      * <font style='background-color: #786EF0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #786EF0; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2862,7 +2644,6 @@ public class Palette {
 
     /**
      * This color constant "Rough Sapphire" has RGBA8888 code {@code 4A5AFFFF}, L 0.4392157, A 0.5019608, B 0.38431373, alpha 1.0, hue 0.75268954, saturation 0.891392, and chroma 0.23050185.
-     * Chroma limit is 0.24414062, raw gamut value is 61.
      * It can be represented as a packed float with the constant {@code -0x1.c500ep125F}.
      * <pre>
      * <font style='background-color: #4A5AFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #4A5AFF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2875,7 +2656,6 @@ public class Palette {
 
     /**
      * This color constant "Iris" has RGBA8888 code {@code 6241F6FF}, L 0.4117647, A 0.5294118, B 0.38039216, alpha 1.0, hue 0.7883731, saturation 0.79392385, and chroma 0.24537967.
-     * Chroma limit is 0.27539062, raw gamut value is 69.
      * It can be represented as a packed float with the constant {@code -0x1.c30ed2p125F}.
      * <pre>
      * <font style='background-color: #6241F6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #6241F6; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2888,7 +2668,6 @@ public class Palette {
 
     /**
      * This color constant "Cornflower Blue" has RGBA8888 code {@code 3C3CF5FF}, L 0.3764706, A 0.5058824, B 0.36862746, alpha 1.0, hue 0.75710976, saturation 0.83261603, and chroma 0.26198098.
-     * Chroma limit is 0.28710938, raw gamut value is 72.
      * It can be represented as a packed float with the constant {@code -0x1.bd02cp125F}.
      * <pre>
      * <font style='background-color: #3C3CF5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3C3CF5; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2901,7 +2680,6 @@ public class Palette {
 
     /**
      * This color constant "Polished Sapphire" has RGBA8888 code {@code 101CDAFF}, L 0.29411766, A 0.4862745, B 0.3647059, alpha 1.0, hue 0.73390174, saturation 0.80083245, and chroma 0.2709147.
-     * Chroma limit is 0.30273438, raw gamut value is 76.
      * It can be represented as a packed float with the constant {@code -0x1.baf896p125F}.
      * <pre>
      * <font style='background-color: #101CDA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #101CDA; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2914,7 +2692,6 @@ public class Palette {
 
     /**
      * This color constant "Royal Blue" has RGBA8888 code {@code 0010BDFF}, L 0.25490198, A 0.4862745, B 0.37254903, alpha 1.0, hue 0.7329173, saturation 0.91086364, and chroma 0.25537437.
-     * Chroma limit is 0.26757812, raw gamut value is 67.
      * It can be represented as a packed float with the constant {@code -0x1.bef882p125F}.
      * <pre>
      * <font style='background-color: #0010BD;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0010BD; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2927,7 +2704,6 @@ public class Palette {
 
     /**
      * This color constant "Indigo" has RGBA8888 code {@code 231094FF}, L 0.22352941, A 0.5058824, B 0.39607844, alpha 1.0, hue 0.75899065, saturation 0.88276297, and chroma 0.20736265.
-     * Chroma limit is 0.22070312, raw gamut value is 55.
      * It can be represented as a packed float with the constant {@code -0x1.cb0272p125F}.
      * <pre>
      * <font style='background-color: #231094;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #231094; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2940,7 +2716,6 @@ public class Palette {
 
     /**
      * This color constant "Space Blue" has RGBA8888 code {@code 0C2148FF}, L 0.16862746, A 0.49019608, B 0.45490196, alpha 1.0, hue 0.7159276, saturation 0.49365115, and chroma 0.091942206.
-     * Chroma limit is 0.13085938, raw gamut value is 32.
      * It can be represented as a packed float with the constant {@code -0x1.e8fa56p125F}.
      * <pre>
      * <font style='background-color: #0C2148;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0C2148; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2953,7 +2728,6 @@ public class Palette {
 
     /**
      * This color constant "Thick Amethyst" has RGBA8888 code {@code 5010B0FF}, L 0.2901961, A 0.5411765, B 0.39215687, alpha 1.0, hue 0.8080369, saturation 0.887296, and chroma 0.22997166.
-     * Chroma limit is 0.24414062, raw gamut value is 61.
      * It can be represented as a packed float with the constant {@code -0x1.c91494p125F}.
      * <pre>
      * <font style='background-color: #5010B0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #5010B0; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2966,7 +2740,6 @@ public class Palette {
 
     /**
      * This color constant "Juicy Grape" has RGBA8888 code {@code 6010D0FF}, L 0.32941177, A 0.54901963, B 0.38039216, alpha 1.0, hue 0.81189364, saturation 0.92620814, and chroma 0.2575164.
-     * Chroma limit is 0.26757812, raw gamut value is 67.
      * It can be represented as a packed float with the constant {@code -0x1.c318a8p125F}.
      * <pre>
      * <font style='background-color: #6010D0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #6010D0; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2979,7 +2752,6 @@ public class Palette {
 
     /**
      * This color constant "Blacklight Glow" has RGBA8888 code {@code 8732D2FF}, L 0.40392157, A 0.5647059, B 0.40392157, alpha 1.0, hue 0.84434295, saturation 0.6288005, and chroma 0.23076649.
-     * Chroma limit is 0.29101562, raw gamut value is 73.
      * It can be represented as a packed float with the constant {@code -0x1.cf20cep125F}.
      * <pre>
      * <font style='background-color: #8732D2;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8732D2; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2992,7 +2764,6 @@ public class Palette {
 
     /**
      * This color constant "Purple Freesia" has RGBA8888 code {@code 9C41FFFF}, L 0.4745098, A 0.5686275, B 0.3882353, alpha 1.0, hue 0.83765215, saturation 0.8751528, and chroma 0.2612811.
-     * Chroma limit is 0.27929688, raw gamut value is 70.
      * It can be represented as a packed float with the constant {@code -0x1.c722f2p125F}.
      * <pre>
      * <font style='background-color: #9C41FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #9C41FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3005,7 +2776,6 @@ public class Palette {
 
     /**
      * This color constant "Thin Amethyst" has RGBA8888 code {@code 7F00FFFF}, L 0.4, A 0.5647059, B 0.3647059, alpha 1.0, hue 0.8209959, saturation 0.97398543, and chroma 0.29877067.
-     * Chroma limit is 0.30273438, raw gamut value is 76.
      * It can be represented as a packed float with the constant {@code -0x1.bb20ccp125F}.
      * <pre>
      * <font style='background-color: #7F00FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7F00FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3018,7 +2788,6 @@ public class Palette {
 
     /**
      * This color constant "Orchid" has RGBA8888 code {@code BD62FFFF}, L 0.56078434, A 0.5686275, B 0.4117647, alpha 1.0, hue 0.8552204, saturation 0.8879175, and chroma 0.22269051.
-     * Chroma limit is 0.23632812, raw gamut value is 59.
      * It can be represented as a packed float with the constant {@code -0x1.d3231ep125F}.
      * <pre>
      * <font style='background-color: #BD62FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BD62FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3031,7 +2800,6 @@ public class Palette {
 
     /**
      * This color constant "Lavender" has RGBA8888 code {@code B991FFFF}, L 0.6431373, A 0.53333336, B 0.43529412, alpha 1.0, hue 0.82570946, saturation 0.84011585, and chroma 0.14500555.
-     * Chroma limit is 0.15820312, raw gamut value is 39.
      * It can be represented as a packed float with the constant {@code -0x1.df1148p125F}.
      * <pre>
      * <font style='background-color: #B991FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B991FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3044,7 +2812,6 @@ public class Palette {
 
     /**
      * This color constant "Lilac" has RGBA8888 code {@code D7A5FFFF}, L 0.7176471, A 0.5372549, B 0.4509804, alpha 1.0, hue 0.8534426, saturation 0.78238446, and chroma 0.12265874.
-     * Chroma limit is 0.13867188, raw gamut value is 34.
      * It can be represented as a packed float with the constant {@code -0x1.e7136ep125F}.
      * <pre>
      * <font style='background-color: #D7A5FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D7A5FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3057,7 +2824,6 @@ public class Palette {
 
     /**
      * This color constant "Soap" has RGBA8888 code {@code D7C3FAFF}, L 0.7882353, A 0.5176471, B 0.46666667, alpha 1.0, hue 0.8274942, saturation 0.6699864, and chroma 0.07513822.
-     * Chroma limit is 0.091796875, raw gamut value is 22.
      * It can be represented as a packed float with the constant {@code -0x1.ef0992p125F}.
      * <pre>
      * <font style='background-color: #D7C3FA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D7C3FA; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3070,7 +2836,6 @@ public class Palette {
 
     /**
      * This color constant "Pink Tutu" has RGBA8888 code {@code F8C6FCFF}, L 0.8352941, A 0.5294118, B 0.4745098, alpha 1.0, hue 0.88634074, saturation 0.6563932, and chroma 0.07753685.
-     * Chroma limit is 0.095703125, raw gamut value is 23.
      * It can be represented as a packed float with the constant {@code -0x1.f30faap125F}.
      * <pre>
      * <font style='background-color: #F8C6FC;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F8C6FC; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3083,7 +2848,6 @@ public class Palette {
 
     /**
      * This color constant "Thistle" has RGBA8888 code {@code E673FFFF}, L 0.6392157, A 0.5803922, B 0.43137255, alpha 1.0, hue 0.8875299, saturation 0.82084596, and chroma 0.2105755.
-     * Chroma limit is 0.23242188, raw gamut value is 58.
      * It can be represented as a packed float with the constant {@code -0x1.dd2946p125F}.
      * <pre>
      * <font style='background-color: #E673FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E673FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3096,7 +2860,6 @@ public class Palette {
 
     /**
      * This color constant "Heliotrope" has RGBA8888 code {@code FF52FFFF}, L 0.62352943, A 0.6117647, B 0.42745098, alpha 1.0, hue 0.90835387, saturation 0.8785731, and chroma 0.26545262.
-     * Chroma limit is 0.28320312, raw gamut value is 71.
      * It can be represented as a packed float with the constant {@code -0x1.db393ep125F}.
      * <pre>
      * <font style='background-color: #FF52FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF52FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3109,7 +2872,6 @@ public class Palette {
 
     /**
      * This color constant "Purple" has RGBA8888 code {@code DA20E0FF}, L 0.5058824, A 0.6156863, B 0.41960785, alpha 1.0, hue 0.90333164, saturation 0.81673986, and chroma 0.28065258.
-     * Chroma limit is 0.31054688, raw gamut value is 78.
      * It can be represented as a packed float with the constant {@code -0x1.d73b02p125F}.
      * <pre>
      * <font style='background-color: #DA20E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #DA20E0; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3122,7 +2884,6 @@ public class Palette {
 
     /**
      * This color constant "Wisteria" has RGBA8888 code {@code BD29FFFF}, L 0.49019608, A 0.59607846, B 0.39215687, alpha 1.0, hue 0.865835, saturation 0.8585103, and chroma 0.28773978.
-     * Chroma limit is 0.31054688, raw gamut value is 78.
      * It can be represented as a packed float with the constant {@code -0x1.c930fap125F}.
      * <pre>
      * <font style='background-color: #BD29FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BD29FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3135,7 +2896,6 @@ public class Palette {
 
     /**
      * This color constant "Medium Plum" has RGBA8888 code {@code BD10C5FF}, L 0.44313726, A 0.60784316, B 0.42352942, alpha 1.0, hue 0.9018202, saturation 0.86487514, and chroma 0.26337513.
-     * Chroma limit is 0.28320312, raw gamut value is 71.
      * It can be represented as a packed float with the constant {@code -0x1.d936e2p125F}.
      * <pre>
      * <font style='background-color: #BD10C5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BD10C5; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3148,7 +2908,6 @@ public class Palette {
 
     /**
      * This color constant "Violet" has RGBA8888 code {@code 8C14BEFF}, L 0.37254903, A 0.58431375, B 0.40784314, alpha 1.0, hue 0.8679365, saturation 0.8906447, and chroma 0.24883763.
-     * Chroma limit is 0.26367188, raw gamut value is 66.
      * It can be represented as a packed float with the constant {@code -0x1.d12abep125F}.
      * <pre>
      * <font style='background-color: #8C14BE;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8C14BE; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3161,7 +2920,6 @@ public class Palette {
 
     /**
      * This color constant "Grape Lollipop" has RGBA8888 code {@code 5A187BFF}, L 0.26666668, A 0.5568628, B 0.43529412, alpha 1.0, hue 0.8647537, saturation 0.7002268, and chroma 0.17160846.
-     * Chroma limit is 0.20507812, raw gamut value is 51.
      * It can be represented as a packed float with the constant {@code -0x1.df1c88p125F}.
      * <pre>
      * <font style='background-color: #5A187B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #5A187B; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3174,7 +2932,6 @@ public class Palette {
 
     /**
      * This color constant "Mulberry" has RGBA8888 code {@code 641464FF}, L 0.2627451, A 0.5647059, B 0.45490196, alpha 1.0, hue 0.90311134, saturation 0.6878521, and chroma 0.15712644.
-     * Chroma limit is 0.18945312, raw gamut value is 47.
      * It can be represented as a packed float with the constant {@code -0x1.e92086p125F}.
      * <pre>
      * <font style='background-color: #641464;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #641464; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3187,7 +2944,6 @@ public class Palette {
 
     /**
      * This color constant "Grape Soda" has RGBA8888 code {@code 410062FF}, L 0.20392157, A 0.54901963, B 0.43529412, alpha 1.0, hue 0.8531978, saturation 0.9058, and chroma 0.16172063.
-     * Chroma limit is 0.16992188, raw gamut value is 42.
      * It can be represented as a packed float with the constant {@code -0x1.df1868p125F}.
      * <pre>
      * <font style='background-color: #410062;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #410062; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3200,7 +2956,6 @@ public class Palette {
 
     /**
      * This color constant "Eggplant" has RGBA8888 code {@code 320A46FF}, L 0.16470589, A 0.5372549, B 0.4509804, alpha 1.0, hue 0.8534426, saturation 0.74010134, and chroma 0.12265874.
-     * Chroma limit is 0.14257812, raw gamut value is 35.
      * It can be represented as a packed float with the constant {@code -0x1.e71254p125F}.
      * <pre>
      * <font style='background-color: #320A46;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #320A46; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3213,7 +2968,6 @@ public class Palette {
 
     /**
      * This color constant "Cherry Syrup" has RGBA8888 code {@code 551937FF}, L 0.22352941, A 0.5529412, B 0.49019608, alpha 1.0, hue 0.97084755, saturation 0.5086861, and chroma 0.107261956.
-     * Chroma limit is 0.15039062, raw gamut value is 37.
      * It can be represented as a packed float with the constant {@code -0x1.fb1a72p125F}.
      * <pre>
      * <font style='background-color: #551937;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #551937; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3226,7 +2980,6 @@ public class Palette {
 
     /**
      * This color constant "Plum Juice" has RGBA8888 code {@code A01982FF}, L 0.36862746, A 0.59607846, B 0.45882353, alpha 1.0, hue 0.9355687, saturation 0.8027682, and chroma 0.2082438.
-     * Chroma limit is 0.23242188, raw gamut value is 58.
      * It can be represented as a packed float with the constant {@code -0x1.eb30bcp125F}.
      * <pre>
      * <font style='background-color: #A01982;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A01982; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3239,7 +2992,6 @@ public class Palette {
 
     /**
      * This color constant "Fruit Punch" has RGBA8888 code {@code C80078FF}, L 0.41960785, A 0.6117647, B 0.48235294, alpha 1.0, hue 0.9750635, saturation 0.85248, and chroma 0.22541466.
-     * Chroma limit is 0.24414062, raw gamut value is 61.
      * It can be represented as a packed float with the constant {@code -0x1.f738d6p125F}.
      * <pre>
      * <font style='background-color: #C80078;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C80078; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3252,7 +3004,6 @@ public class Palette {
 
     /**
      * This color constant "Bubble Gum" has RGBA8888 code {@code FF50BFFF}, L 0.5882353, A 0.60784316, B 0.46666667, alpha 1.0, hue 0.95230013, saturation 0.77244914, and chroma 0.22487247.
-     * Chroma limit is 0.25585938, raw gamut value is 64.
      * It can be represented as a packed float with the constant {@code -0x1.ef372cp125F}.
      * <pre>
      * <font style='background-color: #FF50BF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF50BF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3265,7 +3016,6 @@ public class Palette {
 
     /**
      * This color constant "Pink Lemonade" has RGBA8888 code {@code FF6AC5FF}, L 0.627451, A 0.5921569, B 0.47058824, alpha 1.0, hue 0.95084393, saturation 0.7624716, and chroma 0.19271713.
-     * Chroma limit is 0.22070312, raw gamut value is 55.
      * It can be represented as a packed float with the constant {@code -0x1.f12f4p125F}.
      * <pre>
      * <font style='background-color: #FF6AC5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF6AC5; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3278,7 +3028,6 @@ public class Palette {
 
     /**
      * This color constant "Shrimp" has RGBA8888 code {@code FAA0B9FF}, L 0.72156864, A 0.54901963, B 0.49803922, alpha 1.0, hue 0.99364984, saturation 0.59266275, and chroma 0.09773435.
-     * Chroma limit is 0.12695312, raw gamut value is 31.
      * It can be represented as a packed float with the constant {@code -0x1.ff197p125F}.
      * <pre>
      * <font style='background-color: #FAA0B9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FAA0B9; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3291,7 +3040,6 @@ public class Palette {
 
     /**
      * This color constant "Flamingo" has RGBA8888 code {@code FC3A8CFF}, L 0.5411765, A 0.6156863, B 0.49411765, alpha 1.0, hue 0.99192464, saturation 0.789191, and chroma 0.23076649.
-     * Chroma limit is 0.25976562, raw gamut value is 65.
      * It can be represented as a packed float with the constant {@code -0x1.fd3b14p125F}.
      * <pre>
      * <font style='background-color: #FC3A8C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FC3A8C; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3304,7 +3052,6 @@ public class Palette {
 
     /**
      * This color constant "Rose" has RGBA8888 code {@code E61E78FF}, L 0.4745098, A 0.6156863, B 0.49411765, alpha 1.0, hue 0.99192464, saturation 0.789191, and chroma 0.23076649.
-     * Chroma limit is 0.25976562, raw gamut value is 65.
      * It can be represented as a packed float with the constant {@code -0x1.fd3af2p125F}.
      * <pre>
      * <font style='background-color: #E61E78;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E61E78; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3317,7 +3064,6 @@ public class Palette {
 
     /**
      * This color constant "Carmine" has RGBA8888 code {@code BD1039FF}, L 0.38431373, A 0.59607846, B 0.5254902, alpha 1.0, hue 0.04126853, saturation 0.8050748, and chroma 0.198028.
-     * Chroma limit is 0.22070312, raw gamut value is 55.
      * It can be represented as a packed float with the constant {@code -0x1.0d30c4p126F}.
      * <pre>
      * <font style='background-color: #BD1039;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BD1039; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3330,7 +3076,6 @@ public class Palette {
 
     /**
      * This color constant "Bologna" has RGBA8888 code {@code 98344DFF}, L 0.36078432, A 0.5686275, B 0.5058824, alpha 1.0, hue 0.01361084, saturation 0.43112937, and chroma 0.13722007.
-     * Chroma limit is 0.20898438, raw gamut value is 52.
      * It can be represented as a packed float with the constant {@code -0x1.0322b8p126F}.
      * <pre>
      * <font style='background-color: #98344D;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #98344D; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3343,7 +3088,6 @@ public class Palette {
 
     /**
      * This color constant "Raspberry" has RGBA8888 code {@code 911437FF}, L 0.3137255, A 0.5803922, B 0.5137255, alpha 1.0, hue 0.02692472, saturation 0.73546606, and chroma 0.16247371.
-     * Chroma limit is 0.18945312, raw gamut value is 47.
      * It can be represented as a packed float with the constant {@code -0x1.0728ap126F}.
      * <pre>
      * <font style='background-color: #911437;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #911437; color: #000000'>&nbsp;@&nbsp;</font>
