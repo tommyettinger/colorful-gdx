@@ -63,7 +63,6 @@ public class SimplePalette {
 
     /**
      * This color constant "transparent" has RGBA8888 code {@code 00000000}, L 0.0, A 0.49803922, B 0.49803922, alpha 0.0, hue 0.625, saturation 0.0, and chroma 0.0055242716.
-     * Chroma limit is 0.013671875, raw gamut value is 2.
      * It can be represented as a packed float with the constant {@code 0x0.fefep-126F}.
      * <pre>
      * <font style='background-color: #000000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;@&nbsp;</font>
@@ -76,7 +75,6 @@ public class SimplePalette {
 
     /**
      * This color constant "black" has RGBA8888 code {@code 000000FF}, L 0.0, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.0, and chroma 0.0055242716.
-     * Chroma limit is 0.013671875, raw gamut value is 2.
      * It can be represented as a packed float with the constant {@code -0x1.fefep125F}.
      * <pre>
      * <font style='background-color: #000000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;@&nbsp;</font>
@@ -89,7 +87,6 @@ public class SimplePalette {
 
     /**
      * This color constant "gray" has RGBA8888 code {@code 808080FF}, L 0.49411765, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.0016803193, and chroma 0.0055242716.
-     * Chroma limit is 0.13476562, raw gamut value is 33.
      * It can be represented as a packed float with the constant {@code -0x1.fefefcp125F}.
      * <pre>
      * <font style='background-color: #808080;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #808080; color: #000000'>&nbsp;@&nbsp;</font>
@@ -102,7 +99,6 @@ public class SimplePalette {
 
     /**
      * This color constant "silver" has RGBA8888 code {@code B6B6B6FF}, L 0.69411767, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.0013493, and chroma 0.0055242716.
-     * Chroma limit is 0.15039062, raw gamut value is 37.
      * It can be represented as a packed float with the constant {@code -0x1.feff62p125F}.
      * <pre>
      * <font style='background-color: #B6B6B6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B6B6B6; color: #000000'>&nbsp;@&nbsp;</font>
@@ -115,7 +111,6 @@ public class SimplePalette {
 
     /**
      * This color constant "white" has RGBA8888 code {@code FFFFFFFF}, L 1.0, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.625, saturation 0.0, and chroma 0.0055242716.
-     * Chroma limit is 0.013671875, raw gamut value is 2.
      * It can be represented as a packed float with the constant {@code -0x1.fefffep125F}.
      * <pre>
      * <font style='background-color: #FFFFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFFFFF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -128,7 +123,6 @@ public class SimplePalette {
 
     /**
      * This color constant "red" has RGBA8888 code {@code FF0000FF}, L 0.49019608, A 0.6117647, B 0.56078434, alpha 1.0, hue 0.07928106, saturation 0.8972241, and chroma 0.25345513.
-     * Chroma limit is 0.26757812, raw gamut value is 67.
      * It can be represented as a packed float with the constant {@code -0x1.1f38fap126F}.
      * <pre>
      * <font style='background-color: #FF0000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF0000; color: #000000'>&nbsp;@&nbsp;</font>
@@ -141,7 +135,6 @@ public class SimplePalette {
 
     /**
      * This color constant "orange" has RGBA8888 code {@code FF7F00FF}, L 0.62352943, A 0.54901963, B 0.57254905, alpha 1.0, hue 0.15541562, saturation 0.8137945, and chroma 0.17443058.
-     * Chroma limit is 0.19335938, raw gamut value is 48.
      * It can be represented as a packed float with the constant {@code -0x1.25193ep126F}.
      * <pre>
      * <font style='background-color: #FF7F00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF7F00; color: #000000'>&nbsp;@&nbsp;</font>
@@ -154,7 +147,6 @@ public class SimplePalette {
 
     /**
      * This color constant "yellow" has RGBA8888 code {@code FFFF00FF}, L 0.94509804, A 0.4627451, B 0.59607846, alpha 1.0, hue 0.30886024, saturation 0.8652204, and chroma 0.20529193.
-     * Chroma limit is 0.22070312, raw gamut value is 55.
      * It can be represented as a packed float with the constant {@code -0x1.30ede2p126F}.
      * <pre>
      * <font style='background-color: #FFFF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFFF00; color: #000000'>&nbsp;@&nbsp;</font>
@@ -167,7 +159,6 @@ public class SimplePalette {
 
     /**
      * This color constant "green" has RGBA8888 code {@code 00FF00FF}, L 0.7882353, A 0.38039216, B 0.5882353, alpha 1.0, hue 0.39883053, saturation 0.9818446, and chroma 0.29610303.
-     * Chroma limit is 0.29882812, raw gamut value is 75.
      * It can be represented as a packed float with the constant {@code -0x1.2cc392p126F}.
      * <pre>
      * <font style='background-color: #00FF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00FF00; color: #000000'>&nbsp;@&nbsp;</font>
@@ -180,7 +171,6 @@ public class SimplePalette {
 
     /**
      * This color constant "blue" has RGBA8888 code {@code 0000FFFF}, L 0.31764707, A 0.48235294, B 0.34117648, alpha 1.0, hue 0.7323789, saturation 0.97586775, and chroma 0.31835338.
-     * Chroma limit is 0.32226562, raw gamut value is 81.
      * It can be represented as a packed float with the constant {@code -0x1.aef6a2p125F}.
      * <pre>
      * <font style='background-color: #0000FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0000FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -193,7 +183,6 @@ public class SimplePalette {
 
     /**
      * This color constant "indigo" has RGBA8888 code {@code 520FE0FF}, L 0.32941177, A 0.53333336, B 0.36862746, alpha 1.0, hue 0.7895446, saturation 0.9346178, and chroma 0.27001202.
-     * Chroma limit is 0.27929688, raw gamut value is 70.
      * It can be represented as a packed float with the constant {@code -0x1.bd10a8p125F}.
      * <pre>
      * <font style='background-color: #520FE0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #520FE0; color: #000000'>&nbsp;@&nbsp;</font>
@@ -206,7 +195,6 @@ public class SimplePalette {
 
     /**
      * This color constant "violet" has RGBA8888 code {@code 9040EFFF}, L 0.4509804, A 0.56078434, B 0.39607844, alpha 1.0, hue 0.8342395, saturation 0.6792487, and chroma 0.23984502.
-     * Chroma limit is 0.29101562, raw gamut value is 73.
      * It can be represented as a packed float with the constant {@code -0x1.cb1ee6p125F}.
      * <pre>
      * <font style='background-color: #9040EF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #9040EF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -219,7 +207,6 @@ public class SimplePalette {
 
     /**
      * This color constant "purple" has RGBA8888 code {@code C000FFFF}, L 0.47843137, A 0.60784316, B 0.3882353, alpha 1.0, hue 0.8721605, saturation 0.96817255, and chroma 0.30940855.
-     * Chroma limit is 0.31445312, raw gamut value is 79.
      * It can be represented as a packed float with the constant {@code -0x1.c736f4p125F}.
      * <pre>
      * <font style='background-color: #C000FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C000FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -232,7 +219,6 @@ public class SimplePalette {
 
     /**
      * This color constant "brown" has RGBA8888 code {@code 8F573BFF}, L 0.40392157, A 0.5254902, B 0.5294118, alpha 1.0, hue 0.13634071, saturation 0.24020728, and chroma 0.07753685.
-     * Chroma limit is 0.15820312, raw gamut value is 39.
      * It can be represented as a packed float with the constant {@code -0x1.0f0ccep126F}.
      * <pre>
      * <font style='background-color: #8F573B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8F573B; color: #000000'>&nbsp;@&nbsp;</font>
@@ -245,7 +231,6 @@ public class SimplePalette {
 
     /**
      * This color constant "pink" has RGBA8888 code {@code FFA0E0FF}, L 0.7411765, A 0.5568628, B 0.4745098, alpha 1.0, hue 0.9329364, saturation 0.64733213, and chroma 0.124142565.
-     * Chroma limit is 0.15429688, raw gamut value is 38.
      * It can be represented as a packed float with the constant {@code -0x1.f31d7ap125F}.
      * <pre>
      * <font style='background-color: #FFA0E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFA0E0; color: #000000'>&nbsp;@&nbsp;</font>
@@ -258,7 +243,6 @@ public class SimplePalette {
 
     /**
      * This color constant "magenta" has RGBA8888 code {@code F500F5FF}, L 0.54901963, A 0.6313726, B 0.41568628, alpha 1.0, hue 0.9091779, saturation 0.9090322, and chroma 0.31098264.
-     * Chroma limit is 0.32617188, raw gamut value is 82.
      * It can be represented as a packed float with the constant {@code -0x1.d54318p125F}.
      * <pre>
      * <font style='background-color: #F500F5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F500F5; color: #000000'>&nbsp;@&nbsp;</font>
@@ -271,7 +255,6 @@ public class SimplePalette {
 
     /**
      * This color constant "brick" has RGBA8888 code {@code D5524AFF}, L 0.49019608, A 0.5686275, B 0.53333336, alpha 1.0, hue 0.07195936, saturation 0.3226597, and chroma 0.15199278.
-     * Chroma limit is 0.26757812, raw gamut value is 67.
      * It can be represented as a packed float with the constant {@code -0x1.1122fap126F}.
      * <pre>
      * <font style='background-color: #D5524A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D5524A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -284,7 +267,6 @@ public class SimplePalette {
 
     /**
      * This color constant "ember" has RGBA8888 code {@code F55A32FF}, L 0.54901963, A 0.57254905, B 0.5568628, alpha 1.0, hue 0.10581406, saturation 0.645774, and chroma 0.1836353.
-     * Chroma limit is 0.22851562, raw gamut value is 57.
      * It can be represented as a packed float with the constant {@code -0x1.1d2518p126F}.
      * <pre>
      * <font style='background-color: #F55A32;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F55A32; color: #000000'>&nbsp;@&nbsp;</font>
@@ -297,7 +279,6 @@ public class SimplePalette {
 
     /**
      * This color constant "salmon" has RGBA8888 code {@code FF6262FF}, L 0.58431375, A 0.5803922, B 0.53333336, alpha 1.0, hue 0.06254671, saturation 0.7724733, and chroma 0.17337766.
-     * Chroma limit is 0.19726562, raw gamut value is 49.
      * It can be represented as a packed float with the constant {@code -0x1.11292ap126F}.
      * <pre>
      * <font style='background-color: #FF6262;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF6262; color: #000000'>&nbsp;@&nbsp;</font>
@@ -310,7 +291,6 @@ public class SimplePalette {
 
     /**
      * This color constant "chocolate" has RGBA8888 code {@code 683818FF}, L 0.2901961, A 0.5254902, B 0.53333336, alpha 1.0, hue 0.14608382, saturation 0.5262855, and chroma 0.0835974.
-     * Chroma limit is 0.115234375, raw gamut value is 28.
      * It can be represented as a packed float with the constant {@code -0x1.110c94p126F}.
      * <pre>
      * <font style='background-color: #683818;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #683818; color: #000000'>&nbsp;@&nbsp;</font>
@@ -323,7 +303,6 @@ public class SimplePalette {
 
     /**
      * This color constant "tan" has RGBA8888 code {@code D2B48CFF}, L 0.7019608, A 0.5058824, B 0.5254902, alpha 1.0, hue 0.21390288, saturation 0.08232166, and chroma 0.052115876.
-     * Chroma limit is 0.18164062, raw gamut value is 45.
      * It can be represented as a packed float with the constant {@code -0x1.0d0366p126F}.
      * <pre>
      * <font style='background-color: #D2B48C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D2B48C; color: #000000'>&nbsp;@&nbsp;</font>
@@ -336,7 +315,6 @@ public class SimplePalette {
 
     /**
      * This color constant "bronze" has RGBA8888 code {@code CE8E31FF}, L 0.5921569, A 0.5137255, B 0.56078434, alpha 1.0, hue 0.21465261, saturation 0.5864422, and chroma 0.124142565.
-     * Chroma limit is 0.16210938, raw gamut value is 40.
      * It can be represented as a packed float with the constant {@code -0x1.1f072ep126F}.
      * <pre>
      * <font style='background-color: #CE8E31;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #CE8E31; color: #000000'>&nbsp;@&nbsp;</font>
@@ -349,7 +327,6 @@ public class SimplePalette {
 
     /**
      * This color constant "cinnamon" has RGBA8888 code {@code D2691DFF}, L 0.52156866, A 0.54509807, B 0.56078434, alpha 1.0, hue 0.14839543, saturation 0.7197198, and chroma 0.15078327.
-     * Chroma limit is 0.17773438, raw gamut value is 44.
      * It can be represented as a packed float with the constant {@code -0x1.1f170ap126F}.
      * <pre>
      * <font style='background-color: #D2691D;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D2691D; color: #000000'>&nbsp;@&nbsp;</font>
@@ -362,7 +339,6 @@ public class SimplePalette {
 
     /**
      * This color constant "apricot" has RGBA8888 code {@code FFA828FF}, L 0.7137255, A 0.52156866, B 0.5764706, alpha 1.0, hue 0.20625468, saturation 0.75939417, and chroma 0.1582875.
-     * Chroma limit is 0.18164062, raw gamut value is 45.
      * It can be represented as a packed float with the constant {@code -0x1.270b6cp126F}.
      * <pre>
      * <font style='background-color: #FFA828;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFA828; color: #000000'>&nbsp;@&nbsp;</font>
@@ -375,7 +351,6 @@ public class SimplePalette {
 
     /**
      * This color constant "peach" has RGBA8888 code {@code FFBF81FF}, L 0.78039217, A 0.5176471, B 0.54509807, alpha 1.0, hue 0.19064914, saturation 0.61476445, and chroma 0.096477255.
-     * Chroma limit is 0.123046875, raw gamut value is 30.
      * It can be represented as a packed float with the constant {@code -0x1.17098ep126F}.
      * <pre>
      * <font style='background-color: #FFBF81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFBF81; color: #000000'>&nbsp;@&nbsp;</font>
@@ -388,7 +363,6 @@ public class SimplePalette {
 
     /**
      * This color constant "pear" has RGBA8888 code {@code D3E330FF}, L 0.8156863, A 0.45882353, B 0.58431375, alpha 1.0, hue 0.32230157, saturation 0.7434462, and chroma 0.18692946.
-     * Chroma limit is 0.21679688, raw gamut value is 54.
      * It can be represented as a packed float with the constant {@code -0x1.2aebap126F}.
      * <pre>
      * <font style='background-color: #D3E330;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D3E330; color: #000000'>&nbsp;@&nbsp;</font>
@@ -401,7 +375,6 @@ public class SimplePalette {
 
     /**
      * This color constant "saffron" has RGBA8888 code {@code FFD510FF}, L 0.8235294, A 0.4862745, B 0.5882353, alpha 1.0, hue 0.27457327, saturation 0.8132536, and chroma 0.17789528.
-     * Chroma limit is 0.19726562, raw gamut value is 49.
      * It can be represented as a packed float with the constant {@code -0x1.2cf9a4p126F}.
      * <pre>
      * <font style='background-color: #FFD510;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFD510; color: #000000'>&nbsp;@&nbsp;</font>
@@ -414,7 +387,6 @@ public class SimplePalette {
 
     /**
      * This color constant "butter" has RGBA8888 code {@code FFF288FF}, L 0.92156863, A 0.4862745, B 0.5568628, alpha 1.0, hue 0.28769454, saturation 0.42989978, and chroma 0.11653464.
-     * Chroma limit is 0.17773438, raw gamut value is 44.
      * It can be represented as a packed float with the constant {@code -0x1.1cf9d6p126F}.
      * <pre>
      * <font style='background-color: #FFF288;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFF288; color: #000000'>&nbsp;@&nbsp;</font>
@@ -427,7 +399,6 @@ public class SimplePalette {
 
     /**
      * This color constant "chartreuse" has RGBA8888 code {@code C8FF41FF}, L 0.8901961, A 0.4392157, B 0.58431375, alpha 1.0, hue 0.34942675, saturation 0.82109725, and chroma 0.2070681.
-     * Chroma limit is 0.22851562, raw gamut value is 57.
      * It can be represented as a packed float with the constant {@code -0x1.2ae1c6p126F}.
      * <pre>
      * <font style='background-color: #C8FF41;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C8FF41; color: #000000'>&nbsp;@&nbsp;</font>
@@ -440,7 +411,6 @@ public class SimplePalette {
 
     /**
      * This color constant "cactus" has RGBA8888 code {@code 30A000FF}, L 0.5058824, A 0.41960785, B 0.5647059, alpha 1.0, hue 0.39212817, saturation 0.809409, and chroma 0.20558903.
-     * Chroma limit is 0.22851562, raw gamut value is 57.
      * It can be represented as a packed float with the constant {@code -0x1.20d702p126F}.
      * <pre>
      * <font style='background-color: #30A000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #30A000; color: #000000'>&nbsp;@&nbsp;</font>
@@ -453,7 +423,6 @@ public class SimplePalette {
 
     /**
      * This color constant "lime" has RGBA8888 code {@code 93D300FF}, L 0.7058824, A 0.43529412, B 0.5803922, alpha 1.0, hue 0.3578718, saturation 0.78243065, and chroma 0.20558903.
-     * Chroma limit is 0.23242188, raw gamut value is 58.
      * It can be represented as a packed float with the constant {@code -0x1.28df68p126F}.
      * <pre>
      * <font style='background-color: #93D300;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #93D300; color: #000000'>&nbsp;@&nbsp;</font>
@@ -466,7 +435,6 @@ public class SimplePalette {
 
     /**
      * This color constant "olive" has RGBA8888 code {@code 818000FF}, L 0.4745098, A 0.4745098, B 0.56078434, alpha 1.0, hue 0.31318712, saturation 0.76235455, and chroma 0.13131043.
-     * Chroma limit is 0.15039062, raw gamut value is 37.
      * It can be represented as a packed float with the constant {@code -0x1.1ef2f2p126F}.
      * <pre>
      * <font style='background-color: #818000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #818000; color: #000000'>&nbsp;@&nbsp;</font>
@@ -479,7 +447,6 @@ public class SimplePalette {
 
     /**
      * This color constant "fern" has RGBA8888 code {@code 4E7942FF}, L 0.41960785, A 0.4627451, B 0.5294118, alpha 1.0, hue 0.3936267, saturation 0.22978139, and chroma 0.0945603.
-     * Chroma limit is 0.19726562, raw gamut value is 49.
      * It can be represented as a packed float with the constant {@code -0x1.0eecd6p126F}.
      * <pre>
      * <font style='background-color: #4E7942;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #4E7942; color: #000000'>&nbsp;@&nbsp;</font>
@@ -492,7 +459,6 @@ public class SimplePalette {
 
     /**
      * This color constant "moss" has RGBA8888 code {@code 204608FF}, L 0.25490198, A 0.45882353, B 0.5372549, alpha 1.0, hue 0.38294512, saturation 0.6363817, and chroma 0.11062346.
-     * Chroma limit is 0.13867188, raw gamut value is 34.
      * It can be represented as a packed float with the constant {@code -0x1.12ea82p126F}.
      * <pre>
      * <font style='background-color: #204608;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #204608; color: #000000'>&nbsp;@&nbsp;</font>
@@ -505,7 +471,6 @@ public class SimplePalette {
 
     /**
      * This color constant "celery" has RGBA8888 code {@code 7DFF73FF}, L 0.8392157, A 0.41960785, B 0.56078434, alpha 1.0, hue 0.39695174, saturation 0.77200675, and chroma 0.20078278.
-     * Chroma limit is 0.22851562, raw gamut value is 57.
      * It can be represented as a packed float with the constant {@code -0x1.1ed7acp126F}.
      * <pre>
      * <font style='background-color: #7DFF73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7DFF73; color: #000000'>&nbsp;@&nbsp;</font>
@@ -518,7 +483,6 @@ public class SimplePalette {
 
     /**
      * This color constant "sage" has RGBA8888 code {@code ABE3C5FF}, L 0.80784315, A 0.46666667, B 0.50980395, alpha 1.0, hue 0.45448294, saturation 0.118390046, and chroma 0.069218926.
-     * Chroma limit is 0.20117188, raw gamut value is 50.
      * It can be represented as a packed float with the constant {@code -0x1.04ef9cp126F}.
      * <pre>
      * <font style='background-color: #ABE3C5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABE3C5; color: #000000'>&nbsp;@&nbsp;</font>
@@ -531,7 +495,6 @@ public class SimplePalette {
 
     /**
      * This color constant "jade" has RGBA8888 code {@code 3FBF3FFF}, L 0.6039216, A 0.41568628, B 0.5568628, alpha 1.0, hue 0.4055531, saturation 0.73492247, and chroma 0.20259848.
-     * Chroma limit is 0.23632812, raw gamut value is 59.
      * It can be represented as a packed float with the constant {@code -0x1.1cd534p126F}.
      * <pre>
      * <font style='background-color: #3FBF3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3FBF3F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -544,7 +507,6 @@ public class SimplePalette {
 
     /**
      * This color constant "cyan" has RGBA8888 code {@code 00FFFFFF}, L 0.84313726, A 0.42352942, B 0.47843137, alpha 1.0, hue 0.54374534, saturation 0.9090657, and chroma 0.1582875.
-     * Chroma limit is 0.16601562, raw gamut value is 41.
      * It can be represented as a packed float with the constant {@code -0x1.f4d9aep125F}.
      * <pre>
      * <font style='background-color: #00FFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00FFFF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -557,7 +519,6 @@ public class SimplePalette {
 
     /**
      * This color constant "mint" has RGBA8888 code {@code 7FFFD4FF}, L 0.8666667, A 0.4392157, B 0.50980395, alpha 1.0, hue 0.47453672, saturation 0.74010134, and chroma 0.12265874.
-     * Chroma limit is 0.14257812, raw gamut value is 35.
      * It can be represented as a packed float with the constant {@code -0x1.04e1bap126F}.
      * <pre>
      * <font style='background-color: #7FFFD4;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7FFFD4; color: #000000'>&nbsp;@&nbsp;</font>
@@ -570,7 +531,6 @@ public class SimplePalette {
 
     /**
      * This color constant "teal" has RGBA8888 code {@code 007F7FFF}, L 0.42745098, A 0.4509804, B 0.4862745, alpha 1.0, hue 0.543443, saturation 0.89123964, and chroma 0.10141215.
-     * Chroma limit is 0.107421875, raw gamut value is 26.
      * It can be represented as a packed float with the constant {@code -0x1.f8e6dap125F}.
      * <pre>
      * <font style='background-color: #007F7F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #007F7F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -583,7 +543,6 @@ public class SimplePalette {
 
     /**
      * This color constant "turquoise" has RGBA8888 code {@code 2ED6C9FF}, L 0.7019608, A 0.43137255, B 0.49019608, alpha 1.0, hue 0.52259654, saturation 0.8433125, and chroma 0.1381068.
-     * Chroma limit is 0.15039062, raw gamut value is 37.
      * It can be represented as a packed float with the constant {@code -0x1.fadd66p125F}.
      * <pre>
      * <font style='background-color: #2ED6C9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #2ED6C9; color: #000000'>&nbsp;@&nbsp;</font>
@@ -596,7 +555,6 @@ public class SimplePalette {
 
     /**
      * This color constant "sky" has RGBA8888 code {@code 10C0E0FF}, L 0.6431373, A 0.44313726, B 0.4627451, alpha 1.0, hue 0.59232193, saturation 0.8547556, and chroma 0.13542919.
-     * Chroma limit is 0.14648438, raw gamut value is 36.
      * It can be represented as a packed float with the constant {@code -0x1.ece348p125F}.
      * <pre>
      * <font style='background-color: #10C0E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #10C0E0; color: #000000'>&nbsp;@&nbsp;</font>
@@ -609,7 +567,6 @@ public class SimplePalette {
 
     /**
      * This color constant "cobalt" has RGBA8888 code {@code 0046ABFF}, L 0.31764707, A 0.48235294, B 0.4117647, alpha 1.0, hue 0.71857655, saturation 0.73578477, and chroma 0.1792624.
-     * Chroma limit is 0.20898438, raw gamut value is 52.
      * It can be represented as a packed float with the constant {@code -0x1.d2f6a2p125F}.
      * <pre>
      * <font style='background-color: #0046AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0046AB; color: #000000'>&nbsp;@&nbsp;</font>
@@ -622,7 +579,6 @@ public class SimplePalette {
 
     /**
      * This color constant "denim" has RGBA8888 code {@code 3088B8FF}, L 0.4862745, A 0.46666667, B 0.45490196, alpha 1.0, hue 0.6486837, saturation 0.5816889, and chroma 0.11172148.
-     * Chroma limit is 0.14648438, raw gamut value is 36.
      * It can be represented as a packed float with the constant {@code -0x1.e8eef8p125F}.
      * <pre>
      * <font style='background-color: #3088B8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3088B8; color: #000000'>&nbsp;@&nbsp;</font>
@@ -635,7 +591,6 @@ public class SimplePalette {
 
     /**
      * This color constant "navy" has RGBA8888 code {@code 000080FF}, L 0.18431373, A 0.4862745, B 0.4, alpha 1.0, hue 0.7282781, saturation 0.96145123, and chroma 0.20108652.
-     * Chroma limit is 0.20507812, raw gamut value is 51.
      * It can be represented as a packed float with the constant {@code -0x1.ccf85ep125F}.
      * <pre>
      * <font style='background-color: #000080;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000080; color: #000000'>&nbsp;@&nbsp;</font>
@@ -648,7 +603,6 @@ public class SimplePalette {
 
     /**
      * This color constant "lavender" has RGBA8888 code {@code B991FFFF}, L 0.6431373, A 0.53333336, B 0.43529412, alpha 1.0, hue 0.82570946, saturation 0.84011585, and chroma 0.14500555.
-     * Chroma limit is 0.15820312, raw gamut value is 39.
      * It can be represented as a packed float with the constant {@code -0x1.df1148p125F}.
      * <pre>
      * <font style='background-color: #B991FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B991FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -661,7 +615,6 @@ public class SimplePalette {
 
     /**
      * This color constant "plum" has RGBA8888 code {@code BE0DC6FF}, L 0.44313726, A 0.6117647, B 0.42352942, alpha 1.0, hue 0.90448654, saturation 0.9074911, and chroma 0.26978588.
-     * Chroma limit is 0.28320312, raw gamut value is 71.
      * It can be represented as a packed float with the constant {@code -0x1.d938e2p125F}.
      * <pre>
      * <font style='background-color: #BE0DC6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BE0DC6; color: #000000'>&nbsp;@&nbsp;</font>
@@ -674,7 +627,6 @@ public class SimplePalette {
 
     /**
      * This color constant "mauve" has RGBA8888 code {@code AB73ABFF}, L 0.5254902, A 0.5411765, B 0.47058824, alpha 1.0, hue 0.90127134, saturation 0.10026723, and chroma 0.1008085.
-     * Chroma limit is 0.31835938, raw gamut value is 80.
      * It can be represented as a packed float with the constant {@code -0x1.f1150cp125F}.
      * <pre>
      * <font style='background-color: #AB73AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AB73AB; color: #000000'>&nbsp;@&nbsp;</font>
@@ -687,7 +639,6 @@ public class SimplePalette {
 
     /**
      * This color constant "rose" has RGBA8888 code {@code E61E78FF}, L 0.4745098, A 0.6156863, B 0.49411765, alpha 1.0, hue 0.99192464, saturation 0.789191, and chroma 0.23076649.
-     * Chroma limit is 0.25976562, raw gamut value is 65.
      * It can be represented as a packed float with the constant {@code -0x1.fd3af2p125F}.
      * <pre>
      * <font style='background-color: #E61E78;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E61E78; color: #000000'>&nbsp;@&nbsp;</font>
@@ -700,7 +651,6 @@ public class SimplePalette {
 
     /**
      * This color constant "raspberry" has RGBA8888 code {@code 911437FF}, L 0.3137255, A 0.5803922, B 0.5137255, alpha 1.0, hue 0.02692472, saturation 0.73546606, and chroma 0.16247371.
-     * Chroma limit is 0.18945312, raw gamut value is 47.
      * It can be represented as a packed float with the constant {@code -0x1.0728ap126F}.
      * <pre>
      * <font style='background-color: #911437;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #911437; color: #000000'>&nbsp;@&nbsp;</font>
