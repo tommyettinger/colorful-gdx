@@ -12285,7 +12285,7 @@ public class FullPalette {
                 else if(s1 <= 0.05f && s2 <= 0.05f)
                     return (int)Math.signum(ColorTools.channelL(c1) - ColorTools.channelL(c2));
                 else
-                    return 2 * (int)Math.signum(ColorTools.hue(c1) - ColorTools.hue(c2))
+                    return 2 * (int)Math.signum(ColorTools.oklabHue(c1) - ColorTools.oklabHue(c2))
                             + (int)Math.signum(ColorTools.channelL(c1) - ColorTools.channelL(c2));
             }
         });
