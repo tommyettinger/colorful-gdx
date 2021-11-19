@@ -20,9 +20,9 @@ import static com.github.tommyettinger.colorful.oklab.ColorTools.*;
  * Created by Tommy Ettinger on 12/8/2019.
  */
 public class PaletteCodeGenerator extends ApplicationAdapter {
-    public static final String outputAdd = "Oklab";
-    public static final String inputName = "AuroraColorData.txt";
-    public static final ObjectFloatMap<String> named = Palette.NAMED;
+//    public static final String outputAdd = "Oklab";
+//    public static final String inputName = "AuroraColorData.txt";
+//    public static final ObjectFloatMap<String> named = Palette.NAMED;
 
 //    public static final String outputAdd = "YamOklab";
 //    public static final String inputName = "YamColorData.txt";
@@ -32,9 +32,9 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String inputName = "ColorData.txt";
 //    public static final ObjectFloatMap<String> named = FullPalette.NAMED;
 
-//    public static final String outputAdd = "NamedMunsellOklab";
-//    public static final String inputName = "ISCCNBSData.txt";
-//    public static final ObjectFloatMap<String> named = NamedMunsellPalette.NAMED;
+    public static final String outputAdd = "NamedMunsellOklab";
+    public static final String inputName = "ISCCNBSData.txt";
+    public static final ObjectFloatMap<String> named = NamedMunsellPalette.NAMED;
 
 //    public static final String outputAdd = "SimpleOklab";
 //    public static final String inputName = "SimpleColorData.txt";
