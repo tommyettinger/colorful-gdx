@@ -10,6 +10,9 @@ import com.github.tommyettinger.colorful.TrigTools;
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
+import static com.badlogic.gdx.math.MathUtils.floor;
+import static com.github.tommyettinger.colorful.oklab.Gamut.GAMUT_DATA;
+
 /**
  * Contains code for manipulating colors as {@code int} and packed {@code float} values in the Oklab color space.
  * Oklab is a very new color space that builds on the same foundation as IPT, but seems to be better-calibrated for
@@ -458,9 +461,9 @@ public class ColorTools {
 	 * is, the most saturated color for a given hue and lightness always has a saturation of 1, but if that color
 	 * isn't perceptually very colorful (as is the case for very dark and very light colors), it will have a chroma that
 	 * is much lower than the maximum. The result of this method can't be negative, grayscale values have very close to
-	 * 0 chroma, and the most colorful values (all very close to magenta) should have 0.31613f chroma.
+	 * 0 chroma, and the most colorful values (close to cyan) should have 0.334f chroma.
 	 * @param encoded a color as a packed float that can be obtained by {@link #oklab(float, float, float, float)}
-	 * @return a float between 0.0f and 0.31613f that represents how colorful the given value is
+	 * @return a float between 0.0f and 0.334f that represents how colorful the given value is
 	 */
 	public static float chroma(final float encoded) {
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
@@ -472,14 +475,14 @@ public class ColorTools {
 	/**
 	 * Given a hue and lightness, this gets the (approximate) maximum chroma possible for that hue-lightness
 	 * combination. This is useful to know the bounds of {@link #chroma(float)}. This should be no greater
-	 * than 0.31613f .
+	 * than 0.334f .
 	 * @param hue the hue, typically between 0.0f and 1.0f, to look up
 	 * @param lightness the lightness, clamped between 0.0f and 1.0f, to look up
-	 * @return the maximum possible chroma for the given hue and lightness, between 0.0f and 0.31613f
+	 * @return the maximum possible chroma for the given hue and lightness, between 0.0f and 0.334f
 	 */
 	public static float chromaLimit(final float hue, final float lightness){
 		final int idx = (int) (Math.min(Math.max(lightness, 0f), 1f) * 255.999f) << 8
-				| (int) (256f * (hue - MathUtils.floor(hue)));
+				| (int) (256f * (hue - floor(hue)));
 		return (GAMUT_DATA[idx] + 1.5f) * 0x1p-8f;
 	}
 
@@ -683,7 +686,7 @@ public class ColorTools {
 	 * and opacity adjusted by the specified amounts. Note that this edits the color in HSL space, not Oklab! Takes
 	 * floats representing the amounts of change to apply to hue, saturation, lightness, and opacity; these can be
 	 * between -1f and 1f. Returns a float that can be used as a packed or encoded color with methods like
-	 * {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)}. The float is likely to be different than the
+	 * {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)}. The float is likely to be different from the
 	 * result of {@link #oklab(float, float, float, float)} unless hue, saturation, lightness, and opacity are all 0.
 	 * This won't allocate any objects.
 	 * <br>
@@ -1031,8 +1034,6 @@ public class ColorTools {
 		return color;
 	}
 
-	private static final byte[] GAMUT_DATA = Gamut.GAMUT_DATA;
-
 	/**
 	 * Given a 1D int index between 0 and 65535 (both inclusive), this treats the 1D index as two parts (lightness and
 	 * hue angle, both from 0 to 255) and gets the distance from grayscale to the edge of the gamut at that lightness
@@ -1043,7 +1044,7 @@ public class ColorTools {
 	 * {@link TrigTools#atan2_(float, float)} (with an Oklab color's B for y, then its A for x) and multiply it by 256
 	 * to get H.
 	 * <br>
-	 * The distance this returns is a byte between 0 and 82 (both inclusive), as the Euclidean distance from the center
+	 * The distance this returns is a byte between 0 and 84 (both inclusive), as the Euclidean distance from the center
 	 * grayscale value at the lightness in the index, to the edge of the gamut at the same lightness, along the hue in
 	 * the index. This is measured in a space from -1 to 1 for both A and B, with the 0 in the center meaning grayscale,
 	 * and multiplied by 256 to get a meaningful byte value. To return to the A and B values Oklab uses here, you would
@@ -1052,11 +1053,11 @@ public class ColorTools {
 	 * then multiply each of those by the distance, divide each by 256.0, and add 0.5.
 	 * <br>
 	 * Only intended for the narrow cases where external code needs read-only access to the internal Oklab gamut data.
-	 * The gamut data is quite large (the Oklab ColorTools file is 236 KB at the time of writing, while the IPT_HQ
-	 * ColorTools file is just 56 KB, with the main difference being the sizable exact gamut), so it's better to have
+	 * The gamut data is quite large (it is in a 71 KB source file containing only the gamut, while the entire IPT_HQ
+	 * ColorTools file is 56 KB, and includes everything else except a gamut table), so it's better to have
 	 * direct read access to it without being able to accidentally rewrite it.
 	 * @param index must be between 0 and 65535; the upper 8 bits are lightness and the lower 8 are hue angle.
-	 * @return a byte (always between 0 and 82, inclusive) representing the Euclidean distance between a grayscale value and the most saturated value possible, using the above measurements
+	 * @return a byte (always between 0 and 84, inclusive) representing the Euclidean distance between a grayscale value and the most saturated value possible, using the above measurements
 	 */
 	public static byte getRawGamutValue(int index){
 		return GAMUT_DATA[index];
@@ -1221,7 +1222,7 @@ public class ColorTools {
 	public static float oklabByHSL(float hue, float saturation, float lightness, float alpha) {
 		lightness = Math.min(Math.max(lightness, 0f), 1f);
 		saturation = Math.min(Math.max(saturation, 0f), 1f);
-		hue -= MathUtils.floor(hue);
+		hue -= floor(hue);
 		alpha = Math.min(Math.max(alpha, 0f), 1f);
 		final int idx = (int) (lightness * 255.999f) << 8 | (int) (256f * hue);
 		final float dist = GAMUT_DATA[idx] * saturation * 0.5f;
@@ -1254,7 +1255,7 @@ public class ColorTools {
 	public static float oklabByHCL(float hue, float chroma, float lightness, float alpha) {
 		lightness = Math.min(Math.max(lightness, 0f), 1f);
 		chroma = Math.max(chroma, 0f);
-		hue -= MathUtils.floor(hue);
+		hue -= floor(hue);
 		alpha = Math.min(Math.max(alpha, 0f), 1f);
 		final int idx = (int) (lightness * 255.999f) << 8 | (int) (256f * hue);
 		final float dist = Math.min(chroma * 127.5f, GAMUT_DATA[idx]);// * 0.5f);
