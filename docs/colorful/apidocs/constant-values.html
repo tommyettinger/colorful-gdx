@@ -98,33 +98,36 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.Shaders.fragmentShaderHSLPsychedelic">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShaderHSLPsychedelic">fragmentShaderHSLPsychedelic</a></code></div>
 <div class="col-last odd-row-color"><code>"#ifdef GL_ES\n#define LOWP lowp\nprecision mediump float;\n#else\n#define LOWP \n#endif\nvarying vec2 v_texCoords;\nvarying LOWP vec4 v_color;\nuniform sampler2D u_texture;\nconst float eps = 1.0e-10;\n////Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a\n////different distribution that matches primary colors in painting (where purple is opposite yellow).\n//float official2primaries(float hue) {\n//    return  hue * (  2.137\n//          + hue * (  0.542\n//          + hue * (-15.141\n//          + hue * ( 30.120\n//          + hue * (-22.541\n//          + hue *   5.883)))));\n//}\n////Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a\n////different distribution that matches primary colors in painting (where purple is opposite yellow).\n//float primaries2official(float hue) {\n//    return  hue * (  0.677\n//          + hue * ( -0.123\n//          + hue * (-11.302\n//          + hue * ( 46.767\n//          + hue * (-58.493\n//          + hue *   23.474)))));\n//}\nvec4 rgb2hsl(vec4 c)\n{\n    const vec4 J = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n    vec4 p = mix(vec4(c.bg, J.wz), vec4(c.gb, J.xy), step(c.b, c.g));\n    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));\n    float d = q.x - min(q.w, q.y);\n    float l = q.x * (1.0 - 0.5 * d / (q.x + eps));\n    return vec4(abs(q.z + (q.w - q.y) / (6.0 * d + eps)), (q.x - l) / (min(l, 1.0 - l) + eps), l, c.a);\n}\n\nvec4 hsl2rgb(vec4 c)\n{\n    const vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n    vec3 p = abs(fract(c.x + K.xyz) * 6.0 - K.www);\n    float v = (c.z + c.y * min(c.z, 1.0 - c.z));\n    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n}void main()\n{\n    float hue = v_color.x - 0.5;\n    float saturation = v_color.y * 2.0;\n    float brightness = v_color.z - 0.5;\n    vec4 tgt = texture2D( u_texture, v_texCoords );\n    tgt = rgb2hsl(tgt);\n    tgt.x = fract(tgt.x + hue);\n    tgt.y = clamp(tgt.y * saturation, 0.0, 1.0);\n    tgt.z = clamp(brightness + tgt.z, 0.0, 1.0);\n    gl_FragColor = hsl2rgb(tgt);\n}"</code></div>
-<div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.Shaders.fragmentShaderReplacement">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShaderReplacement">fragmentShaderReplacement</a></code></div>
-<div class="col-last even-row-color"><code>"#ifdef GL_ES\n#define LOWP lowp\nprecision mediump float;\n#else\n#define LOWP \n#endif\nvarying vec2 v_texCoords;\nvarying LOWP vec4 v_color;\nuniform sampler2D u_texture;\nuniform vec4 u_search;\nuniform vec4 u_replace;\nvoid main()\n{\n   vec4 tgt = texture2D(u_texture, v_texCoords);\n   float curve = smoothstep(0.0, 1.0, 1.25 - distance(tgt.rgb, u_search.rgb) * 2.0);\n   gl_FragColor = vec4(mix(tgt.rgb, u_replace.rgb, curve), tgt.a) * v_color;\n}"</code></div>
-<div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.Shaders.fragmentShaderRGBA">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShaderRGBA">fragmentShaderRGBA</a></code></div>
-<div class="col-last odd-row-color"><code>"#ifdef GL_ES\n#define LOWP lowp\nprecision mediump float;\n#else\n#define LOWP \n#endif\nvarying vec2 v_texCoords;\nvarying LOWP vec4 v_color;\nuniform sampler2D u_texture;\nvoid main()\n{\n   vec4 tgt = texture2D( u_texture, v_texCoords );\n   gl_FragColor = clamp(vec4(tgt.rgb * pow((v_color.rgb + 0.1) * 1.666, vec3(1.5)), v_color.a * tgt.a), 0.0, 1.0);\n}"</code></div>
-<div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.Shaders.fragmentShaderRotateHSL">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShaderRotateHSL">fragmentShaderRotateHSL</a></code></div>
-<div class="col-last even-row-color"><code>"#ifdef GL_ES\n#define LOWP lowp\nprecision mediump float;\n#else\n#define LOWP \n#endif\nvarying vec2 v_texCoords;\nvarying LOWP vec4 v_color;\nuniform sampler2D u_texture;\nconst float eps = 1.0e-10;\n////Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a\n////different distribution that matches primary colors in painting (where purple is opposite yellow).\n//float official2primaries(float hue) {\n//    return  hue * (  2.137\n//          + hue * (  0.542\n//          + hue * (-15.141\n//          + hue * ( 30.120\n//          + hue * (-22.541\n//          + hue *   5.883)))));\n//}\n////Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a\n////different distribution that matches primary colors in painting (where purple is opposite yellow).\n//float primaries2official(float hue) {\n//    return  hue * (  0.677\n//          + hue * ( -0.123\n//          + hue * (-11.302\n//          + hue * ( 46.767\n//          + hue * (-58.493\n//          + hue *   23.474)))));\n//}\nvec4 rgb2hsl(vec4 c)\n{\n    const vec4 J = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n    vec4 p = mix(vec4(c.bg, J.wz), vec4(c.gb, J.xy), step(c.b, c.g));\n    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));\n    float d = q.x - min(q.w, q.y);\n    float l = q.x * (1.0 - 0.5 * d / (q.x + eps));\n    return vec4(abs(q.z + (q.w - q.y) / (6.0 * d + eps)), (q.x - l) / (min(l, 1.0 - l) + eps), l, c.a);\n}\n\nvec4 hsl2rgb(vec4 c)\n{\n    const vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n    vec3 p = abs(fract(c.x + K.xyz) * 6.0 - K.www);\n    float v = (c.z + c.y * min(c.z, 1.0 - c.z));\n    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n}void main()\n{\n   vec4 tgt = texture2D( u_texture, v_texCoords );\n   vec4 hsl = rgb2hsl(tgt);\n   hsl.x = fract(v_color.x + hsl.x + 0.5);\n   hsl.yz = clamp(hsl.yz * v_color.yz * 2.0, 0.0, 1.0);\n   gl_FragColor = hsl2rgb(hsl);\n}"</code></div>
-<div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.Shaders.partialCodeHSL">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#partialCodeHSL">partialCodeHSL</a></code></div>
-<div class="col-last odd-row-color"><code>"const float eps = 1.0e-10;\n////Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a\n////different distribution that matches primary colors in painting (where purple is opposite yellow).\n//float official2primaries(float hue) {\n//    return  hue * (  2.137\n//          + hue * (  0.542\n//          + hue * (-15.141\n//          + hue * ( 30.120\n//          + hue * (-22.541\n//          + hue *   5.883)))));\n//}\n////Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a\n////different distribution that matches primary colors in painting (where purple is opposite yellow).\n//float primaries2official(float hue) {\n//    return  hue * (  0.677\n//          + hue * ( -0.123\n//          + hue * (-11.302\n//          + hue * ( 46.767\n//          + hue * (-58.493\n//          + hue *   23.474)))));\n//}\nvec4 rgb2hsl(vec4 c)\n{\n    const vec4 J = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n    vec4 p = mix(vec4(c.bg, J.wz), vec4(c.gb, J.xy), step(c.b, c.g));\n    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));\n    float d = q.x - min(q.w, q.y);\n    float l = q.x * (1.0 - 0.5 * d / (q.x + eps));\n    return vec4(abs(q.z + (q.w - q.y) / (6.0 * d + eps)), (q.x - l) / (min(l, 1.0 - l) + eps), l, c.a);\n}\n\nvec4 hsl2rgb(vec4 c)\n{\n    const vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n    vec3 p = abs(fract(c.x + K.xyz) * 6.0 - K.www);\n    float v = (c.z + c.y * min(c.z, 1.0 - c.z));\n    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n}"</code></div>
-<div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.Shaders.partialCodeHSLStretched">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#partialCodeHSLStretched">partialCodeHSLStretched</a></code></div>
-<div class="col-last even-row-color"><code>"const float eps = 1.0e-10;\nfloat official2primaries(float hue) {\n    return (sqrt(hue + 0.050625) - 0.225) * 1.25;\n}\nfloat primaries2official(float hue) {\n    return pow(hue * 0.8 + 0.225, 2.0) - 0.050625;\n}\nvec4 rgb2hsl(vec4 c)\n{\n    const vec4 J = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n    vec4 p = mix(vec4(c.bg, J.wz), vec4(c.gb, J.xy), step(c.b, c.g));\n    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));\n\n    float d = q.x - min(q.w, q.y);\n    float l = q.x * (1.0 - 0.5 * d / (q.x + eps));\n    return vec4(official2primaries(abs(q.z + (q.w - q.y) / (6.0 * d + eps))), (q.x - l) / (min(l, 1.0 - l) + eps), l, c.a);\n}\n\nvec4 hsl2rgb(vec4 c)\n{\n    const vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n    vec3 p = abs(fract(primaries2official(c.x) + K.xyz) * 6.0 - K.www);\n    float v = (c.z + c.y * min(c.z, 1.0 - c.z));\n    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n}"</code></div>
-<div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.Shaders.partialHueRodrigues">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#partialHueRodrigues">partialHueRodrigues</a></code></div>
-<div class="col-last odd-row-color"><code>"vec3 applyHue(vec3 rgb, float hue)\n{\n    vec3 k = vec3(0.57735);\n    float c = cos(hue);\n    //Rodrigues\' rotation formula\n    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n}\n"</code></div>
-<div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.Shaders.vertexShader">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#vertexShader">vertexShader</a></code></div>
-<div class="col-last even-row-color"><code>"attribute vec4 a_position;\nattribute vec4 a_color;\nattribute vec2 a_texCoord0;\nuniform mat4 u_projTrans;\nvarying vec4 v_color;\nvarying vec2 v_texCoords;\n\nvoid main()\n{\n   v_color = a_color;\n   v_color.a = v_color.a * (255.0/254.0);\n   v_texCoords = a_texCoord0;\n   gl_Position =  u_projTrans * a_position;\n}\n"</code></div>
-<div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.Shaders.vertexShaderHSI">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#vertexShaderHSI">vertexShaderHSI</a></code></div>
-<div class="col-last odd-row-color"><code>"attribute vec4 a_position;\nattribute vec4 a_color;\nattribute vec2 a_texCoord0;\nuniform mat4 u_projTrans;\nvarying vec4 v_color;\nvarying vec2 v_texCoords;\nconst vec3 yellow  = vec3( 0.16155326,0.020876605,-0.26078433 );\nconst vec3 magenta = vec3(-0.16136102,0.122068435,-0.070396   );\nconst vec3 cyan    = vec3( 0.16420607,0.3481738,   0.104959644);\nvoid main()\n{\n    v_color = a_color;\n    v_color.a = a_color.a * (255.0/254.0);\n    vec3 hsi = v_color.rgb;\n    v_color.x = (hsi.z - 0.5) * 0.9999;\n    hsi.x *= 6.28318;\n    hsi.y *= 0.5;\n    v_color.y = cos(hsi.x) * hsi.y;\n    v_color.z = sin(hsi.x) * hsi.y;\n    float crMid = dot(cyan.yz, v_color.yz);\n    float mgMid = dot(magenta.yz, v_color.yz);\n    float ybMid = dot(yellow.yz, v_color.yz);\n    float crScale = (v_color.x - 0.5 + step(crMid, 0.0)) * cyan.x / (0.00001 - crMid);\n    float mgScale = (v_color.x + 0.5 - step(mgMid, 0.0)) * magenta.x / (0.00001 - mgMid);\n    float ybScale = (v_color.x - 0.5 + step(ybMid, 0.0)) * yellow.x / (0.00001 - ybMid);\n    float scale = 4.0 * min(crScale, min(mgScale, ybScale));\n    v_color.yz *= scale * length(v_color.yz) / cos(3.14159 * v_color.x);\n    v_color.xyz += 0.5;\n    v_texCoords = a_texCoord0;\n    gl_Position =  u_projTrans * a_position;\n}\n"</code></div>
-<div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.Shaders.vertexShaderHSLC">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#vertexShaderHSLC">vertexShaderHSLC</a></code></div>
-<div class="col-last even-row-color"><code>"attribute vec4 a_position;\nattribute vec4 a_color;\nattribute vec2 a_texCoord0;\nuniform mat4 u_projTrans;\nvarying vec4 v_color;\nvarying vec2 v_texCoords;\nvarying float v_lightFix;\n\nvoid main()\n{\n   v_color = a_color;\n   v_texCoords = a_texCoord0;\n   v_color.a = pow(v_color.a * (255.0/254.0) + 0.5, 1.709);\n   v_lightFix = 1.0 + pow(v_color.a, 1.41421356);\n   gl_Position =  u_projTrans * a_position;\n}\n"</code></div>
+<div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.Shaders.fragmentShaderInvertedRGB">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShaderInvertedRGB">fragmentShaderInvertedRGB</a></code></div>
+<div class="col-last even-row-color"><code>"#ifdef GL_ES\n#define LOWP lowp\nprecision mediump float;\n#else\n#define LOWP \n#endif\nvarying vec2 v_texCoords;\nvarying LOWP vec4 v_color;\nuniform sampler2D u_texture;\nvoid main()\n{\n   vec4 tgt = texture2D(u_texture, v_texCoords);\n   gl_FragColor = vec4(1.0 - tgt.rgb * v_color.rgb, v_color.a * tgt.a);\n}"</code></div>
+<div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.Shaders.fragmentShaderReplacement">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShaderReplacement">fragmentShaderReplacement</a></code></div>
+<div class="col-last odd-row-color"><code>"#ifdef GL_ES\n#define LOWP lowp\nprecision mediump float;\n#else\n#define LOWP \n#endif\nvarying vec2 v_texCoords;\nvarying LOWP vec4 v_color;\nuniform sampler2D u_texture;\nuniform vec4 u_search;\nuniform vec4 u_replace;\nvoid main()\n{\n   vec4 tgt = texture2D(u_texture, v_texCoords);\n   float curve = smoothstep(0.0, 1.0, 1.25 - distance(tgt.rgb, u_search.rgb) * 2.0);\n   gl_FragColor = vec4(mix(tgt.rgb, u_replace.rgb, curve), tgt.a) * v_color;\n}"</code></div>
+<div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.Shaders.fragmentShaderRGBA">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShaderRGBA">fragmentShaderRGBA</a></code></div>
+<div class="col-last even-row-color"><code>"#ifdef GL_ES\n#define LOWP lowp\nprecision mediump float;\n#else\n#define LOWP \n#endif\nvarying vec2 v_texCoords;\nvarying LOWP vec4 v_color;\nuniform sampler2D u_texture;\nvoid main()\n{\n   vec4 tgt = texture2D( u_texture, v_texCoords );\n   gl_FragColor = clamp(vec4(tgt.rgb * pow((v_color.rgb + 0.1) * 1.666, vec3(1.5)), v_color.a * tgt.a), 0.0, 1.0);\n}"</code></div>
+<div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.Shaders.fragmentShaderRotateHSL">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#fragmentShaderRotateHSL">fragmentShaderRotateHSL</a></code></div>
+<div class="col-last odd-row-color"><code>"#ifdef GL_ES\n#define LOWP lowp\nprecision mediump float;\n#else\n#define LOWP \n#endif\nvarying vec2 v_texCoords;\nvarying LOWP vec4 v_color;\nuniform sampler2D u_texture;\nconst float eps = 1.0e-10;\n////Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a\n////different distribution that matches primary colors in painting (where purple is opposite yellow).\n//float official2primaries(float hue) {\n//    return  hue * (  2.137\n//          + hue * (  0.542\n//          + hue * (-15.141\n//          + hue * ( 30.120\n//          + hue * (-22.541\n//          + hue *   5.883)))));\n//}\n////Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a\n////different distribution that matches primary colors in painting (where purple is opposite yellow).\n//float primaries2official(float hue) {\n//    return  hue * (  0.677\n//          + hue * ( -0.123\n//          + hue * (-11.302\n//          + hue * ( 46.767\n//          + hue * (-58.493\n//          + hue *   23.474)))));\n//}\nvec4 rgb2hsl(vec4 c)\n{\n    const vec4 J = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n    vec4 p = mix(vec4(c.bg, J.wz), vec4(c.gb, J.xy), step(c.b, c.g));\n    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));\n    float d = q.x - min(q.w, q.y);\n    float l = q.x * (1.0 - 0.5 * d / (q.x + eps));\n    return vec4(abs(q.z + (q.w - q.y) / (6.0 * d + eps)), (q.x - l) / (min(l, 1.0 - l) + eps), l, c.a);\n}\n\nvec4 hsl2rgb(vec4 c)\n{\n    const vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n    vec3 p = abs(fract(c.x + K.xyz) * 6.0 - K.www);\n    float v = (c.z + c.y * min(c.z, 1.0 - c.z));\n    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n}void main()\n{\n   vec4 tgt = texture2D( u_texture, v_texCoords );\n   vec4 hsl = rgb2hsl(tgt);\n   hsl.x = fract(v_color.x + hsl.x + 0.5);\n   hsl.yz = clamp(hsl.yz * v_color.yz * 2.0, 0.0, 1.0);\n   gl_FragColor = hsl2rgb(hsl);\n}"</code></div>
+<div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.Shaders.partialCodeHSL">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#partialCodeHSL">partialCodeHSL</a></code></div>
+<div class="col-last even-row-color"><code>"const float eps = 1.0e-10;\n////Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a\n////different distribution that matches primary colors in painting (where purple is opposite yellow).\n//float official2primaries(float hue) {\n//    return  hue * (  2.137\n//          + hue * (  0.542\n//          + hue * (-15.141\n//          + hue * ( 30.120\n//          + hue * (-22.541\n//          + hue *   5.883)))));\n//}\n////Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a\n////different distribution that matches primary colors in painting (where purple is opposite yellow).\n//float primaries2official(float hue) {\n//    return  hue * (  0.677\n//          + hue * ( -0.123\n//          + hue * (-11.302\n//          + hue * ( 46.767\n//          + hue * (-58.493\n//          + hue *   23.474)))));\n//}\nvec4 rgb2hsl(vec4 c)\n{\n    const vec4 J = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n    vec4 p = mix(vec4(c.bg, J.wz), vec4(c.gb, J.xy), step(c.b, c.g));\n    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));\n    float d = q.x - min(q.w, q.y);\n    float l = q.x * (1.0 - 0.5 * d / (q.x + eps));\n    return vec4(abs(q.z + (q.w - q.y) / (6.0 * d + eps)), (q.x - l) / (min(l, 1.0 - l) + eps), l, c.a);\n}\n\nvec4 hsl2rgb(vec4 c)\n{\n    const vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n    vec3 p = abs(fract(c.x + K.xyz) * 6.0 - K.www);\n    float v = (c.z + c.y * min(c.z, 1.0 - c.z));\n    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n}"</code></div>
+<div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.Shaders.partialCodeHSLStretched">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#partialCodeHSLStretched">partialCodeHSLStretched</a></code></div>
+<div class="col-last odd-row-color"><code>"const float eps = 1.0e-10;\nfloat official2primaries(float hue) {\n    return (sqrt(hue + 0.050625) - 0.225) * 1.25;\n}\nfloat primaries2official(float hue) {\n    return pow(hue * 0.8 + 0.225, 2.0) - 0.050625;\n}\nvec4 rgb2hsl(vec4 c)\n{\n    const vec4 J = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n    vec4 p = mix(vec4(c.bg, J.wz), vec4(c.gb, J.xy), step(c.b, c.g));\n    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));\n\n    float d = q.x - min(q.w, q.y);\n    float l = q.x * (1.0 - 0.5 * d / (q.x + eps));\n    return vec4(official2primaries(abs(q.z + (q.w - q.y) / (6.0 * d + eps))), (q.x - l) / (min(l, 1.0 - l) + eps), l, c.a);\n}\n\nvec4 hsl2rgb(vec4 c)\n{\n    const vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n    vec3 p = abs(fract(primaries2official(c.x) + K.xyz) * 6.0 - K.www);\n    float v = (c.z + c.y * min(c.z, 1.0 - c.z));\n    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n}"</code></div>
+<div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.Shaders.partialHueRodrigues">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#partialHueRodrigues">partialHueRodrigues</a></code></div>
+<div class="col-last even-row-color"><code>"vec3 applyHue(vec3 rgb, float hue)\n{\n    vec3 k = vec3(0.57735);\n    float c = cos(hue);\n    //Rodrigues\' rotation formula\n    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n}\n"</code></div>
+<div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.Shaders.vertexShader">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#vertexShader">vertexShader</a></code></div>
+<div class="col-last odd-row-color"><code>"attribute vec4 a_position;\nattribute vec4 a_color;\nattribute vec2 a_texCoord0;\nuniform mat4 u_projTrans;\nvarying vec4 v_color;\nvarying vec2 v_texCoords;\n\nvoid main()\n{\n   v_color = a_color;\n   v_color.a = v_color.a * (255.0/254.0);\n   v_texCoords = a_texCoord0;\n   gl_Position =  u_projTrans * a_position;\n}\n"</code></div>
+<div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.Shaders.vertexShaderHSI">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#vertexShaderHSI">vertexShaderHSI</a></code></div>
+<div class="col-last even-row-color"><code>"attribute vec4 a_position;\nattribute vec4 a_color;\nattribute vec2 a_texCoord0;\nuniform mat4 u_projTrans;\nvarying vec4 v_color;\nvarying vec2 v_texCoords;\nconst vec3 yellow  = vec3( 0.16155326,0.020876605,-0.26078433 );\nconst vec3 magenta = vec3(-0.16136102,0.122068435,-0.070396   );\nconst vec3 cyan    = vec3( 0.16420607,0.3481738,   0.104959644);\nvoid main()\n{\n    v_color = a_color;\n    v_color.a = a_color.a * (255.0/254.0);\n    vec3 hsi = v_color.rgb;\n    v_color.x = (hsi.z - 0.5) * 0.9999;\n    hsi.x *= 6.28318;\n    hsi.y *= 0.5;\n    v_color.y = cos(hsi.x) * hsi.y;\n    v_color.z = sin(hsi.x) * hsi.y;\n    float crMid = dot(cyan.yz, v_color.yz);\n    float mgMid = dot(magenta.yz, v_color.yz);\n    float ybMid = dot(yellow.yz, v_color.yz);\n    float crScale = (v_color.x - 0.5 + step(crMid, 0.0)) * cyan.x / (0.00001 - crMid);\n    float mgScale = (v_color.x + 0.5 - step(mgMid, 0.0)) * magenta.x / (0.00001 - mgMid);\n    float ybScale = (v_color.x - 0.5 + step(ybMid, 0.0)) * yellow.x / (0.00001 - ybMid);\n    float scale = 4.0 * min(crScale, min(mgScale, ybScale));\n    v_color.yz *= scale * length(v_color.yz) / cos(3.14159 * v_color.x);\n    v_color.xyz += 0.5;\n    v_texCoords = a_texCoord0;\n    gl_Position =  u_projTrans * a_position;\n}\n"</code></div>
+<div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.Shaders.vertexShaderHSLC">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/Shaders.html#vertexShaderHSLC">vertexShaderHSLC</a></code></div>
+<div class="col-last odd-row-color"><code>"attribute vec4 a_position;\nattribute vec4 a_color;\nattribute vec2 a_texCoord0;\nuniform mat4 u_projTrans;\nvarying vec4 v_color;\nvarying vec2 v_texCoords;\nvarying float v_lightFix;\n\nvoid main()\n{\n   v_color = a_color;\n   v_texCoords = a_texCoord0;\n   v_color.a = pow(v_color.a * (255.0/254.0) + 0.5, 1.709);\n   v_lightFix = 1.0 + pow(v_color.a, 1.41421356);\n   gl_Position =  u_projTrans * a_position;\n}\n"</code></div>
 </div>
 </li>
 </ul>
@@ -3187,772 +3190,772 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Value</div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.ABSINTHE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#ABSINTHE">ABSINTHE</a></code></div>
-<div class="col-last even-row-color"><code>-9.798350949885707E37f</code></div>
+<div class="col-last even-row-color"><code>-9.798331681596584E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.AIR_FORCE_BLUE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#AIR_FORCE_BLUE">AIR_FORCE_BLUE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.090982272992471E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.0909650329443075E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.AMAZONITE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#AMAZONITE">AMAZONITE</a></code></div>
-<div class="col-last even-row-color"><code>-8.423048925384896E37f</code></div>
+<div class="col-last even-row-color"><code>-8.423035741818654E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.ANGEL_WING">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#ANGEL_WING">ANGEL_WING</a></code></div>
-<div class="col-last odd-row-color"><code>-8.456819137374976E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.456815587953296E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.APPLE_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#APPLE_GREEN">APPLE_GREEN</a></code></div>
-<div class="col-last even-row-color"><code>-9.862198961197523E37f</code></div>
+<div class="col-last even-row-color"><code>-9.862171579944558E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.APRICOT">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#APRICOT">APRICOT</a></code></div>
-<div class="col-last odd-row-color"><code>-9.671901281332221E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.671873900079256E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.AQUAMARINE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#AQUAMARINE">AQUAMARINE</a></code></div>
-<div class="col-last even-row-color"><code>-8.456555466050129E37f</code></div>
+<div class="col-last even-row-color"><code>-8.456549888387488E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.ARMY_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#ARMY_GREEN">ARMY_GREEN</a></code></div>
-<div class="col-last odd-row-color"><code>-9.336400816993897E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.33636532277709E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.ARTICHOKE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#ARTICHOKE">ARTICHOKE</a></code></div>
-<div class="col-last even-row-color"><code>-8.737532249831676E37f</code></div>
+<div class="col-last even-row-color"><code>-8.73750081209679E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.ASPARAGUS">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#ASPARAGUS">ASPARAGUS</a></code></div>
-<div class="col-last odd-row-color"><code>-9.135995398302616E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.13595888996533E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.AVOCADO">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#AVOCADO">AVOCADO</a></code></div>
-<div class="col-last even-row-color"><code>-9.666158317052947E37f</code></div>
+<div class="col-last even-row-color"><code>-9.666123836956621E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BANANA_PUDDING">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BANANA_PUDDING">BANANA_PUDDING</a></code></div>
-<div class="col-last odd-row-color"><code>-9.602601358318944E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.60258107590934E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BEIGE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BEIGE">BEIGE</a></code></div>
-<div class="col-last even-row-color"><code>-8.93978032543545E37f</code></div>
+<div class="col-last even-row-color"><code>-8.939750915941524E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BLACK">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BLACK">BLACK</a></code></div>
 <div class="col-last odd-row-color"><code>-8.490314015654687E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BLACKLIGHT_GLOW">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BLACKLIGHT_GLOW">BLACKLIGHT_GLOW</a></code></div>
-<div class="col-last even-row-color"><code>-7.695054425721987E37f</code></div>
+<div class="col-last even-row-color"><code>-7.695036171553344E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BLUE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BLUE">BLUE</a></code></div>
-<div class="col-last odd-row-color"><code>-7.160625102111528E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.160607862063365E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BLUE_EYE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BLUE_EYE">BLUE_EYE</a></code></div>
-<div class="col-last even-row-color"><code>-7.991414403067424E37f</code></div>
+<div class="col-last even-row-color"><code>-7.991396148898781E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BLUE_SMOKE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BLUE_SMOKE">BLUE_SMOKE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.29076806407036E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.290752345202917E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BLUE_STEEL">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BLUE_STEEL">BLUE_STEEL</a></code></div>
-<div class="col-last even-row-color"><code>-7.992324576198388E37f</code></div>
+<div class="col-last even-row-color"><code>-7.992306829089985E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BLUEBERRY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BLUEBERRY">BLUEBERRY</a></code></div>
-<div class="col-last odd-row-color"><code>-7.925051372964756E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.925035654097313E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BOLOGNA">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BOLOGNA">BOLOGNA</a></code></div>
-<div class="col-last even-row-color"><code>-8.611293518338068E37f</code></div>
+<div class="col-last even-row-color"><code>-8.611258024121262E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BOYSENBERRY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BOYSENBERRY">BOYSENBERRY</a></code></div>
-<div class="col-last odd-row-color"><code>-8.125232163969677E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.125213909801034E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BRICK">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BRICK">BRICK</a></code></div>
-<div class="col-last even-row-color"><code>-9.076557796959115E37f</code></div>
+<div class="col-last even-row-color"><code>-9.076521288621828E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BRIGHT_RED">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BRIGHT_RED">BRIGHT_RED</a></code></div>
-<div class="col-last odd-row-color"><code>-9.609813783174003E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.609778288957197E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BRONZE_SKIN_1">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BRONZE_SKIN_1">BRONZE_SKIN_1</a></code></div>
-<div class="col-last even-row-color"><code>-8.939709337001836E37f</code></div>
+<div class="col-last even-row-color"><code>-8.93967384278503E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BRONZE_SKIN_2">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BRONZE_SKIN_2">BRONZE_SKIN_2</a></code></div>
-<div class="col-last odd-row-color"><code>-8.873273290224595E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.873236781887309E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BRONZE_SKIN_3">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BRONZE_SKIN_3">BRONZE_SKIN_3</a></code></div>
-<div class="col-last even-row-color"><code>-9.006232598140373E37f</code></div>
+<div class="col-last even-row-color"><code>-9.006201160405488E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BRONZE_SKIN_4">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BRONZE_SKIN_4">BRONZE_SKIN_4</a></code></div>
-<div class="col-last odd-row-color"><code>-8.806618193423635E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.80659689689355E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BROWN_VELVET">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BROWN_VELVET">BROWN_VELVET</a></code></div>
-<div class="col-last even-row-color"><code>-8.458166903493139E37f</code></div>
+<div class="col-last even-row-color"><code>-8.458151691685936E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BUBBLE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BUBBLE">BUBBLE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.42306870073426E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.423064644252339E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BUBBLE_GUM">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BUBBLE_GUM">BUBBLE_GUM</a></code></div>
-<div class="col-last even-row-color"><code>-8.228195816322615E37f</code></div>
+<div class="col-last even-row-color"><code>-8.228179083334692E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BUBBLEGUM_PINK">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BUBBLEGUM_PINK">BUBBLEGUM_PINK</a></code></div>
-<div class="col-last odd-row-color"><code>-8.027913613269676E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.027899922643193E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.BURNT_YELLOW">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#BURNT_YELLOW">BURNT_YELLOW</a></code></div>
-<div class="col-last even-row-color"><code>-9.73704838097915E37f</code></div>
+<div class="col-last even-row-color"><code>-9.737017957364745E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.CALM_SKY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#CALM_SKY">CALM_SKY</a></code></div>
-<div class="col-last odd-row-color"><code>-7.891346571745648E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.891330345817965E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.CARMINE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#CARMINE">CARMINE</a></code></div>
-<div class="col-last even-row-color"><code>-8.945424920028146E37f</code></div>
+<div class="col-last even-row-color"><code>-8.945388411690859E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.CEDAR_WOOD">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#CEDAR_WOOD">CEDAR_WOOD</a></code></div>
-<div class="col-last odd-row-color"><code>-9.075186706069908E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.075156282455503E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.CELADON">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#CELADON">CELADON</a></code></div>
-<div class="col-last even-row-color"><code>-9.06858883822584E37f</code></div>
+<div class="col-last even-row-color"><code>-9.068576668780078E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.CELERY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#CELERY">CELERY</a></code></div>
-<div class="col-last odd-row-color"><code>-9.531992205765752E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.531975979838069E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.CHARTREUSE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#CHARTREUSE">CHARTREUSE</a></code></div>
-<div class="col-last even-row-color"><code>-9.932067805800182E37f</code></div>
+<div class="col-last even-row-color"><code>-9.93205563635442E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.CHERRY_SYRUP">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#CHERRY_SYRUP">CHERRY_SYRUP</a></code></div>
-<div class="col-last odd-row-color"><code>-8.425713526946576E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.425698822199613E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.CHINCHILLA">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#CHINCHILLA">CHINCHILLA</a></code></div>
-<div class="col-last even-row-color"><code>-8.490403258256943E37f</code></div>
+<div class="col-last even-row-color"><code>-8.49038601820878E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.CHIPPED_GRANITE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#CHIPPED_GRANITE">CHIPPED_GRANITE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.290904463274945E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.290890772648462E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.CLOUD">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#CLOUD">CLOUD</a></code></div>
-<div class="col-last even-row-color"><code>-8.490437231293029E37f</code></div>
+<div class="col-last even-row-color"><code>-8.490432667750868E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.COAL_BLACK">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#COAL_BLACK">COAL_BLACK</a></code></div>
-<div class="col-last odd-row-color"><code>-8.490336833365491E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.490327706281169E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.COLD_IRON">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#COLD_IRON">COLD_IRON</a></code></div>
-<div class="col-last even-row-color"><code>-8.290614931877853E37f</code></div>
+<div class="col-last even-row-color"><code>-8.290596677709209E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.CORN_SILK">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#CORN_SILK">CORN_SILK</a></code></div>
-<div class="col-last odd-row-color"><code>-9.004697219733377E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.004672880841853E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.CORNFLOWER_BLUE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#CORNFLOWER_BLUE">CORNFLOWER_BLUE</a></code></div>
-<div class="col-last even-row-color"><code>-7.39402695886651E37f</code></div>
+<div class="col-last even-row-color"><code>-7.394009211758107E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.COTTON_CANDY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#COTTON_CANDY">COTTON_CANDY</a></code></div>
-<div class="col-last odd-row-color"><code>-8.42462334743038E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.424617262707499E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.CREAM">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#CREAM">CREAM</a></code></div>
-<div class="col-last even-row-color"><code>-9.07119817022135E37f</code></div>
+<div class="col-last even-row-color"><code>-9.07119512785991E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.CRICKET">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#CRICKET">CRICKET</a></code></div>
-<div class="col-last odd-row-color"><code>-9.071115012341975E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.071080532245649E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.CYAN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#CYAN">CYAN</a></code></div>
-<div class="col-last even-row-color"><code>-8.321811306089229E37f</code></div>
+<div class="col-last even-row-color"><code>-8.321803193125388E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DARK_GRAY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DARK_GRAY">DARK_GRAY</a></code></div>
-<div class="col-last odd-row-color"><code>-8.490370299341337E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.490353059293174E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DARK_PINE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DARK_PINE">DARK_PINE</a></code></div>
-<div class="col-last even-row-color"><code>-9.003785525421693E37f</code></div>
+<div class="col-last even-row-color"><code>-9.003757130048248E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DARK_SKIN_1">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DARK_SKIN_1">DARK_SKIN_1</a></code></div>
-<div class="col-last odd-row-color"><code>-8.607896214729456E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.60786274875361E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DARK_SKIN_2">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DARK_SKIN_2">DARK_SKIN_2</a></code></div>
-<div class="col-last even-row-color"><code>-8.74161104240297E37f</code></div>
+<div class="col-last even-row-color"><code>-8.741576562306644E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DARK_SKIN_3">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DARK_SKIN_3">DARK_SKIN_3</a></code></div>
-<div class="col-last odd-row-color"><code>-8.675430553986735E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.675394045649449E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DARK_TEAL">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DARK_TEAL">DARK_TEAL</a></code></div>
-<div class="col-last even-row-color"><code>-8.39002155664655E37f</code></div>
+<div class="col-last even-row-color"><code>-8.390005837779107E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DEEP_JUNGLE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DEEP_JUNGLE">DEEP_JUNGLE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.738694431901965E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.738672121251401E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DEEP_PURPLE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DEEP_PURPLE">DEEP_PURPLE</a></code></div>
-<div class="col-last even-row-color"><code>-8.027996771149051E37f</code></div>
+<div class="col-last even-row-color"><code>-8.027980038161128E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DEEP_TEAL">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DEEP_TEAL">DEEP_TEAL</a></code></div>
-<div class="col-last odd-row-color"><code>-8.389512468165498E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.389495228117335E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DENIM_BLUE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DENIM_BLUE">DENIM_BLUE</a></code></div>
-<div class="col-last even-row-color"><code>-7.990513864081022E37f</code></div>
+<div class="col-last even-row-color"><code>-7.990496116972619E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DESERT_RAIN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DESERT_RAIN">DESERT_RAIN</a></code></div>
-<div class="col-last odd-row-color"><code>-8.090964018823827E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.090946271715424E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DRAB_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DRAB_GREEN">DRAB_GREEN</a></code></div>
-<div class="col-last even-row-color"><code>-8.871919439383551E37f</code></div>
+<div class="col-last even-row-color"><code>-8.871886987528186E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DREARY_BLUE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DREARY_BLUE">DREARY_BLUE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.2573715554772275E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.257353808368824E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DRIED_SAGE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DRIED_SAGE">DRIED_SAGE</a></code></div>
-<div class="col-last even-row-color"><code>-8.671104316018276E37f</code></div>
+<div class="col-last even-row-color"><code>-8.671085047729153E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DRIFTWOOD">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DRIFTWOOD">DRIFTWOOD</a></code></div>
-<div class="col-last odd-row-color"><code>-8.938961930207942E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.938926435991136E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DRY_BRUSH">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DRY_BRUSH">DRY_BRUSH</a></code></div>
-<div class="col-last even-row-color"><code>-9.669274709288548E37f</code></div>
+<div class="col-last even-row-color"><code>-9.669241243312702E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DRY_PEPPER">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DRY_PEPPER">DRY_PEPPER</a></code></div>
-<div class="col-last odd-row-color"><code>-9.606442846697876E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.60640836660155E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DULL_AZURE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DULL_AZURE">DULL_AZURE</a></code></div>
-<div class="col-last even-row-color"><code>-7.824999260510423E37f</code></div>
+<div class="col-last even-row-color"><code>-7.824981006341779E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DULL_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DULL_GREEN">DULL_GREEN</a></code></div>
-<div class="col-last odd-row-color"><code>-9.270183820240376E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.27014934014405E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DULL_VIOLET">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DULL_VIOLET">DULL_VIOLET</a></code></div>
-<div class="col-last even-row-color"><code>-8.192216342866457E37f</code></div>
+<div class="col-last even-row-color"><code>-8.192198088697814E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DUN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DUN">DUN</a></code></div>
-<div class="col-last odd-row-color"><code>-9.137605821625146E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.1375774262517E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DUST_BUNNY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DUST_BUNNY">DUST_BUNNY</a></code></div>
-<div class="col-last even-row-color"><code>-8.324143783193649E37f</code></div>
+<div class="col-last even-row-color"><code>-8.324133641988847E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DUSTY_GRAPE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DUSTY_GRAPE">DUSTY_GRAPE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.259188859377715E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.259171619329552E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DUSTY_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DUSTY_GREEN">DUSTY_GREEN</a></code></div>
-<div class="col-last even-row-color"><code>-8.936387078308758E37f</code></div>
+<div class="col-last even-row-color"><code>-8.936354626453392E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.DUSTY_PINK">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#DUSTY_PINK">DUSTY_PINK</a></code></div>
-<div class="col-last odd-row-color"><code>-8.358785631736446E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.358769405808763E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.EARWAX">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#EARWAX">EARWAX</a></code></div>
-<div class="col-last even-row-color"><code>-9.668524260133213E37f</code></div>
+<div class="col-last even-row-color"><code>-9.668495864759768E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.EGGPLANT">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#EGGPLANT">EGGPLANT</a></code></div>
-<div class="col-last odd-row-color"><code>-8.092877157109692E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.09286498766393E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.ELECTRIC_BLUE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#ELECTRIC_BLUE">ELECTRIC_BLUE</a></code></div>
-<div class="col-last even-row-color"><code>-7.459712556488416E37f</code></div>
+<div class="col-last even-row-color"><code>-7.459694302319773E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.EMBERS">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#EMBERS">EMBERS</a></code></div>
-<div class="col-last odd-row-color"><code>-9.475598994103759E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.475564514007433E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.EMERALD">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#EMERALD">EMERALD</a></code></div>
-<div class="col-last even-row-color"><code>-9.730033709617727E37f</code></div>
+<div class="col-last even-row-color"><code>-9.730001257762362E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.EMINENCE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#EMINENCE">EMINENCE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.358340432845646E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.358326742219164E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.EUCALYPTUS">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#EUCALYPTUS">EUCALYPTUS</a></code></div>
-<div class="col-last even-row-color"><code>-9.001259351305558E37f</code></div>
+<div class="col-last even-row-color"><code>-9.001222842968271E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.FADED_BLUE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#FADED_BLUE">FADED_BLUE</a></code></div>
-<div class="col-last odd-row-color"><code>-7.6599972948425555E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.659980054794392E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.FAWN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#FAWN">FAWN</a></code></div>
-<div class="col-last even-row-color"><code>-9.33930018744674E37f</code></div>
+<div class="col-last even-row-color"><code>-9.339264693229933E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.FEATHER_DOWN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#FEATHER_DOWN">FEATHER_DOWN</a></code></div>
-<div class="col-last odd-row-color"><code>-8.3576417038348E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.357635619111919E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.FERN_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#FERN_GREEN">FERN_GREEN</a></code></div>
-<div class="col-last even-row-color"><code>-9.200863614817495E37f</code></div>
+<div class="col-last even-row-color"><code>-9.200830148841649E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.FLAMINGO">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#FLAMINGO">FLAMINGO</a></code></div>
-<div class="col-last odd-row-color"><code>-8.461064752765261E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.461047512717098E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.FLORAL_FOAM">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#FLORAL_FOAM">FLORAL_FOAM</a></code></div>
-<div class="col-last even-row-color"><code>-8.73616622954487E37f</code></div>
+<div class="col-last even-row-color"><code>-8.736130735328064E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.FOREST_GLEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#FOREST_GLEN">FOREST_GLEN</a></code></div>
-<div class="col-last odd-row-color"><code>-9.531657546007292E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.531621037670005E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.FROG_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#FROG_GREEN">FROG_GREEN</a></code></div>
-<div class="col-last even-row-color"><code>-9.798322554512262E37f</code></div>
+<div class="col-last even-row-color"><code>-9.798292130897857E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.FRUIT_PUNCH">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#FRUIT_PUNCH">FRUIT_PUNCH</a></code></div>
-<div class="col-last odd-row-color"><code>-8.361227633852726E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.361209886744323E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.GARTER_SNAKE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#GARTER_SNAKE">GARTER_SNAKE</a></code></div>
-<div class="col-last even-row-color"><code>-8.935359774262333E37f</code></div>
+<div class="col-last even-row-color"><code>-8.935329350647928E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.GRAPE_LOLLIPOP">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#GRAPE_LOLLIPOP">GRAPE_LOLLIPOP</a></code></div>
-<div class="col-last odd-row-color"><code>-7.96062012762644E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.960604408758997E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.GRAPE_SODA">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#GRAPE_SODA">GRAPE_SODA</a></code></div>
-<div class="col-last even-row-color"><code>-7.960350371578711E37f</code></div>
+<div class="col-last even-row-color"><code>-7.960336680952229E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.GRAPHITE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#GRAPHITE">GRAPHITE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.490360665196775E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.490345453389572E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.GRAY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#GRAY">GRAY</a></code></div>
-<div class="col-last even-row-color"><code>-8.490395652353341E37f</code></div>
+<div class="col-last even-row-color"><code>-8.490377905244938E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.GRAY_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#GRAY_GREEN">GRAY_GREEN</a></code></div>
-<div class="col-last odd-row-color"><code>-8.672047448064846E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.67201093972756E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#GREEN">GREEN</a></code></div>
-<div class="col-last even-row-color"><code>-9.994616728776883E37f</code></div>
+<div class="col-last even-row-color"><code>-9.99459644636728E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.GREYHOUND">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#GREYHOUND">GREYHOUND</a></code></div>
-<div class="col-last odd-row-color"><code>-8.490410357100304E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.490394638232861E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.HAM">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#HAM">HAM</a></code></div>
-<div class="col-last even-row-color"><code>-8.292336401392963E37f</code></div>
+<div class="col-last even-row-color"><code>-8.2923242319472E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.HELIOTROPE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#HELIOTROPE">HELIOTROPE</a></code></div>
-<div class="col-last odd-row-color"><code>-7.89602217421953E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.896006455352087E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.HIDDEN_BLUE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#HIDDEN_BLUE">HIDDEN_BLUE</a></code></div>
-<div class="col-last even-row-color"><code>-7.891453561456307E37f</code></div>
+<div class="col-last even-row-color"><code>-7.891435307287664E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.HONEYDEW">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#HONEYDEW">HONEYDEW</a></code></div>
-<div class="col-last odd-row-color"><code>-8.937472187222554E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.93745494717439E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.HOSPITAL_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#HOSPITAL_GREEN">HOSPITAL_GREEN</a></code></div>
-<div class="col-last even-row-color"><code>-8.355671774802046E37f</code></div>
+<div class="col-last even-row-color"><code>-8.355656562994843E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.HOT_SAUCE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#HOT_SAUCE">HOT_SAUCE</a></code></div>
-<div class="col-last odd-row-color"><code>-9.276680276036425E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.276645795940099E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.HUNTER_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#HUNTER_GREEN">HUNTER_GREEN</a></code></div>
-<div class="col-last even-row-color"><code>-8.60552925752871E37f</code></div>
+<div class="col-last even-row-color"><code>-8.605502890396226E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.INDIGO">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#INDIGO">INDIGO</a></code></div>
-<div class="col-last odd-row-color"><code>-7.626619040418066E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.626604335671103E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.INFECTION">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#INFECTION">INFECTION</a></code></div>
-<div class="col-last even-row-color"><code>-9.865059795072118E37f</code></div>
+<div class="col-last even-row-color"><code>-9.865035456180593E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.IOLITE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#IOLITE">IOLITE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.191556150433858E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.191538910385695E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.IRIS">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#IRIS">IRIS</a></code></div>
-<div class="col-last even-row-color"><code>-7.49450297368156E37f</code></div>
+<div class="col-last even-row-color"><code>-7.494484719512916E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.IRON">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#IRON">IRON</a></code></div>
-<div class="col-last odd-row-color"><code>-8.49038804644974E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.490369792281097E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.IVY_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#IVY_GREEN">IVY_GREEN</a></code></div>
-<div class="col-last even-row-color"><code>-9.39923673606649E37f</code></div>
+<div class="col-last even-row-color"><code>-9.399200227729204E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.JADE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#JADE">JADE</a></code></div>
-<div class="col-last odd-row-color"><code>-9.465226569832451E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.465194117977085E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.JUICY_GRAPE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#JUICY_GRAPE">JUICY_GRAPE</a></code></div>
-<div class="col-last even-row-color"><code>-7.495140855463595E37f</code></div>
+<div class="col-last even-row-color"><code>-7.495123108355191E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.KELLY_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#KELLY_GREEN">KELLY_GREEN</a></code></div>
-<div class="col-last odd-row-color"><code>-9.002566552604513E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.002530044267227E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.KOA">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#KOA">KOA</a></code></div>
-<div class="col-last even-row-color"><code>-9.406763538270405E37f</code></div>
+<div class="col-last even-row-color"><code>-9.406727029933119E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.KYANITE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#KYANITE">KYANITE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.422885144927347E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.4228668907587035E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.LAVENDER">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#LAVENDER">LAVENDER</a></code></div>
-<div class="col-last even-row-color"><code>-7.959889453820468E37f</code></div>
+<div class="col-last even-row-color"><code>-7.959874242013266E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.LEAD">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#LEAD">LEAD</a></code></div>
-<div class="col-last odd-row-color"><code>-8.490378919365418E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.490361172257015E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.LIGHT_GRAY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#LIGHT_GRAY">LIGHT_GRAY</a></code></div>
-<div class="col-last even-row-color"><code>-8.490424554787027E37f</code></div>
+<div class="col-last even-row-color"><code>-8.490413399461745E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.LIGHT_SKIN_1">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#LIGHT_SKIN_1">LIGHT_SKIN_1</a></code></div>
-<div class="col-last odd-row-color"><code>-8.67362237717057E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.673585868833283E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.LIGHT_SKIN_2">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#LIGHT_SKIN_2">LIGHT_SKIN_2</a></code></div>
-<div class="col-last even-row-color"><code>-8.808109964649983E37f</code></div>
+<div class="col-last even-row-color"><code>-8.808073456312697E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.LIGHT_SKIN_3">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#LIGHT_SKIN_3">LIGHT_SKIN_3</a></code></div>
-<div class="col-last odd-row-color"><code>-8.808646434384E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.808611954287674E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.LIGHT_SKIN_4">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#LIGHT_SKIN_4">LIGHT_SKIN_4</a></code></div>
-<div class="col-last even-row-color"><code>-8.941322802685807E37f</code></div>
+<div class="col-last even-row-color"><code>-8.94128933670996E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.LIGHT_SKIN_5">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#LIGHT_SKIN_5">LIGHT_SKIN_5</a></code></div>
-<div class="col-last odd-row-color"><code>-9.007536757077888E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.007507347583963E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.LIGHT_SKIN_6">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#LIGHT_SKIN_6">LIGHT_SKIN_6</a></code></div>
-<div class="col-last even-row-color"><code>-8.940825883650517E37f</code></div>
+<div class="col-last even-row-color"><code>-8.940799516518033E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.LIGHT_SKIN_7">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#LIGHT_SKIN_7">LIGHT_SKIN_7</a></code></div>
-<div class="col-last odd-row-color"><code>-8.940576410012393E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.940553085241348E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.LIGHT_SKIN_8">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#LIGHT_SKIN_8">LIGHT_SKIN_8</a></code></div>
-<div class="col-last even-row-color"><code>-8.873863508344061E37f</code></div>
+<div class="col-last even-row-color"><code>-8.873844240054938E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.LIGHT_SKIN_9">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#LIGHT_SKIN_9">LIGHT_SKIN_9</a></code></div>
-<div class="col-last odd-row-color"><code>-8.673713648013786E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.673700464447544E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.LILAC">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#LILAC">LILAC</a></code></div>
-<div class="col-last even-row-color"><code>-8.092949666724025E37f</code></div>
+<div class="col-last even-row-color"><code>-8.092936483157782E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.LIZARD_SCALES">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#LIZARD_SCALES">LIZARD_SCALES</a></code></div>
-<div class="col-last odd-row-color"><code>-9.137553087360177E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.13751657902289E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.LURID_RED">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#LURID_RED">LURID_RED</a></code></div>
-<div class="col-last even-row-color"><code>-9.410408287276182E37f</code></div>
+<div class="col-last even-row-color"><code>-9.410371778938895E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.MAGENTA">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#MAGENTA">MAGENTA</a></code></div>
-<div class="col-last odd-row-color"><code>-7.796970998679136E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.796953758630973E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.MAIDENHAIR_FERN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#MAIDENHAIR_FERN">MAIDENHAIR_FERN</a></code></div>
-<div class="col-last even-row-color"><code>-8.869880043097904E37f</code></div>
+<div class="col-last even-row-color"><code>-8.869843534760618E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.MALACHITE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#MALACHITE">MALACHITE</a></code></div>
-<div class="col-last odd-row-color"><code>-9.795988049166882E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.795957625552476E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.MARSH">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#MARSH">MARSH</a></code></div>
-<div class="col-last even-row-color"><code>-9.003609068458141E37f</code></div>
+<div class="col-last even-row-color"><code>-9.003573574241335E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.MAUVE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#MAUVE">MAUVE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.259212691208999E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.259194944100596E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.MEDIUM_PLUM">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#MEDIUM_PLUM">MEDIUM_PLUM</a></code></div>
-<div class="col-last even-row-color"><code>-7.86264037037336E37f</code></div>
+<div class="col-last even-row-color"><code>-7.862622623264956E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.MEDIUM_TEAL">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#MEDIUM_TEAL">MEDIUM_TEAL</a></code></div>
-<div class="col-last odd-row-color"><code>-8.734674458318522E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.734643020583636E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.MILD_VIOLET">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#MILD_VIOLET">MILD_VIOLET</a></code></div>
-<div class="col-last even-row-color"><code>-8.225340560110661E37f</code></div>
+<div class="col-last even-row-color"><code>-8.225324334182978E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.MINT_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#MINT_GREEN">MINT_GREEN</a></code></div>
-<div class="col-last odd-row-color"><code>-9.597401962617048E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.597378637846004E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.MOSS_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#MOSS_GREEN">MOSS_GREEN</a></code></div>
-<div class="col-last even-row-color"><code>-9.1356840633152E37f</code></div>
+<div class="col-last even-row-color"><code>-9.135652625580314E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.MULBERRY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#MULBERRY">MULBERRY</a></code></div>
-<div class="col-last odd-row-color"><code>-8.127032734882241E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.127017016014798E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.MUMMY_BROWN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#MUMMY_BROWN">MUMMY_BROWN</a></code></div>
-<div class="col-last even-row-color"><code>-9.273303254837417E37f</code></div>
+<div class="col-last even-row-color"><code>-9.27326877474109E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.MURK">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#MURK">MURK</a></code></div>
-<div class="col-last odd-row-color"><code>-8.257597197284068E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.257586549019026E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.MUSH">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#MUSH">MUSH</a></code></div>
-<div class="col-last even-row-color"><code>-9.801176289543496E37f</code></div>
+<div class="col-last even-row-color"><code>-9.80114586592909E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.NAVY_BLUE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#NAVY_BLUE">NAVY_BLUE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.157787966684738E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.157773768998016E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.NIGHTSHADE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#NIGHTSHADE">NIGHTSHADE</a></code></div>
-<div class="col-last even-row-color"><code>-8.458154226987137E37f</code></div>
+<div class="col-last even-row-color"><code>-8.458142564601615E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.NINJA">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#NINJA">NINJA</a></code></div>
-<div class="col-last odd-row-color"><code>-8.224762004376716E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.224749834930954E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.OCEAN_BLUE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#OCEAN_BLUE">OCEAN_BLUE</a></code></div>
-<div class="col-last even-row-color"><code>-7.659193604362011E37f</code></div>
+<div class="col-last even-row-color"><code>-7.6591809278560085E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.OCHRE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#OCHRE">OCHRE</a></code></div>
-<div class="col-last odd-row-color"><code>-9.073380557494703E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.073348105639337E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.OLD_ROSE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#OLD_ROSE">OLD_ROSE</a></code></div>
-<div class="col-last even-row-color"><code>-8.42512280176687E37f</code></div>
+<div class="col-last even-row-color"><code>-8.425108604080147E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.OLIVE_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#OLIVE_GREEN">OLIVE_GREEN</a></code></div>
-<div class="col-last odd-row-color"><code>-8.737974406361036E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.73793992626471E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.OLIVE_OIL">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#OLIVE_OIL">OLIVE_OIL</a></code></div>
-<div class="col-last even-row-color"><code>-9.270253794553508E37f</code></div>
+<div class="col-last even-row-color"><code>-9.270221342698142E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.ORANGE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#ORANGE">ORANGE</a></code></div>
-<div class="col-last odd-row-color"><code>-9.739903130130864E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.739871692395979E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.ORCHID">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#ORCHID">ORCHID</a></code></div>
-<div class="col-last even-row-color"><code>-7.76166439416158E37f</code></div>
+<div class="col-last even-row-color"><code>-7.761647661173657E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PASTEL_SKY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PASTEL_SKY">PASTEL_SKY</a></code></div>
-<div class="col-last odd-row-color"><code>-8.4231888740111615E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.42317974692684E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PATINA">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PATINA">PATINA</a></code></div>
-<div class="col-last even-row-color"><code>-8.324009412230025E37f</code></div>
+<div class="col-last even-row-color"><code>-8.323997242784263E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PEA_SOUP">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PEA_SOUP">PEA_SOUP</a></code></div>
-<div class="col-last odd-row-color"><code>-9.401371459677275E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.40134103606287E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PEACH">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PEACH">PEACH</a></code></div>
-<div class="col-last even-row-color"><code>-9.272627850597616E37f</code></div>
+<div class="col-last even-row-color"><code>-9.272605539947052E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PEAT_BOG">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PEAT_BOG">PEAT_BOG</a></code></div>
-<div class="col-last odd-row-color"><code>-8.87141339326394E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.871378913167614E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PENCIL_YELLOW">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PENCIL_YELLOW">PENCIL_YELLOW</a></code></div>
-<div class="col-last even-row-color"><code>-9.868201540319723E37f</code></div>
+<div class="col-last even-row-color"><code>-9.868189370873961E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PERIWINKLE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PERIWINKLE">PERIWINKLE</a></code></div>
-<div class="col-last odd-row-color"><code>-7.7930777901557155E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.793060550107552E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PINE_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PINE_GREEN">PINE_GREEN</a></code></div>
-<div class="col-last even-row-color"><code>-8.737186434747934E37f</code></div>
+<div class="col-last even-row-color"><code>-8.737152968772088E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PINK_LEMONADE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PINK_LEMONADE">PINK_LEMONADE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.260911343013305E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.260895624145862E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PINK_SKIN_1">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PINK_SKIN_1">PINK_SKIN_1</a></code></div>
-<div class="col-last even-row-color"><code>-8.675196292155813E37f</code></div>
+<div class="col-last even-row-color"><code>-8.675160797939007E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PINK_SKIN_2">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PINK_SKIN_2">PINK_SKIN_2</a></code></div>
-<div class="col-last odd-row-color"><code>-8.675218602806377E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.675186150951011E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PINK_SKIN_3">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PINK_SKIN_3">PINK_SKIN_3</a></code></div>
-<div class="col-last even-row-color"><code>-8.608519898824769E37f</code></div>
+<div class="col-last even-row-color"><code>-8.608492517571804E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PINK_SKIN_4">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PINK_SKIN_4">PINK_SKIN_4</a></code></div>
-<div class="col-last odd-row-color"><code>-8.491080690737705E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.491073084834103E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PINK_TUTU">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PINK_TUTU">PINK_TUTU</a></code></div>
-<div class="col-last even-row-color"><code>-8.292084392453637E37f</code></div>
+<div class="col-last even-row-color"><code>-8.292076279489796E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PINK_VIOLET">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PINK_VIOLET">PINK_VIOLET</a></code></div>
-<div class="col-last odd-row-color"><code>-8.259200521763237E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.2591822675945935E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PISTACHIO">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PISTACHIO">PISTACHIO</a></code></div>
-<div class="col-last even-row-color"><code>-8.870219773458765E37f</code></div>
+<div class="col-last even-row-color"><code>-8.870196448687721E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PLATINUM">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PLATINUM">PLATINUM</a></code></div>
-<div class="col-last odd-row-color"><code>-8.490431146570148E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.490423033606306E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PLUM_JUICE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PLUM_JUICE">PLUM_JUICE</a></code></div>
-<div class="col-last even-row-color"><code>-8.161317613016014E37f</code></div>
+<div class="col-last even-row-color"><code>-8.161299865907611E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.POLISHED_SAPPHIRE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#POLISHED_SAPPHIRE">POLISHED_SAPPHIRE</a></code></div>
-<div class="col-last odd-row-color"><code>-7.360135559479048E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.360118826491125E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PORK_CHOP">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PORK_CHOP">PORK_CHOP</a></code></div>
-<div class="col-last even-row-color"><code>-8.542335353926613E37f</code></div>
+<div class="col-last even-row-color"><code>-8.54231608563749E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.POWDER_BLUE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#POWDER_BLUE">POWDER_BLUE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.09048079041502E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.090467099788538E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PRASE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PRASE">PRASE</a></code></div>
-<div class="col-last even-row-color"><code>-9.265833243380392E37f</code></div>
+<div class="col-last even-row-color"><code>-9.265798763284066E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PRUNE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PRUNE">PRUNE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.391319123800944E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.391303404933501E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PRUSSIAN_BLUE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PRUSSIAN_BLUE">PRUSSIAN_BLUE</a></code></div>
-<div class="col-last even-row-color"><code>-7.858339485416905E37f</code></div>
+<div class="col-last even-row-color"><code>-7.858322245368742E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PUCE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PUCE">PUCE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.424214656876866E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.424200966250384E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PURPLE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PURPLE">PURPLE</a></code></div>
-<div class="col-last even-row-color"><code>-7.829677398285505E37f</code></div>
+<div class="col-last even-row-color"><code>-7.829659651177102E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PURPLE_FREESIA">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PURPLE_FREESIA">PURPLE_FREESIA</a></code></div>
-<div class="col-last odd-row-color"><code>-7.562270560649281E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.562252306480637E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.PUTTY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#PUTTY">PUTTY</a></code></div>
-<div class="col-last even-row-color"><code>-9.010340800205593E37f</code></div>
+<div class="col-last even-row-color"><code>-9.010304291868306E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.RASPBERRY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#RASPBERRY">RASPBERRY</a></code></div>
-<div class="col-last odd-row-color"><code>-8.744981978879098E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.744947498782771E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.RAW_MEAT">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#RAW_MEAT">RAW_MEAT</a></code></div>
-<div class="col-last even-row-color"><code>-8.876948462844777E37f</code></div>
+<div class="col-last even-row-color"><code>-8.876918039230371E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.RED">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#RED">RED</a></code></div>
-<div class="col-last odd-row-color"><code>-9.54464234463555E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.544606850418743E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.REDWOOD">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#REDWOOD">REDWOOD</a></code></div>
-<div class="col-last even-row-color"><code>-9.473239135746374E37f</code></div>
+<div class="col-last even-row-color"><code>-9.473202627409087E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.REFRESHING_MIST">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#REFRESHING_MIST">REFRESHING_MIST</a></code></div>
-<div class="col-last odd-row-color"><code>-8.289878173349E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.2898695533249185E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.RIPE_PLUM">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#RIPE_PLUM">RIPE_PLUM</a></code></div>
-<div class="col-last even-row-color"><code>-8.160163543909566E37f</code></div>
+<div class="col-last even-row-color"><code>-8.160145289740923E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.RIPPED_DENIM">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#RIPPED_DENIM">RIPPED_DENIM</a></code></div>
-<div class="col-last odd-row-color"><code>-8.223910143173363E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.22389341018544E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.ROBIN_EGG_BLUE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#ROBIN_EGG_BLUE">ROBIN_EGG_BLUE</a></code></div>
-<div class="col-last even-row-color"><code>-8.388391865034897E37f</code></div>
+<div class="col-last even-row-color"><code>-8.388379188528894E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.ROSE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#ROSE">ROSE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.461057146861659E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.461038892693016E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.ROSEATE_SPOONBILL">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#ROSEATE_SPOONBILL">ROSEATE_SPOONBILL</a></code></div>
-<div class="col-last even-row-color"><code>-8.425501575766218E37f</code></div>
+<div class="col-last even-row-color"><code>-8.425484842778295E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.ROUGH_SAPPHIRE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#ROUGH_SAPPHIRE">ROUGH_SAPPHIRE</a></code></div>
-<div class="col-last odd-row-color"><code>-7.52682857104762E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.526810316878976E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.ROYAL_BLUE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#ROYAL_BLUE">ROYAL_BLUE</a></code></div>
-<div class="col-last even-row-color"><code>-7.426590874545413E37f</code></div>
+<div class="col-last even-row-color"><code>-7.42657515567797E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.ROYAL_VIOLET">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#ROYAL_VIOLET">ROYAL_VIOLET</a></code></div>
-<div class="col-last odd-row-color"><code>-8.159101759766815E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.159085026778892E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SAFFRON">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SAFFRON">SAFFRON</a></code></div>
-<div class="col-last even-row-color"><code>-1.0001633428379267E38f</code></div>
+<div class="col-last even-row-color"><code>-1.0001615174210623E38f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SAGE_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SAGE_GREEN">SAGE_GREEN</a></code></div>
-<div class="col-last odd-row-color"><code>-8.671111414861638E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.671096203054435E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SALMON">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SALMON">SALMON</a></code></div>
-<div class="col-last even-row-color"><code>-9.077357938017979E37f</code></div>
+<div class="col-last even-row-color"><code>-9.077324472042133E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SCRIBE_INK">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SCRIBE_INK">SCRIBE_INK</a></code></div>
-<div class="col-last odd-row-color"><code>-8.391816549896473E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.391806408691671E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SEAFOAM">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SEAFOAM">SEAFOAM</a></code></div>
-<div class="col-last even-row-color"><code>-8.999778735404491E37f</code></div>
+<div class="col-last even-row-color"><code>-8.999759467115368E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SEAL_BROWN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SEAL_BROWN">SEAL_BROWN</a></code></div>
-<div class="col-last odd-row-color"><code>-8.875534778895402E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.875506383521957E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SEAWATER">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SEAWATER">SEAWATER</a></code></div>
-<div class="col-last even-row-color"><code>-8.389137750648071E37f</code></div>
+<div class="col-last even-row-color"><code>-8.389119496479428E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SHADOW">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SHADOW">SHADOW</a></code></div>
-<div class="col-last odd-row-color"><code>-8.490349509871493E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.490336833365491E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SHARP_AZURE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SHARP_AZURE">SHARP_AZURE</a></code></div>
-<div class="col-last even-row-color"><code>-7.658720010097766E37f</code></div>
+<div class="col-last even-row-color"><code>-7.658701755929122E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SHINING_SKY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SHINING_SKY">SHINING_SKY</a></code></div>
-<div class="col-last odd-row-color"><code>-8.222763172910277E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.222752524645235E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SHRIMP">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SHRIMP">SHRIMP</a></code></div>
-<div class="col-last even-row-color"><code>-8.49210748772389E37f</code></div>
+<div class="col-last even-row-color"><code>-8.492094811217887E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SIENNA">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SIENNA">SIENNA</a></code></div>
-<div class="col-last odd-row-color"><code>-9.14295733539907E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.142925897664184E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SILVER">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SILVER">SILVER</a></code></div>
-<div class="col-last even-row-color"><code>-8.490417455943665E37f</code></div>
+<div class="col-last even-row-color"><code>-8.490403765317183E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SILVER_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SILVER_GREEN">SILVER_GREEN</a></code></div>
-<div class="col-last odd-row-color"><code>-8.936409388959322E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.936380993585877E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SILVER_PINK">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SILVER_PINK">SILVER_PINK</a></code></div>
-<div class="col-last even-row-color"><code>-8.391384534571915E37f</code></div>
+<div class="col-last even-row-color"><code>-8.391374393367114E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SLATE_GRAY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SLATE_GRAY">SLATE_GRAY</a></code></div>
-<div class="col-last odd-row-color"><code>-8.423543816179225E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.423526069070822E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SLOW_CREEK">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SLOW_CREEK">SLOW_CREEK</a></code></div>
-<div class="col-last even-row-color"><code>-8.45678161491721E37f</code></div>
+<div class="col-last even-row-color"><code>-8.456764374869046E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SMOG">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SMOG">SMOG</a></code></div>
-<div class="col-last odd-row-color"><code>-8.191598743494026E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.191584545807303E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SOAP">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SOAP">SOAP</a></code></div>
-<div class="col-last even-row-color"><code>-8.225229513918081E37f</code></div>
+<div class="col-last even-row-color"><code>-8.225219372713279E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SOFT_TEAL">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SOFT_TEAL">SOFT_TEAL</a></code></div>
-<div class="col-last odd-row-color"><code>-8.536300322949046E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.53626482873224E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SPACE_BLUE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SPACE_BLUE">SPACE_BLUE</a></code></div>
-<div class="col-last even-row-color"><code>-8.124551182067234E37f</code></div>
+<div class="col-last even-row-color"><code>-8.124538505561232E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SPEARMINT">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SPEARMINT">SPEARMINT</a></code></div>
-<div class="col-last odd-row-color"><code>-8.422777648156447E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.422760915168524E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SPRING_GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SPRING_GREEN">SPRING_GREEN</a></code></div>
-<div class="col-last even-row-color"><code>-9.331543179893823E37f</code></div>
+<div class="col-last even-row-color"><code>-9.331514784520378E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.STEAM">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#STEAM">STEAM</a></code></div>
-<div class="col-last odd-row-color"><code>-8.256640374611016E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.256628712225494E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.STRAW">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#STRAW">STRAW</a></code></div>
-<div class="col-last even-row-color"><code>-8.805601030582011E37f</code></div>
+<div class="col-last even-row-color"><code>-8.80559088937721E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.STRONG_CYAN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#STRONG_CYAN">STRONG_CYAN</a></code></div>
-<div class="col-last odd-row-color"><code>-8.02349661151824E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.023481399711038E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.STYGIAN_BLUE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#STYGIAN_BLUE">STYGIAN_BLUE</a></code></div>
-<div class="col-last even-row-color"><code>-7.925422034000263E37f</code></div>
+<div class="col-last even-row-color"><code>-7.925410878674981E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SUBTLETY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SUBTLETY">SUBTLETY</a></code></div>
-<div class="col-last odd-row-color"><code>-7.759970305899435E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.759952558791032E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.SUDS">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#SUDS">SUDS</a></code></div>
-<div class="col-last even-row-color"><code>-8.158503935743747E37f</code></div>
+<div class="col-last even-row-color"><code>-8.158491766297985E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.TAN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#TAN">TAN</a></code></div>
-<div class="col-last odd-row-color"><code>-8.93850963247378E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.938491378305137E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.TARNISH">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#TARNISH">TARNISH</a></code></div>
-<div class="col-last even-row-color"><code>-9.003913304602196E37f</code></div>
+<div class="col-last even-row-color"><code>-9.003886937469711E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.TAUPE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#TAUPE">TAUPE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.740017859128604E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.739989463755159E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.TAXICAB_YELLOW">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#TAXICAB_YELLOW">TAXICAB_YELLOW</a></code></div>
-<div class="col-last even-row-color"><code>-9.803274504816994E37f</code></div>
+<div class="col-last even-row-color"><code>-9.80325118004595E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.TEA_ROSE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#TEA_ROSE">TEA_ROSE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.424740985406081E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.424729323020559E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.THICK_AMETHYST">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#THICK_AMETHYST">THICK_AMETHYST</a></code></div>
-<div class="col-last even-row-color"><code>-7.594566748521415E37f</code></div>
+<div class="col-last even-row-color"><code>-7.594550522593732E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.THIN_AMETHYST">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#THIN_AMETHYST">THIN_AMETHYST</a></code></div>
-<div class="col-last odd-row-color"><code>-7.362746919715518E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.362728665546875E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.THISTLE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#THISTLE">THISTLE</a></code></div>
-<div class="col-last even-row-color"><code>-7.928215935923166E37f</code></div>
+<div class="col-last even-row-color"><code>-7.928200724115963E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.THULIAN_PINK">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#THULIAN_PINK">THULIAN_PINK</a></code></div>
-<div class="col-last odd-row-color"><code>-8.359810400481671E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.359792146313027E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.TRANSPARENT">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#TRANSPARENT">TRANSPARENT</a></code></div>
 <div class="col-last even-row-color"><code>1.1708667027737012E-38f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.TROPIC_MIST">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#TROPIC_MIST">TROPIC_MIST</a></code></div>
-<div class="col-last odd-row-color"><code>-8.324277140036793E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.324269027072952E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.TURQUOISE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#TURQUOISE">TURQUOISE</a></code></div>
-<div class="col-last even-row-color"><code>-8.867103381223164E37f</code></div>
+<div class="col-last even-row-color"><code>-8.86708005645212E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.TWILIGHT_CLOUD">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#TWILIGHT_CLOUD">TWILIGHT_CLOUD</a></code></div>
-<div class="col-last odd-row-color"><code>-8.158357395334361E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.158340155286198E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.TYRIAN_PURPLE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#TYRIAN_PURPLE">TYRIAN_PURPLE</a></code></div>
-<div class="col-last even-row-color"><code>-7.994918696386695E37f</code></div>
+<div class="col-last even-row-color"><code>-7.994900949278292E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.UMBER">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#UMBER">UMBER</a></code></div>
-<div class="col-last odd-row-color"><code>-9.535550754530712E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.535514246193426E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.VAPOR">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#VAPOR">VAPOR</a></code></div>
-<div class="col-last even-row-color"><code>-8.025056328816761E37f</code></div>
+<div class="col-last even-row-color"><code>-8.025041624069799E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.VARISCITE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#VARISCITE">VARISCITE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.668775895395777E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.668759669468094E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.VARNISH">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#VARNISH">VARNISH</a></code></div>
-<div class="col-last even-row-color"><code>-8.808024778529648E37f</code></div>
+<div class="col-last even-row-color"><code>-8.807999425517643E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.VIOLET">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#VIOLET">VIOLET</a></code></div>
-<div class="col-last odd-row-color"><code>-7.728929599181766E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.728911852073363E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.VIOLET_CUSHIONS">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#VIOLET_CUSHIONS">VIOLET_CUSHIONS</a></code></div>
-<div class="col-last even-row-color"><code>-7.927026879660152E37f</code></div>
+<div class="col-last even-row-color"><code>-7.927009132551749E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.VIRIDIAN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#VIRIDIAN">VIRIDIAN</a></code></div>
-<div class="col-last odd-row-color"><code>-8.737487628530548E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.737451120193262E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.WATERCOLOR_BLACK">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#WATERCOLOR_BLACK">WATERCOLOR_BLACK</a></code></div>
-<div class="col-last even-row-color"><code>-8.291239630093645E37f</code></div>
+<div class="col-last even-row-color"><code>-8.291223911226202E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.WATERCOLOR_GRAY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#WATERCOLOR_GRAY">WATERCOLOR_GRAY</a></code></div>
-<div class="col-last odd-row-color"><code>-8.125243319294959E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.125225065126316E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.WET_STONE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#WET_STONE">WET_STONE</a></code></div>
-<div class="col-last even-row-color"><code>-8.673142698183443E37f</code></div>
+<div class="col-last even-row-color"><code>-8.673110246328078E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.WHITE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#WHITE">WHITE</a></code></div>
 <div class="col-last odd-row-color"><code>-8.49044331601591E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.WISTERIA">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#WISTERIA">WISTERIA</a></code></div>
-<div class="col-last even-row-color"><code>-7.5964119407351075E37f</code></div>
+<div class="col-last even-row-color"><code>-7.596393686566464E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.WOODLANDS">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#WOODLANDS">WOODLANDS</a></code></div>
-<div class="col-last odd-row-color"><code>-9.33458452721389E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.334549032997084E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.YELLOW">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#YELLOW">YELLOW</a></code></div>
-<div class="col-last even-row-color"><code>-1.0133017807189321E38f</code></div>
+<div class="col-last even-row-color"><code>-1.013301172246644E38f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.Palette.ZUCCHINI">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/Palette.html#ZUCCHINI">ZUCCHINI</a></code></div>
-<div class="col-last odd-row-color"><code>-8.489447956764611E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.489433759077888E37f</code></div>
 </div>
 </li>
 <li>
@@ -3963,154 +3966,154 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Value</div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.APRICOT">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#APRICOT">APRICOT</a></code></div>
-<div class="col-last even-row-color"><code>-9.804565480188266E37f</code></div>
+<div class="col-last even-row-color"><code>-9.804539113055781E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.BLACK">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#BLACK">BLACK</a></code></div>
 <div class="col-last odd-row-color"><code>-8.490314015654687E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.BLUE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#BLUE">BLUE</a></code></div>
-<div class="col-last even-row-color"><code>-7.160625102111528E37f</code></div>
+<div class="col-last even-row-color"><code>-7.160607862063365E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.BRICK">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#BRICK">BRICK</a></code></div>
-<div class="col-last odd-row-color"><code>-9.076557796959115E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.076521288621828E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.BRONZE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#BRONZE">BRONZE</a></code></div>
-<div class="col-last even-row-color"><code>-9.538175298333425E37f</code></div>
+<div class="col-last even-row-color"><code>-9.53814284647806E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.BROWN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#BROWN">BROWN</a></code></div>
-<div class="col-last odd-row-color"><code>-9.00721832324711E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.007181814909824E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.BUTTER">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#BUTTER">BUTTER</a></code></div>
-<div class="col-last even-row-color"><code>-9.469958455992983E37f</code></div>
+<div class="col-last even-row-color"><code>-9.469949328908662E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.CACTUS">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#CACTUS">CACTUS</a></code></div>
-<div class="col-last odd-row-color"><code>-9.598386673603306E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.5983511793865E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.CELERY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#CELERY">CELERY</a></code></div>
-<div class="col-last even-row-color"><code>-9.531992205765752E37f</code></div>
+<div class="col-last even-row-color"><code>-9.531975979838069E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.CHARTREUSE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#CHARTREUSE">CHARTREUSE</a></code></div>
-<div class="col-last odd-row-color"><code>-9.932067805800182E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.93205563635442E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.CHOCOLATE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#CHOCOLATE">CHOCOLATE</a></code></div>
-<div class="col-last even-row-color"><code>-9.07364727118099E37f</code></div>
+<div class="col-last even-row-color"><code>-9.073613805205145E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.CINNAMON">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#CINNAMON">CINNAMON</a></code></div>
-<div class="col-last odd-row-color"><code>-9.540235991149156E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.54020151105283E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.COBALT">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#COBALT">COBALT</a></code></div>
-<div class="col-last even-row-color"><code>-7.7587771931545E37f</code></div>
+<div class="col-last even-row-color"><code>-7.758760460166577E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.CYAN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#CYAN">CYAN</a></code></div>
-<div class="col-last odd-row-color"><code>-8.321811306089229E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.321803193125388E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.DENIM">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#DENIM">DENIM</a></code></div>
-<div class="col-last even-row-color"><code>-8.123818480020302E37f</code></div>
+<div class="col-last even-row-color"><code>-8.123800732911899E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.EMBER">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#EMBER">EMBER</a></code></div>
-<div class="col-last odd-row-color"><code>-9.475598994103759E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.475564514007433E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.FERN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#FERN">FERN</a></code></div>
-<div class="col-last even-row-color"><code>-9.003068542242204E37f</code></div>
+<div class="col-last even-row-color"><code>-9.003032033904917E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.GRAY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#GRAY">GRAY</a></code></div>
-<div class="col-last odd-row-color"><code>-8.490395652353341E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.490377905244938E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.GREEN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#GREEN">GREEN</a></code></div>
-<div class="col-last even-row-color"><code>-9.994616728776883E37f</code></div>
+<div class="col-last even-row-color"><code>-9.99459644636728E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.INDIGO">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#INDIGO">INDIGO</a></code></div>
-<div class="col-last odd-row-color"><code>-7.394929526093872E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.394911778985469E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.JADE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#JADE">JADE</a></code></div>
-<div class="col-last even-row-color"><code>-9.465226569832451E37f</code></div>
+<div class="col-last even-row-color"><code>-9.465194117977085E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.LAVENDER">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#LAVENDER">LAVENDER</a></code></div>
-<div class="col-last odd-row-color"><code>-7.959889453820468E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.959874242013266E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.LIME">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#LIME">LIME</a></code></div>
-<div class="col-last even-row-color"><code>-9.865314339312644E37f</code></div>
+<div class="col-last even-row-color"><code>-9.865286958059679E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.MAGENTA">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#MAGENTA">MAGENTA</a></code></div>
-<div class="col-last odd-row-color"><code>-7.796970998679136E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.796953758630973E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.MAUVE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#MAUVE">MAUVE</a></code></div>
-<div class="col-last even-row-color"><code>-8.259212691208999E37f</code></div>
+<div class="col-last even-row-color"><code>-8.259194944100596E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.MINT">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#MINT">MINT</a></code></div>
-<div class="col-last odd-row-color"><code>-8.669297153322591E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.669282955635869E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.MOSS">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#MOSS">MOSS</a></code></div>
-<div class="col-last even-row-color"><code>-9.1356840633152E37f</code></div>
+<div class="col-last even-row-color"><code>-9.135652625580314E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.NAVY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#NAVY">NAVY</a></code></div>
-<div class="col-last odd-row-color"><code>-7.659194111422251E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.6591809278560085E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.OLIVE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#OLIVE">OLIVE</a></code></div>
-<div class="col-last even-row-color"><code>-9.535551768651193E37f</code></div>
+<div class="col-last even-row-color"><code>-9.535516274434386E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.ORANGE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#ORANGE">ORANGE</a></code></div>
-<div class="col-last odd-row-color"><code>-9.739903130130864E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.739871692395979E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.PEACH">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#PEACH">PEACH</a></code></div>
-<div class="col-last even-row-color"><code>-9.272627850597616E37f</code></div>
+<div class="col-last even-row-color"><code>-9.272605539947052E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.PEAR">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#PEAR">PEAR</a></code></div>
-<div class="col-last odd-row-color"><code>-9.933352696448573E37f</code></div>
+<div class="col-last odd-row-color"><code>-9.93333444227993E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.PINK">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#PINK">PINK</a></code></div>
-<div class="col-last even-row-color"><code>-8.292984931440039E37f</code></div>
+<div class="col-last even-row-color"><code>-8.292972761994277E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.PLUM">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#PLUM">PLUM</a></code></div>
-<div class="col-last odd-row-color"><code>-7.862770684855063E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.86275243068642E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.PURPLE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#PURPLE">PURPLE</a></code></div>
-<div class="col-last even-row-color"><code>-7.563569141924154E37f</code></div>
+<div class="col-last even-row-color"><code>-7.563550887755511E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.RASPBERRY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#RASPBERRY">RASPBERRY</a></code></div>
-<div class="col-last odd-row-color"><code>-8.744981978879098E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.744947498782771E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.RED">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#RED">RED</a></code></div>
-<div class="col-last even-row-color"><code>-9.54464234463555E37f</code></div>
+<div class="col-last even-row-color"><code>-9.544606850418743E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.ROSE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#ROSE">ROSE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.461057146861659E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.461038892693016E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.SAFFRON">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#SAFFRON">SAFFRON</a></code></div>
-<div class="col-last even-row-color"><code>-1.0001633428379267E38f</code></div>
+<div class="col-last even-row-color"><code>-1.0001615174210623E38f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.SAGE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#SAGE">SAGE</a></code></div>
-<div class="col-last odd-row-color"><code>-8.671104316018276E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.671085047729153E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.SALMON">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#SALMON">SALMON</a></code></div>
-<div class="col-last even-row-color"><code>-9.077357938017979E37f</code></div>
+<div class="col-last even-row-color"><code>-9.077324472042133E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.SILVER">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#SILVER">SILVER</a></code></div>
-<div class="col-last odd-row-color"><code>-8.490417455943665E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.490403765317183E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.SKY">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#SKY">SKY</a></code></div>
-<div class="col-last even-row-color"><code>-8.189518782389171E37f</code></div>
+<div class="col-last even-row-color"><code>-8.1895035705819685E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.TAN">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#TAN">TAN</a></code></div>
-<div class="col-last odd-row-color"><code>-8.939526795315404E37f</code></div>
+<div class="col-last odd-row-color"><code>-8.939499414062439E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.TEAL">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#TEAL">TEAL</a></code></div>
-<div class="col-last even-row-color"><code>-8.389137750648071E37f</code></div>
+<div class="col-last even-row-color"><code>-8.389119496479428E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.TRANSPARENT">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#TRANSPARENT">TRANSPARENT</a></code></div>
 <div class="col-last odd-row-color"><code>1.1708667027737012E-38f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.TURQUOISE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#TURQUOISE">TURQUOISE</a></code></div>
-<div class="col-last even-row-color"><code>-8.4217503441100225E37f</code></div>
+<div class="col-last even-row-color"><code>-8.42173665348354E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.VIOLET">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#VIOLET">VIOLET</a></code></div>
-<div class="col-last odd-row-color"><code>-7.628468796173919E37f</code></div>
+<div class="col-last odd-row-color"><code>-7.628451049065516E37f</code></div>
 <div class="col-first even-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.WHITE">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second even-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#WHITE">WHITE</a></code></div>
 <div class="col-last even-row-color"><code>-8.49044331601591E37f</code></div>
 <div class="col-first odd-row-color"><code id="com.github.tommyettinger.colorful.oklab.SimplePalette.YELLOW">public&nbsp;static&nbsp;final&nbsp;float</code></div>
 <div class="col-second odd-row-color"><code><a href="com/github/tommyettinger/colorful/oklab/SimplePalette.html#YELLOW">YELLOW</a></code></div>
-<div class="col-last odd-row-color"><code>-1.0133017807189321E38f</code></div>
+<div class="col-last odd-row-color"><code>-1.013301172246644E38f</code></div>
 </div>
 </li>
 </ul>

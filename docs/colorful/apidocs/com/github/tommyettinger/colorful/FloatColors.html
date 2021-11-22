@@ -124,82 +124,91 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
 <div class="block">Converts the four HSLA components, each in the 0.0 to 1.0 range, to a packed float in RGBA format.</div>
 </div>
-<div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
-<div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#lerpFloatColors(float,float,float)">lerpFloatColors</a></span>&#8203;(float&nbsp;start,
- float&nbsp;end,
- float&nbsp;change)</code></div>
+<div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static com.badlogic.gdx.graphics.Color</code></div>
+<div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#hslColor(com.badlogic.gdx.graphics.Color,float,float,float,float)">hslColor</a></span>&#8203;(com.badlogic.gdx.graphics.Color&nbsp;changing,
+ float&nbsp;h,
+ float&nbsp;s,
+ float&nbsp;l,
+ float&nbsp;a)</code></div>
 <div class="col-last even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
-<div class="block">Interpolates from the packed float color start towards end by change.</div>
+<div class="block">Converts the four HSLA components, each in the 0.0 to 1.0 range, to RGBA and assigns them into changing.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
-<div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#lerpFloatColorsBlended(float,float,float)">lerpFloatColorsBlended</a></span>&#8203;(float&nbsp;start,
+<div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#lerpFloatColors(float,float,float)">lerpFloatColors</a></span>&#8203;(float&nbsp;start,
  float&nbsp;end,
  float&nbsp;change)</code></div>
 <div class="col-last odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
+<div class="block">Interpolates from the packed float color start towards end by change.</div>
+</div>
+<div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
+<div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#lerpFloatColorsBlended(float,float,float)">lerpFloatColorsBlended</a></span>&#8203;(float&nbsp;start,
+ float&nbsp;end,
+ float&nbsp;change)</code></div>
+<div class="col-last even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
 <div class="block">Interpolates from the packed float color start towards end by change, but keeps the alpha of start and uses the
  alpha of end as an extra factor that can affect how much to change.</div>
 </div>
-<div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
-<div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#mix(float...)">mix</a></span>&#8203;(float...&nbsp;colors)</code></div>
-<div class="col-last even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
+<div class="col-first odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
+<div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#mix(float...)">mix</a></span>&#8203;(float...&nbsp;colors)</code></div>
+<div class="col-last odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
 <div class="block">Given several colors, this gets an even mix of all colors in equal measure.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
-<div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#mix(float%5B%5D,int,int)">mix</a></span>&#8203;(float[]&nbsp;colors,
+<div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
+<div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#mix(float%5B%5D,int,int)">mix</a></span>&#8203;(float[]&nbsp;colors,
  int&nbsp;offset,
  int&nbsp;size)</code></div>
-<div class="col-last odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
+<div class="col-last even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
 <div class="block">Given several colors, this gets an even mix of all colors in equal measure.</div>
 </div>
-<div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
-<div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#mix(float,float)">mix</a></span>&#8203;(float&nbsp;color0,
+<div class="col-first odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
+<div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#mix(float,float)">mix</a></span>&#8203;(float&nbsp;color0,
  float&nbsp;color1)</code></div>
-<div class="col-last even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
+<div class="col-last odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
 <div class="block">Returns a 1:1 mix of color0 and color1.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
-<div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#mix(float,float,float)">mix</a></span>&#8203;(float&nbsp;color0,
+<div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
+<div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#mix(float,float,float)">mix</a></span>&#8203;(float&nbsp;color0,
  float&nbsp;color1,
  float&nbsp;color2)</code></div>
-<div class="col-last odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
+<div class="col-last even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
 <div class="block">Returns a 1:1:1 mix of color0, color1, and color2.</div>
 </div>
-<div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
-<div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#mix(float,float,float,float)">mix</a></span>&#8203;(float&nbsp;color0,
+<div class="col-first odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
+<div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#mix(float,float,float,float)">mix</a></span>&#8203;(float&nbsp;color0,
  float&nbsp;color1,
  float&nbsp;color2,
  float&nbsp;color3)</code></div>
-<div class="col-last even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
+<div class="col-last odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
 <div class="block">Returns a 1:1:1:1 mix of color0, color1, color2, and color3.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
-<div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#multiplyAlpha(float,float)">multiplyAlpha</a></span>&#8203;(float&nbsp;encodedColor,
+<div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
+<div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#multiplyAlpha(float,float)">multiplyAlpha</a></span>&#8203;(float&nbsp;encodedColor,
  float&nbsp;alpha)</code></div>
-<div class="col-last odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
+<div class="col-last even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
 <div class="block">Given a color stored as a packed float and an alpha multiplier to affect that color (between 0f and 1f, inclusive
  and clamped in that range), this makes a packed float color that has the same red, green, and blue channels but
  has its own alpha multiplied by <code>alpha</code>, without constructing any objects along the way.</div>
 </div>
-<div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
-<div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#rgb2hsl(float)">rgb2hsl</a></span>&#8203;(float&nbsp;rgba)</code></div>
-<div class="col-last even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
+<div class="col-first odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
+<div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#rgb2hsl(float)">rgb2hsl</a></span>&#8203;(float&nbsp;rgba)</code></div>
+<div class="col-last odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
 <div class="block">Converts a packed float in RGBA format to a packed float in "HSLA format" (hue, saturation, lightness, alpha),
  which isn't one of the regular formats this supports but can be useful for conversions.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
-<div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#rgb2hsl(float,float,float,float)">rgb2hsl</a></span>&#8203;(float&nbsp;r,
+<div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
+<div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#rgb2hsl(float,float,float,float)">rgb2hsl</a></span>&#8203;(float&nbsp;r,
  float&nbsp;g,
  float&nbsp;b,
  float&nbsp;a)</code></div>
-<div class="col-last odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
+<div class="col-last even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
 <div class="block">Converts the four RGBA components, each in the 0.0 to 1.0 range, to a packed float in "HSLA format" (hue,
  saturation, lightness, alpha), which isn't one of the regular formats this supports but can be useful for
  conversions.</div>
 </div>
-<div class="col-first even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
-<div class="col-second even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#setAlpha(float,float)">setAlpha</a></span>&#8203;(float&nbsp;encodedColor,
+<div class="col-first odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code>static float</code></div>
+<div class="col-second odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#setAlpha(float,float)">setAlpha</a></span>&#8203;(float&nbsp;encodedColor,
  float&nbsp;alpha)</code></div>
-<div class="col-last even-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
+<div class="col-last odd-row-color method-summary-table-tab1 method-summary-table-tab4 method-summary-table">
 <div class="block">Given a color stored as a packed float, and a desired alpha to set for that color (between 0.0 and 1.0, inclusive
  and clamped in that range), this makes a new float that has the same red, green, and blue channels but has been
  set to the given alpha, without constructing any objects along the way.</div>
@@ -268,9 +277,30 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="hslColor(com.badlogic.gdx.graphics.Color,float,float,float,float)">
+<h3>hslColor</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.badlogic.gdx.graphics.Color</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.54">hslColor</a></span>&#8203;<span class="parameters">(com.badlogic.gdx.graphics.Color&nbsp;changing,
+ float&nbsp;h,
+ float&nbsp;s,
+ float&nbsp;l,
+ float&nbsp;a)</span></div>
+<div class="block">Converts the four HSLA components, each in the 0.0 to 1.0 range, to RGBA and assigns them into changing.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>changing</code> - a non-null Color that will be modified</dd>
+<dd><code>h</code> - hue, from 0.0 to 1.0</dd>
+<dd><code>s</code> - saturation, from 0.0 to 1.0</dd>
+<dd><code>l</code> - lightness, from 0.0 to 1.0</dd>
+<dd><code>a</code> - alpha, from 0.0 to 1.0</dd>
+<dt>Returns:</dt>
+<dd>changing, after assignment</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="rgb2hsl(float)">
 <h3>rgb2hsl</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.50">rgb2hsl</a></span>&#8203;<span class="parameters">(float&nbsp;rgba)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.74">rgb2hsl</a></span>&#8203;<span class="parameters">(float&nbsp;rgba)</span></div>
 <div class="block">Converts a packed float in RGBA format to a packed float in "HSLA format" (hue, saturation, lightness, alpha),
  which isn't one of the regular formats this supports but can be useful for conversions.</div>
 <dl class="notes">
@@ -284,7 +314,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="rgb2hsl(float,float,float,float)">
 <h3>rgb2hsl</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.65">rgb2hsl</a></span>&#8203;<span class="parameters">(float&nbsp;r,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.89">rgb2hsl</a></span>&#8203;<span class="parameters">(float&nbsp;r,
  float&nbsp;g,
  float&nbsp;b,
  float&nbsp;a)</span></div>
@@ -305,7 +335,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="multiplyAlpha(float,float)">
 <h3>multiplyAlpha</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.104">multiplyAlpha</a></span>&#8203;<span class="parameters">(float&nbsp;encodedColor,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.128">multiplyAlpha</a></span>&#8203;<span class="parameters">(float&nbsp;encodedColor,
  float&nbsp;alpha)</span></div>
 <div class="block">Given a color stored as a packed float and an alpha multiplier to affect that color (between 0f and 1f, inclusive
  and clamped in that range), this makes a packed float color that has the same red, green, and blue channels but
@@ -324,7 +354,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="setAlpha(float,float)">
 <h3>setAlpha</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.121">setAlpha</a></span>&#8203;<span class="parameters">(float&nbsp;encodedColor,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.145">setAlpha</a></span>&#8203;<span class="parameters">(float&nbsp;encodedColor,
  float&nbsp;alpha)</span></div>
 <div class="block">Given a color stored as a packed float, and a desired alpha to set for that color (between 0.0 and 1.0, inclusive
  and clamped in that range), this makes a new float that has the same red, green, and blue channels but has been
@@ -343,7 +373,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="lerpFloatColors(float,float,float)">
 <h3>lerpFloatColors</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.138">lerpFloatColors</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.162">lerpFloatColors</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;end,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards end by change. Both start and end should be packed colors,
@@ -365,7 +395,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="lerpFloatColorsBlended(float,float,float)">
 <h3>lerpFloatColorsBlended</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.161">lerpFloatColorsBlended</a></span>&#8203;<span class="parameters">(float&nbsp;start,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.185">lerpFloatColorsBlended</a></span>&#8203;<span class="parameters">(float&nbsp;start,
  float&nbsp;end,
  float&nbsp;change)</span></div>
 <div class="block">Interpolates from the packed float color start towards end by change, but keeps the alpha of start and uses the
@@ -388,7 +418,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="mix(float,float)">
 <h3>mix</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.179">mix</a></span>&#8203;<span class="parameters">(float&nbsp;color0,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.203">mix</a></span>&#8203;<span class="parameters">(float&nbsp;color0,
  float&nbsp;color1)</span></div>
 <div class="block">Returns a 1:1 mix of color0 and color1. All colors should use the same color space.
  This is the same as calling <a href="#lerpFloatColors(float,float,float)"><code>lerpFloatColors(float, float, float)</code></a> with a change of 0.5.</div>
@@ -404,7 +434,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="mix(float,float,float)">
 <h3>mix</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.190">mix</a></span>&#8203;<span class="parameters">(float&nbsp;color0,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.214">mix</a></span>&#8203;<span class="parameters">(float&nbsp;color0,
  float&nbsp;color1,
  float&nbsp;color2)</span></div>
 <div class="block">Returns a 1:1:1 mix of color0, color1, and color2. All colors should use the same color space.</div>
@@ -421,7 +451,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="mix(float,float,float,float)">
 <h3>mix</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.202">mix</a></span>&#8203;<span class="parameters">(float&nbsp;color0,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.226">mix</a></span>&#8203;<span class="parameters">(float&nbsp;color0,
  float&nbsp;color1,
  float&nbsp;color2,
  float&nbsp;color3)</span></div>
@@ -440,7 +470,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="mix(float...)">
 <h3>mix</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.212">mix</a></span>&#8203;<span class="parameters">(float...&nbsp;colors)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.236">mix</a></span>&#8203;<span class="parameters">(float...&nbsp;colors)</span></div>
 <div class="block">Given several colors, this gets an even mix of all colors in equal measure.
  If <code>colors</code> is null or has no items, this returns 0f (usually transparent in most color spaces).</div>
 <dl class="notes">
@@ -454,7 +484,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="mix(float[],int,int)">
 <h3>mix</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.232">mix</a></span>&#8203;<span class="parameters">(float[]&nbsp;colors,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/github/tommyettinger/colorful/FloatColors.html#line.256">mix</a></span>&#8203;<span class="parameters">(float[]&nbsp;colors,
  int&nbsp;offset,
  int&nbsp;size)</span></div>
 <div class="block">Given several colors, this gets an even mix of all colors in equal measure.

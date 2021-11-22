@@ -333,7 +333,7 @@
 <span class="source-line-no">320</span><span id="line.320">                final float d = x - Math.min(w, y);</span>
 <span class="source-line-no">321</span><span id="line.321">                light = Math.min(Math.max(x * (1f - 0.5f * d / (x + 1e-10f)) + light, 0f), 1f);</span>
 <span class="source-line-no">322</span><span id="line.322">                hue += Math.abs(z + (w - y) / (6f * d + 1e-10f)) + 1f;</span>
-<span class="source-line-no">323</span><span id="line.323">                saturation += (x - light) / (Math.min(light, 1f - light) + 1e-10f);</span>
+<span class="source-line-no">323</span><span id="line.323">                saturation += x - Math.min(w, y);</span>
 <span class="source-line-no">324</span><span id="line.324">                return FloatColors.hsl2rgb(hue - (int)hue, Math.min(Math.max(saturation, 0f), 1f), light, opacity);</span>
 <span class="source-line-no">325</span><span id="line.325">        }</span>
 <span class="source-line-no">326</span><span id="line.326"></span>
