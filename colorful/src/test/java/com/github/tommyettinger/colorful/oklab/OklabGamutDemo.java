@@ -7,6 +7,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -21,6 +22,8 @@ import com.github.tommyettinger.anim8.AnimatedPNG;
 import com.github.tommyettinger.anim8.Dithered;
 import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.colorful.TrigTools;
+
+import java.io.IOException;
 
 import static com.badlogic.gdx.Gdx.input;
 
@@ -39,6 +42,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
         config.setTitle("Oklab Gamut Demo");
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.setIdleFPS(10);
+        config.setTransparentFramebuffer(true);
         config.setForegroundFPS(60);
         config.useVsync(true);
 
@@ -96,15 +100,15 @@ public class OklabGamutDemo extends ApplicationAdapter {
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.enableBlending();
 
-//        final int frameCount = 120;
-//        Array<Pixmap> pixmaps = new Array<>(frameCount);
-//        for (int i = 0; i < frameCount; i++) {
-//            layer = i / (frameCount - 1f);
-//            renderInternal();
-//            // this gets a screenshot of the current window and adds it to the Array of Pixmap.
-//            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-//        }
-//
+        final int frameCount = 120;
+        Array<Pixmap> pixmaps = new Array<>(frameCount);
+        for (int i = 0; i < frameCount; i++) {
+            layer = i / (frameCount - 1f);
+            renderInternal();
+            // this gets a screenshot of the current window and adds it to the Array of Pixmap.
+            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        }
+
 //
 ////// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
 ////// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
@@ -118,11 +122,21 @@ public class OklabGamutDemo extends ApplicationAdapter {
 ////        gif.palette = new PaletteReducer(pixmaps);
 ////        // 24 is how many frames per second the animated GIF should play back at.
 //        gif.write(Gdx.files.local("OklabGamut.gif"), pixmaps, 24);
-//
-////// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
-//        AnimatedPNG png = new AnimatedPNG();
-////// 24 is how many frames per second the animated PNG should play back at.
-//        png.write(Gdx.files.local("OklabGamut.png"), pixmaps, 24);
+
+//// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
+        AnimatedPNG png = new AnimatedPNG();
+//// 24 is how many frames per second the animated PNG should play back at.
+        png.write(Gdx.files.local("OklabGamut.png"), pixmaps, 24);
+
+        PixmapIO.PNG still = new PixmapIO.PNG();
+        int idx = 0;
+        for (Pixmap pm : pixmaps){
+            try {
+                still.write(Gdx.files.local("oklab_" + (idx++) + ".png"), pm);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
 
 //        float minA = 1000f, minB = 1000f, maxA = -1000f, maxB = -1000f, ok, A, B, maxChroma = 0f, chroma;
@@ -265,12 +279,12 @@ public class OklabGamutDemo extends ApplicationAdapter {
     }
     
     public void renderInternal() {
-        Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1f);
+        Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(screenView.getCamera().combined);
         batch.setColor(0.5f, 0.5f, 0.5f, 1f);
         batch.begin();
-        batch.draw(blank, 0, 0, 512, 512);
+//        batch.draw(blank, 0, 0, 512, 512);
         batch.setColor(layer, 0.5f, 0.5f, 1f);
         batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
         for (int x = 0; x < 512; x++) {
