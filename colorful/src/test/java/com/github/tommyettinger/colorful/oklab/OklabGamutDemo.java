@@ -65,13 +65,19 @@ public class OklabGamutDemo extends ApplicationAdapter {
                         "varying LOWP vec4 v_color;\n" +
                         "uniform sampler2D u_texture;\n" +
                         "const vec3 forward = vec3(1.0 / 3.0);\n" +
+                        "float toOklab(float L) {\n" +
+                        "  return (L - 1.0) / (1.0 - L * 0.4285714) + 1.0;\n" +
+                        "}\n" +
+                        "float fromOklab(float L) {\n" +
+                        "  return (L - 1.0) / (1.0 + L * 0.75) + 1.0;\n" +
+                        "}\n" +
                         "void main()\n" +
                         "{\n" +
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                         "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +
                         "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +
                         "             * (tgt.rgb * tgt.rgb), forward);\n" +
-                        "  lab.x = clamp(lab.x + v_color.r - 0.63, 0.0, 1.0);\n" +
+                        "  lab.x = fromOklab(clamp(toOklab(lab.x) + v_color.r - 0.5, 0.0, 1.0));\n" +
                         "  lab.yz = clamp(lab.yz + v_color.gb * 2.0 - 1.0, -1.0, 1.0);\n" +
                         "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +
                         "  lab = " +
@@ -90,21 +96,22 @@ public class OklabGamutDemo extends ApplicationAdapter {
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.enableBlending();
 
-        final int frameCount = 120;
-        Array<Pixmap> pixmaps = new Array<>(frameCount);
-        for (int i = 0; i < frameCount; i++) {
-            layer = i / (frameCount - 1f);
-            renderInternal();
-            // this gets a screenshot of the current window and adds it to the Array of Pixmap.
-            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        }
-
-
+//        final int frameCount = 120;
+//        Array<Pixmap> pixmaps = new Array<>(frameCount);
+//        for (int i = 0; i < frameCount; i++) {
+//            layer = i / (frameCount - 1f);
+//            renderInternal();
+//            // this gets a screenshot of the current window and adds it to the Array of Pixmap.
+//            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+//        }
+//
+//
 ////// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
 ////// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
 //        AnimatedGif gif = new AnimatedGif();
 ////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
 ////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
+////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is fast and great with smooth gradients, but the temporal dithering looks weird here.
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
 ////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // this should be dithered before usage
 //        gif.palette = new PaletteReducer();
@@ -118,111 +125,111 @@ public class OklabGamutDemo extends ApplicationAdapter {
 //        png.write(Gdx.files.local("OklabGamut.png"), pixmaps, 24);
 
 
-        float minA = 1000f, minB = 1000f, maxA = -1000f, maxB = -1000f, ok, A, B, maxChroma = 0f, chroma;
-        int c = 0xFF;
-        for (int r = 0; r < 256; r++, c += 0x01000000) {
-            int c2 = c;
-            for (int g = 0; g < 256; g++, c2 += 0x00010000) {
-                ok = ColorTools.fromRGBA8888(c2);
-//                if(!ColorTools.inGamut(ok)) {
-//                    System.out.printf("0x%08X is out of gamut!\n", c2);
-//                    System.out.println(ColorTools.getRawGamutValue((int)(ColorTools.channelL(ok) * 255.999f) << 8
-//                            | (int)(TrigTools.atan2_(ColorTools.channelB(ok) - 0.5f, ColorTools.channelA(ok) - 0.5f) * 256f)));
-//                }
-                ok = ColorTools.limitToGamut(ok);
-
-                A = ColorTools.channelA(ok);
-                B = ColorTools.channelB(ok);
-                minA = Math.min(A, minA);
-                minB = Math.min(B, minB);
-                maxA = Math.max(A, maxA);
-                maxB = Math.max(B, maxB);
-                maxChroma = Math.max(maxChroma, chroma = ColorTools.chroma(ok));
-                if(chroma > 0.6322) System.out.printf("RGBA 0x%08X has chroma %1.5f\n", c2, chroma);
-            }
-        }
-        c = 0xFFFF;
-        for (int r = 0; r < 256; r++, c += 0x01000000) {
-            int c2 = c;
-            for (int g = 0; g < 256; g++, c2 += 0x00010000) {
-                ok = ColorTools.fromRGBA8888(c2);
-                ok = ColorTools.limitToGamut(ok);
-                A = ColorTools.channelA(ok);
-                B = ColorTools.channelB(ok);
-                minA = Math.min(A, minA);
-                minB = Math.min(B, minB);
-                maxA = Math.max(A, maxA);
-                maxB = Math.max(B, maxB);
-                maxChroma = Math.max(maxChroma, chroma = ColorTools.chroma(ok));
-                if(chroma > 0.6322) System.out.printf("RGBA 0x%08X has chroma %1.5f\n", c2, chroma);
-            }
-        }
-        c = 0xFF;
-        for (int r = 0; r < 256; r++, c += 0x01000000) {
-            int c2 = c;
-            for (int b = 0; b < 256; b++, c2 += 0x00000100) {
-                ok = ColorTools.fromRGBA8888(c2);
-                ok = ColorTools.limitToGamut(ok);
-                A = ColorTools.channelA(ok);
-                B = ColorTools.channelB(ok);
-                minA = Math.min(A, minA);
-                minB = Math.min(B, minB);
-                maxA = Math.max(A, maxA);
-                maxB = Math.max(B, maxB);
-                maxChroma = Math.max(maxChroma, chroma = ColorTools.chroma(ok));
-                if(chroma > 0.6322) System.out.printf("RGBA 0x%08X has chroma %1.5f\n", c2, chroma);
-            }
-        }
-        c = 0xFF00FF;
-        for (int r = 0; r < 256; r++, c += 0x01000000) {
-            int c2 = c;
-            for (int b = 0; b < 256; b++, c2 += 0x00000100) {
-                ok = ColorTools.fromRGBA8888(c2);
-                ok = ColorTools.limitToGamut(ok);
-                A = ColorTools.channelA(ok);
-                B = ColorTools.channelB(ok);
-                minA = Math.min(A, minA);
-                minB = Math.min(B, minB);
-                maxA = Math.max(A, maxA);
-                maxB = Math.max(B, maxB);
-                maxChroma = Math.max(maxChroma, chroma = ColorTools.chroma(ok));
-                if(chroma > 0.6322) System.out.printf("RGBA 0x%08X has chroma %1.5f\n", c2, chroma);
-            }
-        }
-        c = 0xFF;
-        for (int g = 0; g < 256; g++, c += 0x00010000) {
-            int c2 = c;
-            for (int b = 0; b < 256; b++, c2 += 0x00000100) {
-                ok = ColorTools.fromRGBA8888(c2);
-                ok = ColorTools.limitToGamut(ok);
-                A = ColorTools.channelA(ok);
-                B = ColorTools.channelB(ok);
-                minA = Math.min(A, minA);
-                minB = Math.min(B, minB);
-                maxA = Math.max(A, maxA);
-                maxB = Math.max(B, maxB);
-                maxChroma = Math.max(maxChroma, chroma = ColorTools.chroma(ok));
-                if(chroma > 0.6322) System.out.printf("RGBA 0x%08X has chroma %1.5f\n", c2, chroma);
-            }
-        }
-        c = 0xFF0000FF;
-        for (int g = 0; g < 256; g++, c += 0x00010000) {
-            int c2 = c;
-            for (int b = 0; b < 256; b++, c2 += 0x00000100) {
-                ok = ColorTools.fromRGBA8888(c2);
-                ok = ColorTools.limitToGamut(ok);
-                A = ColorTools.channelA(ok);
-                B = ColorTools.channelB(ok);
-                minA = Math.min(A, minA);
-                minB = Math.min(B, minB);
-                maxA = Math.max(A, maxA);
-                maxB = Math.max(B, maxB);
-                maxChroma = Math.max(maxChroma, chroma = ColorTools.chroma(ok));
-                if(chroma > 0.6322) System.out.printf("RGBA 0x%08X has chroma %1.5f\n", c2, chroma);
-            }
-        }
-        System.out.printf("minimum A: %1.5f\nmaximum A: %1.5f\nminimum B: %1.5f\nmaximum B: %1.5f\nmaximum chroma: %1.5f\n",
-                minA - 0.5f, maxA - 0.5f, minB - 0.5f, maxB - 0.5f, maxChroma);
+//        float minA = 1000f, minB = 1000f, maxA = -1000f, maxB = -1000f, ok, A, B, maxChroma = 0f, chroma;
+//        int c = 0xFF;
+//        for (int r = 0; r < 256; r++, c += 0x01000000) {
+//            int c2 = c;
+//            for (int g = 0; g < 256; g++, c2 += 0x00010000) {
+//                ok = ColorTools.fromRGBA8888(c2);
+////                if(!ColorTools.inGamut(ok)) {
+////                    System.out.printf("0x%08X is out of gamut!\n", c2);
+////                    System.out.println(ColorTools.getRawGamutValue((int)(ColorTools.channelL(ok) * 255.999f) << 8
+////                            | (int)(TrigTools.atan2_(ColorTools.channelB(ok) - 0.5f, ColorTools.channelA(ok) - 0.5f) * 256f)));
+////                }
+//                ok = ColorTools.limitToGamut(ok);
+//
+//                A = ColorTools.channelA(ok);
+//                B = ColorTools.channelB(ok);
+//                minA = Math.min(A, minA);
+//                minB = Math.min(B, minB);
+//                maxA = Math.max(A, maxA);
+//                maxB = Math.max(B, maxB);
+//                maxChroma = Math.max(maxChroma, chroma = ColorTools.chroma(ok));
+//                if(chroma > 0.6322) System.out.printf("RGBA 0x%08X has chroma %1.5f\n", c2, chroma);
+//            }
+//        }
+//        c = 0xFFFF;
+//        for (int r = 0; r < 256; r++, c += 0x01000000) {
+//            int c2 = c;
+//            for (int g = 0; g < 256; g++, c2 += 0x00010000) {
+//                ok = ColorTools.fromRGBA8888(c2);
+//                ok = ColorTools.limitToGamut(ok);
+//                A = ColorTools.channelA(ok);
+//                B = ColorTools.channelB(ok);
+//                minA = Math.min(A, minA);
+//                minB = Math.min(B, minB);
+//                maxA = Math.max(A, maxA);
+//                maxB = Math.max(B, maxB);
+//                maxChroma = Math.max(maxChroma, chroma = ColorTools.chroma(ok));
+//                if(chroma > 0.6322) System.out.printf("RGBA 0x%08X has chroma %1.5f\n", c2, chroma);
+//            }
+//        }
+//        c = 0xFF;
+//        for (int r = 0; r < 256; r++, c += 0x01000000) {
+//            int c2 = c;
+//            for (int b = 0; b < 256; b++, c2 += 0x00000100) {
+//                ok = ColorTools.fromRGBA8888(c2);
+//                ok = ColorTools.limitToGamut(ok);
+//                A = ColorTools.channelA(ok);
+//                B = ColorTools.channelB(ok);
+//                minA = Math.min(A, minA);
+//                minB = Math.min(B, minB);
+//                maxA = Math.max(A, maxA);
+//                maxB = Math.max(B, maxB);
+//                maxChroma = Math.max(maxChroma, chroma = ColorTools.chroma(ok));
+//                if(chroma > 0.6322) System.out.printf("RGBA 0x%08X has chroma %1.5f\n", c2, chroma);
+//            }
+//        }
+//        c = 0xFF00FF;
+//        for (int r = 0; r < 256; r++, c += 0x01000000) {
+//            int c2 = c;
+//            for (int b = 0; b < 256; b++, c2 += 0x00000100) {
+//                ok = ColorTools.fromRGBA8888(c2);
+//                ok = ColorTools.limitToGamut(ok);
+//                A = ColorTools.channelA(ok);
+//                B = ColorTools.channelB(ok);
+//                minA = Math.min(A, minA);
+//                minB = Math.min(B, minB);
+//                maxA = Math.max(A, maxA);
+//                maxB = Math.max(B, maxB);
+//                maxChroma = Math.max(maxChroma, chroma = ColorTools.chroma(ok));
+//                if(chroma > 0.6322) System.out.printf("RGBA 0x%08X has chroma %1.5f\n", c2, chroma);
+//            }
+//        }
+//        c = 0xFF;
+//        for (int g = 0; g < 256; g++, c += 0x00010000) {
+//            int c2 = c;
+//            for (int b = 0; b < 256; b++, c2 += 0x00000100) {
+//                ok = ColorTools.fromRGBA8888(c2);
+//                ok = ColorTools.limitToGamut(ok);
+//                A = ColorTools.channelA(ok);
+//                B = ColorTools.channelB(ok);
+//                minA = Math.min(A, minA);
+//                minB = Math.min(B, minB);
+//                maxA = Math.max(A, maxA);
+//                maxB = Math.max(B, maxB);
+//                maxChroma = Math.max(maxChroma, chroma = ColorTools.chroma(ok));
+//                if(chroma > 0.6322) System.out.printf("RGBA 0x%08X has chroma %1.5f\n", c2, chroma);
+//            }
+//        }
+//        c = 0xFF0000FF;
+//        for (int g = 0; g < 256; g++, c += 0x00010000) {
+//            int c2 = c;
+//            for (int b = 0; b < 256; b++, c2 += 0x00000100) {
+//                ok = ColorTools.fromRGBA8888(c2);
+//                ok = ColorTools.limitToGamut(ok);
+//                A = ColorTools.channelA(ok);
+//                B = ColorTools.channelB(ok);
+//                minA = Math.min(A, minA);
+//                minB = Math.min(B, minB);
+//                maxA = Math.max(A, maxA);
+//                maxB = Math.max(B, maxB);
+//                maxChroma = Math.max(maxChroma, chroma = ColorTools.chroma(ok));
+//                if(chroma > 0.6322) System.out.printf("RGBA 0x%08X has chroma %1.5f\n", c2, chroma);
+//            }
+//        }
+//        System.out.printf("minimum A: %1.5f\nmaximum A: %1.5f\nminimum B: %1.5f\nmaximum B: %1.5f\nmaximum chroma: %1.5f\n",
+//                minA - 0.5f, maxA - 0.5f, minB - 0.5f, maxB - 0.5f, maxChroma);
 
         ////Prints:
         //minimum A: -0.11961

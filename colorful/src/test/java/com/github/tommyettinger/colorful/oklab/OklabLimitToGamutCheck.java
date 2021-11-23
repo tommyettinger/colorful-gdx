@@ -65,7 +65,7 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
                         "varying vec2 v_texCoords;\n" +
                         "varying LOWP vec4 v_color;\n" +
                         "uniform sampler2D u_texture;\n" +
-//                        "uniform float u_flash;\n" +
+                        "uniform float u_flash;\n" +
                         "const vec3 forward = vec3(1.0 / 3.0);\n" +
                         "float toOklab(float L) {\n" +
                         "  return (L - 1.0) / (1.0 - L * 0.4285714) + 1.0;\n" +
@@ -79,16 +79,16 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
                         "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +
                         "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +
                         "             * (tgt.rgb * tgt.rgb), forward);\n" +
-                        "  lab.x = fromOklab(clamp(toOklab(lab.x) + toOklab(v_color.r) - 0.5, 0.0, 1.0));\n" +
+                        "  lab.x = fromOklab(clamp(toOklab(lab.x) + v_color.r - 0.5, 0.0, 1.0));\n" +
                         "  lab.yz = clamp(lab.yz + v_color.gb * 2.0 - 1.0, -1.0, 1.0);\n" +
                         "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +
                         "  lab = " +
                         "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +
                         "                 (lab * lab * lab);" +
                         "  vec3 back = clamp(lab, 0.0, 1.0);\n" +
-//                        "  if(any(notEqual(back, lab))) gl_FragColor = vec4(u_flash + sqrt(back), v_color.a * tgt.a);\n" +
-//                        "  else gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
-                        "  gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
+                        "  if(any(notEqual(back, lab))) gl_FragColor = vec4(u_flash + sqrt(back), v_color.a * tgt.a);\n" +
+                        "  else gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
+//                        "  gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
                         "}";
 
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
@@ -125,7 +125,7 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
         AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
-        png.write(Gdx.files.local("OklabGamutCPU-16.png"), pixmaps, 24);
+        png.write(Gdx.files.local("OklabGamutGPU.png"), pixmaps, 24);
 
         layer = 0.5f;
     }
@@ -229,7 +229,7 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
         batch.begin();
         batch.draw(blank, 0, 0, 512, 512);
         batch.setColor(layer, 0.5f, 0.5f, 1f);
-//        batch.getShader().setUniformf("u_flash", startTime >>> 9 & 1);
+        batch.getShader().setUniformf("u_flash", startTime >>> 9 & 1);
         batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
         for (int x = 0; x < 256; x++) {
             for (int y = 0; y < 256; y++) {
@@ -246,16 +246,18 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
 //                    } else
 //                        batch.setPackedColor(color);
 //                }
-                float color = oklab(layer, x / 255f, y / 255f, 1f), sat = oklabSaturation(color);
-                if (Math.sqrt((x * 0x1p-7f - 1f) * (x * 0x1p-7f - 1f) + (y * 0x1p-7f - 1f) * (y * 0x1p-7f - 1f)) < chromaLimit(TrigTools.atan2_(y - 127.5f, x - 127.5f), layer)) {
-                    if (sat > 1) color = Palette.RED;
-                    else if (sat < 0) color = Palette.AIR_FORCE_BLUE;
-                    else color = oklab(sat, 0.5f, 0.5f, 1f);
-                }
-                else
-                    color = Palette.BLACK;
-                batch.setPackedColor(color);
-////                batch.setPackedColor(oklab(layer, x / 255f, y / 255f, 1f));
+
+//                float color = oklab(layer, x / 255f, y / 255f, 1f), sat = oklabSaturation(color);
+//                if (Math.sqrt((x * 0x1p-7f - 1f) * (x * 0x1p-7f - 1f) + (y * 0x1p-7f - 1f) * (y * 0x1p-7f - 1f)) < chromaLimit(TrigTools.atan2_(y - 127.5f, x - 127.5f), layer)) {
+//                    if (sat > 1) color = Palette.RED;
+//                    else if (sat < 0) color = Palette.AIR_FORCE_BLUE;
+//                    else color = oklab(sat, 0.5f, 0.5f, 1f);
+//                }
+//                else
+//                    color = Palette.BLACK;
+//                batch.setPackedColor(color);
+
+                batch.setPackedColor(oklab(layer, x / 255f, y / 255f, 1f));
                 batch.draw(blank, x, y, 1f, 1f);
             }
         }
