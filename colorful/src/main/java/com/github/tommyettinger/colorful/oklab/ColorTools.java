@@ -30,6 +30,11 @@ import static com.github.tommyettinger.colorful.oklab.Gamut.GAMUT_DATA;
  */
 public class ColorTools {
 	/**
+	 * No need to instantiate.
+	 */
+	private ColorTools(){
+	}
+	/**
 	 * Gets a packed float representation of a color given as 4 float components, here, L (luminance or lightness), A
 	 * (a chromatic component ranging from greenish to reddish, called protan in IPT), B (a chromatic component ranging
 	 * from bluish to yellowish, called tritan in IPT), and alpha (or opacity). As long as you use a batch with

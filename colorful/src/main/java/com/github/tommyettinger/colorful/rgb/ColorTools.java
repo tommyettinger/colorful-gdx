@@ -19,6 +19,11 @@ import java.util.Random;
  */
 public class ColorTools {
 	/**
+	 * No need to instantiate.
+	 */
+	private ColorTools(){
+	}
+	/**
 	 * Gets a packed float representation of a color given as 4 float components, here, R (red), G (green), B (blue),
 	 * and A (alpha or opacity). As long as you use a batch with {@link Shaders#fragmentShaderRGBA} or
 	 * {@link Shaders#fragmentShaderGammaRGBA} as its shader, colors passed with

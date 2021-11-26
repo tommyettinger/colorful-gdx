@@ -26,6 +26,11 @@ import java.util.Random;
  */
 public class ColorTools {
     /**
+     * No need to instantiate.
+     */
+    private ColorTools(){
+    }
+    /**
      * Gets a packed float representation of a color given as 4 float components, here, L (luminance or lightness), A
      * (a chromatic component ranging from cyan to red), B (a chromatic component ranging from blue to yellow), and
      * alpha (or opacity). As long as you use a batch with {@link Shaders#fragmentShaderCielab} as its shader, colors

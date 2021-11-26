@@ -15,6 +15,11 @@ import java.util.Random;
  */
 public class ColorTools {
 	/**
+	 * No need to instantiate.
+	 */
+	private ColorTools(){
+	}
+	/**
 	 * Gets a packed float representation of a color given as 4 float components, here, Y (luma or lightness), Cw
 	 * (chromatic warmth), Cm (chromatic mildness), and A (alpha or opacity). As long as you use a shader with
 	 * {@link Shaders#fragmentShader} as its shader, colors passed with

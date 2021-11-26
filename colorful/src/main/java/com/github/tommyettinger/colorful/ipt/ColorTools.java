@@ -18,8 +18,17 @@ import java.util.Random;
  * paper used, it still is pretty good at preserving perceptual lightness. In most regards, this is a more
  * thoroughly-constructed color space than YCwCm, but YCwCm may still be useful because of how it maps to aesthetic
  * components of color. See {@link #ipt(float, float, float, float)} for docs on the I, P, and T channels.
+ * <br>
+ * You may prefer the IPT_HQ color space, {@link com.github.tommyettinger.colorful.ipt_hq.ColorTools}, if you want
+ * better lightness handling at the expense of a small amount of speed. The Oklab color space is related to IPT and
+ * IPT_HQ, {@link com.github.tommyettinger.colorful.oklab.ColorTools}, and is faster at some complex operations.
  */
 public class ColorTools {
+	/**
+	 * No need to instantiate.
+	 */
+	private ColorTools(){
+	}
 	/**
 	 * Gets a packed float representation of a color given as 4 float components, here, I (intensity or lightness), P
 	 * (protan, a chromatic component ranging from greenish to reddish), T (tritan, a chromatic component ranging from

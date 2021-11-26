@@ -18,6 +18,11 @@ import java.util.Random;
  */
 public class ColorTools {
 	/**
+	 * No need to instantiate.
+	 */
+	private ColorTools(){
+	}
+	/**
 	 * Gets a packed float representation of a color given as 4 float components, here, I (intensity or lightness), P
 	 * (protan, a chromatic component ranging from greenish to reddish), T (tritan, a chromatic component ranging from
 	 * bluish to yellowish), and A (alpha or opacity). As long as you use a batch with {@link Shaders#fragmentShaderIPT}
