@@ -1285,8 +1285,8 @@ public class ColorTools {
 		final float B = ((decoded >>> 16 & 0xff) - 127.5f);
 		final float hue = TrigTools.atan2_(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
-		final float dist = GAMUT_DATA[idx];// * 0.5f;
-		if (dist * dist * 0.25f >= (A * A + B * B))
+		final float dist = GAMUT_DATA[idx] * 0.5f;
+		if (dist * dist >= (A * A + B * B))
 			return packed;
 		return NumberUtils.intBitsToFloat(
 				(decoded & 0xFE0000FF) |
@@ -1326,8 +1326,8 @@ public class ColorTools {
 		final float B2 = (B - 0.5f);
 		final float hue = TrigTools.atan2_(B2, A2);
 		final int idx = (int) (L * 255.999f) << 8 | (int)(256f * hue);
-		final float dist = GAMUT_DATA[idx];// * 0.5f;
-		if(dist * dist * 0x1p-18f + 0x1p-14f >= (A2 * A2 + B2 * B2))
+		final float dist = GAMUT_DATA[idx] * 0.5f;
+		if(dist * dist * 0x1p-16f + 0x1p-14f >= (A2 * A2 + B2 * B2))
 			return oklab(L, A, B, alpha);
 		return NumberUtils.intBitsToFloat(
 				(int) (alpha * 127.999f) << 25 |

@@ -65,7 +65,7 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
                         "varying vec2 v_texCoords;\n" +
                         "varying LOWP vec4 v_color;\n" +
                         "uniform sampler2D u_texture;\n" +
-                        "uniform float u_flash;\n" +
+//                        "uniform float u_flash;\n" +
                         "const vec3 forward = vec3(1.0 / 3.0);\n" +
                         "float toOklab(float L) {\n" +
                         "  return (L - 1.0) / (1.0 - L * 0.4285714) + 1.0;\n" +
@@ -86,9 +86,9 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
                         "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +
                         "                 (lab * lab * lab);" +
                         "  vec3 back = clamp(lab, 0.0, 1.0);\n" +
-                        "  if(any(notEqual(back, lab))) gl_FragColor = vec4(u_flash + sqrt(back), v_color.a * tgt.a);\n" +
-                        "  else gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
-//                        "  gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
+//                        "  if(any(notEqual(back, lab))) gl_FragColor = vec4(u_flash + sqrt(back), v_color.a * tgt.a);\n" +
+//                        "  else gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
+                        "  gl_FragColor = vec4(sqrt(back), v_color.a * tgt.a);\n" +
                         "}";
 
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
@@ -122,11 +122,12 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
 ////        // 24 is how many frames per second the animated GIF should play back at.
 //        gif.write(Gdx.files.local("OklabGamut.gif"), pixmaps, 24);
 //
+        /*
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
         AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
         png.write(Gdx.files.local("OklabGamutGPU.png"), pixmaps, 24);
-
+*/
         layer = 0.5f;
     }
 
@@ -229,7 +230,7 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
         batch.begin();
         batch.draw(blank, 0, 0, 512, 512);
         batch.setColor(layer, 0.5f, 0.5f, 1f);
-        batch.getShader().setUniformf("u_flash", startTime >>> 9 & 1);
+//        batch.getShader().setUniformf("u_flash", startTime >>> 9 & 1);
         batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
         for (int x = 0; x < 256; x++) {
             for (int y = 0; y < 256; y++) {
@@ -257,8 +258,16 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
 //                    color = Palette.BLACK;
 //                batch.setPackedColor(color);
 
-                batch.setPackedColor(oklab(layer, x / 255f, y / 255f, 1f));
+                float limited = ColorTools.limitToGamut(layer, x / 255f, y / 255f, 1f),
+                        regular = ColorTools.oklab(layer, x / 255f, y / 255f, 1f);
+                if(limited != regular)
+                    batch.setPackedColor(Palette.LEAD);
+                else
+                    batch.setPackedColor(limited);
                 batch.draw(blank, x, y, 1f, 1f);
+//
+//                batch.setPackedColor(oklab(layer, x / 255f, y / 255f, 1f));
+//                batch.draw(blank, x, y, 1f, 1f);
             }
         }
         batch.end();

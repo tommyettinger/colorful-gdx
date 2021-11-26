@@ -28,9 +28,9 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String inputName = "YamColorData.txt";
 //    public static final ObjectFloatMap<String> named = YamPalette.NAMED;
 
-    public static final String outputAdd = "Yam2Oklab";
-    public static final String inputName = "Yam2ColorData.txt";
-    public static final ObjectFloatMap<String> named = Yam2Palette.NAMED;
+//    public static final String outputAdd = "Yam2Oklab";
+//    public static final String inputName = "Yam2ColorData.txt";
+//    public static final ObjectFloatMap<String> named = Yam2Palette.NAMED;
 
 //    public static final String outputAdd = "FullOklab";
 //    public static final String inputName = "ColorData.txt";
@@ -40,9 +40,9 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String inputName = "ISCCNBSData.txt";
 //    public static final ObjectFloatMap<String> named = NamedMunsellPalette.NAMED;
 
-//    public static final String outputAdd = "SimpleOklab";
-//    public static final String inputName = "SimpleColorData.txt";
-//    public static final ObjectFloatMap<String> named = SimplePalette.NAMED;
+    public static final String outputAdd = "SimpleOklab";
+    public static final String inputName = "SimpleColorData.txt";
+    public static final ObjectFloatMap<String> named = SimplePalette.NAMED;
 
     public static void tabSplit(String[] receiving, String source) {
         int dl = 1, idx = -1, idx2;
