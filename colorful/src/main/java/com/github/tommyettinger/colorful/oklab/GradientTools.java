@@ -16,6 +16,43 @@ public class GradientTools {
     }
 
     /**
+     * Creates a FloatArray gradient from the packed float Oklab color {@code start} to the packed float Oklab color
+     * {@code end}, taking the specified number of steps and using linear interpolation.
+     * This limits individual steps of color to the correct Oklab gamut, so even interpolations between colors at
+     * extreme points in the color space will stay in-gamut.
+     * @param start the packed float Oklab color to start with
+     * @param end the packed float Oklab color to end on
+     * @param steps how many steps the gradient should use; usually greater than 2, and must be non-negative
+     * @return a new FloatArray that contains the requested gradient
+     */
+    public static FloatArray makeGradient(float start, float end, int steps) {
+        return makeGradient(start, end, steps, Interpolation.linear);
+    }
+    /**
+     * Creates a FloatArray gradient from the packed float Oklab color {@code start} to the packed float Oklab color
+     * {@code end}, taking the specified number of steps and using the specified Interpolation for how it transitions.
+     * This limits individual steps of color to the correct Oklab gamut, so even interpolations between colors at
+     * extreme points in the color space will stay in-gamut.
+     * @param start the packed float Oklab color to start with
+     * @param end the packed float Oklab color to end on
+     * @param steps how many steps the gradient should use; usually greater than 2, and must be non-negative
+     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions to end.
+     * @return a new FloatArray that contains the requested gradient
+     */
+    public static FloatArray makeGradient(float start, float end, int steps, Interpolation interpolation) {
+        FloatArray appending = new FloatArray(steps);
+        if(steps <= 0) {
+            return appending;
+        }
+        if(steps == 1) {
+            appending.add(start);
+            return appending;
+        }
+        appendPartialGradient(appending, start, end, steps - 1, interpolation).add(end);
+        return appending;
+    }
+
+    /**
      * Appends a gradient from the packed float Oklab color {@code start} to the packed float Oklab color {@code end},
      * taking the specified number of steps and using the specified Interpolation for how it transitions. This limits
      * individual steps of color to the correct Oklab gamut, so even interpolations between colors at extreme points in
