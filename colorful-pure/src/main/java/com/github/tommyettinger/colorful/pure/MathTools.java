@@ -1018,13 +1018,23 @@ public class MathTools {
     }
 
     /**
-     *  Linearly interpolates between fromValue to toValue on progress position.
+     * Linearly interpolates between fromValue to toValue on progress position.
      * @param fromValue starting float value; can be any finite float
      * @param toValue ending float value; can be any finite float
      * @param progress how far the interpolation should go, between 0 (equal to fromValue) and 1 (equal to toValue)
      */
     public static float lerp (final float fromValue, final float toValue, final float progress) {
         return fromValue + (toValue - fromValue) * progress;
+    }
+    /**
+     * Linearly normalizes value from a range. Range must not be empty. This is the inverse of
+     * {@link #lerp(float, float, float)}.
+     * @param rangeStart Range start normalized to 0
+     * @param rangeEnd Range end normalized to 1
+     * @param value Value to normalize
+     * @return Normalized value. Values outside the range are not clamped to 0 and 1 */
+    public static float norm (float rangeStart, float rangeEnd, float value) {
+        return (value - rangeStart) / (rangeEnd - rangeStart);
     }
 
     /**
@@ -1033,7 +1043,7 @@ public class MathTools {
      * @param value the float to find the floor of
      * @return the int floor of {@code value}, that is, the largest int that is less than or equal to {@code value}
      */
-    static public int floor (float value) {
+    public static int floor (float value) {
         return (int)(value + 16384.0) - 16384;
     }
 
