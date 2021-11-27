@@ -1,0 +1,239 @@
+package com.github.tommyettinger.colorful.pure.rgb;
+
+import com.github.tommyettinger.colorful.pure.FloatColors;
+import com.github.tommyettinger.colorful.pure.Interpolation;
+import com.github.tommyettinger.colorful.pure.MathTools;
+import com.github.tommyettinger.ds.FloatList;
+
+/**
+ * Static methods for handling gradients of smoothly-changing colors, typically inside of {@link FloatList}s.
+ * The intent is for the FloatList to be used as a sequence of packed float RGB colors. You can create a new
+ * FloatList gradient with {@link #makeGradient(float, float, int, Interpolation)}, but any FloatList will work
+ * (although it only makes sense if it contains packed float colors or is empty). Once you have a FloatList, you can
+ * pass it to {@link #appendGradient(FloatList, float, float, int, Interpolation)} to make a gradient between two
+ * colors, or {@link #appendGradientChain(FloatList, int, Interpolation, float...)} to make a gradient between more
+ * than two colors. You can also customize each section between colors with
+ * {@link #appendPartialGradient(FloatList, float, float, int, Interpolation)}, which is just like appendGradient() but
+ * doesn't add the end color (since it is the start color of the next partial gradient, until you finally end by
+ * appending just the end). Using appendPartialGradient(), you can have each transition use a different number of steps.
+ */
+public class GradientTools {
+    /**
+     * No need to instantiate.
+     */
+    private GradientTools(){
+    }
+
+    /**
+     * Creates a FloatList gradient from the packed float RGB color {@code start} to the packed float RGB color
+     * {@code end}, taking the specified number of steps and using linear interpolation.
+     * @param start the packed float RGB color to start with
+     * @param end the packed float RGB color to end on
+     * @param steps how many steps the gradient should use; usually greater than 2, and must be non-negative
+     * @return a new FloatList that contains the requested gradient
+     */
+    public static FloatList makeGradient(float start, float end, int steps) {
+        return makeGradient(start, end, steps, Interpolation.linear);
+    }
+    /**
+     * Creates a FloatList gradient from the packed float RGB color {@code start} to the packed float RGB color
+     * {@code end}, taking the specified number of steps and using the specified Interpolation for how it transitions.
+     * @param start the packed float RGB color to start with
+     * @param end the packed float RGB color to end on
+     * @param steps how many steps the gradient should use; usually greater than 2, and must be non-negative
+     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions to end
+     * @return a new FloatList that contains the requested gradient
+     */
+    public static FloatList makeGradient(float start, float end, int steps, Interpolation interpolation) {
+        FloatList appending = new FloatList(steps);
+        if(steps <= 0) {
+            return appending;
+        }
+        if(steps == 1) {
+            appending.add(start);
+            return appending;
+        }
+        appendPartialGradient(appending, start, end, steps - 1, interpolation).add(end);
+        return appending;
+    }
+
+    /**
+     * Appends a gradient from the packed float RGB color {@code start} to the packed float RGB color {@code end},
+     * taking the specified number of steps and using linear Interpolation for how it transitions.
+     * @param appending a FloatList that will be appended to
+     * @param start the packed float RGB color to start with
+     * @param end the packed float RGB color to end on
+     * @param steps how many steps the gradient should use; usually greater than 2
+     * @return {@code appending}, after adding the gradient to the end
+     */
+    public static FloatList appendGradient(FloatList appending, float start, float end, int steps) {
+        return appendGradient(appending, start, end, steps, Interpolation.linear);
+    }
+    /**
+     * Appends a gradient from the packed float RGB color {@code start} to the packed float RGB color {@code end},
+     * taking the specified number of steps and using the specified Interpolation for how it transitions.
+     * @param appending a FloatList that will be appended to
+     * @param start the packed float RGB color to start with
+     * @param end the packed float RGB color to end on
+     * @param steps how many steps the gradient should use; usually greater than 2
+     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions to end
+     * @return {@code appending}, after adding the gradient to the end
+     */
+    public static FloatList appendGradient(FloatList appending, float start, float end, int steps, Interpolation interpolation) {
+        if(appending == null)
+            return null;
+        if(steps <= 0) {
+            return appending;
+        }
+        if(steps == 1) {
+            appending.add(start);
+            return appending;
+        }
+        appending.ensureCapacity(steps);
+        appendPartialGradient(appending, start, end, steps - 1, interpolation).add(end);
+        return appending;
+    }
+
+    /**
+     * Appends a gradient between several packed float RGB colors provided in {@code chain}. This uses linear
+     * Interpolation for the whole gradient. Appends to the end of {@code appending} and produces a total of
+     * {@code steps} colors.
+     * @param appending a FloatList that will be appended to
+     * @param steps how many steps the gradient should use; usually greater than 2
+     * @param chain an array or varargs of packed float RGB colors that this will interpolate through in order
+     * @return {@code appending}, after adding the gradient to the end
+     */
+    public static FloatList appendGradientChain(FloatList appending, int steps, float... chain) {
+        return appendGradientChain(appending, steps, Interpolation.linear, chain);
+    }
+
+    /**
+     * Appends a gradient between several packed float RGB colors provided in {@code chain}. This uses linear
+     * Interpolation for the whole gradient. Appends to the end of {@code appending} and produces a total of
+     * {@code steps} colors.
+     * @param appending a FloatList that will be appended to
+     * @param steps how many steps the gradient should use; usually greater than 2
+     * @param chain a FloatList of packed float RGB colors that this will interpolate through in order
+     * @return {@code appending}, after adding the gradient to the end
+     */
+    public static FloatList appendGradientChain(FloatList appending, int steps, FloatList chain) {
+        return appendGradientChain(appending, steps, Interpolation.linear, chain);
+    }
+
+    /**
+     * Appends a gradient between several packed float RGB colors provided in {@code chain}. This uses the specified
+     * Interpolation for the whole gradient, which can make some colors use smaller sections than others. Appends to the
+     * end of {@code appending} and produces a total of {@code steps} colors.
+     * @param appending a FloatList that will be appended to
+     * @param steps how many steps the gradient should use; usually greater than 2
+     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions to end
+     * @param chain a FloatList of packed float RGB colors that this will interpolate through in order
+     * @return {@code appending}, after adding the gradient to the end
+     */
+    public static FloatList appendGradientChain(FloatList appending, int steps, Interpolation interpolation, FloatList chain) {
+        if (appending == null)
+            return null;
+        if(chain == null)
+            return appending;
+        if (steps <= 0 || chain.size() == 0) {
+            return appending;
+        }
+        if (steps == 1 || chain.size() == 1) {
+            appending.add(chain.first());
+            return appending;
+        }
+        appending.ensureCapacity(steps);
+        int limit = steps - 1, splits = chain.size() - 1;
+        float step = 1f / steps, change = 0f;
+        for (int i = 0; i < limit; i++) {
+            float interp = interpolation.apply(change);
+            float splint = Math.min(Math.max(interp * splits, 0f), splits - 0.000001f);
+            int idx = (int)splint;
+            appending.add(FloatColors.lerpFloatColors(chain.get(idx), chain.get(idx+1), MathTools.norm(idx * splits, idx * splits + splits, splint)));
+            change += step;
+        }
+        appending.add(chain.get(splits));
+        return appending;
+    }
+
+    /**
+     * Appends a gradient between several packed float RGB colors provided in {@code chain}. This uses the specified
+     * Interpolation for the whole gradient, which can make some colors use smaller sections than others. Appends to the
+     * end of {@code appending} and produces a total of {@code steps} colors.
+     * @param appending a FloatList that will be appended to
+     * @param steps how many steps the gradient should use; usually greater than 2
+     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions to end
+     * @param chain an array or varargs of packed float RGB colors that this will interpolate through in order
+     * @return {@code appending}, after adding the gradient to the end
+     */
+    public static FloatList appendGradientChain(FloatList appending, int steps, Interpolation interpolation, float... chain) {
+        if (appending == null)
+            return null;
+        if(chain == null)
+            return appending;
+        if (steps <= 0 || chain.length == 0) {
+            return appending;
+        }
+        if (steps == 1 || chain.length == 1) {
+            appending.add(chain[0]);
+            return appending;
+        }
+        appending.ensureCapacity(steps);
+        int limit = steps - 1, splits = chain.length - 1;
+        float step = 1f / steps, change = 0f;
+        for (int i = 0; i < limit; i++) {
+            float interp = interpolation.apply(change);
+            float splint = Math.min(Math.max(interp * splits, 0f), splits - 0.000001f);
+            int idx = (int)splint;
+            appending.add(FloatColors.lerpFloatColors(chain[idx], chain[idx+1], MathTools.norm(idx * splits, idx * splits + splits, splint)));
+            change += step;
+        }
+        appending.add(chain[splits]);
+        return appending;
+    }
+
+    /**
+     * Exactly like {@link #appendGradient(FloatList, float, float, int)}, but does not include
+     * {@code end} in what it appends to {@code appending}. This is intended for the implementation of chained
+     * gradients, where the end of a previous gradient becomes the start of the next one. This still uses the specified
+     * number of steps, it just doesn't append {@code end} in the last step.
+     * @param appending a FloatList that will be appended to
+     * @param start the packed float RGB color to start with
+     * @param end the packed float RGB color to end just before
+     * @param steps how many steps the gradient should use; usually greater than 2
+     * @return {@code appending}, after adding the gradient to its end
+     */
+    public static FloatList appendPartialGradient(FloatList appending, float start, float end, int steps) {
+        return appendPartialGradient(appending, start, end, steps, Interpolation.linear);
+    }
+    /**
+     * Exactly like {@link #appendGradient(FloatList, float, float, int, Interpolation)}, but does not include
+     * {@code end} in what it appends to {@code appending}. This is intended for the implementation of chained
+     * gradients, where the end of a previous gradient becomes the start of the next one. This still uses the specified
+     * number of steps, it just doesn't append {@code end} in the last step.
+     * @param appending a FloatList that will be appended to
+     * @param start the packed float RGB color to start with
+     * @param end the packed float RGB color to end just before
+     * @param steps how many steps the gradient should use; usually greater than 2
+     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions toward end
+     * @return {@code appending}, after adding the gradient to its end
+     */
+    public static FloatList appendPartialGradient(FloatList appending, float start, float end, int steps, Interpolation interpolation){
+        if(appending == null)
+            return null;
+        if(steps <= 0) {
+            return appending;
+        }
+        if(steps == 1) {
+            appending.add(start);
+            return appending;
+        }
+        int limit = steps - 1;
+        float step = 1f / steps, change = 0f;
+        for (int i = 0; i < limit; i++) {
+            appending.add(FloatColors.lerpFloatColors(start, end, interpolation.apply(change)));
+            change += step;
+        }
+        return appending;
+    }
+}
