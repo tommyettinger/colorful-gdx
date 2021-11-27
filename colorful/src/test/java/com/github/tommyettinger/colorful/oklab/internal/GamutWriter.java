@@ -121,7 +121,7 @@ public class GamutWriter extends ApplicationAdapter {
             if((sb.length() & 0xFFFF) == 0xFFFF)
                 sb.append("\").append(\"");
         }
-        sb.append("\").toString().getBytes(\"ISO_8859_1\");\n" +
+        sb.append("\").toString().getBytes(\"ISO-8859-1\");\n" +
                 "        } catch (UnsupportedEncodingException e) {\n" +
                 "            e.printStackTrace();\n" +
                 "            GAMUT_DATA = new byte[65536];\n" +
