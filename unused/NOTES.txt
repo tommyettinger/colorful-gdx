@@ -26,3 +26,8 @@ November 18, 2021
 YES...? It seems fixed now that I tracked down a major bug. Some shown chroma limit and raw gamut info used hue() when
 it should have used oklabHue(), and that threw off the gamut a lot. Colors appear fully saturated when they should be,
 and saturation stays between 0 and 1.0.
+
+November 26, 2021
+Still working, as far as I can tell. The limitToGamut() methods and some other places used too much distance and passed
+the edge of the gamut, but this was easy to fix by going back to halving the raw gamut value in those. If that bug is
+present anywhere else, it can be spotted by checking pure blue; if it appears too purple, then the bug is likely there.
