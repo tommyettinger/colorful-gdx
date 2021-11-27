@@ -23,7 +23,7 @@ public class DescriptionDemo extends Game {
         ipthq = new IPTHQDescriptionScreen(this);
         compare = new CompareDescriptionScreen(this);
         screens = new Screen[]{rgb, cielab, oklab, ipthq, compare};
-        screenIndex = 0;
+        screenIndex = 4;
         setScreen(screens[screenIndex]);
     }
     public void nextScreen(){
