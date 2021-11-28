@@ -1,7 +1,6 @@
 package com.github.tommyettinger.colorful.pure.oklab;
 
 import com.github.tommyettinger.colorful.pure.internal.StringKit;
-import com.github.tommyettinger.colorful.pure.oklab.internal.AlternatePalette;
 import com.github.tommyettinger.ds.ObjectIntOrderedMap;
 import com.github.tommyettinger.ds.support.BitConversion;
 
@@ -84,7 +83,7 @@ public class AlternatePaletteCodeGenerator {
 //            );
         }
         try {
-            Files.write(Paths.get("ColorOutputAlternateOklab.txt"), sb.toString().getBytes(StandardCharsets.ISO_8859_1));
+            Files.write(Paths.get("ColorOutputAlternateOklab.txt"), sb.toString().getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -116,7 +115,7 @@ public class AlternatePaletteCodeGenerator {
         }
         sb.append("</table>\n</body>\n</html>");
         try {
-            Files.write(Paths.get("ColorTableAlphabetical.html"), sb.toString().getBytes(StandardCharsets.ISO_8859_1));
+            Files.write(Paths.get("ColorTableAlphabetical.html"), sb.toString().getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -158,7 +157,7 @@ public class AlternatePaletteCodeGenerator {
         }
         sb.append("</table>\n</body>\n</html>");
         try {
-            Files.write(Paths.get("ColorTableHue.html"), sb.toString().getBytes(StandardCharsets.ISO_8859_1));
+            Files.write(Paths.get("ColorTableHue.html"), sb.toString().getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -186,7 +185,7 @@ public class AlternatePaletteCodeGenerator {
         }
         sb.append("</table>\n</body>\n</html>");
         try {
-            Files.write(Paths.get("ColorTableLightness.html"), sb.toString().getBytes(StandardCharsets.ISO_8859_1));
+            Files.write(Paths.get("ColorTableLightness.html"), sb.toString().getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -28,7 +28,7 @@ def projectName = 'colorful-parent'
 version "$VERSION_NAME"
 group 'com.github.tommyettinger'
 
-[compileJava, compileTestJava]*.options*.encoding = 'ISO-8859-1'
+[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
 subprojects {
     version = "$parent.version"
