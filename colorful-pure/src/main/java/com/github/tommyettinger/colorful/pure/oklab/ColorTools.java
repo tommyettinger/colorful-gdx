@@ -808,7 +808,7 @@ public class ColorTools {
 	 * @return a packed float that represents a color between start and transparent
 	 */
 	public static float fade(final float start, final float change) {
-		final int s = BitConversion.floatToRawIntBits(start), opacity = s & 0xFE, other = s & 0x00FFFFFF;
+		final int s = BitConversion.floatToRawIntBits(start), opacity = s >>> 24 & 0xFE, other = s & 0x00FFFFFF;
 		return BitConversion.intBitsToFloat(((int) (opacity * (1f - change)) & 0xFE) << 24 | other);
 	}
 
@@ -1097,13 +1097,11 @@ public class ColorTools {
 	/**
 	 * Gets the saturation of the given Oklab float color, but as Oklab understands saturation rather than how HSL does.
 	 * Saturation here is a fraction of the chroma limit (see {@link #chromaLimit(float, float)}) for a given hue and
-	 * lightness, and is between 0 and 1 almost all the time. Some very bright or dark colors may have their lightness
-	 * adjusted in conflicting ways at different stages of processing, which can yield saturation greater than 1 in
-	 * those cases. 1.2 is probably the practical maximum for rare cases. In any other case, this gives a float between
-	 * 0 (inclusive) and 1 (inclusive).
+	 * lightness, and is between 0 and 1 almost all the time. Saturation should always be a float between 0 (inclusive)
+	 * and 1 (inclusive).
 	 *
 	 * @param packed a packed Oklab float color
-	 * @return a float between 0 (inclusive) and usually 1 (inclusive) that represents saturation in the Oklab color space
+	 * @return a float between 0 (inclusive) and 1 (inclusive) that represents saturation in the Oklab color space
 	 */
 	public static float oklabSaturation(final float packed) {
 		final int decoded = BitConversion.floatToRawIntBits(packed);
