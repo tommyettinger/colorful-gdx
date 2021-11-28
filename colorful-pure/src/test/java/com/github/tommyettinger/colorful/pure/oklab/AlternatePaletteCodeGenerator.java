@@ -37,7 +37,7 @@ public class AlternatePaletteCodeGenerator {
         float c;
         int ci;
         String templateSimple = "\n/**\n" +
-                "* This color constant \"`Name\" has RGBA8888 code {@code `RRGGBBAA}, L `CHANL, A `CHANA, B `CHANB, alpha `ALPHA, hue `HUE, and saturation `SAT.\n" +
+                "* This color constant \"`Name\" has RGBA8888 code {@code `RRGGBBAA}, L `LCHAN, A `ACHAN, B `BCHAN, alpha `ALPHA, hue `HUE, saturation `SAT, and chroma `CHR.\n" +
                 "* It has the encoded Oklab value `PACKED .\n" +
                 "* <pre>\n" +
                 "* <font style='background-color: #FEDCBA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FEDCBA; color: #000000'>&nbsp;@&nbsp;</font>\n" +
@@ -68,35 +68,34 @@ public class AlternatePaletteCodeGenerator {
                     .replace("`NAME", rec[0])
                     .replace("`RRGGBBAA", rec[1])
                     .replace("FEDCBA", rec[1].substring(0, 6))
-                    .replace("`CHANL", Float.toString(ColorTools.channelL(c)))
-//                    .replace("`CHANA", Float.toString(ColorTools.chroma(c)))
-//                    .replace("`CHANB", Float.toString(ColorTools.chromaLimit(oklabHue(c), (channelL(c)))))
-                    .replace("`CHANA", Float.toString(ColorTools.channelA(c)))
-                    .replace("`CHANB", Float.toString(ColorTools.channelB(c)))
+                    .replace("`LCHAN", Float.toString(ColorTools.channelL(c)))
+                    .replace("`ACHAN", Float.toString(ColorTools.channelA(c)))
+                    .replace("`BCHAN", Float.toString(ColorTools.channelB(c)))
                     .replace("`ALPHA", Float.toString(ColorTools.alpha(c)))
                     .replace("`HUE", Float.toString(ColorTools.oklabHue(c)))
                     .replace("`SAT", Float.toString(ColorTools.oklabSaturation(c)))
+                    .replace("`CHR", Float.toString(ColorTools.chroma(c)))
                     .replace("`PACKED", "0x" + StringKit.hex(ci))
             );
-            System.out.println(rec[2] + " : correct RGBA=" + rec[1] + ", decoded RGBA=" + StringKit.hex(toRGBA8888(c)) + ", raw=" + StringKit.hex(ci)
-                    + ", decoded L=" + ColorTools.channelL(c) + ", decoded A=" + (ColorTools.channelA(c)*2f-1f) + ", decoded B=" + ((ColorTools.channelB(c)*2f-1f)
-                    + ", chroma=" + ColorTools.chroma(c) + ", max chroma=" + ColorTools.chroma(ColorTools.maximizeSaturation(c))
-                    + ", chroma limit=" + ColorTools.chromaLimit(ColorTools.oklabHue(c), (ColorTools.channelL(c))) + ", in gamut=" + ColorTools.inGamut(c))
-            );
+//            System.out.println(rec[2] + " : correct RGBA=" + rec[1] + ", decoded RGBA=" + StringKit.hex(toRGBA8888(c)) + ", raw=" + StringKit.hex(ci)
+//                    + ", decoded L=" + ColorTools.channelL(c) + ", decoded A=" + (ColorTools.channelA(c)*2f-1f) + ", decoded B=" + ((ColorTools.channelB(c)*2f-1f)
+//                    + ", chroma=" + ColorTools.chroma(c) + ", max chroma=" + ColorTools.chroma(ColorTools.maximizeSaturation(c))
+//                    + ", chroma limit=" + ColorTools.chromaLimit(ColorTools.oklabHue(c), (ColorTools.channelL(c))) + ", in gamut=" + ColorTools.inGamut(c))
+//            );
         }
         try {
-            Files.write(Paths.get("ColorOutputAlternateOklab.txt"), sb.toString().getBytes(StandardCharsets.UTF_8));
+            Files.write(Paths.get("ColorOutputAlternateOklab.txt"), sb.toString().getBytes(StandardCharsets.ISO_8859_1));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        String templateTable = "<tr>\n<td style='background-color: #FEDCBA;'></td>\n<td>Name</td>\n<td>0x`RGBA8888</td>\n<td>`CHANL</td>\n<td>`CHANA</td>\n<td>`CHANB</td>\n<td>`ALPH</td>\n<td>`HUE</td>\n<td>`SAT</td>\n<td>0x`PACK</td>\n</tr>\n";
+        String templateTable = "<tr>\n<td style='background-color: #FEDCBA;'></td>\n<td>Name</td>\n<td>0x`RGBA8888</td>\n<td>`LCHAN</td>\n<td>`ACHAN</td>\n<td>`BCHAN</td>\n<td>`ALPH</td>\n<td>`HUE</td>\n<td>`SAT</td>\n<td>`CHR</td>\n<td>`PACKF</td>\n</tr>\n";
         final int size = AlternatePalette.NAMED.size();
         ObjectIntOrderedMap<String> PAL = new ObjectIntOrderedMap<>(AlternatePalette.NAMED);
 
         sb.setLength(0);
         PAL.sort(null);
-        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Chroma</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectIntOrderedMap.Entry<String> sc : PAL) {
             assert sc.key != null;
             ci = sc.value;
@@ -107,16 +106,17 @@ public class AlternatePaletteCodeGenerator {
                     .replace("FEDCBA", StringKit.hex(rgba).substring(0, 6))
                     .replace("`HUE", Float.toString(ColorTools.oklabHue(c)))
                     .replace("`SAT", Float.toString(ColorTools.oklabSaturation(c)))
-                    .replace("`CHANL", Float.toString(ColorTools.channelL(c)))
-                    .replace("`CHANA", Float.toString(ColorTools.channelA(c)))
-                    .replace("`CHANB", Float.toString(ColorTools.channelB(c)))
+                    .replace("`CHR", Float.toString(ColorTools.chroma(c)))
+                    .replace("`LCHAN", Float.toString(ColorTools.channelL(c)))
+                    .replace("`ACHAN", Float.toString(ColorTools.channelA(c)))
+                    .replace("`BCHAN", Float.toString(ColorTools.channelB(c)))
                     .replace("`ALPH", Float.toString(ColorTools.alpha(c)))
                     .replace("`PACK", StringKit.hex(ci))
             );
         }
         sb.append("</table>\n</body>\n</html>");
         try {
-            Files.write(Paths.get("ColorTableAlphabetical.html"), sb.toString().getBytes(StandardCharsets.UTF_8));
+            Files.write(Paths.get("ColorTableAlphabetical.html"), sb.toString().getBytes(StandardCharsets.ISO_8859_1));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -137,7 +137,7 @@ public class AlternatePaletteCodeGenerator {
                 return 2 * (int) Math.signum(ColorTools.hue(c1) - ColorTools.hue(c2))
                         + (int) Math.signum(ColorTools.channelL(c1) - ColorTools.channelL(c2));
         });
-        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Chroma</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectIntOrderedMap.Entry<String> sc : PAL) {
             assert sc.key != null;
             ci = sc.value;
@@ -148,23 +148,24 @@ public class AlternatePaletteCodeGenerator {
                     .replace("FEDCBA", StringKit.hex(rgba).substring(0, 6))
                     .replace("`HUE", Float.toString(ColorTools.oklabHue(c)))
                     .replace("`SAT", Float.toString(ColorTools.oklabSaturation(c)))
-                    .replace("`CHANL", Float.toString(ColorTools.channelL(c)))
-                    .replace("`CHANA", Float.toString(ColorTools.channelA(c)))
-                    .replace("`CHANB", Float.toString(ColorTools.channelB(c)))
+                    .replace("`CHR", Float.toString(ColorTools.chroma(c)))
+                    .replace("`LCHAN", Float.toString(ColorTools.channelL(c)))
+                    .replace("`ACHAN", Float.toString(ColorTools.channelA(c)))
+                    .replace("`BCHAN", Float.toString(ColorTools.channelB(c)))
                     .replace("`ALPH", Float.toString(ColorTools.alpha(c)))
                     .replace("`PACK", StringKit.hex(ci))
             );
         }
         sb.append("</table>\n</body>\n</html>");
         try {
-            Files.write(Paths.get("ColorTableHue.html"), sb.toString().getBytes(StandardCharsets.UTF_8));
+            Files.write(Paths.get("ColorTableHue.html"), sb.toString().getBytes(StandardCharsets.ISO_8859_1));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         sb.setLength(0);
         PAL.sortByValue((int c1, int c2) -> (int)Math.signum(ColorTools.channelL(BitConversion.intBitsToFloat(c1)) - ColorTools.channelL(BitConversion.intBitsToFloat(c2))));
-        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Packed</th>\n</tr>\n");
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Chroma</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectIntOrderedMap.Entry<String> sc : PAL) {
             assert sc.key != null;
             ci = sc.value;
@@ -175,25 +176,26 @@ public class AlternatePaletteCodeGenerator {
                     .replace("FEDCBA", StringKit.hex(rgba).substring(0, 6))
                     .replace("`HUE", Float.toString(ColorTools.oklabHue(c)))
                     .replace("`SAT", Float.toString(ColorTools.oklabSaturation(c)))
-                    .replace("`CHANL", Float.toString(ColorTools.channelL(c)))
-                    .replace("`CHANA", Float.toString(ColorTools.channelA(c)))
-                    .replace("`CHANB", Float.toString(ColorTools.channelB(c)))
+                    .replace("`CHR", Float.toString(ColorTools.chroma(c)))
+                    .replace("`LCHAN", Float.toString(ColorTools.channelL(c)))
+                    .replace("`ACHAN", Float.toString(ColorTools.channelA(c)))
+                    .replace("`BCHAN", Float.toString(ColorTools.channelB(c)))
                     .replace("`ALPH", Float.toString(ColorTools.alpha(c)))
                     .replace("`PACK", StringKit.hex(ci))
             );
         }
         sb.append("</table>\n</body>\n</html>");
         try {
-            Files.write(Paths.get("ColorTableLightness.html"), sb.toString().getBytes(StandardCharsets.UTF_8));
+            Files.write(Paths.get("ColorTableLightness.html"), sb.toString().getBytes(StandardCharsets.ISO_8859_1));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        for (int i = 0; i < 256; i++) {
-            float L = (i / 255f);
-            System.out.printf("At L=%.5f (i=%d), limit is %.5f\n", L, i, chromaLimit(0.7323789f, (L)));
-//            System.out.printf("At L=%.5f, limit is %.5f\n", L, chromaLimit(0.9091779f, (L)));
-        }
+//        for (int i = 0; i < 256; i++) {
+//            float L = (i / 255f);
+//            System.out.printf("At L=%.5f (i=%d), limit is %.5f\n", L, i, chromaLimit(0.7323789f, (L)));
+////            System.out.printf("At L=%.5f, limit is %.5f\n", L, chromaLimit(0.9091779f, (L)));
+//        }
 
     }
 }
