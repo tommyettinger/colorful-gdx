@@ -983,7 +983,7 @@ public final class AlternatePalette {
      * @see #darken(int, float) the counterpart method that darkens a float color
      */
     public static int lighten(final int oklab, final float change) {
-        final int L = oklab & 255, other = oklab & 0xFEFFFF00;
+        final int L = oklab & 255, other = oklab & 0xFFFFFF00;
         return (((int) (L + (255 - L) * change) & 255) | other);
     }
 
@@ -1000,7 +1000,7 @@ public final class AlternatePalette {
      * @see #lighten(int, float) the counterpart method that lightens a float color
      */
     public static int darken(final int oklab, final float change) {
-        final int i = oklab & 255, other = oklab & 0xFEFFFF00;
+        final int i = oklab & 255, other = oklab & 0xFFFFFF00;
         return (((int) (i * (1f - change)) & 255) | other);
     }
 
@@ -1017,7 +1017,7 @@ public final class AlternatePalette {
      * @return a packed float that represents a color between start and a warmer color
      */
     public static int raiseA(final int start, final float change) {
-        final int p = start >>> 8 & 0xFF, other = start & 0xFEFF00FF;
+        final int p = start >>> 8 & 0xFF, other = start & 0xFFFF00FF;
         return (((int) (p + (0xFF - p) * change) << 8 & 0xFF00) | other);
     }
 
@@ -1116,7 +1116,7 @@ public final class AlternatePalette {
         return
                 (int) (((oklab >>> 8 & 255) - 127.5f) * (1f - change) + 127.5f) << 8 |
                 (int) (((oklab >>> 16 & 255) - 127.5f) * (1f - change) + 127.5f) << 16 |
-                (oklab & 0xFE0000FF);
+                (oklab & 0xFF0000FF);
     }
 
     /**
@@ -1135,7 +1135,7 @@ public final class AlternatePalette {
         return limitToGamut(
                 (int) (((oklab >>> 8 & 255) - 127.5f) * (1f - change) + 127.5f) << 8 |
                 (int) (((oklab >>> 16 & 255) - 127.5f) * (1f - change) + 127.5f) << 16 |
-                (oklab & 0xFE0000FF));
+                (oklab & 0xFF0000FF));
     }
 
     /**
@@ -1174,13 +1174,13 @@ public final class AlternatePalette {
      * A different way to specify an Oklab color, using hue, chroma, lightness, and alpha something like a normal HSL(A)
      * color but calculating them directly in the Oklab color space. This has you specify the desired chroma directly,
      * as obtainable with {@link #chroma(int)}, rather than the saturation, which is a fraction of the maximum chroma
-     * (saturation is what {@link #oklabByHSL(float, float, float, float)} uses). The hue is just distributed
-     * differently, and the lightness should be equivalent to {@link #channelL(int)}.
+     * (saturation is what {@link #oklabByHSL(float, float, float, float)} uses). The hue is distributed as with
+     * {@link #hue(int)}, and the lightness should be equivalent to {@link #lightness(int)}.
      * If you use this to get two colors with the same chroma and lightness, but different
      * hue, then the resulting colors should have similar colorfulness unless one or both chroma values exceeded the
      * gamut limit (you can get this limit with {@link #chromaLimit(float, float)}). If a chroma value given is greater
      * than the chroma limit, this clamps chroma to that limit. You can use {@link #hue(int)},
-     * {@link #chroma(int)}, and {@link #channelL(int)} to get the hue, chroma, and lightness values from an
+     * {@link #chroma(int)}, and {@link #lightness(int)} to get the hue, chroma, and lightness values from an
      * existing color that this will understand ({@link #alpha(int)} too).
      * @param hue between 0 and 1, usually, but this will automatically wrap if too high or too low
      * @param chroma will be clamped between 0 and the maximum chroma possible for the given hue and lightness
@@ -1314,17 +1314,17 @@ public final class AlternatePalette {
      * @see #inGamut(int) You can use inGamut() if you just want to check whether a color is in-gamut.
      */
     public static int limitToGamut(final int packed) {
-        final float A = ((packed >>> 8 & 0xff) - 127.5f) / 127.5f;
-        final float B = ((packed >>> 16 & 0xff) - 127.5f) / 127.5f;
+        final float A = ((packed >>> 8 & 0xff) - 127.5f);
+        final float B = ((packed >>> 16 & 0xff) - 127.5f);
         final float hue = MathTools.atan2_(B, A);
         final int idx = (packed & 0xff) << 8 | (int) (256f * hue);
-        final float dist = GAMUT_DATA[idx] * 0x1p-8f;
-        if (dist >= (float) Math.sqrt(A * A + B * B))
+        final float dist = GAMUT_DATA[idx] * 0.5f;
+        if (dist * dist >= (A * A + B * B))
             return packed;
         return (
                 (packed & 0xFF0000FF) |
-                        (int) (MathTools.cos_(hue) * dist * 127.999f + 127.999f) << 8 |
-                        (int) (MathTools.sin_(hue) * dist * 127.999f + 127.999f) << 16);
+                        (int) (MathTools.cos_(hue) * dist + 128f) << 8 |
+                        (int) (MathTools.sin_(hue) * dist + 128f) << 16);
     }
 
     /**
@@ -1356,17 +1356,17 @@ public final class AlternatePalette {
         A = Math.min(Math.max(A, 0), 255);
         B = Math.min(Math.max(B, 0), 255);
         alpha = Math.min(Math.max(alpha, 0), 255);
-        final float A2 = (A - 127.5f) / 127.5f;
-        final float B2 = (B - 127.5f) / 127.5f;
+        final float A2 = (A - 127.5f) / 255f;
+        final float B2 = (B - 127.5f) / 255f;
         final float hue = MathTools.atan2_(B2, A2);
         final int idx = L << 8 | (int)(256f * hue);
-        final float dist = GAMUT_DATA[idx] * 0x1p-8f;
-        if(dist >= (float) Math.sqrt(A2 * A2 + B2 * B2))
-            return (L | A << 8 | B << 16 | alpha << 24);
+        final float dist = GAMUT_DATA[idx] * 0.5f;
+        if(dist * dist * 0x1p-16f + 0x1p-14f >= (A2 * A2 + B2 * B2))
+            return L | A << 8 | B << 16 | alpha << 24;
         return (
                 alpha << 24 |
-                        (int) (MathTools.sin_(hue) * dist * 127.999f + 127.999f) << 16 |
-                        (int) (MathTools.cos_(hue) * dist * 127.999f + 127.999f) << 8 |
+                        (int) (MathTools.sin_(hue) * dist + 128f) << 16 |
+                        (int) (MathTools.cos_(hue) * dist + 128f) << 8 |
                         L);
     }
 
@@ -1382,12 +1382,12 @@ public final class AlternatePalette {
      */
     public static int lerpColors(final int s, final int e, final float change) {
         final int
-                sL = (s & 0xFF), sA = (s >>> 8) & 0xFF, sB = (s >>> 16) & 0xFF, sAlpha = s >>> 24 & 0xFE,
-                eL = (e & 0xFF), eA = (e >>> 8) & 0xFF, eB = (e >>> 16) & 0xFF, eAlpha = e >>> 24 & 0xFE;
+                sL = (s & 0xFF), sA = (s >>> 8) & 0xFF, sB = (s >>> 16) & 0xFF, sAlpha = s >>> 24,
+                eL = (e & 0xFF), eA = (e >>> 8) & 0xFF, eB = (e >>> 16) & 0xFF, eAlpha = e >>> 24;
         return (((int) (sL + change * (eL - sL)) & 0xFF)
                 | (((int) (sA + change * (eA - sA)) & 0xFF) << 8)
                 | (((int) (sB + change * (eB - sB)) & 0xFF) << 16)
-                | (((int) (sAlpha + change * (eAlpha - sAlpha)) & 0xFE) << 24));
+                | (((int) (sAlpha + change * (eAlpha - sAlpha)) & 0xFF) << 24));
     }
 
     /**
