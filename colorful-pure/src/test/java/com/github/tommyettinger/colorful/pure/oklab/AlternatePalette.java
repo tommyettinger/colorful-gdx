@@ -8,6 +8,7 @@ import com.github.tommyettinger.ds.support.BitConversion;
 import com.github.tommyettinger.colorful.pure.oklab.Gamut;
 import java.io.UnsupportedEncodingException;
 
+import static com.github.tommyettinger.colorful.pure.MathTools.floor;
 import static com.github.tommyettinger.colorful.pure.oklab.Gamut.GAMUT_DATA;
 
 /**
@@ -751,7 +752,20 @@ public final class AlternatePalette {
     public static float reverseLight(final float L) {
         return (L - 0.993f) / (1f + L * 0.75f) + 0.993f;
     }
-
+    /**
+     * Gets an Oklab packed int color that is within the gamut of viable colors by using
+     * {@link #limitToGamut(int, int, int, int)}. This method just calls limitToGamut() with the parameters adjusted
+     * from the 0 to 1 float range here, to the 0 to 255 int range in limitToGamut.
+     * @param L lightness component; will be clamped between 0 and 1 if it isn't already
+     * @param A green-to-red chromatic component; will be clamped between 0 and 1 if it isn't already
+     * @param B blue-to-yellow chromatic component; will be clamped between 0 and 1 if it isn't already
+     * @param alpha alpha component; will be clamped between 0 and 1 if it isn't already
+     * @return the first color this finds that is in-gamut, as if it was moving toward a grayscale color with the same L
+     * @see #inGamut(int, int, int) You can use inGamut() if you just want to check whether a color is in-gamut.
+     */
+    public static int oklab(float L, float A, float B, float alpha) {
+        return limitToGamut((int)(L * 255.999f), (int)(A * 255.999f), (int)(B * 255.999f), (int)(alpha * 255.999f));
+    }
     /**
      * Converts a packed Oklab int color in the format used by constants in this class to an RGBA8888 int.
      * This format of int can be used with Pixmap and in some other places in libGDX.
@@ -773,20 +787,164 @@ public final class AlternatePalette {
     }
 
     /**
-     * Gets the chroma or "colorfulness" of the given encoded color, as a non-negative float. This is like the
-     * saturation component of HSL or HSV, but where saturation is always 1.0 when a color is the most colorful possible
-     * given its combination of hue and lightness, chroma can be lower if the most colorful possible value isn't as
-     * colorful as some other combination. This means chroma has a smaller range of values when L is high or low, and a
-     * larger range when L is near 0.45 to 0.65, roughly, because high and low L approach white and black, respectively,
-     * while mid-range L values are the most colorful.
+     * Gets the red channel value of the given encoded color, as an int ranging from 0 to 255, inclusive.
+     * @param packed a color as a packed int that can be obtained by {@link #oklab(float, float, float, float)}
+     * @return an int from 0 to 255, inclusive, representing the red channel value of the given encoded color
+     */
+    public static int red(final int packed)
+    {
+        final float L = reverseLight((packed & 0xff) / 255f);
+        final float A = ((packed >>> 8 & 0xff) - 127.5f) / 127.5f;
+        final float B = ((packed >>> 16 & 0xff) - 127.5f) / 127.5f;
+        final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+        final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+        final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+        return (int)(reverseGamma(Math.min(Math.max(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f), 1f)) * 255.999f);
+    }
+
+    /**
+     * Gets the green channel value of the given encoded color, as an int ranging from 0 to 255, inclusive.
+     * @param packed a color as a packed int that can be obtained by {@link #oklab(float, float, float, float)}
+     * @return an int from 0 to 255, inclusive, representing the green channel value of the given encoded color
+     */
+    public static int green(final int packed)
+    {
+        final float L = reverseLight((packed & 0xff) / 255f);
+        final float A = ((packed >>> 8 & 0xff) - 127.5f) / 127.5f;
+        final float B = ((packed >>> 16 & 0xff) - 127.5f) / 127.5f;
+        final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+        final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+        final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+        return (int)(reverseGamma(Math.min(Math.max(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f), 1f)) * 255.999f);
+    }
+
+    /**
+     * Gets the blue channel value of the given encoded color, as an int ranging from 0 to 255, inclusive.
+     * @param packed a color as a packed int that can be obtained by {@link #oklab(float, float, float, float)}
+     * @return an int from 0 to 255, inclusive, representing the blue channel value of the given encoded color
+     */
+    public static int blue(final int packed)
+    {
+        final float L = reverseLight((packed & 0xff) / 255f);
+        final float A = ((packed >>> 8 & 0xff) - 127.5f) / 127.5f;
+        final float B = ((packed >>> 16 & 0xff) - 127.5f) / 127.5f;
+        final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+        final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+        final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+        return (int)(reverseGamma(Math.min(Math.max(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f), 1f)) * 255.999f);
+    }
+
+    /**
+     * Gets the alpha channel value of the given encoded color, as an even int ranging from 0 to 254, inclusive. Because
+     * of how alpha is stored in libGDX, no odd-number values are possible for alpha.
+     * @param encoded a color as a packed int that can be obtained by {@link #oklab(float, float, float, float)}
+     * @return an even int from 0 to 254, inclusive, representing the alpha channel value of the given encoded color
+     */
+    public static int alpha(final int encoded)
+    {
+        return encoded >>> 24;
+    }
+
+
+    /**
+     * The "L" channel of the given packed int in Oklab format, which is its lightness; ranges from 0 to
+     * 255 . You can edit the L of a color with {@link #lighten(int, float)} and {@link #darken(int, float)}.
      *
-     * @param oklab a color as an Oklab int that can be obtained from any of the constants in this class.
-     * @return the chroma of the color from 0.0 (a grayscale color; inclusive) to at-most the square root of 2 (but probably lower; a bright color)
+     * @param encoded a color encoded as a packed int, as by {@link #oklab(float, float, float, float)}
+     * @return the L value as an int from 0 to 255
+     */
+    public static int channelL(final int encoded)
+    {
+        return (encoded) & 0xff;
+    }
+
+    /**
+     * The "L" channel of the given packed int in Oklab format, which is its lightness; this gets the L channel as a
+     * float that ranges from 0.0f to 1.0f . You can edit the L of a color with {@link #lighten(int, float)} and
+     * {@link #darken(int, float)}.
+     *
+     * @param encoded a color encoded as a packed int, as by {@link #oklab(float, float, float, float)}
+     * @return the L value as an int from 0.0f to 1.0f
+     */
+    public static float lightness(final int encoded)
+    {
+        return (encoded & 0xff) / 255f;
+    }
+
+    /**
+     * The "A" channel of the given packed int in Oklab format, which when combined with the B channel describes the
+     * hue and saturation of a color; ranges from 0f to 1f . If A is 0f, the color will be cooler, more green or
+     * blue; if A is 1f, the color will be warmer, from magenta to orange. You can edit the A of a color with
+     * {@link #raiseA(int, float)} and {@link #lowerA(int, float)}.
+     * @param encoded a color encoded as a packed int, as by {@link #oklab(float, float, float, float)}
+     * @return the A value as an int from 0 to 255
+     */
+    public static int channelA(final int encoded)
+    {
+        return (((encoded) >>> 8 & 0xff));
+    }
+
+    /**
+     * The "B" channel of the given packed int in Oklab format, which when combined with the A channel describes the
+     * hue and saturation of a color; ranges from 0f to 1f . If B is 0f, the color will be more "artificial", more
+     * blue or purple; if B is 1f, the color will be more "natural", from green to yellow to orange. You can edit
+     * the B of a color with {@link #raiseB(int, float)} and {@link #lowerB(int, float)}.
+     * @param encoded a color encoded as a packed int, as by {@link #oklab(float, float, float, float)}
+     * @return the B value as an int from 0 to 255
+     */
+    public static int channelB(final int encoded)
+    {
+        return encoded >>> 16 & 0xff;
+    }
+
+    /**
+     * Gets the "chroma" or "colorfulness" of a given Oklab color. Chroma is similar to saturation in that grayscale
+     * values have 0 saturation and 0 chroma, while brighter colors have high saturation and chroma. The difference is
+     * that colors that are perceptually more-colorful have higher chroma than colors that are perceptually
+     * less-colorful, regardless of hue, whereas saturation changes its meaning depending on the hue and lightness. That
+     * is, the most saturated color for a given hue and lightness always has a saturation of 1, but if that color
+     * isn't perceptually very colorful (as is the case for very dark and very light colors), it will have a chroma that
+     * is much lower than the maximum. The result of this method can't be negative, grayscale values have very close to
+     * 0 chroma, and the most colorful values (close to cyan) should have 0.334f chroma.
+     * @param oklab a color as a packed int that can be obtained by {@link #oklab(float, float, float, float)}
+     * @return a float between 0.0f and 0.334f that represents how colorful the given value is
      */
     public static float chroma(final int oklab) {
         final float a = ((oklab >>> 7 & 0x1FE) - 255) * 0x1p-8f;
         final float b = ((oklab >>> 15 & 0x1FE) - 255) * 0x1p-8f;
         return (float) Math.sqrt(a * a + b * b);
+    }
+
+    /**
+     * Given a hue and lightness, this gets the (approximate) maximum chroma possible for that hue-lightness
+     * combination. This is useful to know the bounds of {@link #chroma(int)}. This should be no greater than 0.334f .
+     * This usually takes its hue from {@link #hue(int)} and its lightness from {@link #lightness(int)}.
+     * @param hue the hue, typically between 0.0f and 1.0f, to look up
+     * @param lightness the lightness, clamped between 0.0f and 1.0f, to look up
+     * @return the maximum possible chroma for the given hue and lightness, between 0.0f and 0.334f
+     */
+    public static float chromaLimit(final float hue, final float lightness){
+        final int idx = (int) (Math.min(Math.max(lightness, 0f), 1f) * 255.999f) << 8
+                | (int) (256f * (hue - floor(hue)));
+        return (GAMUT_DATA[idx] + 1.5f) * 0x1p-8f;
+    }
+
+    /**
+     * Gets the saturation of the given Oklab float color, but as Oklab understands saturation rather than how HSL does.
+     * Saturation here is a fraction of the chroma limit (see {@link #chromaLimit(float, float)}) for a given hue and
+     * lightness, and is between 0 and 1 almost all the time. Saturation should always be between 0 (inclusive) and 1
+     * (inclusive).
+     *
+     * @param packed a packed Oklab float color
+     * @return a float between 0 (inclusive) and 1 (inclusive) that represents saturation in the Oklab color space
+     */
+    public static float saturation(final int packed) {
+        final float A = ((packed >>> 8 & 0xff) - 127.5f);
+        final float B = ((packed >>> 16 & 0xff) - 127.5f);
+        final float hue = MathTools.atan2_(B, A);
+        final int idx = (packed & 0xff) << 8 | (int) (256f * hue);
+        final float dist = GAMUT_DATA[idx] + 1.5f;
+        return dist == 3.5f ? 0f : (A * A + B * B) * 4f / (dist * dist);
     }
 
     /**
@@ -847,6 +1005,104 @@ public final class AlternatePalette {
     }
 
     /**
+     * Interpolates from the packed float color start towards a warmer color (orange to magenta) by change. While change
+     * should be between 0f (return start as-is) and 1f (return fully warmed), start should be a packed color, as from
+     * {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
+     * and is a little more efficient and clear than using {@link #lerpColors(int, int, float)} to
+     * lerp towards a warmer color. Unlike {@link #lerpColors(int, int, float)}, this keeps the
+     * alpha and L of start as-is.
+     * @see #lowerA(int, float) the counterpart method that cools a float color
+     * @param start the starting color as a packed float
+     * @param change how much to warm start, as a float between 0 and 1; higher means a warmer result
+     * @return a packed float that represents a color between start and a warmer color
+     */
+    public static int raiseA(final int start, final float change) {
+        final int p = start >>> 8 & 0xFF, other = start & 0xFEFF00FF;
+        return (((int) (p + (0xFF - p) * change) << 8 & 0xFF00) | other);
+    }
+
+    /**
+     * Interpolates from the packed float color start towards a cooler color (green to blue) by change. While change
+     * should be between 0f (return start as-is) and 1f (return fully cooled), start should be a packed color, as from
+     * {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
+     * is a little more efficient and clear than using {@link #lerpColors(int, int, float)} to lerp
+     * towards a cooler color. Unlike {@link #lerpColors(int, int, float)}, this keeps the alpha and
+     * L of start as-is.
+     * @see #raiseA(int, float) the counterpart method that warms a float color
+     * @param start the starting color as a packed float
+     * @param change how much to cool start, as a float between 0 and 1; higher means a cooler result
+     * @return a packed float that represents a color between start and a cooler color
+     */
+    public static int lowerA(final int start, final float change) {
+        final int p = start >>> 8 & 0xFF, other = start & 0xFFFF00FF;
+        return (((int) (p * (1f - change)) & 0xFF) << 8 | other);
+    }
+
+    /**
+     * Interpolates from the packed float color start towards a "natural" color (between green and orange) by change.
+     * While change should be between 0f (return start as-is) and 1f (return fully natural), start should be a packed color, as
+     * from {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary
+     * Colors, and is a little more efficient and clear than using
+     * {@link #lerpColors(int, int, float)} to lerp towards a more natural color. Unlike
+     * {@link #lerpColors(int, int, float)}, this keeps the alpha and L of start as-is.
+     * @see #lowerB(int, float) the counterpart method that makes a float color less natural
+     * @param start the starting color as a packed float
+     * @param change how much to change start to a natural color, as a float between 0 and 1; higher means a more natural result
+     * @return a packed float that represents a color between start and a more natural color
+     */
+    public static int raiseB(final int start, final float change) {
+        final int t = start >>> 16 & 0xFF, other = start & 0xFF00FFFF;
+        return (((int) (t + (0xFF - t) * change) << 16 & 0xFF0000) | other);
+    }
+
+    /**
+     * Interpolates from the packed float color start towards an "artificial" color (between blue and purple) by change.
+     * While change should be between 0f (return start as-is) and 1f (return fully artificial), start should be a packed color, as
+     * from {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary
+     * Colors, and is a little more efficient and clear than using {@link #lerpColors(int, int, float)} to lerp
+     * towards a more artificial color. Unlike {@link #lerpColors(int, int, float)}, this keeps the
+     * alpha and L of start as-is.
+     * @see #raiseB(int, float) the counterpart method that makes a float color less artificial
+     * @param start the starting color as a packed float
+     * @param change how much to change start to a bolder color, as a float between 0 and 1; higher means a more artificial result
+     * @return a packed int that represents a color between start and a more artificial color
+     */
+    public static int lowerB(final int start, final float change) {
+        final int t = start >>> 16 & 0xFF, other = start & 0xFF00FFFF;
+        return (((int) (t * (1f - change)) & 0xFF) << 16 | other);
+    }
+
+    /**
+     * Interpolates from the packed float color start towards that color made opaque by change. While change should be
+     * between 0f (return start as-is) and 1f (return start with full alpha), start should be a packed color, as from
+     * {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors.
+     * This won't change the L, A, or B of the color.
+     * @see #fade(int, float) the counterpart method that makes a float color more translucent
+     * @param start the starting color as a packed float
+     * @param change how much to go from start toward opaque, as a float between 0 and 1; higher means closer to opaque
+     * @return a packed float that represents a color between start and its opaque version
+     */
+    public static int blot(final int start, final float change) {
+        final int opacity = start >>> 24, other = start & 0x00FFFFFF;
+        return (((int) (opacity + (0xFF - opacity) * change) & 0xFF) << 24 | other);
+    }
+
+    /**
+     * Interpolates from the packed float color start towards transparent by change. While change should be between 0
+     * (return start as-is) and 1f (return the color with 0 alpha), start should be a packed color, as from
+     * {@link #oklab(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors.
+     * This won't change the L, A, or B of the color.
+     * @see #blot(int, float) the counterpart method that makes a float color more opaque
+     * @param start the starting color as a packed float
+     * @param change how much to go from start toward transparent, as a float between 0 and 1; higher means closer to transparent
+     * @return a packed float that represents a color between start and transparent
+     */
+    public static int fade(final int start, final float change) {
+        final int opacity = start >>> 24, other = start & 0x00FFFFFF;
+        return (((int) (opacity * (1f - change)) & 0xFF) << 24 | other);
+    }
+
+    /**
      * Brings the chromatic components of {@code oklab} closer to grayscale by {@code change} (desaturating them). While
      * change should be between 0f (return oklab as-is) and 1f (return fully gray), oklab should be a packed Oklab int
      * color, as from a constant in this class.
@@ -881,6 +1137,71 @@ public final class AlternatePalette {
                 (int) (((oklab >>> 16 & 255) - 127.5f) * (1f - change) + 127.5f) << 16 |
                 (oklab & 0xFE0000FF));
     }
+
+    /**
+     * A different way to specify an Oklab color, using hue, saturation, lightness, and alpha like a normal HSL(A) color
+     * but calculating them directly in the Oklab color space. Most colors between 0.5 and 0.75 hue that also have less
+     * than 0.5 lightness are extremely desaturated and close to gray, regardless of what you give for saturation, and
+     * these colors suddenly jump to very saturated around 0.75 hue and higher. To avoid this issue, you may prefer
+     * using {@link #oklabByHCL(float, float, float, float)}, which takes an absolute chroma as opposed to the
+     * saturation here (which is a fraction of the maximum chroma).
+     * <br>
+     * The saturation here refers to what fraction the chroma should be of the maximum
+     * chroma for the given hue and lightness. You can use {@link #hue(int)}, {@link #saturation(int)},
+     * and {@link #lightness(int)} to get the hue, saturation, and lightness values from an existing color that
+     * this will understand ({@link #alpha(int)} too).
+     * @param hue between 0 and 1, usually, but this will automatically wrap if too high or too low
+     * @param saturation will be clamped between 0 and 1
+     * @param lightness will be clamped between 0 and 1
+     * @param alpha will be clamped between 0 and 1
+     * @return a packed Oklab float color that tries to match the requested hue, saturation, and lightness
+     */
+    public static int oklabByHSL(float hue, float saturation, float lightness, float alpha) {
+        lightness = Math.min(Math.max(lightness, 0f), 1f);
+        saturation = Math.min(Math.max(saturation, 0f), 1f);
+        hue -= floor(hue);
+        alpha = Math.min(Math.max(alpha, 0f), 1f);
+        final int idx = (int) (lightness * 255.999f) << 8 | (int) (256f * hue);
+        final float dist = GAMUT_DATA[idx] * saturation * 0.5f;
+        return (
+                (int) (alpha * 255.999f) << 24 |
+                        (int) (MathTools.sin_(hue) * dist + 128f) << 16 |
+                        (int) (MathTools.cos_(hue) * dist + 128f) << 8 |
+                        (int) (lightness * 255.999f));
+    }
+
+    /**
+     * A different way to specify an Oklab color, using hue, chroma, lightness, and alpha something like a normal HSL(A)
+     * color but calculating them directly in the Oklab color space. This has you specify the desired chroma directly,
+     * as obtainable with {@link #chroma(int)}, rather than the saturation, which is a fraction of the maximum chroma
+     * (saturation is what {@link #oklabByHSL(float, float, float, float)} uses). The hue is just distributed
+     * differently, and the lightness should be equivalent to {@link #channelL(int)}.
+     * If you use this to get two colors with the same chroma and lightness, but different
+     * hue, then the resulting colors should have similar colorfulness unless one or both chroma values exceeded the
+     * gamut limit (you can get this limit with {@link #chromaLimit(float, float)}). If a chroma value given is greater
+     * than the chroma limit, this clamps chroma to that limit. You can use {@link #hue(int)},
+     * {@link #chroma(int)}, and {@link #channelL(int)} to get the hue, chroma, and lightness values from an
+     * existing color that this will understand ({@link #alpha(int)} too).
+     * @param hue between 0 and 1, usually, but this will automatically wrap if too high or too low
+     * @param chroma will be clamped between 0 and the maximum chroma possible for the given hue and lightness
+     * @param lightness will be clamped between 0 and 1
+     * @param alpha will be clamped between 0 and 1
+     * @return a packed Oklab float color that tries to match the requested hue, chroma, and lightness
+     */
+    public static int oklabByHCL(float hue, float chroma, float lightness, float alpha) {
+        lightness = Math.min(Math.max(lightness, 0f), 1f);
+        chroma = Math.max(chroma, 0f);
+        hue -= floor(hue);
+        alpha = Math.min(Math.max(alpha, 0f), 1f);
+        final int idx = (int) (lightness * 255.999f) << 8 | (int) (256f * hue);
+        final float dist = Math.min(chroma * 127.5f, GAMUT_DATA[idx] * 0.5f);
+        return (
+                (int) (alpha * 255.999f) << 24 |
+                        (int) (MathTools.sin_(hue) * dist + 128f) << 16 |
+                        (int) (MathTools.cos_(hue) * dist + 128f) << 8 |
+                        (int) (lightness * 255.999f));
+    }
+
 
     /**
      * Given a 1D int index between 0 and 65535 (both inclusive), this treats the 1D index as two parts (lightness and
@@ -1010,27 +1331,27 @@ public final class AlternatePalette {
      * Checks whether the given Oklab color is in-gamut; if it isn't in-gamut, brings the color just inside
      * the gamut at the same lightness, or if it is already in-gamut, returns the color as-is. This always produces
      * an opaque color.
-     * @param L lightness component; will be clamped between 0 and 1 if it isn't already
-     * @param A green-to-red chromatic component; will be clamped between 0 and 1 if it isn't already
-     * @param B blue-to-yellow chromatic component; will be clamped between 0 and 1 if it isn't already
+     * @param L lightness component; will be clamped between 0 and 255 if it isn't already
+     * @param A green-to-red chromatic component; will be clamped between 0 and 255 if it isn't already
+     * @param B blue-to-yellow chromatic component; will be clamped between 0 and 255 if it isn't already
      * @return the first color this finds that is in-gamut, as if it was moving toward a grayscale color with the same L
      * @see #inGamut(int, int, int) You can use inGamut() if you just want to check whether a color is in-gamut.
      */
-    public static float limitToGamut(int L, int A, int B) {
+    public static int limitToGamut(int L, int A, int B) {
         return limitToGamut(L, A, B, 255);
     }
 
     /**
      * Checks whether the given Oklab color is in-gamut; if it isn't in-gamut, brings the color just inside
      * the gamut at the same lightness, or if it is already in-gamut, returns the color as-is.
-     * @param L lightness component; will be clamped between 0 and 1 if it isn't already
-     * @param A green-to-red chromatic component; will be clamped between 0 and 1 if it isn't already
-     * @param B blue-to-yellow chromatic component; will be clamped between 0 and 1 if it isn't already
-     * @param alpha alpha component; will be clamped between 0 and 1 if it isn't already
+     * @param L lightness component; will be clamped between 0 and 255 if it isn't already
+     * @param A green-to-red chromatic component; will be clamped between 0 and 255 if it isn't already
+     * @param B blue-to-yellow chromatic component; will be clamped between 0 and 255 if it isn't already
+     * @param alpha alpha component; will be clamped between 0 and 255 if it isn't already
      * @return the first color this finds that is in-gamut, as if it was moving toward a grayscale color with the same L
      * @see #inGamut(int, int, int) You can use inGamut() if you just want to check whether a color is in-gamut.
      */
-    public static float limitToGamut(int L, int A, int B, int alpha) {
+    public static int limitToGamut(int L, int A, int B, int alpha) {
         L = Math.min(Math.max(L, 0), 255);
         A = Math.min(Math.max(A, 0), 255);
         B = Math.min(Math.max(B, 0), 255);
