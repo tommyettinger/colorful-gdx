@@ -1039,7 +1039,7 @@ public class MathTools {
 
     /**
      * Returns the largest integer less than or equal to the specified float. This method will only properly floor
-     * floats from {@code -16384} to (Float.MAX_VALUE - 16384).
+     * floats from {@code -16384} to {@code Float.MAX_VALUE - 16384}.
      * @param value the float to find the floor of
      * @return the int floor of {@code value}, that is, the largest int that is less than or equal to {@code value}
      */

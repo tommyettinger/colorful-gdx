@@ -5,8 +5,6 @@ import com.github.tommyettinger.ds.IntList;
 import com.github.tommyettinger.ds.ObjectIntOrderedMap;
 import com.github.tommyettinger.ds.ObjectList;
 import com.github.tommyettinger.ds.support.BitConversion;
-import com.github.tommyettinger.colorful.pure.oklab.Gamut;
-import java.io.UnsupportedEncodingException;
 
 import static com.github.tommyettinger.colorful.pure.MathTools.floor;
 import static com.github.tommyettinger.colorful.pure.oklab.Gamut.GAMUT_DATA;
@@ -1306,6 +1304,7 @@ public final class AlternatePalette {
                         (int) (MathTools.cos_(hue) * dist + 128f) << 8 |
                         L);
     }
+
     /**
      * Checks whether the given Oklab color is in-gamut; if it isn't in-gamut, brings the color just inside
      * the gamut at the same lightness, or if it is already in-gamut, returns the color as-is.
