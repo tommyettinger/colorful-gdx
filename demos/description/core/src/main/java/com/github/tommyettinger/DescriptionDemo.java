@@ -13,6 +13,7 @@ public class DescriptionDemo extends Game {
     private OklabDescriptionScreen oklab;
     private IPTHQDescriptionScreen ipthq;
     private CompareDescriptionScreen compare;
+    private OklabGradientScreen gradient;
     private Screen[] screens;
     private int screenIndex;
     @Override
@@ -22,7 +23,8 @@ public class DescriptionDemo extends Game {
         oklab = new OklabDescriptionScreen(this);
         ipthq = new IPTHQDescriptionScreen(this);
         compare = new CompareDescriptionScreen(this);
-        screens = new Screen[]{rgb, cielab, oklab, ipthq, compare};
+        gradient = new OklabGradientScreen(this);
+        screens = new Screen[]{rgb, cielab, oklab, ipthq, compare, gradient};
         screenIndex = 4;
         setScreen(screens[screenIndex]);
     }
