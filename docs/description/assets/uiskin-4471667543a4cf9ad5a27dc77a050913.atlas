@@ -6,7 +6,7 @@ bounds:42,91,14,14
 cursor
 bounds:11,17,3,3
 split:1,1,1,1
-default
+font
 bounds:1,129,254,124
 default-pane
 bounds:16,49,5,3

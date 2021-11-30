@@ -1,7 +1,6 @@
 d:assets:assets:0:application/unknown:1
-i:default.png:default-7b6965aea870f5bb41992b92447c1c0f.png:2493:image/png:1
 t:font.fnt:font-f2af6a614746c9f9891cc5391fa31c79.fnt:19289:application/unknown:1
-t:uiskin.atlas:uiskin-02bce46d95efe14ff4e21bf5c79508e9.atlas:1119:application/unknown:1
+t:uiskin.atlas:uiskin-4471667543a4cf9ad5a27dc77a050913.atlas:1116:application/unknown:1
 t:uiskin.json:uiskin-10994dad60822705c4285e43ee8bdb1c.json:3399:application/unknown:1
 i:uiskin.png:uiskin-196fc081fc83b90487b564969708ea8f.png:5184:image/png:1
 t:com/badlogic/gdx/graphics/g3d/particles/particles.fragment.glsl:particles.fragment-b90524761fdf09b0a836056d590c30b8.glsl:820:application/unknown:1

@@ -6,7 +6,6 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -58,9 +57,9 @@ public class OklabGradientScreen extends ScreenAdapter {
         tab.setFillParent(true);
         Label title = new Label("Oklab Color Description", skin);
         title.setAlignment(Align.center);
-        tab.add(title).growX().minWidth(300).row();
-        tab.add(tf).left().growX();
-        tab.add(tf2).right().row();
+        tab.add(title).growX().minWidth(300).colspan(2).row();
+        tab.add(tf).left().minWidth(400);
+        tab.add(tf2).right().minWidth(400).row();
         stage.getRoot().addActor(tab);
         stage.addListener(new InputListener(){
             @Override
@@ -89,8 +88,9 @@ public class OklabGradientScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.GRAY);
+        float width = stage.getViewport().getWorldWidth(), height = stage.getViewport().getWorldHeight();
+        boolean changed = colors.size != width;
         float c = SimplePalette.parseDescription(tf.getText());
-        boolean changed = colors.size != Gdx.graphics.getBackBufferWidth();
         if(ColorTools.alphaInt(c) >= 254){
             changed |= start != (start = c);
         }
@@ -100,7 +100,8 @@ public class OklabGradientScreen extends ScreenAdapter {
         }
         if(changed){
             colors.clear();
-            GradientTools.appendGradient(colors, start, end, Gdx.graphics.getBackBufferWidth(), interpolation);
+            GradientTools.appendGradient(colors, start, end, (int)width, interpolation);
+            System.out.println(colors.size + " " + width);
         }
         stage.act();
         Camera camera = stage.getViewport().getCamera();
@@ -111,7 +112,6 @@ public class OklabGradientScreen extends ScreenAdapter {
         Batch batch = stage.getBatch();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        float width = Gdx.graphics.getBackBufferWidth(), height = Gdx.graphics.getBackBufferHeight();
         for (int i = 0; i < colors.size; i++) {
             batch.setPackedColor(ColorTools.toRGBA(colors.get(i)));
             batch.draw(pixel, i * width / colors.size, 0, width / colors.size, height);

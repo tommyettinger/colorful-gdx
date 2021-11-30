@@ -63,9 +63,9 @@ public class OklabGradientDemo extends ApplicationAdapter {
         tab.setFillParent(true);
         Label title = new Label("Oklab Color Description", skin);
         title.setAlignment(Align.center);
-        tab.add(title).growX().minWidth(300).row();
-        tab.add(tf).left().growX();
-        tab.add(tf2).right().row();
+        tab.add(title).growX().minWidth(300).colspan(2).row();
+        tab.add(tf).left().minWidth(400);
+        tab.add(tf2).right().minWidth(400).row();
         stage.getRoot().addActor(tab);
         stage.addListener(new InputListener(){
             @Override
