@@ -6,11 +6,6 @@ import com.github.tommyettinger.ds.ObjectList;
 
 import java.util.Comparator;
 
-import static com.github.tommyettinger.colorful.pure.cielab.ColorTools.*;
-import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.hue;
-import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.intensity;
-import static com.github.tommyettinger.colorful.pure.ipt_hq.ColorTools.saturation;
-
 /**
  * A palette of predefined colors as packed IPT floats, the kind {@link ColorTools} works with.
  * You can access colors by their constant name, such as {@code OCEAN_BLUE}, by the {@link #NAMED} map using

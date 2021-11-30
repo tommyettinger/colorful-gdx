@@ -1,10 +1,7 @@
 package com.github.tommyettinger.colorful.ycwcm;
 
-import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FourWheelRandom;
-
-import java.util.Random;
 
 public class YCwCmRandomColorCheck {
 

@@ -149,7 +149,7 @@ public class GradientTools {
             float interp = interpolation.apply(change);
             float splint = Math.min(Math.max(interp * splits, 0f), splits - 0.000001f);
             int idx = (int)splint;
-            appending.add(FloatColors.lerpFloatColors(chain.get(idx), chain.get(idx+1), MathTools.norm(idx * splits, idx * splits + splits, splint)));
+            appending.add(FloatColors.lerpFloatColors(chain.get(idx), chain.get(idx+1), MathTools.norm(idx, idx +1, splint)));
             change += step;
         }
         appending.add(chain.get(splits));
@@ -185,7 +185,7 @@ public class GradientTools {
             float interp = interpolation.apply(change);
             float splint = Math.min(Math.max(interp * splits, 0f), splits - 0.000001f);
             int idx = (int)splint;
-            appending.add(FloatColors.lerpFloatColors(chain[idx], chain[idx+1], MathTools.norm(idx * splits, idx * splits + splits, splint)));
+            appending.add(FloatColors.lerpFloatColors(chain[idx], chain[idx+1], MathTools.norm(idx, idx +1, splint)));
             change += step;
         }
         appending.add(chain[splits]);
@@ -228,7 +228,7 @@ public class GradientTools {
             appending.add(start);
             return appending;
         }
-        int limit = steps - 1;
+        int limit = steps;
         float step = 1f / steps, change = 0f;
         for (int i = 0; i < limit; i++) {
             appending.add(FloatColors.lerpFloatColors(start, end, interpolation.apply(change)));

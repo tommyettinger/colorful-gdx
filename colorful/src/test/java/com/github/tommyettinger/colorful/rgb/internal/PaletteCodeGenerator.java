@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.ObjectFloatMap;
 import com.github.tommyettinger.colorful.internal.StringKit;
 import com.github.tommyettinger.colorful.rgb.ColorTools;
 import com.github.tommyettinger.colorful.rgb.FullPalette;
-import com.github.tommyettinger.colorful.rgb.NamedMunsellPalette;
 
 import java.util.ArrayList;
 import java.util.Collections;

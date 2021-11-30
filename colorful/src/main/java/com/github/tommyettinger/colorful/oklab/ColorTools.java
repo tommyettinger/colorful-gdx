@@ -1,13 +1,11 @@
 package com.github.tommyettinger.colorful.oklab;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.Shaders;
 import com.github.tommyettinger.colorful.TrigTools;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 import static com.badlogic.gdx.math.MathUtils.floor;

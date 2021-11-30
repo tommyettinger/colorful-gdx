@@ -3,7 +3,6 @@ package com.github.tommyettinger.colorful.oklab;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.FourWheelRandom;
-import com.github.tommyettinger.colorful.TrigTools;
 import org.junit.Assert;
 import org.junit.Test;
 
