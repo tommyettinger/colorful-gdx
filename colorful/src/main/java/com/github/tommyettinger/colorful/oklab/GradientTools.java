@@ -238,7 +238,7 @@ public class GradientTools {
             appending.add(start);
             return appending;
         }
-        int limit = steps - 1;
+        int limit = steps;
         float step = 1f / steps, change = 0f;
         for (int i = 0; i < limit; i++) {
             appending.add(ColorTools.limitToGamut(FloatColors.lerpFloatColors(start, end, interpolation.apply(change))));

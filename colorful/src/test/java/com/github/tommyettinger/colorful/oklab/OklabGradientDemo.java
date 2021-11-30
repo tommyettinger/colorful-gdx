@@ -57,7 +57,7 @@ public class OklabGradientDemo extends ApplicationAdapter {
         start = SimplePalette.parseDescription("dullest red");
         end = SimplePalette.parseDescription("light blue");
         colors.clear();
-        GradientTools.appendGradient(colors, start, end, Gdx.graphics.getBackBufferWidth(), interpolation);
+        GradientTools.appendGradient(colors, start, end, SCREEN_WIDTH, interpolation);
         tf.setDisabled(false);
         tf2.setDisabled(false);
         Table tab = new Table(skin);
@@ -88,8 +88,9 @@ public class OklabGradientDemo extends ApplicationAdapter {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        float width = stage.getViewport().getWorldWidth(), height = stage.getViewport().getWorldHeight();
+        boolean changed = colors.size != width;
         float c = SimplePalette.parseDescription(tf.getText());
-        boolean changed = colors.size != Gdx.graphics.getBackBufferWidth();
         if(ColorTools.alphaInt(c) >= 254){
             changed |= start != (start = c);
         }
@@ -99,8 +100,8 @@ public class OklabGradientDemo extends ApplicationAdapter {
         }
         if(changed){
             colors.clear();
-            GradientTools.appendGradient(colors, start, end, Gdx.graphics.getBackBufferWidth(), interpolation);
-            System.out.println(colors.size + " " + Gdx.graphics.getBackBufferWidth());
+            GradientTools.appendGradient(colors, start, end, (int)width, interpolation);
+            System.out.println(colors.size + " " + width);
         }
         stage.act();
         Camera camera = stage.getViewport().getCamera();
@@ -111,7 +112,6 @@ public class OklabGradientDemo extends ApplicationAdapter {
         Batch batch = stage.getBatch();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        float width = Gdx.graphics.getBackBufferWidth(), height = Gdx.graphics.getBackBufferHeight();
         for (int i = 0; i < colors.size; i++) {
             batch.setPackedColor(ColorTools.toRGBA(colors.get(i)));
             batch.draw(pixel, i * width / colors.size, 0, width / colors.size, height);
