@@ -57,7 +57,7 @@ public class OklabGradientDemo extends ApplicationAdapter {
         start = SimplePalette.parseDescription("dullest red");
         end = SimplePalette.parseDescription("light blue");
         colors.clear();
-        GradientTools.appendGradient(colors, start, end, SCREEN_WIDTH, interpolation);
+        GradientTools.appendGradientChain(colors, SCREEN_WIDTH, interpolation, start, end, start, end);
         tf.setDisabled(false);
         tf2.setDisabled(false);
         Table tab = new Table(skin);
@@ -100,7 +100,7 @@ public class OklabGradientDemo extends ApplicationAdapter {
         }
         if(changed){
             colors.clear();
-            GradientTools.appendGradient(colors, start, end, (int)width, interpolation);
+            GradientTools.appendGradientChain(colors, (int)width, interpolation, start, end, start, end);
             System.out.println(colors.size + " " + width);
         }
         stage.act();
