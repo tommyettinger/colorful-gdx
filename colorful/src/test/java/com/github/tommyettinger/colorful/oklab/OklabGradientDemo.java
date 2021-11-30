@@ -1,12 +1,14 @@
-package com.github.tommyettinger;
+package com.github.tommyettinger.colorful.oklab;
 
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -19,27 +21,32 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.github.tommyettinger.colorful.oklab.ColorTools;
-import com.github.tommyettinger.colorful.oklab.GradientTools;
-import com.github.tommyettinger.colorful.oklab.SimplePalette;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class OklabGradientScreen extends ScreenAdapter {
+public class OklabGradientDemo extends ApplicationAdapter {
+    public static final int SCREEN_WIDTH = 808;
+    public static final int SCREEN_HEIGHT = 600;
     private Stage stage;
     private TextField tf, tf2;
     private TextureRegion pixel;
     private final FloatArray colors = new FloatArray(1024);
     private float start, end;
-    private final DescriptionDemo mainGame;
     private Interpolation interpolation = Interpolation.linear;
 
-    public OklabGradientScreen(DescriptionDemo main){
-        mainGame = main;
+    public static void main(String[] arg) {
+        Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+        config.setTitle("Gradient Demo");
+        config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
+        config.setIdleFPS(20);
+        config.useVsync(true);
+        final OklabGradientDemo app = new OklabGradientDemo();
+        new Lwjgl3Application(app, config);
     }
 
+
     @Override
-    public void show() {
+    public void create() {
         Gdx.graphics.setTitle("Oklab Color Gradients");
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
         skin.getFont("default-font").getData().scale(2f);
@@ -65,17 +72,7 @@ public class OklabGradientScreen extends ScreenAdapter {
         stage.addListener(new InputListener(){
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
-                if(keycode == Input.Keys.LEFT_BRACKET)
-                {
-                    mainGame.previousScreen();
-                    return true;
-                }
-                else if(keycode == Input.Keys.RIGHT_BRACKET)
-                {
-                    mainGame.nextScreen();
-                    return true;
-                }
-                else if(keycode == Input.Keys.ESCAPE){
+                if(keycode == Input.Keys.ESCAPE){
                     Gdx.app.exit();
                     return true;
                 }
@@ -87,8 +84,10 @@ public class OklabGradientScreen extends ScreenAdapter {
 
 
     @Override
-    public void render(float delta) {
-        ScreenUtils.clear(Color.GRAY);
+    public void render() {
+        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         float c = SimplePalette.parseDescription(tf.getText());
         boolean changed = colors.size != Gdx.graphics.getBackBufferWidth();
         if(ColorTools.alphaInt(c) >= 254){
@@ -101,6 +100,7 @@ public class OklabGradientScreen extends ScreenAdapter {
         if(changed){
             colors.clear();
             GradientTools.appendGradient(colors, start, end, Gdx.graphics.getBackBufferWidth(), interpolation);
+            System.out.println(colors.size + " " + Gdx.graphics.getBackBufferWidth());
         }
         stage.act();
         Camera camera = stage.getViewport().getCamera();
