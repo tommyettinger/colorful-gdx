@@ -1031,7 +1031,7 @@
 <span class="source-line-no">1018</span><span id="line.1018">    }</span>
 <span class="source-line-no">1019</span><span id="line.1019"></span>
 <span class="source-line-no">1020</span><span id="line.1020">    /**</span>
-<span class="source-line-no">1021</span><span id="line.1021">     *  Linearly interpolates between fromValue to toValue on progress position.</span>
+<span class="source-line-no">1021</span><span id="line.1021">     * Linearly interpolates between fromValue to toValue on progress position.</span>
 <span class="source-line-no">1022</span><span id="line.1022">     * @param fromValue starting float value; can be any finite float</span>
 <span class="source-line-no">1023</span><span id="line.1023">     * @param toValue ending float value; can be any finite float</span>
 <span class="source-line-no">1024</span><span id="line.1024">     * @param progress how far the interpolation should go, between 0 (equal to fromValue) and 1 (equal to toValue)</span>
@@ -1039,18 +1039,28 @@
 <span class="source-line-no">1026</span><span id="line.1026">    public static float lerp (final float fromValue, final float toValue, final float progress) {</span>
 <span class="source-line-no">1027</span><span id="line.1027">        return fromValue + (toValue - fromValue) * progress;</span>
 <span class="source-line-no">1028</span><span id="line.1028">    }</span>
-<span class="source-line-no">1029</span><span id="line.1029"></span>
-<span class="source-line-no">1030</span><span id="line.1030">    /**</span>
-<span class="source-line-no">1031</span><span id="line.1031">     * Returns the largest integer less than or equal to the specified float. This method will only properly floor</span>
-<span class="source-line-no">1032</span><span id="line.1032">     * floats from {@code -16384} to (Float.MAX_VALUE - 16384).</span>
-<span class="source-line-no">1033</span><span id="line.1033">     * @param value the float to find the floor of</span>
-<span class="source-line-no">1034</span><span id="line.1034">     * @return the int floor of {@code value}, that is, the largest int that is less than or equal to {@code value}</span>
-<span class="source-line-no">1035</span><span id="line.1035">     */</span>
-<span class="source-line-no">1036</span><span id="line.1036">    static public int floor (float value) {</span>
-<span class="source-line-no">1037</span><span id="line.1037">        return (int)(value + 16384.0) - 16384;</span>
+<span class="source-line-no">1029</span><span id="line.1029">    /**</span>
+<span class="source-line-no">1030</span><span id="line.1030">     * Linearly normalizes value from a range. Range must not be empty. This is the inverse of</span>
+<span class="source-line-no">1031</span><span id="line.1031">     * {@link #lerp(float, float, float)}.</span>
+<span class="source-line-no">1032</span><span id="line.1032">     * @param rangeStart Range start normalized to 0</span>
+<span class="source-line-no">1033</span><span id="line.1033">     * @param rangeEnd Range end normalized to 1</span>
+<span class="source-line-no">1034</span><span id="line.1034">     * @param value Value to normalize</span>
+<span class="source-line-no">1035</span><span id="line.1035">     * @return Normalized value. Values outside the range are not clamped to 0 and 1 */</span>
+<span class="source-line-no">1036</span><span id="line.1036">    public static float norm (float rangeStart, float rangeEnd, float value) {</span>
+<span class="source-line-no">1037</span><span id="line.1037">        return (value - rangeStart) / (rangeEnd - rangeStart);</span>
 <span class="source-line-no">1038</span><span id="line.1038">    }</span>
 <span class="source-line-no">1039</span><span id="line.1039"></span>
-<span class="source-line-no">1040</span><span id="line.1040">}</span>
+<span class="source-line-no">1040</span><span id="line.1040">    /**</span>
+<span class="source-line-no">1041</span><span id="line.1041">     * Returns the largest integer less than or equal to the specified float. This method will only properly floor</span>
+<span class="source-line-no">1042</span><span id="line.1042">     * floats from {@code -16384} to {@code Float.MAX_VALUE - 16384}.</span>
+<span class="source-line-no">1043</span><span id="line.1043">     * @param value the float to find the floor of</span>
+<span class="source-line-no">1044</span><span id="line.1044">     * @return the int floor of {@code value}, that is, the largest int that is less than or equal to {@code value}</span>
+<span class="source-line-no">1045</span><span id="line.1045">     */</span>
+<span class="source-line-no">1046</span><span id="line.1046">    public static int floor (float value) {</span>
+<span class="source-line-no">1047</span><span id="line.1047">        return (int)(value + 16384.0) - 16384;</span>
+<span class="source-line-no">1048</span><span id="line.1048">    }</span>
+<span class="source-line-no">1049</span><span id="line.1049"></span>
+<span class="source-line-no">1050</span><span id="line.1050">}</span>
 
 
 

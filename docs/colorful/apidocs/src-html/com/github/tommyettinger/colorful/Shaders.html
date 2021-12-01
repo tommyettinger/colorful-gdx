@@ -456,7 +456,7 @@
 <span class="source-line-no">443</span><span id="line.443">                    "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +</span>
 <span class="source-line-no">444</span><span id="line.444">                    "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +</span>
 <span class="source-line-no">445</span><span id="line.445">                    "             * (tgt.rgb * tgt.rgb), forward);\n" +</span>
-<span class="source-line-no">446</span><span id="line.446">                    "  lab.x = fromOklab(clamp(toOklab(lab.x) + toOklab(v_color.r) - 0.5, 0.0, 1.0));\n" +</span>
+<span class="source-line-no">446</span><span id="line.446">                    "  lab.x = fromOklab(clamp(toOklab(lab.x) + v_color.r - 0.5, 0.0, 1.0));\n" +</span>
 <span class="source-line-no">447</span><span id="line.447">                    "  lab.yz = clamp(lab.yz + v_color.gb * 2.0 - 1.0, -1.0, 1.0);\n" +</span>
 <span class="source-line-no">448</span><span id="line.448">                    "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +</span>
 <span class="source-line-no">449</span><span id="line.449">                    "  gl_FragColor = vec4(sqrt(clamp(" +</span>
