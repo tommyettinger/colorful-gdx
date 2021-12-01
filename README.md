@@ -16,8 +16,9 @@ specifically how it handles color tinting with `setColor(float, float, float, fl
 We address this in colorful by representing tint colors differently. While there's some support here for HSLC tints
 (hue, saturation, lightness, contrast) via `Shaders.makeBatchHSLC()`, much more of the library focuses on five color
 spaces: RGB, YCwCm, IPT, Oklab, and CIELAB. Most of this library's users will only employ one of these color spaces at a
-time, and the APIs for all the color spaces are extremely similar. You most likely want to use RGB (because it is the most
-compatible with existing colors) and/or Oklab (because it is the most expressive and makes changing colors intuitive).
+time, and the APIs for all the color spaces are extremely similar. You most likely want to use RGB (because it is the
+most compatible with existing colors) and/or Oklab (because it is the most expressive and makes quite a lot of common
+color operations more intuitive).
 
 ### RGB
 
@@ -58,21 +59,24 @@ like leaves, you could use a tweak of `(0.2f, 0.6f, 0.0f, 0.3f)` and a regular c
 least get a bit closer to a leafy background. Because libGDX's `Sprite` class depends on internal details of
 `SpriteBatch` that aren't as useful with `ColorfulBatch`, we have a `ColorfulSprite` class here that allows setting its
 color and its tweak, but otherwise can be treated like a Sprite. You can still use a `Sprite` with a `ColorfulBatch`,
-you just can't set its tweak.
+you just can't set its tweak, so it uses the default (multiplying by 1 for all channels).
 
 If you don't want to use `ColorfulBatch`, then `Shaders` provides `ShaderProgram` generators and GLSL code for shaders
 that handle various color spaces. There are convenient functions that produce ShaderPrograms, like `makeRGBAShader()`
 and `makeGammaRGBAShader()`, from the GLSL sources `fragmentShaderRGBA` and `fragmentShaderGammaRGBA`, respectively.
 With these, you still use 50% gray as the neutral value, tinting with white brightens, and tinting with black eliminates
 all color. However, you don't have the "tweak" that `ColorfulBatch` has, so there's no contrast adjustment with this.
-You can use these `ShaderProgram`s with a standard `SpriteBatch`
+You can use these `ShaderProgram`s with a standard `SpriteBatch` via `setShader()` or a `SpriteBatch` constructor.
 
 ### YCwCm
 
 Instead of red, green, blue, and alpha channels, YCwCm uses luma (also called lightness), chromatic warmth, chromatic
 mildness, and alpha. It's the first color space that was implemented here, and it's still not exactly perfect; there's
 no `SimplePalette` here, and sometimes two colors with equivalent luma (as YCwCm calculates it) do not look like they
-have the same actual lightness. The chromatic channels are only meaningful together, and can be used to get the
+have the same actual lightness. You may want to skip this section and move ahead to Oklab if you intend to use a better
+color space from the start, but this also describes some commonly-used classes shared by the color spaces.
+
+The chromatic channels are only meaningful together, and can be used to get the
 hue and colorfulness (related to saturation) of any individual color. All channels go from `0.0f` to `1.0f` as `float`s,
 and can also be viewed as `int`s from `0` to `255` (`254` for alpha, because it is never an odd number). For luma,
 `0.0f` is black regardless of chromatic channels, and `1.0f` is white, again regardless. Tinting an image with black
@@ -83,7 +87,9 @@ this will make almost no changes to the colors in the textures you draw. For chr
 from green to blue, while `1.0f` is used for colors from yellow to red. For chromatic mildness, `0.0f` is used for
 colors from blue to red, while `1.0f` is used for colors from green to yellow. When both warmth and mildness are `0.5f`,
 that represents a grayscale color, which means it makes no change to the hue or saturation of the image drawn. For
-alpha, it acts exactly like alpha does normally in SpriteBatch. YCwCm uses a similar naming convention to
+alpha, it acts exactly like alpha does normally in SpriteBatch.
+
+YCwCm uses a similar naming convention to
 [YcbCr](https://en.wikipedia.org/wiki/YCbCr) or [YCoCg](https://en.wikipedia.org/wiki/YCoCg), both close relatives. The
 reason this library uses YCwCm instead of YCoCg is that it is comparable in computational cost to transform to and from
 RGB, but the luma is somewhat more accurate with YCwCm, and the warmth axis is very useful for aesthetic reasons. As an
@@ -120,6 +126,11 @@ manipulating those colors as floats in `FloatColors.java` and `ycwcm/ColorTools.
 tweak requires using a ColorfulBatch instead of a SpriteBatch, but the API is almost the same, and is in
 `ycwcm/ColorfulBatch.java`. If you use a ColorfulBatch, you should also use ColorfulSprite instead of Sprite if you want
 to set a tweak per-sprite, but even a standard Sprite will render correctly.
+
+The new `GradientTools` class provides some simple methods that write to libGDX `FloatArray` objects, producing a
+sequence of packed float colors (allocating no objects) that go from one color to one or more later colors. Gradients
+produced by YCwCm should be a little smoother than ones made by the RGB `GradientTools`, and gradients made by IPT_HQ or
+Oklab should be even smoother. CIELAB... don't count on it.
 
 The palette used is a slight adjustment on DawnBringer's Aurora palette, a 256-color palette that gets less attention
 than his smaller pixel art palettes, but that has excellent coverage of most colors. The names used for colors in it are
@@ -161,12 +172,13 @@ shader, so the performance dip is likely to be small.
 ### Oklab
 
 So, IPT is great when comparing the hues of colors, but isn't optimal when comparing their lightness, or their chroma
-(how close or far from being gray they are). The similar, much newer color space Oklab, by Björn Ottosson, was
+(how close or far from being gray they are). YCwCm isn't great at either. RGB doesn't compare lightness easily at all.
+How about something new, then? The similar, much newer color space Oklab, by Björn Ottosson, was
 introduced in [this recent blog post](https://bottosson.github.io/posts/oklab/), and seeks to remedy the mismatch
 between hue and the other aspects of color comparison. It has the components L (lightness), A (one chromatic channel,
-roughly describing how cool or warm a color is, with high values closer to magenta and low values closer to green), and
+roughly describing how cool or warm a color is, with high values closer to red and low values closer to cyan), and
 B (the other chromatic channel, also in a sense describing something like cool to warm, but with high values closer to
-orange and low values closer to blue). It's like a slightly-rotated version of IPT or YCwCm. The main benefits of Oklab
+yellow and low values closer to blue). It's like a slightly-rotated version of IPT or YCwCm. The main benefits of Oklab
 are for comparing colors, where you can use a standard Euclidean distance, and for making smooth gradients. It may also
 be a slight bit faster than IPT_HQ, even though its calculations are extremely similar, because Oklab uses a fast
 approximation of cube root when it's processed by Java, where IPT_HQ uses a slightly slower call to `Math.pow()` with
@@ -176,6 +188,15 @@ processing will be done on the GPU for the most intensive applications.
 
 Also, the more I use Oklab, the more I want to keep using Oklab, so future work is probably going to continue on
 improving features in Oklab or making variants on Oklab for mysterious purposes.
+
+The exact variety of Oklab isn't 100% faithful to the linked blog post by Ottosson; as he detailed in
+[a later blog post](https://bottosson.github.io/posts/colorpicker/#intermission---a-new-lightness-estimate-for-oklab),
+Oklab as it was originally detailed has far too many colors that are nearly-black, and too few that are close to white.
+Ottosson devised a high-quality conversion from the dark-color-heavy scale to a more-uniform scale, but computing it
+involves quite a bit of code per-pixel, so I used a modified ["Barron spline"](https://arxiv.org/abs/2010.09714) that
+also gets 50% gray to 0.5 L. This is where it should be; L would be at 0.63 before applying the spline. Various other
+changes have applied across versions to Oklab to get its gamut, or the range of valid colors that can be converted to
+and from RGBA, correct, and it should be now.
 
 The `com.github.tommyettinger.colorful.oklab` package has parallels to all the classes in the `ipt_hq` package, which
 includes those in `ycwcm` and `ipt` as well. Its `SimplePalette` is particularly adept at smoothly changing colors.
@@ -189,11 +210,14 @@ However, we only store the full gamut information for Oklab (it's stored in a gi
 while CIELAB needs to calculate the approximate gamut for each color as requested. The full gamut is large, and I didn't
 want to store it multiple times for two similar color spaces, so CIELAB is just generally slower at gamut-related code,
 and less precise. CIELAB is slower at most operations by at least a little bit, relative to Oklab. It does handle some
-gradients more accurately, and also some less accurately, so every use case may encounter trade-offs.
+gradients more accurately, but most less accurately, so every use case may encounter trade-offs. A notable flaw of the
+implementation here is that grayscale colors "tilt" out of the central line along A=0.5, B=0.5, and around black or very
+dark colors, there isn't any color in-gamut with A=0.5 and B=0.5.
 
 The `com.github.tommyettinger.colorful.cielab` package has parallels to all the classes in the `ipt_hq` package, which
-includes those in `ycwcm`, `ipt`, and `oklab` as well. Its `SimplePalette` is fairly good, though it tends to change the
-hue of colors slightly when it lightens or darkens them.
+includes those in `ycwcm`, `ipt`, and `oklab` as well. Its `SimplePalette` is just-okay, though it tends to change the
+hue of colors when it lightens or darkens them. As you can see from the description demo (see next), CIELAB has all
+kinds of trouble with blue and similar colors.
 
 ### Describing Colors
 
@@ -210,9 +234,10 @@ colors in SimplePalette for Oklab can be previewed in
 [this list by lightness](https://tommyettinger.github.io/colorful-gdx/ColorTableValueSimpleOklab.html).
 
 You can use [this small libGDX web app](https://tommyettinger.github.io/colorful-gdx/description/) to experiment with
-different descriptions and what they produce. Use the `[` and `]` keys to change modes; there's an RGB, Oklab, IPT_HQ,
-and comparison mode. The comparison mode may be the most useful; it has 3 bars that change color using different color
-spaces and their SimplePalette transformations.
+different descriptions and what they produce. Use the `[` and `]` keys to change modes; there are RGB, Oklab, IPT_HQ,
+CIELAB, comparison, and gradient modes. The comparison mode may be the most useful; it has 4 bars that change color
+using different color spaces and their SimplePalette transformations. The gradient mode is new, and lets you preview
+Oklab gradients between two described colors.
 
 ### HSLC
 
