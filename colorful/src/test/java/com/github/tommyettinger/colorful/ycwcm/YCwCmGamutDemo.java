@@ -24,7 +24,7 @@ import com.github.tommyettinger.colorful.TrigTools;
 import static com.badlogic.gdx.Gdx.input;
 
 public class YCwCmGamutDemo extends ApplicationAdapter {
-    public static final boolean RENDER_FILES = false;
+    public static final boolean RENDER_FILES = true;
     public static final int SCREEN_WIDTH = 512;
     public static final int SCREEN_HEIGHT = 512;
     private ColorfulBatch batch;

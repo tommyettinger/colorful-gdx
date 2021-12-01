@@ -32,7 +32,7 @@ public class ColorSolidDemo extends ApplicationAdapter {
     public static final int SCREEN_WIDTH = 512;
     public static final int SCREEN_HEIGHT = 512;
     private ColorfulBatch ycwcmBatch;
-    private com.github.tommyettinger.colorful.ipt.ColorfulBatch iptBatch;
+    private com.github.tommyettinger.colorful.cielab.ColorfulBatch cielabBatch;
     private com.github.tommyettinger.colorful.ipt_hq.ColorfulBatch ipthqBatch;
     private com.github.tommyettinger.colorful.oklab.ColorfulBatch oklabBatch;
     private Viewport screenView;
@@ -104,9 +104,9 @@ public class ColorSolidDemo extends ApplicationAdapter {
             if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
             ycwcmBatch.setShader(shader);
         }
-        iptBatch = new com.github.tommyettinger.colorful.ipt.ColorfulBatch();
+        cielabBatch = new com.github.tommyettinger.colorful.cielab.ColorfulBatch();
         {
-            String vertexShader = iptBatch.getShader().getVertexShaderSource();
+            String vertexShader = cielabBatch.getShader().getVertexShaderSource();
             String fragmentShader =
                     "#ifdef GL_ES\n" +
                             "#define LOWP lowp\n" +
@@ -116,26 +116,87 @@ public class ColorSolidDemo extends ApplicationAdapter {
                             "#endif\n" +
                             "varying vec2 v_texCoords;\n" +
                             "varying LOWP vec4 v_color;\n" +
-                            "varying LOWP vec4 v_tweak;\n" +
-                            "varying float v_lightFix;\n" +
                             "uniform sampler2D u_texture;\n" +
+                            "const vec3 forward = vec3(1.0 / 3.0);\n" +
+                            "const vec3 sRGBFrom = vec3(2.4);\n" +
+                            "const vec3 sRGBThresholdFrom = vec3(0.04045);\n" +
+                            "const vec3 sRGBTo = vec3(1.0 / 2.4);\n" +
+                            "const vec3 sRGBThresholdTo = vec3(0.0031308);\n" +
+                            "const vec3 epsilon = vec3(0.00885645);\n" +
+                            "vec3 linear(vec3 t){ return mix(pow((t + 0.055) * (1.0 / 1.055), sRGBFrom), t * (1.0/12.92), step(t, sRGBThresholdFrom)); }\n" +
+                            "vec3 sRGB(vec3 t){ return mix(1.055 * pow(t, sRGBTo) - 0.055, 12.92*t, step(t, sRGBThresholdTo)); }\n" +
+                            "float xyzF(float t){ return mix(pow(t,1./3.), 7.787037 * t + 0.139731, step(t, 0.00885645)); }\n" +
+                            "vec3 xyzF(vec3 t){ return mix(pow(t, forward), 7.787037 * t + 0.139731, step(t, epsilon)); }\n" +
+                            "float xyzR(float t){ return mix(t*t*t , 0.1284185 * (t - 0.139731), step(t, 0.20689655)); }\n" +
+                            "vec3 rgb2lab(vec3 c)\n" +
+                            "{\n" +
+                            "    c *= mat3(0.4124, 0.3576, 0.1805,\n" +
+                            "              0.2126, 0.7152, 0.0722,\n" +
+                            "              0.0193, 0.1192, 0.9505);\n" +
+                            "    c = xyzF(c);\n" +
+                            "    vec3 lab = vec3(max(0.,1.16*c.y - 0.16), (c.x - c.y) * 5.0, (c.y - c.z) * 2.0); \n" +
+                            "    return lab;\n" +
+                            "}\n" +
+                            "vec3 lab2rgb(vec3 c)\n" +
+                            "{\n" +
+                            "    float lg = 1./1.16*(c.x + 0.16);\n" +
+                            "    vec3 xyz = vec3(xyzR(lg + c.y * 0.2),\n" +
+                            "                    xyzR(lg),\n" +
+                            "                    xyzR(lg - c.z * 0.5));\n" +
+                            "    vec3 rgb = xyz*mat3( 3.2406, -1.5372,-0.4986,\n" +
+                            "                        -0.9689,  1.8758, 0.0415,\n" +
+                            "                         0.0557, -0.2040, 1.0570);\n" +
+                            "    return rgb;\n" +
+                            "}\n" +
                             "void main()\n" +
                             "{\n" +
                             "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                            "  vec3 ipt = mat3(0.189786, 0.669665 , 0.286498, 0.576951, -0.73741 , 0.655205, 0.233221, 0.0681367, -0.941748)\n" +
-                            "             * tgt.rgb;\n" +
-                            "  ipt.x = pow(ipt.x, v_tweak.a) * v_lightFix * v_tweak.r + v_color.r - 0.5;\n" +
-                            "  ipt.yz = (ipt.yz * v_tweak.gb + v_color.gb - 0.5) * 2.0;\n" +
-                            "  vec3 back = mat3(0.999779, 1.00015, 0.999769, 1.07094, -0.377744, 0.0629496, 0.324891, 0.220439, -0.809638) * ipt;\n" +
-                            "  gl_FragColor = vec4(back, v_color.a * tgt.a);\n" +
-                            "  if(any(notEqual(clamp(gl_FragColor.rgb, 0.0, 1.0), gl_FragColor.rgb))) discard;\n" +
+                            "  vec3 lab = rgb2lab(linear(tgt.rgb));\n" +
+                            "  lab.x = lab.x + v_color.r - 0.5372549;\n" +
+                            "  lab.yz = (lab.yz + v_color.gb - 0.5) * 2.0;\n" +
+                            "  lab = lab2rgb(lab);\n" +
+                            "  vec3 back = clamp(lab, 0.0, 1.0);\n" +
+                            "  if(any(notEqual(back, lab))) discard;\n" +
+                            "  gl_FragColor = vec4(sRGB(back), v_color.a * tgt.a);\n" +
                             "}";
             ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
 
             if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
-            iptBatch.setShader(shader);
+            cielabBatch.setShader(shader);
         }
 
+//        iptBatch = new com.github.tommyettinger.colorful.ipt.ColorfulBatch();
+//        {
+//            String vertexShader = iptBatch.getShader().getVertexShaderSource();
+//            String fragmentShader =
+//                    "#ifdef GL_ES\n" +
+//                            "#define LOWP lowp\n" +
+//                            "precision mediump float;\n" +
+//                            "#else\n" +
+//                            "#define LOWP \n" +
+//                            "#endif\n" +
+//                            "varying vec2 v_texCoords;\n" +
+//                            "varying LOWP vec4 v_color;\n" +
+//                            "varying LOWP vec4 v_tweak;\n" +
+//                            "varying float v_lightFix;\n" +
+//                            "uniform sampler2D u_texture;\n" +
+//                            "void main()\n" +
+//                            "{\n" +
+//                            "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+//                            "  vec3 ipt = mat3(0.189786, 0.669665 , 0.286498, 0.576951, -0.73741 , 0.655205, 0.233221, 0.0681367, -0.941748)\n" +
+//                            "             * tgt.rgb;\n" +
+//                            "  ipt.x = pow(ipt.x, v_tweak.a) * v_lightFix * v_tweak.r + v_color.r - 0.5;\n" +
+//                            "  ipt.yz = (ipt.yz * v_tweak.gb + v_color.gb - 0.5) * 2.0;\n" +
+//                            "  vec3 back = mat3(0.999779, 1.00015, 0.999769, 1.07094, -0.377744, 0.0629496, 0.324891, 0.220439, -0.809638) * ipt;\n" +
+//                            "  gl_FragColor = vec4(back, v_color.a * tgt.a);\n" +
+//                            "  if(any(notEqual(clamp(gl_FragColor.rgb, 0.0, 1.0), gl_FragColor.rgb))) discard;\n" +
+//                            "}";
+//            ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
+//
+//            if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
+//            iptBatch.setShader(shader);
+//        }
+//
         ipthqBatch = new com.github.tommyettinger.colorful.ipt_hq.ColorfulBatch();
         {
             String vertexShader = ipthqBatch.getShader().getVertexShaderSource();
@@ -252,15 +313,15 @@ public class ColorSolidDemo extends ApplicationAdapter {
             }
         }
         ycwcmBatch.end();
-        iptBatch.setProjectionMatrix(screenView.getCamera().combined);
-        iptBatch.begin();
+        cielabBatch.setProjectionMatrix(screenView.getCamera().combined);
+        cielabBatch.begin();
         for (int x = 0; x < 256; x++) {
             for (int y = 0; y < 256; y++) {
-                iptBatch.setColor(layer, x * 0x1p-8f, y * 0x1p-8f, 1f);
-                iptBatch.draw(blank, x + 256f, y + 256f, 1f, 1f);
+                cielabBatch.setColor(layer, x * 0x1p-8f, y * 0x1p-8f, 1f);
+                cielabBatch.draw(blank, x + 256f, y + 256f, 1f, 1f);
             }
         }
-        iptBatch.end();
+        cielabBatch.end();
         ipthqBatch.setProjectionMatrix(screenView.getCamera().combined);
         ipthqBatch.begin();
         for (int x = 0; x < 256; x++) {

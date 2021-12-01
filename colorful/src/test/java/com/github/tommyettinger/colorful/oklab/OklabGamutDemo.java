@@ -17,7 +17,10 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.tommyettinger.anim8.AnimatedGif;
 import com.github.tommyettinger.anim8.AnimatedPNG;
+import com.github.tommyettinger.anim8.Dithered;
+import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.colorful.TrigTools;
 
 import java.io.IOException;
@@ -39,7 +42,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
         config.setTitle("Oklab Gamut Demo");
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.setIdleFPS(10);
-        config.setTransparentFramebuffer(true);
+//        config.setTransparentFramebuffer(true);
         config.setForegroundFPS(60);
         config.useVsync(true);
 
@@ -107,33 +110,33 @@ public class OklabGamutDemo extends ApplicationAdapter {
         }
 
 //
-////// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
-////// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
-//        AnimatedGif gif = new AnimatedGif();
-////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
-////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
-////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is fast and great with smooth gradients, but the temporal dithering looks weird here.
-//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
-////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // this should be dithered before usage
-//        gif.palette = new PaletteReducer();
-////        gif.palette = new PaletteReducer(pixmaps);
-////        // 24 is how many frames per second the animated GIF should play back at.
-//        gif.write(Gdx.files.local("OklabGamut.gif"), pixmaps, 24);
+//// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
+//// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
+        AnimatedGif gif = new AnimatedGif();
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is fast and great with smooth gradients, but the temporal dithering looks weird here.
+        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // this should be dithered before usage
+        gif.palette = new PaletteReducer();
+//        gif.palette = new PaletteReducer(pixmaps);
+//        // 24 is how many frames per second the animated GIF should play back at.
+        gif.write(Gdx.files.local("OklabGamut.gif"), pixmaps, 24);
 
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
         AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
         png.write(Gdx.files.local("OklabGamut.png"), pixmaps, 24);
 
-        PixmapIO.PNG still = new PixmapIO.PNG();
-        int idx = 0;
-        for (Pixmap pm : pixmaps){
-            try {
-                still.write(Gdx.files.local("oklab_" + (idx++) + ".png"), pm);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        PixmapIO.PNG still = new PixmapIO.PNG();
+//        int idx = 0;
+//        for (Pixmap pm : pixmaps){
+//            try {
+//                still.write(Gdx.files.local("oklab_" + (idx++) + ".png"), pm);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
 
 //        float minA = 1000f, minB = 1000f, maxA = -1000f, maxB = -1000f, ok, A, B, maxChroma = 0f, chroma;
@@ -276,7 +279,8 @@ public class OklabGamutDemo extends ApplicationAdapter {
     }
     
     public void renderInternal() {
-        Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
+        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
+//        Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(screenView.getCamera().combined);
         batch.setColor(0.5f, 0.5f, 0.5f, 1f);
