@@ -133,7 +133,7 @@ public class Yam3PaletteGenerator extends ApplicationAdapter {
             for (int i = 0; i < hueKeys.length; i++) {
                 float hue = hueKeys[i], quart = wave * 0.25f, fraction = i / (float)hueKeys.length,
                         lightAdjust = 1f,//(fraction >= 0.48f && fraction < 0.58f ? 1f - TrigTools.sin_((fraction - 0.48f) * 5f) * 0.2f : 1.0f),
-                        satAdjust = (fraction >= (0.06f) && fraction < (0.13f) ? 1f - TrigTools.sin_((fraction - 0.06f) * 0.5f / (0.13f - 0.06f)) * 0.3f : 1.0f) * (1f - (i & 1) * 0.1f);
+                        satAdjust = (hue >= (0.08f) && hue < (0.16f) ? 1f - TrigTools.sin_((hue - 0.08f) * 0.5f / (0.16f - 0.08f)) * 0.4f : 1.0f) * (1f - (i & 1) * 0.1f);
                 int chroma = 0, outerLight = 0;
                 for (int l = 0, gamut = (int) (hue * 256f); l < 256; l++, gamut += 256) {
                     if (chroma != (chroma = Math.max(chroma, ColorTools.getRawGamutValue(gamut))))
@@ -163,7 +163,7 @@ public class Yam3PaletteGenerator extends ApplicationAdapter {
                         pal.add(oklabByHCL(hue, outerC * satAdjust, outerL, 1f));
                     else
                         pal.add(oklabByHCL(hue, lerp(0.0125f, outerC, quart) * satAdjust, lerp(minL, maxL,
-                                barronSpline(cr / (crest * 2f), 1.5f, 0.2f + 0.6f * (i * 0.6180339887498949f - floorPositive(i * 0.6180339887498949f)))), 1f));
+                                barronSpline(0.1f + 0.8f * (cr / (crest * 2f)), 0.75f, 0.2f + 0.6f * (i * 0.6180339887498949f - floorPositive(i * 0.6180339887498949f)))), 1f));
                     names.add(levelNames[j] + nameKeys[i]);
                 }
             }
