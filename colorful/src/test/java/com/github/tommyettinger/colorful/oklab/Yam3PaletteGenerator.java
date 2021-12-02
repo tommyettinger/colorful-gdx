@@ -163,7 +163,7 @@ public class Yam3PaletteGenerator extends ApplicationAdapter {
                         pal.add(oklabByHCL(hue, outerC * satAdjust, outerL, 1f));
                     else
                         pal.add(oklabByHCL(hue, lerp(0.0125f, outerC, quart) * satAdjust, lerp(minL, maxL,
-                                barronSpline(0.1f + 0.8f * (cr / (crest * 2f)), 0.75f, 0.2f + 0.6f * (i * 0.6180339887498949f - floorPositive(i * 0.6180339887498949f)))), 1f));
+                                barronSpline(0.2f + 0.75f * (cr / (crest * 2f)), 0.75f, 0.2f + 0.6f * (i * 0.6180339887498949f - floorPositive(i * 0.6180339887498949f)))), 1f));
                     names.add(levelNames[j] + nameKeys[i]);
                 }
             }
