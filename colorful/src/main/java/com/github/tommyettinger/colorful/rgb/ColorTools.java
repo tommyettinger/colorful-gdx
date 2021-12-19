@@ -54,7 +54,7 @@ public class ColorTools {
 	 */
 	public static Color toColor(Color editing, final float packed)
 	{
-		Color.rgba8888ToColor(editing, Integer.reverseBytes(NumberUtils.floatToRawIntBits(packed)));
+		Color.abgr8888ToColor(editing, packed);
 		return editing;
 	}
 	/**

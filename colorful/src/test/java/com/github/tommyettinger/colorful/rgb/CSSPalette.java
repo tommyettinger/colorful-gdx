@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
+import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.ObjectFloatMap;
 
 /**
@@ -1793,14 +1794,15 @@ public class CSSPalette {
 
     /**
      * Appends standard RGBA Color instances to the map in {@link Colors}, using the names in {@link #NAMES} (which
-     * are "Title Cased" instead of "ALL_UPPER_CASE"). This doesn't need any changes to be made to Colors in order for
-     * it to be compatible; just remember that the colors originally in Colors use "UPPER_CASE" and these use "Title
-     * Case".
+     * are "lowercased" instead of "ALL_UPPER_CASE"). This doesn't need any changes to be made to Colors in order for
+     * it to be compatible; just remember that the colors originally in Colors use "UPPER_CASE" and these use
+     * "lowercase" with no spaces.
      */
     public static void appendToKnownColors(){
         for(ObjectFloatMap.Entry<String> ent : NAMED) {
-            Colors.put(ent.key, ColorTools.toColor(new Color(), ent.value));
+            Color editing = new Color();
+            Color.abgr8888ToColor(editing, ent.value);
+            Colors.put(ent.key, editing);
         }
     }
-
 }
