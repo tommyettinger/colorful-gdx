@@ -6,6 +6,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.utils.ObjectFloatMap;
 import com.github.tommyettinger.colorful.internal.StringKit;
+import com.github.tommyettinger.colorful.rgb.CSSPalette;
 import com.github.tommyettinger.colorful.rgb.ColorTools;
 import com.github.tommyettinger.colorful.rgb.FullPalette;
 
@@ -22,9 +23,13 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String inputName = "AuroraColorData.txt";
 //    public static final ObjectFloatMap<String> named = Palette.NAMED;
 
-    public static final String outputAdd = "FullRGB";
-    public static final String inputName = "ColorData.txt";
-    public static final ObjectFloatMap<String> named = FullPalette.NAMED;
+    public static final String outputAdd = "CSSRGB";
+    public static final String inputName = "CSSColorData.txt";
+    public static final ObjectFloatMap<String> named = CSSPalette.NAMED;
+//
+//    public static final String outputAdd = "FullRGB";
+//    public static final String inputName = "ColorData.txt";
+//    public static final ObjectFloatMap<String> named = FullPalette.NAMED;
 
 //    public static final String outputAdd = "NamedMunsellRGB";
 //    public static final String inputName = "ISCCNBSData.txt";
