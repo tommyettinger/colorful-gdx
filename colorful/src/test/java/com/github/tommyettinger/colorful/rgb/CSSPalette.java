@@ -1449,7 +1449,7 @@ public class CSSPalette {
     static { NAMED.put("purple", -0x1.0001p126F); LIST.add(-0x1.0001p126F); }
 
     /**
-     * This color constant "RED" has RGBA8888 code {@code FF0000FF}, hue 0.0, saturation 1.0, lightness 0.5, and alpha 1.0.
+     * This color constant "red" has RGBA8888 code {@code FF0000FF}, hue 0.0, saturation 1.0, lightness 0.5, and alpha 1.0.
      * It can be represented as a packed float with the constant {@code -0x1.0001fep125F}.
      * <pre>
      * <font style='background-color: #FF0000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF0000; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1458,7 +1458,7 @@ public class CSSPalette {
      * </pre>
      */
     public static final float RED = -0x1.0001fep125F;
-    static { NAMED.put("RED", -0x1.0001fep125F); LIST.add(-0x1.0001fep125F); }
+    static { NAMED.put("red", -0x1.0001fep125F); LIST.add(-0x1.0001fep125F); }
 
     /**
      * This color constant "rosybrown" has RGBA8888 code {@code BC8F8FFF}, hue 0.0, saturation 0.17647058, lightness 0.64901966, and alpha 1.0.
@@ -1653,7 +1653,7 @@ public class CSSPalette {
     static { NAMED.put("steelblue", -0x1.69048cp126F); LIST.add(-0x1.69048cp126F); }
 
     /**
-     * This color constant "TAN" has RGBA8888 code {@code D2B48CFF}, hue 0.0952381, saturation 0.2745098, lightness 0.6862745, and alpha 1.0.
+     * This color constant "tan" has RGBA8888 code {@code D2B48CFF}, hue 0.0952381, saturation 0.2745098, lightness 0.6862745, and alpha 1.0.
      * It can be represented as a packed float with the constant {@code -0x1.1969a4p126F}.
      * <pre>
      * <font style='background-color: #D2B48C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D2B48C; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1662,7 +1662,7 @@ public class CSSPalette {
      * </pre>
      */
     public static final float TAN = -0x1.1969a4p126F;
-    static { NAMED.put("TAN", -0x1.1969a4p126F); LIST.add(-0x1.1969a4p126F); }
+    static { NAMED.put("tan", -0x1.1969a4p126F); LIST.add(-0x1.1969a4p126F); }
 
     /**
      * This color constant "teal" has RGBA8888 code {@code 008080FF}, hue 0.5, saturation 0.5019608, lightness 0.2509804, and alpha 1.0.
