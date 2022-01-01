@@ -7,6 +7,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -22,6 +23,8 @@ import com.github.tommyettinger.anim8.Dithered;
 import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.colorful.ycwcm.ColorfulBatch;
 import com.github.tommyettinger.colorful.ycwcm.Palette;
+
+import java.io.IOException;
 
 import static com.badlogic.gdx.Gdx.input;
 
@@ -44,6 +47,7 @@ public class ColorSolidDemo extends ApplicationAdapter {
     private Array<Pixmap> pixmaps;
     private AnimatedGif gif;
     private AnimatedPNG png;
+    private PixmapIO.PNG pp;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -51,6 +55,7 @@ public class ColorSolidDemo extends ApplicationAdapter {
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.setIdleFPS(10);
         config.useVsync(true);
+        config.setTransparentFramebuffer(true);
 //        config.setResizable(false);
 
         final ColorSolidDemo app = new ColorSolidDemo();
@@ -68,10 +73,13 @@ public class ColorSolidDemo extends ApplicationAdapter {
 
         pixmaps = new Array<>(true, 256, Pixmap.class);
         gif = new AnimatedGif();
-        gif.palette = new PaletteReducer();
-        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN);
+//        gif.palette = new PaletteReducer();
+        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE);
+        gif.fastAnalysis = false;
 
         png = new AnimatedPNG();
+
+        pp = new PixmapIO.PNG();
 
         ycwcmBatch = new ColorfulBatch();
         {
@@ -288,7 +296,17 @@ public class ColorSolidDemo extends ApplicationAdapter {
         }
         gif.write(Gdx.files.local("ColorSolids.gif"), pixmaps, 30);
         png.write(Gdx.files.local("ColorSolids.png"), pixmaps, 30);
+//        int idx = 0;
+//        Gdx.files.local("tmp").mkdirs();
+//        for (Pixmap pm : pixmaps) {
+//            try {
+//                pp.write(Gdx.files.local("tmp/solids_" + idx++ + ".png"), pm);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
         recording = false;
+
     }
 
     private float layer(){
@@ -297,15 +315,15 @@ public class ColorSolidDemo extends ApplicationAdapter {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1f);
+        Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if(!recording)
             handleInput();
         layer = TrigTools.acos_(TrigTools.sin_(layer())) * 2f;
         ycwcmBatch.setProjectionMatrix(screenView.getCamera().combined);
-        ycwcmBatch.setPackedColor(Palette.GRAY);
+//        ycwcmBatch.setPackedColor(Palette.GRAY);
         ycwcmBatch.begin();
-        ycwcmBatch.draw(blank, 0, 0, 512, 512);
+//        ycwcmBatch.draw(blank, 0, 0, 512, 512);
         for (int x = 0; x < 256; x++) {
             for (int y = 0; y < 256; y++) {
                 ycwcmBatch.setColor(layer, x * 0x1p-8f, y * 0x1p-8f, 1f);
