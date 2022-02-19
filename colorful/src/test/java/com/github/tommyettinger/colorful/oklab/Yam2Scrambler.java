@@ -40,7 +40,7 @@ public class Yam2Scrambler {
         return elements;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         String[] triangles = new String[]{"darker gray a", "bright a b", "lighter gray a", "drab b a", "more b a", "pale a b", "deep b a", "light gray a", "some a b", "dull b a", "deep a b", "some b a", "dull a b", "dark gray a", "bright b a", "drab a b", "more a b", "deep a", "pale b a", "bright a"};
         String[] hueNames = new String[]{
                 "red",
@@ -61,9 +61,9 @@ public class Yam2Scrambler {
         for (int i = 0; i < 240; i++) {
             String name = triangles[i % 20].replaceFirst("\\ba\\b", hueNames[hue]).replaceFirst("\\bb\\b", hueNames[(hue + 1) % 12]);
             System.out.printf("0x%08X, ", distinction[i] = ColorTools.toRGBA8888(Yam2Palette.NAMED.get(name, 0f)));
-            if((i & 7) == 7) System.out.println();
-            if((i % 20) == 19) ++hue;
-            if((hue = hue + inc) >= 12){
+            if ((i & 7) == 7) System.out.println();
+            if ((i % 20) == 19) ++hue;
+            if ((hue = hue + inc) >= 12) {
                 hue %= 12;
 //                inc += 2;
             }
@@ -85,7 +85,7 @@ public class Yam2Scrambler {
                         0xCCCCCCFF,
                         0xDDDDDDFF,
                         0xEEEEEEFF
-                        );
+                );
         FloatArray labs = new FloatArray(14);
         for (int i = 0; i < grays.size; i++) {
             labs.add(ColorTools.fromRGBA8888(grays.get(i)));
@@ -93,7 +93,7 @@ public class Yam2Scrambler {
         ints.add(0x000000FF);
         for (int i = 224; i >= 16; i -= 16) {
             float before = ColorTools.fromRGBA8888(ints.get(i));
-            float after = ColorTools.fromRGBA8888(ints.get(i+1));
+            float after = ColorTools.fromRGBA8888(ints.get(i + 1));
             double distance = -1.0;
             int best = 0;
             for (int j = 0; j < labs.size; j++) {
@@ -106,7 +106,7 @@ public class Yam2Scrambler {
                 a = ColorTools.channelA(after) - ColorTools.channelA(g);
                 b = ColorTools.channelB(after) - ColorTools.channelB(g);
                 double af = Math.sqrt(l * l + a * a + b * b);
-                if(distance != (distance = Math.max(distance, Math.min(bf, af))))
+                if (distance != (distance = Math.max(distance, Math.min(bf, af))))
                     best = j;
             }
             ints.insert(i, grays.get(best));
@@ -117,7 +117,17 @@ public class Yam2Scrambler {
 
         for (int i = 0; i < ints.size; i++) {
             System.out.printf("0x%08X, ", ints.get(i));
-            if((i & 7) == 7) System.out.println();
+            if ((i & 7) == 7) System.out.println();
+        }
+
+        System.out.println();
+
+        System.out.println("JASC-PAL\n" +
+                "0100\n" +
+                "256");
+        for (int i = 0; i < ints.size; i++) {
+            int color = ints.get(i) >>> 8;
+            System.out.printf("%d %d %d\n", color >>> 16, color >>> 8 & 255, color & 255);
         }
     }
 }
