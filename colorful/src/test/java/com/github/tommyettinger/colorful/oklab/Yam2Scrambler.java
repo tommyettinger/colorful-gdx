@@ -1,6 +1,8 @@
 package com.github.tommyettinger.colorful.oklab;
 
 import com.badlogic.gdx.math.RandomXS128;
+import com.badlogic.gdx.utils.FloatArray;
+import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.IntSet;
 
 import java.util.Arrays;
@@ -54,20 +56,68 @@ public class Yam2Scrambler {
                 "purple",
                 "magenta",
         };
-        int[] indices = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
-        RandomXS128 r = new RandomXS128(12345);
-        shuffleInPlace(r, indices);
         int[] distinction = new int[240];
-        int hue = 0;
+        int hue = 0, inc = 9;
         for (int i = 0; i < 240; i++) {
-            String name = triangles[i % 20].replaceFirst("\\ba\\b", hueNames[indices[hue]]).replaceFirst("\\bb\\b", hueNames[(indices[hue] + 1) % 12]);
+            String name = triangles[i % 20].replaceFirst("\\ba\\b", hueNames[hue]).replaceFirst("\\bb\\b", hueNames[(hue + 1) % 12]);
             System.out.printf("0x%08X, ", distinction[i] = ColorTools.toRGBA8888(Yam2Palette.NAMED.get(name, 0f)));
             if((i & 7) == 7) System.out.println();
-            if(++hue == 12){
-                hue = 0;
-                shuffleInPlace(r, indices);
+            if((i % 20) == 19) ++hue;
+            if((hue = hue + inc) >= 12){
+                hue %= 12;
+//                inc += 2;
             }
         }
         System.out.println(IntSet.with(distinction).size);
+        IntArray ints = IntArray.with(distinction),
+                grays = IntArray.with(
+                        0x111111FF,
+                        0x222222FF,
+                        0x333333FF,
+                        0x444444FF,
+                        0x555555FF,
+                        0x666666FF,
+                        0x777777FF,
+                        0x888888FF,
+                        0x999999FF,
+                        0xAAAAAAFF,
+                        0xBBBBBBFF,
+                        0xCCCCCCFF,
+                        0xDDDDDDFF,
+                        0xEEEEEEFF
+                        );
+        FloatArray labs = new FloatArray(14);
+        for (int i = 0; i < grays.size; i++) {
+            labs.add(ColorTools.fromRGBA8888(grays.get(i)));
+        }
+        ints.add(0x000000FF);
+        for (int i = 224; i >= 16; i -= 16) {
+            float before = ColorTools.fromRGBA8888(ints.get(i));
+            float after = ColorTools.fromRGBA8888(ints.get(i+1));
+            double distance = -1.0;
+            int best = 0;
+            for (int j = 0; j < labs.size; j++) {
+                float g = labs.get(j);
+                float l = ColorTools.channelL(before) - ColorTools.channelL(g);
+                float a = ColorTools.channelA(before) - ColorTools.channelA(g);
+                float b = ColorTools.channelB(before) - ColorTools.channelB(g);
+                double bf = Math.sqrt(l * l + a * a + b * b);
+                l = ColorTools.channelL(after) - ColorTools.channelL(g);
+                a = ColorTools.channelA(after) - ColorTools.channelA(g);
+                b = ColorTools.channelB(after) - ColorTools.channelB(g);
+                double af = Math.sqrt(l * l + a * a + b * b);
+                if(distance != (distance = Math.max(distance, Math.min(bf, af))))
+                    best = j;
+            }
+            ints.insert(i, grays.get(best));
+            labs.removeIndex(best);
+            grays.removeIndex(best);
+        }
+        ints.insert(0, 0xFFFFFFFF);
+
+        for (int i = 0; i < ints.size; i++) {
+            System.out.printf("0x%08X, ", ints.get(i));
+            if((i & 7) == 7) System.out.println();
+        }
     }
 }
