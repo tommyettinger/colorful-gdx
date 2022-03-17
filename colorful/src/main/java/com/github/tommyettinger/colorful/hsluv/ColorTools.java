@@ -106,7 +106,7 @@ public class ColorTools {
      * the bit-twiddling inverse square root is no longer a beneficial
      * optimization on current hardware, this does seem to help.
      * <br>
-     * This is used when converting from RGB to CIELAB, as an intermediate step.
+     * This is used when converting from RGB to HSLuv, as an intermediate step.
      * @param x any non-negative finite float to find the cube root of
      * @return the cube root of x, approximated
      */
@@ -227,12 +227,44 @@ public class ColorTools {
     public static float toRGBA(final float packed)
     {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
-        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
-        final float x = reverseXYZ(L + A);
-        final float y = reverseXYZ(L);
-        final float z = reverseXYZ(L - B);
+        float H = ((decoded & 0xff) / 255f);
+        float S = ((decoded >>> 8 & 0xff) / 255f);
+        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+
+        // HSLuv to Lch
+        float C;
+        if (L > 0.99999f) {
+            L = 1;
+            C = 0;
+        } else if (L < 0.00001f) {
+            L = 0;
+            C = 0;
+        } else
+            C = chromaLimit(L, H) * S;
+
+        // Lch to Luv
+        float U = TrigTools.cos_(H) * C;
+        float V = TrigTools.sin_(H) * C;
+
+        // Luv to XYZ
+        float x, y, z;
+        if (L < 0.00001f) {
+            x = 0;
+            y = 0;
+            z = 0;
+        } else {
+            if (L <= epsilon)
+                y = L / kappa;
+            else {
+                y = (L + 0.16f) / 1.16f;
+                y *= y * y;
+            }
+            float iL = 1f / (13f * L);
+            float varU = U * iL + refU;
+            float varV = V * iL + refV;
+            x = 9 * varU * y / (4 * varV);
+            z = (3 * y / varV) - x / 3 - 5 * y;
+        }
         final int r = (int)(reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f)) * 255.999f);
         final int g = (int)(reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f)) * 255.999f);
         final int b = (int)(reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f)) * 255.999f);
@@ -240,7 +272,7 @@ public class ColorTools {
     }
 
     /**
-     * Writes a CIELAB-format packed float color (the format produced by {@link #hsluv(float, float, float, float)})
+     * Writes a HSLuv-format packed float color (the format produced by {@link #hsluv(float, float, float, float)})
      * into an RGBA8888 Color as used by libGDX (called {@code editing}).
      * @param editing a libGDX color that will be filled in-place with an RGBA conversion of {@code packed}
      * @param packed a packed float color, as produced by {@link #hsluv(float, float, float, float)}
@@ -249,14 +281,44 @@ public class ColorTools {
     public static Color toColor(Color editing, final float packed)
     {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
-        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-//        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (1f / 127.5f);
-//        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (1f / 127.5f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) * (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
-        final float x = reverseXYZ(L + A);
-        final float y = reverseXYZ(L);
-        final float z = reverseXYZ(L - B);
+        float H = ((decoded & 0xff) / 255f);
+        float S = ((decoded >>> 8 & 0xff) / 255f);
+        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+
+        // HSLuv to Lch
+        float C;
+        if (L > 0.99999f) {
+            L = 1;
+            C = 0;
+        } else if (L < 0.00001f) {
+            L = 0;
+            C = 0;
+        } else
+            C = chromaLimit(L, H) * S;
+
+        // Lch to Luv
+        float U = TrigTools.cos_(H) * C;
+        float V = TrigTools.sin_(H) * C;
+
+        // Luv to XYZ
+        float x, y, z;
+        if (L < 0.00001f) {
+            x = 0;
+            y = 0;
+            z = 0;
+        } else {
+            if (L <= epsilon)
+                y = L / kappa;
+            else {
+                y = (L + 0.16f) / 1.16f;
+                y *= y * y;
+            }
+            float iL = 1f / (13f * L);
+            float varU = U * iL + refU;
+            float varV = V * iL + refV;
+            x = 9 * varU * y / (4 * varV);
+            z = (3 * y / varV) - x / 3 - 5 * y;
+        }
         editing.r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
         editing.g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
         editing.b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
@@ -265,24 +327,24 @@ public class ColorTools {
     }
 
     /**
-     * Writes a CIELAB-format packed float color (the format produced by {@link #hsluv(float, float, float, float)})
-     * into a CIELAB-format Color called {@code editing}. This is mostly useful if the rest of your application expects
-     * colors in CIELAB format, such as because you use {@link Shaders#fragmentShaderCielab} or {@code ColorfulBatch}.
+     * Writes a HSLuv-format packed float color (the format produced by {@link #hsluv(float, float, float, float)})
+     * into a HSLuv-format Color called {@code editing}. This is mostly useful if the rest of your application expects
+     * colors in HSLuv format, such as because you use {@code Shaders#fragmentShaderHsluv} or {@code ColorfulBatch}.
      * <br>
      * Internally, this simply calls {@link Color#abgr8888ToColor(Color, float)} and returns the edited Color.
-     * @param editing a libGDX Color that will be filled in-place with the color {@code cielab}, unchanged from its color space
-     * @param cielab a packed float color, as produced by {@link #hsluv(float, float, float, float)}
+     * @param editing a libGDX Color that will be filled in-place with the color {@code hsluv}, unchanged from its color space
+     * @param hsluv a packed float color, as produced by {@link #hsluv(float, float, float, float)}
      * @return an RGBA8888 int color
      */
-    public static Color toCIELABColor(Color editing, final float cielab){
-        Color.abgr8888ToColor(editing, cielab);
+    public static Color toHSLuvColor(Color editing, final float hsluv){
+        Color.abgr8888ToColor(editing, hsluv);
         return editing;
     }
 
     /**
-     * Takes a color encoded as an RGBA8888 int and converts to a packed float in the CIELAB format this uses.
+     * Takes a color encoded as an RGBA8888 int and converts to a packed float in the HSLuv format this uses.
      * @param rgba an int with the channels (in order) red, green, blue, alpha; should have 8 bits per channel
-     * @return a packed float as CIELAB, which this class can use
+     * @return a packed float as HSLuv, which this class can use
      */
     public static float fromRGBA8888(final int rgba) {
         final float r = forwardGamma((rgba >>> 24) * 0x1.010101010101p-8f);
@@ -293,17 +355,47 @@ public class ColorTools {
         final float y = forwardXYZ(0.2126729f * r  + 0.7151522f * g + 0.0721750f * b);
         final float z = forwardXYZ(0.0193339f * r  + 0.1191920f * g + 0.9503041f * b);
 
+        // XYZ to Luv
+        float L = 1.16f * y - 0.16f, U, V, h, s, l;
+        if (L < 0.00001f) {
+            L = 0;
+            U = 0;
+            V = 0;
+        } else {
+            U = 13 * L * (4 * x / (x + 15 * y + 3 * z) - refU);
+            V = 13 * L * (9 * y / (x + 15 * y + 3 * z) - refV);
+        }
+
+        // Luv to Lch
+        float C = (float)Math.sqrt(U * U + V * V);
+        if (C < 0.00001f)
+            h = 0;
+        else {
+            h = TrigTools.atan2_(V, U);
+        }
+
+        // Lch to HSLuv
+        if (L > 0.99999f) {
+            s = 0;
+            l = 1;
+        } else if (L < 0.00001f) {
+            s = 0;
+            l = 0;
+        } else {
+            s = Math.min(C / chromaLimit(L, h), 1);
+            l = L;
+        }
         return NumberUtils.intBitsToFloat(
-                          Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
-                        | Math.min(Math.max((int)((x - y) * (127.999f * 5f) + 127.5f), 0), 255) << 8
-                        | Math.min(Math.max((int)((y - z) * (127.999f * 2f) + 127.5f), 0), 255) << 16
+                          Math.min(Math.max((int)(h * 255.999f    ), 0), 255)
+                        | Math.min(Math.max((int)(s * 255.999f    ), 0), 255) << 8
+                        | Math.min(Math.max((int)(l * 255.999f    ), 0), 255) << 16
                         | (rgba & 0xFE) << 24);
     }
 
     /**
-     * Takes a color encoded as an ABGR packed float and converts to a packed float in the CIELAB format this uses.
+     * Takes a color encoded as an ABGR packed float and converts to a packed float in the HSLuv format this uses.
      * @param packed a packed float in ABGR8888 format, with A in the MSB and R in the LSB
-     * @return a packed float as CIELAB, which this class can use
+     * @return a packed float as HSLuv, which this class can use
      */
     public static float fromRGBA(final float packed) {
         final int abgr = NumberUtils.floatToRawIntBits(packed);
@@ -315,17 +407,47 @@ public class ColorTools {
         final float y = forwardXYZ(0.2126729f * r + 0.7151522f * g + 0.0721750f * b);
         final float z = forwardXYZ(0.0193339f * r + 0.1191920f * g + 0.9503041f * b);
 
+        // XYZ to Luv
+        float L = 1.16f * y - 0.16f, U, V, h, s, l;
+        if (L < 0.00001f) {
+            L = 0;
+            U = 0;
+            V = 0;
+        } else {
+            U = 13 * L * (4 * x / (x + 15 * y + 3 * z) - refU);
+            V = 13 * L * (9 * y / (x + 15 * y + 3 * z) - refV);
+        }
+
+        // Luv to Lch
+        float C = (float)Math.sqrt(U * U + V * V);
+        if (C < 0.00001f)
+            h = 0;
+        else {
+            h = TrigTools.atan2_(V, U);
+        }
+
+        // Lch to HSLuv
+        if (L > 0.99999f) {
+            s = 0;
+            l = 1;
+        } else if (L < 0.00001f) {
+            s = 0;
+            l = 0;
+        } else {
+            s = Math.min(C / chromaLimit(L, h), 1);
+            l = L;
+        }
         return NumberUtils.intBitsToFloat(
-                          Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
-                        | Math.min(Math.max((int)(((x - y)) * (127.999f * 5f) + 127.5f), 0), 255) << 8
-                        | Math.min(Math.max((int)(((y - z)) * (127.999f * 2f) + 127.5f), 0), 255) << 16
+                Math.min(Math.max((int)(h * 255.999f    ), 0), 255)
+                        | Math.min(Math.max((int)(s * 255.999f    ), 0), 255) << 8
+                        | Math.min(Math.max((int)(l * 255.999f    ), 0), 255) << 16
                         | (abgr & 0xFE000000));
     }
 
     /**
-     * Takes a libGDX Color that uses RGBA8888 channels and converts to a packed float in the CIELAB format this uses.
+     * Takes a libGDX Color that uses RGBA8888 channels and converts to a packed float in the HSLuv format this uses.
      * @param color a libGDX RGBA8888 Color
-     * @return a packed float as CIELAB, which this class can use
+     * @return a packed float as HSLuv, which this class can use
      */
     public static float fromColor(final Color color) {
         final float r = forwardGamma(color.r);
@@ -334,20 +456,51 @@ public class ColorTools {
         final float x = forwardXYZ(0.4124564f * r + 0.3575761f * g + 0.1804375f * b);
         final float y = forwardXYZ(0.2126729f * r + 0.7151522f * g + 0.0721750f * b);
         final float z = forwardXYZ(0.0193339f * r + 0.1191920f * g + 0.9503041f * b);
+
+        // XYZ to Luv
+        float L = 1.16f * y - 0.16f, U, V, h, s, l;
+        if (L < 0.00001f) {
+            L = 0;
+            U = 0;
+            V = 0;
+        } else {
+            U = 13 * L * (4 * x / (x + 15 * y + 3 * z) - refU);
+            V = 13 * L * (9 * y / (x + 15 * y + 3 * z) - refV);
+        }
+
+        // Luv to Lch
+        float C = (float)Math.sqrt(U * U + V * V);
+        if (C < 0.00001f)
+            h = 0;
+        else {
+            h = TrigTools.atan2_(V, U);
+        }
+
+        // Lch to HSLuv
+        if (L > 0.99999f) {
+            s = 0;
+            l = 1;
+        } else if (L < 0.00001f) {
+            s = 0;
+            l = 0;
+        } else {
+            s = Math.min(C / chromaLimit(L, h), 1);
+            l = L;
+        }
         return NumberUtils.intBitsToFloat(
-                          Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
-                        | Math.min(Math.max((int)(((x - y)) * (127.999f * 5f) + 127.5f), 0), 255) << 8
-                        | Math.min(Math.max((int)(((y - z)) * (127.999f * 2f) + 127.5f), 0), 255) << 16
+                Math.min(Math.max((int)(h * 255.999f    ), 0), 255)
+                        | Math.min(Math.max((int)(s * 255.999f    ), 0), 255) << 8
+                        | Math.min(Math.max((int)(l * 255.999f    ), 0), 255) << 16
                         | ((int)(color.a * 255f) << 24 & 0xFE000000));
     }
 
     /**
-     * Takes RGBA components from 0.0 to 1.0 each and converts to a packed float in the CIELAB format this uses.
+     * Takes RGBA components from 0.0 to 1.0 each and converts to a packed float in the HSLuv format this uses.
      * @param r red, from 0.0 to 1.0 (both inclusive)
      * @param g green, from 0.0 to 1.0 (both inclusive)
      * @param b blue, from 0.0 to 1.0 (both inclusive)
      * @param a alpha, from 0.0 to 1.0 (both inclusive)
-     * @return a packed float as CIELAB, which this class can use
+     * @return a packed float as HSLuv, which this class can use
      */
     public static float fromRGBA(float r, float g, float b, final float a) {
         r = forwardGamma(r);
@@ -356,10 +509,41 @@ public class ColorTools {
         final float x = forwardXYZ(0.4124564f * r + 0.3575761f * g + 0.1804375f * b);
         final float y = forwardXYZ(0.2126729f * r + 0.7151522f * g + 0.0721750f * b);
         final float z = forwardXYZ(0.0193339f * r + 0.1191920f * g + 0.9503041f * b);
+
+        // XYZ to Luv
+        float L = 1.16f * y - 0.16f, U, V, h, s, l;
+        if (L < 0.00001f) {
+            L = 0;
+            U = 0;
+            V = 0;
+        } else {
+            U = 13 * L * (4 * x / (x + 15 * y + 3 * z) - refU);
+            V = 13 * L * (9 * y / (x + 15 * y + 3 * z) - refV);
+        }
+
+        // Luv to Lch
+        float C = (float)Math.sqrt(U * U + V * V);
+        if (C < 0.00001f)
+            h = 0;
+        else {
+            h = TrigTools.atan2_(V, U);
+        }
+
+        // Lch to HSLuv
+        if (L > 0.99999f) {
+            s = 0;
+            l = 1;
+        } else if (L < 0.00001f) {
+            s = 0;
+            l = 0;
+        } else {
+            s = Math.min(C / chromaLimit(L, h), 1);
+            l = L;
+        }
         return NumberUtils.intBitsToFloat(
-                          Math.min(Math.max((int)((1.16f*y - 0.16f) * 255.999f    ), 0), 255)
-                        | Math.min(Math.max((int)(((x - y)) * (127.999f * 5f) + 127.5f), 0), 255) << 8
-                        | Math.min(Math.max((int)(((y - z)) * (127.999f * 2f) + 127.5f), 0), 255) << 16
+                Math.min(Math.max((int)(h * 255.999f    ), 0), 255)
+                        | Math.min(Math.max((int)(s * 255.999f    ), 0), 255) << 8
+                        | Math.min(Math.max((int)(l * 255.999f    ), 0), 255) << 16
                         | ((int)(a * 255f) << 24 & 0xFE000000));
     }
 
@@ -487,7 +671,7 @@ public class ColorTools {
 
 
     /**
-     * Gets the "chroma" or "colorfulness" of a given CIELAB color. Chroma is similar to saturation in that grayscale
+     * Gets the "chroma" or "colorfulness" of a given HSLuv color. Chroma is similar to saturation in that grayscale
      * values have 0 saturation and 0 chroma, while brighter colors have high saturation and chroma. The difference is
      * that colors that are perceptually more-colorful have higher chroma than colors that are perceptually
      * less-colorful, regardless of hue, whereas saturation changes its meaning depending on the hue and lightness. That
@@ -540,10 +724,10 @@ public class ColorTools {
     }
 
     /**
-     * Gets the color with the same L as the CIELAB color stored in the given packed float, but the furthest A
+     * Gets the color with the same L as the HSLuv color stored in the given packed float, but the furthest A
      * B from gray possible for that lightness while keeping the same hue as the given color. This is very
      * similar to calling {@link #enrich(float, float)} with a very large {@code change} value.
-     * @param packed a packed float color in CIELAB format; does not need to be in-gamut
+     * @param packed a packed float color in HSLuv format; does not need to be in-gamut
      * @return the color that is as far from grayscale as this can get while keeping the L and hue of packed
      * @see #limitToGamut(float) You can use limitToGamut() if you only want max saturation for out-of-gamut colors.
      */
@@ -571,7 +755,7 @@ public class ColorTools {
         return hsluv(lightness, A2 * 0.5f + 0.5f, B2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
     }
     /**
-     * Gets the color with the same L as the CIELAB color stored in the given packed float, but the furthest A
+     * Gets the color with the same L as the HSLuv color stored in the given packed float, but the furthest A
      * B from gray possible for that lightness while keeping the same hue as the given color. This is very
      * similar to calling {@link #enrich(float, float)} with a very large {@code change} value.
      * @param L lightness component; will be clamped between 0 and 1 if it isn't already
@@ -609,12 +793,12 @@ public class ColorTools {
     }
 
     /**
-     * Gets the hue of the given CIELAB float color, but as CIELAB understands hue rather than how HSL does.
+     * Gets the hue of the given HSLuv float color, but as HSLuv understands hue rather than how HSL does.
      * This is different from {@link #hue(float)}, which uses HSL. This gives a float between 0 (inclusive)
      * and 1 (exclusive).
      *
-     * @param packed a packed CIELAB float color
-     * @return a float between 0 (inclusive) and 1 (exclusive) that represents hue in the CIELAB color space
+     * @param packed a packed HSLuv float color
+     * @return a float between 0 (inclusive) and 1 (exclusive) that represents hue in the HSLuv color space
      */
     public static float cielabHue(final float packed) {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
@@ -624,12 +808,12 @@ public class ColorTools {
     }
 
     /**
-     * Gets the saturation of the given CIELAB float color, but as CIELAB understands saturation rather than how HSL
+     * Gets the saturation of the given HSLuv float color, but as HSLuv understands saturation rather than how HSL
      * does. Saturation here is a fraction of the chroma limit (see {@link #chromaLimit(float, float)}) for a given hue
      * and lightness, and is between 0 and 1. This gives a float between 0 (inclusive) and 1 (inclusive).
      *
-     * @param packed a packed CIELAB float color
-     * @return a float between 0 (inclusive) and 1 (inclusive) that represents saturation in the CIELAB color space
+     * @param packed a packed HSLuv float color
+     * @return a float between 0 (inclusive) and 1 (inclusive) that represents saturation in the HSLuv color space
      */
     public static float cielabSaturation(final float packed) {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
@@ -658,22 +842,22 @@ public class ColorTools {
         return (float) Math.sqrt(A * A + B * B) / dist;
     }
     /**
-     * Gets the lightness of the given CIELAB float color, but as CIELAB understands lightness rather than how HSL does.
+     * Gets the lightness of the given HSLuv float color, but as HSLuv understands lightness rather than how HSL does.
      * This is different from {@link #lightness(float)}, which uses HSL. This gives a float between 0 (inclusive)
      * and 1 (inclusive).
      * <br>
      * This is the same as {@link #channelL(float)}.
      *
-     * @param packed a packed CIELAB float color
-     * @return a float between 0 (inclusive) and 1 (inclusive) that represents lightness in the CIELAB color space
+     * @param packed a packed HSLuv float color
+     * @return a float between 0 (inclusive) and 1 (inclusive) that represents lightness in the HSLuv color space
      */
     public static float cielabLightness(final float packed){
         return (NumberUtils.floatToRawIntBits(packed) & 0xff) / 255f;
     }
 
     /**
-     * A different way to specify a CIELAB color, using hue, saturation, lightness, and alpha like a normal HSL(A) color
-     * but calculating them directly in the CIELAB color space. This is more efficient than
+     * A different way to specify a HSLuv color, using hue, saturation, lightness, and alpha like a normal HSL(A) color
+     * but calculating them directly in the HSLuv color space. This is more efficient than
      * {@link #floatGetHSL(float, float, float, float)}. You may prefer using
      * {@link #cielabByHCL(float, float, float, float)}, which takes an absolute chroma as opposed to the saturation
      * here (which is a fraction of the maximum chroma).
@@ -690,7 +874,7 @@ public class ColorTools {
      * @param saturation will be clamped between 0 and 1
      * @param lightness will be clamped between 0 and 1
      * @param alpha will be clamped between 0 and 1
-     * @return a packed CIELAB float color that tries to match the requested hue, saturation, and lightness
+     * @return a packed HSLuv float color that tries to match the requested hue, saturation, and lightness
      */
     public static float cielabByHSL(float hue, float saturation, float lightness, float alpha) {
         lightness = Math.min(Math.max(lightness, 0f), 1f);
@@ -726,8 +910,8 @@ public class ColorTools {
     }
 
     /**
-     * A different way to specify a CIELAB color, using hue, chroma, lightness, and alpha something like a normal HSL(A)
-     * color but calculating them directly in the CIELAB color space. This has you specify the desired chroma directly,
+     * A different way to specify a HSLuv color, using hue, chroma, lightness, and alpha something like a normal HSL(A)
+     * color but calculating them directly in the HSLuv color space. This has you specify the desired chroma directly,
      * as obtainable with {@link #chroma(float)}, rather than the saturation, which is a fraction of the maximum chroma
      * (saturation is what {@link #cielabByHSL(float, float, float, float)} uses). Note that this takes a different
      * value for its {@code hue} that the method {@link #hue(float)} produces, just like {@code lightness} and the
@@ -743,7 +927,7 @@ public class ColorTools {
      * @param chroma will be clamped between 0 and the maximum chroma possible for the given hue and lightness
      * @param lightness will be clamped between 0 and 1
      * @param alpha will be clamped between 0 and 1
-     * @return a packed CIELAB float color that tries to match the requested hue, chroma, and lightness
+     * @return a packed HSLuv float color that tries to match the requested hue, chroma, and lightness
      */
     public static float cielabByHCL(float hue, float chroma, float lightness, float alpha) {
         lightness = Math.min(Math.max(lightness, 0f), 1f);
@@ -758,7 +942,7 @@ public class ColorTools {
     }
 
     /**
-     * Gets a color as a CIELAB packed float given floats representing hue, saturation, lightness, and opacity.
+     * Gets a color as a HSLuv packed float given floats representing hue, saturation, lightness, and opacity.
      * All parameters should normally be between 0 and 1 inclusive, though any hue is tolerated (precision loss may
      * affect the color if the hue is too large). A hue of 0 is red, progressively higher hue values go to orange,
      * yellow, green, blue, and purple before wrapping around to red as it approaches 1. A saturation of 0 is grayscale,
@@ -771,7 +955,7 @@ public class ColorTools {
      * @param saturation 0f to 1f, 0f is grayscale and 1f is brightly colored
      * @param lightness  0f to 1f, 0f is black and 1f is white
      * @param opacity    0f to 1f, 0f is fully transparent and 1f is opaque
-     * @return a CIELAB float encoding a color with the given properties
+     * @return a HSLuv float encoding a color with the given properties
      */
     public static float floatGetHSL(float hue, float saturation, float lightness, float opacity) {
         if (lightness <= 0.001f) {
@@ -820,10 +1004,10 @@ public class ColorTools {
     }
 
     /**
-     * Defined as per HSL; normally you only need {@link #channelL(float)} to get accurate lightness for CIELAB. This
+     * Defined as per HSL; normally you only need {@link #channelL(float)} to get accurate lightness for HSLuv. This
      * ranges from 0.0f (black) to 1.0f (white).
      *
-     * @param encoded a packed float CIELAB color
+     * @param encoded a packed float HSLuv color
      * @return the lightness of the given color as HSL would calculate it
      */
     public static float lightness(final float encoded) {
@@ -902,7 +1086,7 @@ public class ColorTools {
     }
     /**
      * Gets a variation on the packed float color basis as another packed float that has its hue, saturation, lightness,
-     * and opacity adjusted by the specified amounts. Note that this edits the color in HSL space, not CIELAB! Takes
+     * and opacity adjusted by the specified amounts. Note that this edits the color in HSL space, not HSLuv! Takes
      * floats representing the amounts of change to apply to hue, saturation, lightness, and opacity; these can be
      * between -1f and 1f. Returns a float that can be used as a packed or encoded color with methods like
      * {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)}. The float is likely to be different than the
@@ -967,22 +1151,22 @@ public class ColorTools {
 
 
     /**
-     * Given a packed float CIELAB color, this edits its L, A, B, and alpha channels by adding the corresponding "add"
+     * Given a packed float HSLuv color, this edits its L, A, B, and alpha channels by adding the corresponding "add"
      * parameter and then clamping. This returns a different float value (of course, the given float can't be edited
      * in-place). You can give a value of 0 for any "add" parameter you want to stay unchanged. This clamps the
      * resulting color so it contains in-range L, A, B, and alpha values, but it doesn't guarantee it stays in-gamut.
-     * @param encoded a packed float CIELAB color
+     * @param encoded a packed float HSLuv color
      * @param addL how much to add to the L channel; typically in the -1 to 1 range
      * @param addA how much to add to the A channel; typically in the -1 to 1 range
      * @param addB how much to add to the B channel; typically in the -1 to 1 range
      * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range
-     * @return a packed float CIELAB color with the requested edits applied to {@code encoded}
+     * @return a packed float HSLuv color with the requested edits applied to {@code encoded}
      */
-    public static float editCIELAB(float encoded, float addL, float addA, float addB, float addAlpha) {
-        return editCIELAB(encoded, addL, addA, addB, addAlpha, 1f, 1f, 1f, 1f);
+    public static float editHSLuv(float encoded, float addL, float addA, float addB, float addAlpha) {
+        return editHSLuv(encoded, addL, addA, addB, addAlpha, 1f, 1f, 1f, 1f);
     }
     /**
-     * Given a packed float CIELAB color, this edits its L, A, B, and alpha channels by first multiplying each channel
+     * Given a packed float HSLuv color, this edits its L, A, B, and alpha channels by first multiplying each channel
      * by the corresponding "mul" parameter and then adding the corresponding "add" parameter, before clamping. This
      * means the lightness value {@code L} is multiplied by {@code mulL}, then has {@code addL} added, and then is
      * clamped to the normal range for L (0 to 1). This returns a different float value (of course, the given float
@@ -992,7 +1176,7 @@ public class ColorTools {
      * and if you multiply by a larger number like {@code 4f}, then you will get a much more-saturated color. This
      * clamps the resulting color so it contains in-range L, A, B, and alpha values, but it doesn't guarantee it stays
      * in-gamut.
-     * @param encoded a packed float CIELAB color
+     * @param encoded a packed float HSLuv color
      * @param addL how much to add to the L channel; typically in the -1 to 1 range
      * @param addA how much to add to the A channel; typically in the -1 to 1 range
      * @param addB how much to add to the B channel; typically in the -1 to 1 range
@@ -1001,9 +1185,9 @@ public class ColorTools {
      * @param mulA how much to multiply the A channel by; usually non-negative (not always)
      * @param mulB how much to multiply the B channel by; usually non-negative (not always)
      * @param mulAlpha how much to multiply the alpha channel by; should be non-negative
-     * @return a packed float CIELAB color with the requested edits applied to {@code encoded}
+     * @return a packed float HSLuv color with the requested edits applied to {@code encoded}
      */
-    public static float editCIELAB(float encoded, float addL, float addA, float addB, float addAlpha,
+    public static float editHSLuv(float encoded, float addL, float addA, float addB, float addAlpha,
                                   float mulL, float mulA, float mulB, float mulAlpha) {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float L = (decoded & 0xff) / 255f;
@@ -1019,7 +1203,7 @@ public class ColorTools {
     }
 
     /**
-     * The "L" channel of the given packed float in CIELAB format, which is its lightness; ranges from 0.0f to
+     * The "L" channel of the given packed float in HSLuv format, which is its lightness; ranges from 0.0f to
      * 1.0f . You can edit the L of a color with {@link #lighten(float, float)} and {@link #darken(float, float)}.
      *
      * @param encoded a color encoded as a packed float, as by {@link #hsluv(float, float, float, float)}
@@ -1031,7 +1215,7 @@ public class ColorTools {
     }
 
     /**
-     * The "A" channel of the given packed float in CIELAB format, which when combined with the B channel describes the
+     * The "A" channel of the given packed float in HSLuv format, which when combined with the B channel describes the
      * hue and saturation of a color; ranges from 0f to 1f . If A is 0f, the color will be cooler, more green or
      * blue; if A is 1f, the color will be warmer, from magenta to orange. You can edit the A of a color with
      * {@link #raiseA(float, float)} and {@link #lowerA(float, float)}.
@@ -1044,7 +1228,7 @@ public class ColorTools {
     }
 
     /**
-     * The "B" channel of the given packed float in CIELAB format, which when combined with the A channel describes the
+     * The "B" channel of the given packed float in HSLuv format, which when combined with the A channel describes the
      * hue and saturation of a color; ranges from 0f to 1f . If B is 0f, the color will be more "artificial", more
      * blue or purple; if B is 1f, the color will be more "natural", from green to yellow to orange. You can edit
      * the B of a color with {@link #raiseB(float, float)} and {@link #lowerB(float, float)}.
@@ -1228,8 +1412,8 @@ public class ColorTools {
     }
 
     /**
-     * Given a packed float CIELAB color {@code mainColor} and another CIELAB color that it should be made to contrast with,
-     * gets a packed float CIELAB color with roughly inverted intnsity but the same chromatic channels and opacity (P and T
+     * Given a packed float HSLuv color {@code mainColor} and another HSLuv color that it should be made to contrast with,
+     * gets a packed float HSLuv color with roughly inverted intnsity but the same chromatic channels and opacity (P and T
      * are likely to be clamped if the result gets close to white or black). This won't ever produce black or other very
      * dark colors, and also has a gap in the range it produces for intensity values between 0.5 and 0.55. That allows
      * most of the colors this method produces to contrast well as a foreground when displayed on a background of
@@ -1240,7 +1424,7 @@ public class ColorTools {
      * {@code contrastingColor} without losing its other qualities.
      * @param mainColor a packed float color, as produced by {@link #hsluv(float, float, float, float)}; this is the color that will be adjusted
      * @param contrastingColor a packed float color, as produced by {@link #hsluv(float, float, float, float)}; the adjusted mainColor will contrast with this
-     * @return a different CIELAB packed float color, based on mainColor but with potentially very different lightness
+     * @return a different HSLuv packed float color, based on mainColor but with potentially very different lightness
      */
     public static float inverseLightness(final float mainColor, final float contrastingColor)
     {
@@ -1258,8 +1442,8 @@ public class ColorTools {
     }
 
     /**
-     * Given a packed float CIELAB color {@code mainColor} and another CIELAB color that it should be made to contrast
-     * with, gets a packed float CIELAB color with L that should be quite different from {@code contrastingColor}'s L,
+     * Given a packed float HSLuv color {@code mainColor} and another HSLuv color that it should be made to contrast
+     * with, gets a packed float HSLuv color with L that should be quite different from {@code contrastingColor}'s L,
      * but the same chromatic channels and opacity (A and B are likely to be clamped if the result gets close to white
      * or black). This allows most of the colors this method produces to contrast well as a foreground when displayed on
      * a background of {@code contrastingColor}, or vice versa.
@@ -1267,9 +1451,9 @@ public class ColorTools {
      * This is similar to {@link #inverseLightness(float, float)}, but is considerably simpler, and this method will
      * change the lightness of mainColor when the two given colors have close lightness but distant chroma. Because it
      * averages the original L of mainColor with the modified one, this tends to not produce harsh color changes.
-     * @param mainColor a packed CIELAB float color; this is the color that will be adjusted
-     * @param contrastingColor a packed CIELAB float color; the adjusted mainColor will contrast with the I of this
-     * @return a different packed CIELAB float color, based on mainColor but typically with different lightness
+     * @param mainColor a packed HSLuv float color; this is the color that will be adjusted
+     * @param contrastingColor a packed HSLuv float color; the adjusted mainColor will contrast with the I of this
+     * @return a different packed HSLuv float color, based on mainColor but typically with different lightness
      */
     public static float differentiateLightness(final float mainColor, final float contrastingColor)
     {
@@ -1281,8 +1465,8 @@ public class ColorTools {
      * Pretty simple; adds 0.5 to the given color's L and wraps it around if it would go above 1.0, then averages that
      * with the original L. This means light colors become darker, and dark colors become lighter, with almost all
      * results in the middle-range of possible lightness.
-     * @param mainColor a packed CIELAB float color
-     * @return a different packed CIELAB float color, with its L channel changed and limited to the correct gamut
+     * @param mainColor a packed HSLuv float color
+     * @return a different packed HSLuv float color, with its L channel changed and limited to the correct gamut
      */
     public static float offsetLightness(final float mainColor) {
         final int decoded = NumberUtils.floatToRawIntBits(mainColor);
@@ -1290,13 +1474,13 @@ public class ColorTools {
     }
 
     /**
-     * Makes the additive CIELAB color stored in {@code color} cause less of a change when used as a tint, as if it were
+     * Makes the additive HSLuv color stored in {@code color} cause less of a change when used as a tint, as if it were
      * mixed with neutral gray. When {@code fraction} is 1.0, this returns color unchanged; when fraction is 0.0, it
      * returns {@code Palette#GRAY}, and when it is in-between 0.0 and 1.0 it returns something between the two. This is
      * meant for things like area of effect abilities that make smaller color changes toward their periphery.
      * @param color a color that should have its tinting effect potentially weakened
      * @param fraction how much of {@code color} should be kept, from 0.0 to 1.0
-     * @return a CIELAB float color between gray and {@code color}
+     * @return a HSLuv float color between gray and {@code color}
      */
     public static float lessenChange(final float color, float fraction) {
         final int e = NumberUtils.floatToRawIntBits(color),
@@ -1309,8 +1493,8 @@ public class ColorTools {
     }
 
     /**
-     * Returns true if the given packed float color, as CIELAB, is valid to convert losslessly back to RGBA.
-     * @param packed a packed float color as CIELAB
+     * Returns true if the given packed float color, as HSLuv, is valid to convert losslessly back to RGBA.
+     * @param packed a packed float color as HSLuv
      * @return true if the given packed float color can be converted back and forth to RGBA
      */
     public static boolean inGamut(final float packed)
@@ -1352,7 +1536,7 @@ public class ColorTools {
     }
 
     /**
-     * Returns true if the given CIELAB values are valid to convert losslessly back to RGBA.
+     * Returns true if the given HSLuv values are valid to convert losslessly back to RGBA.
      * @param L lightness, as a float from 0 to 1
      * @param A cyan-to-red chroma, as a float from 0 to 1
      * @param B blue-to-yellow chroma, as a float from 0 to 1
@@ -1375,12 +1559,12 @@ public class ColorTools {
     }
 
     /**
-     * Iteratively checks whether the given CIELAB color is in-gamut, and either brings the color closer to grayscale if
+     * Iteratively checks whether the given HSLuv color is in-gamut, and either brings the color closer to grayscale if
      * it isn't in-gamut, or returns it as soon as it is in-gamut. Maintains the L of the color, only bringing A and B
      * closer to grayscale. Note that this version of limitToGamut() is much slower than Oklab's version, because Oklab
      * stores its entire gamut as a large constant, while this has to calculate it.
-     * @param packed a packed float color in CIELAB format; often this color is not in-gamut
-     * @return the first color this finds that is between the given CIELAB color and grayscale, and is in-gamut
+     * @param packed a packed float color in HSLuv format; often this color is not in-gamut
+     * @return the first color this finds that is between the given HSLuv color and grayscale, and is in-gamut
      * @see #inGamut(float) You can use inGamut() if you just want to check whether a color is in-gamut.
      */
     public static float limitToGamut(final float packed) {
@@ -1406,27 +1590,27 @@ public class ColorTools {
     }
 
     /**
-     * Iteratively checks whether the given CIELAB color is in-gamut, and either brings the color closer to grayscale if it
+     * Iteratively checks whether the given HSLuv color is in-gamut, and either brings the color closer to grayscale if it
      * isn't in-gamut, or returns it as soon as it is in-gamut. Maintains the L of the color, only bringing A and B
      * closer to grayscale. This always produces an opaque color.
      * @param L lightness; will be clamped between 0 and 1 if it isn't already
      * @param A cyan-to-red chroma; will be clamped between 0 and 1 if it isn't already
      * @param B blue-to-yellow chroma; will be clamped between 0 and 1 if it isn't already
-     * @return the first color this finds that is between the given CIELAB color and grayscale, and is in-gamut
+     * @return the first color this finds that is between the given HSLuv color and grayscale, and is in-gamut
      * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
      */
     public static float limitToGamut(float L, float A, float B) {
         return limitToGamut(L, A, B, 1f);
     }
     /**
-     * Iteratively checks whether the given CIELAB color is in-gamut, and either brings the color closer to grayscale if it
+     * Iteratively checks whether the given HSLuv color is in-gamut, and either brings the color closer to grayscale if it
      * isn't in-gamut, or returns it as soon as it is in-gamut. Note that this version of limitToGamut() is much slower
      * than Oklab's version, because Oklab stores its entire gamut as a large constant, while this has to calculate it.
      * @param L lightness; will be clamped between 0 and 1 if it isn't already
      * @param A cyan-to-red chroma; will be clamped between 0 and 1 if it isn't already
      * @param B blue-to-yellow chroma; will be clamped between 0 and 1 if it isn't already
      * @param alpha opacity; will be clamped between 0 and 1 if it isn't already
-     * @return the first color this finds that is between the given CIELAB color and grayscale, and is in-gamut
+     * @return the first color this finds that is between the given HSLuv color and grayscale, and is in-gamut
      * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
      */
     public static float limitToGamut(float L, float A, float B, float alpha) {
