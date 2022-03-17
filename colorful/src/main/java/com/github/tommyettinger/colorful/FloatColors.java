@@ -40,7 +40,13 @@ public class FloatColors {
         z = Math.min(Math.max(Math.abs(z * 6f - 3f) - 1f, 0f), 1f);
         float v = (l + s * Math.min(l, 1f - l));
         float d = 2f * (1f - l / (v + 1e-10f));
-        return Color.toFloatBits(v * MathUtils.lerp(1f, x, d), v * MathUtils.lerp(1f, y, d), v * MathUtils.lerp(1f, z, d), a);
+        v *= 255f;
+        return NumberUtils.intBitsToFloat(
+                (int)(a * 127) << 25
+                        | (int)(v * MathUtils.lerp(1f, z, d)) << 16
+                        | (int)(v * MathUtils.lerp(1f, y, d)) << 8
+                        | (int)(v * MathUtils.lerp(1f, x, d))
+        );
     }
     /**
      * Converts the four HSLA components, each in the 0.0 to 1.0 range, to RGBA and assigns them into changing.
