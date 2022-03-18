@@ -1631,148 +1631,56 @@ public class ColorTools {
     }
 
     /**
-     * Returns true if the given packed float color, as HSLuv, is valid to convert losslessly back to RGBA.
+     * Returns true always; HSLuv colors are always in-gamut.
      * @param packed a packed float color as HSLuv
-     * @return true if the given packed float color can be converted back and forth to RGBA
+     * @return true
      */
     public static boolean inGamut(final float packed)
     {
-        final int decoded = NumberUtils.floatToRawIntBits(packed);
-        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
-        final float x = reverseXYZ(L + A);
-        final float y = reverseXYZ(L);
-        final float z = reverseXYZ(L - B);
-        final float r = +3.2404542f * x + -1.5371385f * y + -0.4985314f * z;
-        if(r <= -0x1p-8f || r >= 0x1.01p0f) return false;
-        final float g = -0.9692660f * x + +1.8760108f * y + +0.0415560f * z;
-        if(g <= -0x1p-8f || g >= 0x1.01p0f) return false;
-        final float b = +0.0556434f * x + -0.2040259f * y + +1.0572252f * z;
-        return (b > -0x1p-8f && b < 0x1.01p0f);
-
-//        final int decoded = NumberUtils.floatToRawIntBits(packed);
-//        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-//        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (0.2f / 127.5f);
-//        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
-//        final float x = reverseXYZ(L + A);
-//        final float y = reverseXYZ(L);
-//        final float z = reverseXYZ(L - B);
-//        boolean ret = true;
-//        final float r = +3.2406f * x + -1.5372f * y + -0.4986f * z;
-////        final float r = +3.2404542f * x + -1.5371385f * y + -0.4985314f * z;
-//        if(r <= -0x1p-8f || r >= 0x1.01p0f) ret = false;
-////        final float g = -0.9689f * x + +1.8758f * y + +0.0415f * z;
-//        final float g = -0.9692660f * x + +1.8760108f * y + +0.0415560f * z;
-//        if(g <= -0x1p-8f || g >= 0x1.01p0f) ret = false;
-////        final float b = +0.0557f * x + -0.2040f * y + +1.0570f * z;
-//        final float b = +0.0556434f * x + -0.2040259f * y + +1.0572252f * z;
-//        ret &= (b > -0x1p-8f && b < 0x1.01p0f);
-//        if(!ret) System.out.printf("L %f, A %f, B %f, x %f, y %f, z %f, r %f, g %f, b %f\n", L, A, B,  x, y, z,  r, g, b);
-//        return ret;
-
+        return true;
     }
 
     /**
-     * Returns true if the given HSLuv values are valid to convert losslessly back to RGBA.
+     * Returns true if S and L are each between 0 and 1; if valid, HSLuv colors are always in-gamut.
+     * @param H hue, as an unbounded float
+     * @param S saturation, as a float from 0 to 1
      * @param L lightness, as a float from 0 to 1
-     * @param A cyan-to-red chroma, as a float from 0 to 1
-     * @param B blue-to-yellow chroma, as a float from 0 to 1
-     * @return true if the given packed float color can be converted back and forth to RGBA
+     * @return true if S and L are both between 0 and 1
      */
-    public static boolean inGamut(float L, float A, float B)
+    public static boolean inGamut(float H, float S, float L)
     {
-        L = (1f/1.16f)*(L + 0.16f);
-        A = (A - 0.5f) * (0.4f);
-        B = (B - 0.5f);
-        final float x = reverseXYZ(L + A);
-        final float y = reverseXYZ(L);
-        final float z = reverseXYZ(L - B);
-        final float r = +3.2404542f * x + -1.5371385f * y + -0.4985314f * z;
-        if(r < 0f || r > 1.0f) return false;
-        final float g = -0.9692660f * x + +1.8760108f * y + +0.0415560f * z;
-        if(g < 0f || g > 1.0f) return false;
-        final float b = +0.0556434f * x + -0.2040259f * y + +1.0572252f * z;
-        return (b >= 0f && b <= 1.0f);
+        return (S >= 0f && S <= 1.0f && L >= 0f && L <= 1.0f);
     }
 
     /**
-     * Iteratively checks whether the given HSLuv color is in-gamut, and either brings the color closer to grayscale if
-     * it isn't in-gamut, or returns it as soon as it is in-gamut. Maintains the L of the color, only bringing A and B
-     * closer to grayscale. Note that this version of limitToGamut() is much slower than Oklab's version, because Oklab
-     * stores its entire gamut as a large constant, while this has to calculate it.
-     * @param packed a packed float color in HSLuv format; often this color is not in-gamut
-     * @return the first color this finds that is between the given HSLuv color and grayscale, and is in-gamut
-     * @see #inGamut(float) You can use inGamut() if you just want to check whether a color is in-gamut.
+     * Returns its argument unchanged; HSLuv colors are always in-gamut.
+     * @param packed a packed float color in HSLuv format
+     * @return {@code packed}, unchanged
      */
     public static float limitToGamut(final float packed) {
-        final int decoded = NumberUtils.floatToRawIntBits(packed);
-        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
-        final float y = reverseXYZ(L);
-        float A2 = A, B2 = B;
-        for (int attempt = 127; attempt >= 0; attempt--) {
-            final float x = reverseXYZ(L + A2);
-            final float z = reverseXYZ(L - B2);
-            final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
-            final float g = reverseGamma(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z);
-            final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
-            if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
-                break;
-            final float progress = attempt * 0x1p-7f;
-            A2 = (A * progress);
-            B2 = (B * progress);
-        }
-        return hsluv(L, A2 * 0.5f + 0.5f, B2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
+        return packed;
     }
 
     /**
-     * Iteratively checks whether the given HSLuv color is in-gamut, and either brings the color closer to grayscale if it
-     * isn't in-gamut, or returns it as soon as it is in-gamut. Maintains the L of the color, only bringing A and B
-     * closer to grayscale. This always produces an opaque color.
+     * Identical to calling {@link #clamp(float, float, float, float)} with 1f as its last parameter.
+     * @param H hue; will be wrapped between 0 and 1
+     * @param S saturation; will be clamped between 0 and 1 if it isn't already
      * @param L lightness; will be clamped between 0 and 1 if it isn't already
-     * @param A cyan-to-red chroma; will be clamped between 0 and 1 if it isn't already
-     * @param B blue-to-yellow chroma; will be clamped between 0 and 1 if it isn't already
-     * @return the first color this finds that is between the given HSLuv color and grayscale, and is in-gamut
-     * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
+     * @return an HSLuv color with the specified channel values, wrapped or clamped as appropriate
      */
-    public static float limitToGamut(float L, float A, float B) {
-        return limitToGamut(L, A, B, 1f);
+    public static float limitToGamut(float H, float S, float L) {
+        return clamp(H - MathUtils.floor(H), S, L, 1f);
     }
     /**
-     * Iteratively checks whether the given HSLuv color is in-gamut, and either brings the color closer to grayscale if it
-     * isn't in-gamut, or returns it as soon as it is in-gamut. Note that this version of limitToGamut() is much slower
-     * than Oklab's version, because Oklab stores its entire gamut as a large constant, while this has to calculate it.
+     * Identical to calling {@link #clamp(float, float, float, float)} with 1f as its last parameter.
+     * @param H hue; will be wrapped between 0 and 1
+     * @param S saturation; will be clamped between 0 and 1 if it isn't already
      * @param L lightness; will be clamped between 0 and 1 if it isn't already
-     * @param A cyan-to-red chroma; will be clamped between 0 and 1 if it isn't already
-     * @param B blue-to-yellow chroma; will be clamped between 0 and 1 if it isn't already
      * @param alpha opacity; will be clamped between 0 and 1 if it isn't already
-     * @return the first color this finds that is between the given HSLuv color and grayscale, and is in-gamut
-     * @see #inGamut(float, float, float)  You can use inGamut() if you just want to check whether a color is in-gamut.
+     * @return an HSLuv color with the specified channel values, wrapped or clamped as appropriate
      */
-    public static float limitToGamut(float L, float A, float B, float alpha) {
-
-        L = (1f/1.16f)*(Math.min(Math.max(L, 0f), 1f) + 0.16f);
-        A = (Math.min(Math.max(A, 0f), 1f) - 0.5f) * 0.4f;
-        B = (Math.min(Math.max(B, 0f), 1f) - 0.5f);
-        alpha = Math.min(Math.max(alpha, 0f), 1f);
-
-        final float y = reverseXYZ(L);
-        float A2 = A, B2 = B;
-        for (int attempt = 127; attempt >= 0; attempt--) {
-            final float x = reverseXYZ(L + A2);
-            final float z = reverseXYZ(L - B2);
-            final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
-            final float g = reverseGamma(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z);
-            final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
-            if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
-                break;
-            final float progress = attempt * 0x1p-7f;
-            A2 = (A * progress);
-            B2 = (B * progress);
-        }
-        return hsluv(L, A2 * 0.5f + 0.5f, B2 * 0.5f + 0.5f, alpha);
+    public static float limitToGamut(float H, float S, float L, float alpha) {
+        return clamp(H, S, L, alpha);
     }
 
     /**
@@ -1780,10 +1688,9 @@ public class ColorTools {
      * {@code variance} (such as 0.05 to 0.25) between the given color and what this can return. The {@code seed} should
      * be different each time this is called, and can be obtained from a random number generator to make the colors more
      * random, or can be incremented on each call. If the seed is only incremented or decremented, then this shouldn't
-     * produce two similar colors in a row unless variance is very small. The variance affects the L, A, and B of the
+     * produce two similar colors in a row unless variance is very small. The variance affects the H, S, and L of the
      * generated color, and each of those channels can go up or down by the given variance as long as the total distance
-     * isn't greater than the variance (this considers P and T extra-wide, going from -1 to 1, while I goes from 0 to 1,
-     * but only internally for measuring distance).
+     * isn't greater than the variance.
      * @param color a packed float color, as produced by {@link #hsluv(float, float, float, float)}
      * @param seed a long seed that should be different on each call; should not be 0
      * @param variance max amount of difference between the given color and the generated color; always less than 1
@@ -1791,9 +1698,9 @@ public class ColorTools {
      */
     public static float randomEdit(final float color, long seed, final float variance) {
         final int decoded = NumberUtils.floatToRawIntBits(color);
-        final float L = (decoded & 0xff) / 255f;
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        float H = (decoded & 0xff) / 255f;
+        float S = (decoded >>> 8 & 0xff) / 255f;
+        float L = (decoded >>> 16 & 0xff) / 255f;
         final float limit = variance * variance;
         float dist, x, y, z;
         for (int j = 0; j < 50; j++) {
@@ -1803,7 +1710,7 @@ public class ColorTools {
             seed += 0x9E3779B97F4A7C15L;
             dist = x * x + y * y + z * z;
             if(dist <= limit)
-                return clamp(x + L, (A + y) * 0.5f + 0.5f, (B + z) * 0.5f + 0.5f, (decoded >>> 25) / 127f);
+                return clamp(H + x, S + y, L + z, (decoded >>> 25) / 127f);
         }
         return color;
     }
@@ -1814,15 +1721,7 @@ public class ColorTools {
      * @return a packed float color that is always in-gamut
      */
     public static float randomColor(Random random) {
-        float L = random.nextFloat();
-        float A = random.nextFloat();
-        float B = random.nextFloat();
-        while (!inGamut(L, A, B)) {
-            L = random.nextFloat();
-            A = random.nextFloat();
-            B = random.nextFloat();
-        }
-        return hsluv(L, A, B, 1f);
+        return hsluv(random.nextFloat(), random.nextFloat(), random.nextFloat(), 1f);
     }
 
 }

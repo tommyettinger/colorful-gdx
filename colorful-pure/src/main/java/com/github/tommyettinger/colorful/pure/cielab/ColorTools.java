@@ -1329,7 +1329,7 @@ public class ColorTools {
      * random, or can be incremented on each call. If the seed is only incremented or decremented, then this shouldn't
      * produce two similar colors in a row unless variance is very small. The variance affects the L, A, and B of the
      * generated color, and each of those channels can go up or down by the given variance as long as the total distance
-     * isn't greater than the variance (this considers P and T extra-wide, going from -1 to 1, while I goes from 0 to 1,
+     * isn't greater than the variance (this considers A and B extra-wide, going from -1 to 1, while L goes from 0 to 1,
      * but only internally for measuring distance).
      * @param color a packed float color, as produced by {@link #cielab(float, float, float, float)}
      * @param seed a long seed that should be different on each call; should not be 0
