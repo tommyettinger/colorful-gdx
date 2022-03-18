@@ -951,6 +951,8 @@ public class ColorTools {
      * Gets the hue of the given HSLuv float color, but as HSLuv understands hue rather than how HSL does.
      * This is different from {@link #hue(float)}, which uses HSL. This gives a float between 0 (inclusive)
      * and 1 (exclusive).
+     * <br>
+     * This is the same as {@link #channelH(float)}.
      *
      * @param packed a packed HSLuv float color
      * @return a float between 0 (inclusive) and 1 (exclusive) that represents hue in the HSLuv color space
@@ -963,6 +965,8 @@ public class ColorTools {
      * Gets the saturation of the given HSLuv float color, but as HSLuv understands saturation rather than how HSL
      * does. Saturation here is a fraction of the chroma limit (see {@link #chromaLimit(float, float)}) for a given hue
      * and lightness, and is between 0 and 1. This gives a float between 0 (inclusive) and 1 (inclusive).
+     * <br>
+     * This is the same as {@link #channelS(float)}.
      *
      * @param packed a packed HSLuv float color
      * @return a float between 0 (inclusive) and 1 (inclusive) that represents saturation in the HSLuv color space
@@ -1348,55 +1352,77 @@ public class ColorTools {
 
 
     /**
-     * Given a packed float HSLuv color, this edits its L, A, B, and alpha channels by adding the corresponding "add"
+     * Given a packed float HSLuv color, this edits its H, S, L, and alpha channels by adding the corresponding "add"
      * parameter and then clamping. This returns a different float value (of course, the given float can't be edited
-     * in-place). You can give a value of 0 for any "add" parameter you want to stay unchanged. This clamps the
-     * resulting color so it contains in-range L, A, B, and alpha values, but it doesn't guarantee it stays in-gamut.
+     * in-place). You can give a value of 0 for any "add" parameter you want to stay unchanged. H is wrapped, while S,
+     * L, and alpha are clamped.
      * @param encoded a packed float HSLuv color
+     * @param addH how much to add to the H channel; typically in the -1 to 1 range
+     * @param addS how much to add to the S channel; typically in the -1 to 1 range
      * @param addL how much to add to the L channel; typically in the -1 to 1 range
-     * @param addA how much to add to the A channel; typically in the -1 to 1 range
-     * @param addB how much to add to the B channel; typically in the -1 to 1 range
      * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range
      * @return a packed float HSLuv color with the requested edits applied to {@code encoded}
      */
-    public static float editHSLuv(float encoded, float addL, float addA, float addB, float addAlpha) {
-        return editHSLuv(encoded, addL, addA, addB, addAlpha, 1f, 1f, 1f, 1f);
+    public static float editHSLuv(float encoded, float addH, float addS, float addL, float addAlpha) {
+        return editHSLuv(encoded, addH, addS, addL, addAlpha, 1f, 1f, 1f, 1f);
     }
     /**
-     * Given a packed float HSLuv color, this edits its L, A, B, and alpha channels by first multiplying each channel
-     * by the corresponding "mul" parameter and then adding the corresponding "add" parameter, before clamping. This
-     * means the lightness value {@code L} is multiplied by {@code mulL}, then has {@code addL} added, and then is
-     * clamped to the normal range for L (0 to 1). This returns a different float value (of course, the given float
-     * can't be edited in-place). You can give a value of 0 for any "add" parameter you want to stay unchanged, or a
-     * value of 1 for any "mul" parameter that shouldn't change. Note that this manipulates A and B in the -0.5 to 0.5
-     * range, so if you multiply by a small number like {@code 0.25f}, then this will produce a less-saturated color,
-     * and if you multiply by a larger number like {@code 4f}, then you will get a much more-saturated color. This
-     * clamps the resulting color so it contains in-range L, A, B, and alpha values, but it doesn't guarantee it stays
-     * in-gamut.
+     * Given a packed float HSLuv color, this edits its H, S, L, and alpha channels by first multiplying each channel
+     * by the corresponding "mul" parameter and then adding the corresponding "add" parameter, before clamping (this
+     * wraps H instead of clamping it). This means the lightness value {@code L} is multiplied by {@code mulL}, then has
+     * {@code addL} added, and then is clamped to the normal range for L (0 to 1). This returns a different float value
+     * (of course, the given float can't be edited in-place). You can give a value of 0 for any "add" parameter you want
+     * to stay unchanged, or a value of 1 for any "mul" parameter that shouldn't change. You can multiply S by 0 to make
+     * a grayscale color, or by a large value to make any non-grayscale color more vibrant. Multiplying H generally
+     * isn't very useful, but adding to H can be used to do hue cycling (because H wraps).
      * @param encoded a packed float HSLuv color
+     * @param addH how much to add to the H channel; typically in the -1 to 1 range
+     * @param addS how much to add to the S channel; typically in the -1 to 1 range
      * @param addL how much to add to the L channel; typically in the -1 to 1 range
-     * @param addA how much to add to the A channel; typically in the -1 to 1 range
-     * @param addB how much to add to the B channel; typically in the -1 to 1 range
      * @param addAlpha how much to add to the alpha channel; typically in the -1 to 1 range
-     * @param mulL how much to multiply the L channel by; should be non-negative
-     * @param mulA how much to multiply the A channel by; usually non-negative (not always)
-     * @param mulB how much to multiply the B channel by; usually non-negative (not always)
+     * @param mulH how much to multiply the H channel by; should be non-negative (not always)
+     * @param mulS how much to multiply the S channel by; usually non-negative
+     * @param mulL how much to multiply the L channel by; usually non-negative (not always)
      * @param mulAlpha how much to multiply the alpha channel by; should be non-negative
      * @return a packed float HSLuv color with the requested edits applied to {@code encoded}
      */
-    public static float editHSLuv(float encoded, float addL, float addA, float addB, float addAlpha,
-                                  float mulL, float mulA, float mulB, float mulAlpha) {
+    public static float editHSLuv(float encoded, float addH, float addS, float addL, float addAlpha,
+                                  float mulH, float mulS, float mulL, float mulAlpha) {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
-        float L = (decoded & 0xff) / 255f;
-        float A = ((decoded >>> 8 & 0xff) - 127.5f)  * (0.2f / 127.5f);
-        float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
+        float H = (decoded & 0xff) / 255f;
+        float S = (decoded >>> 8 & 0xff) / 255f;
+        float L = (decoded >>> 16 & 0xff) / 255f;
         float alpha = (decoded >>> 25) / 127f;
 
+        H = H * mulH + addH;
+        H -= MathUtils.floor(H);
+        S = Math.min(Math.max(S * mulS + addS, 0f), 1f);
         L = Math.min(Math.max(L * mulL + addL, 0f), 1f);
-        A = Math.min(Math.max(A * mulA + addA * 2f, -1f), 1f) * 0.5f;
-        B = Math.min(Math.max(B * mulB + addB * 2f, -1f), 1f) * 0.5f;
         alpha = Math.min(Math.max(alpha * mulAlpha + addAlpha, 0f), 1f);
-        return clamp(L, A, B, alpha);
+        return hsluv(H, S, L, alpha);
+    }
+
+    /**
+     * The "H" channel of the given packed float in HSLuv format, which is its hue; ranges from 0.0f to 1.0f .
+     * You can edit the H of a color with {@link #rotateH(float, float)}.
+     *
+     * @param encoded a color encoded as a packed float, as by {@link #hsluv(float, float, float, float)}
+     * @return the H value as a float from 0.0f to 1.0f
+     */
+    public static float channelH(final float encoded)
+    {
+        return (NumberUtils.floatToRawIntBits(encoded) & 0xff) / 255f;
+    }
+
+    /**
+     * The "S" channel of the given packed float in HSLuv format, which is its saturation; ranges from 0.0f to
+     * 1.0f . You can edit the S of a color with {@link #enrich(float, float)} and {@link #dullen(float, float)}.
+     * @param encoded a color encoded as a packed float, as by {@link #hsluv(float, float, float, float)}
+     * @return the S value as a float from 0.0f to 1.0f
+     */
+    public static float channelS(final float encoded)
+    {
+        return ((NumberUtils.floatToRawIntBits(encoded) >>> 8 & 0xff)) / 255f;
     }
 
     /**
@@ -1408,32 +1434,6 @@ public class ColorTools {
      */
     public static float channelL(final float encoded)
     {
-        return (NumberUtils.floatToRawIntBits(encoded) & 0xff) / 255f;
-    }
-
-    /**
-     * The "A" channel of the given packed float in HSLuv format, which when combined with the B channel describes the
-     * hue and saturation of a color; ranges from 0f to 1f . If A is 0f, the color will be cooler, more green or
-     * blue; if A is 1f, the color will be warmer, from magenta to orange. You can edit the A of a color with
-     * {@link #raiseA(float, float)} and {@link #lowerA(float, float)}.
-     * @param encoded a color encoded as a packed float, as by {@link #hsluv(float, float, float, float)}
-     * @return the A value as a float from 0.0f to 1.0f
-     */
-    public static float channelA(final float encoded)
-    {
-        return ((NumberUtils.floatToRawIntBits(encoded) >>> 8 & 0xff)) / 255f;
-    }
-
-    /**
-     * The "B" channel of the given packed float in HSLuv format, which when combined with the A channel describes the
-     * hue and saturation of a color; ranges from 0f to 1f . If B is 0f, the color will be more "artificial", more
-     * blue or purple; if B is 1f, the color will be more "natural", from green to yellow to orange. You can edit
-     * the B of a color with {@link #raiseB(float, float)} and {@link #lowerB(float, float)}.
-     * @param encoded a color encoded as a packed float, as by {@link #hsluv(float, float, float, float)}
-     * @return the B value as a float from 0.0f to 1.0f
-     */
-    public static float channelB(final float encoded)
-    {
         return ((NumberUtils.floatToRawIntBits(encoded) >>> 16 & 0xff)) / 255f;
     }
 
@@ -1442,16 +1442,16 @@ public class ColorTools {
      * start as-is) and 1f (return white), start should be a packed color, as from
      * {@link #hsluv(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
      * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
-     * towards white. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and both
-     * chroma of start as-is.
+     * towards white. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha, hue, and
+     * saturation of start as-is.
      * @see #darken(float, float) the counterpart method that darkens a float color
      * @param start the starting color as a packed float
      * @param change how much to go from start toward white, as a float between 0 and 1; higher means closer to white
      * @return a packed float that represents a color between start and white
      */
     public static float lighten(final float start, final float change) {
-        final int s = NumberUtils.floatToRawIntBits(start), i = s & 0xFF, other = s & 0xFEFFFF00;
-        return NumberUtils.intBitsToFloat(((int) (i + (0xFF - i) * change) & 0xFF) | other);
+        final int s = NumberUtils.floatToRawIntBits(start), t = s >>> 16 & 0xFF, other = s & 0xFE00FFFF;
+        return NumberUtils.intBitsToFloat(((int) (t + (0xFF - t) * change) << 16 & 0xFF0000) | other);
     }
 
     /**
@@ -1459,84 +1459,60 @@ public class ColorTools {
      * start as-is) and 1f (return black), start should be a packed color, as from
      * {@link #hsluv(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
      * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
-     * towards black. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and both
-     * chroma of start as-is.
+     * towards black. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha, hue, and
+     * saturation of start as-is.
      * @see #lighten(float, float) the counterpart method that lightens a float color
      * @param start the starting color as a packed float
      * @param change how much to go from start toward black, as a float between 0 and 1; higher means closer to black
      * @return a packed float that represents a color between start and black
      */
     public static float darken(final float start, final float change) {
-        final int s = NumberUtils.floatToRawIntBits(start), i = s & 0xFF, other = s & 0xFEFFFF00;
-        return NumberUtils.intBitsToFloat(((int) (i * (1f - change)) & 0xFF) | other);
+        final int s = NumberUtils.floatToRawIntBits(start), t = s >>> 16 & 0xFF, other = s & 0xFE00FFFF;
+        return NumberUtils.intBitsToFloat(((int) (t * (1f - change)) & 0xFF) << 16 | other);
     }
 
     /**
-     * Interpolates from the packed float color start towards a warmer color (orange to magenta) by change. While change
-     * should be between 0f (return start as-is) and 1f (return fully warmed), start should be a packed color, as from
-     * {@link #hsluv(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
-     * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to
-     * lerp towards a warmer color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the
-     * alpha and L of start as-is.
-     * @see #lowerA(float, float) the counterpart method that cools a float color
+     * Moves the color of {@code start} away from grayscale by change (saturating the color). While change
+     * should be between 0f (return start as-is) and 1f (return maximally saturated), start should be a packed color, as
+     * from {@link #hsluv(float, float, float, float)}. This changes only S, and won't change hue, lightness, or alpha.
+     * @see #dullen(float, float) the counterpart method that makes a float color less saturated
      * @param start the starting color as a packed float
-     * @param change how much to warm start, as a float between 0 and 1; higher means a warmer result
-     * @return a packed float that represents a color between start and a warmer color
+     * @param change how much to change start to a saturated color, as a float between 0 and 1; higher means a more saturated result
+     * @return a packed float that represents a color between start and a saturated color
      */
-    public static float raiseA(final float start, final float change) {
+    public static float enrich(final float start, final float change) {
         final int s = NumberUtils.floatToRawIntBits(start), p = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
         return NumberUtils.intBitsToFloat(((int) (p + (0xFF - p) * change) << 8 & 0xFF00) | other);
     }
 
     /**
-     * Interpolates from the packed float color start towards a cooler color (green to blue) by change. While change
-     * should be between 0f (return start as-is) and 1f (return fully cooled), start should be a packed color, as from
-     * {@link #hsluv(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
-     * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
-     * towards a cooler color. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and
-     * L of start as-is.
-     * @see #raiseA(float, float) the counterpart method that warms a float color
+     * Brings the color of {@code start} closer to grayscale by {@code change} (desaturating the color). While
+     * change should be between 0f (return start as-is) and 1f (return fully gray), start should be a packed color, as
+     * from {@link #hsluv(float, float, float, float)}. This changes only S, and won't change hue, lightness, or alpha.
+     * @see #enrich(float, float) the counterpart method that makes a float color more saturated
      * @param start the starting color as a packed float
-     * @param change how much to cool start, as a float between 0 and 1; higher means a cooler result
-     * @return a packed float that represents a color between start and a cooler color
+     * @param change how much to change start to a desaturated color, as a float between 0 and 1; higher means a less saturated result
+     * @return a packed float that represents a color between start and a desaturated color
      */
-    public static float lowerA(final float start, final float change) {
+    public static float dullen(final float start, final float change) {
         final int s = NumberUtils.floatToRawIntBits(start), p = s >>> 8 & 0xFF, other = s & 0xFEFF00FF;
         return NumberUtils.intBitsToFloat(((int) (p * (1f - change)) & 0xFF) << 8 | other);
     }
 
     /**
-     * Interpolates from the packed float color start towards a "natural" color (between green and orange) by change.
-     * While change should be between 0f (return start as-is) and 1f (return fully natural), start should be a packed
-     * color, as from {@link #hsluv(float, float, float, float)}. This is a good way to reduce allocations of temporary
-     * Colors, and is a little more efficient and clear than using
-     * {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards a more natural color. Unlike
-     * {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and L of start as-is.
-     * @see #lowerB(float, float) the counterpart method that makes a float color less natural
+     * Cycles the hue of the packed float color by change. If change is 0f, this returns start as-is. If change is
+     * positive, this rotates from red to orange to yellow to green, and so on. If change is negative, this instead
+     * rotates from green to yellow to orange to red.  A change value is typically between -1f and 1f; if change is
+     * exactly an integer, then this will wrap around in a perfect circle and produce no change. The start value should
+     * be a packed color, as from {@link #hsluv(float, float, float, float)}. This is a good way to reduce allocations
+     * of temporary Colors. This only changes H, and won't change saturation, lightness, or alpha.
      * @param start the starting color as a packed float
-     * @param change how much to change start to a natural color, as a float between 0 and 1; higher means a more natural result
-     * @return a packed float that represents a color between start and a more natural color
+     * @param change how much to rotate hue by, as a float typically between -1 and 1; further from 0 rotates more
+     * @return a packed float that represents a color like start but with a rotated hue
      */
-    public static float raiseB(final float start, final float change) {
-        final int s = NumberUtils.floatToRawIntBits(start), t = s >>> 16 & 0xFF, other = s & 0xFE00FFFF;
-        return NumberUtils.intBitsToFloat(((int) (t + (0xFF - t) * change) << 16 & 0xFF0000) | other);
-    }
-
-    /**
-     * Interpolates from the packed float color start towards an "artificial" color (between blue and purple) by change.
-     * While change should be between 0f (return start as-is) and 1f (return fully artificial), start should be a packed
-     * color, as from {@link #hsluv(float, float, float, float)}. This is a good way to reduce allocations of temporary
-     * Colors, and is a little more efficient and clear than using
-     * {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards a more artificial color. Unlike
-     * {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and L of start as-is.
-     * @see #raiseB(float, float) the counterpart method that makes a float color less artificial
-     * @param start the starting color as a packed float
-     * @param change how much to change start to a bolder color, as a float between 0 and 1; higher means a more artificial result
-     * @return a packed float that represents a color between start and a more artificial color
-     */
-    public static float lowerB(final float start, final float change) {
-        final int s = NumberUtils.floatToRawIntBits(start), t = s >>> 16 & 0xFF, other = s & 0xFE00FFFF;
-        return NumberUtils.intBitsToFloat(((int) (t * (1f - change)) & 0xFF) << 16 | other);
+    public static float rotateH(final float start, final float change) {
+        final int s = NumberUtils.floatToRawIntBits(start), i = s & 0xFF, other = s & 0xFEFFFF00;
+        return NumberUtils.intBitsToFloat(((int) (i + (256f * change)) & 0xFF) | other);
     }
 
     /**
@@ -1544,7 +1520,7 @@ public class ColorTools {
      * between 0f (return start as-is) and 1f (return start with full alpha), start should be a packed color, as from
      * {@link #hsluv(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
      * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp
-     * towards transparent. This won't change the L, A, or B of the color.
+     * towards transparent. This won't change the H, S, or L of the color.
      * @see #fade(float, float) the counterpart method that makes a float color more translucent
      * @param start the starting color as a packed float
      * @param change how much to go from start toward opaque, as a float between 0 and 1; higher means closer to opaque
@@ -1560,7 +1536,7 @@ public class ColorTools {
      * (return start as-is) and 1f (return the color with 0 alpha), start should be a packed color, as from
      * {@link #hsluv(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors,
      * and is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to
-     * lerp towards transparent. This won't change the L, A, or B of the color.
+     * lerp towards transparent. This won't change the H, S, or L of the color.
      * @see #blot(float, float) the counterpart method that makes a float color more opaque
      * @param start the starting color as a packed float
      * @param change how much to go from start toward transparent, as a float between 0 and 1; higher means closer to transparent
@@ -1572,53 +1548,15 @@ public class ColorTools {
     }
 
     /**
-     * Brings the chromatic components of {@code start} closer to grayscale by {@code change} (desaturating them). While
-     * change should be between 0f (return start as-is) and 1f (return fully gray), start should be a packed color, as
-     * from {@link #hsluv(float, float, float, float)}. This only changes A and B; it leaves L and alpha alone.
-     * @see #enrich(float, float) the counterpart method that makes a float color more saturated
-     * @param start the starting color as a packed float
-     * @param change how much to change start to a desaturated color, as a float between 0 and 1; higher means a less saturated result
-     * @return a packed float that represents a color between start and a desaturated color
-     */
-    public static float dullen(final float start, final float change) {
-        final int s = NumberUtils.floatToRawIntBits(start);
-        return hsluv((s & 0xFF) / 255f,
-                ((s >>> 8 & 0xFF) / 255f - 0.5f) * (1f - change) + 0.5f,
-                ((s >>> 16 & 0xFF) / 255f - 0.5f) * (1f - change) + 0.5f,
-                (s >>> 25) / 127f);
-    }
-
-    /**
-     * Pushes the chromatic components of {@code start} away from grayscale by change (saturating them). While change
-     * should be between 0f (return start as-is) and 1f (return maximally saturated), start should be a packed color, as
-     * from {@link #hsluv(float, float, float, float)}. This changes only A and B. This prevents high values for change
-     * from pushing A or B out of the valid range by using {@link #clamp(float, float, float, float)}; this doesn't
-     * actually keep the color in-gamut, but usually rendering code can handle out-of-gamut colors in some way.
-     * Alpha. The alpha never changes. It never changes L either.
-     * @see #dullen(float, float) the counterpart method that makes a float color less saturated
-     * @param start the starting color as a packed float
-     * @param change how much to change start to a saturated color, as a float between 0 and 1; higher means a more saturated result
-     * @return a packed float that represents a color between start and a saturated color
-     */
-    public static float enrich(final float start, final float change) {
-        final int s = NumberUtils.floatToRawIntBits(start);
-        return clamp((s & 0xFF) / 255f,
-                ((s >>> 8 & 0xFF) / 255f - 0.5f) * (1f + change) + 0.5f,
-                ((s >>> 16 & 0xFF) / 255f - 0.5f) * (1f + change) + 0.5f,
-                (s >>> 25) / 127f);
-    }
-
-    /**
-     * Given a packed float HSLuv color {@code mainColor} and another HSLuv color that it should be made to contrast with,
-     * gets a packed float HSLuv color with roughly inverted intnsity but the same chromatic channels and opacity (P and T
-     * are likely to be clamped if the result gets close to white or black). This won't ever produce black or other very
-     * dark colors, and also has a gap in the range it produces for intensity values between 0.5 and 0.55. That allows
-     * most of the colors this method produces to contrast well as a foreground when displayed on a background of
-     * {@code contrastingColor}, or vice versa. This will leave the intensity unchanged if the chromatic channels of the
-     * contrastingColor and those of the mainColor are already very different. This has nothing to do with the contrast
-     * channel of the tweak in ColorfulBatch; where that part of the tweak can make too-similar lightness values further
-     * apart by just a little, this makes a modification on {@code mainColor} to maximize its lightness difference from
-     * {@code contrastingColor} without losing its other qualities.
+     * Given a packed float HSLuv color {@code mainColor} and another HSLuv color that it should be made to contrast
+     * with, gets a packed float HSLuv color with roughly inverted lightness but the same hue, saturation, and alpha.
+     * This won't ever produce black or other very dark colors, and also has a gap in the range it produces for
+     * lightness values between 0.5 and 0.55. That allows most of the colors this method produces to contrast well as a
+     * foreground when displayed on a background of {@code contrastingColor}, or vice versa. This will leave the
+     * lightness unchanged if the hues of the contrastingColor and those of the mainColor are already very different.
+     * This has nothing to do with the contrast channel of the tweak in ColorfulBatch; where that part of the tweak can
+     * make too-similar lightness values further apart by just a little, this makes a modification on {@code mainColor}
+     * to maximize its lightness difference from {@code contrastingColor} without losing its other qualities.
      * @param mainColor a packed float color, as produced by {@link #hsluv(float, float, float, float)}; this is the color that will be adjusted
      * @param contrastingColor a packed float color, as produced by {@link #hsluv(float, float, float, float)}; the adjusted mainColor will contrast with this
      * @return a different HSLuv packed float color, based on mainColor but with potentially very different lightness
@@ -1627,47 +1565,49 @@ public class ColorTools {
     {
         final int bits = NumberUtils.floatToRawIntBits(mainColor),
                 contrastBits = NumberUtils.floatToRawIntBits(contrastingColor),
-                L = (bits & 0xff),
-                A = (bits >>> 8 & 0xff),
-                B = (bits >>> 16 & 0xff),
-                cL = (contrastBits & 0xff),
-                cA = (contrastBits >>> 8 & 0xff),
-                cB = (contrastBits >>> 16 & 0xff);
-        if((A - cA) * (A - cA) + (B - cB) * (B - cB) >= 0x10000)
+                H = (bits & 0xff),
+//                S = (bits >>> 8 & 0xff),
+                L = (bits >>> 16 & 0xff),
+                cH = (contrastBits & 0xff),
+//                cS = (contrastBits >>> 8 & 0xff),
+                cL = (contrastBits >>> 16 & 0xff);
+        if(Math.abs(H - cH) >= 90)
             return mainColor;
-        return hsluv(cL < 128 ? L * (0.45f / 255f) + 0.5f : 0.5f - L * (0.45f / 255f), A / 255f, B / 255f, 0x1.0p-8f * (bits >>> 24));
+        return NumberUtils.intBitsToFloat((bits & 0xFE00FFFF) | (int) (cL < 128 ? L * 0.45f + 128 : 128 - L * 0.45f) << 16);
     }
 
     /**
      * Given a packed float HSLuv color {@code mainColor} and another HSLuv color that it should be made to contrast
      * with, gets a packed float HSLuv color with L that should be quite different from {@code contrastingColor}'s L,
-     * but the same chromatic channels and opacity (A and B are likely to be clamped if the result gets close to white
-     * or black). This allows most of the colors this method produces to contrast well as a foreground when displayed on
-     * a background of {@code contrastingColor}, or vice versa.
+     * but the same hue, saturation, and opacity. This allows most of the colors this method produces to contrast well
+     * as a foreground when displayed on a background of {@code contrastingColor}, or vice versa.
      * <br>
      * This is similar to {@link #inverseLightness(float, float)}, but is considerably simpler, and this method will
-     * change the lightness of mainColor when the two given colors have close lightness but distant chroma. Because it
+     * change the lightness of mainColor when the two given colors have close lightness but distant hues. Because it
      * averages the original L of mainColor with the modified one, this tends to not produce harsh color changes.
      * @param mainColor a packed HSLuv float color; this is the color that will be adjusted
-     * @param contrastingColor a packed HSLuv float color; the adjusted mainColor will contrast with the I of this
+     * @param contrastingColor a packed HSLuv float color; the adjusted mainColor will contrast with the L of this
      * @return a different packed HSLuv float color, based on mainColor but typically with different lightness
      */
     public static float differentiateLightness(final float mainColor, final float contrastingColor)
     {
         final int main = NumberUtils.floatToRawIntBits(mainColor), contrast = NumberUtils.floatToRawIntBits(contrastingColor);
-        return NumberUtils.intBitsToFloat((main & 0xFEFFFF00) | (contrast + 128 & 0xFF) + (main & 0xFF) >>> 1);
+        return NumberUtils.intBitsToFloat((main & 0xFE00FFFF) | ((contrast >>> 16) + 128 & 0xFF) + (main >>> 16 & 0xFF) >>> 1);
     }
 
     /**
      * Pretty simple; adds 0.5 to the given color's L and wraps it around if it would go above 1.0, then averages that
      * with the original L. This means light colors become darker, and dark colors become lighter, with almost all
      * results in the middle-range of possible lightness.
+     * <br>
+     * Calling {@code offsetLightness(mainColor)} is the same as calling
+     * {@code ColorTools.differentiateLightness(mainColor, mainColor)}.
      * @param mainColor a packed HSLuv float color
-     * @return a different packed HSLuv float color, with its L channel changed and limited to the correct gamut
+     * @return a different packed HSLuv float color, with its L channel changed.
      */
     public static float offsetLightness(final float mainColor) {
         final int decoded = NumberUtils.floatToRawIntBits(mainColor);
-        return NumberUtils.intBitsToFloat((decoded & 0xFEFFFF00) | (decoded + 128 & 0xFF) + (decoded & 0xFF) >>> 1);
+        return NumberUtils.intBitsToFloat((decoded & 0xFE00FFFF) | ((decoded >>> 16) + 128 & 0xFF) + (decoded >>> 16 & 0xFF) >>> 1);
     }
 
     /**
