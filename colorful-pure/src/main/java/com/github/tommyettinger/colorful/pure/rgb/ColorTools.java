@@ -466,13 +466,13 @@ public class ColorTools {
 	 */
 	public static float lessenChange(final float color, float fraction) {
 		final int e = BitConversion.floatToRawIntBits(color),
-				rs = 0x80, gs = 0x80, bs = 0x80, as = 0xFE,
+				rs = 0x80, gs = 0x80, bs = 0x80,
 				re = (e & 0xFF), ge = (e >>> 8) & 0xFF, be = (e >>> 16) & 0xFF, ae = e >>> 24 & 0xFE;
 		return BitConversion.intBitsToFloat(
 				  ((int) (rs + fraction * (re - rs)) & 0xFF)
 				| ((int) (gs + fraction * (ge - gs)) & 0xFF) << 8
 				| ((int) (bs + fraction * (be - bs)) & 0xFF) << 16
-				| ((int) (as + fraction * (ae - as)) & 0xFE) << 24);
+						  | ae << 24);
 	}
 
 	/**

@@ -602,7 +602,7 @@ public class ColorTools {
 				  ((int) (rs + fraction * (re - rs)) & 0xFF)
 				| ((int) (gs + fraction * (ge - gs)) & 0xFF) << 8
 				| ((int) (bs + fraction * (be - bs)) & 0xFF) << 16
-				| ((int) (as + fraction * (ae - as)) & 0xFE) << 24);
+						  | (ae << 24));
 	}
 
 	/**

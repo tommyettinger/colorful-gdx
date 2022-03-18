@@ -750,7 +750,7 @@ public class ColorTools {
 		return NumberUtils.intBitsToFloat(((int) (ys + fraction * (ye - ys)) & 0xFF)
 				| (((int) (cws + fraction * (cwe - cws)) & 0xFF) << 8)
 				| (((int) (cms + fraction * (cme - cms)) & 0xFF) << 16)
-				| (((int) (as + fraction * (ae - as)) & 0xFE) << 24));
+				| (ae << 24));
 	}
 	/**
 	 * Makes a quasi-randomly-edited variant on the given {@code color}, allowing typically a small amount of

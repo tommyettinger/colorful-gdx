@@ -706,12 +706,12 @@ public class ColorTools {
 	 */
 	public static float lessenChange(final float color, float fraction) {
 		final int e = BitConversion.floatToRawIntBits(color),
-				is = 0x80, ps = 0x80, ts = 0x80, as = 0xFE,
+				is = 0x80, ps = 0x80, ts = 0x80,
 				ie = (e & 0xFF), pe = (e >>> 8) & 0xFF, te = (e >>> 16) & 0xFF, ae = e >>> 24 & 0xFE;
 		return BitConversion.intBitsToFloat(((int) (is + fraction * (ie - is)) & 0xFF)
 				| (((int) (ps + fraction * (pe - ps)) & 0xFF) << 8)
 				| (((int) (ts + fraction * (te - ts)) & 0xFF) << 16)
-				| (((int) (as + fraction * (ae - as)) & 0xFE) << 24));
+				| (ae << 24));
 	}
 
 	/**

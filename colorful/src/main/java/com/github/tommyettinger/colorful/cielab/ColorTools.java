@@ -1167,11 +1167,11 @@ public class ColorTools {
 
     /**
      * Given a packed float CIELAB color {@code mainColor} and another CIELAB color that it should be made to contrast with,
-     * gets a packed float CIELAB color with roughly inverted intnsity but the same chromatic channels and opacity (P and T
+     * gets a packed float CIELAB color with roughly inverted lightness but the same chromatic channels and opacity (A and B
      * are likely to be clamped if the result gets close to white or black). This won't ever produce black or other very
      * dark colors, and also has a gap in the range it produces for intensity values between 0.5 and 0.55. That allows
      * most of the colors this method produces to contrast well as a foreground when displayed on a background of
-     * {@code contrastingColor}, or vice versa. This will leave the intensity unchanged if the chromatic channels of the
+     * {@code contrastingColor}, or vice versa. This will leave the lightness unchanged if the chromatic channels of the
      * contrastingColor and those of the mainColor are already very different. This has nothing to do with the contrast
      * channel of the tweak in ColorfulBatch; where that part of the tweak can make too-similar lightness values further
      * apart by just a little, this makes a modification on {@code mainColor} to maximize its lightness difference from
@@ -1206,7 +1206,7 @@ public class ColorTools {
      * change the lightness of mainColor when the two given colors have close lightness but distant chroma. Because it
      * averages the original L of mainColor with the modified one, this tends to not produce harsh color changes.
      * @param mainColor a packed CIELAB float color; this is the color that will be adjusted
-     * @param contrastingColor a packed CIELAB float color; the adjusted mainColor will contrast with the I of this
+     * @param contrastingColor a packed CIELAB float color; the adjusted mainColor will contrast with the L of this
      * @return a different packed CIELAB float color, based on mainColor but typically with different lightness
      */
     public static float differentiateLightness(final float mainColor, final float contrastingColor)
@@ -1238,12 +1238,12 @@ public class ColorTools {
      */
     public static float lessenChange(final float color, float fraction) {
         final int e = NumberUtils.floatToRawIntBits(color),
-                sL = 0x80, sA = 0x80, sB = 0x80, sAlpha = 0xFE,
+                sL = 0x80, sA = 0x80, sB = 0x80,
                 eL = (e & 0xFF), eA = (e >>> 8) & 0xFF, eB = (e >>> 16) & 0xFF, eAlpha = e >>> 24 & 0xFE;
         return NumberUtils.intBitsToFloat(((int) (sL + fraction * (eL - sL)) & 0xFF)
                 | (((int) (sA + fraction * (eA - sA)) & 0xFF) << 8)
                 | (((int) (sB + fraction * (eB - sB)) & 0xFF) << 16)
-                | (((int) (sAlpha + fraction * (eAlpha - sAlpha)) & 0xFE) << 24));
+                | (eAlpha << 24));
     }
 
     /**

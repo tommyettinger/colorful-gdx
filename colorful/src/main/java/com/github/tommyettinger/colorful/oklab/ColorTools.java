@@ -996,12 +996,12 @@ public class ColorTools {
 	 */
 	public static float lessenChange(final float color, float fraction) {
 		final int e = NumberUtils.floatToRawIntBits(color),
-				sL = 0x80, sA = 0x80, sB = 0x80, sAlpha = 0xFE,
+				sL = 0x80, sA = 0x80, sB = 0x80,
 				eL = (e & 0xFF), eA = (e >>> 8) & 0xFF, eB = (e >>> 16) & 0xFF, eAlpha = e >>> 24 & 0xFE;
 		return NumberUtils.intBitsToFloat(((int) (sL + fraction * (eL - sL)) & 0xFF)
 				| (((int) (sA + fraction * (eA - sA)) & 0xFF) << 8)
 				| (((int) (sB + fraction * (eB - sB)) & 0xFF) << 16)
-				| (((int) (sAlpha + fraction * (eAlpha - sAlpha)) & 0xFE) << 24));
+				| (eAlpha << 24));
 	}
 
 	/**

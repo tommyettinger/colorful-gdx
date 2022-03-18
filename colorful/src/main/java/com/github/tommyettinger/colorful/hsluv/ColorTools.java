@@ -1614,19 +1614,20 @@ public class ColorTools {
      * Makes the additive HSLuv color stored in {@code color} cause less of a change when used as a tint, as if it were
      * mixed with neutral gray. When {@code fraction} is 1.0, this returns color unchanged; when fraction is 0.0, it
      * returns {@code Palette#GRAY}, and when it is in-between 0.0 and 1.0 it returns something between the two. This is
-     * meant for things like area of effect abilities that make smaller color changes toward their periphery.
+     * meant for things like area of effect abilities that make smaller color changes toward their periphery. This only
+     * affects the saturation and lightness of the color; its hue and alpha are unchanged.
      * @param color a color that should have its tinting effect potentially weakened
      * @param fraction how much of {@code color} should be kept, from 0.0 to 1.0
      * @return a HSLuv float color between gray and {@code color}
      */
     public static float lessenChange(final float color, float fraction) {
         final int e = NumberUtils.floatToRawIntBits(color),
-                sL = 0x80, sA = 0x80, sB = 0x80, sAlpha = 0xFE,
-                eL = (e & 0xFF), eA = (e >>> 8) & 0xFF, eB = (e >>> 16) & 0xFF, eAlpha = e >>> 24 & 0xFE;
-        return NumberUtils.intBitsToFloat(((int) (sL + fraction * (eL - sL)) & 0xFF)
-                | (((int) (sA + fraction * (eA - sA)) & 0xFF) << 8)
-                | (((int) (sB + fraction * (eB - sB)) & 0xFF) << 16)
-                | (((int) (sAlpha + fraction * (eAlpha - sAlpha)) & 0xFE) << 24));
+                sS = 0x80, sL = 0x80,
+                eH = (e & 0xFF), eS = (e >>> 8) & 0xFF, eL = (e >>> 16) & 0xFF, eAlpha = e >>> 24 & 0xFE;
+        return NumberUtils.intBitsToFloat(eH
+                | (((int) (sS + fraction * (eS - sS)) & 0xFF) << 8)
+                | (((int) (sL + fraction * (eL - sL)) & 0xFF) << 16)
+                | (eAlpha << 24));
     }
 
     /**

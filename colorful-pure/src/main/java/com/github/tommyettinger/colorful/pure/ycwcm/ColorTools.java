@@ -689,12 +689,12 @@ public class ColorTools {
 	 */
 	public static float lessenChange(final float color, float fraction) {
 		final int e = BitConversion.floatToRawIntBits(color),
-				ys = 0x7F, cws = 0x7F, cms = 0x7F, as = 0xFE,
+				ys = 0x7F, cws = 0x7F, cms = 0x7F,
 				ye = (e & 0xFF), cwe = (e >>> 8) & 0xFF, cme = (e >>> 16) & 0xFF, ae = e >>> 24 & 0xFE;
 		return BitConversion.intBitsToFloat(((int) (ys + fraction * (ye - ys)) & 0xFF)
 				| (((int) (cws + fraction * (cwe - cws)) & 0xFF) << 8)
 				| (((int) (cms + fraction * (cme - cms)) & 0xFF) << 16)
-				| (((int) (as + fraction * (ae - as)) & 0xFE) << 24));
+				| (ae << 24));
 	}
 	/**
 	 * Makes a quasi-randomly-edited variant on the given {@code color}, allowing typically a small amount of
