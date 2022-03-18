@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Affine2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.NumberUtils;
-import com.github.tommyettinger.colorful.cielab.Palette;
 
 import java.nio.Buffer;
 
@@ -17,7 +16,7 @@ import java.nio.Buffer;
  * A substitute for {@link com.badlogic.gdx.graphics.g2d.SpriteBatch} that adds an additional attribute to store an
  * extra color's worth of channels, used to modify the H, S, and L channels of a color by multiplication (called the
  * "tweak") while the primary color affects the color additively (just called the color, often drawn from
- * {@link Palette} or generated with {@link ColorTools}). This ColorfulBatch uses the HSLuv color space where
+ * {@code Palette} or generated with {@link ColorTools}). This ColorfulBatch uses the HSLuv color space where
  * SpriteBatch normally uses RGBA, which means that in the batch color, red maps to additive H (hue), green maps to
  * additive S (saturation), blue maps to additive L (lightness), and alpha continues to be multiplicative alpha.
  * Additive values cause no change when they are 0.5, but cause a sharp increase at 1.0 and a sharp decrease at
@@ -59,7 +58,7 @@ public class ColorfulBatch implements Batch {
     private ShaderProgram customShader = null;
     private boolean ownsShader;
 
-    protected float color = Palette.GRAY;
+    protected float color = ColorTools.hsluv(0f, 0f, 128f/255f, 1f);
     private final Color tempColor = new Color(0f, 0f, 128f/255f, 1f); // HSL from Palette.GRAY
 
     /**
@@ -183,6 +182,8 @@ public class ColorfulBatch implements Batch {
                         "const vec3 sRGBTo = vec3(1.0 / 2.4);\n" +
                         "const vec3 sRGBThresholdTo = vec3(0.0031308);\n" +
                         "const vec3 epsilon = vec3(0.00885645);\n" +
+                        "const float kappa = 9.032962962;\n" +
+                        "const vec2 refUV = vec2(0.19783000664283, 0.46831999493879);\n" +
                         "const mat3 m =" +
                         "         mat3(+3.2404542, -1.5371385, -0.4985314,\n" +
                         "              -0.9692660, +1.8760108, +0.0415560,\n" +
@@ -197,37 +198,36 @@ public class ColorfulBatch implements Batch {
                         "vec3 xyzF(vec3 t){ return mix(pow(t, forward), 7.787037 * t + 0.139731, step(t, epsilon)); }\n" +
                         "float xyzR(float t){ return mix(t*t*t , 0.1284185 * (t - 0.139731), step(t, 0.20689655)); }\n" +
                         "float chromaLimit(float hue, float lightness) {\n" +
-                        "        final float h = (hue - MathUtils.floor(hue)) * 6.2831;\n" +
-                        "        float sn = sin(h);\n" +
-                        "        float cs = cos(h);\n" +
-                        "        float sub1 = (lightness + 0.16f) / 1.16f;\n" +
+                        "        float sn = sin(hue);\n" +
+                        "        float cs = cos(hue);\n" +
+                        "        float sub1 = (lightness + 0.16) / 1.16;\n" +
                         "        sub1 *= sub1 * sub1;\n" +
                         "        float sub2 = sub1 > epsilon ? sub1 : lightness / kappa;\n" +
                         "        float min = Float.MAX_VALUE;\n" +
                         "            vec3 ms = m[0] * sub2;\n" +
                         "            for (int t = 0; t < 2; t++) {\n" +
                         "                ms.y -= t;\n" +
-                        "                float top1 = 2845.17f * ms.x - 948.39f * ms.z;\n" +
-                        "                float top2 = (8384.22f * ms.z + 7698.60f * ms.y + 7317.18f * ms.x) * lightness;\n" +
-                        "                float bottom = (6322.60f * ms.z - 1264.52f * ms.y);\n" +
+                        "                float top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
+                        "                float top2 = (8384.22 * ms.z + 7698.60 * ms.y + 7317.18 * ms.x) * lightness;\n" +
+                        "                float bottom = (6322.60 * ms.z - 1264.52 * ms.y);\n" +
                         "                float length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
                         "                if (length >= 0) min = Math.min(min, length);\n" +
                         "            }\n" +
                         "            ms = m[1] * sub2;\n" +
                         "            for (int t = 0; t < 2; t++) {\n" +
                         "                ms.y -= t;\n" +
-                        "                float top1 = 2845.17f * ms.x - 948.39f * ms.z;\n" +
-                        "                float top2 = (8384.22f * ms.z + 7698.60f * ms.y + 7317.18f * ms.x) * lightness;\n" +
-                        "                float bottom = (6322.60f * ms.z - 1264.52f * ms.y);\n" +
+                        "                float top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
+                        "                float top2 = (8384.22 * ms.z + 7698.60 * ms.y + 7317.18 * ms.x) * lightness;\n" +
+                        "                float bottom = (6322.60 * ms.z - 1264.52 * ms.y);\n" +
                         "                float length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
                         "                if (length >= 0) min = Math.min(min, length);\n" +
                         "            }\n" +
                         "            ms = m[2] * sub2;\n" +
                         "            for (int t = 0; t < 2; t++) {\n" +
                         "                ms.y -= t;\n" +
-                        "                float top1 = 2845.17f * ms.x - 948.39f * ms.z;\n" +
-                        "                float top2 = (8384.22f * ms.z + 7698.60f * ms.y + 7317.18f * ms.x) * lightness;\n" +
-                        "                float bottom = (6322.60f * ms.z - 1264.52f * ms.y);\n" +
+                        "                float top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
+                        "                float top2 = (8384.22 * ms.z + 7698.60 * ms.y + 7317.18 * ms.x) * lightness;\n" +
+                        "                float bottom = (6322.60 * ms.z - 1264.52 * ms.y);\n" +
                         "                float length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
                         "                if (length >= 0) min = Math.min(min, length);\n" +
                         "            }\n" +
@@ -237,19 +237,51 @@ public class ColorfulBatch implements Batch {
                         "float intersectLength (float sn, float cs, float line1, float line2) {\n" +
                         "    return line2 / (sn - line1 * cs);\n" +
                         "}\n" +
-                        "vec3 rgb2lab(vec3 c)\n" +
+                        "vec3 rgb2luv(vec3 c)\n" +
                         "{\n" +
                         "    c *= mInv" +
                         "    c = xyzF(c);\n" +
-                        "    vec3 lab = vec3(max(0.,1.16*c.y - 0.16), (c.x - c.y) * 5.0, (c.y - c.z) * 2.0); \n" +
-                        "    return lab;\n" +
+                        "    float L = max(0.,1.16*c.y - 0.16);\n" +
+                        "    vec2 uv = 13 * L / (c.x + 15 * c.y + 3 * c.z) * vec2(4, 9) * c.xy - refUV;\n" +
+                        "    return vec3(L, uv);\n" +
                         "}\n" +
-                        "vec3 lab2rgb(vec3 c)\n" +
+//                        "vec3 rgb2hsl(vec3 c)\n" +
+//                        "{\n" +
+//                        "    c *= mInv" +
+//                        "    c = xyzF(c);\n" +
+//                        "    float L = max(0.,1.16*c.y - 0.16);\n" +
+//                        "    vec2 uv = 13 * L / (c.x + 15 * c.y + 3 * c.z) * vec2(4, 9) * c.xy - refUV;\n" +
+//                        "    vec3 luv = vec3(L, uv);\n" +
+//                        "    float C = length(uv);\n" +
+//                        "    float h = atan(uv.y, uv.x);\n" +
+//                        "    float s = min(C / (chromaLimit(L, h) + 0.0001), 1);\n" +
+//                        "    return vec3(h, s, L);\n" +
+//                        "}\n" +
+                        "vec3 hsl2luv(vec3 c)\n" +
                         "{\n" +
-                        "    float lg = 1./1.16*(c.x + 0.16);\n" +
-                        "    vec3 xyz = vec3(xyzR(lg + c.y * 0.2),\n" +
-                        "                    xyzR(lg),\n" +
-                        "                    xyzR(lg - c.z * 0.5));\n" +
+                        "    float L = c.z;\n" +
+                        "    float C = chromaLimit(c.x, L) * c.y;\n" +
+                        "    float U = cos(c.x) * C;\n" +
+                        "    float V = sin(c.x) * C;\n" +
+                        "    return vec3(L, U, V);\n" +
+                        "}\n" +
+                        "vec3 luv2rgb(vec3 c)\n" +
+                        "{\n" +
+                        "    float L = c.x;\n" +
+                        "    float U = c.y;\n" +
+                        "    float V = c.z;\n" +
+                        "    if (L <= epsilon)\n" +
+                        "        y = L / kappa;\n" +
+                        "    else {\n" +
+                        "        y = (L + 0.16) / 1.16;\n" +
+                        "        y *= y * y;\n" +
+                        "    }\n" +
+                        "    float iL = 1. / (13. * L);\n" +
+                        "    float varU = U * iL + refU;\n" +
+                        "    float varV = V * iL + refV;\n" +
+                        "    x = 9. * varU * y / (4. * varV);\n" +
+                        "    z = (3. * y / varV) - x / 3. - 5. * y;\n" +
+                        "    vec3 xyz = vec3(x, y, z);\n" +
                         "    vec3 rgb = xyz*mat3( 3.2406, -1.5372,-0.4986,\n" +
                         "                        -0.9689,  1.8758, 0.0415,\n" +
                         "                         0.0557, -0.2040, 1.0570);\n" +
@@ -258,10 +290,13 @@ public class ColorfulBatch implements Batch {
                         "void main()\n" +
                         "{\n" +
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "  vec3 lab = rgb2lab(linear(tgt.rgb));\n" +
-                        "  lab.x = clamp(pow(lab.x, v_tweak.w) * v_lightFix * v_tweak.x + v_color.x - 0.5372549, 0.0, 1.0);\n" +
-                        "  lab.yz = (lab.yz * v_tweak.yz * 2.0) + (v_color.yz - 0.5) * 2.0;\n" +
-                        "  gl_FragColor = vec4(sRGB(clamp(lab2rgb(lab), 0.0, 1.0)), v_color.a * tgt.a);\n" +
+                        "  vec3 luv = rgb2luv(linear(tgt.rgb));\n" +
+                        "  vec3 col = v_color.rgb;\n" +
+                        "  col.x *= 6.2831 * v_tweak.x;\n" +
+                        "  col = hsl2luv(col);\n" +
+                        "  luv.x = clamp(pow(luv.x, v_tweak.w) * v_lightFix * v_tweak.z + col.x - 0.5372549, 0.0, 1.0);\n" +
+                        "  luv.yz = (luv.yz * v_tweak.y * 2.0) + (col.yz - 0.5) * 2.0;\n" +
+                        "  gl_FragColor = vec4(sRGB(clamp(luv2rgb(luv), 0.0, 1.0)), v_color.a * tgt.a);\n" +
                         "}";
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
         if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
@@ -301,10 +336,10 @@ public class ColorfulBatch implements Batch {
     }
 
     /**
-     * Sets the color to the result of {@link com.github.tommyettinger.colorful.cielab.ColorTools#cielab(float, float, float, float)} on the same arguments.
+     * Sets the color to the result of {@link ColorTools#hsluv(float, float, float, float)} on the same arguments.
      * For the L/A/B parameters, 0.5f is a neutral value (causing no change), while for alpha, 1.0f is a neutral
      * value. For L/A/B, higher values will add to the corresponding channel, while lower values will subtract from it.
-     * @see com.github.tommyettinger.colorful.cielab.ColorTools#cielab(float, float, float, float)
+     * @see ColorTools#hsluv(float, float, float, float)
      * @param L like lightness; additive; ranges from 0 (black) to 1 (white)
      * @param A cool-to-warm, roughly; additive; ranges from 0 (green/cyan/blue) to 1 (orange/red/purple)
      * @param B artificial-to-natural, very roughly; additive; ranges from 0 (blue/purple) to 1 (green/yellow/orange)
@@ -312,7 +347,7 @@ public class ColorfulBatch implements Batch {
      */
     @Override
     public void setColor (float L, float A, float B, float alpha) {
-        color = com.github.tommyettinger.colorful.cielab.ColorTools.cielab(L, A, B, alpha);
+        color = ColorTools.hsluv(L, A, B, alpha);
     }
 
     public void setColor (final float color) {
@@ -324,18 +359,18 @@ public class ColorfulBatch implements Batch {
     }
 
     /**
-     * Sets the color with the given L/A/B and A parameters from 0 to 255.
-     * For the L/A/B parameters, 127 or 128 is a neutral value (causing no change), while for alpha, 255 is a neutral
-     * value. For L/A/B, higher values will add to the corresponding channel, while lower values will subtract from it.
-     * @see com.github.tommyettinger.colorful.cielab.ColorTools#cielab(float, float, float, float)
-     * @param L like lightness; additive; ranges from 0 (black) to 255 (white)
-     * @param A cool-to-warm, roughly; additive; ranges from 0 (green/cyan/blue) to 255 (orange/red/purple)
-     * @param B artificial-to-natural, very roughly; additive; ranges from 0 (blue/purple) to 255 (green/yellow/orange)
+     * Sets the color with the given H/S/L and S parameters from 0 to 255.
+     * For the H/S/L parameters, 127 or 128 is a neutral value (causing no change), while for alpha, 255 is a neutral
+     * value. For H/S/L, higher values will add to the corresponding channel, while lower values will subtract from it.
+     * @see ColorTools#hsluv(float, float, float, float)
+     * @param H hue; additive; from 0 to 255, with red at 0, orange above red, yellow above orange, etc.
+     * @param S saturation; additive; from 0 to 255, with 0 desaturating and 255 very saturating
+     * @param L lightness; additive; ranges from 0 (closer to black) to 255 (closer to white)
      * @param alpha opacity, from 0 to 255 (254 is equivalent, since the lowest bit is discarded); multiplicative
      */
-    public void setIntColor(int L, int A, int B, int alpha) {
+    public void setIntColor(int H, int S, int L, int alpha) {
         color = NumberUtils.intBitsToFloat((alpha << 24 & 0xFE000000)
-                | (B << 16 & 0xFF0000) | (A << 8 & 0xFF00) | (L & 0xFF));
+                | (L << 16 & 0xFF0000) | (S << 8 & 0xFF00) | (H & 0xFF));
     }
 
     @Override
@@ -362,13 +397,13 @@ public class ColorfulBatch implements Batch {
     /**
      * Sets the multiplicative and contrast parts of the shader's color changes. 0.5 is a neutral value that should have
      * minimal effect on the image; using {@code (0.5f, 0.5f, 0.5f, 0.5f)} will effectively remove the tweak.
-     * @param L like lightness; multiplicative; ranges from 0 (sets lightness to 0) to 1 (doubles lightness)
-     * @param A cool-to-warm, roughly; multiplicative; ranges from 0 (green and red are removed) to 1 (green-ness or red-ness is emphasized)
-     * @param B artificial-to-natural, very roughly; multiplicative; ranges from 0 (blue and yellow are removed) to 1 (blue-ness or yellow-ness is emphasized)
+     * @param H hue; multiplicative; probably doesn't work very well and should just be 0.5f
+     * @param S saturation; multiplicative; from 0 to 1, with 0 forcing grayscale and 1 emphasizing saturation
+     * @param L lightness; multiplicative; ranges from 0 (sets lightness to 0) to 1 (doubles lightness)
      * @param contrast affects how lightness changes; ranges from 0 (low contrast, cloudy look) to 1 (high contrast, sharpened look) 
      */
-    public void setTweak (float L, float A, float B, float contrast) {
-        tweak = ColorTools.hsluv(L, A, B, contrast);
+    public void setTweak (float H, float S, float L, float contrast) {
+        tweak = ColorTools.hsluv(H, S, L, contrast);
     }
     /**
      * Sets the tweak using a single packed CIELAB float.
@@ -384,11 +419,11 @@ public class ColorfulBatch implements Batch {
     }
 
     /**
-     * Takes the tweak as an int in the format: L (8 bits), A (8 bits), B (8 bits), contrast (7 bits),
-     * (1 ignored bit at the end). An example would be 0x7820206E, which slightly darkens (with L 0x78, slightly
-     * below the halfway point of 0x80), significantly reduces colorfulness with A and B multipliers of 0x20
-     * (closer to 0, so most colors will be almost grayscale), and slightly reduces contrast (with contrast and the
-     * ignored bit as 0x6E, which is less than the halfway point).
+     * Takes the tweak as an int in the format: H (8 bits), S (8 bits), L (8 bits), contrast (7 bits),
+     * (1 ignored bit at the end). An example would be 0x8020A06E, which doesn't change hue (using the default 0x80),
+     * significantly reduces colorfulness with S multiplier 0x20 (closer to 0, so most colors will be almost grayscale),
+     * raises lightness somewhat with L multiplier 0xA0 (above the neutral point of 0x80), and slightly reduces contrast
+     * (with contrast and the ignored bit as 0x6E, which is less than the halfway point).
      * @param tweak the tweak to use as an integer, with L in the most significant bits and contrast in least
      */
     public void setIntTweak(final int tweak) {
@@ -396,16 +431,16 @@ public class ColorfulBatch implements Batch {
     }
 
     /**
-     * Sets the multiplicative and contrast parts of the shader's color changes. 127 is a neutral value that should have
-     * minimal effect on the image; using {@code (127, 127, 127, 127)} will effectively remove the tweak.
-     * @param L like lightness; multiplicative; ranges from 0 (black) to 255 (white)
-     * @param A cool-to-warm, roughly; multiplicative; ranges from 0 (green and red are removed) to 255 (green-ness or red-ness is emphasized)
-     * @param B artificial-to-natural, very roughly; multiplicative; ranges from 0 (blue and yellow are removed) to 255 (blue-ness or yellow-ness is emphasized)
+     * Sets the multiplicative and contrast parts of the shader's color changes. 128 is a neutral value that should have
+     * minimal effect on the image; using {@code (128, 128, 128, 128)} will effectively remove the tweak.
+     * @param H hue; multiplicative; probably doesn't work very well and should just be 128
+     * @param S saturation; multiplicative; from 0 to 255, with 0 forcing grayscale and 255 emphasizing saturation
+     * @param L lightness; multiplicative; ranges from 0 (sets lightness to 0) to 255 (doubles lightness)
      * @param contrast affects how lightness changes; ranges from 0 (low contrast, cloudy look) to 255 (high contrast, sharpened look) 
      */
-    public void setIntTweak(int L, int A, int B, int contrast) {
+    public void setIntTweak(int H, int S, int L, int contrast) {
         tweak = NumberUtils.intBitsToFloat((contrast << 24 & 0xFE000000)
-                | (B << 16 & 0xFF0000) | (A << 8 & 0xFF00) | (L & 0xFF));
+                | (L << 16 & 0xFF0000) | (S << 8 & 0xFF00) | (H & 0xFF));
     }
 
     /**
