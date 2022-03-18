@@ -321,8 +321,8 @@ public class ColorTools {
         editing.r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
         editing.g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
         editing.b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
-        editing.a = (decoded >>> 25) * 0x1.020408p-7f; // this is 1/127 as a float
-        return editing.clamp();
+        editing.a = (decoded >>> 25) / 127f;
+        return editing;
     }
 
     /**
@@ -931,64 +931,20 @@ public class ColorTools {
      * @see #limitToGamut(float) You can use limitToGamut() if you only want max saturation for out-of-gamut colors.
      */
     public static float maximizeSaturation(final float packed) {
-        final int decoded = NumberUtils.floatToRawIntBits(packed);
-        final float lightness = (decoded & 255) / 255f;
-        final float h = TrigTools.atan2_(((decoded >>> 16 & 0xff) - 127.5f), ((decoded >>> 8 & 0xff) - 127.5f));
-        final float L = (1f/1.16f)*(lightness + 0.16f);
-        final float A = TrigTools.cos_(h) * 1.26365817f * 0.2f;
-        final float B = TrigTools.sin_(h) * 1.26365817f * 0.5f;
-        final float y = reverseXYZ(L);
-        float A2 = A, B2 = B;
-        for (int attempt = 127; attempt >= 0; attempt--) {
-            final float x = reverseXYZ(L + A2);
-            final float z = reverseXYZ(L - B2);
-            final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
-            final float g = reverseGamma(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z);
-            final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
-            if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
-                break;
-            final float progress = attempt * 0x1p-7f;
-            A2 = (A * progress);
-            B2 = (B * progress);
-        }
-        return hsluv(lightness, A2 * 0.5f + 0.5f, B2 * 0.5f + 0.5f, (decoded >>> 25) / 127f);
+        return NumberUtils.intBitsToFloat(NumberUtils.floatToRawIntBits(packed) | 0x0000FF00);
     }
     /**
-     * Gets the color with the same L as the HSLuv color stored in the given packed float, but the furthest A
-     * B from gray possible for that lightness while keeping the same hue as the given color. This is very
+     * Gets the color with the given H, L, and alpha, but ignores the given S and instead uses the furthest S
+     * from gray possible for that lightness while keeping the same hue as the given color. This is very
      * similar to calling {@link #enrich(float, float)} with a very large {@code change} value.
+     * @param H hue component; will be clamped between 0 and 1 if it isn't already
+     * @param S saturation; ignored, and will always be maximized
      * @param L lightness component; will be clamped between 0 and 1 if it isn't already
-     * @param A green-to-red chromatic component; will be clamped between 0 and 1 if it isn't already
-     * @param B blue-to-yellow chromatic component; will be clamped between 0 and 1 if it isn't already
      * @param alpha alpha component; will be clamped between 0 and 1 if it isn't already
-     * @return the color that is as far from grayscale as this can get while keeping the L and hue of packed
-     * @see #limitToGamut(float, float, float, float) You can use limitToGamut() if you only want max saturation
-     * for out-of-gamut colors.
+     * @return the color that is as far from grayscale as this can get while keeping the H and L of packed
      */
-    public static float maximizeSaturation(float L, float A, float B, float alpha) {
-        L = Math.min(Math.max(L, 0f), 1f);
-        A = Math.min(Math.max(A, 0f), 1f);
-        B = Math.min(Math.max(B, 0f), 1f);
-        alpha = Math.min(Math.max(alpha, 0f), 1f);
-        final float h = TrigTools.atan2_(B - 0.5f, A - 0.5f);
-        final float L0 = (1f/1.16f)*(L + 0.16f);
-        final float A0 = TrigTools.cos_(h) * 1.26365817f;
-        final float B0 = TrigTools.sin_(h) * 1.26365817f;
-        final float y = reverseXYZ(L0);
-        float A2 = A0, B2 = B0;
-        for (int attempt = 127; attempt >= 0; attempt--) {
-            final float x = reverseXYZ(L0 + A2);
-            final float z = reverseXYZ(L0 - B2);
-            final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
-            final float g = reverseGamma(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z);
-            final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
-            if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
-                break;
-            final float progress = attempt * 0x1p-7f;
-            A2 = (A0 * progress);
-            B2 = (B0 * progress);
-        }
-        return hsluv(L, A2, B2, alpha);
+    public static float maximizeSaturation(float H, float S, float L, float alpha) {
+        return clamp(H, 1f, L, alpha);
     }
 
     /**
@@ -999,11 +955,8 @@ public class ColorTools {
      * @param packed a packed HSLuv float color
      * @return a float between 0 (inclusive) and 1 (exclusive) that represents hue in the HSLuv color space
      */
-    public static float cielabHue(final float packed) {
-        final int decoded = NumberUtils.floatToRawIntBits(packed);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
-        return TrigTools.atan2_(B, A);
+    public static float hsluvHue(final float packed) {
+        return (NumberUtils.floatToRawIntBits(packed) & 0xff) / 255f;
     }
 
     /**
@@ -1014,31 +967,8 @@ public class ColorTools {
      * @param packed a packed HSLuv float color
      * @return a float between 0 (inclusive) and 1 (inclusive) that represents saturation in the HSLuv color space
      */
-    public static float cielabSaturation(final float packed) {
-        final int decoded = NumberUtils.floatToRawIntBits(packed);
-        final float L = (1f/1.16f)*(((decoded & 0xff) / 255f) + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
-        final float h = TrigTools.atan2_(B, A);
-        final float L0 = (1f/1.16f)*(L + 0.16f);
-        final float A0 = TrigTools.cos_(h) * 1.26365817f;
-        final float B0 = TrigTools.sin_(h) * 1.26365817f;
-        final float y = reverseXYZ(L0);
-        float A2 = A0, B2 = B0;
-        for (int attempt = 127; attempt >= 0; attempt--) {
-            final float x = reverseXYZ(L + A2);
-            final float z = reverseXYZ(L - B2);
-            final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
-            final float g = reverseGamma(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z);
-            final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
-            if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
-                break;
-            final float progress = attempt * 0x1p-7f;
-            A2 = (A0 * progress);
-            B2 = (B0 * progress);
-        }
-        final float dist = (float) Math.sqrt(A2 * A2 + B2 * B2);
-        return (float) Math.sqrt(A * A + B * B) / dist;
+    public static float hsluvSaturation(final float packed) {
+        return (NumberUtils.floatToRawIntBits(packed) >>> 8 & 0xff) / 255f;
     }
     /**
      * Gets the lightness of the given HSLuv float color, but as HSLuv understands lightness rather than how HSL does.
@@ -1050,98 +980,39 @@ public class ColorTools {
      * @param packed a packed HSLuv float color
      * @return a float between 0 (inclusive) and 1 (inclusive) that represents lightness in the HSLuv color space
      */
-    public static float cielabLightness(final float packed){
-        return (NumberUtils.floatToRawIntBits(packed) & 0xff) / 255f;
-    }
-
-    /**
-     * A different way to specify a HSLuv color, using hue, saturation, lightness, and alpha like a normal HSL(A) color
-     * but calculating them directly in the HSLuv color space. This is more efficient than
-     * {@link #floatGetHSL(float, float, float, float)}. You may prefer using
-     * {@link #cielabByHCL(float, float, float, float)}, which takes an absolute chroma as opposed to the saturation
-     * here (which is a fraction of the maximum chroma).
-     * <br>
-     * Note that this takes a different value for its {@code hue} that the method {@link #hue(float)} produces, just
-     * like its {@code saturation} and the method {@link #saturation(float)}, and {@code lightness} and the method
-     * {@link #lightness(float)}. The hue is just distributed differently, and the lightness should be equivalent to
-     * {@link #channelL(float)}, but the saturation here refers to what fraction the chroma should be of the maximum
-     * chroma for the given hue and lightness. You can use {@link #cielabHue(float)}, {@link #cielabSaturation(float)},
-     * and {@link #cielabLightness(float)} to get the hue, saturation, and lightness values from an existing color that
-     * this will understand ({@link #alpha(float)} too). This method is likely to be significantly slower than
-     * {@link #cielabByHCL(float, float, float, float)} because this needs to calculate the gamut.
-     * @param hue between 0 and 1, usually, but this will automatically wrap if too high or too low
-     * @param saturation will be clamped between 0 and 1
-     * @param lightness will be clamped between 0 and 1
-     * @param alpha will be clamped between 0 and 1
-     * @return a packed HSLuv float color that tries to match the requested hue, saturation, and lightness
-     */
-    public static float cielabByHSL(float hue, float saturation, float lightness, float alpha) {
-        lightness = Math.min(Math.max(lightness, 0f), 1f);
-        saturation = Math.min(Math.max(saturation, 0f), 1f);
-        hue -= MathUtils.floor(hue);
-        alpha = Math.min(Math.max(alpha, 0f), 1f);
-        final float L = (1f/1.16f)*(lightness + 0.16f);
-        final float L0 = (1f/1.16f)*(L + 0.16f);
-        final float cos = TrigTools.cos_(hue);
-        final float sin = TrigTools.sin_(hue);
-        final float A0 = cos * 1.26365817f * 0.2f;
-        final float B0 = sin * 1.26365817f * 0.5f;
-        final float y = reverseXYZ(L0);
-        float A2 = A0, B2 = B0;
-        for (int attempt = 127; attempt >= 0; attempt--) {
-            final float x = reverseXYZ(L + A2);
-            final float z = reverseXYZ(L - B2);
-            final float r = reverseGamma(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z);
-            final float g = reverseGamma(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z);
-            final float b = reverseGamma(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z);
-            if(r >= 0f && r <= 1f && g >= 0f && g <= 1f && b >= 0f && b <= 1f)
-                break;
-            final float progress = attempt * 0x1p-7f;
-            A2 = (A0 * progress);
-            B2 = (B0 * progress);
-        }
-        final float dist = (float) Math.sqrt(A2 * A2 + B2 * B2) * saturation;
-        return NumberUtils.intBitsToFloat(
-                (int) (alpha * 127.999f) << 25 |
-                        Math.min(Math.max((int) (sin * dist + 127.5f), 0), 255) << 16 |
-                        Math.min(Math.max((int) (cos * dist + 127.5f), 0), 255) << 8 |
-                        (int) (lightness * 255.999f));
+    public static float hsluvLightness(final float packed){
+        return (NumberUtils.floatToRawIntBits(packed) >>> 16 & 0xff) / 255f;
     }
 
     /**
      * A different way to specify a HSLuv color, using hue, chroma, lightness, and alpha something like a normal HSL(A)
      * color but calculating them directly in the HSLuv color space. This has you specify the desired chroma directly,
-     * as obtainable with {@link #chroma(float)}, rather than the saturation, which is a fraction of the maximum chroma
-     * (saturation is what {@link #cielabByHSL(float, float, float, float)} uses). Note that this takes a different
-     * value for its {@code hue} that the method {@link #hue(float)} produces, just like {@code lightness} and the
-     * method {@link #lightness(float)}. The hue is just distributed differently, and the lightness should be equivalent
-     * to {@link #channelL(float)}. If you use this to get two colors with the same chroma and lightness, but different
-     * hue, then the resulting colors should have similar colorfulness unless one or both chroma values exceeded the
-     * gamut limit (you can get this limit with {@link #chromaLimit(float, float)}). If a chroma value given is greater
-     * than the chroma limit, this clamps chroma to that limit. You can use {@link #cielabHue(float)},
-     * {@link #chroma(float)}, and {@link #cielabLightness(float)} to get the hue, chroma, and lightness values from an
-     * existing color that this will understand ({@link #alpha(float)} too). This method should be significantly faster
-     * than {@link #cielabByHSL(float, float, float, float)} because it doesn't need to calculate the gamut.
+     * as obtainable with {@link #chroma(float)}, rather than the saturation, which is a fraction of the maximum chroma.
+     * Note that this takes a different value for its {@code hue} that the method {@link #hue(float)} produces, just
+     * like {@code lightness} and the method {@link #lightness(float)}. The hue is just distributed differently, and the
+     * lightness should be equivalent to {@link #channelL(float)}. If you use this to get two colors with the same
+     * chroma and lightness, but different hue, then the resulting colors should have similar colorfulness unless one or
+     * both chroma values exceeded the gamut limit (you can get this limit with {@link #chromaLimit(float, float)}). If
+     * a chroma value given is greater than the chroma limit, this clamps chroma to that limit. You can use
+     * {@link #hsluvHue(float)}, {@link #chroma(float)}, and {@link #hsluvLightness(float)} to get the hue, chroma, and
+     * lightness values from an existing color that this will understand ({@link #alpha(float)} too).
      * @param hue between 0 and 1, usually, but this will automatically wrap if too high or too low
      * @param chroma will be clamped between 0 and the maximum chroma possible for the given hue and lightness
      * @param lightness will be clamped between 0 and 1
      * @param alpha will be clamped between 0 and 1
      * @return a packed HSLuv float color that tries to match the requested hue, chroma, and lightness
      */
-    public static float cielabByHCL(float hue, float chroma, float lightness, float alpha) {
-        lightness = Math.min(Math.max(lightness, 0f), 1f);
-        chroma = Math.max(chroma, 0f) * 127.5f;
+    public static float hsluvByHCL(float hue, float chroma, float lightness, float alpha) {
         hue -= MathUtils.floor(hue);
         alpha = Math.min(Math.max(alpha, 0f), 1f);
-        return NumberUtils.intBitsToFloat(
-                (int) (alpha * 127.999f) << 25 |
-                        Math.min(Math.max((int) (TrigTools.sin_(hue) /* * 2f */ * chroma + 127.5f), 0), 255) << 16 |
-                        Math.min(Math.max((int) (TrigTools.cos_(hue) /* * 5f */ * chroma + 127.5f), 0), 255) << 8 |
-                        (int) (lightness * 255.999f));
+        if(lightness <= 0f) return hsluv(hue, 0f, 0f, alpha);
+        if(lightness >= 1f) return hsluv(hue, 0f, 1f, alpha);
+        return hsluv(hue, Math.max(chroma, 0f) / (chromaLimit(hue, lightness) + 0.0001f), lightness, alpha);
     }
 
     /**
-     * Gets a color as a HSLuv packed float given floats representing hue, saturation, lightness, and opacity.
+     * Gets a color as a HSLuv packed float given floats representing HSL hue, saturation, lightness, and opacity.
+     * You should usually prefer just using {@link #hsluv(float, float, float, float)} to get colors with these values.
      * All parameters should normally be between 0 and 1 inclusive, though any hue is tolerated (precision loss may
      * affect the color if the hue is too large). A hue of 0 is red, progressively higher hue values go to orange,
      * yellow, green, blue, and purple before wrapping around to red as it approaches 1. A saturation of 0 is grayscale,
@@ -1173,13 +1044,44 @@ public class ColorTools {
      */
     public static float saturation(final float encoded) {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
-        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        if(Math.abs(L - 0.5) > 0.495f) return 0f;
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
-        final float x = reverseXYZ(L + A);
-        final float y = reverseXYZ(L);
-        final float z = reverseXYZ(L - B);
+        float H = ((decoded & 0xff) / 255f);
+        float S = ((decoded >>> 8 & 0xff) / 255f);
+        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+
+        // HSLuv to Lch
+        float C;
+        if (L > 0.99999f) {
+            L = 1;
+            C = 0;
+        } else if (L < 0.00001f) {
+            L = 0;
+            C = 0;
+        } else
+            C = chromaLimit(L, H) * S;
+
+        // Lch to Luv
+        float U = TrigTools.cos_(H) * C;
+        float V = TrigTools.sin_(H) * C;
+
+        // Luv to XYZ
+        float x, y, z;
+        if (L < 0.00001f) {
+            x = 0;
+            y = 0;
+            z = 0;
+        } else {
+            if (L <= epsilon)
+                y = L / kappa;
+            else {
+                y = (L + 0.16f) / 1.16f;
+                y *= y * y;
+            }
+            float iL = 1f / (13f * L);
+            float varU = U * iL + refU;
+            float varV = V * iL + refV;
+            x = 9 * varU * y / (4 * varV);
+            z = (3 * y / varV) - x / 3 - 5 * y;
+        }
         final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
         final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
         final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
@@ -1211,12 +1113,44 @@ public class ColorTools {
      */
     public static float lightness(final float encoded) {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
-        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
-        final float x = reverseXYZ(L + A);
-        final float y = reverseXYZ(L);
-        final float z = reverseXYZ(L - B);
+        float H = ((decoded & 0xff) / 255f);
+        float S = ((decoded >>> 8 & 0xff) / 255f);
+        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+
+        // HSLuv to Lch
+        float C;
+        if (L > 0.99999f) {
+            L = 1;
+            C = 0;
+        } else if (L < 0.00001f) {
+            L = 0;
+            C = 0;
+        } else
+            C = chromaLimit(L, H) * S;
+
+        // Lch to Luv
+        float U = TrigTools.cos_(H) * C;
+        float V = TrigTools.sin_(H) * C;
+
+        // Luv to XYZ
+        float x, y, z;
+        if (L < 0.00001f) {
+            x = 0;
+            y = 0;
+            z = 0;
+        } else {
+            if (L <= epsilon)
+                y = L / kappa;
+            else {
+                y = (L + 0.16f) / 1.16f;
+                y *= y * y;
+            }
+            float iL = 1f / (13f * L);
+            float varU = U * iL + refU;
+            float varV = V * iL + refV;
+            x = 9 * varU * y / (4 * varV);
+            z = (3 * y / varV) - x / 3 - 5 * y;
+        }
         final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
         final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
         final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
@@ -1250,12 +1184,44 @@ public class ColorTools {
      */
     public static float hue(final float encoded) {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
-        final float L = (1f/1.16f)*((decoded & 0xff) / 255f + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
-        final float x = reverseXYZ(L + A);
-        final float y = reverseXYZ(L);
-        final float z = reverseXYZ(L - B);
+        float H = ((decoded & 0xff) / 255f);
+        float S = ((decoded >>> 8 & 0xff) / 255f);
+        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+
+        // HSLuv to Lch
+        float C;
+        if (L > 0.99999f) {
+            L = 1;
+            C = 0;
+        } else if (L < 0.00001f) {
+            L = 0;
+            C = 0;
+        } else
+            C = chromaLimit(L, H) * S;
+
+        // Lch to Luv
+        float U = TrigTools.cos_(H) * C;
+        float V = TrigTools.sin_(H) * C;
+
+        // Luv to XYZ
+        float x, y, z;
+        if (L < 0.00001f) {
+            x = 0;
+            y = 0;
+            z = 0;
+        } else {
+            if (L <= epsilon)
+                y = L / kappa;
+            else {
+                y = (L + 0.16f) / 1.16f;
+                y *= y * y;
+            }
+            float iL = 1f / (13f * L);
+            float varU = U * iL + refU;
+            float varV = V * iL + refV;
+            x = 9 * varU * y / (4 * varV);
+            z = (3 * y / varV) - x / 3 - 5 * y;
+        }
         final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
         final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
         final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
@@ -1307,16 +1273,48 @@ public class ColorTools {
      */
     public static float toEditedFloat(float basis, float hue, float saturation, float light, float opacity) {
         final int decoded = NumberUtils.floatToRawIntBits(basis);
-        final float li = Math.min(Math.max(light + (decoded & 0xff) / 255f, 0f), 1f);
-        opacity = Math.min(Math.max(opacity + (decoded >>> 24 & 0xfe) * 0x1.020408p-8f, 0f), 1f);
+        final float li = Math.min(Math.max(light + (decoded >>> 16 & 0xff) / 255f, 0f), 1f);
+        opacity = Math.min(Math.max(opacity + (decoded >>> 25) / 127f, 0f), 1f);
         if (li <= 0.001f)
-            return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x808000);
-        final float L = (1f/1.16f)*(li + 0.16f);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (0.2f / 127.5f);
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
-        final float x = reverseXYZ(L + A);
-        final float y = reverseXYZ(L);
-        final float z = reverseXYZ(L - B);
+            return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000));
+        float H = ((decoded & 0xff) / 255f);
+        float S = ((decoded >>> 8 & 0xff) / 255f);
+        float L = (1f/1.16f)*(li + 0.16f);
+
+        // HSLuv to Lch
+        float C;
+        if (L > 0.99999f) {
+            L = 1;
+            C = 0;
+        } else if (L < 0.00001f) {
+            L = 0;
+            C = 0;
+        } else
+            C = chromaLimit(L, H) * S;
+
+        // Lch to Luv
+        float U = TrigTools.cos_(H) * C;
+        float V = TrigTools.sin_(H) * C;
+
+        // Luv to XYZ
+        float x, y, z;
+        if (L < 0.00001f) {
+            x = 0;
+            y = 0;
+            z = 0;
+        } else {
+            if (L <= epsilon)
+                y = L / kappa;
+            else {
+                y = (L + 0.16f) / 1.16f;
+                y *= y * y;
+            }
+            float iL = 1f / (13f * L);
+            float varU = U * iL + refU;
+            float varV = V * iL + refV;
+            x = 9 * varU * y / (4 * varV);
+            z = (3 * y / varV) - x / 3 - 5 * y;
+        }
         final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
         final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
         final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
