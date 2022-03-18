@@ -185,7 +185,7 @@ public class ColorTools {
             L = 0;
             C = 0;
         } else
-            C = chromaLimit(L, H) * S;
+            C = chromaLimit(H, L) * S;
 
         // Lch to Luv
         float U = TrigTools.cos_(H) * C;
@@ -239,7 +239,7 @@ public class ColorTools {
             L = 0;
             C = 0;
         } else
-            C = chromaLimit(L, H) * S;
+            C = chromaLimit(H, L) * S;
 
         // Lch to Luv
         float U = TrigTools.cos_(H) * C;
@@ -282,7 +282,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+        float L = ((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -293,7 +293,7 @@ public class ColorTools {
             L = 0;
             C = 0;
         } else
-            C = chromaLimit(L, H) * S;
+            C = chromaLimit(H, L) * S;
 
         // Lch to Luv
         float U = TrigTools.cos_(H) * C;
@@ -381,7 +381,7 @@ public class ColorTools {
             s = 0;
             l = 0;
         } else {
-            s = Math.min(C / chromaLimit(L, h), 1);
+            s = Math.min(C / chromaLimit(h, L), 1);
             l = L;
         }
         return NumberUtils.intBitsToFloat(
@@ -433,7 +433,7 @@ public class ColorTools {
             s = 0;
             l = 0;
         } else {
-            s = Math.min(C / chromaLimit(L, h), 1);
+            s = Math.min(C / chromaLimit(h, L), 1);
             l = L;
         }
         return NumberUtils.intBitsToFloat(
@@ -483,7 +483,7 @@ public class ColorTools {
             s = 0;
             l = 0;
         } else {
-            s = Math.min(C / chromaLimit(L, h), 1);
+            s = Math.min(C / chromaLimit(h, L), 1);
             l = L;
         }
         return NumberUtils.intBitsToFloat(
@@ -536,7 +536,7 @@ public class ColorTools {
             s = 0;
             l = 0;
         } else {
-            s = Math.min(C / chromaLimit(L, h), 1);
+            s = Math.min(C / chromaLimit(h, L), 1);
             l = L;
         }
         return NumberUtils.intBitsToFloat(
@@ -567,7 +567,7 @@ public class ColorTools {
             L = 0;
             C = 0;
         } else
-            C = chromaLimit(L, H) * S;
+            C = chromaLimit(H, L) * S;
 
         // Lch to Luv
         float U = TrigTools.cos_(H) * C;
@@ -616,7 +616,7 @@ public class ColorTools {
             L = 0;
             C = 0;
         } else
-            C = chromaLimit(L, H) * S;
+            C = chromaLimit(H, L) * S;
 
         // Lch to Luv
         float U = TrigTools.cos_(H) * C;
@@ -665,7 +665,7 @@ public class ColorTools {
             L = 0;
             C = 0;
         } else
-            C = chromaLimit(L, H) * S;
+            C = chromaLimit(H, L) * S;
 
         // Lch to Luv
         float U = TrigTools.cos_(H) * C;
@@ -724,7 +724,7 @@ public class ColorTools {
             L = 0;
             C = 0;
         } else
-            C = chromaLimit(L, H) * S;
+            C = chromaLimit(H, L) * S;
 
         // Lch to Luv
         float U = TrigTools.cos_(H) * C;
@@ -773,7 +773,7 @@ public class ColorTools {
             L = 0;
             C = 0;
         } else
-            C = chromaLimit(L, H) * S;
+            C = chromaLimit(H, L) * S;
 
         // Lch to Luv
         float U = TrigTools.cos_(H) * C;
@@ -822,7 +822,7 @@ public class ColorTools {
             L = 0;
             C = 0;
         } else
-            C = chromaLimit(L, H) * S;
+            C = chromaLimit(H, L) * S;
 
         // Lch to Luv
         float U = TrigTools.cos_(H) * C;
@@ -885,7 +885,7 @@ public class ColorTools {
         } else if (L < 0.00001f) {
             return 0f;
         } else
-            return chromaLimit(L, H) * S;
+            return chromaLimit(H, L) * S;
     }
     /**
      * Given a hue and lightness, this gets the (exact) maximum chroma possible for that hue-lightness
@@ -1061,7 +1061,7 @@ public class ColorTools {
             L = 0;
             C = 0;
         } else
-            C = chromaLimit(L, H) * S;
+            C = chromaLimit(H, L) * S;
 
         // Lch to Luv
         float U = TrigTools.cos_(H) * C;
@@ -1130,7 +1130,7 @@ public class ColorTools {
             L = 0;
             C = 0;
         } else
-            C = chromaLimit(L, H) * S;
+            C = chromaLimit(H, L) * S;
 
         // Lch to Luv
         float U = TrigTools.cos_(H) * C;
@@ -1201,7 +1201,7 @@ public class ColorTools {
             L = 0;
             C = 0;
         } else
-            C = chromaLimit(L, H) * S;
+            C = chromaLimit(H, L) * S;
 
         // Lch to Luv
         float U = TrigTools.cos_(H) * C;
@@ -1294,7 +1294,7 @@ public class ColorTools {
             L = 0;
             C = 0;
         } else
-            C = chromaLimit(L, H) * S;
+            C = chromaLimit(H, L) * S;
 
         // Lch to Luv
         float U = TrigTools.cos_(H) * C;
