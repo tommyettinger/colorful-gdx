@@ -175,7 +175,8 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+        float L = ((decoded >>> 16 & 0xff) / 255f);
+//        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
 
         // HSLuv to Lch
         float C;
@@ -229,7 +230,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+        float L = ((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -351,12 +352,12 @@ public class ColorTools {
         final float g = forwardGamma((rgba >>> 16 & 0xFF) * 0x1.010101010101p-8f);
         final float b = forwardGamma((rgba >>> 8 & 0xFF) * 0x1.010101010101p-8f);
 
-        final float x = forwardXYZ(0.4124564f * r  + 0.3575761f * g + 0.1804375f * b);
-        final float y = forwardXYZ(0.2126729f * r  + 0.7151522f * g + 0.0721750f * b);
-        final float z = forwardXYZ(0.0193339f * r  + 0.1191920f * g + 0.9503041f * b);
+        final float x = /* forwardXYZ */(0.4124564f * r  + 0.3575761f * g + 0.1804375f * b);
+        final float y = /* forwardXYZ */(0.2126729f * r  + 0.7151522f * g + 0.0721750f * b);
+        final float z = /* forwardXYZ */(0.0193339f * r  + 0.1191920f * g + 0.9503041f * b);
 
         // XYZ to Luv
-        float L = 1.16f * y - 0.16f, U, V, h, s, l;
+        float L = 1.16f * cbrtPositive(y) - 0.16f, U, V, h, s, l;
         if (L < 0.00001f) {
             L = 0;
             U = 0;
@@ -403,12 +404,13 @@ public class ColorTools {
         final float g = forwardGamma((abgr >>> 8 & 0xFF) * 0x1.010101010101p-8f);
         final float b = forwardGamma((abgr >>> 16 & 0xFF) * 0x1.010101010101p-8f);
 
-        final float x = forwardXYZ(0.4124564f * r + 0.3575761f * g + 0.1804375f * b);
-        final float y = forwardXYZ(0.2126729f * r + 0.7151522f * g + 0.0721750f * b);
-        final float z = forwardXYZ(0.0193339f * r + 0.1191920f * g + 0.9503041f * b);
+        final float x = /* forwardXYZ */(0.4124564f * r  + 0.3575761f * g + 0.1804375f * b);
+        final float y = /* forwardXYZ */(0.2126729f * r  + 0.7151522f * g + 0.0721750f * b);
+        final float z = /* forwardXYZ */(0.0193339f * r  + 0.1191920f * g + 0.9503041f * b);
 
         // XYZ to Luv
-        float L = 1.16f * y - 0.16f, U, V, h, s, l;
+        float L = 1.16f * cbrtPositive(y) - 0.16f, U, V, h, s, l;
+//        float L = 1.16f * y - 0.16f, U, V, h, s, l;
         if (L < 0.00001f) {
             L = 0;
             U = 0;
@@ -453,12 +455,13 @@ public class ColorTools {
         final float r = forwardGamma(color.r);
         final float g = forwardGamma(color.g);
         final float b = forwardGamma(color.b);
-        final float x = forwardXYZ(0.4124564f * r + 0.3575761f * g + 0.1804375f * b);
-        final float y = forwardXYZ(0.2126729f * r + 0.7151522f * g + 0.0721750f * b);
-        final float z = forwardXYZ(0.0193339f * r + 0.1191920f * g + 0.9503041f * b);
+
+        final float x = /* forwardXYZ */(0.4124564f * r  + 0.3575761f * g + 0.1804375f * b);
+        final float y = /* forwardXYZ */(0.2126729f * r  + 0.7151522f * g + 0.0721750f * b);
+        final float z = /* forwardXYZ */(0.0193339f * r  + 0.1191920f * g + 0.9503041f * b);
 
         // XYZ to Luv
-        float L = 1.16f * y - 0.16f, U, V, h, s, l;
+        float L = 1.16f * cbrtPositive(y) - 0.16f, U, V, h, s, l;
         if (L < 0.00001f) {
             L = 0;
             U = 0;
@@ -506,12 +509,13 @@ public class ColorTools {
         r = forwardGamma(r);
         g = forwardGamma(g);
         b = forwardGamma(b);
-        final float x = forwardXYZ(0.4124564f * r + 0.3575761f * g + 0.1804375f * b);
-        final float y = forwardXYZ(0.2126729f * r + 0.7151522f * g + 0.0721750f * b);
-        final float z = forwardXYZ(0.0193339f * r + 0.1191920f * g + 0.9503041f * b);
+
+        final float x = /* forwardXYZ */(0.4124564f * r  + 0.3575761f * g + 0.1804375f * b);
+        final float y = /* forwardXYZ */(0.2126729f * r  + 0.7151522f * g + 0.0721750f * b);
+        final float z = /* forwardXYZ */(0.0193339f * r  + 0.1191920f * g + 0.9503041f * b);
 
         // XYZ to Luv
-        float L = 1.16f * y - 0.16f, U, V, h, s, l;
+        float L = 1.16f * cbrtPositive(y) - 0.16f, U, V, h, s, l;
         if (L < 0.00001f) {
             L = 0;
             U = 0;
@@ -557,7 +561,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+        float L = ((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -606,7 +610,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+        float L = ((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -655,7 +659,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+        float L = ((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -714,7 +718,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+        float L = ((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -763,7 +767,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+        float L = ((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -812,7 +816,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+        float L = ((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -878,7 +882,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+        float L = ((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         if (L > 0.99999f) {
@@ -1051,7 +1055,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+        float L = ((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -1120,7 +1124,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+        float L = ((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -1191,7 +1195,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+        float L = ((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -1284,15 +1288,13 @@ public class ColorTools {
             return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000));
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = (1f/1.16f)*(li + 0.16f);
+        float L = li;
+//        float L = (1f/1.16f)*(li + 0.16f);
 
         // HSLuv to Lch
         float C;
         if (L > 0.99999f) {
             L = 1;
-            C = 0;
-        } else if (L < 0.00001f) {
-            L = 0;
             C = 0;
         } else
             C = chromaLimit(H, L) * S;
@@ -1303,23 +1305,17 @@ public class ColorTools {
 
         // Luv to XYZ
         float x, y, z;
-        if (L < 0.00001f) {
-            x = 0;
-            y = 0;
-            z = 0;
-        } else {
-            if (L <= epsilon)
-                y = L / kappa;
-            else {
-                y = (L + 0.16f) / 1.16f;
-                y *= y * y;
-            }
-            float iL = 1f / (13f * L);
-            float varU = U * iL + refU;
-            float varV = V * iL + refV;
-            x = 9 * varU * y / (4 * varV);
-            z = (3 * y / varV) - x / 3 - 5 * y;
+        if (L <= epsilon)
+            y = L / kappa;
+        else {
+            y = (L + 0.16f) / 1.16f;
+            y *= y * y;
         }
+        float iL = 1f / (13f * L);
+        float varU = U * iL + refU;
+        float varV = V * iL + refV;
+        x = 9 * varU * y / (4 * varV);
+        z = (3 * y / varV) - x / 3 - 5 * y;
         final float r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
         final float g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));
         final float b = reverseGamma(Math.min(Math.max(+0.0556434f * x + -0.2040259f * y + +1.0572252f * z, 0f), 1f));
