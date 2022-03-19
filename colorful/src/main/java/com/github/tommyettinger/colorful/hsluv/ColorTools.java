@@ -196,10 +196,10 @@ public class ColorTools {
         // Luv to XYZ
         float x, y, z;
         if (L < 0.00001f) {
-            x = 0;
-            y = 0;
-            z = 0;
-        } else {
+            return (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
+        } else if(L > 0.9999f) {
+            return 0xFFFFFF00 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
+        }else {
             if (L <= epsilon)
                 y = L / kappa;
             else {
@@ -250,10 +250,10 @@ public class ColorTools {
         // Luv to XYZ
         float x, y, z;
         if (L < 0.00001f) {
-            x = 0;
-            y = 0;
-            z = 0;
-        } else {
+            return NumberUtils.intBitsToFloat(decoded & 0xfe000000);
+        } else if(L > 0.9999f) {
+            return NumberUtils.intBitsToFloat(0xFFFFFF | (decoded & 0xfe000000));
+        }else {
             if (L <= epsilon)
                 y = L / kappa;
             else {
@@ -304,10 +304,14 @@ public class ColorTools {
         // Luv to XYZ
         float x, y, z;
         if (L < 0.00001f) {
-            x = 0;
-            y = 0;
-            z = 0;
-        } else {
+            editing.r = editing.g = editing.b = 0f;
+            editing.a = (decoded >>> 25) / 127f;
+            return editing;
+        } else if(L > 0.9999f) {
+            editing.r = editing.g = editing.b = 1f;
+            editing.a = (decoded >>> 25) / 127f;
+            return editing;
+        }else {
             if (L <= epsilon)
                 y = L / kappa;
             else {
