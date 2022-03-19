@@ -66,9 +66,10 @@ public class ColorTools {
                 | ((int) (s * 255.999f) << 8 & 0xFF00) | ((int) (h * 255.999f) & 0xFF));
     }
     /**
-     * Gets a packed float representation of a color given as 4 float components, H, S, L, and alpha, with each
-     * component clamped to the 0f to 1f range before being entered into the packed float color. This is only different
-     * from {@link #hsluv(float, float, float, float)} in that it clamps each component.
+     * Gets a packed float representation of a color given as 4 float components, H, S, L, and alpha, with the S, L, and
+     * alpha components clamped to the 0f to 1f range before being entered into the packed float color, while H is
+     * wrapped into the same range. This is only different from {@link #hsluv(float, float, float, float)} in that it
+     * clamps or wraps each component.
      *
      * @see #hsluv(float, float, float, float) This uses the same definitions for H, S, L, and alpha as hsluv().
      * @param h     0f to 1f, hue component, with 0.0f meaning red, 0.3 meaning green, and 0.7 meaning blue
@@ -81,7 +82,7 @@ public class ColorTools {
         return NumberUtils.intBitsToFloat((Math.min(Math.max((int) (alpha * 127.999f), 0), 127) << 25)
                 | (Math.min(Math.max((int) (l * 255.999f), 0), 255) << 16)
                 | (Math.min(Math.max((int) (s * 255.999f), 0), 255) << 8)
-                | (Math.min(Math.max((int) (h * 255.999f), 0), 255))
+                | (int) ((h - MathUtils.floor(h)) * 256f)
         );
     }
 

@@ -336,18 +336,18 @@ public class ColorfulBatch implements Batch {
     }
 
     /**
-     * Sets the color to the result of {@link ColorTools#hsluv(float, float, float, float)} on the same arguments.
-     * For the L/A/B parameters, 0.5f is a neutral value (causing no change), while for alpha, 1.0f is a neutral
-     * value. For L/A/B, higher values will add to the corresponding channel, while lower values will subtract from it.
-     * @see ColorTools#hsluv(float, float, float, float)
-     * @param L like lightness; additive; ranges from 0 (black) to 1 (white)
-     * @param A cool-to-warm, roughly; additive; ranges from 0 (green/cyan/blue) to 1 (orange/red/purple)
-     * @param B artificial-to-natural, very roughly; additive; ranges from 0 (blue/purple) to 1 (green/yellow/orange)
+     * Sets the color to the result of {@link ColorTools#clamp(float, float, float, float)} on the same arguments.
+     * For the H/S/L parameters, 0.5f is a neutral value (causing no change), while for alpha, 1.0f is a neutral
+     * value. For H/S/L, higher values will add to the corresponding channel, while lower values will subtract from it.
+     * @see ColorTools#clamp(float, float, float, float)
+     * @param H hue; additive; from 0 to 1, with red at 0, orange above red, yellow above orange, etc.
+     * @param S saturation; additive; from 0 to 1, with 0 desaturating and 1 very saturating
+     * @param L lightness; additive; ranges from 0 (closer to black) to 1 (closer to white)
      * @param alpha opacity, from 0 to 1; multiplicative
      */
     @Override
-    public void setColor (float L, float A, float B, float alpha) {
-        color = ColorTools.hsluv(L, A, B, alpha);
+    public void setColor (float H, float S, float L, float alpha) {
+        color = ColorTools.clamp(H, S, L, alpha);
     }
 
     public void setColor (final float color) {
@@ -403,7 +403,7 @@ public class ColorfulBatch implements Batch {
      * @param contrast affects how lightness changes; ranges from 0 (low contrast, cloudy look) to 1 (high contrast, sharpened look) 
      */
     public void setTweak (float H, float S, float L, float contrast) {
-        tweak = ColorTools.hsluv(H, S, L, contrast);
+        tweak = ColorTools.clamp(H, S, L, contrast);
     }
     /**
      * Sets the tweak using a single packed CIELAB float.
@@ -457,21 +457,21 @@ public class ColorfulBatch implements Batch {
     /**
      * A convenience method that sets both the color (with {@link #setColor(float, float, float, float)}) and the tweak
      * (with {@link #setTweak(float, float, float, float)}) at the same time.
-     * @param addL like lightness; additive; ranges from 0 (black) to 1 (white)
-     * @param addA cool-to-warm, roughly; additive; ranges from 0 (green/cyan/blue) to 1 (orange/red/purple)
-     * @param addB artificial-to-natural, very roughly; additive; ranges from 0 (blue/purple) to 1 (green/yellow/orange)
+     * @param addH hue; additive; from 0 to 1, with red at 0, orange above red, yellow above orange, etc.
+     * @param addS saturation; additive; from 0 to 1, with 0 desaturating and 1 very saturating
+     * @param addL lightness; additive; ranges from 0 (closer to black) to 1 (closer to white)
      * @param mulAlpha opacity, from 0 to 1; multiplicative
-     * @param mulL like lightness; multiplicative; ranges from 0 (sets all L to 0) to 1 (doubles the image's L)
-     * @param mulA cool-to-warm, roughly; multiplicative; ranges from 0 (green/cyan/blue) to 1 (orange/red/purple)
-     * @param mulB artificial-to-natural, very roughly; multiplicative; ranges from 0 (blue/purple) to 1 (green/yellow/orange)
+     * @param mulH hue; multiplicative; probably doesn't work very well and should just be 0.5f
+     * @param mulS saturation; multiplicative; from 0 to 1, with 0 forcing grayscale and 1 emphasizing saturation
+     * @param mulL lightness; multiplicative; ranges from 0 (sets lightness to 0) to 1 (doubles lightness)
      * @param contrast foggy-to-sharp lightness contrast; affects most other components; ranges from 0 (flat, foggy lightness) to 1 (sharp, crisp lightness)
      */
-    public void setTweakedColor(final float addL, final float addA,
-                                final float addB, final float mulAlpha,
-                                final float mulL, final float mulA,
-                                final float mulB, final float contrast) {
-        setColor(addL, addA, addB, mulAlpha);
-        setTweak(mulL, mulA, mulB, contrast);
+    public void setTweakedColor(final float addH, final float addS,
+                                final float addL, final float mulAlpha,
+                                final float mulH, final float mulS,
+                                final float mulL, final float contrast) {
+        setColor(addH, addS, addL, mulAlpha);
+        setTweak(mulH, mulS, mulL, contrast);
     }
 
     @Override
