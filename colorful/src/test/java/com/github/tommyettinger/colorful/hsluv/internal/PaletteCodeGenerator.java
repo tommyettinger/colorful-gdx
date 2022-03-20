@@ -6,7 +6,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.ObjectFloatMap;
-import com.github.tommyettinger.colorful.hsluv.SimplePalette;
+import com.github.tommyettinger.colorful.hsluv.Palette;
 import com.github.tommyettinger.colorful.internal.StringKit;
 import com.github.tommyettinger.colorful.hsluv.ColorTools;
 
@@ -22,9 +22,9 @@ import static com.github.tommyettinger.colorful.hsluv.ColorTools.toRGBA8888;
  * Created by Tommy Ettinger on 12/8/2019.
  */
 public class PaletteCodeGenerator extends ApplicationAdapter {
-//    public static final String outputAdd = "Hsluv";
-//    public static final String inputName = "AuroraColorData.txt";
-//    public static final ObjectFloatMap<String> named = Palette.NAMED;
+    public static final String outputAdd = "Hsluv";
+    public static final String inputName = "AuroraColorData.txt";
+    public static final ObjectFloatMap<String> named = Palette.NAMED;
 
 //    public static final String outputAdd = "YamHsluv";
 //    public static final String inputName = "YamColorData.txt";
@@ -46,9 +46,9 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String inputName = "ISCCNBSData.txt";
 //    public static final ObjectFloatMap<String> named = NamedMunsellPalette.NAMED;
 
-    public static final String outputAdd = "SimpleHsluv";
-    public static final String inputName = "SimpleColorData.txt";
-    public static final ObjectFloatMap<String> named = SimplePalette.NAMED;
+//    public static final String outputAdd = "SimpleHsluv";
+//    public static final String inputName = "SimpleColorData.txt";
+//    public static final ObjectFloatMap<String> named = SimplePalette.NAMED;
 
     public static void tabSplit(String[] receiving, String source) {
         int dl = 1, idx = -1, idx2;

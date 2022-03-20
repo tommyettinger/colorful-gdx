@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.ObjectFloatMap;
 import com.github.tommyettinger.colorful.FloatColors;
-import com.github.tommyettinger.colorful.hsluv.ColorTools;
 import com.github.tommyettinger.colorful.hsluv.ColorfulBatch;
 
 import java.util.Comparator;
@@ -28,7 +27,7 @@ import static com.github.tommyettinger.colorful.hsluv.ColorTools.*;
  * You can access colors by their constant name, such as {@code CACTUS}, by the {@link #NAMED} map using
  * {@code NAMED.get("cactus", 0f)}, or by index in the FloatArray called {@link #LIST}. Note that to access a float
  * color from NAMED, you need to give a default value if the name is not found; {@code 0f} is a good default because it
- * will not occur in a valid CIELAB color. You can access the names in a specific order with {@link #NAMES} (which is
+ * will not occur in a valid HSLuv color. You can access the names in a specific order with {@link #NAMES} (which is
  * alphabetical), {@link #NAMES_BY_HUE} (which is sorted by the hue of the matching color, from red to yellow to blue
  * (with gray around here) to purple to red again), or {@link #NAMES_BY_LIGHTNESS} (which is sorted by the intensity of
  * the matching color, from darkest to lightest). Having a name lets you look up the matching color in {@link #NAMED}.
@@ -849,20 +848,20 @@ public class SimplePalette {
         NAMED.putAll(ALIASES);
     }
     /**
-     * Given a color as a packed CIELAB float, this finds the closest description it can to match the given color while
+     * Given a color as a packed HSLuv float, this finds the closest description it can to match the given color while
      * using at most {@code mixCount} colors to mix in. You should only use small numbers for mixCount, like 1 to 3;
      * this can take quite a while to run otherwise. This returns a String description that can be passed to
      * {@link #parseDescription(String)}. It is likely that this will use very contrasting colors if mixCount is 2 or
      * greater and the color to match is desaturated or brownish.
-     * @param cielab a packed CIELAB float color to attempt to match
+     * @param hsluv a packed HSLuv float color to attempt to match
      * @param mixCount how many color names this will use in the returned description
      * @return a description that can be fed to {@link #parseDescription(String)} to get a similar color
      */
-    public static String bestMatch(final float cielab, int mixCount) {
+    public static String bestMatch(final float hsluv, int mixCount) {
         mixCount = Math.max(1, mixCount);
         float bestDistance = Float.POSITIVE_INFINITY;
         final int paletteSize = namesByHue.size, colorTries = (int)Math.pow(paletteSize, mixCount), totalTries = colorTries * 81;
-        final float targetH = ColorTools.channelH(cielab), targetS = ColorTools.channelS(cielab), targetL = ColorTools.channelL(cielab);
+        final float targetH = ColorTools.channelH(hsluv), targetS = ColorTools.channelS(hsluv), targetL = ColorTools.channelL(hsluv);
         final String[] lightAdjectives = {"darkmost ", "darkest ", "darker ", "dark ", "", "light ", "lighter ", "lightest ", "lightmost "};
         final String[] satAdjectives = {"dullmost ", "dullest ", "duller ", "dull ", "", "rich ", "richer ", "richest ", "richmost "};
         mixing.clear();
@@ -899,11 +898,11 @@ public class SimplePalette {
     }
 
     /**
-     * Changes the existing RGBA Color instances in {@link Colors} to use CIELAB and so be able to be shown normally by
+     * Changes the existing RGBA Color instances in {@link Colors} to use HSLuv and so be able to be shown normally by
      * {@link ColorfulBatch} or a Batch using {@link com.github.tommyettinger.colorful.Shaders#fragmentShaderCielab}.
      * Any colors used in libGDX text markup look up their values in Colors, so calling this can help display fonts
      * where markup is enabled. This only needs to be called once, and if you call {@link #appendToKnownColors()}, then
-     * that should be done after this to avoid mixing RGBA and CIELAB colors.
+     * that should be done after this to avoid mixing RGBA and HSLuv colors.
      * <br>
      * This is a duplicate of a method with the same name in Palette; you should still only call this method once,
      * regardless of where it was from.
@@ -916,7 +915,7 @@ public class SimplePalette {
     }
 
     /**
-     * Appends CIELAB-compatible Color instances to the map in {@link Colors}, using the names in {@link #NAMES} (which
+     * Appends HSLuv-compatible Color instances to the map in {@link Colors}, using the names in {@link #NAMES} (which
      * are "lower cased" instead of "ALL UPPER CASE"). If you intend to still use the existing values in Colors, you
      * should call {@link #editKnownColors()} first; otherwise you can just always use "lower cased" color names.
      * This does append aliases as well, so some color values will be duplicates.
