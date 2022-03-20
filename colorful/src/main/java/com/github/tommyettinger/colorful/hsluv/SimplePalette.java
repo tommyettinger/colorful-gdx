@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.ObjectFloatMap;
-import com.github.tommyettinger.colorful.FloatColors;
-import com.github.tommyettinger.colorful.hsluv.ColorfulBatch;
 
 import java.util.Comparator;
 
@@ -716,7 +714,7 @@ public class SimplePalette {
      * Color descriptions consist of one or more lower-case words, separated by non-alphabetical characters (typically
      * spaces and/or hyphens). Any word that is the name of a color in this SimplePalette will be looked up in
      * {@link #NAMED} and tracked; if there is more than one of these color name words, the colors will be mixed using
-     * {@link FloatColors#mix(float[], int, int)}, or if there is just one color name word, then the corresponding color
+     * {@link ColorTools#mix(float[], int, int)}, or if there is just one color name word, then the corresponding color
      * will be used. The special adjectives "light" and "dark" change the intensity of the described color; likewise,
      * "rich" and "dull" change the saturation (the difference of the chromatic channels from grayscale). All of these
      * adjectives can have "-er" or "-est" appended to make their effect twice or three times as strong. Technically,
@@ -818,7 +816,7 @@ public class SimplePalette {
                     break;
             }
         }
-        float result = FloatColors.mix(mixing.items, 0, mixing.size);
+        float result = mix(mixing.items, 0, mixing.size);
         if(result == 0f) return result;
 
         if(intensity > 0) result = ColorTools.lighten(result, intensity);
@@ -875,7 +873,7 @@ public class SimplePalette {
             }
             int idxI = ((c / colorTries) % 9 - 4), idxS = (c / (colorTries * 9) - 4);
 
-            float result = FloatColors.mix(mixing.items, 0, mixCount);
+            float result = mix(mixing.items, 0, mixCount);
             if(idxI > 0) result = ColorTools.lighten(result, 0.125f * idxI);
             else if(idxI < 0) result = ColorTools.darken(result, -0.15f * idxI);
 
