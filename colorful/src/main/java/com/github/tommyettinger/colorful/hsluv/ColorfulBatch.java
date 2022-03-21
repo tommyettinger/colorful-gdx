@@ -225,7 +225,7 @@ public class ColorfulBatch implements Batch {
                 + "   v_tweak.w = pow(v_tweak.w * (255.0/254.0) + 0.5, 1.709);\n"
                 + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
                 + "   v_color.w = v_color.w * (255.0/254.0);\n"
-                + "   v_color.x *= 6.2831 * v_tweak.x;\n"
+                + "   v_color.x *= 6.2831 * 2.0 * v_tweak.x;\n"
                 + "   v_color.rgb = hsl2luv(v_color.rgb);\n"
                 + "   v_lightFix = 1.0 + pow(v_tweak.w, 1.41421356);\n"
                 + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
@@ -272,7 +272,9 @@ public class ColorfulBatch implements Batch {
                         "    c *= mInv;" +
 //                        "    c = xyzF(c);\n" +
                         "    float L = max(0.,1.16*pow(c.y, 1.0 / 3.0) - 0.16);\n" +
-                        "    vec2 uv = 13. * L / (c.x + 15. * c.y + 3. * c.z) * vec2(4., 9.) * c.xy - refUV;\n" +
+                        "    vec2 uv;\n" +
+                        "    if(L < 0.0001) uv = vec2(0.0);\n" +
+                        "    else uv = 13. * L * (vec2(4., 9.) * c.xy / (c.x + 15. * c.y + 3. * c.z) - refUV);\n" +
                         "    return vec3(L, uv);\n" +
                         "}\n" +
                         "float chromaLimit(float hue, float lightness) {\n" +
@@ -368,7 +370,10 @@ public class ColorfulBatch implements Batch {
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                         "  vec3 luv = rgb2luv(linear(tgt.rgb));\n" +
                         "  luv.x = clamp(pow(luv.x, v_tweak.w) * v_lightFix * v_tweak.z + v_color.x - 0.5372549, 0.0, 1.0);\n" +
-                        "  luv.yz = (luv.yz * v_tweak.y * 2.0) + (v_color.yz - 0.5) * 2.0;\n" +
+//                        "  luv.yz = (luv.yz * v_tweak.y * 2.0);\n" +
+                        "  luv.yz = (luv.yz * v_tweak.y * 2.0) + (v_color.yz);\n" +
+//                        "  luv.yz = (v_color.yz);\n" +
+//                        "  gl_FragColor = vec4(sRGB(clamp(luv2rgb(vec3(0.5, 0.0, luv.z)), 0.0, 1.0)), v_color.a * tgt.a);\n" +
                         "  gl_FragColor = vec4(sRGB(clamp(luv2rgb(luv), 0.0, 1.0)), v_color.a * tgt.a);\n" +
                         "}";
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
