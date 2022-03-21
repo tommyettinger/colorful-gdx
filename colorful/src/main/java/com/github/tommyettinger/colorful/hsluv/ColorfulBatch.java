@@ -159,12 +159,15 @@ public class ColorfulBatch implements Batch {
                 "         mat3(+3.2404542, -1.5371385, -0.4985314,\n" +
                 "              -0.9692660, +1.8760108, +0.0415560,\n" +
                 "              +0.0556434, -0.2040259, +1.0572252);\n" +
+                "float intersectLength (float sn, float cs, float line1, float line2) {\n" +
+                "    return line2 / (sn - line1 * cs);\n" +
+                "}\n" +
                 "float chromaLimit(float hue, float lightness) {\n" +
                 "        float sn = sin(hue);\n" +
                 "        float cs = cos(hue);\n" +
                 "        float sub1 = (lightness + 0.16) / 1.16;\n" +
                 "        sub1 *= sub1 * sub1;\n" +
-                "        float sub2 = sub1 > epsilon ? sub1 : lightness / kappa;\n" +
+                "        float sub2 = sub1 > epsilon.x ? sub1 : lightness / kappa;\n" +
                 "        float mn = 1.0;\n" +
                 "        vec3 ms = m[0] * sub2;\n" +
                 "        float msy, top1, top2, bottom, length;\n" +
@@ -173,44 +176,40 @@ public class ColorfulBatch implements Batch {
                 "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
                 "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
                 "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
-                "        if (length >= 0) mn = min(min, length);\n" +
-                "        msy -= t;\n" +
+                "        if (length >= 0.) mn = min(mn, length);\n" +
+                "        msy -= 1.0;\n" +
                 "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
                 "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
                 "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
                 "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
-                "        if (length >= 0) mn = min(min, length);\n" +
+                "        if (length >= 0.) mn = min(mn, length);\n" +
                 "        ms = m[1] * sub2;\n" +
                 "        msy = ms.y;\n" +
                 "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
                 "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
                 "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
                 "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
-                "        if (length >= 0) mn = min(min, length);\n" +
-                "        msy -= t;\n" +
+                "        if (length >= 0.) mn = min(mn, length);\n" +
+                "        msy -= 1.0;\n" +
                 "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
                 "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
                 "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
                 "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
-                "        if (length >= 0) mn = min(min, length);\n" +
+                "        if (length >= 0.) mn = min(mn, length);\n" +
                 "        ms = m[2] * sub2;\n" +
                 "        msy = ms.y;\n" +
                 "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
                 "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
                 "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
                 "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
-                "        if (length >= 0) mn = min(min, length);\n" +
-                "        msy -= t;\n" +
+                "        if (length >= 0.) mn = min(mn, length);\n" +
+                "        msy -= 1.0;\n" +
                 "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
                 "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
                 "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
                 "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
-                "        if (length >= 0) mn = min(min, length);\n" +
-                "        return min;\n" +
-                "    }\n" +
-                "\n" +
-                "float intersectLength (float sn, float cs, float line1, float line2) {\n" +
-                "    return line2 / (sn - line1 * cs);\n" +
+                "        if (length >= 0.) mn = min(mn, length);\n" +
+                "        return mn;\n" +
                 "}\n" +
                 "vec3 hsl2luv(vec3 c)\n" +
                 "{\n" +
@@ -220,7 +219,6 @@ public class ColorfulBatch implements Batch {
                 "    float V = sin(c.x) * C;\n" +
                 "    return vec3(L, U, V);\n" +
                 "}\n"
-                + "\n"
                 + "void main()\n"
                 + "{\n"
                 + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
@@ -228,7 +226,7 @@ public class ColorfulBatch implements Batch {
                 + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
                 + "   v_color.w = v_color.w * (255.0/254.0);\n"
                 + "   v_color.x *= 6.2831 * v_tweak.x;\n"
-                + "   v_color = hsl2luv(v_color);\n"
+                + "   v_color.rgb = hsl2luv(v_color.rgb);\n"
                 + "   v_lightFix = 1.0 + pow(v_tweak.w, 1.41421356);\n"
                 + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
                 + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
@@ -266,12 +264,23 @@ public class ColorfulBatch implements Batch {
                         "float xyzF(float t){ return mix(pow(t,1./3.), 7.787037 * t + 0.139731, step(t, epsilon.x)); }\n" +
                         "vec3 xyzF(vec3 t){ return mix(pow(t, forward), 7.787037 * t + 0.139731, step(t, epsilon)); }\n" +
                         "float xyzR(float t){ return mix(t*t*t , 0.1284185 * (t - 0.139731), step(t, 0.20689655)); }\n" +
+                        "float intersectLength (float sn, float cs, float line1, float line2) {\n" +
+                        "    return line2 / (sn - line1 * cs);\n" +
+                        "}\n" +
+                        "vec3 rgb2luv(vec3 c)\n" +
+                        "{\n" +
+                        "    c *= mInv;" +
+//                        "    c = xyzF(c);\n" +
+                        "    float L = max(0.,1.16*pow(c.y, 1.0 / 3.0) - 0.16);\n" +
+                        "    vec2 uv = 13. * L / (c.x + 15. * c.y + 3. * c.z) * vec2(4., 9.) * c.xy - refUV;\n" +
+                        "    return vec3(L, uv);\n" +
+                        "}\n" +
                         "float chromaLimit(float hue, float lightness) {\n" +
                         "        float sn = sin(hue);\n" +
                         "        float cs = cos(hue);\n" +
                         "        float sub1 = (lightness + 0.16) / 1.16;\n" +
                         "        sub1 *= sub1 * sub1;\n" +
-                        "        float sub2 = sub1 > epsilon ? sub1 : lightness / kappa;\n" +
+                        "        float sub2 = sub1 > epsilon.x ? sub1 : lightness / kappa;\n" +
                         "        float mn = 1.0;\n" +
                         "        vec3 ms = m[0] * sub2;\n" +
                         "        float msy, top1, top2, bottom, length;\n" +
@@ -280,52 +289,40 @@ public class ColorfulBatch implements Batch {
                         "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
                         "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
                         "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
-                        "        if (length >= 0) mn = min(min, length);\n" +
-                        "        msy -= t;\n" +
+                        "        if (length >= 0.) mn = min(mn, length);\n" +
+                        "        msy -= 1.0;\n" +
                         "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
                         "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
                         "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
                         "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
-                        "        if (length >= 0) mn = min(min, length);\n" +
+                        "        if (length >= 0.) mn = min(mn, length);\n" +
                         "        ms = m[1] * sub2;\n" +
                         "        msy = ms.y;\n" +
                         "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
                         "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
                         "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
                         "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
-                        "        if (length >= 0) mn = min(min, length);\n" +
-                        "        msy -= t;\n" +
+                        "        if (length >= 0.) mn = min(mn, length);\n" +
+                        "        msy -= 1.0;\n" +
                         "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
                         "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
                         "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
                         "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
-                        "        if (length >= 0) mn = min(min, length);\n" +
+                        "        if (length >= 0.) mn = min(mn, length);\n" +
                         "        ms = m[2] * sub2;\n" +
                         "        msy = ms.y;\n" +
                         "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
                         "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
                         "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
                         "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
-                        "        if (length >= 0) mn = min(min, length);\n" +
-                        "        msy -= t;\n" +
+                        "        if (length >= 0.) mn = min(mn, length);\n" +
+                        "        msy -= 1.0;\n" +
                         "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
                         "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
                         "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
                         "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
-                        "        if (length >= 0) mn = min(min, length);\n" +
-                        "        return min;\n" +
-                        "    }\n" +
-                        "\n" +
-                        "float intersectLength (float sn, float cs, float line1, float line2) {\n" +
-                        "    return line2 / (sn - line1 * cs);\n" +
-                        "}\n" +
-                        "vec3 rgb2luv(vec3 c)\n" +
-                        "{\n" +
-                        "    c *= mInv" +
-//                        "    c = xyzF(c);\n" +
-                        "    float L = max(0.,1.16*pow(c.y, 1.0 / 3.0) - 0.16);\n" +
-                        "    vec2 uv = 13 * L / (c.x + 15 * c.y + 3 * c.z) * vec2(4, 9) * c.xy - refUV;\n" +
-                        "    return vec3(L, uv);\n" +
+                        "        if (length >= 0.) mn = min(mn, length);\n" +
+                        "        return mn;\n" +
                         "}\n" +
 //                        "vec3 rgb2hsl(vec3 c)\n" +
 //                        "{\n" +
@@ -349,20 +346,19 @@ public class ColorfulBatch implements Batch {
                         "    } else if(L >= 0.9999) {\n" +
                         "        return vec3(1.0);\n" +
                         "    } else {\n" +
-                        "      if (L <= epsilon) {\n" +
-                        "        y = L / kappa;\n" +
+                        "      if (L <= epsilon.x) {\n" +
+                        "        c.y = L / kappa;\n" +
                         "      } else {\n" +
-                        "        y = (L + 0.16) / 1.16;\n" +
-                        "        y *= y * y;\n" +
+                        "        c.y = (L + 0.16) / 1.16;\n" +
+                        "        c.y *= c.y * c.y;\n" +
                         "      }\n" +
                         "    }\n" +
                         "    float iL = 1. / (13. * L);\n" +
-                        "    float varU = U * iL + refU;\n" +
-                        "    float varV = V * iL + refV;\n" +
-                        "    x = 9. * varU * y / (4. * varV);\n" +
-                        "    z = (3. * y / varV) - x / 3. - 5. * y;\n" +
-                        "    vec3 xyz = vec3(x, y, z);\n" +
-                        "    vec3 rgb = xyz*mat3( 3.2406, -1.5372,-0.4986,\n" +
+                        "    float varU = U * iL + refUV.x;\n" +
+                        "    float varV = V * iL + refUV.y;\n" +
+                        "    c.x = 9. * varU * c.y / (4. * varV);\n" +
+                        "    c.z = (3. * c.y / varV) - c.x / 3. - 5. * c.y;\n" +
+                        "    vec3 rgb = c * mat3( 3.2406, -1.5372,-0.4986,\n" +
                         "                        -0.9689,  1.8758, 0.0415,\n" +
                         "                         0.0557, -0.2040, 1.0570);\n" +
                         "    return rgb;\n" +
