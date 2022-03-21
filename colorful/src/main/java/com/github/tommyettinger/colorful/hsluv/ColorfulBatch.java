@@ -159,9 +159,6 @@ public class ColorfulBatch implements Batch {
                 "         mat3(+3.2404542, -1.5371385, -0.4985314,\n" +
                 "              -0.9692660, +1.8760108, +0.0415560,\n" +
                 "              +0.0556434, -0.2040259, +1.0572252);\n" +
-                "float intersectLength (float sn, float cs, float line1, float line2) {\n" +
-                "    return line2 / (sn - line1 * cs);\n" +
-                "}\n" +
                 "float chromaLimit(float hue, float lightness) {\n" +
                 "        float sn = sin(hue);\n" +
                 "        float cs = cos(hue);\n" +
@@ -212,6 +209,9 @@ public class ColorfulBatch implements Batch {
                 "        }\n" +
                 "        return result;\n" +
                 "}\n" +
+//                "float intersectLength (float sn, float cs, float line1, float line2) {\n" +
+//                "    return line2 / (sn - line1 * cs);\n" +
+//                "}\n" +
 //                "float chromaLimit(float hue, float lightness) {\n" +
 //                "        float sn = sin(hue);\n" +
 //                "        float cs = cos(hue);\n" +
@@ -264,7 +264,7 @@ public class ColorfulBatch implements Batch {
                 "vec3 hsl2luv(vec3 c)\n" +
                 "{\n" +
                 "    float L = c.z;\n" +
-                "    float C = clamp(chromaLimit(c.x, L) * c.y, 0.0, 1.0);\n" +
+                "    float C = chromaLimit(c.x, L) * c.y;\n" +
                 "    float U = cos(c.x) * C;\n" +
                 "    float V = sin(c.x) * C;\n" +
                 "    return vec3(L, U, V);\n" +
@@ -300,7 +300,7 @@ public class ColorfulBatch implements Batch {
                         "const vec3 sRGBThresholdTo = vec3(0.0031308);\n" +
                         "const vec3 epsilon = vec3(0.00885645);\n" +
                         "const float kappa = 9.032962962;\n" +
-                        "const vec2 refUV = vec2(0.19783000664283, 0.46831999493879);\n" +
+                        "const vec2 refUV = vec2(0.1978, 0.4683);\n" +
                         "const mat3 m =" +
                         "         mat3(+3.2404542, -1.5371385, -0.4985314,\n" +
                         "              -0.9692660, +1.8760108, +0.0415560,\n" +
@@ -314,13 +314,59 @@ public class ColorfulBatch implements Batch {
                         "float xyzF(float t){ return mix(pow(t,1./3.), 7.787037 * t + 0.139731, step(t, epsilon.x)); }\n" +
                         "vec3 xyzF(vec3 t){ return mix(pow(t, forward), 7.787037 * t + 0.139731, step(t, epsilon)); }\n" +
                         "float xyzR(float t){ return mix(t*t*t , 0.1284185 * (t - 0.139731), step(t, 0.20689655)); }\n" +
-                        "float intersectLength (float sn, float cs, float line1, float line2) {\n" +
-                        "    return line2 / (sn - line1 * cs);\n" +
+                        "float chromaLimit(float hue, float lightness) {\n" +
+                        "        float sn = sin(hue);\n" +
+                        "        float cs = cos(hue);\n" +
+                        "        float sub1 = (lightness + 0.16) / 1.16;\n" +
+                        "        sub1 *= sub1 * sub1;\n" +
+                        "        float sub2 = sub1 > epsilon.x ? sub1 : lightness / kappa;\n" +
+                        "        float result = 1.0e50;\n" +
+                        "        float top, rbottom, lbottom, bottom, C0, C1;\n" +
+                        "        vec3 channelM;\n" +
+                        "        channelM = m[0];\n" +
+                        "        top = (0.99915 * channelM.x + 1.05122 * channelM.y + 1.14460 * channelM.z) * sub2;\n" +
+                        "        rbottom = 0.86330 * channelM.z - 0.17266 * channelM.y;\n" +
+                        "        lbottom = 0.12949 * channelM.z - 0.38848 * channelM.x;\n" +
+                        "        bottom = (rbottom * sn + lbottom * cs) * sub2;\n" +
+                        "        C0 = lightness * top / bottom;\n" +
+                        "        if (C0 > 0. && C0 < result) {\n" +
+                        "          result = C0;\n" +
+                        "        }\n" +
+                        "        C1 = lightness * (top - 1.05122 * 1) / (bottom + 0.17266 * sn);\n" +
+                        "        if (C1 > 0. && C1 < result) {\n" +
+                        "          result = C1;\n" +
+                        "        }\n" +
+                        "        channelM = m[1];\n" +
+                        "        top = (0.99915 * channelM.x + 1.05122 * channelM.y + 1.14460 * channelM.z) * sub2;\n" +
+                        "        rbottom = 0.86330 * channelM.z - 0.17266 * channelM.y;\n" +
+                        "        lbottom = 0.12949 * channelM.z - 0.38848 * channelM.x;\n" +
+                        "        bottom = (rbottom * sn + lbottom * cs) * sub2;\n" +
+                        "        C0 = lightness * top / bottom;\n" +
+                        "        if (C0 > 0. && C0 < result) {\n" +
+                        "          result = C0;\n" +
+                        "        }\n" +
+                        "        C1 = lightness * (top - 1.05122 * 1) / (bottom + 0.17266 * sn);\n" +
+                        "        if (C1 > 0. && C1 < result) {\n" +
+                        "          result = C1;\n" +
+                        "        }\n" +
+                        "        channelM = m[2];\n" +
+                        "        top = (0.99915 * channelM.x + 1.05122 * channelM.y + 1.14460 * channelM.z) * sub2;\n" +
+                        "        rbottom = 0.86330 * channelM.z - 0.17266 * channelM.y;\n" +
+                        "        lbottom = 0.12949 * channelM.z - 0.38848 * channelM.x;\n" +
+                        "        bottom = (rbottom * sn + lbottom * cs) * sub2;\n" +
+                        "        C0 = lightness * top / bottom;\n" +
+                        "        if (C0 > 0. && C0 < result) {\n" +
+                        "          result = C0;\n" +
+                        "        }\n" +
+                        "        C1 = lightness * (top - 1.05122 * 1) / (bottom + 0.17266 * sn);\n" +
+                        "        if (C1 > 0. && C1 < result) {\n" +
+                        "          result = C1;\n" +
+                        "        }\n" +
+                        "        return result;\n" +
                         "}\n" +
                         "vec3 rgb2luv(vec3 c)\n" +
                         "{\n" +
                         "    c *= mInv;" +
-//                        "    c = xyzF(c);\n" +
                         "    float L = max(0.,1.16*pow(c.y, 1.0 / 3.0) - 0.16);\n" +
                         "    vec2 uv;\n" +
                         "    if(L < 0.0001) uv = vec2(0.0);\n" +
@@ -339,11 +385,43 @@ public class ColorfulBatch implements Batch {
 //                        "    float s = min(C / (chromaLimit(L, h) + 0.0001), 1);\n" +
 //                        "    return vec3(h, s, L);\n" +
 //                        "}\n" +
+//                        "vec3 luv2rgb(vec3 c)\n" +
+//                        "{\n" +
+//                        "    float L = c.x;\n" +
+//                        "    float U = c.y;\n" +
+//                        "    float V = c.z;\n" +
+//                        "    if (L <= 0.0001) {\n" +
+//                        "        return vec3(0.0);\n" +
+//                        "    } else if(L >= 0.9999) {\n" +
+//                        "        return vec3(1.0);\n" +
+//                        "    } else {\n" +
+//                        "        c.y = (L + 0.16) / 1.16;\n" +
+//                        "        float prop = c.y * c.y * c.y;\n" +
+//                        "        if(prop > epsilon.x) c.y = prop;\n" +
+//                        "        else c.y = (1.16 * c.y - 0.16) / kappa;\n" +
+//                        "    }\n" +
+//                        "    float iL = 1. / (13.0 * L);\n" +
+//                        "    float varU = U * iL + refUV.x;\n" +
+//                        "    float varV = V * iL + refUV.y;\n" +
+//                        "    c.x = -9. * c.y * varU / (-4. * varV);\n" +
+//                        "    c.z = (9 * c.y - 15 * varV * c.y - varV * c.x) / (3 * varV);\n" +
+//                        "    vec3 rgb = c * mat3( 3.2406, -1.5372,-0.4986,\n" +
+//                        "                        -0.9689,  1.8758, 0.0415,\n" +
+//                        "                         0.0557, -0.2040, 1.0570);\n" +
+//                        "    return rgb;\n" +
+//                        "}\n" +
                         "vec3 luv2rgb(vec3 c)\n" +
                         "{\n" +
                         "    float L = c.x;\n" +
                         "    float U = c.y;\n" +
                         "    float V = c.z;\n" +
+                        "    float lim = chromaLimit(atan(V, U), L);\n" +
+                        "    float len = length(vec2(U,V));\n" +
+                        "    if(len > lim) {\n" +
+                        "      lim /= len;\n" +
+                        "      U *= lim;\n" +
+                        "      V *= lim;\n" +
+                        "    }\n" +
                         "    if (L <= 0.0001) {\n" +
                         "        return vec3(0.0);\n" +
                         "    } else if(L >= 0.9999) {\n" +
@@ -371,10 +449,7 @@ public class ColorfulBatch implements Batch {
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                         "  vec3 luv = rgb2luv(linear(tgt.rgb));\n" +
                         "  luv.x = clamp(pow(luv.x, v_tweak.w) * v_lightFix * v_tweak.z + v_color.x - 0.5372549, 0.0, 1.0);\n" +
-//                        "  luv.yz = (luv.yz * v_tweak.y * 2.0);\n" +
                         "  luv.yz = (luv.yz * v_tweak.y * 2.0) + (v_color.yz);\n" +
-//                        "  luv.yz = (v_color.yz);\n" +
-//                        "  gl_FragColor = vec4(sRGB(clamp(luv2rgb(vec3(0.5, 0.0, luv.z)), 0.0, 1.0)), v_color.a * tgt.a);\n" +
                         "  gl_FragColor = vec4(sRGB(clamp(luv2rgb(luv), 0.0, 1.0)), v_color.a * tgt.a);\n" +
                         "}";
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);

@@ -25,7 +25,7 @@ import static com.badlogic.gdx.Gdx.input;
 public class HsluvNamedDemo extends ApplicationAdapter {
     public static final int SCREEN_WIDTH = 808;
     public static final int SCREEN_HEIGHT = 600;
-    private com.github.tommyettinger.colorful.hsluv.ColorfulBatch batch;
+    private ColorfulBatch batch;
     private Viewport screenView;
     private Texture screenTexture;
     private BitmapFont font;
@@ -90,15 +90,15 @@ public class HsluvNamedDemo extends ApplicationAdapter {
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.enableBlending();
 
-        for (int i = 0; i < com.github.tommyettinger.colorful.hsluv.Palette.NAMES_BY_HUE.size; i++) {
-            String name = com.github.tommyettinger.colorful.hsluv.Palette.NAMES_BY_HUE.get(i);
-            float color = com.github.tommyettinger.colorful.hsluv.Palette.NAMED.get(name, com.github.tommyettinger.colorful.hsluv.Palette.WHITE);
-            if (com.github.tommyettinger.colorful.hsluv.ColorTools.alphaInt(color) == 0)
-                com.github.tommyettinger.colorful.hsluv.Palette.NAMES_BY_HUE.removeIndex(i--);
+        for (int i = 0; i < Palette.NAMES_BY_HUE.size; i++) {
+            String name = Palette.NAMES_BY_HUE.get(i);
+            float color = Palette.NAMED.get(name, Palette.WHITE);
+            if (ColorTools.alphaInt(color) == 0)
+                Palette.NAMES_BY_HUE.removeIndex(i--);
         }
-        selectedName = "Gray";
-        selectedIndex = com.github.tommyettinger.colorful.hsluv.Palette.NAMES_BY_HUE.indexOf("Gray", false);
-        selected = com.github.tommyettinger.colorful.hsluv.Palette.GRAY;
+        selectedName = "Bologna";
+        selectedIndex = Palette.NAMES_BY_HUE.indexOf("Bologna", false);
+        selected = Palette.BOLOGNA;
 //        selectedName = Palette.NAMES_BY_HUE.first();
 //        selectedIndex = 0;
 //        selected = Palette.NAMED.get(selectedName, Palette.GRAY);
@@ -127,8 +127,8 @@ public class HsluvNamedDemo extends ApplicationAdapter {
             final float width = screenTexture.getWidth() / 5f, height = screenTexture.getHeight() / 51f;
             for (int y = 0; y < 51; y++) {
                 for (int x = 0; x < 5; x++) {
-                    String name = com.github.tommyettinger.colorful.hsluv.Palette.NAMES_BY_HUE.get(++i);
-                    float color = com.github.tommyettinger.colorful.hsluv.Palette.NAMED.get(name, com.github.tommyettinger.colorful.hsluv.Palette.WHITE);
+                    String name = Palette.NAMES_BY_HUE.get(++i);
+                    float color = Palette.NAMED.get(name, Palette.WHITE);
 //                    System.out.printf("0x%08X : %s\n", Float.floatToRawIntBits(color), name);
                     batch.setPackedColor(color);
                     batch.draw(blank, screenTexture.getWidth() + width * x, height * (50 - y), width, height);
@@ -141,7 +141,7 @@ public class HsluvNamedDemo extends ApplicationAdapter {
                 for (int x = 0; x < 5; x++) {
                     if (++i == selectedIndex) {
                         font.setColor(0.5f, 0.5f, 0.5f, 1f);
-                        font.draw(batch, com.github.tommyettinger.colorful.hsluv.Palette.NAMES_BY_HUE.get(i), screenTexture.getWidth() + width * x + 1f, height * (51 - y) - 1f);
+                        font.draw(batch, Palette.NAMES_BY_HUE.get(i), screenTexture.getWidth() + width * x + 1f, height * (51 - y) - 1f);
                     }
                 }
             }
@@ -177,22 +177,22 @@ public class HsluvNamedDemo extends ApplicationAdapter {
         } else if (TimeUtils.timeSinceMillis(lastProcessedTime) > 150) {
             lastProcessedTime = TimeUtils.millis();
             if (input.isKeyPressed(Input.Keys.RIGHT) || input.isKeyPressed(Input.Keys.DOWN)) {
-                selectedIndex = (selectedIndex + 1) % com.github.tommyettinger.colorful.hsluv.Palette.NAMES_BY_HUE.size;
-                selectedName = com.github.tommyettinger.colorful.hsluv.Palette.NAMES_BY_HUE.get(selectedIndex);
-                selected = com.github.tommyettinger.colorful.hsluv.Palette.NAMED.get(selectedName, com.github.tommyettinger.colorful.hsluv.Palette.GRAY);
+                selectedIndex = (selectedIndex + 1) % Palette.NAMES_BY_HUE.size;
+                selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
+                selected = Palette.NAMED.get(selectedName, Palette.GRAY);
             } else if (input.isKeyPressed(Input.Keys.LEFT) || input.isKeyPressed(Input.Keys.UP)) {
-                selectedIndex = (selectedIndex + com.github.tommyettinger.colorful.hsluv.Palette.NAMES_BY_HUE.size - 1) % com.github.tommyettinger.colorful.hsluv.Palette.NAMES_BY_HUE.size;
-                selectedName = com.github.tommyettinger.colorful.hsluv.Palette.NAMES_BY_HUE.get(selectedIndex);
-                selected = com.github.tommyettinger.colorful.hsluv.Palette.NAMED.get(selectedName, com.github.tommyettinger.colorful.hsluv.Palette.GRAY);
+                selectedIndex = (selectedIndex + Palette.NAMES_BY_HUE.size - 1) % Palette.NAMES_BY_HUE.size;
+                selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
+                selected = Palette.NAMED.get(selectedName, Palette.GRAY);
             } else if (input.isKeyPressed(Input.Keys.C)) // CHAOS!
             {
-                selectedIndex = MathUtils.random(com.github.tommyettinger.colorful.hsluv.Palette.NAMES_BY_HUE.size);
-                selectedName = com.github.tommyettinger.colorful.hsluv.Palette.NAMES_BY_HUE.get(selectedIndex);
-                selected = com.github.tommyettinger.colorful.hsluv.Palette.NAMED.get(selectedName, Palette.GRAY);
+                selectedIndex = MathUtils.random(Palette.NAMES_BY_HUE.size);
+                selectedName = Palette.NAMES_BY_HUE.get(selectedIndex);
+                selected = Palette.NAMED.get(selectedName, Palette.GRAY);
             } else if (input.isKeyPressed(Input.Keys.P)) // print
                 System.out.println("Using color " + selectedName
-                        + " with H="+ com.github.tommyettinger.colorful.hsluv.ColorTools.channelH(selected)
-                                + ",S="+ com.github.tommyettinger.colorful.hsluv.ColorTools.channelS(selected)
+                        + " with H="+ ColorTools.channelH(selected)
+                                + ",S="+ ColorTools.channelS(selected)
                                 + ",L="+ ColorTools.channelL(selected)+",alpha=1.0 ."
 //                        +"\nUsing tweak with L="+ L
 //                        + ",A="+ A + ",B="+ B +",contrast="+contrast + " ."
