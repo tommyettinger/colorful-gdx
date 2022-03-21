@@ -25,7 +25,6 @@ public class Palette {
     public static final ObjectFloatMap<String> NAMED = new ObjectFloatMap<String>(256);
     public static final FloatArray LIST = new FloatArray(256);
 
-
     /**
      * This color constant "Transparent" has RGBA8888 code {@code 00000000}, H 0.0, S 0.0, L 0.0, alpha 0.0, and chroma 0.0.
      * It can be represented as a packed float with the constant {@code 0x0.0p0F}.
