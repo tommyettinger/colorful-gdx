@@ -1651,7 +1651,7 @@ void main()
                     "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                     "  vec3 luv = rgb2luv(linear(tgt.rgb));\n" +
                     "  luv.x = clamp(luv.x + v_color.x - 0.5372549, 0.0, 1.0);\n" +
-                    "  luv.yz = (luv.yz * v_tweak.y * 2.0) + (v_color.yz);\n" +
+                    "  luv.yz = luv.yz + v_color.yz;\n" +
                     "  gl_FragColor = vec4(sRGB(clamp(luv2rgb(luv), 0.0, 1.0)), v_color.a * tgt.a);\n" +
                     "}\n";
 
