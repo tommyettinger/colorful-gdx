@@ -1515,7 +1515,7 @@ void main()
             "   v_color.rgb = hsl2luv(v_color.rgb);\n" +
             "   v_texCoords = a_texCoord0;\n" +
             "   gl_Position =  u_projTrans * a_position;\n" +
-            "}\n";
+            "}";
 
     /**
      * Just like {@link #fragmentShaderOklab}, but uses the HSLuv color space instead of the Oklab one.
@@ -1653,6 +1653,6 @@ void main()
                     "  luv.x = clamp(luv.x + v_color.x - 0.5372549, 0.0, 1.0);\n" +
                     "  luv.yz = luv.yz + v_color.yz;\n" +
                     "  gl_FragColor = vec4(sRGB(clamp(luv2rgb(luv), 0.0, 1.0)), v_color.a * tgt.a);\n" +
-                    "}\n";
+                    "}";
 
 }
