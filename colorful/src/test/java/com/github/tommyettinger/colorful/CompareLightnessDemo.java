@@ -26,10 +26,7 @@ public class CompareLightnessDemo extends ApplicationAdapter {
     private TextureAtlas.AtlasRegion pixel;
     private final Color color = new Color();
     private float r = SimplePalette.TRANSPARENT;
-    private float o = com.github.tommyettinger.colorful.oklab.SimplePalette.TRANSPARENT;
-    private float i = com.github.tommyettinger.colorful.ipt_hq.SimplePalette.TRANSPARENT;
-    private float c = com.github.tommyettinger.colorful.cielab.SimplePalette.TRANSPARENT;
-    private float shape = 1f, turning = 0.5f;
+    private float shape = 1.21f, turning = 0.177f;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -55,10 +52,11 @@ public class CompareLightnessDemo extends ApplicationAdapter {
         Table tab = new Table(skin);
         tab.align(Align.center);
         tab.setFillParent(true);
-        Label title = new Label("Compare Lightness", skin);
-        title.setAlignment(Align.center);
-        tab.add(title).colspan(2).growX().minWidth(300).row();
+//        Label title = new Label("Compare Lightness", skin);
+//        title.setAlignment(Align.center);
+//        tab.add(title).colspan(2).growX().minWidth(300).row();
         tab.add("RGB:         ").center().grow().minWidth(200).row();
+        tab.add("Hsluv:       ").center().grow().minWidth(200).row();
         tab.add("YCwCm:       ").center().grow().minWidth(200).row();
         tab.add("Oklab:       ").center().grow().minWidth(200).row();
         tab.add("IPT_HQ:      ").center().grow().minWidth(200);
@@ -77,7 +75,7 @@ public class CompareLightnessDemo extends ApplicationAdapter {
                     return true;
                     case Input.Keys.S:
                     case Input.Keys.P:
-                        System.out.printf("turning=%1.5f, shape=%1.5f", turning, shape);
+                        System.out.printf("turning=%1.5f, shape=%1.5f\n", turning, shape);
                 }
                 return false;
             }
@@ -103,10 +101,12 @@ public class CompareLightnessDemo extends ApplicationAdapter {
         for (int j = 0; j < 256; j++) {
             r = j / 255f;
             batch.setPackedColor(ColorTools.rgb(r, r, r, 1f));
+            batch.draw(pixel, 256f + j * 2f, height * 0.8f, 2f, height * 0.2f);
+            batch.setPackedColor(com.github.tommyettinger.colorful.hsluv.ColorTools.toRGBA(com.github.tommyettinger.colorful.hsluv.ColorTools.hsluv(0.5f, 0f, barronSpline(r, shape, turning), 1f)));
             batch.draw(pixel, 256f + j * 2f, height * 0.6f, 2f, height * 0.2f);
             batch.setPackedColor(com.github.tommyettinger.colorful.ycwcm.ColorTools.toRGBA(com.github.tommyettinger.colorful.ycwcm.ColorTools.ycwcm(r, 0.5f, 0.5f, 1f)));
             batch.draw(pixel, 256f + j * 2f, height * 0.4f, 2f, height * 0.2f);
-            batch.setPackedColor(com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA(com.github.tommyettinger.colorful.oklab.ColorTools.oklab(barronSpline(r, shape, turning), 0.5f, 0.5f, 1f)));
+            batch.setPackedColor(com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA(com.github.tommyettinger.colorful.oklab.ColorTools.oklab(r, 0.5f, 0.5f, 1f)));
             batch.draw(pixel, 256f + j * 2f, height * 0.2f, 2f, height * 0.2f);
             batch.setPackedColor(com.github.tommyettinger.colorful.ipt_hq.ColorTools.toRGBA(com.github.tommyettinger.colorful.ipt_hq.ColorTools.ipt(r, 0.5f, 0.5f, 1f)));
             batch.draw(pixel, 256f + j * 2f, 0f, 2f, height * 0.2f);
