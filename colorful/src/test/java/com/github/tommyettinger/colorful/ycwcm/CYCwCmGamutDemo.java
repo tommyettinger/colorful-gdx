@@ -43,6 +43,7 @@ public class CYCwCmGamutDemo extends ApplicationAdapter {
         config.setIdleFPS(10);
         config.setForegroundFPS(60);
         config.useVsync(true);
+        config.setTransparentFramebuffer(true);
 
         final CYCwCmGamutDemo app = new CYCwCmGamutDemo();
         new Lwjgl3Application(app, config);
@@ -101,9 +102,11 @@ public class CYCwCmGamutDemo extends ApplicationAdapter {
         AnimatedGif gif = new AnimatedGif();
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
-        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // this should be dithered before usage
-        gif.palette = new PaletteReducer();
+        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is the current default; fairly high quality
+        gif.setDitherStrength(0.75f);
+        gif.fastAnalysis = false;
 //        gif.palette = new PaletteReducer(pixmaps);
 //        // 24 is how many frames per second the animated GIF should play back at.
         gif.write(Gdx.files.local("CYCwCmGamut.gif"), pixmaps, 24);
@@ -123,12 +126,12 @@ public class CYCwCmGamutDemo extends ApplicationAdapter {
     }
     
     public void renderInternal() {
-        Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1f);
+        Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(screenView.getCamera().combined);
         batch.setColor(0.5f, 0.5f, 0.5f, 1f);
         batch.begin();
-        batch.draw(blank, 0, 0, 512, 512);
+//        batch.draw(blank, 0, 0, 512, 512);
         batch.setColor(layer, 0.5f, 0.5f, 1f);
         batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
         for (int x = 0; x < 512; x++) {

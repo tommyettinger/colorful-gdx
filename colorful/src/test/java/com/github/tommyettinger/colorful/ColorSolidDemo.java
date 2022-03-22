@@ -76,6 +76,7 @@ public class ColorSolidDemo extends ApplicationAdapter {
 //        gif.palette = new PaletteReducer();
         gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE);
         gif.fastAnalysis = false;
+        gif.setDitherStrength(0.75f);
 
         png = new AnimatedPNG();
 

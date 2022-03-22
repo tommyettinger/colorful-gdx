@@ -42,7 +42,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
         config.setTitle("Oklab Gamut Demo");
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.setIdleFPS(10);
-//        config.setTransparentFramebuffer(true);
+        config.setTransparentFramebuffer(true);
         config.setForegroundFPS(60);
         config.useVsync(true);
 
@@ -116,9 +116,11 @@ public class OklabGamutDemo extends ApplicationAdapter {
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is fast and great with smooth gradients, but the temporal dithering looks weird here.
-        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // this should be dithered before usage
-        gif.palette = new PaletteReducer();
+        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is the current default; fairly high quality
+        gif.setDitherStrength(0.75f);
+        gif.fastAnalysis = false;
 //        gif.palette = new PaletteReducer(pixmaps);
 //        // 24 is how many frames per second the animated GIF should play back at.
         gif.write(Gdx.files.local("OklabGamut.gif"), pixmaps, 24);
@@ -279,7 +281,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
     }
     
     public void renderInternal() {
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
+        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 0f);
 //        Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(screenView.getCamera().combined);

@@ -18,7 +18,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.anim8.AnimatedGif;
 import com.github.tommyettinger.anim8.AnimatedPNG;
 import com.github.tommyettinger.anim8.Dithered;
-import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.colorful.Shaders;
 import com.github.tommyettinger.colorful.TrigTools;
 
@@ -34,13 +33,15 @@ public class HsluvVersusHSLDemo extends ApplicationAdapter {
     private float layer = 0.5f;
     private ShaderProgram hsluvShader, hslShader;
 
-    private static final boolean SAVING = true;
+    private static final boolean SAVING_GIF = true;
+    private static final boolean SAVING_APNG = true;
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("HSLuv vs. HSL Comparison");
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.setIdleFPS(10);
         config.useVsync(true);
+        config.setTransparentFramebuffer(true);
 
         final HsluvVersusHSLDemo app = new HsluvVersusHSLDemo();
         new Lwjgl3Application(app, config);
@@ -66,9 +67,9 @@ public class HsluvVersusHSLDemo extends ApplicationAdapter {
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.enableBlending();
-        if(SAVING){
-            final int frameCount = 256;
-            Array<Pixmap> pixmaps = new Array<>(frameCount);
+        final int frameCount = 256;
+        Array<Pixmap> pixmaps = new Array<>(frameCount);
+        if(SAVING_GIF || SAVING_APNG) {
             for (int i = 0; i < frameCount; i++) {
                 layer = TrigTools.acos_(TrigTools.sin_(i / (frameCount - 1f))) * 2f;
                 renderInternal();
@@ -76,15 +77,22 @@ public class HsluvVersusHSLDemo extends ApplicationAdapter {
                 // this gets a screenshot of the current window and adds it to the Array of Pixmap.
                 pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
             }
+        }
+        if(SAVING_GIF) {
 //// AnimatedGif is from anim8
             AnimatedGif gif = new AnimatedGif();
 ////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
 ////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
-            gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
+//            gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
+            gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is the current default; fairly high quality
+            gif.setDitherStrength(0.75f);
+            gif.fastAnalysis = false;
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // should be dithered already if using this
 //        gif.palette.analyze(pixmaps, 500); // this can be used to attempt to analyze the image to get a palette...
 ////        // 24 is how many frames per second the animated GIF should play back at.
             gif.write(Gdx.files.local("HsluvVersusHSL.gif"), pixmaps, 24);
+        }
+        if(SAVING_APNG) {
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
             AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
@@ -101,13 +109,13 @@ public class HsluvVersusHSLDemo extends ApplicationAdapter {
     }
     
     public void renderInternal() {
-        Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1f);
+        Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(screenView.getCamera().combined);
         batch.setShader(hsluvShader);
         batch.setColor(0.5f, 0f, 0.5f, 1f);
         batch.begin();
-        batch.draw(blank, 0, 0, 512, 256);
+//        batch.draw(blank, 0, 0, 512, 256);
 //        batch.setColor(layer, 0.5f, 0.5f, 1f);
 //        batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
         final float
