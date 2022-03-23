@@ -410,9 +410,25 @@ public class ColorfulBatch implements Batch {
 //                        "                         0.0557, -0.2040, 1.0570);\n" +
 //                        "    return rgb;\n" +
 //                        "}\n" +
+                        "float forwardLight(float L) {\n" +
+                        "        const float shape = 0.8528, turning = 0.1;\n" +
+                        "        float d = turning - L;\n" +
+                        "        return mix(\n" +
+                        "          ((1. - turning) * (L - 1.)) / (1. - (L + shape * d)) + 1.,\n" +
+                        "          (turning * L) / (1.0e-20 + (L + shape * d)),\n" +
+                        "          step(0.0, d));\n" +
+                        "}\n" +
+                        "float reverseLight(float L) {\n" +
+                        "        const float shape = 1.1726, turning = 0.1;\n" +
+                        "        float d = turning - L;\n" +
+                        "        return mix(\n" +
+                        "          ((1. - turning) * (L - 1.)) / (1. - (L + shape * d)) + 1.,\n" +
+                        "          (turning * L) / (1.0e-20 + (L + shape * d)),\n" +
+                        "          step(0.0, d));\n" +
+                        "}\n" +
                         "vec3 luv2rgb(vec3 c)\n" +
                         "{\n" +
-                        "    float L = c.x;\n" +
+                        "    float L = reverseLight(c.x);\n" +
                         "    float U = c.y;\n" +
                         "    float V = c.z;\n" +
                         "    float lim = chromaLimit(atan(V, U), L);\n" +
@@ -448,7 +464,7 @@ public class ColorfulBatch implements Batch {
                         "{\n" +
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                         "  vec3 luv = rgb2luv(linear(tgt.rgb));\n" +
-                        "  luv.x = clamp(pow(luv.x, v_tweak.w) * v_lightFix * v_tweak.z + v_color.x - 0.5372549, 0.0, 1.0);\n" +
+                        "  luv.x = forwardLight(clamp(pow(luv.x, v_tweak.w) * v_lightFix * v_tweak.z + v_color.x - 0.5372549, 0.0, 1.0));\n" +
                         "  luv.yz = (luv.yz * v_tweak.y * 2.0) + (v_color.yz);\n" +
                         "  gl_FragColor = vec4(sRGB(clamp(luv2rgb(luv), 0.0, 1.0)), v_color.a * tgt.a);\n" +
                         "}";

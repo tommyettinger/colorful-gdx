@@ -146,7 +146,7 @@ public class ColorTools {
     /**
      * Changes the curve of a requested L value so that it matches the internally-used curve. This takes a curve with a
      * dark area similar to sRGB (a fairly small one), and makes it significantly larger. This is typically used on
-     * "to Oklab" conversions. This is much less potent of a change than the method used by Oklab.
+     * "to HSLuv" conversions. This is much less potent of a change than the method used by Oklab.
      * @param L lightness, from 0 to 1 inclusive
      * @return an adjusted L value that can be used internally
      */
@@ -161,7 +161,7 @@ public class ColorTools {
     /**
      * Changes the curve of the internally-used lightness when it is output to another format. This makes the dark area
      * area smaller, matching (kind-of) the curve that the standard sRGB lightness uses. This is typically used on "from
-     * Oklab" conversions. This is much less potent of a change than the method used by Oklab.
+     * HSLuv" conversions. This is much less potent of a change than the method used by Oklab.
      * @param L lightness, from 0 to 1 inclusive
      * @return an adjusted L value that can be fed into a conversion to RGBA or something similar
      */
