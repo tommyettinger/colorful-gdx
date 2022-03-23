@@ -143,12 +143,22 @@ public class ColorTools {
         return component < 0.0031308f ? component * 12.92f : (float)Math.pow(component, 1f/2.4f) * 1.055f - 0.055f;
     }
 
-    private static float forwardXYZ(final float t) {
-        return (t < 0.00885645f) ? 7.787037f * t + 0.139731f : cbrtPositive(t);
+    public static float forwardLight(final float x) {
+        final float shape = 1.1726f, turning = 0.1f;
+        final float d = turning - x;
+        if(d < 0)
+            return ((1f - turning) * (x - 1f)) / (1f - (x + shape * d)) + 1f;
+        else
+            return (turning * x) / (1e-20f + (x + shape * d));
     }
 
-    private static float reverseXYZ(final float t) {
-        return (t < 0.20689655f) ? 0.1284185f * (t - 0.139731f) : t * t * t;
+    public static float reverseLight(final float x) {
+        final float shape = 0.8528f, turning = 0.1f;
+        final float d = turning - x;
+        if(d < 0)
+            return ((1f - turning) * (x - 1f)) / (1f - (x + shape * d)) + 1f;
+        else
+            return (turning * x) / (1e-20f + (x + shape * d));
     }
 
     static private final float[][] m = new float[][] {
@@ -175,8 +185,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = ((decoded >>> 16 & 0xff) / 255f);
-//        float L = (1f/1.16f)*((decoded >>> 16 & 0xff) / 255f + 0.16f);
+        float L = reverseLight((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -230,7 +239,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = ((decoded >>> 16 & 0xff) / 255f);
+        float L = reverseLight((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -284,7 +293,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = ((decoded >>> 16 & 0xff) / 255f);
+        float L = reverseLight((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -383,8 +392,8 @@ public class ColorTools {
             s = 0;
             l = 0;
         } else {
-            s = Math.min(C / chromaLimit(h, L), 1);
-            l = L;
+            l = forwardLight(L);
+            s = Math.min(C / chromaLimit(h, l), 1);
         }
         return NumberUtils.intBitsToFloat(
                           Math.min(Math.max((int)(h * 255.999f    ), 0), 255)
@@ -432,8 +441,8 @@ public class ColorTools {
             s = 0;
             l = 0;
         } else {
-            s = Math.min(C / chromaLimit(h, L), 1);
-            l = L;
+            l = forwardLight(L);
+            s = Math.min(C / chromaLimit(h, l), 1);
         }
         return NumberUtils.intBitsToFloat(
                 Math.min(Math.max((int)(h * 255.999f    ), 0), 255)
@@ -480,8 +489,8 @@ public class ColorTools {
             s = 0;
             l = 0;
         } else {
-            s = Math.min(C / chromaLimit(h, L), 1);
-            l = L;
+            l = forwardLight(L);
+            s = Math.min(C / chromaLimit(h, l), 1);
         }
         return NumberUtils.intBitsToFloat(
                 Math.min(Math.max((int)(h * 255.999f    ), 0), 255)
@@ -531,8 +540,8 @@ public class ColorTools {
             s = 0;
             l = 0;
         } else {
-            s = Math.min(C / chromaLimit(h, L), 1);
-            l = L;
+            l = forwardLight(L);
+            s = Math.min(C / chromaLimit(h, l), 1);
         }
         return NumberUtils.intBitsToFloat(
                 Math.min(Math.max((int)(h * 255.999f    ), 0), 255)
@@ -551,7 +560,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = ((decoded >>> 16 & 0xff) / 255f);
+        float L = reverseLight((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -600,7 +609,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = ((decoded >>> 16 & 0xff) / 255f);
+        float L = reverseLight((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -649,7 +658,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = ((decoded >>> 16 & 0xff) / 255f);
+        float L = reverseLight((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -708,7 +717,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = ((decoded >>> 16 & 0xff) / 255f);
+        float L = reverseLight((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -757,7 +766,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = ((decoded >>> 16 & 0xff) / 255f);
+        float L = reverseLight((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -806,7 +815,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = ((decoded >>> 16 & 0xff) / 255f);
+        float L = reverseLight((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -872,7 +881,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = ((decoded >>> 16 & 0xff) / 255f);
+        float L = reverseLight((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         if (L > 0.99999f) {
@@ -1045,7 +1054,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = ((decoded >>> 16 & 0xff) / 255f);
+        float L = reverseLight((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -1114,7 +1123,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = ((decoded >>> 16 & 0xff) / 255f);
+        float L = reverseLight((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -1185,7 +1194,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = ((decoded & 0xff) / 255f);
         float S = ((decoded >>> 8 & 0xff) / 255f);
-        float L = ((decoded >>> 16 & 0xff) / 255f);
+        float L = reverseLight((decoded >>> 16 & 0xff) / 255f);
 
         // HSLuv to Lch
         float C;
@@ -1272,7 +1281,7 @@ public class ColorTools {
      */
     public static float toEditedFloat(float basis, float hue, float saturation, float light, float opacity) {
         final int decoded = NumberUtils.floatToRawIntBits(basis);
-        final float li = Math.min(Math.max(light + (decoded >>> 16 & 0xff) / 255f, 0f), 1f);
+        final float li = Math.min(Math.max(light + reverseLight((decoded >>> 16 & 0xff) / 255f), 0f), 1f);
         opacity = Math.min(Math.max(opacity + (decoded >>> 25) / 127f, 0f), 1f);
         if (li <= 0.001f)
             return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000));
@@ -1378,7 +1387,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(encoded);
         float H = (decoded & 0xff) / 255f;
         float S = (decoded >>> 8 & 0xff) / 255f;
-        float L = (decoded >>> 16 & 0xff) / 255f;
+        float L = reverseLight((decoded >>> 16 & 0xff) / 255f);
         float alpha = (decoded >>> 25) / 127f;
 
         H = H * mulH + addH;
@@ -1687,7 +1696,7 @@ public class ColorTools {
         final int decoded = NumberUtils.floatToRawIntBits(color);
         float H = (decoded & 0xff) / 255f;
         float S = (decoded >>> 8 & 0xff) / 255f;
-        float L = (decoded >>> 16 & 0xff) / 255f;
+        float L = reverseLight((decoded >>> 16 & 0xff) / 255f);
         final float limit = variance * variance;
         float dist, x, y, z;
         for (int j = 0; j < 50; j++) {

@@ -101,7 +101,7 @@ public class CompareLightnessDemo extends ApplicationAdapter {
             r = j / 255f;
             batch.setPackedColor(ColorTools.rgb(r, r, r, 1f));
             batch.draw(pixel, 256f + j * 2f, height * 0.8f, 2f, height * 0.2f);
-            batch.setPackedColor(com.github.tommyettinger.colorful.hsluv.ColorTools.toRGBA(com.github.tommyettinger.colorful.hsluv.ColorTools.hsluv(0.5f, 0f, forwardLight(r), 1f)));
+            batch.setPackedColor(com.github.tommyettinger.colorful.hsluv.ColorTools.toRGBA(com.github.tommyettinger.colorful.hsluv.ColorTools.hsluv(0.5f, 0f, (r), 1f)));
 //            batch.setPackedColor(com.github.tommyettinger.colorful.hsluv.ColorTools.toRGBA(com.github.tommyettinger.colorful.hsluv.ColorTools.hsluv(0.5f, 0f, barronSpline(r, 1.1726f, 0.1f), 1f)));
             batch.draw(pixel, 256f + j * 2f, height * 0.6f, 2f, height * 0.2f);
             batch.setPackedColor(com.github.tommyettinger.colorful.ycwcm.ColorTools.toRGBA(com.github.tommyettinger.colorful.ycwcm.ColorTools.ycwcm(r, 0.5f, 0.5f, 1f)));
@@ -125,7 +125,7 @@ public class CompareLightnessDemo extends ApplicationAdapter {
             return (turning * x) / (1e-20f + (x + shape * d));
     }
 
-    public static float reverseL(final float x) {
+    public static float reverseLight(final float x) {
         final float shape = 0.8528f, turning = 0.1f;
         final float d = turning - x;
         if(d < 0)
