@@ -143,22 +143,35 @@ public class ColorTools {
         return component < 0.0031308f ? component * 12.92f : (float)Math.pow(component, 1f/2.4f) * 1.055f - 0.055f;
     }
 
-    public static float forwardLight(final float x) {
-        final float shape = 1.1726f, turning = 0.1f;
-        final float d = turning - x;
-        if(d < 0)
-            return ((1f - turning) * (x - 1f)) / (1f - (x + shape * d)) + 1f;
-        else
-            return (turning * x) / (1e-20f + (x + shape * d));
-    }
-
-    public static float reverseLight(final float x) {
+    /**
+     * Changes the curve of a requested L value so that it matches the internally-used curve. This takes a curve with a
+     * dark area similar to sRGB (a fairly small one), and makes it significantly larger. This is typically used on
+     * "to Oklab" conversions. This is much less potent of a change than the method used by Oklab.
+     * @param L lightness, from 0 to 1 inclusive
+     * @return an adjusted L value that can be used internally
+     */
+    public static float forwardLight(final float L) {
         final float shape = 0.8528f, turning = 0.1f;
-        final float d = turning - x;
+        final float d = turning - L;
         if(d < 0)
-            return ((1f - turning) * (x - 1f)) / (1f - (x + shape * d)) + 1f;
+            return ((1f - turning) * (L - 1f)) / (1f - (L + shape * d)) + 1f;
         else
-            return (turning * x) / (1e-20f + (x + shape * d));
+            return (turning * L) / (1e-20f + (L + shape * d));
+    }
+    /**
+     * Changes the curve of the internally-used lightness when it is output to another format. This makes the dark area
+     * area smaller, matching (kind-of) the curve that the standard sRGB lightness uses. This is typically used on "from
+     * Oklab" conversions. This is much less potent of a change than the method used by Oklab.
+     * @param L lightness, from 0 to 1 inclusive
+     * @return an adjusted L value that can be fed into a conversion to RGBA or something similar
+     */
+    public static float reverseLight(final float L) {
+        final float shape = 1.1726f, turning = 0.1f;
+        final float d = turning - L;
+        if(d < 0)
+            return ((1f - turning) * (L - 1f)) / (1f - (L + shape * d)) + 1f;
+        else
+            return (turning * L) / (1e-20f + (L + shape * d));
     }
 
     static private final float[][] m = new float[][] {
