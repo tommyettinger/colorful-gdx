@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
@@ -17,7 +16,6 @@ import com.github.tommyettinger.colorful.rgb.ColorTools;
 import com.github.tommyettinger.colorful.rgb.SimplePalette;
 
 import static com.badlogic.gdx.Gdx.input;
-import static com.github.tommyettinger.anim8.OtherMath.barronSpline;
 
 public class CompareLightnessDemo extends ApplicationAdapter {
     public static final int SCREEN_WIDTH = 512 + 256;
@@ -26,7 +24,8 @@ public class CompareLightnessDemo extends ApplicationAdapter {
     private TextureAtlas.AtlasRegion pixel;
     private final Color color = new Color();
     private float r = SimplePalette.TRANSPARENT;
-    private float shape = 1.21f, turning = 0.177f;
+//    private float shape = 1f, turning = 0.5f;
+    private float shape = 1.1726f, turning = 0.1f;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -65,13 +64,13 @@ public class CompareLightnessDemo extends ApplicationAdapter {
             @Override
             public boolean keyDown(int keycode) {
                 switch (keycode){
-                    case Input.Keys.LEFT: turning = Math.max(0f, turning - Gdx.graphics.getDeltaTime() * 0.5f);
+                    case Input.Keys.LEFT: turning = Math.max(0f, turning - Gdx.graphics.getDeltaTime() * 0.25f);
                     return true;
-                    case Input.Keys.RIGHT: turning = Math.min(1f, turning + Gdx.graphics.getDeltaTime() * 0.5f);
+                    case Input.Keys.RIGHT: turning = Math.min(1f, turning + Gdx.graphics.getDeltaTime() * 0.25f);
                     return true;
-                    case Input.Keys.DOWN: shape = Math.max(0f, shape - Gdx.graphics.getDeltaTime() * 0.5f);
+                    case Input.Keys.DOWN: shape = Math.max(0f, shape - Gdx.graphics.getDeltaTime() * 0.25f);
                     return true;
-                    case Input.Keys.UP: shape = shape + Gdx.graphics.getDeltaTime() * 0.5f;
+                    case Input.Keys.UP: shape = shape + Gdx.graphics.getDeltaTime() * 0.25f;
                     return true;
                     case Input.Keys.S:
                     case Input.Keys.P:
@@ -102,7 +101,8 @@ public class CompareLightnessDemo extends ApplicationAdapter {
             r = j / 255f;
             batch.setPackedColor(ColorTools.rgb(r, r, r, 1f));
             batch.draw(pixel, 256f + j * 2f, height * 0.8f, 2f, height * 0.2f);
-            batch.setPackedColor(com.github.tommyettinger.colorful.hsluv.ColorTools.toRGBA(com.github.tommyettinger.colorful.hsluv.ColorTools.hsluv(0.5f, 0f, barronSpline(r, shape, turning), 1f)));
+            batch.setPackedColor(com.github.tommyettinger.colorful.hsluv.ColorTools.toRGBA(com.github.tommyettinger.colorful.hsluv.ColorTools.hsluv(0.5f, 0f, forwardLight(r), 1f)));
+//            batch.setPackedColor(com.github.tommyettinger.colorful.hsluv.ColorTools.toRGBA(com.github.tommyettinger.colorful.hsluv.ColorTools.hsluv(0.5f, 0f, barronSpline(r, 1.1726f, 0.1f), 1f)));
             batch.draw(pixel, 256f + j * 2f, height * 0.6f, 2f, height * 0.2f);
             batch.setPackedColor(com.github.tommyettinger.colorful.ycwcm.ColorTools.toRGBA(com.github.tommyettinger.colorful.ycwcm.ColorTools.ycwcm(r, 0.5f, 0.5f, 1f)));
             batch.draw(pixel, 256f + j * 2f, height * 0.4f, 2f, height * 0.2f);
@@ -114,6 +114,24 @@ public class CompareLightnessDemo extends ApplicationAdapter {
         batch.setPackedColor(Color.WHITE_FLOAT_BITS);
         stage.getRoot().draw(batch, 1);
         batch.end();
+    }
+
+    public static float forwardLight(final float x) {
+        final float shape = 1.1726f, turning = 0.1f;
+        final float d = turning - x;
+        if(d < 0)
+            return ((1f - turning) * (x - 1f)) / (1f - (x + shape * d)) + 1f;
+        else
+            return (turning * x) / (1e-20f + (x + shape * d));
+    }
+
+    public static float reverseL(final float x) {
+        final float shape = 0.8528f, turning = 0.1f;
+        final float d = turning - x;
+        if(d < 0)
+            return ((1f - turning) * (x - 1f)) / (1f - (x + shape * d)) + 1f;
+        else
+            return (turning * x) / (1e-20f + (x + shape * d));
     }
 
     @Override
