@@ -108,6 +108,17 @@ public class BasicChecks {
             System.out.println(hues.get(i));
         }
     }
+    public static double reverseLight(double L) {
+        L = Math.sqrt(L);
+        final double shape = 1.55, turning = 0.95;
+        final double d = turning - L;
+        double r;
+        if(d < 0)
+            r = ((1.0 - turning) * (L - 1.0)) / (1.0 - (L + shape * d)) + 1.0;
+        else
+            r = (turning * L) / (1e-50 + (L + shape * d));
+        return r;
+    }
 
     /**
      * Returns true if the given Oklab values are valid to convert losslessly back to RGBA.
@@ -119,7 +130,7 @@ public class BasicChecks {
     public static boolean inGamut(double L, double A, double B)
     {
         //reverseLight() for double
-        L = (L - 0.993) / (1.0 + L * 0.75) + 0.993;
+        L = reverseLight(L);
         //forwardLight() for double
 //        L = (L - 1.00457) / (1.0 - L * 0.4285714) + 1.00457;
         A -= 0x1.fdfdfep-2;

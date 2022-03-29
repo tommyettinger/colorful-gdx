@@ -28,7 +28,6 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
     private Viewport screenView;
     private BitmapFont font;
     private Texture blank;
-    private FourWheelRandom random;
     private long lastProcessedTime = 0L, startTime;
     private float layer = 0.5f;
 
@@ -47,7 +46,6 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
     @Override
     public void create() {
         startTime = TimeUtils.millis();
-        random = new FourWheelRandom(startTime);
         Pixmap b = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         b.drawPixel(0, 0, 0x7F7F81FF);
         blank = new Texture(b);
