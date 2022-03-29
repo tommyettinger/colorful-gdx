@@ -32,7 +32,7 @@ public class OklabTintDemo extends ApplicationAdapter {
     private long lastProcessedTime = 0L;
     private ShaderProgram defaultShader;
     private ShaderProgram shader;
-    private float L = 0.63f, A = 0.5f, B = 0.5f, opacity = 1f;
+    private float L = 0.5f, A = 0.5f, B = 0.5f, opacity = 1f;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();

@@ -138,8 +138,19 @@ public class ColorTools {
 	 * @return an adjusted L value that can be used internally
 	 */
 	public static float forwardLight(final float L) {
-		return (L - 1.004f) / (1f - L * 0.4285714f) + 1.004f;
+		final float shape = 0.64516133f, turning = 0.95f;
+		final float d = turning - L;
+		float r;
+		if(d < 0)
+			r = ((1f - turning) * (L - 1f)) / (1f - (L + shape * d)) + 1f;
+		else
+			r = (turning * L) / (1e-20f + (L + shape * d));
+		return r * r;
 	}
+
+//	public static float forwardLight(final float L) {
+//		return (L - 1.004f) / (1f - L * 0.4285714f) + 1.004f;
+//	}
 
 	/**
 	 * Changes the curve of the internally-used lightness when it is output to another format. This makes the very-dark
@@ -148,9 +159,22 @@ public class ColorTools {
 	 * @param L lightness, from 0 to 1 inclusive
 	 * @return an adjusted L value that can be fed into a conversion to RGBA or something similar
 	 */
-	public static float reverseLight(final float L) {
-		return (L - 0.993f) / (1f + L * 0.75f) + 0.993f;
+
+	public static float reverseLight(float L) {
+		L = (float) Math.sqrt(L);
+		final float shape = 1.55f, turning = 0.95f;
+		final float d = turning - L;
+		float r;
+		if(d < 0)
+			r = ((1f - turning) * (L - 1f)) / (1f - (L + shape * d)) + 1f;
+		else
+			r = (turning * L) / (1e-20f + (L + shape * d));
+		return r;
 	}
+
+//	public static float reverseLight(final float L) {
+//		return (L - 0.993f) / (1f + L * 0.75f) + 0.993f;
+//	}
 
 	/**
 	 * Converts a packed float color in the format produced by {@link ColorTools#oklab(float, float, float, float)} to an RGBA8888 int.
