@@ -59,7 +59,7 @@ public class ColorfulBatch implements Batch {
     private boolean ownsShader;
 
     protected float color = Palette.GRAY;
-    private final Color tempColor = new Color(0.6313726f, 0.5019608f, 0.49803922f, 1f); // LAB from Palette.GRAY
+    private final Color tempColor = new Color(0.5137255f, 0.49803922f, 0.49803922f, 1f); // LAB from Palette.GRAY
 
     /**
      * A constant packed float that can be assigned to this ColorfulBatch's tweak with {@link #setTweak(float)} to make
@@ -180,13 +180,15 @@ public class ColorfulBatch implements Batch {
                         "float toOklab(float L) {\n" +
                         "        const float shape = 0.64516133, turning = 0.95;\n" +
                         "        float d = turning - L;\n" +
-                        "        return mix(\n" +
+                        "        float r = mix(\n" +
                         "          ((1. - turning) * (L - 1.)) / (1. - (L + shape * d)) + 1.,\n" +
                         "          (turning * L) / (1.0e-20 + (L + shape * d)),\n" +
                         "          step(0.0, d));\n" +
+                        "        return r * r;\n" +
                         "}\n" +
                         "float fromOklab(float L) {\n" +
                         "        const float shape = 1.55, turning = 0.95;\n" +
+                        "        L = sqrt(L);\n" +
                         "        float d = turning - L;\n" +
                         "        return mix(\n" +
                         "          ((1. - turning) * (L - 1.)) / (1. - (L + shape * d)) + 1.,\n" +
