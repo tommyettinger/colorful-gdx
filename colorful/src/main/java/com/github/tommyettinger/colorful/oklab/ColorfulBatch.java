@@ -178,11 +178,27 @@ public class ColorfulBatch implements Batch {
                         "uniform sampler2D u_texture;\n" +
                         "const vec3 forward = vec3(1.0 / 3.0);\n" +
                         "float toOklab(float L) {\n" +
-                        "  return (L - 1.0) / (1.0 - L * 0.4285714) + 1.0;\n" +
+                        "        const float shape = 0.64516133, turning = 0.95;\n" +
+                        "        float d = turning - L;\n" +
+                        "        return mix(\n" +
+                        "          ((1. - turning) * (L - 1.)) / (1. - (L + shape * d)) + 1.,\n" +
+                        "          (turning * L) / (1.0e-20 + (L + shape * d)),\n" +
+                        "          step(0.0, d));\n" +
                         "}\n" +
                         "float fromOklab(float L) {\n" +
-                        "  return (L - 1.0) / (1.0 + L * 0.75) + 1.0;\n" +
+                        "        const float shape = 1.55, turning = 0.95;\n" +
+                        "        float d = turning - L;\n" +
+                        "        return mix(\n" +
+                        "          ((1. - turning) * (L - 1.)) / (1. - (L + shape * d)) + 1.,\n" +
+                        "          (turning * L) / (1.0e-20 + (L + shape * d)),\n" +
+                        "          step(0.0, d));\n" +
                         "}\n" +
+//                        "float toOklab(float L) {\n" +
+//                        "  return (L - 1.0) / (1.0 - L * 0.4285714) + 1.0;\n" +
+//                        "}\n" +
+//                        "float fromOklab(float L) {\n" +
+//                        "  return (L - 1.0) / (1.0 + L * 0.75) + 1.0;\n" +
+//                        "}\n" +
                         "void main()\n" +
                         "{\n" +
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
