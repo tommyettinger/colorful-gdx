@@ -396,7 +396,7 @@ public class ColorfulSprite extends TextureRegion {
 	}
 
 	/**
-	 * Given an RGBA8888 Color from libGDX, this converts that to an Oklab color as a packed float and sets the color of
+	 * Given an RGBA8888 Color from libGDX, this converts that to an CIELAB color as a packed float and sets the color of
 	 * the sprite using that.
 	 * @param color a libGDX RGBA8888 Color
 	 */
