@@ -26,7 +26,8 @@ public class CompareLightnessDemo extends ApplicationAdapter {
     private TextureAtlas.AtlasRegion pixel;
     private final Color color = new Color();
     private float r = SimplePalette.TRANSPARENT;
-    private float shape = 1f/1.55f, turning = 0.95f;
+    private float shape = 0.64516133f, turning = 0.95f;
+    private final float iShape = 1.55f;
 //    private float shape = 1.625f, turning = 0f;
 //    private float shape = 1.1726f, turning = 0.1f;
 
