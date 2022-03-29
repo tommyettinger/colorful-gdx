@@ -131,6 +131,17 @@ public class GamutWriter extends ApplicationAdapter {
         Gdx.files.local(filename).writeString(sb.toString(), false, "ISO-8859-1");
         System.out.println("Wrote code snippet to " + filename);
     }
+    public static double reverseLight(double L) {
+        L = Math.sqrt(L);
+        final double shape = 1.55, turning = 0.95;
+        final double d = turning - L;
+        double r;
+        if(d < 0)
+            r = ((1.0 - turning) * (L - 1.0)) / (1.0 - (L + shape * d)) + 1.0;
+        else
+            r = (turning * L) / (1e-50 + (L + shape * d));
+        return r;
+    }
 
     /**
          * Returns true if the given Oklab values are valid to convert losslessly back to RGBA.
@@ -160,7 +171,10 @@ public class GamutWriter extends ApplicationAdapter {
 //        return (b >= 0.0 && b <= 1.0);
 
         //reverseLight() for double
-        L = (L - 0.993) / (1.0 + L * 0.75) + 0.993;
+//        L = (L - 0.993) / (1.0 + L * 0.75) + 0.993; // old
+        L = reverseLight(L);
+
+        //unused:
         //forwardLight() for double
 //        L = (L - 1.004) / (1.0 - L * 0.4285714) + 1.004;
 
