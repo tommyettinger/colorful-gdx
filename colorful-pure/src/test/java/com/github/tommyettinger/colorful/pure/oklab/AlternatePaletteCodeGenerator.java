@@ -63,6 +63,7 @@ public class AlternatePaletteCodeGenerator {
             tabSplit(rec, lines[i]);
             c = fromRGBA8888(StringKit.intFromHex(rec[1]));
             ci = BitConversion.floatToRawIntBits(c);
+            ci |= (ci >>> 7 & 0x01000000);
             sb.append(templateSimple.replace("`Name", rec[2])
                     .replace("`NAME", rec[0])
                     .replace("`RRGGBBAA", rec[1])
@@ -88,7 +89,7 @@ public class AlternatePaletteCodeGenerator {
             e.printStackTrace();
         }
 
-        String templateTable = "<tr>\n<td style='background-color: #FEDCBA;'></td>\n<td>Name</td>\n<td>0x`RGBA8888</td>\n<td>`LCHAN</td>\n<td>`ACHAN</td>\n<td>`BCHAN</td>\n<td>`ALPH</td>\n<td>`HUE</td>\n<td>`SAT</td>\n<td>`CHR</td>\n<td>`PACKF</td>\n</tr>\n";
+        String templateTable = "<tr>\n<td style='background-color: #FEDCBA;'></td>\n<td>Name</td>\n<td>0x`RGBA8888</td>\n<td>`LCHAN</td>\n<td>`ACHAN</td>\n<td>`BCHAN</td>\n<td>`ALPH</td>\n<td>`HUE</td>\n<td>`SAT</td>\n<td>`CHR</td>\n<td>0x`PACK</td>\n</tr>\n";
         final int size = AlternatePalette.NAMED.size();
         ObjectIntOrderedMap<String> PAL = new ObjectIntOrderedMap<>(AlternatePalette.NAMED);
 
