@@ -110,12 +110,12 @@ public class CompareLightnessDemo extends ApplicationAdapter {
             batch.setPackedColor(com.github.tommyettinger.colorful.hsluv.ColorTools.toRGBA(com.github.tommyettinger.colorful.hsluv.ColorTools.hsluv(0.5f, 0f, (r), 1f)));
 //            batch.setPackedColor(com.github.tommyettinger.colorful.hsluv.ColorTools.toRGBA(com.github.tommyettinger.colorful.hsluv.ColorTools.hsluv(0.5f, 0f, barronSpline(r, 1.1726f, 0.1f), 1f)));
             batch.draw(pixel, 256f + j * 2f, height * 0.6f, 2f, height * 0.2f);
-            batch.setPackedColor(com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA(com.github.tommyettinger.colorful.oklab.ColorTools.oklab(r, 0.5f, 0.5f, 1f)));
-            batch.draw(pixel, 256f + j * 2f, height * 0.4f, 2f, height * 0.2f);
-            batch.setPackedColor(oklabToRGBA(com.github.tommyettinger.colorful.oklab.ColorTools.oklab(r, 0.5f, 0.5f, 1f), shape, turning));
-            batch.draw(pixel, 256f + j * 2f, height * 0.2f, 2f, height * 0.2f);
             batch.setPackedColor(com.github.tommyettinger.colorful.ycwcm.ColorTools.toRGBA(com.github.tommyettinger.colorful.ycwcm.ColorTools.ycwcm(r, 0.5f, 0.5f, 1f)));
-            batch.draw(pixel, 256f + j * 2f, 0f, 2f, height * 0.2f);
+            batch.draw(pixel, 256f + j * 2f, height * 0.4f, 2f, height * 0.2f);
+            batch.setPackedColor(com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA(com.github.tommyettinger.colorful.oklab.ColorTools.oklab(r, 0.5f, 0.5f, 1f)));
+            batch.draw(pixel, 256f + j * 2f, height * 0.2f, 2f, height * 0.2f);
+            batch.setPackedColor(com.github.tommyettinger.colorful.ipt_hq.ColorTools.toRGBA(com.github.tommyettinger.colorful.ipt_hq.ColorTools.ipt(r, 0.5f, 0.5f, 1f)));
+            batch.draw(pixel, 256f + j * 2f, 0, 2f, height * 0.2f);
         }
         batch.setPackedColor(Color.WHITE_FLOAT_BITS);
         stage.getRoot().draw(batch, 1);
