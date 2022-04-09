@@ -16,6 +16,8 @@
 
 package com.github.tommyettinger.colorful.pure;
 
+import static com.github.tommyettinger.colorful.pure.MathTools.barronSpline;
+
 /**
  * Takes a linear value in the range of 0-1 and outputs a (usually) non-linear, interpolated value.
  * The <a href="https://github.com/libgdx/libgdx/wiki/Interpolation">wiki docs on Interpolation</a> are extremely useful
@@ -443,4 +445,35 @@ public abstract class Interpolation {
 			return a * a * ((scale + 1) * a - scale);
 		}
 	}
+
+
+	/**
+	 * A wrapper around {@link MathTools#barronSpline(float, float, float)} to use it as an Interpolation.
+	 * Useful because it can imitate the wide variety of symmetrical Interpolations by setting turning to 0.5 and shape
+	 * to some value greater than 1, while also being able to produce the inverse of those interpolations by setting
+	 * shape to some value between 0 and 1.
+	 */
+	public static class BiasGain extends Interpolation {
+		/**
+		 * The shape parameter will cause this to imitate "smoothstep-like" splines when greater than 1 (where the
+		 * values ease into their starting and ending levels), or to be the inverse when less than 1 (where values
+		 * start like square root does, taking off very quickly, but also end like square does, landing abruptly at
+		 * the ending level).
+		 */
+		public final float shape;
+		/**
+		 * A value between 0.0 and 1.0, inclusive, where the shape changes.
+		 */
+		public final float turning;
+
+		public BiasGain (float shape, float turning) {
+			this.shape = shape;
+			this.turning = turning;
+		}
+
+		public float apply (float a) {
+			return barronSpline(a, shape, turning);
+		}
+	}
+
 }
