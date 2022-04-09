@@ -1685,9 +1685,9 @@ public class ColorTools {
 
         // Lch to HSLuv
         if (L > 0.99999f) {
-            return -0x1.fe0052p126F; // Palette.WHITE
+            return Palette.WHITE;
         } else if (L < 0.00001f) {
-            return -0x1.0p125F; // Palette.BLACK
+            return Palette.BLACK;
         } else {
             S = Math.min((float)Math.sqrt(U * U + V * V) / chromaLimit(H, L), 1);
         }
