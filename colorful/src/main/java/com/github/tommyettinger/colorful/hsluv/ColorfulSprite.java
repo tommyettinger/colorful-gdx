@@ -360,11 +360,11 @@ public class ColorfulSprite extends TextureRegion {
 	 * to represent contrast.
 	 * @param addH hue; additive; from 0 to 1, with red at 0, orange above red, yellow above orange, etc.
 	 * @param addS saturation; additive; from 0 to 1, with 0 desaturating and 1 very saturating
-	 * @param addH lightness; additive; ranges from 0 (closer to black) to 1 (closer to white)
+	 * @param addL lightness; additive; ranges from 0 (closer to black) to 1 (closer to white)
 	 * @param mulAlpha opacity, from 0 to 1; multiplicative
 	 * @param mulH hue; multiplicative; probably doesn't work very well and should just be 0.5f
 	 * @param mulS saturation; multiplicative; from 0 to 1, with 0 forcing grayscale and 1 emphasizing saturation
-	 * @param mulH lightness; multiplicative; ranges from 0 (sets lightness to 0) to 1 (doubles lightness)
+	 * @param mulL lightness; multiplicative; ranges from 0 (sets lightness to 0) to 1 (doubles lightness)
 	 * @param contrast foggy-to-sharp lightness contrast; affects most other components; ranges from 0 (flat, foggy lightness) to 1 (sharp, crisp lightness)
 	 */
 	public void setTweakedColor (float addH, float addS, float addL, float mulAlpha, float mulH, float mulS, float mulL, float contrast) {

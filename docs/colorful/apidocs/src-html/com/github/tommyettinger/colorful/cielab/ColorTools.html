@@ -1180,11 +1180,11 @@
 <span class="source-line-no">1167</span><span id="line.1167"></span>
 <span class="source-line-no">1168</span><span id="line.1168">    /**</span>
 <span class="source-line-no">1169</span><span id="line.1169">     * Given a packed float CIELAB color {@code mainColor} and another CIELAB color that it should be made to contrast with,</span>
-<span class="source-line-no">1170</span><span id="line.1170">     * gets a packed float CIELAB color with roughly inverted intnsity but the same chromatic channels and opacity (P and T</span>
+<span class="source-line-no">1170</span><span id="line.1170">     * gets a packed float CIELAB color with roughly inverted lightness but the same chromatic channels and opacity (A and B</span>
 <span class="source-line-no">1171</span><span id="line.1171">     * are likely to be clamped if the result gets close to white or black). This won't ever produce black or other very</span>
 <span class="source-line-no">1172</span><span id="line.1172">     * dark colors, and also has a gap in the range it produces for intensity values between 0.5 and 0.55. That allows</span>
 <span class="source-line-no">1173</span><span id="line.1173">     * most of the colors this method produces to contrast well as a foreground when displayed on a background of</span>
-<span class="source-line-no">1174</span><span id="line.1174">     * {@code contrastingColor}, or vice versa. This will leave the intensity unchanged if the chromatic channels of the</span>
+<span class="source-line-no">1174</span><span id="line.1174">     * {@code contrastingColor}, or vice versa. This will leave the lightness unchanged if the chromatic channels of the</span>
 <span class="source-line-no">1175</span><span id="line.1175">     * contrastingColor and those of the mainColor are already very different. This has nothing to do with the contrast</span>
 <span class="source-line-no">1176</span><span id="line.1176">     * channel of the tweak in ColorfulBatch; where that part of the tweak can make too-similar lightness values further</span>
 <span class="source-line-no">1177</span><span id="line.1177">     * apart by just a little, this makes a modification on {@code mainColor} to maximize its lightness difference from</span>
@@ -1219,7 +1219,7 @@
 <span class="source-line-no">1206</span><span id="line.1206">     * change the lightness of mainColor when the two given colors have close lightness but distant chroma. Because it</span>
 <span class="source-line-no">1207</span><span id="line.1207">     * averages the original L of mainColor with the modified one, this tends to not produce harsh color changes.</span>
 <span class="source-line-no">1208</span><span id="line.1208">     * @param mainColor a packed CIELAB float color; this is the color that will be adjusted</span>
-<span class="source-line-no">1209</span><span id="line.1209">     * @param contrastingColor a packed CIELAB float color; the adjusted mainColor will contrast with the I of this</span>
+<span class="source-line-no">1209</span><span id="line.1209">     * @param contrastingColor a packed CIELAB float color; the adjusted mainColor will contrast with the L of this</span>
 <span class="source-line-no">1210</span><span id="line.1210">     * @return a different packed CIELAB float color, based on mainColor but typically with different lightness</span>
 <span class="source-line-no">1211</span><span id="line.1211">     */</span>
 <span class="source-line-no">1212</span><span id="line.1212">    public static float differentiateLightness(final float mainColor, final float contrastingColor)</span>
@@ -1251,12 +1251,12 @@
 <span class="source-line-no">1238</span><span id="line.1238">     */</span>
 <span class="source-line-no">1239</span><span id="line.1239">    public static float lessenChange(final float color, float fraction) {</span>
 <span class="source-line-no">1240</span><span id="line.1240">        final int e = NumberUtils.floatToRawIntBits(color),</span>
-<span class="source-line-no">1241</span><span id="line.1241">                sL = 0x80, sA = 0x80, sB = 0x80, sAlpha = 0xFE,</span>
+<span class="source-line-no">1241</span><span id="line.1241">                sL = 0x80, sA = 0x80, sB = 0x80,</span>
 <span class="source-line-no">1242</span><span id="line.1242">                eL = (e &amp; 0xFF), eA = (e &gt;&gt;&gt; 8) &amp; 0xFF, eB = (e &gt;&gt;&gt; 16) &amp; 0xFF, eAlpha = e &gt;&gt;&gt; 24 &amp; 0xFE;</span>
 <span class="source-line-no">1243</span><span id="line.1243">        return NumberUtils.intBitsToFloat(((int) (sL + fraction * (eL - sL)) &amp; 0xFF)</span>
 <span class="source-line-no">1244</span><span id="line.1244">                | (((int) (sA + fraction * (eA - sA)) &amp; 0xFF) &lt;&lt; 8)</span>
 <span class="source-line-no">1245</span><span id="line.1245">                | (((int) (sB + fraction * (eB - sB)) &amp; 0xFF) &lt;&lt; 16)</span>
-<span class="source-line-no">1246</span><span id="line.1246">                | (((int) (sAlpha + fraction * (eAlpha - sAlpha)) &amp; 0xFE) &lt;&lt; 24));</span>
+<span class="source-line-no">1246</span><span id="line.1246">                | (eAlpha &lt;&lt; 24));</span>
 <span class="source-line-no">1247</span><span id="line.1247">    }</span>
 <span class="source-line-no">1248</span><span id="line.1248"></span>
 <span class="source-line-no">1249</span><span id="line.1249">    /**</span>
@@ -1411,7 +1411,7 @@
 <span class="source-line-no">1398</span><span id="line.1398">     * random, or can be incremented on each call. If the seed is only incremented or decremented, then this shouldn't</span>
 <span class="source-line-no">1399</span><span id="line.1399">     * produce two similar colors in a row unless variance is very small. The variance affects the L, A, and B of the</span>
 <span class="source-line-no">1400</span><span id="line.1400">     * generated color, and each of those channels can go up or down by the given variance as long as the total distance</span>
-<span class="source-line-no">1401</span><span id="line.1401">     * isn't greater than the variance (this considers P and T extra-wide, going from -1 to 1, while I goes from 0 to 1,</span>
+<span class="source-line-no">1401</span><span id="line.1401">     * isn't greater than the variance (this considers A and B extra-wide, going from -1 to 1, while L goes from 0 to 1,</span>
 <span class="source-line-no">1402</span><span id="line.1402">     * but only internally for measuring distance).</span>
 <span class="source-line-no">1403</span><span id="line.1403">     * @param color a packed float color, as produced by {@link #cielab(float, float, float, float)}</span>
 <span class="source-line-no">1404</span><span id="line.1404">     * @param seed a long seed that should be different on each call; should not be 0</span>

@@ -874,12 +874,12 @@
 <span class="source-line-no">861</span><span id="line.861">         */</span>
 <span class="source-line-no">862</span><span id="line.862">        public static float lessenChange(final float color, float fraction) {</span>
 <span class="source-line-no">863</span><span id="line.863">                final int e = NumberUtils.floatToRawIntBits(color),</span>
-<span class="source-line-no">864</span><span id="line.864">                                is = 0x80, ps = 0x80, ts = 0x80, as = 0xFE,</span>
+<span class="source-line-no">864</span><span id="line.864">                                is = 0x80, ps = 0x80, ts = 0x80,</span>
 <span class="source-line-no">865</span><span id="line.865">                                ie = (e &amp; 0xFF), pe = (e &gt;&gt;&gt; 8) &amp; 0xFF, te = (e &gt;&gt;&gt; 16) &amp; 0xFF, ae = e &gt;&gt;&gt; 24 &amp; 0xFE;</span>
 <span class="source-line-no">866</span><span id="line.866">                return NumberUtils.intBitsToFloat(((int) (is + fraction * (ie - is)) &amp; 0xFF)</span>
 <span class="source-line-no">867</span><span id="line.867">                                | (((int) (ps + fraction * (pe - ps)) &amp; 0xFF) &lt;&lt; 8)</span>
 <span class="source-line-no">868</span><span id="line.868">                                | (((int) (ts + fraction * (te - ts)) &amp; 0xFF) &lt;&lt; 16)</span>
-<span class="source-line-no">869</span><span id="line.869">                                | (((int) (as + fraction * (ae - as)) &amp; 0xFE) &lt;&lt; 24));</span>
+<span class="source-line-no">869</span><span id="line.869">                                | (ae &lt;&lt; 24));</span>
 <span class="source-line-no">870</span><span id="line.870">        }</span>
 <span class="source-line-no">871</span><span id="line.871"></span>
 <span class="source-line-no">872</span><span id="line.872">        /**</span>

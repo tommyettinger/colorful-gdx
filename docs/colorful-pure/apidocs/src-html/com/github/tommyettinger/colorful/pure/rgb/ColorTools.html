@@ -479,13 +479,13 @@
 <span class="source-line-no">466</span><span id="line.466">         */</span>
 <span class="source-line-no">467</span><span id="line.467">        public static float lessenChange(final float color, float fraction) {</span>
 <span class="source-line-no">468</span><span id="line.468">                final int e = BitConversion.floatToRawIntBits(color),</span>
-<span class="source-line-no">469</span><span id="line.469">                                rs = 0x80, gs = 0x80, bs = 0x80, as = 0xFE,</span>
+<span class="source-line-no">469</span><span id="line.469">                                rs = 0x80, gs = 0x80, bs = 0x80,</span>
 <span class="source-line-no">470</span><span id="line.470">                                re = (e &amp; 0xFF), ge = (e &gt;&gt;&gt; 8) &amp; 0xFF, be = (e &gt;&gt;&gt; 16) &amp; 0xFF, ae = e &gt;&gt;&gt; 24 &amp; 0xFE;</span>
 <span class="source-line-no">471</span><span id="line.471">                return BitConversion.intBitsToFloat(</span>
 <span class="source-line-no">472</span><span id="line.472">                                  ((int) (rs + fraction * (re - rs)) &amp; 0xFF)</span>
 <span class="source-line-no">473</span><span id="line.473">                                | ((int) (gs + fraction * (ge - gs)) &amp; 0xFF) &lt;&lt; 8</span>
 <span class="source-line-no">474</span><span id="line.474">                                | ((int) (bs + fraction * (be - bs)) &amp; 0xFF) &lt;&lt; 16</span>
-<span class="source-line-no">475</span><span id="line.475">                                | ((int) (as + fraction * (ae - as)) &amp; 0xFE) &lt;&lt; 24);</span>
+<span class="source-line-no">475</span><span id="line.475">                                                  | ae &lt;&lt; 24);</span>
 <span class="source-line-no">476</span><span id="line.476">        }</span>
 <span class="source-line-no">477</span><span id="line.477"></span>
 <span class="source-line-no">478</span><span id="line.478">        /**</span>

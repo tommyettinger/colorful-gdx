@@ -763,7 +763,7 @@
 <span class="source-line-no">750</span><span id="line.750">                return NumberUtils.intBitsToFloat(((int) (ys + fraction * (ye - ys)) &amp; 0xFF)</span>
 <span class="source-line-no">751</span><span id="line.751">                                | (((int) (cws + fraction * (cwe - cws)) &amp; 0xFF) &lt;&lt; 8)</span>
 <span class="source-line-no">752</span><span id="line.752">                                | (((int) (cms + fraction * (cme - cms)) &amp; 0xFF) &lt;&lt; 16)</span>
-<span class="source-line-no">753</span><span id="line.753">                                | (((int) (as + fraction * (ae - as)) &amp; 0xFE) &lt;&lt; 24));</span>
+<span class="source-line-no">753</span><span id="line.753">                                | (ae &lt;&lt; 24));</span>
 <span class="source-line-no">754</span><span id="line.754">        }</span>
 <span class="source-line-no">755</span><span id="line.755">        /**</span>
 <span class="source-line-no">756</span><span id="line.756">         * Makes a quasi-randomly-edited variant on the given {@code color}, allowing typically a small amount of</span>
@@ -772,7 +772,7 @@
 <span class="source-line-no">759</span><span id="line.759">         * random, or can be incremented on each call. If the seed is only incremented or decremented, then this shouldn't</span>
 <span class="source-line-no">760</span><span id="line.760">         * produce two similar colors in a row unless variance is very small. The variance affects the Y, Cw, and Cm of the</span>
 <span class="source-line-no">761</span><span id="line.761">         * generated color, and each of those channels can go up or down by the given variance as long as the total distance</span>
-<span class="source-line-no">762</span><span id="line.762">         * isn't greater than the variance (this considers Cw and Cm extra-wide, going from -1 to 1, while I goes from 0 to</span>
+<span class="source-line-no">762</span><span id="line.762">         * isn't greater than the variance (this considers Cw and Cm extra-wide, going from -1 to 1, while Y goes from 0 to</span>
 <span class="source-line-no">763</span><span id="line.763">         * 1, but only internally for measuring distance).</span>
 <span class="source-line-no">764</span><span id="line.764">         * @param color a packed float color, as produced by {@link #ycwcm(float, float, float, float)}</span>
 <span class="source-line-no">765</span><span id="line.765">         * @param seed a long seed that should be different on each call; should not be 0</span>

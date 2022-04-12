@@ -67,7 +67,7 @@
 <span class="source-line-no">054</span><span id="line.54">         */</span>
 <span class="source-line-no">055</span><span id="line.55">        public static Color toColor(Color editing, final float packed)</span>
 <span class="source-line-no">056</span><span id="line.56">        {</span>
-<span class="source-line-no">057</span><span id="line.57">                Color.rgba8888ToColor(editing, Integer.reverseBytes(NumberUtils.floatToRawIntBits(packed)));</span>
+<span class="source-line-no">057</span><span id="line.57">                Color.abgr8888ToColor(editing, packed);</span>
 <span class="source-line-no">058</span><span id="line.58">                return editing;</span>
 <span class="source-line-no">059</span><span id="line.59">        }</span>
 <span class="source-line-no">060</span><span id="line.60">        /**</span>
@@ -615,7 +615,7 @@
 <span class="source-line-no">602</span><span id="line.602">                                  ((int) (rs + fraction * (re - rs)) &amp; 0xFF)</span>
 <span class="source-line-no">603</span><span id="line.603">                                | ((int) (gs + fraction * (ge - gs)) &amp; 0xFF) &lt;&lt; 8</span>
 <span class="source-line-no">604</span><span id="line.604">                                | ((int) (bs + fraction * (be - bs)) &amp; 0xFF) &lt;&lt; 16</span>
-<span class="source-line-no">605</span><span id="line.605">                                | ((int) (as + fraction * (ae - as)) &amp; 0xFE) &lt;&lt; 24);</span>
+<span class="source-line-no">605</span><span id="line.605">                                                  | (ae &lt;&lt; 24));</span>
 <span class="source-line-no">606</span><span id="line.606">        }</span>
 <span class="source-line-no">607</span><span id="line.607"></span>
 <span class="source-line-no">608</span><span id="line.608">        /**</span>

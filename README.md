@@ -13,12 +13,12 @@ specifically how it handles color tinting with `setColor(float, float, float, fl
   - The ways you can adjust tints don't match any kind of aesthetic way of representing color; you're limited to
     reducing red, green, and blue by some percentage each.
 
-We address this in colorful by representing tint colors differently. While there's some support here for HSLC tints
-(hue, saturation, lightness, contrast) via `Shaders.makeBatchHSLC()`, much more of the library focuses on five color
-spaces: RGB, YCwCm, IPT, Oklab, and CIELAB. Most of this library's users will only employ one of these color spaces at a
-time, and the APIs for all the color spaces are extremely similar. You most likely want to use RGB (because it is the
-most compatible with existing colors) and/or Oklab (because it is the most expressive and makes quite a lot of common
-color operations more intuitive).
+We address this in colorful by representing tint colors differently. The library focuses on six color spaces: RGB, IPT,
+YCwCm, CIELAB, Oklab, and HSLuv. The emphasis mostly lies on RGB, Oklab, and HSLuv as the most likely color spaces you
+would want to use. Most of this library's users will only employ one of these color spaces at a time, and the APIs for
+all the color spaces are extremely similar. You most likely want to use RGB (because it is the most compatible with
+existing colors), Oklab (because it is the most expressive and makes quite a lot of common color operations more
+intuitive) and/or HSLuv (because it is similar to how users often expect colors to be described). 
 
 ### RGB
 
@@ -76,8 +76,8 @@ no `SimplePalette` here, and sometimes two colors with equivalent luma (as YCwCm
 have the same actual lightness. You may want to skip this section and move ahead to Oklab if you intend to use a better
 color space from the start, but this also describes some commonly-used classes shared by the color spaces.
 
-The chromatic channels are only meaningful together, and can be used to get the
-hue and colorfulness (related to saturation) of any individual color. All channels go from `0.0f` to `1.0f` as `float`s,
+The chromatic channels are only meaningful together, and can be used to get the hue and colorfulness (AKA chroma,
+related to saturation) of any individual color. All channels go from `0.0f` to `1.0f` as `float`s,
 and can also be viewed as `int`s from `0` to `255` (`254` for alpha, because it is never an odd number). For luma,
 `0.0f` is black regardless of chromatic channels, and `1.0f` is white, again regardless. Tinting an image with black
 won't actually make the image all black, unlike the default setColor(), but it will make it much darker. Similarly,
@@ -219,10 +219,34 @@ includes those in `ycwcm`, `ipt`, and `oklab` as well. Its `SimplePalette` is ju
 hue of colors when it lightens or darkens them. As you can see from the description demo (see next), CIELAB has all
 kinds of trouble with blue and similar colors.
 
+### HSLuv
+
+HSLuv is a form of Hue, Saturation, Lightness color space, similar to the standard HSL, but with drastically more-even
+perceptual lightness when L is the same but H and/or S change. As you can see from
+[the HSLuv website](https://www.hsluv.org/), it is very useful for cases such as user-selected colors. It has the nice
+quality that nearly all combinations of H, S, and L are valid colors; only min or max L with high S are technically not
+supposed to appear, and this can tolerate those colors being entered anyway. Adding to hue rotates from red to orange to
+yellow, and so on; adding to saturation brings the colorfulness closer to the maximum (at 1.0), and adding to lightness,
+well, lightens. With a `ColorfulBatch`, you can also multiply hue (which is basically useless, and may be changed in a
+future release), multiply saturation (which is much more useful, and makes the image more bright/bold or
+dull/desaturated), multiply lightness (which occurs before lightness is added), and adjust contrast (like in the other
+color spaces).
+
+Like Oklab, HSLuv uses a modified lightness value so it should match the expectations of RGB very closely. It also uses
+a Barron spline, though a different one from Oklab. Unlike Oklab, HSLuv does not need a large precalculated Gamut file,
+because its gamut can be calculated with several relatively-simple formulas. I have to give thanks to the community
+around HSLuv, such as [Nathan Sweet's HSLuv code](https://github.com/EsotericSoftware/hsl/blob/main/src/com/esotericsoftware/hsluv/Hsl.java)
+and [Alex Boronine's earlier code](https://github.com/hsluv/hsluv-java); I wouldn't have taken a second look at HSLuv if
+not for Nathan Sweet's more-efficient conversion code. 
+
+The `com.github.tommyettinger.colorful.hsluv` package has parallels to all the classes in the `ipt_hq` package, which
+includes those in `ycwcm`, `ipt`, and `oklab` as well. Its `SimplePalette` is not at all shabby.
+
 ### Describing Colors
 
-The `rgb`, `ipt_hq` and `oklab` packages have the same classes present for other color spaces, like those in `ipt`, plus
-an extra palette, `SimplePalette`, with a key extra feature. You can use the `SimplePalette.parseDescription(String)`
+The `rgb`, `ipt_hq`, `oklab`, `hsluv`, and `cielab` packages have the same classes present for other color spaces, like
+those in `ipt`, plus an extra palette, `SimplePalette`, with a key extra feature. You can use the
+`SimplePalette.parseDescription(String)`
 method to describe a color with a combination of one or more (clearly-named) color names and optionally with adjectives
 like "light", "dull", "darker", or "richest". The predefined colors in SimplePalette for IPT_HQ can be previewed in
 [this list alphabetically](https://tommyettinger.github.io/colorful-gdx/ColorTableSimpleIPT_HQ.html),
@@ -240,6 +264,8 @@ using different color spaces and their SimplePalette transformations. The gradie
 Oklab gradients between two described colors.
 
 ### HSLC
+
+If for some reason you don't want to use HSLuv, there's a version that has contrast instead of alpha in tints.
 
 HSLC doesn't allow changing alpha, so it may be unsuitable for some tasks, but it does allow smooth hue rotations across
 the HSL hue range, can saturate or desaturate colors like the two Chroma values can in YCwCm, and has similar luma
@@ -320,12 +346,12 @@ Using the Maven Central dependency is recommended, and Gradle and Maven can both
 
 Gradle dependency (`implementation` should be changed to `api` if any other dependencies use `api`):
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.7.0'
+implementation 'com.github.tommyettinger:colorful:0.8.0'
 ```
 
 Gradle dependency if also using GWT to make an HTML application:
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.7.0:sources'
+implementation 'com.github.tommyettinger:colorful:0.8.0:sources'
 ```
 
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
@@ -338,7 +364,7 @@ If you don't use Gradle, here's the Maven dependency:
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful</artifactId>
-  <version>0.7.0</version>
+  <version>0.8.0</version>
 </dependency>
 ```
 
@@ -346,12 +372,12 @@ Using colorful-pure is similar:
 
 Gradle dependency (`implementation` should be changed to `api` if any other dependencies use `api`):
 ```groovy
-implementation 'com.github.tommyettinger:colorful-pure:0.7.0'
+implementation 'com.github.tommyettinger:colorful-pure:0.8.0'
 ```
 
 Gradle dependency if also using GWT to make an HTML application:
 ```groovy
-implementation 'com.github.tommyettinger:colorful-pure:0.7.0:sources'
+implementation 'com.github.tommyettinger:colorful-pure:0.8.0:sources'
 ```
 
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
@@ -364,9 +390,9 @@ If you don't use Gradle, here's the Maven dependency:
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful-pure</artifactId>
-  <version>0.7.0</version>
+  <version>0.8.0</version>
 </dependency>
 ```
 
-If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.7.0).
+If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.8.0).
 

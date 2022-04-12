@@ -1182,12 +1182,12 @@
 <span class="source-line-no">1169</span><span id="line.1169">     */</span>
 <span class="source-line-no">1170</span><span id="line.1170">    public static float lessenChange(final float color, float fraction) {</span>
 <span class="source-line-no">1171</span><span id="line.1171">        final int e = BitConversion.floatToRawIntBits(color),</span>
-<span class="source-line-no">1172</span><span id="line.1172">                sL = 0x80, sA = 0x80, sB = 0x80, sAlpha = 0xFE,</span>
+<span class="source-line-no">1172</span><span id="line.1172">                sL = 0x80, sA = 0x80, sB = 0x80,</span>
 <span class="source-line-no">1173</span><span id="line.1173">                eL = (e &amp; 0xFF), eA = (e &gt;&gt;&gt; 8) &amp; 0xFF, eB = (e &gt;&gt;&gt; 16) &amp; 0xFF, eAlpha = e &gt;&gt;&gt; 24 &amp; 0xFE;</span>
 <span class="source-line-no">1174</span><span id="line.1174">        return BitConversion.intBitsToFloat(((int) (sL + fraction * (eL - sL)) &amp; 0xFF)</span>
 <span class="source-line-no">1175</span><span id="line.1175">                | (((int) (sA + fraction * (eA - sA)) &amp; 0xFF) &lt;&lt; 8)</span>
 <span class="source-line-no">1176</span><span id="line.1176">                | (((int) (sB + fraction * (eB - sB)) &amp; 0xFF) &lt;&lt; 16)</span>
-<span class="source-line-no">1177</span><span id="line.1177">                | (((int) (sAlpha + fraction * (eAlpha - sAlpha)) &amp; 0xFE) &lt;&lt; 24));</span>
+<span class="source-line-no">1177</span><span id="line.1177">                | (eAlpha &lt;&lt; 24));</span>
 <span class="source-line-no">1178</span><span id="line.1178">    }</span>
 <span class="source-line-no">1179</span><span id="line.1179"></span>
 <span class="source-line-no">1180</span><span id="line.1180">    /**</span>
@@ -1342,7 +1342,7 @@
 <span class="source-line-no">1329</span><span id="line.1329">     * random, or can be incremented on each call. If the seed is only incremented or decremented, then this shouldn't</span>
 <span class="source-line-no">1330</span><span id="line.1330">     * produce two similar colors in a row unless variance is very small. The variance affects the L, A, and B of the</span>
 <span class="source-line-no">1331</span><span id="line.1331">     * generated color, and each of those channels can go up or down by the given variance as long as the total distance</span>
-<span class="source-line-no">1332</span><span id="line.1332">     * isn't greater than the variance (this considers P and T extra-wide, going from -1 to 1, while I goes from 0 to 1,</span>
+<span class="source-line-no">1332</span><span id="line.1332">     * isn't greater than the variance (this considers A and B extra-wide, going from -1 to 1, while L goes from 0 to 1,</span>
 <span class="source-line-no">1333</span><span id="line.1333">     * but only internally for measuring distance).</span>
 <span class="source-line-no">1334</span><span id="line.1334">     * @param color a packed float color, as produced by {@link #cielab(float, float, float, float)}</span>
 <span class="source-line-no">1335</span><span id="line.1335">     * @param seed a long seed that should be different on each call; should not be 0</span>
