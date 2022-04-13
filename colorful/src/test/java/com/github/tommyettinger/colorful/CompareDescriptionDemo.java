@@ -31,6 +31,7 @@ public class CompareDescriptionDemo extends ApplicationAdapter {
     private float o = com.github.tommyettinger.colorful.oklab.SimplePalette.TRANSPARENT;
     private float i = com.github.tommyettinger.colorful.ipt_hq.SimplePalette.TRANSPARENT;
     private float c = com.github.tommyettinger.colorful.cielab.SimplePalette.TRANSPARENT;
+    private float h = com.github.tommyettinger.colorful.hsluv.SimplePalette.TRANSPARENT;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -57,13 +58,14 @@ public class CompareDescriptionDemo extends ApplicationAdapter {
         Table tab = new Table(skin);
         tab.align(Align.center);
         tab.setFillParent(true);
-        Label title = new Label("Compare Color Descriptions", skin);
-        title.setAlignment(Align.center);
-        tab.add(title).colspan(2).growX().minWidth(300).row();
+//        Label title = new Label("Compare Color Descriptions", skin);
+//        title.setAlignment(Align.center);
+//        tab.add(title).colspan(2).growX().minWidth(300).row();
         tab.add("Description: ").left().minWidth(200);
         tab.add(nameField).center().growX().minHeight(100).row();
         tab.add("RGB:         ").center().grow().minWidth(200).row();
         tab.add("Oklab:       ").center().grow().minWidth(200).row();
+        tab.add("HSLuv:       ").center().grow().minWidth(200).row();
         tab.add("CIELAB:      ").center().grow().minWidth(200).row();
         tab.add("IPT_HQ:      ").center().grow().minWidth(200);
         stage.getRoot().addActor(tab);
@@ -79,6 +81,7 @@ public class CompareDescriptionDemo extends ApplicationAdapter {
                 o = com.github.tommyettinger.colorful.oklab.SimplePalette.parseDescription(nameField.getText());
                 i = com.github.tommyettinger.colorful.ipt_hq.SimplePalette.parseDescription(nameField.getText());
                 c = com.github.tommyettinger.colorful.cielab.SimplePalette.parseDescription(nameField.getText());
+                h = com.github.tommyettinger.colorful.hsluv.SimplePalette.parseDescription(nameField.getText());
             }
         }
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
@@ -96,13 +99,15 @@ public class CompareDescriptionDemo extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.setPackedColor(r);
-        batch.draw(pixel, 0f, height * 0.6f, width, height * 0.2f);
+        batch.draw(pixel, 0f, height*2/3f, width, height / 6f);
         batch.setPackedColor(com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA(o));
-        batch.draw(pixel, 0f, height * 0.4f, width, height * 0.2f);
+        batch.draw(pixel, 0f, height / 2f, width, height / 6f);
+        batch.setPackedColor(com.github.tommyettinger.colorful.hsluv.ColorTools.toRGBA(h));
+        batch.draw(pixel, 0f, height / 3f, width, height / 6f);
         batch.setPackedColor(com.github.tommyettinger.colorful.cielab.ColorTools.toRGBA(c));
-        batch.draw(pixel, 0f, height * 0.2f, width, height * 0.2f);
+        batch.draw(pixel, 0f, height / 6f, width, height / 6f);
         batch.setPackedColor(com.github.tommyettinger.colorful.ipt_hq.ColorTools.toRGBA(i));
-        batch.draw(pixel, 0f, 0f, width, height * 0.2f);
+        batch.draw(pixel, 0f, 0f, width, height / 6f);
         batch.setPackedColor(Color.WHITE_FLOAT_BITS);
         stage.getRoot().draw(batch, 1);
         batch.end();
