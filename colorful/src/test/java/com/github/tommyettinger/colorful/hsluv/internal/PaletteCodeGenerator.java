@@ -7,6 +7,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.ObjectFloatMap;
 import com.github.tommyettinger.colorful.hsluv.Palette;
+import com.github.tommyettinger.colorful.hsluv.SimplePalette;
 import com.github.tommyettinger.colorful.internal.StringKit;
 import com.github.tommyettinger.colorful.hsluv.ColorTools;
 
