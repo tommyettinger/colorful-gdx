@@ -42,7 +42,7 @@ public class FloatColors {
         float d = 2f * (1f - l / (v + 1e-10f));
         v *= 255f;
         return NumberUtils.intBitsToFloat(
-                (int)(a * 127) << 25
+                (int)(a * 127f) << 25
                         | (int)(v * MathUtils.lerp(1f, z, d)) << 16
                         | (int)(v * MathUtils.lerp(1f, y, d)) << 8
                         | (int)(v * MathUtils.lerp(1f, x, d))

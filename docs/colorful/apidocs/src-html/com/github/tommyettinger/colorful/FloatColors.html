@@ -55,7 +55,7 @@
 <span class="source-line-no">042</span><span id="line.42">        float d = 2f * (1f - l / (v + 1e-10f));</span>
 <span class="source-line-no">043</span><span id="line.43">        v *= 255f;</span>
 <span class="source-line-no">044</span><span id="line.44">        return NumberUtils.intBitsToFloat(</span>
-<span class="source-line-no">045</span><span id="line.45">                (int)(a * 127) &lt;&lt; 25</span>
+<span class="source-line-no">045</span><span id="line.45">                (int)(a * 127f) &lt;&lt; 25</span>
 <span class="source-line-no">046</span><span id="line.46">                        | (int)(v * MathUtils.lerp(1f, z, d)) &lt;&lt; 16</span>
 <span class="source-line-no">047</span><span id="line.47">                        | (int)(v * MathUtils.lerp(1f, y, d)) &lt;&lt; 8</span>
 <span class="source-line-no">048</span><span id="line.48">                        | (int)(v * MathUtils.lerp(1f, x, d))</span>

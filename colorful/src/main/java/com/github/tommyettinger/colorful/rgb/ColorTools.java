@@ -322,7 +322,7 @@ public class ColorTools {
 	 */
 	public static float toEditedFloat(float basis, float hue, float saturation, float light, float opacity) {
 		final int decoded = NumberUtils.floatToRawIntBits(basis);
-		opacity = Math.min(Math.max(opacity + (decoded >>> 24 & 0xfe) * 0x1.020408p-8f, 0f), 1f);
+		opacity = Math.min(Math.max(opacity + (decoded >>> 25) * (1f / 127f), 0f), 1f);
 		final float r = (decoded & 0xff) / 255f;
 		final float g = (decoded >>> 8 & 0xff) / 255f;
 		final float b = (decoded >>> 16 & 0xff) / 255f;
