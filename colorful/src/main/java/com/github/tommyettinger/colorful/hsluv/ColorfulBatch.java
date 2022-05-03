@@ -154,7 +154,7 @@ public class ColorfulBatch implements Batch {
                 + "varying vec4 v_tweak;\n"
                 + "varying vec2 v_texCoords;\n"
                 + "varying float v_lightFix;\n" +
-                "const vec3 epsilon = vec3(0.00885645);\n" +
+                "const vec3 epsilon = vec3(0.0088564516790356308);\n" +
                 "const float kappa = 9.032962962;\n" +
                 "const mat3 m =" +
                 "         mat3(+3.240969941904521, -1.537383177570093, -0.498610760293000,\n" +
@@ -169,25 +169,23 @@ public class ColorfulBatch implements Batch {
                 "    return len;\n" +
                 "}\n" +
                 "\n" +
-                "float chromaLimit(float H, float L) {\n" +
+                "float chromaLimit(float hue, float L) {\n" +
                 "\n" +
-                "    float hrad = radians(H);\n" +
+                "    float sub1 = pow((L + 0.16) / 1.16, 3.0);\n" +
+                "    float sub2 = sub1 > epsilon.x ? sub1 : L / kappa;\n" +
                 "\n" +
-                "    float sub1 = pow(L + 16.0, 3.0) / 1560896.0;\n" +
-                "    float sub2 = sub1 > 0.0088564516790356308 ? sub1 : L / 903.2962962962963;\n" +
-                "\n" +
-                "    vec3 top1   = (284517.0 * m[0] - 94839.0  * m[2]) * sub2;\n" +
-                "    vec3 bottom = (632260.0 * m[2] - 126452.0 * m[1]) * sub2;\n" +
-                "    vec3 top2   = (838422.0 * m[2] + 769860.0 * m[1] + 731718.0 * m[0]) * L * sub2;\n" +
+                "    vec3 top1   = (2845.17 * m[0] - 948.39  * m[2]) * sub2;\n" +
+                "    vec3 bottom = (6322.60 * m[2] - 1264.52 * m[1]) * sub2;\n" +
+                "    vec3 top2   = (8384.22 * m[2] + 7698.60 * m[1] + 7317.18 * m[0]) * L * sub2;\n" +
                 "\n" +
                 "    vec3 bound0x = top1 / bottom;\n" +
                 "    vec3 bound0y = top2 / bottom;\n" +
                 "\n" +
-                "    vec3 bound1x =              top1 / (bottom+126452.0);\n" +
-                "    vec3 bound1y = (top2-769860.0*L) / (bottom+126452.0);\n" +
+                "    vec3 bound1x =              top1 / (bottom+1264.52);\n" +
+                "    vec3 bound1y = (top2-7698.60 * L) / (bottom+1264.52);\n" +
                 "\n" +
-                "    float sh = sin(hrad);\n" +
-                "    float ch = cos(hrad);\n" +
+                "    float sh = sin(hue);\n" +
+                "    float ch = cos(hue);\n" +
                 "\n" +
                 "    vec3 lengths0 = intersect(sh, ch, bound0x, bound0y);\n" +
                 "    vec3 lengths1 = intersect(sh, ch, bound1x, bound1y);\n" +
@@ -214,6 +212,7 @@ public class ColorfulBatch implements Batch {
                 + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
                 + "   v_color.w = v_color.w * (255.0/254.0);\n"
                 + "   v_color.x *= 6.2831 * 2.0 * v_tweak.x;\n"
+                + "   v_color.y *= 2.0 * v_tweak.y;\n"
                 + "   v_color.rgb = hsl2luv(v_color.rgb);\n"
                 + "   v_lightFix = 1.0 + pow(v_tweak.w, 1.41421356);\n"
                 + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
@@ -227,8 +226,8 @@ public class ColorfulBatch implements Batch {
                         "#define LOWP \n" +
                         "#endif\n" +
                         "varying vec2 v_texCoords;\n" +
-                        "varying LOWP vec4 v_color;\n" +
-                        "varying LOWP vec4 v_tweak;\n" +
+                        "varying vec4 v_color;\n" +
+                        "varying vec4 v_tweak;\n" +
                         "varying float v_lightFix;\n" +
                         "uniform sampler2D u_texture;\n" +
                         "const vec3 forward = vec3(1.0 / 3.0);\n" +
@@ -261,25 +260,23 @@ public class ColorfulBatch implements Batch {
                         "    return len;\n" +
                         "}\n" +
                         "\n" +
-                        "float chromaLimit(float H, float L) {\n" +
+                        "float chromaLimit(float hue, float L) {\n" +
                         "\n" +
-                        "    float hrad = radians(H);\n" +
+                        "    float sub1 = pow((L + 0.16) / 1.16, 3.0);\n" +
+                        "    float sub2 = sub1 > epsilon.x ? sub1 : L / kappa;\n" +
                         "\n" +
-                        "    float sub1 = pow(L + 16.0, 3.0) / 1560896.0;\n" +
-                        "    float sub2 = sub1 > 0.0088564516790356308 ? sub1 : L / 903.2962962962963;\n" +
-                        "\n" +
-                        "    vec3 top1   = (284517.0 * m[0] - 94839.0  * m[2]) * sub2;\n" +
-                        "    vec3 bottom = (632260.0 * m[2] - 126452.0 * m[1]) * sub2;\n" +
-                        "    vec3 top2   = (838422.0 * m[2] + 769860.0 * m[1] + 731718.0 * m[0]) * L * sub2;\n" +
+                        "    vec3 top1   = (2845.17 * m[0] - 948.39  * m[2]) * sub2;\n" +
+                        "    vec3 bottom = (6322.60 * m[2] - 1264.52 * m[1]) * sub2;\n" +
+                        "    vec3 top2   = (8384.22 * m[2] + 7698.60 * m[1] + 7317.18 * m[0]) * L * sub2;\n" +
                         "\n" +
                         "    vec3 bound0x = top1 / bottom;\n" +
                         "    vec3 bound0y = top2 / bottom;\n" +
                         "\n" +
-                        "    vec3 bound1x =              top1 / (bottom+126452.0);\n" +
-                        "    vec3 bound1y = (top2-769860.0*L) / (bottom+126452.0);\n" +
+                        "    vec3 bound1x =              top1 / (bottom+1264.52);\n" +
+                        "    vec3 bound1y = (top2-7698.60 * L) / (bottom+1264.52);\n" +
                         "\n" +
-                        "    float sh = sin(hrad);\n" +
-                        "    float ch = cos(hrad);\n" +
+                        "    float sh = sin(hue);\n" +
+                        "    float ch = cos(hue);\n" +
                         "\n" +
                         "    vec3 lengths0 = intersect(sh, ch, bound0x, bound0y);\n" +
                         "    vec3 lengths1 = intersect(sh, ch, bound1x, bound1y);\n" +
@@ -297,7 +294,7 @@ public class ColorfulBatch implements Batch {
                         "    float L = max(0.,1.16*pow(c.y, 1.0 / 3.0) - 0.16);\n" +
                         "    vec2 uv;\n" +
                         "    if(L < 0.0001) uv = vec2(0.0);\n" +
-                        "    else uv = 13. * L * (vec2(4., 9.) * c.xy / (c.x + 15. * c.y + 3. * c.z) - refUV);\n" +
+                        "    else uv = 13.0 * L * (vec2(4., 9.) * c.xy / (c.x + 15. * c.y + 3. * c.z) - refUV);\n" +
                         "    return vec3(L, uv);\n" +
                         "}\n" +
 //                        "vec3 rgb2hsl(vec3 c)\n" +
@@ -382,9 +379,7 @@ public class ColorfulBatch implements Batch {
                         "    float varV = V * iL + refUV.y;\n" +
                         "    c.x = 2.25 * varU * c.y / varV;\n" +
                         "    c.z = (3. / varV - 5.) * c.y - (c.x / 3.);\n" +
-                        "    vec3 rgb = c * mat3( 3.2406, -1.5372,-0.4986,\n" +
-                        "                        -0.9689,  1.8758, 0.0415,\n" +
-                        "                         0.0557, -0.2040, 1.0570);\n" +
+                        "    vec3 rgb = c * m;\n" +
                         "    return rgb;\n" +
                         "}\n" +
                         "void main()\n" +
