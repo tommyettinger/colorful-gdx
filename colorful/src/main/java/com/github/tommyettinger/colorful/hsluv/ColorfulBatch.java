@@ -156,9 +156,9 @@ public class ColorfulBatch implements Batch {
                 "const vec3 epsilon = vec3(0.00885645);\n" +
                 "const float kappa = 9.032962962;\n" +
                 "const mat3 m =" +
-                "         mat3(+3.2404542, -1.5371385, -0.4985314,\n" +
-                "              -0.9692660, +1.8760108, +0.0415560,\n" +
-                "              +0.0556434, -0.2040259, +1.0572252);\n" +
+                "         mat3(+3.240969941904521, -1.537383177570093, -0.498610760293000,\n" +
+                "              -0.969243636280870, +1.875967501507720, +0.041555057407175,\n" +
+                "              +0.055630079696993, -0.203976958888970, +1.056971514242878);\n" +
                 "float chromaLimit(float hue, float lightness) {\n" +
                 "        float sn = sin(hue);\n" +
                 "        float cs = cos(hue);\n" +
@@ -177,7 +177,7 @@ public class ColorfulBatch implements Batch {
                 "        if (C0 > 0. && C0 < result) {\n" +
                 "          result = C0;\n" +
                 "        }\n" +
-                "        C1 = lightness * (top - 1.05122 * 1) / (bottom + 0.17266 * sn);\n" +
+                "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
                 "        if (C1 > 0. && C1 < result) {\n" +
                 "          result = C1;\n" +
                 "        }\n" +
@@ -190,7 +190,7 @@ public class ColorfulBatch implements Batch {
                 "        if (C0 > 0. && C0 < result) {\n" +
                 "          result = C0;\n" +
                 "        }\n" +
-                "        C1 = lightness * (top - 1.05122 * 1) / (bottom + 0.17266 * sn);\n" +
+                "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
                 "        if (C1 > 0. && C1 < result) {\n" +
                 "          result = C1;\n" +
                 "        }\n" +
@@ -203,7 +203,7 @@ public class ColorfulBatch implements Batch {
                 "        if (C0 > 0. && C0 < result) {\n" +
                 "          result = C0;\n" +
                 "        }\n" +
-                "        C1 = lightness * (top - 1.05122 * 1) / (bottom + 0.17266 * sn);\n" +
+                "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
                 "        if (C1 > 0. && C1 < result) {\n" +
                 "          result = C1;\n" +
                 "        }\n" +
@@ -332,7 +332,7 @@ public class ColorfulBatch implements Batch {
                         "        if (C0 > 0. && C0 < result) {\n" +
                         "          result = C0;\n" +
                         "        }\n" +
-                        "        C1 = lightness * (top - 1.05122 * 1) / (bottom + 0.17266 * sn);\n" +
+                        "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
                         "        if (C1 > 0. && C1 < result) {\n" +
                         "          result = C1;\n" +
                         "        }\n" +
@@ -345,7 +345,7 @@ public class ColorfulBatch implements Batch {
                         "        if (C0 > 0. && C0 < result) {\n" +
                         "          result = C0;\n" +
                         "        }\n" +
-                        "        C1 = lightness * (top - 1.05122 * 1) / (bottom + 0.17266 * sn);\n" +
+                        "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
                         "        if (C1 > 0. && C1 < result) {\n" +
                         "          result = C1;\n" +
                         "        }\n" +
@@ -358,7 +358,7 @@ public class ColorfulBatch implements Batch {
                         "        if (C0 > 0. && C0 < result) {\n" +
                         "          result = C0;\n" +
                         "        }\n" +
-                        "        C1 = lightness * (top - 1.05122 * 1) / (bottom + 0.17266 * sn);\n" +
+                        "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
                         "        if (C1 > 0. && C1 < result) {\n" +
                         "          result = C1;\n" +
                         "        }\n" +
