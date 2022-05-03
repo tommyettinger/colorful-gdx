@@ -161,7 +161,7 @@ public class ColorfulBatch implements Batch {
                 "              -0.969243636280870, +1.875967501507720, +0.041555057407175,\n" +
                 "              +0.055630079696993, -0.203976958888970, +1.056971514242878);\n" +
                 "\n" +
-                "vec3 intersect(float sTheta, float cTheta vec3 x, vec3 y) {\n" +
+                "vec3 intersect(float sTheta, float cTheta, vec3 x, vec3 y) {\n" +
                 "    vec3 len = y / (sTheta - x * cTheta);\n" +
                 "    if (len.r < 0.0) {len.r=1000.0;}\n" +
                 "    if (len.g < 0.0) {len.g=1000.0;}\n" +
@@ -253,7 +253,7 @@ public class ColorfulBatch implements Batch {
                         "vec3 xyzF(vec3 t){ return mix(pow(t, forward), 7.787037 * t + 0.139731, step(t, epsilon)); }\n" +
                         "float xyzR(float t){ return mix(t*t*t , 0.1284185 * (t - 0.139731), step(t, 0.20689655)); }\n" +
                         "\n" +
-                        "vec3 intersect(float sTheta, float cTheta vec3 x, vec3 y) {\n" +
+                        "vec3 intersect(float sTheta, float cTheta, vec3 x, vec3 y) {\n" +
                         "    vec3 len = y / (sTheta - x * cTheta);\n" +
                         "    if (len.r < 0.0) {len.r=1000.0;}\n" +
                         "    if (len.g < 0.0) {len.g=1000.0;}\n" +
