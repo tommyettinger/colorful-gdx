@@ -1503,7 +1503,7 @@ void main()
             "        if (C0 > 0. && C0 < result) {\n" +
             "          result = C0;\n" +
             "        }\n" +
-            "        C1 = lightness * (top - 1.05122 * 1) / (bottom + 0.17266 * sn);\n" +
+            "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
             "        if (C1 > 0. && C1 < result) {\n" +
             "          result = C1;\n" +
             "        }\n" +
@@ -1516,7 +1516,7 @@ void main()
             "        if (C0 > 0. && C0 < result) {\n" +
             "          result = C0;\n" +
             "        }\n" +
-            "        C1 = lightness * (top - 1.05122 * 1) / (bottom + 0.17266 * sn);\n" +
+            "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
             "        if (C1 > 0. && C1 < result) {\n" +
             "          result = C1;\n" +
             "        }\n" +
@@ -1529,7 +1529,7 @@ void main()
             "        if (C0 > 0. && C0 < result) {\n" +
             "          result = C0;\n" +
             "        }\n" +
-            "        C1 = lightness * (top - 1.05122 * 1) / (bottom + 0.17266 * sn);\n" +
+            "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
             "        if (C1 > 0. && C1 < result) {\n" +
             "          result = C1;\n" +
             "        }\n" +
@@ -1623,7 +1623,7 @@ void main()
                     "        if (C0 > 0. && C0 < result) {\n" +
                     "          result = C0;\n" +
                     "        }\n" +
-                    "        C1 = lightness * (top - 1.05122 * 1) / (bottom + 0.17266 * sn);\n" +
+                    "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
                     "        if (C1 > 0. && C1 < result) {\n" +
                     "          result = C1;\n" +
                     "        }\n" +
@@ -1636,7 +1636,7 @@ void main()
                     "        if (C0 > 0. && C0 < result) {\n" +
                     "          result = C0;\n" +
                     "        }\n" +
-                    "        C1 = lightness * (top - 1.05122 * 1) / (bottom + 0.17266 * sn);\n" +
+                    "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
                     "        if (C1 > 0. && C1 < result) {\n" +
                     "          result = C1;\n" +
                     "        }\n" +
@@ -1649,7 +1649,7 @@ void main()
                     "        if (C0 > 0. && C0 < result) {\n" +
                     "          result = C0;\n" +
                     "        }\n" +
-                    "        C1 = lightness * (top - 1.05122 * 1) / (bottom + 0.17266 * sn);\n" +
+                    "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
                     "        if (C1 > 0. && C1 < result) {\n" +
                     "          result = C1;\n" +
                     "        }\n" +
