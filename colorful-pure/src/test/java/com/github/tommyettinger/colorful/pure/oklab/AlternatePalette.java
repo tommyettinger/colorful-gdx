@@ -4,7 +4,7 @@ import com.github.tommyettinger.colorful.pure.MathTools;
 import com.github.tommyettinger.ds.IntList;
 import com.github.tommyettinger.ds.ObjectIntOrderedMap;
 import com.github.tommyettinger.ds.ObjectList;
-import com.github.tommyettinger.ds.support.BitConversion;
+import com.github.tommyettinger.digital.BitConversion;
 
 import static com.github.tommyettinger.colorful.pure.MathTools.floor;
 import static com.github.tommyettinger.colorful.pure.oklab.Gamut.GAMUT_DATA;

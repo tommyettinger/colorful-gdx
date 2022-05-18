@@ -1,6 +1,6 @@
 package com.github.tommyettinger.colorful.pure.internal;
 
-import com.github.tommyettinger.ds.support.BitConversion;
+import com.github.tommyettinger.digital.BitConversion;
 
 import java.util.Collection;
 import java.util.Iterator;

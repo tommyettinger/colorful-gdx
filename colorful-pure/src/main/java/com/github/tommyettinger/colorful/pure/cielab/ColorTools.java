@@ -2,8 +2,8 @@ package com.github.tommyettinger.colorful.pure.cielab;
 
 import com.github.tommyettinger.colorful.pure.FloatColors;
 import com.github.tommyettinger.colorful.pure.MathTools;
-import com.github.tommyettinger.ds.support.BitConversion;
-import com.github.tommyettinger.ds.support.EnhancedRandom;
+import com.github.tommyettinger.digital.BitConversion;
+import com.github.tommyettinger.random.EnhancedRandom;
 
 import java.util.Random;
 
@@ -1357,7 +1357,7 @@ public class ColorTools {
 
     /**
      * Produces a random packed float color that is always in-gamut and should be uniformly distributed.
-     * @param random a Random object (preferably a subclass of Random, like {@link com.github.tommyettinger.ds.support.LaserRandom})
+     * @param random a Random object (preferably a subclass of Random, like {@link com.github.tommyettinger.random.LaserRandom})
      * @return a packed float color that is always in-gamut
      */
     public static float randomColor(Random random) {
@@ -1374,7 +1374,7 @@ public class ColorTools {
 
     /**
      * Produces a random packed float color that is always in-gamut and should be uniformly distributed.
-     * @param random an implementation of EnhancedRandom, such as a {@link com.github.tommyettinger.ds.support.LaserRandom}
+     * @param random an implementation of EnhancedRandom, such as a {@link com.github.tommyettinger.random.LaserRandom}
      * @return a packed float color that is always in-gamut
      */
     public static float randomColor(EnhancedRandom random) {

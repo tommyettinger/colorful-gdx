@@ -26,8 +26,9 @@ package com.github.tommyettinger.colorful.pure.hsluv;
 
 import com.github.tommyettinger.colorful.pure.FloatColors;
 import com.github.tommyettinger.colorful.pure.MathTools;
-import com.github.tommyettinger.ds.support.BitConversion;
-import com.github.tommyettinger.ds.support.EnhancedRandom;
+import com.github.tommyettinger.digital.BitConversion;
+import com.github.tommyettinger.digital.TrigTools;
+import com.github.tommyettinger.random.EnhancedRandom;
 
 import java.util.Random;
 
@@ -1611,7 +1612,7 @@ public class ColorTools {
     /**
      * Produces a random packed float color that is always in-gamut and should be uniformly distributed.
      * @param random a Random object (preferably a subclass of Random, like
-     * {@link com.github.tommyettinger.ds.support.LaserRandom})
+     * {@link com.github.tommyettinger.random.LaserRandom})
      * @return a packed float color that is always in-gamut
      */
     public static float randomColor(Random random) {
@@ -1623,8 +1624,8 @@ public class ColorTools {
      * This is named differently from {@link #randomColor(Random)} to avoid confusion when a class both extends Random
      * and implements EnhancedRandom.
      * @param random any implementation of jdkgdxds' EnhancedRandom, such as a
-     * {@link com.github.tommyettinger.ds.support.DistinctRandom} or
-     * {@link com.github.tommyettinger.ds.support.FourWheelRandom}
+     * {@link com.github.tommyettinger.random.DistinctRandom} or
+     * {@link com.github.tommyettinger.random.FourWheelRandom}
      * @return a packed float color that is always in-gamut
      */
     public static float randomizedColor(EnhancedRandom random) {
@@ -1670,8 +1671,8 @@ public class ColorTools {
             Ce = chromaLimit(He, Le) * (se / 255f);
         }
         // Lch to Luv
-        float Ue = MathTools.cos_(He) * Ce;
-        float Ve = MathTools.sin_(He) * Ce;
+        float Ue = TrigTools.cosTurns(He) * Ce;
+        float Ve = TrigTools.sinTurns(He) * Ce;
 
         float H, S, L, U, V;
 

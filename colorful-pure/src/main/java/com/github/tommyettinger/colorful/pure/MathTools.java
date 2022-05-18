@@ -1,6 +1,6 @@
 package com.github.tommyettinger.colorful.pure;
 
-import com.github.tommyettinger.ds.support.BitConversion;
+import com.github.tommyettinger.digital.BitConversion;
 
 /**
  * Some alternative approximations to sin(), cos(), asin(), acos(), atan(), and atan2(), including the option to measure

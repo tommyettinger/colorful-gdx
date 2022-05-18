@@ -3,7 +3,7 @@ package com.github.tommyettinger.colorful.pure.ipt_hq;
 import com.github.tommyettinger.colorful.pure.internal.StringKit;
 import com.github.tommyettinger.colorful.pure.ipt_hq.internal.AlternatePalette;
 import com.github.tommyettinger.ds.ObjectIntOrderedMap;
-import com.github.tommyettinger.ds.support.BitConversion;
+import com.github.tommyettinger.digital.BitConversion;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

@@ -2,8 +2,8 @@ package com.github.tommyettinger.colorful.pure.ycwcm;
 
 import com.github.tommyettinger.colorful.pure.FloatColors;
 import com.github.tommyettinger.colorful.pure.MathTools;
-import com.github.tommyettinger.ds.support.BitConversion;
-import com.github.tommyettinger.ds.support.EnhancedRandom;
+import com.github.tommyettinger.digital.BitConversion;
+import com.github.tommyettinger.random.EnhancedRandom;
 
 import java.util.Random;
 
