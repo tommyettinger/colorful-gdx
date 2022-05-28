@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.OrderedMap;
 
 import static com.badlogic.gdx.Gdx.input;
@@ -153,8 +154,8 @@ public class DescriptionMatcher extends ApplicationAdapter {
         float cavernColor = SimplePalette.parseDescription("darker dullest chocolate");
         float exoticColor = SimplePalette.parseDescription("lighter richest raspberry");
         float volcanoColor = SimplePalette.parseDescription("dark ember");
-        float deepColor = ColorTools.fromRGBA8888(0 << 24 | 42 << 16 | 88 << 8 | 255);
-        float shallowColor = ColorTools.fromRGBA8888(20 << 24 | 145 << 16 | 197 << 8 | 255);
+        float deepColor = ColorTools.fromRGBA8888(8 << 24 | 64 << 16 | 76 << 8 | 255);
+        float shallowColor = ColorTools.fromRGBA8888(24 << 24 | 120 << 16 | 128 << 8 | 255);
 
         float[] biomeColors = {
                 desertColor,
@@ -203,7 +204,7 @@ public class DescriptionMatcher extends ApplicationAdapter {
             }
 
         for (int i = 0; i < BIOME_COLOR_TABLE.length; i++) {
-            System.out.printf("new Biome(%s, %s, \"%s\", \"%s\"),\n", heat[i % 6], moisture[i / 6], biomeTable[i], SimplePalette.bestMatch(BIOME_COLOR_TABLE[i], 1));
+            System.out.printf("new Biome(%s, %s, \"%s\", 0x%08X),\n", heat[i % 6], moisture[i / 6], biomeTable[i], NumberUtils.floatToIntColor(BIOME_COLOR_TABLE[i]));
         }
 
         System.out.println();

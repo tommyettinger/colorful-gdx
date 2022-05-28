@@ -343,8 +343,8 @@ public class ColorTools {
             float iL = 1f / (13f * L);
             float varU = U * iL + refU;
             float varV = V * iL + refV;
-            x = 9 * varU * y / (4 * varV);
-            z = (3 * y / varV) - x / 3 - 5 * y;
+            x = 2.25f * varU * y / varV;
+            z = (3f / varV - 5f) * y - x / 3f;
         }
         editing.r = reverseGamma(Math.min(Math.max(+3.2404542f * x + -1.5371385f * y + -0.4985314f * z, 0f), 1f));
         editing.g = reverseGamma(Math.min(Math.max(-0.9692660f * x + +1.8760108f * y + +0.0415560f * z, 0f), 1f));

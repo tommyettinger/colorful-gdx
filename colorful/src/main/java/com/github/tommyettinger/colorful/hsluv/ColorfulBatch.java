@@ -160,108 +160,108 @@ public class ColorfulBatch implements Batch {
                 "         mat3(+3.240969941904521, -1.537383177570093, -0.498610760293000,\n" +
                 "              -0.969243636280870, +1.875967501507720, +0.041555057407175,\n" +
                 "              +0.055630079696993, -0.203976958888970, +1.056971514242878);\n" +
-                "float chromaLimit(float hue, float lightness) {\n" +
-                "        float sn = sin(hue);\n" +
-                "        float cs = cos(hue);\n" +
-                "        float sub1 = (lightness + 0.16) / 1.16;\n" +
-                "        sub1 *= sub1 * sub1;\n" +
-                "        float sub2 = sub1 > epsilon.x ? sub1 : lightness / kappa;\n" +
-                "        float result = 1.0e50;\n" +
-                "        float top, rbottom, lbottom, bottom, C0, C1;\n" +
-                "        vec3 channelM;\n" +
-                "        channelM = m[0];\n" +
-                "        top = (0.99915 * channelM.x + 1.05122 * channelM.y + 1.14460 * channelM.z) * sub2;\n" +
-                "        rbottom = 0.86330 * channelM.z - 0.17266 * channelM.y;\n" +
-                "        lbottom = 0.12949 * channelM.z - 0.38848 * channelM.x;\n" +
-                "        bottom = (rbottom * sn + lbottom * cs) * sub2;\n" +
-                "        C0 = lightness * top / bottom;\n" +
-                "        if (C0 > 0. && C0 < result) {\n" +
-                "          result = C0;\n" +
-                "        }\n" +
-                "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
-                "        if (C1 > 0. && C1 < result) {\n" +
-                "          result = C1;\n" +
-                "        }\n" +
-                "        channelM = m[1];\n" +
-                "        top = (0.99915 * channelM.x + 1.05122 * channelM.y + 1.14460 * channelM.z) * sub2;\n" +
-                "        rbottom = 0.86330 * channelM.z - 0.17266 * channelM.y;\n" +
-                "        lbottom = 0.12949 * channelM.z - 0.38848 * channelM.x;\n" +
-                "        bottom = (rbottom * sn + lbottom * cs) * sub2;\n" +
-                "        C0 = lightness * top / bottom;\n" +
-                "        if (C0 > 0. && C0 < result) {\n" +
-                "          result = C0;\n" +
-                "        }\n" +
-                "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
-                "        if (C1 > 0. && C1 < result) {\n" +
-                "          result = C1;\n" +
-                "        }\n" +
-                "        channelM = m[2];\n" +
-                "        top = (0.99915 * channelM.x + 1.05122 * channelM.y + 1.14460 * channelM.z) * sub2;\n" +
-                "        rbottom = 0.86330 * channelM.z - 0.17266 * channelM.y;\n" +
-                "        lbottom = 0.12949 * channelM.z - 0.38848 * channelM.x;\n" +
-                "        bottom = (rbottom * sn + lbottom * cs) * sub2;\n" +
-                "        C0 = lightness * top / bottom;\n" +
-                "        if (C0 > 0. && C0 < result) {\n" +
-                "          result = C0;\n" +
-                "        }\n" +
-                "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
-                "        if (C1 > 0. && C1 < result) {\n" +
-                "          result = C1;\n" +
-                "        }\n" +
-                "        return result;\n" +
-                "}\n" +
-//                "float intersectLength (float sn, float cs, float line1, float line2) {\n" +
-//                "    return line2 / (sn - line1 * cs);\n" +
-//                "}\n" +
 //                "float chromaLimit(float hue, float lightness) {\n" +
 //                "        float sn = sin(hue);\n" +
 //                "        float cs = cos(hue);\n" +
 //                "        float sub1 = (lightness + 0.16) / 1.16;\n" +
 //                "        sub1 *= sub1 * sub1;\n" +
 //                "        float sub2 = sub1 > epsilon.x ? sub1 : lightness / kappa;\n" +
-//                "        float mn = 1000.0;\n" +
-//                "        vec3 ms = m[0] * sub2;\n" +
-//                "        float msy, top1, top2, bottom, length;\n" +
-//                "        msy = ms.y;\n" +
-//                "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
-//                "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
-//                "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
-//                "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
-//                "        if (length >= 0.) mn = min(mn, length);\n" +
-//                "        msy -= 1.0;\n" +
-//                "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
-//                "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
-//                "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
-//                "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
-//                "        if (length >= 0.) mn = min(mn, length);\n" +
-//                "        ms = m[1] * sub2;\n" +
-//                "        msy = ms.y;\n" +
-//                "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
-//                "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
-//                "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
-//                "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
-//                "        if (length >= 0.) mn = min(mn, length);\n" +
-//                "        msy -= 1.0;\n" +
-//                "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
-//                "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
-//                "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
-//                "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
-//                "        if (length >= 0.) mn = min(mn, length);\n" +
-//                "        ms = m[2] * sub2;\n" +
-//                "        msy = ms.y;\n" +
-//                "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
-//                "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
-//                "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
-//                "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
-//                "        if (length >= 0.) mn = min(mn, length);\n" +
-//                "        msy -= 1.0;\n" +
-//                "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
-//                "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
-//                "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
-//                "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
-//                "        if (length >= 0.) mn = min(mn, length);\n" +
-//                "        return mn;\n" +
+//                "        float result = 1.0e50;\n" +
+//                "        float top, rbottom, lbottom, bottom, C0, C1;\n" +
+//                "        vec3 channelM;\n" +
+//                "        channelM = m[0];\n" +
+//                "        top = (0.99915 * channelM.x + 1.05122 * channelM.y + 1.14460 * channelM.z) * sub2;\n" +
+//                "        rbottom = 0.86330 * channelM.z - 0.17266 * channelM.y;\n" +
+//                "        lbottom = 0.12949 * channelM.z - 0.38848 * channelM.x;\n" +
+//                "        bottom = (rbottom * sn + lbottom * cs) * sub2;\n" +
+//                "        C0 = lightness * top / bottom;\n" +
+//                "        if (C0 > 0. && C0 < result) {\n" +
+//                "          result = C0;\n" +
+//                "        }\n" +
+//                "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
+//                "        if (C1 > 0. && C1 < result) {\n" +
+//                "          result = C1;\n" +
+//                "        }\n" +
+//                "        channelM = m[1];\n" +
+//                "        top = (0.99915 * channelM.x + 1.05122 * channelM.y + 1.14460 * channelM.z) * sub2;\n" +
+//                "        rbottom = 0.86330 * channelM.z - 0.17266 * channelM.y;\n" +
+//                "        lbottom = 0.12949 * channelM.z - 0.38848 * channelM.x;\n" +
+//                "        bottom = (rbottom * sn + lbottom * cs) * sub2;\n" +
+//                "        C0 = lightness * top / bottom;\n" +
+//                "        if (C0 > 0. && C0 < result) {\n" +
+//                "          result = C0;\n" +
+//                "        }\n" +
+//                "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
+//                "        if (C1 > 0. && C1 < result) {\n" +
+//                "          result = C1;\n" +
+//                "        }\n" +
+//                "        channelM = m[2];\n" +
+//                "        top = (0.99915 * channelM.x + 1.05122 * channelM.y + 1.14460 * channelM.z) * sub2;\n" +
+//                "        rbottom = 0.86330 * channelM.z - 0.17266 * channelM.y;\n" +
+//                "        lbottom = 0.12949 * channelM.z - 0.38848 * channelM.x;\n" +
+//                "        bottom = (rbottom * sn + lbottom * cs) * sub2;\n" +
+//                "        C0 = lightness * top / bottom;\n" +
+//                "        if (C0 > 0. && C0 < result) {\n" +
+//                "          result = C0;\n" +
+//                "        }\n" +
+//                "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
+//                "        if (C1 > 0. && C1 < result) {\n" +
+//                "          result = C1;\n" +
+//                "        }\n" +
+//                "        return result;\n" +
 //                "}\n" +
+                "float intersectLength (float sn, float cs, float line1, float line2) {\n" +
+                "    return line2 / (sn - line1 * cs);\n" +
+                "}\n" +
+                "float chromaLimit(float hue, float lightness) {\n" +
+                "        float sn = sin(hue);\n" +
+                "        float cs = cos(hue);\n" +
+                "        float sub1 = (lightness + 0.16) / 1.16;\n" +
+                "        sub1 *= sub1 * sub1;\n" +
+                "        float sub2 = sub1 > epsilon.x ? sub1 : lightness / kappa;\n" +
+                "        float mn = 1.0e20;\n" +
+                "        vec3 ms = m[0] * sub2;\n" +
+                "        float msy, top1, top2, bottom, length;\n" +
+                "        msy = ms.y;\n" +
+                "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
+                "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
+                "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
+                "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
+                "        if (length >= 0.) mn = min(mn, length);\n" +
+                "        msy -= 1.0;\n" +
+                "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
+                "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
+                "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
+                "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
+                "        if (length >= 0.) mn = min(mn, length);\n" +
+                "        ms = m[1] * sub2;\n" +
+                "        msy = ms.y;\n" +
+                "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
+                "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
+                "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
+                "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
+                "        if (length >= 0.) mn = min(mn, length);\n" +
+                "        msy -= 1.0;\n" +
+                "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
+                "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
+                "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
+                "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
+                "        if (length >= 0.) mn = min(mn, length);\n" +
+                "        ms = m[2] * sub2;\n" +
+                "        msy = ms.y;\n" +
+                "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
+                "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
+                "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
+                "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
+                "        if (length >= 0.) mn = min(mn, length);\n" +
+                "        msy -= 1.0;\n" +
+                "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
+                "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
+                "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
+                "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
+                "        if (length >= 0.) mn = min(mn, length);\n" +
+                "        return mn;\n" +
+                "}\n" +
                 "vec3 hsl2luv(vec3 c)\n" +
                 "{\n" +
                 "    float L = c.z;\n" +
@@ -290,8 +290,8 @@ public class ColorfulBatch implements Batch {
                         "#define LOWP \n" +
                         "#endif\n" +
                         "varying vec2 v_texCoords;\n" +
-                        "varying LOWP vec4 v_color;\n" +
-                        "varying LOWP vec4 v_tweak;\n" +
+                        "varying vec4 v_color;\n" +
+                        "varying vec4 v_tweak;\n" +
                         "varying float v_lightFix;\n" +
                         "uniform sampler2D u_texture;\n" +
                         "const vec3 forward = vec3(1.0 / 3.0);\n" +
@@ -315,55 +315,107 @@ public class ColorfulBatch implements Batch {
                         "float xyzF(float t){ return mix(pow(t,1./3.), 7.787037 * t + 0.139731, step(t, epsilon.x)); }\n" +
                         "vec3 xyzF(vec3 t){ return mix(pow(t, forward), 7.787037 * t + 0.139731, step(t, epsilon)); }\n" +
                         "float xyzR(float t){ return mix(t*t*t , 0.1284185 * (t - 0.139731), step(t, 0.20689655)); }\n" +
+//                        "float chromaLimit(float hue, float lightness) {\n" +
+//                        "        float sn = sin(hue);\n" +
+//                        "        float cs = cos(hue);\n" +
+//                        "        float sub1 = (lightness + 0.16) / 1.16;\n" +
+//                        "        sub1 *= sub1 * sub1;\n" +
+//                        "        float sub2 = sub1 > epsilon.x ? sub1 : lightness / kappa;\n" +
+//                        "        float result = 1.0e50;\n" +
+//                        "        float top, rbottom, lbottom, bottom, C0, C1;\n" +
+//                        "        vec3 channelM;\n" +
+//                        "        channelM = m[0];\n" +
+//                        "        top = (0.99915 * channelM.x + 1.05122 * channelM.y + 1.14460 * channelM.z) * sub2;\n" +
+//                        "        rbottom = 0.86330 * channelM.z - 0.17266 * channelM.y;\n" +
+//                        "        lbottom = 0.12949 * channelM.z - 0.38848 * channelM.x;\n" +
+//                        "        bottom = (rbottom * sn + lbottom * cs) * sub2;\n" +
+//                        "        C0 = lightness * top / bottom;\n" +
+//                        "        if (C0 > 0. && C0 < result) {\n" +
+//                        "          result = C0;\n" +
+//                        "        }\n" +
+//                        "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
+//                        "        if (C1 > 0. && C1 < result) {\n" +
+//                        "          result = C1;\n" +
+//                        "        }\n" +
+//                        "        channelM = m[1];\n" +
+//                        "        top = (0.99915 * channelM.x + 1.05122 * channelM.y + 1.14460 * channelM.z) * sub2;\n" +
+//                        "        rbottom = 0.86330 * channelM.z - 0.17266 * channelM.y;\n" +
+//                        "        lbottom = 0.12949 * channelM.z - 0.38848 * channelM.x;\n" +
+//                        "        bottom = (rbottom * sn + lbottom * cs) * sub2;\n" +
+//                        "        C0 = lightness * top / bottom;\n" +
+//                        "        if (C0 > 0. && C0 < result) {\n" +
+//                        "          result = C0;\n" +
+//                        "        }\n" +
+//                        "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
+//                        "        if (C1 > 0. && C1 < result) {\n" +
+//                        "          result = C1;\n" +
+//                        "        }\n" +
+//                        "        channelM = m[2];\n" +
+//                        "        top = (0.99915 * channelM.x + 1.05122 * channelM.y + 1.14460 * channelM.z) * sub2;\n" +
+//                        "        rbottom = 0.86330 * channelM.z - 0.17266 * channelM.y;\n" +
+//                        "        lbottom = 0.12949 * channelM.z - 0.38848 * channelM.x;\n" +
+//                        "        bottom = (rbottom * sn + lbottom * cs) * sub2;\n" +
+//                        "        C0 = lightness * top / bottom;\n" +
+//                        "        if (C0 > 0. && C0 < result) {\n" +
+//                        "          result = C0;\n" +
+//                        "        }\n" +
+//                        "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
+//                        "        if (C1 > 0. && C1 < result) {\n" +
+//                        "          result = C1;\n" +
+//                        "        }\n" +
+//                        "        return result;\n" +
+//                        "}\n" +
+                        "float intersectLength (float sn, float cs, float line1, float line2) {\n" +
+                        "    return line2 / (sn - line1 * cs);\n" +
+                        "}\n" +
                         "float chromaLimit(float hue, float lightness) {\n" +
                         "        float sn = sin(hue);\n" +
                         "        float cs = cos(hue);\n" +
                         "        float sub1 = (lightness + 0.16) / 1.16;\n" +
                         "        sub1 *= sub1 * sub1;\n" +
                         "        float sub2 = sub1 > epsilon.x ? sub1 : lightness / kappa;\n" +
-                        "        float result = 1.0e50;\n" +
-                        "        float top, rbottom, lbottom, bottom, C0, C1;\n" +
-                        "        vec3 channelM;\n" +
-                        "        channelM = m[0];\n" +
-                        "        top = (0.99915 * channelM.x + 1.05122 * channelM.y + 1.14460 * channelM.z) * sub2;\n" +
-                        "        rbottom = 0.86330 * channelM.z - 0.17266 * channelM.y;\n" +
-                        "        lbottom = 0.12949 * channelM.z - 0.38848 * channelM.x;\n" +
-                        "        bottom = (rbottom * sn + lbottom * cs) * sub2;\n" +
-                        "        C0 = lightness * top / bottom;\n" +
-                        "        if (C0 > 0. && C0 < result) {\n" +
-                        "          result = C0;\n" +
-                        "        }\n" +
-                        "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
-                        "        if (C1 > 0. && C1 < result) {\n" +
-                        "          result = C1;\n" +
-                        "        }\n" +
-                        "        channelM = m[1];\n" +
-                        "        top = (0.99915 * channelM.x + 1.05122 * channelM.y + 1.14460 * channelM.z) * sub2;\n" +
-                        "        rbottom = 0.86330 * channelM.z - 0.17266 * channelM.y;\n" +
-                        "        lbottom = 0.12949 * channelM.z - 0.38848 * channelM.x;\n" +
-                        "        bottom = (rbottom * sn + lbottom * cs) * sub2;\n" +
-                        "        C0 = lightness * top / bottom;\n" +
-                        "        if (C0 > 0. && C0 < result) {\n" +
-                        "          result = C0;\n" +
-                        "        }\n" +
-                        "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
-                        "        if (C1 > 0. && C1 < result) {\n" +
-                        "          result = C1;\n" +
-                        "        }\n" +
-                        "        channelM = m[2];\n" +
-                        "        top = (0.99915 * channelM.x + 1.05122 * channelM.y + 1.14460 * channelM.z) * sub2;\n" +
-                        "        rbottom = 0.86330 * channelM.z - 0.17266 * channelM.y;\n" +
-                        "        lbottom = 0.12949 * channelM.z - 0.38848 * channelM.x;\n" +
-                        "        bottom = (rbottom * sn + lbottom * cs) * sub2;\n" +
-                        "        C0 = lightness * top / bottom;\n" +
-                        "        if (C0 > 0. && C0 < result) {\n" +
-                        "          result = C0;\n" +
-                        "        }\n" +
-                        "        C1 = lightness * (top - 1.05122) / (bottom + 0.17266 * sn);\n" +
-                        "        if (C1 > 0. && C1 < result) {\n" +
-                        "          result = C1;\n" +
-                        "        }\n" +
-                        "        return result;\n" +
+                        "        float mn = 1.0e20;\n" +
+                        "        vec3 ms = m[0] * sub2;\n" +
+                        "        float msy, top1, top2, bottom, length;\n" +
+                        "        msy = ms.y;\n" +
+                        "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
+                        "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
+                        "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
+                        "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
+                        "        if (length >= 0.) mn = min(mn, length);\n" +
+                        "        msy -= 1.0;\n" +
+                        "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
+                        "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
+                        "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
+                        "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
+                        "        if (length >= 0.) mn = min(mn, length);\n" +
+                        "        ms = m[1] * sub2;\n" +
+                        "        msy = ms.y;\n" +
+                        "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
+                        "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
+                        "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
+                        "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
+                        "        if (length >= 0.) mn = min(mn, length);\n" +
+                        "        msy -= 1.0;\n" +
+                        "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
+                        "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
+                        "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
+                        "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
+                        "        if (length >= 0.) mn = min(mn, length);\n" +
+                        "        ms = m[2] * sub2;\n" +
+                        "        msy = ms.y;\n" +
+                        "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
+                        "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
+                        "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
+                        "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
+                        "        if (length >= 0.) mn = min(mn, length);\n" +
+                        "        msy -= 1.0;\n" +
+                        "        top1 = 2845.17 * ms.x - 948.39 * ms.z;\n" +
+                        "        top2 = (8384.22 * ms.z + 7698.60 * msy + 7317.18 * ms.x) * lightness;\n" +
+                        "        bottom = (6322.60 * ms.z - 1264.52 * msy);\n" +
+                        "        length = intersectLength(sn, cs, top1 / bottom, top2 / bottom);\n" +
+                        "        if (length >= 0.) mn = min(mn, length);\n" +
+                        "        return mn;\n" +
                         "}\n" +
                         "vec3 rgb2luv(vec3 c)\n" +
                         "{\n" +
