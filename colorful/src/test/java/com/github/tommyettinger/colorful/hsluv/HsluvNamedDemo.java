@@ -97,8 +97,8 @@ public class HsluvNamedDemo extends ApplicationAdapter {
                 Palette.NAMES_BY_HUE.removeIndex(i--);
         }
         selectedName = "Bologna";
-        selectedIndex = Palette.NAMES_BY_HUE.indexOf("Bologna", false);
-        selected = Palette.BOLOGNA;
+        selectedIndex = Palette.NAMES_BY_HUE.indexOf(selectedName, false);
+        selected = Palette.NAMED.get(selectedName, Palette.GRAY);
 //        selectedName = Palette.NAMES_BY_HUE.first();
 //        selectedIndex = 0;
 //        selected = Palette.NAMED.get(selectedName, Palette.GRAY);
