@@ -85,8 +85,8 @@ public class HsluvVersusHSLDemo extends ApplicationAdapter {
 ////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
 //            gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
             gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is the current default; fairly high quality
-            gif.setDitherStrength(0.75f);
-            gif.fastAnalysis = false;
+            gif.setDitherStrength(0.5f);
+            gif.fastAnalysis = true;
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // should be dithered already if using this
 //        gif.palette.analyze(pixmaps, 500); // this can be used to attempt to analyze the image to get a palette...
 ////        // 24 is how many frames per second the animated GIF should play back at.

@@ -3,8 +3,8 @@
 eclipse.project.name = project.name
 
 sourceSets.test.resources.srcDirs = [ file('src/test/resources').path ]
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 javadoc.destinationDir = file('../docs/colorful/apidocs')
 javadoc.options.source("16")
@@ -16,7 +16,7 @@ javadoc.options.source("16")
 if(JavaVersion.current().isJava9Compatible()) {
     allprojects {
         tasks.withType(JavaCompile) {
-            options.release.set(7)
+            options.release.set(8)
         }
     }
 }
