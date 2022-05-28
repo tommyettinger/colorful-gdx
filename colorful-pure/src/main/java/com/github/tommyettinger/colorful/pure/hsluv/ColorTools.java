@@ -1622,8 +1622,8 @@ public class ColorTools {
     /**
      * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.
      * This is named differently from {@link #randomColor(Random)} to avoid confusion when a class both extends Random
-     * and implements EnhancedRandom.
-     * @param random any implementation of jdkgdxds' EnhancedRandom, such as a
+     * and EnhancedRandom.
+     * @param random any subclass of juniper's EnhancedRandom, such as a
      * {@link com.github.tommyettinger.random.DistinctRandom} or
      * {@link com.github.tommyettinger.random.FourWheelRandom}
      * @return a packed float color that is always in-gamut

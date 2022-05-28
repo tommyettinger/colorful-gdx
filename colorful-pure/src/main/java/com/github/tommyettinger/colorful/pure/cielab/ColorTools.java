@@ -1372,12 +1372,16 @@ public class ColorTools {
         return cielab(L, A, B, 1f);
     }
 
-    /**
-     * Produces a random packed float color that is always in-gamut and should be uniformly distributed.
-     * @param random an implementation of EnhancedRandom, such as a {@link com.github.tommyettinger.random.LaserRandom}
-     * @return a packed float color that is always in-gamut
-     */
-    public static float randomColor(EnhancedRandom random) {
+	/**
+	 * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.
+	 * This is named differently from {@link #randomColor(Random)} to avoid confusion when a class both extends Random
+	 * and EnhancedRandom.
+	 * @param random any subclass of juniper's EnhancedRandom, such as a
+	 * {@link com.github.tommyettinger.random.DistinctRandom} or
+	 * {@link com.github.tommyettinger.random.FourWheelRandom}
+	 * @return a packed float color that is always in-gamut
+	 */
+    public static float randomizedColor(EnhancedRandom random) {
         float L = random.nextFloat();
         float A = random.nextFloat();
         float B = random.nextFloat();

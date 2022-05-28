@@ -558,7 +558,7 @@ public class ColorTools {
 
 	/**
 	 * Produces a random packed float color that is always opaque and should be uniformly distributed.
-	 * @param random a Random object (or preferably a subclass of Random, like {@link com.github.tommyettinger.ds.support.LaserRandom})
+	 * @param random a Random object (or preferably a subclass of Random, like {@link com.github.tommyettinger.random.LaserRandom})
 	 * @return a packed float color that is always opaque
 	 */
 	public static float randomColor(Random random) {
@@ -572,10 +572,10 @@ public class ColorTools {
 	/**
 	 * Produces a random packed float color that is always opaque and should be uniformly distributed.
 	 * This is named differently from {@link #randomColor(Random)} to avoid confusion when a class both extends Random
-	 * and implements EnhancedRandom.
-	 * @param random any implementation of jdkgdxds' EnhancedRandom, such as a
-	 * {@link com.github.tommyettinger.ds.support.DistinctRandom} or
-	 * {@link com.github.tommyettinger.ds.support.FourWheelRandom}
+	 * and EnhancedRandom.
+	 * @param random any subclass of juniper's EnhancedRandom, such as a
+	 * {@link com.github.tommyettinger.random.DistinctRandom} or
+	 * {@link com.github.tommyettinger.random.FourWheelRandom}
 	 * @return a packed float color that is always in-gamut
 	 */
 	public static float randomizedColor(EnhancedRandom random) {
