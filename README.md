@@ -237,7 +237,7 @@ a Barron spline, though a different one from Oklab. Unlike Oklab, HSLuv does not
 because its gamut can be calculated with several relatively-simple formulas. I have to give thanks to the community
 around HSLuv, such as [Nathan Sweet's HSLuv code](https://github.com/EsotericSoftware/hsl/blob/main/src/com/esotericsoftware/hsluv/Hsl.java)
 and [Alex Boronine's earlier code](https://github.com/hsluv/hsluv-java); I wouldn't have taken a second look at HSLuv if
-not for Nathan Sweet's more-efficient conversion code. 
+not for Nathan Sweet's more-efficient conversion code.
 
 The `com.github.tommyettinger.colorful.hsluv` package has parallels to all the classes in the `ipt_hq` package, which
 includes those in `ycwcm`, `ipt`, and `oklab` as well. Its `SimplePalette` is not at all shabby.
@@ -346,12 +346,12 @@ Using the Maven Central dependency is recommended, and Gradle and Maven can both
 
 Gradle dependency (`implementation` should be changed to `api` if any other dependencies use `api`):
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.8.1'
+implementation 'com.github.tommyettinger:colorful:0.8.2'
 ```
 
 Gradle dependency if also using GWT to make an HTML application:
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.8.1:sources'
+implementation 'com.github.tommyettinger:colorful:0.8.2:sources'
 ```
 
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
@@ -364,7 +364,7 @@ If you don't use Gradle, here's the Maven dependency:
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful</artifactId>
-  <version>0.8.1</version>
+  <version>0.8.2</version>
 </dependency>
 ```
 
@@ -372,27 +372,33 @@ Using colorful-pure is similar:
 
 Gradle dependency (`implementation` should be changed to `api` if any other dependencies use `api`):
 ```groovy
-implementation 'com.github.tommyettinger:colorful-pure:0.8.1'
+implementation 'com.github.tommyettinger:colorful-pure:0.8.2'
 ```
 
 Gradle dependency if also using GWT to make an HTML application:
 ```groovy
-implementation 'com.github.tommyettinger:colorful-pure:0.8.1:sources'
+implementation 'com.github.tommyettinger:digital:0.0.2:sources'
+implementation 'com.github.tommyettinger:juniper:0.0.2:sources'
+implementation 'com.github.tommyettinger:jdkgdxds:1.0.2:sources'
+implementation 'com.github.tommyettinger:colorful-pure:0.8.2:sources'
 ```
 
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
-```xml
+```
+<inherits name="digital" />
+<inherits name="juniper" />
+<inherits name="jdkgdxds" />
 <inherits name="com.github.tommyettinger.colorful.pure.colorful_pure" />
 ```
 
-If you don't use Gradle, here's the Maven dependency:
+If you don't use Gradle, here's the Maven dependency (GWT dependencies should be similar to Gradle):
 ```xml
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful-pure</artifactId>
-  <version>0.8.1</version>
+  <version>0.8.2</version>
 </dependency>
 ```
 
-If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.8.1).
+If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/tag/v0.8.2).
 

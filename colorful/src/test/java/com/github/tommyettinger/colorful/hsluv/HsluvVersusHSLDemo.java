@@ -88,7 +88,7 @@ public class HsluvVersusHSLDemo extends ApplicationAdapter {
             gif.setDitherStrength(0.5f);
             gif.fastAnalysis = true;
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // should be dithered already if using this
-//        gif.palette.analyze(pixmaps, 500); // this can be used to attempt to analyze the image to get a palette...
+//        gif.palette.analyze(pixmaps, 100); // this can be used to attempt to analyze the image to get a palette...
 ////        // 24 is how many frames per second the animated GIF should play back at.
             gif.write(Gdx.files.local("HsluvVersusHSL.gif"), pixmaps, 24);
         }
