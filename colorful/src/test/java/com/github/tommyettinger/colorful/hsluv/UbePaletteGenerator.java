@@ -132,7 +132,7 @@ public class UbePaletteGenerator extends ApplicationAdapter {
                     break;
             }
             for (int i = 0; i < hueKeys.length; i++) {
-                float hue = hueKeys[i], quart = wave * 0.25f,
+                float hue = hueKeys[i], quart = (float) Math.sqrt(wave * 0.25f),
                         lightAdjust = 1f,
                         satAdjust = (hue >= (0.08f) && hue < (0.16f) ? 1f - TrigTools.sin_((hue - 0.08f) * 0.5f / (0.16f - 0.08f)) * 0.4f : 1.0f) * (1f - (i & 1) * 0.1f);
                 int chroma = 255, outerLight = 128;
@@ -145,9 +145,9 @@ public class UbePaletteGenerator extends ApplicationAdapter {
                 float maxL = (maxLight / 255f) * lightAdjust;
                 for (int j = 0, cr = 1; j < crest; j++, cr += 2) {
                     if(crest == 1)
-                        pal.add(hsluv(hue, outerC * satAdjust, outerL, 1f));
+                        pal.add(clamp(hue, outerC * satAdjust, outerL, 1f));
                     else
-                        pal.add(hsluv(hue, lerp(0.0125f, outerC, quart) * satAdjust, lerp(minL, maxL,
+                        pal.add(clamp(hue, lerp(0.0125f, outerC, quart) * satAdjust, lerp(minL, maxL,
                                 barronSpline(0.2f + 0.75f * (cr / (crest * 2f)), 0.75f, 0.2f + 0.6f * (i * 0.6180339887498949f - floorPositive(i * 0.6180339887498949f)))), 1f));
                     names.add(levelNames[j] + nameKeys[i]);
                 }
