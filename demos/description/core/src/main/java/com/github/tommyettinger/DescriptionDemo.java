@@ -9,8 +9,9 @@ public class DescriptionDemo extends Game {
     public static final int SCREEN_HEIGHT = 600;
 
     private RGBDescriptionScreen rgb;
-    private CielabDescriptionScreen cielab;
     private OklabDescriptionScreen oklab;
+    private HsluvDescriptionScreen hsluv;
+    private CielabDescriptionScreen cielab;
     private IPTHQDescriptionScreen ipthq;
     private CompareDescriptionScreen compare;
     private OklabGradientScreen gradient;
@@ -19,13 +20,14 @@ public class DescriptionDemo extends Game {
     @Override
     public void create() {
         rgb = new RGBDescriptionScreen(this);
-        cielab = new CielabDescriptionScreen(this);
         oklab = new OklabDescriptionScreen(this);
+        hsluv = new HsluvDescriptionScreen(this);
+        cielab = new CielabDescriptionScreen(this);
         ipthq = new IPTHQDescriptionScreen(this);
         compare = new CompareDescriptionScreen(this);
         gradient = new OklabGradientScreen(this);
-        screens = new Screen[]{rgb, oklab, cielab, ipthq, compare, gradient};
-        screenIndex = 4;
+        screens = new Screen[]{rgb, oklab, hsluv, cielab, ipthq, compare, gradient};
+        screenIndex = 5;
         setScreen(screens[screenIndex]);
     }
     public void nextScreen(){
