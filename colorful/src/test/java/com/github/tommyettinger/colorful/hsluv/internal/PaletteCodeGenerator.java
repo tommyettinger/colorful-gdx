@@ -8,8 +8,10 @@ import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.ObjectFloatMap;
 import com.github.tommyettinger.colorful.hsluv.Palette;
 import com.github.tommyettinger.colorful.hsluv.SimplePalette;
+import com.github.tommyettinger.colorful.hsluv.UbePalette;
 import com.github.tommyettinger.colorful.internal.StringKit;
 import com.github.tommyettinger.colorful.hsluv.ColorTools;
+import com.github.tommyettinger.colorful.oklab.Yam3Palette;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,9 +25,9 @@ import static com.github.tommyettinger.colorful.hsluv.ColorTools.toRGBA8888;
  * Created by Tommy Ettinger on 12/8/2019.
  */
 public class PaletteCodeGenerator extends ApplicationAdapter {
-    public static final String outputAdd = "Hsluv";
-    public static final String inputName = "AuroraColorData.txt";
-    public static final ObjectFloatMap<String> named = Palette.NAMED;
+//    public static final String outputAdd = "Hsluv";
+//    public static final String inputName = "AuroraColorData.txt";
+//    public static final ObjectFloatMap<String> named = Palette.NAMED;
 
 //    public static final String outputAdd = "YamHsluv";
 //    public static final String inputName = "YamColorData.txt";
@@ -38,6 +40,10 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String outputAdd = "Yam3Hsluv";
 //    public static final String inputName = "Yam3ColorData.txt";
 //    public static final ObjectFloatMap<String> named = Yam3Palette.NAMED;
+
+    public static final String outputAdd = "UbeHsluv";
+    public static final String inputName = "UbeColorData.txt";
+    public static final ObjectFloatMap<String> named = UbePalette.NAMED;
 
 //    public static final String outputAdd = "FullHsluv";
 //    public static final String inputName = "ColorData.txt";
