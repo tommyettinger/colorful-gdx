@@ -24,7 +24,7 @@ public class DescriptionDemo extends Game {
         ipthq = new IPTHQDescriptionScreen(this);
         compare = new CompareDescriptionScreen(this);
         gradient = new OklabGradientScreen(this);
-        screens = new Screen[]{rgb, cielab, oklab, ipthq, compare, gradient};
+        screens = new Screen[]{rgb, oklab, cielab, ipthq, compare, gradient};
         screenIndex = 4;
         setScreen(screens[screenIndex]);
     }
