@@ -31,8 +31,8 @@ dependencies {
 	implementation "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
 	implementation "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
 	implementation "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-	implementation "com.github.tommyettinger:colorful:$colorfulVersion:sources"
-//	implementation "com.github.tommyettinger.colorful-gdx:colorful:$colorfulVersion:sources"
+//	implementation "com.github.tommyettinger:colorful:$colorfulVersion:sources"
+	implementation "com.github.tommyettinger.colorful-gdx:colorful:$colorfulVersion:sources"
 }
 
 import org.akhikhl.gretty.AppBeforeIntegrationTestTask
@@ -72,6 +72,7 @@ task superDev(type: GwtSuperDev) {
 		gwt.modules = gwt.devModules
 	}
 }
+//String outputPath = "build/dist/"
 String outputPath = "../../../docs/${appName}"
 
 task dist(dependsOn: [clean, compileGwt]) {
