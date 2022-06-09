@@ -198,7 +198,9 @@ public class ColorTools {
 	 */
 	public static float floatGetHSL(float hue, float saturation, float lightness, float opacity) {
 		if (lightness <= 0.001f) {
-			return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x7F7F00);
+			return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000));
+		} else if (lightness >= 0.999f) {
+				return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x00FFFFFF);
 		} else {
 			return FloatColors.hsl2rgb(hue, saturation, lightness, opacity);
 		}
