@@ -15,8 +15,8 @@ import java.util.Collections;
 import static com.badlogic.gdx.math.MathUtils.floorPositive;
 import static com.badlogic.gdx.math.MathUtils.lerp;
 import static com.github.tommyettinger.anim8.OtherMath.barronSpline;
-import static com.github.tommyettinger.colorful.hsluv.ColorTools.*;
-import static com.github.tommyettinger.colorful.hsluv.SimplePalette.*;
+import static com.github.tommyettinger.colorful.rgb.ColorTools.*;
+import static com.github.tommyettinger.colorful.rgb.SimplePalette.*;
 
 public class UbePaletteGenerator extends ApplicationAdapter {
 
@@ -44,18 +44,18 @@ public class UbePaletteGenerator extends ApplicationAdapter {
 
     public void create(){
         float[] coreHues = new float[]{
-                hsluvHue(RED),
-                0.119f,//hsluvHue(BROWN),
-                hsluvHue(ORANGE),
-                hsluvHue(BRONZE),
-                hsluvHue(YELLOW),
-                hsluvHue(LIME),
-                hsluvHue(JADE),
-                hsluvHue(CYAN),
-                hsluvHue(BLUE),
-                hsluvHue(VIOLET),
-                hsluvHue(PURPLE),
-                hsluvHue(MAGENTA),
+                hue(RED),
+                hue(BROWN),
+                hue(ORANGE),
+                hue(BRONZE),
+                hue(YELLOW),
+                hue(LIME),
+                hue(JADE),
+                hue(CYAN),
+                hue(BLUE),
+                hue(VIOLET),
+                hue(PURPLE),
+                hue(MAGENTA),
         }, hueKeys;
         String[] hueNames = new String[]{
                 "red",
@@ -76,7 +76,7 @@ public class UbePaletteGenerator extends ApplicationAdapter {
         pal.add(TRANSPARENT);
         names.add("transparent");
         for (int i = 0; i < 15; i++) {
-            pal.add(hsluv(0.1f, 0f, i / 14f, 1f));
+            pal.add(floatGetHSL(0.1f, 0f, i / 14f, 1f));
         }
         Collections.addAll(names, "pure black", "almost black", "lead black",
                 "black lead", "pure lead", "gray lead",
@@ -132,22 +132,22 @@ public class UbePaletteGenerator extends ApplicationAdapter {
                     break;
             }
             for (int i = 0; i < hueKeys.length; i++) {
-                float hue = hueKeys[i], quart = (float) Math.sqrt(wave * 0.25f),
+                float hue = hueKeys[i], quart = (float)(wave * 0.25f),
                         lightAdjust = 1f,
                         satAdjust = (hue >= (0.08f) && hue < (0.16f) ? 1f - TrigTools.sin_((hue - 0.08f) * 0.5f / (0.16f - 0.08f)) * 0.4f : 1.0f) * (1f - (i & 1) * 0.1f);
                 int chroma = 255, outerLight = 128;
                 float outerC = 1f, outerL = outerLight / 255f;
 
-                int minLight = 48;
+                int minLight = 32;
                 float minL = minLight / 255f;
 
-                int maxLight = 255 - 48;
-                float maxL = (maxLight / 255f) * lightAdjust;
+                int maxLight = 255 - 32;
+                float maxL = lightAdjust;
                 for (int j = 0, cr = 1; j < crest; j++, cr += 2) {
                     if(crest == 1)
-                        pal.add(clamp(hue, outerC * satAdjust, outerL, 1f));
+                        pal.add(floatGetHSL(hue, outerC * satAdjust, outerL, 1f));
                     else
-                        pal.add(clamp(hue, lerp(0.0125f, outerC, quart) * satAdjust, lerp(minL, maxL,
+                        pal.add(floatGetHSL(hue, lerp(0.0125f, outerC, quart) * satAdjust, lerp(minL, maxL,
                                 barronSpline(0.2f + 0.75f * (cr / (crest * 2f)), 0.75f, 0.2f + 0.6f * (i * 0.6180339887498949f - floorPositive(i * 0.6180339887498949f)))), 1f));
                     names.add(levelNames[j] + nameKeys[i]);
                 }
@@ -182,16 +182,16 @@ public class UbePaletteGenerator extends ApplicationAdapter {
             if(7 == (i & 7)) sb.append('\n');
         }
 
-        sb.append("}\n\nHSLuv:\n{\n0x00000000, ");
+        sb.append("}\n\nRGB:\n{\n0x00000000, ");
         for (int i = 1; i < pal.size; i++) {
             sb.append("0xFF");
             float a = ((com.github.tommyettinger.colorful.oklab.ColorTools.channelA(pal.get(i)) - 0.5f) * 255 + 127.5f);
             float b = ((com.github.tommyettinger.colorful.oklab.ColorTools.channelB(pal.get(i)) - 0.5f) * 255 + 127.5f);
             if(a <= -1 || a >= 256) System.out.println(a + " is bad a for entry " + i);
             if(b <= -1 || b >= 256) System.out.println(b + " is bad b for entry " + i);
-            StringKit.appendHex(sb, (byte) b);
-            StringKit.appendHex(sb, (byte) a);
-            StringKit.appendHex(sb, (byte) (ColorTools.channelL(pal.get(i)) * 255));
+            StringKit.appendHex(sb, (byte) blueInt(pal.get(i)));
+            StringKit.appendHex(sb, (byte) greenInt(pal.get(i)));
+            StringKit.appendHex(sb, (byte) redInt(pal.get(i)));
             sb.append(", ");
             if(7 == (i & 7)) sb.append('\n');
         }
