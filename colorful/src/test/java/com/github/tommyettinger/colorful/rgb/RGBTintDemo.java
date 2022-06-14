@@ -83,54 +83,54 @@ public class RGBTintDemo extends ApplicationAdapter {
         colorfulBatch = new ColorfulBatch();
 
 
-String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
-        + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
-        + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
-        + "attribute vec4 " + "a_tweak" + ";\n"
-        + "uniform mat4 u_projTrans;\n"
-        + "varying vec4 v_color;\n"
-        + "varying vec4 v_tweak;\n"
-        + "varying vec2 v_texCoords;\n"
-        + "\n"
-        + "void main()\n"
-        + "{\n"
-        + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
-        + "   v_color.rgb = v_color.rgb * 0.5 - 0.25;\n"
-        + "   v_color.a = v_color.a * (255.0/254.0);\n"
-        + "   v_tweak = " + "a_tweak" + ";\n"
-        + "   v_tweak.a = v_tweak.a * (255.0/254.0);\n"
-        + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
-        + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
-        + "}\n";
-String fragmentShader =
-        "#ifdef GL_ES\n" +
-        "#define LOWP lowp\n" +
-        "precision mediump float;\n" +
-        "#else\n" +
-        "#define LOWP \n" +
-        "#endif\n" +
-        "varying vec2 v_texCoords;\n" +
-        "varying LOWP vec4 v_color;\n" +
-        "varying LOWP vec4 v_tweak;\n" +
-        "uniform sampler2D u_texture;\n" +
-        "vec3 barronSpline(vec3 x, float shape) {\n" +
-        "        const float turning = 0.5;\n" +
-        "        vec3 d = turning - x;\n" +
-        "        return mix(\n" +
-        "          ((1. - turning) * (x - 1.)) / (1. - (x + shape * d)) + 1.,\n" +
-        "          (turning * x) / (1.0e-20 + (x + shape * d)),\n" +
-        "          step(0.0, d));\n" +
-        "}\n" +
-        "void main()\n" +
-        "{\n" +
-        "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-        "  tgt.rgb = barronSpline(clamp(tgt.rgb * v_tweak.rgb * 2.0 + v_color.rgb, 0.0, 1.0), v_tweak.a * v_tweak.a * 4.0);\n" +
-        "  tgt.a *= v_color.a;\n" +
-        "  gl_FragColor = tgt;\n" +
-        "}";
-ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
-if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
-colorfulBatch.setShader(shader);
+        String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+                + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+                + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+                + "attribute vec4 " + "a_tweak" + ";\n"
+                + "uniform mat4 u_projTrans;\n"
+                + "varying vec4 v_color;\n"
+                + "varying vec4 v_tweak;\n"
+                + "varying vec2 v_texCoords;\n"
+                + "\n"
+                + "void main()\n"
+                + "{\n"
+                + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+                + "   v_color.rgb = v_color.rgb * 0.5 - 0.25;\n"
+                + "   v_color.a = v_color.a * (255.0/254.0);\n"
+                + "   v_tweak = " + "a_tweak" + ";\n"
+                + "   v_tweak.a = v_tweak.a * (255.0/254.0);\n"
+                + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+                + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+                + "}\n";
+        String fragmentShader =
+                "#ifdef GL_ES\n" +
+                        "#define LOWP lowp\n" +
+                        "precision mediump float;\n" +
+                        "#else\n" +
+                        "#define LOWP \n" +
+                        "#endif\n" +
+                        "varying vec2 v_texCoords;\n" +
+                        "varying LOWP vec4 v_color;\n" +
+                        "varying LOWP vec4 v_tweak;\n" +
+                        "uniform sampler2D u_texture;\n" +
+                        "vec3 barronSpline(vec3 x, float shape) {\n" +
+                        "        const float turning = 0.5;\n" +
+                        "        vec3 d = turning - x;\n" +
+                        "        return mix(\n" +
+                        "          ((1. - turning) * (x - 1.)) / (1. - (x + shape * d)) + 1.,\n" +
+                        "          (turning * x) / (1.0e-20 + (x + shape * d)),\n" +
+                        "          step(0.0, d));\n" +
+                        "}\n" +
+                        "void main()\n" +
+                        "{\n" +
+                        "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                        "  tgt.rgb = barronSpline(clamp(tgt.rgb * v_tweak.rgb * 2.0 + v_color.rgb, 0.0, 1.0), v_tweak.a * v_tweak.a * 3.0 + 0.25);\n" +
+                        "  tgt.a *= v_color.a;\n" +
+                        "  gl_FragColor = tgt;\n" +
+                        "}";
+        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
+        if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
+        colorfulBatch.setShader(shader);
 
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
@@ -162,7 +162,6 @@ colorfulBatch.setShader(shader);
             batch.draw(screenTexture, screenTexture.getWidth(), 0);
             batch.end();
         }
-        
     }
 
     @Override

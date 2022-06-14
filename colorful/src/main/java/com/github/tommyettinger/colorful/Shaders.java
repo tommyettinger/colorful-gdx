@@ -133,6 +133,63 @@ void main()
                     "   vec4 tgt = texture2D(u_texture, v_texCoords);\n" +
                     "   gl_FragColor = clamp(vec4(tgt.rgb * v_color.rgb * 2.0, v_color.a * tgt.a), 0.0, 1.0);\n" +
                     "}";
+
+
+    /**
+     * A simple shader that uses additive blending with "normal" RGBA colors (alpha is still multiplicative), and
+     * increases contrast somewhat, making the lightness change more sharply or harshly.
+     * With the default SpriteBatch ShaderProgram, white is the neutral color, 50% gray darkens a color by about 50%,
+     * and black darkens a color to black, but nothing can brighten a color. With this, 50% gray is the neutral color,
+     * white adds 0.5 to the RGB channels (brightening it and also desaturating it), and black subtracts 0.5 from the
+     * RGB channels (darkening and desaturating, but not to black unless the color is already somewhat dark).
+     * <br>
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
+     * <br>
+     * Meant for use with {@link #vertexShader}.
+     */
+    public static final String fragmentShaderHigherContrastRGBA =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "const float contrast =    1.5   ;\n" +
+                    "vec3 barronSpline(vec3 x, float shape) {\n" +
+                    "        const float turning = 0.5;\n" +
+                    "        vec3 d = turning - x;\n" +
+                    "        return mix(\n" +
+                    "          ((1. - turning) * (x - 1.)) / (1. - (x + shape * d)) + 1.,\n" +
+                    "          (turning * x) / (1.0e-20 + (x + shape * d)),\n" +
+                    "          step(0.0, d));\n" +
+                    "}\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "  tgt.rgb = barronSpline(clamp(tgt.rgb + v_color.rgb, 0.0, 1.0), contrast);\n" +
+                    "  tgt.a *= v_color.a;\n" +
+                    "  gl_FragColor = tgt;\n" +
+                    "}";
+
+    /**
+     * A simple shader that uses additive blending with "normal" RGBA colors (alpha is still multiplicative), and
+     * reduces contrast somewhat, making the lightness more murky and uniform.
+     * With the default SpriteBatch ShaderProgram, white is the neutral color, 50% gray darkens a color by about 50%,
+     * and black darkens a color to black, but nothing can brighten a color. With this, 50% gray is the neutral color,
+     * white adds 0.5 to the RGB channels (brightening it and also desaturating it), and black subtracts 0.5 from the
+     * RGB channels (darkening and desaturating, but not to black unless the color is already somewhat dark).
+     * <br>
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
+     * <br>
+     * Meant for use with {@link #vertexShader}.
+     */
+    public static final String fragmentShaderLowerContrastRGBA = fragmentShaderHigherContrastRGBA.replace("   1.5   ", "0.5");
+
     //// save the result as shader, and set it on your batch with
     // ShaderProgram shader = makeRGBAShader();
     // batch.setShader(shader)
