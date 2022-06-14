@@ -184,14 +184,7 @@ public class UbePaletteGenerator extends ApplicationAdapter {
 
         sb.append("}\n\nRGB:\n{\n0x00000000, ");
         for (int i = 1; i < pal.size; i++) {
-            sb.append("0xFF");
-            float a = ((com.github.tommyettinger.colorful.oklab.ColorTools.channelA(pal.get(i)) - 0.5f) * 255 + 127.5f);
-            float b = ((com.github.tommyettinger.colorful.oklab.ColorTools.channelB(pal.get(i)) - 0.5f) * 255 + 127.5f);
-            if(a <= -1 || a >= 256) System.out.println(a + " is bad a for entry " + i);
-            if(b <= -1 || b >= 256) System.out.println(b + " is bad b for entry " + i);
-            StringKit.appendHex(sb, (byte) blueInt(pal.get(i)));
-            StringKit.appendHex(sb, (byte) greenInt(pal.get(i)));
-            StringKit.appendHex(sb, (byte) redInt(pal.get(i)));
+            StringKit.appendHex(sb, toRGBA8888(pal.get(i)));
             sb.append(", ");
             if(7 == (i & 7)) sb.append('\n');
         }

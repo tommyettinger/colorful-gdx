@@ -151,7 +151,6 @@ public class ColorfulBatch implements Batch {
                 + "varying vec4 v_color;\n"
                 + "varying vec4 v_tweak;\n"
                 + "varying vec2 v_texCoords;\n"
-                + "varying float v_lightFix;\n"
                 + "\n"
                 + "void main()\n"
                 + "{\n"
@@ -160,7 +159,6 @@ public class ColorfulBatch implements Batch {
                 + "   v_color.a = v_color.a * (255.0/254.0);\n"
                 + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
                 + "   v_tweak.a = v_tweak.a * (255.0/254.0);\n"
-                + "   v_lightFix = 1.0 + pow(v_tweak.a + 0.5, 1.41421356);\n"
                 + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
                 + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
                 + "}\n";
@@ -174,18 +172,22 @@ public class ColorfulBatch implements Batch {
                         "varying vec2 v_texCoords;\n" +
                         "varying LOWP vec4 v_color;\n" +
                         "varying LOWP vec4 v_tweak;\n" +
-                        "varying float v_lightFix;\n" +
                         "uniform sampler2D u_texture;\n" +
+                        "vec3 barronSpline(vec3 x, float shape) {\n" +
+                        "        const float turning = 0.5;\n" +
+                        "        vec3 d = turning - x;\n" +
+                        "        return mix(\n" +
+                        "          ((1. - turning) * (x - 1.)) / (1. - (x + shape * d)) + 1.,\n" +
+                        "          (turning * x) / (1.0e-20 + (x + shape * d)),\n" +
+                        "          step(0.0, d));\n" +
+                        "}\n" +
                         "void main()\n" +
                         "{\n" +
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "  tgt.rgb = clamp(tgt.rgb * v_tweak.rgb + v_color.rgb, 0.0, 1.0);\n" +
-                        "  tgt.rgb *= pow(sqrt(dot(vec3(0.2627, 0.6780, 0.0593), tgt.rgb)) + 0.5, v_tweak.a) * v_lightFix;\n" +
+                        "  tgt.rgb = barronSpline(clamp(tgt.rgb * v_tweak.rgb * 2.0 + v_color.rgb, 0.0, 1.0), v_tweak.a * 1.5 + 0.25);\n" +
                         "  tgt.a *= v_color.a;\n" +
-                        "  gl_FragColor = clamp(tgt, 0.0, 1.0);\n" +
+                        "  gl_FragColor = tgt;\n" +
                         "}";
-
-
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
         if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
         return shader;
