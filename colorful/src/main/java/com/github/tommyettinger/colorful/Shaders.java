@@ -225,6 +225,31 @@ void main()
             throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
         return shader;
     }
+    /**
+     * Prepares and returns a new SpriteBatch that uses {@link #vertexShader} and {@link #fragmentShaderHigherContrast}
+     * from this class, making it able to render RGBA colors from the libGDX or the rgb package. This also takes a
+     * {@code contrast} parameter, which modifies the contrast in the higher-contrast fragment shader; if greater than
+     * 1.0 it will make light colors lighter and dark colors darker, while if it is less than 1.0 it will make all but
+     * the darkest colors closer to the upper-middle-range of lightness. If you want to adjust contrast per-sprite, use
+     * a {@link com.github.tommyettinger.colorful.rgb.ColorfulBatch} (those can adjust colors in more ways); you can
+     * simply use {@code new ColorfulBatch()} to make one of those. Note that a SpriteBatch like this produces
+     * won't be able to render a {@link com.github.tommyettinger.colorful.rgb.ColorfulBatch}, but ColorfulBatch can.
+     * ColorfulBatch also will calculate contrast differently from the shader this uses. It also takes a contrast in its
+     * tweak value that is limited to a 0.0 to 1.0 range, rather than 0.0 on up here. One potential use for this method
+     * is to "deep-fry" a scene's image by using very high contrast (5.0 or higher).
+     * <br>
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
+     * @param contrast how much contrast should be emphasized; higher than 1.0 is more contrasting, and this should usually be between 0.1 and 5.0
+     * @return a freshly allocated SpriteBatch that will also have a new ShaderProgram for rendering RGB with contrast
+     */
+    public static SpriteBatch makeRGBABatch(final float contrast)
+    {
+        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShaderHigherContrast.replace("   1.5   ", Float.toString(Math.max(contrast, 0.0f))));
+        if(!shader.isCompiled())
+            throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
+        return new SpriteBatch(1000, shader);
+    }
 
     /**
      * Where the magic happens; this converts a batch color from the YCwCm format (used by colorful's ycwcm package) to
