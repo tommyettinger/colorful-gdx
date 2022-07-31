@@ -55,7 +55,7 @@ public class HSLWheelDemo extends ApplicationAdapter {
         shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL);
         if(!shader.isCompiled())
             System.out.println(shader.getLog());
-        otherShader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSLPsychedelic);
+        otherShader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL4);
         if(!otherShader.isCompiled())
             System.out.println(otherShader.getLog());
         batch = new SpriteBatch(1000, shader);

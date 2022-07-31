@@ -619,7 +619,7 @@ void main()
      * rgb2hsl() and hsl2rgb() methods. There are also comments in the code snippet that you can use if you want to
      * change the distribution of colors across the color wheel.
      * <br>
-     * Credit to Sam Hocevar, https://gamedev.stackexchange.com/a/59808 .
+     * <a href="https://gamedev.stackexchange.com/a/59808">Credit to Sam Hocevar</a>.
      * <br>
      * EXPERIMENTAL. Meant more for reading and editing than serious usage.
      */
@@ -1014,7 +1014,6 @@ void main()
                     "varying float v_lightFix;\n" +
                     "varying LOWP vec4 v_color;\n" +
                     "uniform sampler2D u_texture;\n" +
-                    "vec3 applyHue(vec3 rgb, float hue)\n" +
                     partialHueRodrigues +
                     "void main()\n" +
                     "{\n" +
@@ -1044,7 +1043,7 @@ void main()
      * <br>
      * EXPERIMENTAL. Meant more for reading and editing than serious usage.
      */
-    public static final String fragmentShaderHSLPsychedelic =
+    public static final String fragmentShaderHSL4 =
             "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
                     "precision mediump float;\n" +
@@ -1078,6 +1077,8 @@ void main()
      * as black, the 0.3 to 0.7 range as most colors, and 1.0 white; saturation is clamped to a smaller value as
      * lightness moves away from 0.5 (toward black or white).
      * <br>
+     * Expects the vertex shader to be {@link #vertexShader}, not the HSLC variant.
+     * <br>
      * You can generate HSL(P) colors using methods like {@link FloatColors#rgb2hsl(float, float, float, float)}.
      */
     public static final String fragmentShaderHSLP =
@@ -1095,8 +1096,9 @@ void main()
                     "{\n" +
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                     "   vec4 hsl = rgb2hsl(tgt);\n" +
-                    "   hsl.xy = vec2(cos(hsl.x * 6.2831853), sin(hsl.x * 6.2831853)) * hsl.y;\n" +
-                    "   vec3 tint = vec3(cos(v_color.x * 6.2831853) * v_color.y, sin(v_color.x * 6.2831853) * v_color.y, v_color.z);\n" +
+                    "   hsl.x *= 6.2831853;\n" +
+                    "   hsl.xy = vec2(cos(hsl.x), sin(hsl.x)) * hsl.y;\n" +
+                    "   vec3 tint = vec3(cos(v_color.x * 6.2831853) * v_color.y, sin(v_color.x * 6.2831853) * v_color.y * 2.0, v_color.z);\n" +
                     "   hsl.xyz = mix(hsl.xyz, tint, v_color.w);\n" +
                     "   hsl.xy = vec2(fract(atan(hsl.y, hsl.x) / 6.2831853), length(hsl.xy));\n" +
                     "   gl_FragColor = hsl2rgb(hsl);\n" +

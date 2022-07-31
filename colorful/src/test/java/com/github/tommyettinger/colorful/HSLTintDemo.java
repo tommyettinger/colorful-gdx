@@ -87,7 +87,7 @@ public class HSLTintDemo extends ApplicationAdapter {
         shaderHSLC = new ShaderProgram(Shaders.vertexShaderHSLC, Shaders.fragmentShaderHSLC);
         if(!shaderHSLC.isCompiled())
             System.out.println(shaderHSLC.getLog());
-        shaderHSLC2 = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSLA);
+        shaderHSLC2 = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL4);
         if(!shaderHSLC2.isCompiled())
             System.out.println(shaderHSLC2.getLog());
         batch = new SpriteBatch(8000, defaultShader);
@@ -115,12 +115,12 @@ public class HSLTintDemo extends ApplicationAdapter {
 //                if(batch.getShader() == shaderHSLC) {
             //// this should act like Shader 1, but will also adjust lightness in a sine-wave
 //                    Gdx.graphics.setTitle("Shader 2");
-//                    batch.setShader(shaderHSLC2);
+                    batch.setShader(shaderHSLC2);
 //                }
 //                else {
             //// this should be the default for hue rotations
 //                    Gdx.graphics.setTitle("Shader 1");
-                    batch.setShader(shaderHSLC);
+//                    batch.setShader(shaderHSLC);
 //                }
 //            }
             // the bitwise AND with 0xFFFFFF is needed to make the millisecond time a usable size for a float
