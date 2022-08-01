@@ -1353,8 +1353,8 @@ void main()
      * Makes the colors in the given textures almost-grayscale, then moves their chromatic channels much closer to the
      * batch color, without changing the lightness. The result is almost all the same hue as the batch color, and can be
      * gray if the batch color is any grayscale color. This uses an RGB batch color for simpler usage in most code that
-     * doesn't already use colorful-gdx. There is some contribution from the original texture, so even if the batch
-     * color is gray, then the result will probably have some very muted colors. I hope this shader is... bearable.
+     * doesn't already use colorful-gdx. There can be some contribution from the original texture, so even if the batch
+     * color is gray, then the result will probably have some very muted colors.
      * <br>
      * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
      * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
@@ -1375,16 +1375,21 @@ void main()
                     "void main()\n" +
                     "{\n" +
                     "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "//// Ugly repeated matrix math to convert from RGB to Oklab. Oklab keeps lightness separate from hue and saturation.\n" +
                     "  vec3 base = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +
                     "              pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +
                     "              * (tgt.rgb * tgt.rgb), forward);\n" +
                     "  vec3 tint = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +
                     "              pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +
                     "              * (v_color.rgb * v_color.rgb), forward);\n" +
-                    "  tint.x = clamp(base.x, 0.0, 1.0);\n" +
+                    "//// Sharply increases lightness contrast, to counteract the gray-ing caused by averaging base and tint lightness.\n" +
+                    "  tint.x = (tint.x + base.x) - 1.0;\n" +
+                    "  tint.x = sign(tint.x) * pow(abs(tint.x), 0.7) * 0.5 + 0.5;\n" +
+                    "//// Uncomment these next 3 lines if you want the original image to contribute some color, if it has any.\n" +
                     "  float blen = length(base.yz);\n" +
                     "  blen *= blen;\n" +
-                    "  tint.yz = clamp(tint.yz * (0.7 + blen) + base.yz * (0.3 - blen), -1.0, 1.0);\n" + // change 0.7 and 0.3 to, say, 0.85 and 0.15 to reduce the original image's contribution
+                    "  tint.yz = clamp(tint.yz * (0.7 + blen) + base.yz * (0.3 - blen), -1.0, 1.0);\n" +
+                    "//// Reverse the Oklab conversion to get back to RGB. Uses the batch color's alpha normally.\n" +
                     "  tint = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * tint;\n" +
                     "  gl_FragColor = vec4(sqrt(clamp(" +
                     "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +

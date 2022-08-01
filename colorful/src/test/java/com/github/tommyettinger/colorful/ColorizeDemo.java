@@ -35,7 +35,7 @@ public class ColorizeDemo extends ApplicationAdapter {
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("Tint Demo");
+        config.setTitle("Colorize Demo");
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.setIdleFPS(10);
         config.useVsync(true);
@@ -144,11 +144,11 @@ public class ColorizeDemo extends ApplicationAdapter {
             if (TimeUtils.timeSinceMillis(lastProcessedTime) < 150)
                 return;
             lastProcessedTime = TimeUtils.millis();
-            if (input.isKeyPressed(Input.Keys.R)) //light
+            if (input.isKeyPressed(Input.Keys.R)) //red
                 red = MathUtils.clamp(red + (UIUtils.shift() ? -0x3p-7f : 0x3p-7f), 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.G)) //warm
+            else if (input.isKeyPressed(Input.Keys.G)) //green
                 green = MathUtils.clamp(green + (UIUtils.shift() ? -0x3p-7f : 0x3p-7f), 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.B)) //mild
+            else if (input.isKeyPressed(Input.Keys.B)) //blue
                 blue = MathUtils.clamp(blue + (UIUtils.shift() ? -0x3p-7f : 0x3p-7f), 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.C)) //contrast
                 contrast = MathUtils.clamp(contrast + (UIUtils.shift() ? -0x3p-7f : 0x3p-7f), 0f, 1f);
