@@ -398,6 +398,53 @@ public class ColorTools {
 				a);
 	}
 	/**
+	 * Brings the chromatic components of {@code start} closer to grayscale by {@code change} (desaturating them). While
+	 * change should be between 0f (return start as-is) and 1f (return fully gray), start should be a packed color, as
+	 * from {@link #rgb(float, float, float, float)}. This leaves alpha alone, unlike
+	 * {@link #lessenChange(float, float)}, which usually changes Y.
+	 * <br>
+	 * <a href="http://www.graficaobscura.com/matrix/index.html">The algorithm used is from here</a>.
+	 * @see #enrich(float, float) the counterpart method that makes a float color more saturated
+	 * @param start the starting color as a packed float
+	 * @param change how much to change start to a desaturated color, as a float between 0 and 1; higher means a less saturated result
+	 * @return a packed float that represents a color between start and a desaturated color
+	 */
+	public static float dullen(final float start, final float change) {
+		final float rc = 0.2627f, gc = 0.678f, bc = 0.0593001f; // constants from Rec. 2020
+		final int s = NumberUtils.floatToRawIntBits(start), r = s & 0xFF, g = s >>> 8 & 0xFF, b = s >>> 16 & 0xFF,
+				a = s & 0xFE000000;
+		final float ch = 1f - change, rw = change * rc, gw = change * gc, bw = change * bc;
+		return NumberUtils.intBitsToFloat(
+				(int) Math.min(Math.max(r * (rw+ch) + g * rw + b * rw, 0), 255) |
+				(int) Math.min(Math.max(r * gw + g * (gw+ch) + b * gw, 0), 255) << 8 |
+				(int) Math.min(Math.max(r * bw + g * bw + b * (bw+ch), 0), 255) << 16 |
+				a);
+	}
+
+	/**
+	 * Pushes the chromatic components of {@code start} away from grayscale by change (saturating them). While change
+	 * should be between 0f (return start as-is) and 1f (return maximally saturated), start should be a packed color, as
+	 * from {@link #rgb(float, float, float, float)}.
+	 * <br>
+	 * <a href="http://www.graficaobscura.com/matrix/index.html">The algorithm used is from here</a>.
+	 * @see #dullen(float, float) the counterpart method that makes a float color less saturated
+	 * @param start the starting color as a packed float
+	 * @param change how much to change start to a saturated color, as a float between 0 and 1; higher means a more saturated result
+	 * @return a packed float that represents a color between start and a saturated color
+	 */
+	public static float enrich(final float start, final float change) {
+		final float rc = 0.2627f, gc = 0.678f, bc = 0.0593001f; // constants from Rec. 2020
+		final int s = NumberUtils.floatToRawIntBits(start), r = s & 0xFF, g = s >>> 8 & 0xFF, b = s >>> 16 & 0xFF,
+				a = s & 0xFE000000;
+		final float ch = 1f + change, rw = (-change) * rc, gw = (-change) * gc, bw = (-change) * bc;
+		return NumberUtils.intBitsToFloat(
+				(int) Math.min(Math.max(r * (rw+ch) + g * rw + b * rw, 0), 255) |
+				(int) Math.min(Math.max(r * gw + g * (gw+ch) + b * gw, 0), 255) << 8 |
+				(int) Math.min(Math.max(r * bw + g * bw + b * (bw+ch), 0), 255) << 16 |
+				a);
+	}
+
+	/**
 	 * Interpolates from the packed float color start to increase its red channel by change.
 	 * While change must be between 0f (return start as-is) and 1f (return maximum red), start should be a packed
 	 * color, as from {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary
