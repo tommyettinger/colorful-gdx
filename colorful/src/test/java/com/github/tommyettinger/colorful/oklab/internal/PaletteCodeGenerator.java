@@ -77,14 +77,14 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         float c;
         String templateFull = "\n/**\n" +
                 "* This color constant \"`Name\" has RGBA8888 code {@code `RRGGBBAA}, L `LCHAN, A `ACHAN, B `BCHAN, alpha `ALPHA, hue `HUE, saturation `SAT, and chroma `CHR.\n" +
-                "* It can be represented as a packed float with the constant {@code `PACKED}.\n" +
+                "* It can be represented as `PACKTYPE with the constant {@code `PACKED}.\n" +
                 "* <pre>\n" +
                 "* <font style='background-color: #FEDCBA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FEDCBA; color: #000000'>&nbsp;@&nbsp;</font>\n" +
                 "* <font style='background-color: #FEDCBA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FEDCBA'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FEDCBA'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FEDCBA'>&nbsp;@&nbsp;</font><font style='background-color: #FEDCBA; color: #888888'>&nbsp;@&nbsp;</font>\n" +
                 "* <font style='background-color: #FEDCBA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FEDCBA; color: #ffffff'>&nbsp;@&nbsp;</font>\n" +
                 "* </pre>\n" +
                 "*/\n" +
-                "public static final float `NAME = `PACKED;\n" +
+                "public static final `TYPE `NAME = `PACKED;\n" +
                 "static { NAMED.put(\"`Name\", `PACKED); LIST.add(`PACKED); }\n";
         String data = Gdx.files.classpath(inputName).readString();
         String[] lines = StringKit.split(data, "\n"), rec = new String[3];
@@ -111,6 +111,12 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                     .replace("`PACKED", INT_PACK
                             ? "0x"+StringKit.hex((NumberUtils.floatToIntColor(c)))
                             : Float.toHexString(c) + 'F')
+                    .replace("`PACKTYPE", INT_PACK
+                            ? "an int"
+                            : "a packed float")
+                    .replace("`TYPE", INT_PACK
+                            ? "int"
+                            : "float")
             );
             System.out.println(rec[2] + " : correct RGBA=" + rec[1] + ", decoded RGBA=" + StringKit.hex(toRGBA8888(c)) + ", raw=" + StringKit.hex(NumberUtils.floatToRawIntBits(c))
 //                    + ", decoded hue=" + ColorTools.hue(c) + ", decoded saturation=" + ColorTools.saturation(c) + ", decoded lightness=" + ColorTools.lightness(c)
