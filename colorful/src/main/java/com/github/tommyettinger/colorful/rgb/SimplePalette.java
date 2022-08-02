@@ -740,13 +740,13 @@ public class SimplePalette {
                     if (len > 2 && term.charAt(2) == 'g') {
                         switch (len) {
                             case 9:
-                                intensity += 0.085f;
+                                intensity += 0.20f;
                             case 8:
-                                intensity += 0.085f;
+                                intensity += 0.20f;
                             case 7:
-                                intensity += 0.085f;
+                                intensity += 0.20f;
                             case 5:
-                                intensity += 0.085f;
+                                intensity += 0.20f;
                                 break;
                             default:
                                 mixing.add(0f);
@@ -760,13 +760,13 @@ public class SimplePalette {
                     if (len > 1 && term.charAt(1) == 'i') {
                         switch (len) {
                             case 8:
-                                saturation += 0.175f;
+                                saturation += 0.200f;
                             case 7:
-                                saturation += 0.175f;
+                                saturation += 0.200f;
                             case 6:
-                                saturation += 0.175f;
+                                saturation += 0.200f;
                             case 4:
-                                saturation += 0.175f;
+                                saturation += 0.200f;
                                 break;
                             default:
                                 mixing.add(0f);
@@ -780,13 +780,13 @@ public class SimplePalette {
                     if (len > 1 && term.charAt(1) == 'a') {
                         switch (len) {
                             case 8:
-                                intensity -= 0.085f;
+                                intensity -= 0.20f;
                             case 7:
-                                intensity -= 0.085f;
+                                intensity -= 0.20f;
                             case 6:
-                                intensity -= 0.085f;
+                                intensity -= 0.20f;
                             case 4:
-                                intensity -= 0.085f;
+                                intensity -= 0.20f;
                                 break;
                             default:
                                 mixing.add(0f);
@@ -795,13 +795,13 @@ public class SimplePalette {
                     } else if (len > 1 && term.charAt(1) == 'u') {
                         switch (len) {
                             case 8:
-                                saturation -= 0.175f;
+                                saturation -= 0.200f;
                             case 7:
-                                saturation -= 0.175f;
+                                saturation -= 0.200f;
                             case 6:
-                                saturation -= 0.175f;
+                                saturation -= 0.200f;
                             case 4:
-                                saturation -= 0.175f;
+                                saturation -= 0.200f;
                                 break;
                             default:
                                 mixing.add(0f);
@@ -827,8 +827,6 @@ public class SimplePalette {
         else if(saturation < 0) result = ColorTools.dullen(result, -saturation);
 
         return result;
-
-//        return toEditedFloat(result, 0f, saturation, intensity, 0f);
     }
 
     private static final Array<String> namesByHue = new Array<>(NAMES_BY_HUE);
@@ -878,7 +876,7 @@ public class SimplePalette {
             int idxI = ((c / colorTries) % 9 - 4), idxS = (c / (colorTries * 9) - 4);
 
             final float result = com.github.tommyettinger.colorful.oklab.ColorTools.fromRGBA(
-                    toEditedFloat(FloatColors.mix(mixing.items, 0, mixCount), 0f, 0.175f * idxS, 0.085f * idxI, 0f));
+                    toEditedFloat(FloatColors.mix(mixing.items, 0, mixCount), 0f, 0.200f * idxS, 0.20f * idxI, 0f));
 
             final float dL = com.github.tommyettinger.colorful.oklab.ColorTools.channelL(result) - targetL;
             final float dA = com.github.tommyettinger.colorful.oklab.ColorTools.channelA(result) - targetA;
