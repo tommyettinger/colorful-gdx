@@ -397,6 +397,7 @@ public class ColorTools {
 				((int) (b * (1f - change)) & 0xFF) << 16 |
 				a);
 	}
+
 	/**
 	 * Brings the chromatic components of {@code start} closer to grayscale by {@code change} (desaturating them). While
 	 * change should be between 0f (return start as-is) and 1f (return fully gray), start should be a packed color, as
