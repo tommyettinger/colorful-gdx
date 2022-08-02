@@ -816,11 +816,21 @@ public class SimplePalette {
                     break;
             }
         }
+
         float result = FloatColors.mix(mixing.items, 0, mixing.size);
         if(result == 0f) return result;
 
-        return toEditedFloat(result, 0f, saturation, intensity, 0f);
+        if(intensity > 0) result = ColorTools.lighten(result, intensity);
+        else if(intensity < 0) result = ColorTools.darken(result, -intensity);
+
+        if(saturation > 0) result = (ColorTools.enrich(result, saturation));
+        else if(saturation < 0) result = ColorTools.dullen(result, -saturation);
+
+        return result;
+
+//        return toEditedFloat(result, 0f, saturation, intensity, 0f);
     }
+
     private static final Array<String> namesByHue = new Array<>(NAMES_BY_HUE);
     private static final FloatArray colorsByHue = new FloatArray(COLORS_BY_HUE);
     static {

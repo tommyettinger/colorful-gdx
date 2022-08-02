@@ -410,7 +410,7 @@ public class ColorTools {
 	 * @return a packed float that represents a color between start and a desaturated color
 	 */
 	public static float dullen(final float start, final float change) {
-		final float rc = 0.2627f, gc = 0.678f, bc = 0.0593001f; // constants from Rec. 2020
+		final float rc = 0.32627f, gc = 0.3678f, bc = 0.30593001f;
 		final int s = NumberUtils.floatToRawIntBits(start), r = s & 0xFF, g = s >>> 8 & 0xFF, b = s >>> 16 & 0xFF,
 				a = s & 0xFE000000;
 		final float ch = 1f - change, rw = change * rc, gw = change * gc, bw = change * bc;
@@ -433,7 +433,7 @@ public class ColorTools {
 	 * @return a packed float that represents a color between start and a saturated color
 	 */
 	public static float enrich(final float start, final float change) {
-		final float rc = 0.2627f, gc = 0.678f, bc = 0.0593001f; // constants from Rec. 2020
+		final float rc = 0.32627f, gc = 0.3678f, bc = 0.30593001f;
 		final int s = NumberUtils.floatToRawIntBits(start), r = s & 0xFF, g = s >>> 8 & 0xFF, b = s >>> 16 & 0xFF,
 				a = s & 0xFE000000;
 		final float ch = 1f + change, rw = (-change) * rc, gw = (-change) * gc, bw = (-change) * bc;
