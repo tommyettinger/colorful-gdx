@@ -6,13 +6,11 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
-import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.ObjectIntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.github.tommyettinger.colorful.internal.StringKit;
 import com.github.tommyettinger.colorful.rgb.ColorTools;
 import com.github.tommyettinger.colorful.rgb.RGBPalette;
-import com.github.tommyettinger.colorful.rgb.SimplePalette;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -118,7 +116,7 @@ public class MixedPaletteCodeGenerator extends ApplicationAdapter {
         String[] lines = StringKit.split(data, "\n"), rec = new String[3];
         StringBuilder sb = new StringBuilder(100000);
         sb.append("public static final ObjectIntMap<String> NAMED = new ObjectIntMap<String>(").append(lines.length + Colors.getColors().size).append(");\n")
-                .append("public static final FloatArray LIST = new FloatArray(").append(lines.length + Colors.getColors().size).append(");\n");
+                .append("public static final IntArray LIST = new IntArray(").append(lines.length + Colors.getColors().size).append(");\n");
 
         for (int i = 0; i < lines.length; i++) {
             tabSplit(rec, lines[i]);

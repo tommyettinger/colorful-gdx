@@ -268,5 +268,4 @@ public class FloatColors {
         }
         return result;
     }
-
 }

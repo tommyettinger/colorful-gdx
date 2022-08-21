@@ -377,14 +377,16 @@ implementation 'com.github.tommyettinger:colorful-pure:0.8.2'
 
 Gradle dependency if also using GWT to make an HTML application:
 ```groovy
-implementation 'com.github.tommyettinger:digital:0.0.2:sources'
-implementation 'com.github.tommyettinger:juniper:0.0.2:sources'
-implementation 'com.github.tommyettinger:jdkgdxds:1.0.2:sources'
+implementation 'com.github.tommyettinger:funderby:0.0.1:sources'
+implementation 'com.github.tommyettinger:digital:0.1.0:sources'
+implementation 'com.github.tommyettinger:juniper:0.1.2:sources'
+implementation 'com.github.tommyettinger:jdkgdxds:1.0.4:sources'
 implementation 'com.github.tommyettinger:colorful-pure:0.8.2:sources'
 ```
 
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
 ```
+<inherits name="funderby" />
 <inherits name="digital" />
 <inherits name="juniper" />
 <inherits name="jdkgdxds" />

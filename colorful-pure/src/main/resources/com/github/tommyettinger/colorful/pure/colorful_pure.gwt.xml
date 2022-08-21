@@ -10,5 +10,6 @@
     <source path=""/>
     <inherits name="digital" />
     <inherits name="juniper" />
+    <inherits name="funderby" />
     <inherits name="jdkgdxds" />
 </module>

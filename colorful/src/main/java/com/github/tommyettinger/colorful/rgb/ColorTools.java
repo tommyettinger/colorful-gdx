@@ -361,7 +361,7 @@ public class ColorTools {
 	 * start as-is) and 1f (return white), start should be a packed color, as from
 	 * {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
 	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
-	 * white. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and both chroma of start as-is.
+	 * white. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha of start as-is.
 	 * @see #darken(float, float) the counterpart method that darkens a float color
 	 * @param start the starting color as a packed float
 	 * @param change how much to go from start toward white, as a float between 0 and 1; higher means closer to white
@@ -382,7 +382,7 @@ public class ColorTools {
 	 * start as-is) and 1f (return black), start should be a packed color, as from
 	 * {@link #rgb(float, float, float, float)}. This is a good way to reduce allocations of temporary Colors, and
 	 * is a little more efficient and clear than using {@link FloatColors#lerpFloatColors(float, float, float)} to lerp towards
-	 * black. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha and both chroma of start as-is.
+	 * black. Unlike {@link FloatColors#lerpFloatColors(float, float, float)}, this keeps the alpha of start as-is.
 	 * @see #lighten(float, float) the counterpart method that lightens a float color
 	 * @param start the starting color as a packed float
 	 * @param change how much to go from start toward black, as a float between 0 and 1; higher means closer to black

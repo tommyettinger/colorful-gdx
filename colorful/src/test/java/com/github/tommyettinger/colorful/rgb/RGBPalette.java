@@ -3,8 +3,7 @@ package com.github.tommyettinger.colorful.rgb;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.FloatArray;
-import com.badlogic.gdx.utils.ObjectFloatMap;
+import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.ObjectIntMap;
 
 /**
@@ -27,13 +26,13 @@ public class RGBPalette {
      * <li>"ocean" maps to {@link #teal}, and</li>
      * <li>"sapphire" maps to {@link #cobalt}.</li>
      * </ul>
-     * Note that these aliases are not duplicated in {@link #NAMES}; they are primarily there so blind attempts to name
+     * These aliases are duplicated in {@link #NAMES}. They are primarily there so blind attempts to name
      * a color might still work.
      */
     public static final ObjectIntMap<String> ALIASES = new ObjectIntMap<>(20);
 
     public static final ObjectIntMap<String> NAMED = new ObjectIntMap<String>(84);
-    public static final FloatArray LIST = new FloatArray(84);
+    public static final IntArray LIST = new IntArray(84);
 
     /**
      * This color constant "transparent" has RGBA8888 code {@code 00000000}, R 0.0, G 0.0, B 0.0, A 0.0, hue 0.0, saturation 0.0, and lightness 0.0.
@@ -961,10 +960,10 @@ public class RGBPalette {
 
     /**
      * All names for colors in this palette, in alphabetical order. You can fetch the corresponding packed float color
-     * by looking up a name in {@link #NAMED}.
+     * by looking up a name in {@link #NAMED}. This includes aliases, since those can be looked up like other names.
      */
-    public static final Array<String> NAMES = NAMED.keys().toArray();
-    static { NAMES.sort();
+    public static final Array<String> NAMES;
+    static {
         ALIASES.put("grey", gray);
         ALIASES.put("gold", saffron);
         ALIASES.put("puce", mauve);
@@ -975,6 +974,8 @@ public class RGBPalette {
         ALIASES.put("ocean", teal);
         ALIASES.put("sapphire", cobalt);
         NAMED.putAll(ALIASES);
+        NAMES = NAMED.keys().toArray();
+        NAMES.sort();
     }
 
     /**
