@@ -6,13 +6,38 @@ import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.FloatArray;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class PoissonDisk {
     private static final float inverseRootTwo = (float)Math.sqrt(0.5f);
 
+    public int[][] array;
+    public FloatArray qx;
+    public FloatArray qy;
+    public float[][] gridX;
+    public float[][] gridY;
+    public int gridWidth;
+    public int gridHeight;
+    public float invCellSize;
+    public float radius;
 
-    private PoissonDisk() {
+    public PoissonDisk() {
+        this(512, 512, 5);
+    }
+
+    public PoissonDisk(int width, int height, float radius) {
+        array = new int[width][height];
+
+        this.radius = Math.max(1.0001f, radius);
+        invCellSize = 1f / (this.radius * inverseRootTwo);
+        gridWidth = Math.min((int) Math.ceil(width * invCellSize), width);
+        gridHeight = Math.min((int) Math.ceil(height * invCellSize), height);
+        gridX = new float[gridWidth][gridHeight];
+        gridY = new float[gridWidth][gridHeight];
+        qx = new FloatArray(gridWidth + gridHeight);
+        qy = new FloatArray(gridWidth + gridHeight);
+
     }
 
     /**
@@ -23,15 +48,11 @@ public class PoissonDisk {
      * negative x or y.
      * @param center the center of the circle to spray GridPoint2s into
      * @param radius the radius of the circle to spray GridPoint2s into
-     * @param minimumDistance the minimum distance between GridPoint2s, in Euclidean distance as a float.
-     * @param maxX one more than the highest x that can be assigned; typically an array length
-     * @param maxY one more than the highest y that can be assigned; typically an array length
      * @return a 2D int array where non-zero values represent picked points
      */
-    public static int[][] sampleCircle(GridPoint2 center, float radius, float minimumDistance,
-                                                                             int maxX, int maxY)
+    public int[][] sampleCircle(GridPoint2 center, float radius)
     {
-        return sampleCircle(center, radius, minimumDistance, maxX, maxY, 10, new RandomXS128());
+        return sampleCircle(center, radius, 10, new RandomXS128());
     }
 
     /**
@@ -42,19 +63,15 @@ public class PoissonDisk {
      * negative x or y.
      * @param center the center of the circle to spray GridPoint2s into
      * @param radius the radius of the circle to spray GridPoint2s into
-     * @param minimumDistance the minimum distance between GridPoint2s, in Euclidean distance as a float.
-     * @param maxX one more than the highest x that can be assigned; typically an array length
-     * @param maxY one more than the highest y that can be assigned; typically an array length
      * @param pointsPerIteration with small radii, this can be around 5; with larger ones, 30 is reasonable
      * @param rng a Random to use for all random sampling.
      * @return a 2D int array where non-zero values represent picked points
      */
-    public static int[][] sampleCircle(GridPoint2 center, float radius, float minimumDistance,
-                                                                        int maxX, int maxY, int pointsPerIteration, Random rng)
+    public int[][] sampleCircle(GridPoint2 center, float radius, int pointsPerIteration, Random rng)
     {
-        int radius2 = Math.round(radius);
-        return sample(new GridPoint2(center.x - radius2, center.y - radius2),
-                new GridPoint2(center.x + radius2, center.y + radius2), radius, minimumDistance, maxX, maxY, pointsPerIteration, rng);
+        int rr = Math.round(radius);
+        return sample(new GridPoint2(center.x - rr, center.y - rr),
+                new GridPoint2(center.x + rr, center.y + rr), radius, pointsPerIteration, rng);
     }
 
     /**
@@ -65,12 +82,11 @@ public class PoissonDisk {
      * negative x or y.
      * @param minPosition the GridPoint2 with the lowest x and lowest y to be used as a corner for the bounding box
      * @param maxPosition the GridPoint2 with the highest x and highest y to be used as a corner for the bounding box
-     * @param minimumDistance the minimum distance between GridPoint2s, in Euclidean distance as a float.
      * @return a 2D int array where non-zero values represent picked points
      */
-    public static int[][] sampleRectangle(GridPoint2 minPosition, GridPoint2 maxPosition, float minimumDistance)
+    public int[][] sampleRectangle(GridPoint2 minPosition, GridPoint2 maxPosition)
     {
-        return sampleRectangle(minPosition, maxPosition, minimumDistance, maxPosition.x + 1, maxPosition.y + 1, 10, new RandomXS128());
+        return sampleRectangle(minPosition, maxPosition, 10, new RandomXS128());
     }
 
     /**
@@ -81,58 +97,35 @@ public class PoissonDisk {
      * negative x or y.
      * @param minPosition the GridPoint2 with the lowest x and lowest y to be used as a corner for the bounding box
      * @param maxPosition the GridPoint2 with the highest x and highest y to be used as a corner for the bounding box
-     * @param minimumDistance the minimum distance between GridPoint2s, in Euclidean distance as a float.
      * @param pointsPerIteration with small areas, this can be around 5; with larger ones, 30 is reasonable
      * @param rng a Random to use for all random sampling.
      * @return a 2D int array where non-zero values represent picked points
      */
-    public static int[][] sampleRectangle(
-            GridPoint2 minPosition, GridPoint2 maxPosition, float minimumDistance, int pointsPerIteration, Random rng)
+    public int[][] sampleRectangle(GridPoint2 minPosition, GridPoint2 maxPosition,
+                                                                           int pointsPerIteration, Random rng)
     {
-        return sample(minPosition, maxPosition, 0f, minimumDistance, maxPosition.x + 1, maxPosition.y + 1, pointsPerIteration, rng);
+        return sample(minPosition, maxPosition, 0f, pointsPerIteration, rng);
     }
 
-    /**
-     * Get a list of GridPoint2s, each randomly positioned within the rectangle between the given minPosition and
-     * maxPosition, but with the given minimum distance from any other GridPoint2 in the list.
-     * The parameters maxX and maxY should typically correspond to the width and height of the map; no points will have
-     * positions with x equal to or greater than maxX and the same for y and maxY; similarly, no points will have
-     * negative x or y.
-     * @param minPosition the GridPoint2 with the lowest x and lowest y to be used as a corner for the bounding box
-     * @param maxPosition the GridPoint2 with the highest x and highest y to be used as a corner for the bounding box
-     * @param minimumDistance the minimum distance between GridPoint2s, in Euclidean distance as a float.
-     * @param maxX one more than the highest x that can be assigned; typically an array length
-     * @param maxY one more than the highest y that can be assigned; typically an array length
-     * @param pointsPerIteration with small areas, this can be around 5; with larger ones, 30 is reasonable
-     * @param rng a Random to use for all random sampling.
-     * @return a 2D int array where non-zero values represent picked points
-     */
-    public static int[][] sampleRectangle(GridPoint2 minPosition, GridPoint2 maxPosition, float minimumDistance,
-                                                                           int maxX, int maxY, int pointsPerIteration, Random rng)
-    {
-        return sample(minPosition, maxPosition, 0f, minimumDistance, maxX, maxY, pointsPerIteration, rng);
-    }
-
-    protected static int[][] sample(GridPoint2 minPos, GridPoint2 maxPos,
-                                                                     float maxCircleRadius, float radius,
-                                                                     int xBound, int yBound,
+    protected int[][] sample(GridPoint2 minPos, GridPoint2 maxPos,
+                                                                     float maxCircleRadius,
                                                                      int pointsPerTry, Random random) {
-        radius = Math.max(1.0001f, radius);
+        for (int x = 0; x < array.length; x++) {
+            Arrays.fill(array[x], 0);
+        }
+        for (int x = 0; x < gridX.length; x++) {
+            Arrays.fill(gridX[x], 0f);
+            Arrays.fill(gridY[x], 0f);
+        }
+        qx.clear();
+        qy.clear();
+
         maxCircleRadius *= maxCircleRadius;
-        final float radius2 = radius * radius;
-        final float iCellSize = 1f / (radius * inverseRootTwo);
         final float ik = 1f / pointsPerTry;
         final int width = maxPos.x - minPos.x + 1, height = maxPos.y - minPos.y + 1;
         final Vector2 gridCenter = new Vector2(minPos.x + maxPos.x, minPos.y + maxPos.y).scl(0.5f);
-        final int gridWidth = Math.min((int) Math.ceil(width * iCellSize), xBound);
-        final int gridHeight = Math.min((int) Math.ceil(height * iCellSize), yBound);
-        final float[][] gridX = new float[gridWidth][gridHeight];
-        final float[][] gridY = new float[gridWidth][gridHeight];
-        final FloatArray qx = new FloatArray(false, gridWidth + gridHeight);
-        final FloatArray qy = new FloatArray(false, gridWidth + gridHeight);
-        final int[][] array = new int[width][height];
         // Pick the first sample.
-        sample(width * 0.5f, height * 0.5f, iCellSize, qx, qy, gridX, gridY, minPos, array);
+        sample(width * 0.5f, height * 0.5f, minPos);
 
         // Pick a random existing sample from the queue.
         PICKING:
@@ -149,9 +142,9 @@ public class PoissonDisk {
 
                 // Accept candidates that are inside the allowed extent
                 // and farther than 2 * radius to all existing samples.
-                if (x >= minPos.x && x < maxPos.x + 0.99999994f && y >= minPos.y && y < maxPos.y + 0.99999994f && far(x, y, iCellSize, radius2,
-                        gridCenter, maxCircleRadius, gridX, gridY, minPos)) {
-                    sample(x, y, iCellSize, qx, qy, gridX, gridY, minPos, array);
+                if (x >= minPos.x && x < maxPos.x + 0.99999994f && y >= minPos.y && y < maxPos.y + 0.99999994f &&
+                        far(x, y, gridCenter, maxCircleRadius, minPos)) {
+                    sample(x, y, minPos);
                     continue PICKING;
                 }
             }
@@ -162,15 +155,16 @@ public class PoissonDisk {
         }
         return array;
     }
-    private static boolean far(float x, float y, float iCellSize, float radius2, Vector2 gridCenter, float maxSampleRadius, float[][] gridX, float[][] gridY, GridPoint2 minPos){
+    private boolean far(float x, float y, Vector2 gridCenter, float maxSampleRadius, GridPoint2 minPos){
         if(maxSampleRadius != 0f && gridCenter.dst2(x, y) > maxSampleRadius) return false;
-        final int i = (int)((x - minPos.x) * iCellSize);
-        final int j = (int)((y - minPos.y) * iCellSize);
+        final int i = (int)((x - minPos.x) * invCellSize);
+        final int j = (int)((y - minPos.y) * invCellSize);
         final int gridWidth = gridX.length;
         final int i0 = Math.max(i - 2, 0);
         final int j0 = Math.max(j - 2, 0);
         final int i1 = Math.min(i + 3, gridWidth);
         final int j1 = Math.min(j + 3, gridX[0].length);
+        float radius2 = radius * radius;
         for (int xx = i0; xx < i1; xx++) {
             for (int yy = j0; yy < j1; yy++) {
                 float dx = gridX[xx][yy];
@@ -184,7 +178,7 @@ public class PoissonDisk {
         }
         return true;
     }
-    private static void sample(float x, float y, float invCellSize, FloatArray qx, FloatArray qy, float[][] gridX, float[][] gridY, GridPoint2 minPos, int[][] array){
+    private void sample(float x, float y, GridPoint2 minPos){
         final int gx = (int)((x - minPos.x) * invCellSize), gy = (int)((y - minPos.y) * invCellSize);
         gridX[gx][gy] = x;
         gridY[gx][gy] = y;
