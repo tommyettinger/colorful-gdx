@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.colorful.FourWheelRandom;
 import com.github.tommyettinger.colorful.Shaders;
 import com.github.tommyettinger.colorful.TrigTools;
+import com.github.tommyettinger.colorful.internal.PoissonDisk;
 
 import static com.badlogic.gdx.Gdx.input;
 
@@ -30,6 +32,9 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
     private Texture blank;
     private long lastProcessedTime = 0L, startTime;
     private float layer = 0.5f;
+    private GridPoint2 center = new GridPoint2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+
+    private PoissonDisk poisson = new PoissonDisk(SCREEN_WIDTH, SCREEN_HEIGHT, 5, new FourWheelRandom());
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -72,6 +77,7 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         handleInput();
+        poisson.sampleCircle(center, 256, 30);
         layer = TimeUtils.timeSinceMillis(startTime) * 0x1p-13f;
 //        boolean showOut = (TimeUtils.timeSinceMillis(startTime) & 0x100L) == 0L;
         int floor = MathUtils.floorPositive(layer);
@@ -92,11 +98,12 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
                 final float angle = t * ic, x = TrigTools.cos_(angle), y = TrigTools.sin_(angle);
 //                final float g = ColorTools.getRawGamutValue((int)(layer * 255.999f) << 8 | (int)(angle * 256f));
 //                if(g < dist) continue;
+                if(poisson.array[(int)(256 + x * dist)][(int) (256 + y * dist)] == 0) continue;
                 final float chr = dist * iMax;// * (0.5f - Math.abs(layer - 0.5f)) * 2f;
 //                if(random.nextLong() < 0x6800000000000000L && chr > ColorTools.chromaLimit(angle, layer)) continue;
 //                batch.setPackedColor(ColorTools.oklabByHCL(angle, chr, layer, 1f));
                 batch.setPackedColor(ColorTools.oklabByHCL(angle, chr * ColorTools.chromaLimit(angle, layer), layer, 1f));
-                batch.draw(blank, 255.5f + x * dist, 255.5f + y * dist, 1f, 1f);
+                batch.draw(blank, 256f + x * dist, 256f + y * dist, 2f, 2f);
             }
         }
         batch.setColor(layer * 0.9f + 0.05f, 0.5f, 0.5f, 1f);

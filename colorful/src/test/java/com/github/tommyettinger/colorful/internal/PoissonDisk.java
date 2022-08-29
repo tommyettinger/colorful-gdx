@@ -21,12 +21,13 @@ public class PoissonDisk {
     public int gridHeight;
     public float invCellSize;
     public float radius;
+    public Random random;
 
     public PoissonDisk() {
-        this(512, 512, 5);
+        this(512, 512, 5, new RandomXS128());
     }
 
-    public PoissonDisk(int width, int height, float radius) {
+    public PoissonDisk(int width, int height, float radius, Random random) {
         array = new int[width][height];
 
         this.radius = Math.max(1.0001f, radius);
@@ -37,6 +38,7 @@ public class PoissonDisk {
         gridY = new float[gridWidth][gridHeight];
         qx = new FloatArray(gridWidth + gridHeight);
         qy = new FloatArray(gridWidth + gridHeight);
+        this.random = random;
 
     }
 
@@ -50,9 +52,8 @@ public class PoissonDisk {
      * @param radius the radius of the circle to spray GridPoint2s into
      * @return a 2D int array where non-zero values represent picked points
      */
-    public int[][] sampleCircle(GridPoint2 center, float radius)
-    {
-        return sampleCircle(center, radius, 10, new RandomXS128());
+    public int[][] sampleCircle(GridPoint2 center, float radius) {
+        return sampleCircle(center, radius, 10);
     }
 
     /**
@@ -64,14 +65,12 @@ public class PoissonDisk {
      * @param center the center of the circle to spray GridPoint2s into
      * @param radius the radius of the circle to spray GridPoint2s into
      * @param pointsPerIteration with small radii, this can be around 5; with larger ones, 30 is reasonable
-     * @param rng a Random to use for all random sampling.
      * @return a 2D int array where non-zero values represent picked points
      */
-    public int[][] sampleCircle(GridPoint2 center, float radius, int pointsPerIteration, Random rng)
-    {
+    public int[][] sampleCircle(GridPoint2 center, float radius, int pointsPerIteration) {
         int rr = Math.round(radius);
         return sample(new GridPoint2(center.x - rr, center.y - rr),
-                new GridPoint2(center.x + rr, center.y + rr), radius, pointsPerIteration, rng);
+                new GridPoint2(center.x + rr, center.y + rr), radius, pointsPerIteration);
     }
 
     /**
@@ -84,9 +83,8 @@ public class PoissonDisk {
      * @param maxPosition the GridPoint2 with the highest x and highest y to be used as a corner for the bounding box
      * @return a 2D int array where non-zero values represent picked points
      */
-    public int[][] sampleRectangle(GridPoint2 minPosition, GridPoint2 maxPosition)
-    {
-        return sampleRectangle(minPosition, maxPosition, 10, new RandomXS128());
+    public int[][] sampleRectangle(GridPoint2 minPosition, GridPoint2 maxPosition) {
+        return sampleRectangle(minPosition, maxPosition, 10);
     }
 
     /**
@@ -98,18 +96,13 @@ public class PoissonDisk {
      * @param minPosition the GridPoint2 with the lowest x and lowest y to be used as a corner for the bounding box
      * @param maxPosition the GridPoint2 with the highest x and highest y to be used as a corner for the bounding box
      * @param pointsPerIteration with small areas, this can be around 5; with larger ones, 30 is reasonable
-     * @param rng a Random to use for all random sampling.
      * @return a 2D int array where non-zero values represent picked points
      */
-    public int[][] sampleRectangle(GridPoint2 minPosition, GridPoint2 maxPosition,
-                                                                           int pointsPerIteration, Random rng)
-    {
-        return sample(minPosition, maxPosition, 0f, pointsPerIteration, rng);
+    public int[][] sampleRectangle(GridPoint2 minPosition, GridPoint2 maxPosition, int pointsPerIteration) {
+        return sample(minPosition, maxPosition, 0f, pointsPerIteration);
     }
 
-    protected int[][] sample(GridPoint2 minPos, GridPoint2 maxPos,
-                                                                     float maxCircleRadius,
-                                                                     int pointsPerTry, Random random) {
+    protected int[][] sample(GridPoint2 minPos, GridPoint2 maxPos, float maxCircleRadius, int pointsPerTry) {
         for (int x = 0; x < array.length; x++) {
             Arrays.fill(array[x], 0);
         }
