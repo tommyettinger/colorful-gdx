@@ -188,8 +188,8 @@ public class ColorTools {
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(packed);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127f) * 0x1p-7f;
-		final float B = ((decoded >>> 16 & 255) - 127f) * 0x1p-7f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -210,8 +210,8 @@ public class ColorTools {
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(packed);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127f) * 0x1p-7f;
-		final float B = ((decoded >>> 16 & 255) - 127f) * 0x1p-7f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -232,8 +232,8 @@ public class ColorTools {
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(packed);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127f) * 0x1p-7f;
-		final float B = ((decoded >>> 16 & 255) - 127f) * 0x1p-7f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -276,8 +276,8 @@ public class ColorTools {
 		return NumberUtils.intBitsToFloat(
 			              Math.min(Math.max((int)(forwardLight
 								                  (0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s) * 255.999f         ), 0), 255)
-						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 128f + 127f), 0), 255) << 8
-						| Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s) * 128f + 127f), 0), 255) << 16
+						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 127.5f + 127.5f), 0), 255) << 8
+						| Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s) * 127.5f + 127.5f), 0), 255) << 16
 						| (rgba & 0xFE) << 24);
 	}
 
@@ -297,8 +297,8 @@ public class ColorTools {
 		return NumberUtils.intBitsToFloat(
 				          Math.min(Math.max((int)(forwardLight
 								                  (0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s) * 255.999f         ), 0), 255)
-						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 128f + 127f), 0), 255) << 8
-						| Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s) * 128f + 127f), 0), 255) << 16
+						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 127.5f + 127.5f), 0), 255) << 8
+						| Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s) * 127.5f + 127.5f), 0), 255) << 16
 						| (abgr & 0xFE000000));
 	}
 
@@ -327,8 +327,8 @@ public class ColorTools {
 		return NumberUtils.intBitsToFloat(
 				          Math.min(Math.max((int)(forwardLight
 								                  (0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s) * 255.999f         ), 0), 255)
-						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 128f + 127f), 0), 255) << 8
-						| Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s) * 128f + 127f), 0), 255) << 16
+						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 127.5f + 127.5f), 0), 255) << 8
+						| Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s) * 127.5f + 127.5f), 0), 255) << 16
 						| ((int)(color.a * 255f) << 24 & 0xFE000000));
 	}
 
@@ -350,8 +350,8 @@ public class ColorTools {
 		return NumberUtils.intBitsToFloat(
 				          Math.min(Math.max((int)(forwardLight
 								                  (0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s) * 255.999f         ), 0), 255)
-						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 128f + 127f), 0), 255) << 8
-						| Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s) * 128f + 127f), 0), 255) << 16
+						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 127.5f + 127.5f), 0), 255) << 8
+						| Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s) * 127.5f + 127.5f), 0), 255) << 16
 						| ((int)(a * 255f) << 24 & 0xFE000000));
 	}
 
@@ -364,8 +364,8 @@ public class ColorTools {
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127f) * 0x1p-7f;
-		final float B = ((decoded >>> 16 & 255) - 127f) * 0x1p-7f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -381,8 +381,8 @@ public class ColorTools {
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127f) * 0x1p-7f;
-		final float B = ((decoded >>> 16 & 255) - 127f) * 0x1p-7f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -398,8 +398,8 @@ public class ColorTools {
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127f) * 0x1p-7f;
-		final float B = ((decoded >>> 16 & 255) - 127f) * 0x1p-7f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -426,8 +426,8 @@ public class ColorTools {
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127f) * 0x1p-7f;
-		final float B = ((decoded >>> 16 & 255) - 127f) * 0x1p-7f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -443,8 +443,8 @@ public class ColorTools {
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127f) * 0x1p-7f;
-		final float B = ((decoded >>> 16 & 255) - 127f) * 0x1p-7f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -460,8 +460,8 @@ public class ColorTools {
 	{
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127f) * 0x1p-7f;
-		final float B = ((decoded >>> 16 & 255) - 127f) * 0x1p-7f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -556,8 +556,8 @@ public class ColorTools {
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
 		final float L = reverseLight((decoded & 0xff) / 255f);
 		if(Math.abs(L - 0.5) > 0.495f) return 0f;
-		final float A = ((decoded >>> 8 & 0xff) - 127f) * 0x1p-7f;
-		final float B = ((decoded >>> 16 & 255) - 127f) * 0x1p-7f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -594,8 +594,8 @@ public class ColorTools {
 	public static float lightness(final float encoded) {
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127f) * 0x1p-7f;
-		final float B = ((decoded >>> 16 & 255) - 127f) * 0x1p-7f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -635,8 +635,8 @@ public class ColorTools {
 	public static float hue(final float encoded) {
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127f) * 0x1p-7f;
-		final float B = ((decoded >>> 16 & 255) - 127f) * 0x1p-7f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -737,8 +737,8 @@ public class ColorTools {
 		opacity = Math.min(Math.max(opacity + (decoded >>> 25) * (1f / 127f), 0f), 1f);
 		if (L <= 0.001f)
 			return NumberUtils.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x808000);
-		final float A = ((decoded >>> 8 & 0xff) - 127f) * 0x1p-7f;
-		final float B = ((decoded >>> 16 & 255) - 127f) * 0x1p-7f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -1042,8 +1042,8 @@ public class ColorTools {
 	public static float randomEdit(final float color, long seed, final float variance) {
 		final int decoded = NumberUtils.floatToRawIntBits(color);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127f) * 0x1p-7f;
-		final float B = ((decoded >>> 16 & 255) - 127f) * 0x1p-7f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float limit = variance * variance;
 		float dist, x, y, z;
 		for (int j = 0; j < 50; j++) {
@@ -1394,8 +1394,8 @@ public class ColorTools {
 								  float mulL, float mulA, float mulB, float mulAlpha) {
 		final int decoded = NumberUtils.floatToRawIntBits(encoded);
 		float L = (decoded & 0xff) / 255f;
-		float A = ((decoded >>> 8 & 0xff) - 127f) * 0x1p-7f;
-		float B = ((decoded >>> 16 & 255) - 127f) * 0x1p-7f;
+		float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		float alpha = (decoded >>> 25) / 127f;
 
 		L = Math.min(Math.max(L * mulL + addL, 0f), 1f);
