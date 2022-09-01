@@ -2,11 +2,11 @@ package com.github.tommyettinger.colorful.oklab;
 
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.IntArray;
-import com.github.tommyettinger.anim8.OtherMath;
 import com.github.tommyettinger.colorful.internal.StringKit;
 
 // example output
 /*
+// corn1
 {
 0x00000000, 0x000000FF, 0xFFFFFFFF, 0x888888FF, 0x444444FF, 0xCCCCCCFF, 0x222222FF, 0xAAAAAAFF,
 0x666666FF, 0xEEEEEEFF, 0x111111FF, 0x999999FF, 0x555555FF, 0xDDDDDDFF, 0x333333FF, 0xBBBBBBFF,
@@ -42,33 +42,76 @@ import com.github.tommyettinger.colorful.internal.StringKit;
 0xF2535FFF, 0xC02B3EFF, 0x19B5FDFF, 0xF935E5FF, 0x1A00FDFF, 0x534C42FF, 0xFAF1E1FF, 0x8E867AFF,
 }
 
+//corn2
+{
+0x00000000, 0x000000FF, 0xFFFFFFFF, 0x888888FF, 0x444444FF, 0xCCCCCCFF, 0x222222FF, 0xAAAAAAFF,
+0x666666FF, 0xEEEEEEFF, 0x111111FF, 0x999999FF, 0x555555FF, 0xDDDDDDFF, 0x333333FF, 0xBBBBBBFF,
+0x777777FF, 0x577DBBFF, 0x001D49FF, 0x91BDFFFF, 0x365890FF, 0x6D95D6FF, 0x173465FF, 0xFEAFA1FF,
+0x8B4D43FF, 0xD0877BFF, 0x612B24FF, 0xA56258FF, 0x70D7BFFF, 0x006C5BFF, 0x48AC96FF, 0x87F1D8FF,
+0x208471FF, 0xC59D19FF, 0xDFB536FF, 0xC697CCFF, 0x5E3A63FF, 0x9D72A2FF, 0x36183AFF, 0xE0B0E7FF,
+0x764F7BFF, 0x00C04BFF, 0x16DA61FF, 0xF3F7C8FF, 0x878A63FF, 0x2B2C0FFF, 0xC7CB9FFF, 0x636542FF,
+0x9FA279FF, 0x404122FF, 0x17394AFF, 0xACDCF6FF, 0x4C7489FF, 0x85B2CAFF, 0x2A4E61FF, 0x618BA1FF,
+0x3300B7FF, 0x422BD8FF, 0x66C884FF, 0x005F2BFF, 0x419E60FF, 0x7EE29CFF, 0x19773FFF, 0x77525AFF,
+0xB88C95FF, 0x4F3037FF, 0xFFCDD7FF, 0x8F676FFF, 0x270F15FF, 0xD3A4AEFF, 0xA79BE5FF, 0x473B74FF,
+0x8074B8FF, 0x251948FF, 0xBFB3FFFF, 0x5C518EFF, 0x658F7DFF, 0x0C2E22FF, 0xA2D1BCFF, 0x426859FF,
+0x7BA694FF, 0x224437FF, 0xBBECD6FF, 0x9E5187FF, 0xE58CC8FF, 0x742F61FF, 0xB9679FFF, 0x490B3AFF,
+0x25739EFF, 0x61B3E3FF, 0x004E74FF, 0x3C8BB8FF, 0xD3AA85FF, 0x68482BFF, 0xA88260FF, 0x41270BFF,
+0xEDC29BFF, 0x805E3FFF, 0x13CCA1FF, 0x3BE6B9FF, 0x9A91AEFF, 0x3B3449FF, 0xDCD3F3FF, 0x746C87FF,
+0x171121FF, 0xB2AAC8FF, 0x504961FF, 0xC0EEA8FF, 0x5C8148FF, 0x97C181FF, 0x3B5B28FF, 0x72995DFF,
+0x1B3700FF, 0x534C42FF, 0xFAF1E1FF, 0x8E867AFF, 0x2E2920FF, 0xCFC6B8FF, 0x686155FF, 0x070400FF,
+0xA69E91FF, 0x5D37B1FF, 0x9873FDFF, 0x3C0781FF, 0x734ECEFF, 0xED66A8FF, 0xBD4180FF, 0x8F1B5BFF,
+0x3D76E6FF, 0x000765FF, 0x1D50B7FF, 0x518EFFFF, 0x002986FF, 0xE7B1D6FF, 0x7A4F6DFF, 0xBB89ACFF,
+0x532E48FF, 0x926585FF, 0x2A0D23FF, 0xABA067FF, 0x483F0EFF, 0xF0E4A4FF, 0x837944FF, 0xC4B87DFF,
+0x5F5524FF, 0xB194F6FF, 0x503582FF, 0x8A6FC9FF, 0x2C1053FF, 0x664B9DFF, 0xD5F7FFFF, 0x6D8A92FF,
+0x162B31FF, 0xAACBD3FF, 0x4B656CFF, 0x84A2AAFF, 0x2A4147FF, 0x89E389FF, 0x28762CFF, 0x63B763FF,
+0x005001FF, 0xA1FEA0FF, 0x3F8F41FF, 0x2A0F0DFF, 0xD9A49CFF, 0x6D4540FF, 0xAE7E77FF, 0x44231FFF,
+0xF4BDB5FF, 0x855A54FF, 0x66517DFF, 0xA48CBFFF, 0x412F54FF, 0xE7CDFFFF, 0x7C6694FF, 0x1C0D2AFF,
+0xBDA4D9FF, 0xFF67F5FF, 0xD03FC7FF, 0xA20E9BFF, 0x2D432AFF, 0xC8E8C2FF, 0x647E5FFF, 0x0C1D09FF,
+0x9FBE9AFF, 0x41583DFF, 0xE0FFDAFF, 0x7A9675FF, 0x3A3494FF, 0x6E70DFFF, 0x1E0763FF, 0x4D4BB1FF,
+0x8F50ACFF, 0xD38BF3FF, 0x682D81FF, 0xA966C7FF, 0xBCABB2FF, 0x564A4FFF, 0xFFEEF6FF, 0x93838AFF,
+0x32282DFF, 0xD4C3CBFF, 0x6D5F65FF, 0x0B0508FF, 0x848FD6FF, 0x2C3066FF, 0x6169ABFF, 0x0E0835FF,
+0x9CA7F2FF, 0x404681FF, 0xB65B59FF, 0xFF9793FF, 0x8A3838FF, 0xD1716EFF, 0x5D151AFF, 0xA1EEDAFF,
+0x3E8171FF, 0x79C2AFFF, 0x1A5B4EFF, 0x549988FF, 0x3F133CFF, 0xF0AAE7FF, 0x81497BFF, 0xC483BCFF,
+0x582754FF, 0x9A5F94FF, 0x53D669FF, 0x26AA45FF, 0x6BF080FF, 0xAF9D79FF, 0x4B3E23FF, 0xF3E0B8FF,
+0x877756FF, 0x251B00FF, 0xC8B691FF, 0x625336FF, 0x404B62FF, 0x7885A1FF, 0x1F273BFF, 0xB6C5E5FF,
+0x546079FF, 0x8F9DBBFF, 0xDA65D5FF, 0xAC40A9FF, 0xF57CF0FF, 0x80197FFF, 0x97DF9DFF, 0x387540FF,
+0x71B578FF, 0x144E1FFF, 0xB0FBB6FF, 0x4D8D55FF, 0x9C6371FF, 0x2D0916FF, 0xE19FAEFF, 0x72404DFF,
+}
+
+
  */
 public class CornPaletteGenerator {
     private static final int limit = 256;
     private static final IntArray rgba = new IntArray(limit);
-    private static final FloatArray labs = new FloatArray(limit);
+    private static final FloatArray labs = new FloatArray(limit), buffer = new FloatArray(16);
     private static int idx = 1;
+
     private static void add(int value){
         float oklab = ColorTools.fromRGBA8888(value);
         rgba.add(value);
         labs.add(oklab);
     }
-    private static void add(float oklab){
-        if(oklab == 0f) return;
+
+    private static void add(float oklab) {
+        if (oklab == 0f) return;
         float L = ColorTools.channelL(oklab), A = ColorTools.channelA(oklab), B = ColorTools.channelB(oklab);
-        int ctr = 0;
+//        A *= A * (3f - A - A);
+//        B *= B * (3f - B - B);
+        buffer.clear();
         for (int hi = 0; hi < 8; hi++) {
-            if(rgba.size >= limit) break;
             oklab = ColorTools.oklab((L + 0.6180339887498949f * hi) % 1f, A, B, 1f);
             if (!ColorTools.inGamut(oklab))
                 continue;
-            int reg = ColorTools.toRGBA8888(oklab);
-            rgba.add(reg);
-            labs.add(oklab);
-            ctr++;
+            buffer.add(oklab);
         }
-        if(ctr != 0)
-            System.out.print(ctr + " ");
+        if (buffer.size >= 7.0 * Math.sqrt(0.6180339887498949 * idx % 1.0)) {
+            System.out.print(buffer.size + " ");
+            for (int i = 0; i < buffer.size; i++) {
+                if (rgba.size >= limit) break;
+                labs.add(buffer.get(i));
+                rgba.add(ColorTools.toRGBA8888(buffer.get(i)));
+            }
+        }
     }
     public static void main(String[] args) {
 //        System.out.printf("%08X, %1.4f, %08X\n", 0xFF0000FF, ColorTools.chroma(ColorTools.fromRGBA8888(0xFF0000FF)), ColorTools.toRGBA8888(ColorTools.maximizeSaturation(ColorTools.fromRGBA8888(0xFF0000FF))));
