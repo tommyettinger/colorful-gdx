@@ -2,7 +2,6 @@ package com.github.tommyettinger.colorful.oklab;
 
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.IntArray;
-import com.github.tommyettinger.anim8.OtherMath;
 import com.github.tommyettinger.colorful.internal.StringKit;
 
 // example output
@@ -83,9 +82,9 @@ public class CornPaletteGenerator {
     private static final IntArray rgba = new IntArray(limit);
     private static final FloatArray labs = new FloatArray(limit);
     private static int idx = 1;
-    private static void add(int value){
-        float oklab = ColorTools.fromRGBA8888(value);
-        rgba.add(value);
+    private static void addL(int rgba8888){
+        float oklab = ColorTools.oklab((rgba8888 >>> 8 & 255) / 255f, 0.5f, 0.5f, 1f);
+        rgba.add(ColorTools.toRGBA8888(oklab));
         labs.add(oklab);
     }
     private static void add(float oklab){
@@ -123,22 +122,22 @@ public class CornPaletteGenerator {
 //        add(0xE0E0E0FF);
 //        add(0xC8C8C8FF);
 
-        add(0x000000FF);
-        add(0xFFFFFFFF);
-        add(0x888888FF);
-        add(0x444444FF);
-        add(0xCCCCCCFF);
-        add(0x222222FF);
-        add(0xAAAAAAFF);
-        add(0x666666FF);
-        add(0xEEEEEEFF);
-        add(0x111111FF);
-        add(0x999999FF);
-        add(0x555555FF);
-        add(0xDDDDDDFF);
-        add(0x333333FF);
-        add(0xBBBBBBFF);
-        add(0x777777FF);
+        addL(0x000000FF);
+        addL(0xFFFFFFFF);
+        addL(0x888888FF);
+        addL(0x444444FF);
+        addL(0xCCCCCCFF);
+        addL(0x222222FF);
+        addL(0xAAAAAAFF);
+        addL(0x666666FF);
+        addL(0xEEEEEEFF);
+        addL(0x111111FF);
+        addL(0x999999FF);
+        addL(0x555555FF);
+        addL(0xDDDDDDFF);
+        addL(0x333333FF);
+        addL(0xBBBBBBFF);
+        addL(0x777777FF);
 
 //        int idx = 1, initial = rgba.size;
         while (rgba.size < limit) {
