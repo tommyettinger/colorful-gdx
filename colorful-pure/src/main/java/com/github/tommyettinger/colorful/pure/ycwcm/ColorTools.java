@@ -1,7 +1,7 @@
 package com.github.tommyettinger.colorful.pure.ycwcm;
 
 import com.github.tommyettinger.colorful.pure.FloatColors;
-import com.github.tommyettinger.colorful.pure.MathTools;
+import com.github.tommyettinger.digital.MathTools;
 import com.github.tommyettinger.digital.BitConversion;
 import com.github.tommyettinger.random.EnhancedRandom;
 

@@ -2,7 +2,7 @@ package com.github.tommyettinger.colorful.pure;
 
 import com.github.tommyettinger.colorful.pure.ycwcm.ColorTools;
 import com.github.tommyettinger.digital.BitConversion;
-
+import com.github.tommyettinger.digital.MathTools;
 /**
  * Various utility methods for working with colors encoded as packed floats in any of the formats this can use.
  * <br>

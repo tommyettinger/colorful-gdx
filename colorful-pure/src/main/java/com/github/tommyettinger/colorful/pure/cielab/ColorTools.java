@@ -3,6 +3,7 @@ package com.github.tommyettinger.colorful.pure.cielab;
 import com.github.tommyettinger.colorful.pure.FloatColors;
 import com.github.tommyettinger.colorful.pure.MathTools;
 import com.github.tommyettinger.digital.BitConversion;
+import com.github.tommyettinger.digital.TrigTools;
 import com.github.tommyettinger.random.EnhancedRandom;
 
 import java.util.Random;
@@ -391,7 +392,7 @@ public class ColorTools {
     public static float chromaLimit(final float hue, final float lightness) {
         final float h = hue - MathTools.floor(hue);
         final float L = (1f/1.16f)*(lightness + 0.16f);
-        final float A = MathTools.cos_(h) * (1.26365817f);
+        final float A = TrigTools.cosTurns(h) * (1.26365817f);
         final float B = MathTools.sin_(h) * (1.26365817f);
         final float y = reverseXYZ(L);
         float A2 = A, B2 = B;
@@ -422,7 +423,7 @@ public class ColorTools {
         final float lightness = (decoded & 255) / 255f;
         final float h = MathTools.atan2_(((decoded >>> 16 & 0xff) - 127.5f), ((decoded >>> 8 & 0xff) - 127.5f));
         final float L = (1f/1.16f)*(lightness + 0.16f);
-        final float A = MathTools.cos_(h) * 1.26365817f * 0.2f;
+        final float A = TrigTools.cosTurns(h) * 1.26365817f * 0.2f;
         final float B = MathTools.sin_(h) * 1.26365817f * 0.5f;
         final float y = reverseXYZ(L);
         float A2 = A, B2 = B;
@@ -459,7 +460,7 @@ public class ColorTools {
         alpha = Math.min(Math.max(alpha, 0f), 1f);
         final float h = MathTools.atan2_(B - 0.5f, A - 0.5f);
         final float L0 = (1f/1.16f)*(L + 0.16f);
-        final float A0 = MathTools.cos_(h) * 1.26365817f;
+        final float A0 = TrigTools.cosTurns(h) * 1.26365817f;
         final float B0 = MathTools.sin_(h) * 1.26365817f;
         final float y = reverseXYZ(L0);
         float A2 = A0, B2 = B0;
@@ -508,7 +509,7 @@ public class ColorTools {
         final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
         final float h = MathTools.atan2_(B, A);
         final float L0 = (1f/1.16f)*(L + 0.16f);
-        final float A0 = MathTools.cos_(h) * 1.26365817f;
+        final float A0 = TrigTools.cosTurns(h) * 1.26365817f;
         final float B0 = MathTools.sin_(h) * 1.26365817f;
         final float y = reverseXYZ(L0);
         float A2 = A0, B2 = B0;
@@ -569,7 +570,7 @@ public class ColorTools {
         alpha = Math.min(Math.max(alpha, 0f), 1f);
         final float L = (1f/1.16f)*(lightness + 0.16f);
         final float L0 = (1f/1.16f)*(L + 0.16f);
-        final float cos = MathTools.cos_(hue);
+        final float cos = TrigTools.cosTurns(hue);
         final float sin = MathTools.sin_(hue);
         final float A0 = cos * 1.26365817f * 0.2f;
         final float B0 = sin * 1.26365817f * 0.5f;
@@ -623,7 +624,7 @@ public class ColorTools {
         return BitConversion.intBitsToFloat(
                 (int) (alpha * 127.999f) << 25 |
                         Math.min(Math.max((int) (MathTools.sin_(hue) /* * 2f */ * chroma + 127.5f), 0), 255) << 16 |
-                        Math.min(Math.max((int) (MathTools.cos_(hue) /* * 5f */ * chroma + 127.5f), 0), 255) << 8 |
+                        Math.min(Math.max((int) (TrigTools.cosTurns(hue) /* * 5f */ * chroma + 127.5f), 0), 255) << 8 |
                         (int) (lightness * 255.999f));
     }
 

@@ -11,6 +11,10 @@ import com.github.tommyettinger.digital.BitConversion;
  * measure turns in degrees, either from -180 to 180 for {@link #atan2Degrees(float, float)} or from 0 to 360 for
  * {@link #atan2Degrees360(float, float)}. Also has {@link #lerp(float, float, float)}, why not.
  * <br>
+ * New code should use {@link com.github.tommyettinger.digital.TrigTools} for trigonometric methods instead; it has
+ * sinTurns() instead of sin_(), and other naming has similar changes, but should be faster and more precise. The other
+ * methods have parallels in {@link com.github.tommyettinger.digital.MathTools}.
+ * <br>
  * Created by Tommy Ettinger on 8/6/2019.
  */
 public class MathTools {
@@ -40,7 +44,6 @@ public class MathTools {
      * @param radians an angle in radians as a double, often from 0 to pi * 2, though not required to be.
      * @return the sine of the given angle, as a double between -1.0 and 1.0 (both inclusive)
      */
-
     public static double sin(double radians)
     {
         radians *= 0.6366197723675814;

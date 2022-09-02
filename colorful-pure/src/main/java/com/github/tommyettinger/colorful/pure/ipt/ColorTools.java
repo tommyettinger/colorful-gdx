@@ -1,7 +1,8 @@
 package com.github.tommyettinger.colorful.pure.ipt;
 
 import com.github.tommyettinger.colorful.pure.FloatColors;
-import com.github.tommyettinger.colorful.pure.MathTools;
+import com.github.tommyettinger.digital.MathTools;
+import com.github.tommyettinger.digital.TrigTools;
 import com.github.tommyettinger.digital.BitConversion;
 import com.github.tommyettinger.random.EnhancedRandom;
 
@@ -926,7 +927,7 @@ public class ColorTools {
 		final float h = (decoded & 0xff) / 255f;
 		final float s = (decoded >>> 8 & 0xff) / 255f;
 		final float i = (decoded >>> 16 & 0xff) / 255f;
-		final float y = MathTools.cos_(h) * s, z = MathTools.sin_(h) * s;
+		final float y = TrigTools.cosTurns(h) * s, z = TrigTools.sinTurns(h) * s;
 		final float crMid = 0.3481738f * y + 0.104959644f * z;
 		final float crScale = (i - 0.5f + (BitConversion.floatToRawIntBits(crMid) >>> 31)) * 0.16420607f / -crMid;
 		final float mgMid = 0.122068435f * y + -0.070396f * z;
@@ -934,7 +935,7 @@ public class ColorTools {
 		final float ybMid = 0.020876605f * y + -0.26078433f * z;
 		final float ybScale = (i - 0.5f + (BitConversion.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
 		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
-		final float d = 4f * s * scale / (MathTools.sin(3.14159f * i) + 0.000001f);
+		final float d = 4f * s * scale / (TrigTools.sin(3.14159f * i) + 0.000001f);
 
 		final float p = y * d;
 		final float t = z * d;
@@ -952,7 +953,7 @@ public class ColorTools {
 	 * @return a packed float in IPT format
 	 */
 	public static float fromHSI(float hue, float saturation, float intensity, float alpha){
-		final float y = MathTools.cos_(hue) * saturation, z = MathTools.sin_(hue) * saturation;
+		final float y = TrigTools.cosTurns(hue) * saturation, z = TrigTools.sinTurns(hue) * saturation;
 		final float crMid = 0.3481738f * y + 0.104959644f * z;
 		final float crScale = (intensity - 0.5f + (BitConversion.floatToRawIntBits(crMid) >>> 31)) * 0.16420607f / -crMid;
 		final float mgMid = 0.122068435f * y + -0.070396f * z;
@@ -960,7 +961,7 @@ public class ColorTools {
 		final float ybMid = 0.020876605f * y + -0.26078433f * z;
 		final float ybScale = (intensity - 0.5f + (BitConversion.floatToRawIntBits(ybMid) >>> 31)) * 0.16155326f / -ybMid;
 		final float scale = Math.max(crScale, Math.max(mgScale, ybScale));
-		final float d = 4f * saturation * scale / (MathTools.sin(3.14159f * intensity) + 0.000001f);
+		final float d = 4f * saturation * scale / (TrigTools.sin(3.14159f * intensity) + 0.000001f);
 
 		final float p = y * d;
 		final float t = z * d;

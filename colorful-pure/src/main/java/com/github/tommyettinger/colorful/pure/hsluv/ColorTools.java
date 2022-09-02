@@ -220,7 +220,7 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = MathTools.cos_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
         float V = MathTools.sin_(H) * C;
 
         // Luv to XYZ
@@ -274,7 +274,7 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = MathTools.cos_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
         float V = MathTools.sin_(H) * C;
 
         // Luv to XYZ
@@ -473,7 +473,7 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = MathTools.cos_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
         float V = MathTools.sin_(H) * C;
 
         // Luv to XYZ
@@ -522,7 +522,7 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = MathTools.cos_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
         float V = MathTools.sin_(H) * C;
 
         // Luv to XYZ
@@ -571,7 +571,7 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = MathTools.cos_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
         float V = MathTools.sin_(H) * C;
 
         // Luv to XYZ
@@ -630,7 +630,7 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = MathTools.cos_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
         float V = MathTools.sin_(H) * C;
 
         // Luv to XYZ
@@ -679,7 +679,7 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = MathTools.cos_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
         float V = MathTools.sin_(H) * C;
 
         // Luv to XYZ
@@ -728,7 +728,7 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = MathTools.cos_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
         float V = MathTools.sin_(H) * C;
 
         // Luv to XYZ
@@ -802,7 +802,7 @@ public class ColorTools {
     public static float chromaLimit(final float hue, final float lightness) {
         final float h = hue - floor(hue);
         float sin = MathTools.sin_(h);
-        float cos = MathTools.cos_(h);
+        float cos = TrigTools.cosTurns(h);
         float sub1 = (lightness + 0.16f) / 1.16f;
         sub1 *= sub1 * sub1;
         float sub2 = sub1 > epsilon ? sub1 : lightness / kappa;
@@ -969,7 +969,7 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = MathTools.cos_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
         float V = MathTools.sin_(H) * C;
 
         // Luv to XYZ
@@ -1038,7 +1038,7 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = MathTools.cos_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
         float V = MathTools.sin_(H) * C;
 
         // Luv to XYZ
@@ -1109,7 +1109,7 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = MathTools.cos_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
         float V = MathTools.sin_(H) * C;
 
         // Luv to XYZ
@@ -1199,7 +1199,7 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = MathTools.cos_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
         float V = MathTools.sin_(H) * C;
 
         // Luv to XYZ
@@ -1658,7 +1658,7 @@ public class ColorTools {
             Cs = chromaLimit(Hs, Ls) * (ss / 255f);
         }
         // Lch to Luv
-        float Us = MathTools.cos_(Hs) * Cs;
+        float Us = TrigTools.cosTurns(Hs) * Cs;
         float Vs = MathTools.sin_(Hs) * Cs;
 
         float He = he / 255f, Ce, Le;

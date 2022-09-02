@@ -1,6 +1,7 @@
 package com.github.tommyettinger.colorful.pure.oklab;
 
 import com.github.tommyettinger.colorful.pure.MathTools;
+import com.github.tommyettinger.digital.TrigTools;
 import com.github.tommyettinger.ds.IntList;
 import com.github.tommyettinger.ds.ObjectIntOrderedMap;
 import com.github.tommyettinger.ds.ObjectList;
@@ -1164,7 +1165,7 @@ public final class AlternatePalette {
         return (
                 (int) (alpha * 255.999f) << 24 |
                         (int) (MathTools.sin_(hue) * dist + 128f) << 16 |
-                        (int) (MathTools.cos_(hue) * dist + 128f) << 8 |
+                        (int) (TrigTools.cosTurns(hue) * dist + 128f) << 8 |
                         (int) (lightness * 255.999f));
     }
 
@@ -1196,7 +1197,7 @@ public final class AlternatePalette {
         return (
                 (int) (alpha * 255.999f) << 24 |
                         (int) (MathTools.sin_(hue) * dist + 128f) << 16 |
-                        (int) (MathTools.cos_(hue) * dist + 128f) << 8 |
+                        (int) (TrigTools.cosTurns(hue) * dist + 128f) << 8 |
                         (int) (lightness * 255.999f));
     }
 
@@ -1273,7 +1274,7 @@ public final class AlternatePalette {
         final int idx = (packed & 0xff) << 8 | (int) (256f * hue);
         final float dist = GAMUT_DATA[idx] * 0.5f;
         return ((packed & 0xFF0000FF) |
-                        (int) (MathTools.cos_(hue) * dist + 128f) << 8 |
+                        (int) (TrigTools.cosTurns(hue) * dist + 128f) << 8 |
                         (int) (MathTools.sin_(hue) * dist + 128f) << 16);
     }
 
@@ -1301,7 +1302,7 @@ public final class AlternatePalette {
         return (
                 alpha << 24 |
                         (int) (MathTools.sin_(hue) * dist + 128f) << 16 |
-                        (int) (MathTools.cos_(hue) * dist + 128f) << 8 |
+                        (int) (TrigTools.cosTurns(hue) * dist + 128f) << 8 |
                         L);
     }
 
@@ -1322,7 +1323,7 @@ public final class AlternatePalette {
             return packed;
         return (
                 (packed & 0xFF0000FF) |
-                        (int) (MathTools.cos_(hue) * dist + 128f) << 8 |
+                        (int) (TrigTools.cosTurns(hue) * dist + 128f) << 8 |
                         (int) (MathTools.sin_(hue) * dist + 128f) << 16);
     }
 
@@ -1365,7 +1366,7 @@ public final class AlternatePalette {
         return (
                 alpha << 24 |
                         (int) (MathTools.sin_(hue) * dist + 128f) << 16 |
-                        (int) (MathTools.cos_(hue) * dist + 128f) << 8 |
+                        (int) (TrigTools.cosTurns(hue) * dist + 128f) << 8 |
                         L);
     }
 
