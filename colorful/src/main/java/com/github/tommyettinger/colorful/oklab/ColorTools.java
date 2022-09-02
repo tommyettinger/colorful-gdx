@@ -70,7 +70,7 @@ public class ColorTools {
 	 * An approximation of the cube-root function for float inputs and outputs.
 	 * This can be about twice as fast as {@link Math#cbrt(double)}. This
 	 * version does not tolerate negative inputs, because in the narrow use
-	 * case it has in this class, it never is given negative inputs.
+	 * case it has in this class, it is never given negative inputs.
 	 * <br>
 	 * Has very low relative error (less than 1E-9) when inputs are uniformly
 	 * distributed between 0 and 512, and absolute mean error of less than
@@ -1164,13 +1164,13 @@ public class ColorTools {
 		B = Math.min(Math.max(B, 0f), 1f) - 0.5f;
 		alpha = Math.min(Math.max(alpha, 0f), 1f);
 		final float hue = TrigTools.atan2_(B, A);
-		final int idx = (int) (L * 255.999f) << 8 | (int) (256f * hue);
+		final int idx = (int) (L * 255f) << 8 | (int) (256f * hue);
 		final float dist = GAMUT_DATA[idx] * 0.5f;
 		return NumberUtils.intBitsToFloat(
 				(int) (alpha * 127.999f) << 25 |
 						(int) (TrigTools.sin_(hue) * dist + 127.5f) << 16 |
 						(int) (TrigTools.cos_(hue) * dist + 127.5f) << 8 |
-						(int) (L * 255.999f));
+						(int) (L * 255f));
 	}
 
 	/**
@@ -1342,18 +1342,18 @@ public class ColorTools {
 		A = Math.min(Math.max(A, 0f), 1f);
 		B = Math.min(Math.max(B, 0f), 1f);
 		alpha = Math.min(Math.max(alpha, 0f), 1f);
-		final float A2 = (A - 0.5f);
-		final float B2 = (B - 0.5f);
+		final float A2 = ((int) (A * 255) - 127f) / 255f;
+		final float B2 = ((int) (B * 255) - 127f) / 255f;
 		final float hue = TrigTools.atan2_(B2, A2);
-		final int idx = (int) (L * 255.999f) << 8 | (int)(256f * hue);
+		final int idx = (int) (L * 255f) << 8 | (int)(256f * hue);
 		final float dist = GAMUT_DATA[idx] * 0.5f;
-		if(dist * dist * 0x1p-16f + 0x1p-14f >= (A2 * A2 + B2 * B2))
+		if(dist * dist * 0x1p-16f >= (A2 * A2 + B2 * B2))
 			return oklab(L, A, B, alpha);
 		return NumberUtils.intBitsToFloat(
 				(int) (alpha * 127.999f) << 25 |
 						(int) (TrigTools.sin_(hue) * dist + 127.5f) << 16 |
 						(int) (TrigTools.cos_(hue) * dist + 127.5f) << 8 |
-						(int) (L * 255.999f));
+						(int) (L * 255f));
 	}
 
 	/**
@@ -1405,7 +1405,7 @@ public class ColorTools {
 		B = Math.min(Math.max(B * mulB + addB * 2f, -1f), 1f) * 0.5f;
 		alpha = Math.min(Math.max(alpha * mulAlpha + addAlpha, 0f), 1f);
 		final float hue = TrigTools.atan2_(B, A);
-		final int idx = (int) (L * 255.999f) << 8 | (int)(256f * hue);
+		final int idx = (int) (L * 255f) << 8 | (int)(256f * hue);
 		final float dist = GAMUT_DATA[idx] * 0.5f;
 		if(dist * dist * 0x1p-16f >= (A * A + B * B))
 			return oklab(L, A + 0.5f, B + 0.5f, alpha);
@@ -1413,7 +1413,7 @@ public class ColorTools {
 				(int) (alpha * 127.999f) << 25 |
 						(int) (TrigTools.sin_(hue) * dist + 127.5f) << 16 |
 						(int) (TrigTools.cos_(hue) * dist + 127.5f) << 8 |
-						(int) (L * 255.999f));
+						(int) (L * 255f));
 	}
 
 	/**

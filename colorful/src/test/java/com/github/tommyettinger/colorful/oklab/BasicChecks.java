@@ -58,8 +58,12 @@ public class BasicChecks {
                 NumberUtils.floatToRawIntBits(limitToGamut(ColorTools.oklab(0.5f, 0.126f, 0f, 1f))));
         Assert.assertEquals(NumberUtils.floatToRawIntBits(limitToGamut(0.6f, 0.75f, 0.75f, 1f)),
                 NumberUtils.floatToRawIntBits(limitToGamut(ColorTools.oklab(0.6f, 0.75f, 0.75f, 1f))));
-        Assert.assertEquals(NumberUtils.floatToRawIntBits(limitToGamut(0.61960787f, 0.60784316f, 0.3882353f, 1f)),
-                NumberUtils.floatToRawIntBits(limitToGamut(ColorTools.oklab(0.61960787f, 0.60784316f, 0.3882353f, 1f))));
+        float params4 = limitToGamut(0.6196f, 0.6078f, 0.3882f, 1f);
+        System.out.printf("params4: L %f  A %f  B %f  H %f  S %f\n", ColorTools.channelL(params4), ColorTools.channelA(params4), ColorTools.channelB(params4), ColorTools.oklabHue(params4), ColorTools.oklabSaturation(params4));
+        float params1 = limitToGamut(ColorTools.oklab(0.6196f, 0.6078f, 0.3882f, 1f));
+        System.out.printf("params1: L %f  A %f  B %f  H %f  S %f\n", ColorTools.channelL(params1), ColorTools.channelA(params1), ColorTools.channelB(params1), ColorTools.oklabHue(params1), ColorTools.oklabSaturation(params1));
+        Assert.assertEquals(NumberUtils.floatToRawIntBits(params4),
+                NumberUtils.floatToRawIntBits(params1));
     }
 
     @Test
