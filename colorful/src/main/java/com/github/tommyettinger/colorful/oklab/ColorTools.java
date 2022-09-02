@@ -508,7 +508,7 @@ public class ColorTools {
 	public static float chromaLimit(final float hue, final float lightness){
 		final int idx = (int) (Math.min(Math.max(lightness, 0f), 1f) * 255.999f) << 8
 				| (int) (256f * (hue - floor(hue)));
-		return (GAMUT_DATA[idx] + 1.5f) * 0x1p-8f;
+		return (GAMUT_DATA[idx]) * 0x1p-8f;
 	}
 
 	/**

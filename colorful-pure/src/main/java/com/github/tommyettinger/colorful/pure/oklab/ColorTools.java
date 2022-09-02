@@ -3,6 +3,7 @@ package com.github.tommyettinger.colorful.pure.oklab;
 import com.github.tommyettinger.colorful.pure.FloatColors;
 import com.github.tommyettinger.colorful.pure.MathTools;
 import com.github.tommyettinger.digital.BitConversion;
+import com.github.tommyettinger.digital.TrigTools;
 import com.github.tommyettinger.random.EnhancedRandom;
 
 import java.util.Random;
@@ -60,7 +61,7 @@ public class ColorTools {
 	 * An approximation of the cube-root function for float inputs and outputs.
 	 * This can be about twice as fast as {@link Math#cbrt(double)}. This
 	 * version does not tolerate negative inputs, because in the narrow use
-	 * case it has in this class, it never is given negative inputs.
+	 * case it has in this class, it is never given negative inputs.
 	 * <br>
 	 * Has very low relative error (less than 1E-9) when inputs are uniformly
 	 * distributed between 0 and 512, and absolute mean error of less than
@@ -185,8 +186,8 @@ public class ColorTools {
 	{
 		final int decoded = BitConversion.floatToRawIntBits(packed);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -207,8 +208,8 @@ public class ColorTools {
 	{
 		final int decoded = BitConversion.floatToRawIntBits(packed);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -235,8 +236,8 @@ public class ColorTools {
 		return BitConversion.intBitsToFloat(
 				Math.min(Math.max((int)(forwardLight
 						(0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s) * 255.999f         ), 0), 255)
-						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 127.999f + 127.5f), 0), 255) << 8
-						| Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s) * 127.999f + 127.5f), 0), 255) << 16
+						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 127.5f + 127.5f), 0), 255) << 8
+						| Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s) * 127.5f + 127.5f), 0), 255) << 16
 						| (rgba & 0xFE) << 24);
 	}
 
@@ -256,10 +257,11 @@ public class ColorTools {
 		return BitConversion.intBitsToFloat(
 				Math.min(Math.max((int)(forwardLight
 						(0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s) * 255.999f         ), 0), 255)
-						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 127.999f + 127.5f), 0), 255) << 8
-						| Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s) * 127.999f + 127.5f), 0), 255) << 16
+						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 127.5f + 127.5f), 0), 255) << 8
+						| Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s) * 127.5f + 127.5f), 0), 255) << 16
 						| (abgr & 0xFE000000));
 	}
+
 
 	/**
 	 * Takes RGBA components from 0.0 to 1.0 each and converts to a packed float in the Oklab format this uses.
@@ -279,8 +281,8 @@ public class ColorTools {
 		return BitConversion.intBitsToFloat(
 				Math.min(Math.max((int)(forwardLight
 						(0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s) * 255.999f         ), 0), 255)
-						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 127.999f + 127.5f), 0), 255) << 8
-						| Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s) * 127.999f + 127.5f), 0), 255) << 16
+						| Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 127.5f + 127.5f), 0), 255) << 8
+						| Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s) * 127.5f + 127.5f), 0), 255) << 16
 						| ((int)(a * 255f) << 24 & 0xFE000000));
 	}
 
@@ -293,8 +295,8 @@ public class ColorTools {
 	{
 		final int decoded = BitConversion.floatToRawIntBits(encoded);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -310,8 +312,8 @@ public class ColorTools {
 	{
 		final int decoded = BitConversion.floatToRawIntBits(encoded);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -327,8 +329,8 @@ public class ColorTools {
 	{
 		final int decoded = BitConversion.floatToRawIntBits(encoded);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -355,8 +357,8 @@ public class ColorTools {
 	{
 		final int decoded = BitConversion.floatToRawIntBits(encoded);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -372,8 +374,8 @@ public class ColorTools {
 	{
 		final int decoded = BitConversion.floatToRawIntBits(encoded);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -389,8 +391,8 @@ public class ColorTools {
 	{
 		final int decoded = BitConversion.floatToRawIntBits(encoded);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -437,7 +439,7 @@ public class ColorTools {
 	public static float chromaLimit(final float hue, final float lightness){
 		final int idx = (int) (Math.min(Math.max(lightness, 0f), 1f) * 255.999f) << 8
 				| (int) (256f * (hue - floor(hue)));
-		return (GAMUT_DATA[idx] + 1.5f) * 0x1p-8f;
+		return (GAMUT_DATA[idx]) * 0x1p-8f;
 	}
 
 	/**
@@ -485,8 +487,8 @@ public class ColorTools {
 		final int decoded = BitConversion.floatToRawIntBits(encoded);
 		final float L = reverseLight((decoded & 0xff) / 255f);
 		if(Math.abs(L - 0.5) > 0.495f) return 0f;
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -523,8 +525,8 @@ public class ColorTools {
 	public static float lightness(final float encoded) {
 		final int decoded = BitConversion.floatToRawIntBits(encoded);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -564,8 +566,8 @@ public class ColorTools {
 	public static float hue(final float encoded) {
 		final int decoded = BitConversion.floatToRawIntBits(encoded);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -639,12 +641,12 @@ public class ColorTools {
 	 * Gets a variation on the packed float color basis as another packed float that has its hue, saturation, lightness,
 	 * and opacity adjusted by the specified amounts. Note that this edits the color in HSL space, not Oklab! Takes
 	 * floats representing the amounts of change to apply to hue, saturation, lightness, and opacity; these can be
-	 * between -1f and 1f. Returns a float that can be used as a packed or encoded color. The float is
-	 * likely to be different than the result of {@link #oklab(float, float, float, float)} unless hue, saturation,
-	 * lightness, and opacity are all 0. This won't allocate any objects.
+	 * between -1f and 1f. Returns a packed float color. The float is likely to be different from the
+	 * result of {@link #oklab(float, float, float, float)} unless hue, saturation, lightness, and opacity are all 0.
+	 * This won't allocate any objects.
 	 * <br>
-	 * The parameters this takes all specify additive changes for a color component, clamping the final values so they
-	 * can't go above 1 or below 0, with an exception for hue, which can rotate around if lower or higher hues would be
+	 * The parameters this takes all specify additive changes for a color component, clamping the final values so that
+	 * they can't go above 1 or below 0, except for hue, which can rotate around if lower or higher hues would be
 	 * used. As an example, if you give this 0.4f for saturation, and the current color has saturation 0.7f, then the
 	 * resulting color will have 1f for saturation. If you gave this -0.1f for saturation and the current color again
 	 * has saturation 0.7f, then resulting color will have 0.6f for saturation.
@@ -665,8 +667,8 @@ public class ColorTools {
 		opacity = Math.min(Math.max(opacity + (decoded >>> 25) * (1f / 127f), 0f), 1f);
 		if (L <= 0.001f)
 			return BitConversion.intBitsToFloat((((int) (opacity * 255f) << 24) & 0xFE000000) | 0x808000);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
 		final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
 		final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -970,8 +972,8 @@ public class ColorTools {
 	public static float randomEdit(final float color, long seed, final float variance) {
 		final int decoded = BitConversion.floatToRawIntBits(color);
 		final float L = reverseLight((decoded & 0xff) / 255f);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		final float limit = variance * variance;
 		float dist, x, y, z;
 		for (int j = 0; j < 50; j++) {
@@ -994,7 +996,7 @@ public class ColorTools {
 	 * from 0 to 255 with: {@code (L << 8 | H)} or the simpler equivalent {@code (L * 256 + H)}. These assume L and H
 	 * have been limited to the 0 to 255 range already. This does not bounds-check index. Because hue is not typically
 	 * measured between 0 and 255, getting that value is a bit different; you can use
-	 * {@link MathTools#atan2_(float, float)} (with an Oklab color's B for y, then its A for x) and multiply it by 256
+	 * {@link TrigTools#atan2Turns(float, float)} (with an Oklab color's B for y, then its A for x) and multiply it by 256
 	 * to get H.
 	 * <br>
 	 * The distance this returns is a byte between 0 and 84 (both inclusive), as the Euclidean distance from the center
@@ -1002,7 +1004,7 @@ public class ColorTools {
 	 * the index. This is measured in a space from -1 to 1 for both A and B, with the 0 in the center meaning grayscale,
 	 * and multiplied by 256 to get a meaningful byte value. To return to the A and B values Oklab uses here, you would
 	 * need to use some trigonometry on the hue (if it's in the 0 to 1 range, you can call
-	 * {@link MathTools#cos_(float)} on the hue to almost get A, and {@link MathTools#sin_(float)} to almost get B),
+	 * {@link TrigTools#cosTurns(float)} on the hue to almost get A, and {@link TrigTools#sinTurns(float)} to almost get B),
 	 * then multiply each of those by the distance, divide each by 256.0, and add 0.5.
 	 * <br>
 	 * Only intended for the narrow cases where external code needs read-only access to the internal Oklab gamut data.
@@ -1026,7 +1028,7 @@ public class ColorTools {
 		final int decoded = BitConversion.floatToRawIntBits(packed);
 		final float A = ((decoded >>> 8 & 0xff) - 127f) / 255f;
 		final float B = ((decoded >>> 16 & 0xff) - 127f) / 255f;
-		final float g = GAMUT_DATA[(decoded & 0xff) << 8 | (int)(256f * MathTools.atan2_(B, A))];
+		final float g = GAMUT_DATA[(decoded & 0xff) << 8 | (int)(256f * TrigTools.atan2Turns(B, A))];
 		return g * g * 0x1p-18 + 0x1p-14 >= (A * A + B * B);
 	}
 
@@ -1041,14 +1043,14 @@ public class ColorTools {
 	{
 		A = ((int) (A * 255) - 127f) / 255f;
 		B = ((int) (B * 255) - 127f) / 255f;
-		final float g = GAMUT_DATA[((int) (L * 255) & 0xFF) << 8 | (int)(256f * MathTools.atan2_(B, A))];
+		final float g = GAMUT_DATA[((int) (L * 255) & 0xFF) << 8 | (int)(256f * TrigTools.atan2Turns(B, A))];
 		return g * g * 0x1p-18 + 0x1p-14 >= (A * A + B * B);
 
 		////This was the old code for this inGamut(), which was subtly different from the other inGamut() when called
 		/// on a packed float. The packed floats can go ever-so-slightly towards or away from the edge.
 //		A = (A - 0.5f);
 //		B = (B - 0.5f);
-//		final byte g = GAMUT_DATA[((int)(L * 255.999f) << 8) | (int)(256f * MathTools.atan2_(B, A))];
+//		final byte g = GAMUT_DATA[((int)(L * 255.999f) << 8) | (int)(256f * TrigTools.atan2Turns(B, A))];
 //		return g * g * 0x1p-16 >= (A * A + B * B);
 
 	}
@@ -1063,15 +1065,16 @@ public class ColorTools {
 	 */
 	public static float maximizeSaturation(final float packed) {
 		final int decoded = BitConversion.floatToRawIntBits(packed);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f);
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f);
-		final float hue = MathTools.atan2_(B, A);
+		final float A = ((decoded >>> 8 & 0xff) - 127f);
+		final float B = ((decoded >>> 16 & 255) - 127f);
+		final float hue = TrigTools.atan2Turns(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
 		final float dist = GAMUT_DATA[idx] * 0.5f;
 		return BitConversion.intBitsToFloat(
 				(decoded & 0xFE0000FF) |
-						(int) (MathTools.cos_(hue) * dist + 128f) << 8 |
-						(int) (MathTools.sin_(hue) * dist + 128f) << 16);
+						(int) (TrigTools.sinTurns(hue) * dist + 127.5f) << 16 |
+						(int) (TrigTools.cosTurns(hue) * dist + 127.5f) << 8
+		);
 	}
 	/**
 	 * Gets the color with the same L as the Oklab color stored in the given packed float, but the furthest A
@@ -1090,14 +1093,14 @@ public class ColorTools {
 		A = Math.min(Math.max(A, 0f), 1f) - 0.5f;
 		B = Math.min(Math.max(B, 0f), 1f) - 0.5f;
 		alpha = Math.min(Math.max(alpha, 0f), 1f);
-		final float hue = MathTools.atan2_(B, A);
-		final int idx = (int) (L * 255.999f) << 8 | (int) (256f * hue);
+		final float hue = TrigTools.atan2Turns(B, A);
+		final int idx = (int) (L * 255f) << 8 | (int) (256f * hue);
 		final float dist = GAMUT_DATA[idx] * 0.5f;
 		return BitConversion.intBitsToFloat(
 				(int) (alpha * 127.999f) << 25 |
-						(int) (MathTools.sin_(hue) * dist + 128f) << 16 |
-						(int) (MathTools.cos_(hue) * dist + 128f) << 8 |
-						(int) (L * 255.999f));
+						(int) (TrigTools.sinTurns(hue) * dist + 127.5f) << 16 |
+						(int) (TrigTools.cosTurns(hue) * dist + 127.5f) << 8 |
+						(int) (L * 255f));
 	}
 
 	/**
@@ -1110,29 +1113,30 @@ public class ColorTools {
 	 */
 	public static float oklabHue(final float packed) {
 		final int decoded = BitConversion.floatToRawIntBits(packed);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f);
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f);
-		return MathTools.atan2_(B, A);
+		final float A = ((decoded >>> 8 & 0xff) - 127f);
+		final float B = ((decoded >>> 16 & 255) - 127f);
+		return TrigTools.atan2Turns(B, A);
 	}
 
 	/**
 	 * Gets the saturation of the given Oklab float color, but as Oklab understands saturation rather than how HSL does.
 	 * Saturation here is a fraction of the chroma limit (see {@link #chromaLimit(float, float)}) for a given hue and
-	 * lightness, and is between 0 and 1 almost all the time. Saturation should always be a float between 0 (inclusive)
-	 * and 1 (inclusive).
+	 * lightness, and is between 0 and 1 almost all the time. Saturation should always be between 0 (inclusive) and 1
+	 * (inclusive).
 	 *
 	 * @param packed a packed Oklab float color
 	 * @return a float between 0 (inclusive) and 1 (inclusive) that represents saturation in the Oklab color space
 	 */
 	public static float oklabSaturation(final float packed) {
 		final int decoded = BitConversion.floatToRawIntBits(packed);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f);
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f);
-		final float hue = MathTools.atan2_(B, A);
+		final float A = ((decoded >>> 8 & 0xff) - 127f);
+		final float B = ((decoded >>> 16 & 255) - 127f);
+		final float hue = TrigTools.atan2Turns(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
-		final float dist = GAMUT_DATA[idx] + 1.5f;
-		return dist == 3.5f ? 0f : (A * A + B * B) * 4f / (dist * dist);
+		final float dist = GAMUT_DATA[idx];
+		return dist <= 2.5f ? 0f : (float) Math.sqrt(A * A + B * B) * 2f / (dist);
 	}
+
 	/**
 	 * Gets the lightness of the given Oklab float color, but as Oklab understands lightness rather than how HSL does.
 	 * This is different from {@link #lightness(float)}, which uses HSL. This gives a float between 0 (inclusive)
@@ -1177,11 +1181,11 @@ public class ColorTools {
 		alpha = Math.min(Math.max(alpha, 0f), 1f);
 		final int idx = (int) (lightness * 255.999f) << 8 | (int) (256f * hue);
 		final float dist = GAMUT_DATA[idx] * saturation * 0.5f;
-		return BitConversion.intBitsToFloat(
+		return limitToGamut(BitConversion.intBitsToFloat(
 				(int) (alpha * 127.999f) << 25 |
-						(int) (MathTools.sin_(hue) * dist + 128f) << 16 |
-						(int) (MathTools.cos_(hue) * dist + 128f) << 8 |
-						(int) (lightness * 255.999f));
+						(int) (TrigTools.sinTurns(hue) * dist + 127.5f) << 16 |
+						(int) (TrigTools.cosTurns(hue) * dist + 127.5f) << 8 |
+						(int) (lightness * 255.999f)));
 	}
 
 	/**
@@ -1210,11 +1214,11 @@ public class ColorTools {
 		alpha = Math.min(Math.max(alpha, 0f), 1f);
 		final int idx = (int) (lightness * 255.999f) << 8 | (int) (256f * hue);
 		final float dist = Math.min(chroma * 127.5f, GAMUT_DATA[idx] * 0.5f);
-		return BitConversion.intBitsToFloat(
+		return limitToGamut(BitConversion.intBitsToFloat(
 				(int) (alpha * 127.999f) << 25 |
-						(int) (MathTools.sin_(hue) * dist + 128f) << 16 |
-						(int) (MathTools.cos_(hue) * dist + 128f) << 8 |
-						(int) (lightness * 255.999f));
+						(int) (TrigTools.sinTurns(hue) * dist + 127.5f) << 16 |
+						(int) (TrigTools.cosTurns(hue) * dist + 127.5f) << 8 |
+						(int) (lightness * 255.999f)));
 	}
 
 	/**
@@ -1226,17 +1230,18 @@ public class ColorTools {
 	 */
 	public static float limitToGamut(final float packed) {
 		final int decoded = BitConversion.floatToRawIntBits(packed);
-		final float A = ((decoded >>> 8 & 0xff) - 127.5f);
-		final float B = ((decoded >>> 16 & 0xff) - 127.5f);
-		final float hue = MathTools.atan2_(B, A);
+		final float A = ((decoded >>> 8 & 0xff) - 127f);
+		final float B = ((decoded >>> 16 & 255) - 127f);
+		final float hue = TrigTools.atan2Turns(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
 		final float dist = GAMUT_DATA[idx] * 0.5f;
-		if (dist * dist * 0.25f >= (A * A + B * B))
+		if (dist * dist >= (A * A + B * B))
 			return packed;
 		return BitConversion.intBitsToFloat(
 				(decoded & 0xFE0000FF) |
-						(int) (MathTools.cos_(hue) * dist + 128f) << 8 |
-						(int) (MathTools.sin_(hue) * dist + 128f) << 16);
+						(int) (TrigTools.sinTurns(hue) * dist + 127.5f) << 16 |
+						(int) (TrigTools.cosTurns(hue) * dist + 127.5f) << 8
+		);
 	}
 
 	/**
@@ -1267,18 +1272,18 @@ public class ColorTools {
 		A = Math.min(Math.max(A, 0f), 1f);
 		B = Math.min(Math.max(B, 0f), 1f);
 		alpha = Math.min(Math.max(alpha, 0f), 1f);
-		final float A2 = (A - 0.5f);
-		final float B2 = (B - 0.5f);
-		final float hue = MathTools.atan2_(B2, A2);
-		final int idx = (int) (L * 255.999f) << 8 | (int)(256f * hue);
+		final float A2 = ((int) (A * 255) - 127f) / 255f;
+		final float B2 = ((int) (B * 255) - 127f) / 255f;
+		final float hue = TrigTools.atan2Turns(B2, A2);
+		final int idx = (int) (L * 255f) << 8 | (int)(256f * hue);
 		final float dist = GAMUT_DATA[idx] * 0.5f;
-		if(dist * dist * 0x1p-16f + 0x1p-14f >= (A2 * A2 + B2 * B2))
+		if(dist * dist * 0x1p-16f >= (A2 * A2 + B2 * B2))
 			return oklab(L, A, B, alpha);
 		return BitConversion.intBitsToFloat(
 				(int) (alpha * 127.999f) << 25 |
-						(int) (MathTools.sin_(hue) * dist + 128f) << 16 |
-						(int) (MathTools.cos_(hue) * dist + 128f) << 8 |
-						(int) (L * 255.999f));
+						(int) (TrigTools.sinTurns(hue) * dist + 127.5f) << 16 |
+						(int) (TrigTools.cosTurns(hue) * dist + 127.5f) << 8 |
+						(int) (L * 255f));
 	}
 
 	/**
@@ -1321,24 +1326,24 @@ public class ColorTools {
 								  float mulL, float mulA, float mulB, float mulAlpha) {
 		final int decoded = BitConversion.floatToRawIntBits(encoded);
 		float L = (decoded & 0xff) / 255f;
-		float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-		float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+		float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		float B = ((decoded >>> 16 & 255) - 127f) / 127f;
 		float alpha = (decoded >>> 25) / 127f;
 
 		L = Math.min(Math.max(L * mulL + addL, 0f), 1f);
 		A = Math.min(Math.max(A * mulA + addA * 2f, -1f), 1f) * 0.5f;
 		B = Math.min(Math.max(B * mulB + addB * 2f, -1f), 1f) * 0.5f;
 		alpha = Math.min(Math.max(alpha * mulAlpha + addAlpha, 0f), 1f);
-		final float hue = MathTools.atan2_(B, A);
-		final int idx = (int) (L * 255.999f) << 8 | (int)(256f * hue);
+		final float hue = TrigTools.atan2Turns(B, A);
+		final int idx = (int) (L * 255f) << 8 | (int)(256f * hue);
 		final float dist = GAMUT_DATA[idx] * 0.5f;
 		if(dist * dist * 0x1p-16f >= (A * A + B * B))
 			return oklab(L, A + 0.5f, B + 0.5f, alpha);
 		return BitConversion.intBitsToFloat(
 				(int) (alpha * 127.999f) << 25 |
-						(int) (MathTools.sin_(hue) * dist + 128f) << 16 |
-						(int) (MathTools.cos_(hue) * dist + 128f) << 8 |
-						(int) (L * 255.999f));
+						(int) (TrigTools.sinTurns(hue) * dist + 127.5f) << 16 |
+						(int) (TrigTools.cosTurns(hue) * dist + 127.5f) << 8 |
+						(int) (L * 255f));
 	}
 
 	/**
