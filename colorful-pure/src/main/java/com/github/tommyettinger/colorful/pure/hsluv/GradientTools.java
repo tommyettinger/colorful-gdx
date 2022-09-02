@@ -1,6 +1,7 @@
 package com.github.tommyettinger.colorful.pure.hsluv;
 
-import com.github.tommyettinger.colorful.pure.Interpolation;
+import com.github.tommyettinger.colorful.pure.Interpolations;
+import com.github.tommyettinger.colorful.pure.Interpolations.Interpolation;
 import com.github.tommyettinger.colorful.pure.MathTools;
 import com.github.tommyettinger.ds.FloatList;
 
@@ -34,7 +35,7 @@ public class GradientTools {
      * @return a new FloatList that contains the requested gradient
      */
     public static FloatList makeGradient(float start, float end, int steps) {
-        return makeGradient(start, end, steps, Interpolation.linear);
+        return makeGradient(start, end, steps, Interpolations.linear);
     }
     /**
      * Creates a FloatList gradient from the packed float HSLuv color {@code start} to the packed float HSLuv color
@@ -68,7 +69,7 @@ public class GradientTools {
      * @return {@code appending}, after adding the gradient to the end
      */
     public static FloatList appendGradient(FloatList appending, float start, float end, int steps) {
-        return appendGradient(appending, start, end, steps, Interpolation.linear);
+        return appendGradient(appending, start, end, steps, Interpolations.linear);
     }
     /**
      * Appends a gradient from the packed float HSLuv color {@code start} to the packed float HSLuv color {@code end},
@@ -105,7 +106,7 @@ public class GradientTools {
      * @return {@code appending}, after adding the gradient to the end
      */
     public static FloatList appendGradientChain(FloatList appending, int steps, float... chain) {
-        return appendGradientChain(appending, steps, Interpolation.linear, chain);
+        return appendGradientChain(appending, steps, Interpolations.linear, chain);
     }
 
     /**
@@ -118,7 +119,7 @@ public class GradientTools {
      * @return {@code appending}, after adding the gradient to the end
      */
     public static FloatList appendGradientChain(FloatList appending, int steps, FloatList chain) {
-        return appendGradientChain(appending, steps, Interpolation.linear, chain);
+        return appendGradientChain(appending, steps, Interpolations.linear, chain);
     }
 
     /**
@@ -205,7 +206,7 @@ public class GradientTools {
      * @return {@code appending}, after adding the gradient to its end
      */
     public static FloatList appendPartialGradient(FloatList appending, float start, float end, int steps) {
-        return appendPartialGradient(appending, start, end, steps, Interpolation.linear);
+        return appendPartialGradient(appending, start, end, steps, Interpolations.linear);
     }
     /**
      * Exactly like {@link #appendGradient(FloatList, float, float, int, Interpolation)}, but does not include

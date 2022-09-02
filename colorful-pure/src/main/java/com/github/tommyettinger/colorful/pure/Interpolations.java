@@ -16,7 +16,9 @@
 
 package com.github.tommyettinger.colorful.pure;
 
-import static com.github.tommyettinger.colorful.pure.MathTools.barronSpline;
+import com.github.tommyettinger.digital.TrigTools;
+
+import static com.github.tommyettinger.digital.MathTools.barronSpline;
 
 /**
  * Takes a linear value in the range of 0-1 and outputs a (usually) non-linear, interpolated value.
@@ -26,13 +28,19 @@ import static com.github.tommyettinger.colorful.pure.MathTools.barronSpline;
  * This class is mostly copied directly from libGDX. Changes have been made to avoid copying even more over.
  * @author Nathan Sweet
  */
-public abstract class Interpolation {
-	/** @param a Alpha value between 0 and 1. */
-	abstract public float apply (float a);
+public final class Interpolations {
+	public static abstract class Interpolation {
+		/**
+		 * @param a Alpha value between 0 and 1.
+		 */
+		abstract public float apply(float a);
 
-	/** @param a Alpha value between 0 and 1. */
-	public float apply (float start, float end, float a) {
-		return start + (end - start) * apply(a);
+		/**
+		 * @param a Alpha value between 0 and 1.
+		 */
+		public float apply(float start, float end, float a) {
+			return start + (end - start) * apply(a);
+		}
 	}
 
 	//
@@ -114,13 +122,13 @@ public abstract class Interpolation {
 
 	static public final Interpolation sine = new Interpolation() {
 		public float apply (float a) {
-			return (1 - MathTools.cos_(a * 0.5f)) * 0.5f;
+			return (1 - TrigTools.cosTurns(a * 0.5f)) * 0.5f;
 		}
 	};
 
 	static public final Interpolation sineIn = new Interpolation() {
 		public float apply (float a) {
-			return 1 - MathTools.cos_(a * 0.25f);
+			return 1 - TrigTools.cosTurns(a * 0.25f);
 		}
 	};
 
@@ -226,7 +234,7 @@ public abstract class Interpolation {
 			if (a <= 0.5f) return ((float)Math.pow(value, power * (a * 2 - 1)) - min) * scale / 2;
 			return (2 - ((float)Math.pow(value, -power * (a * 2 - 1)) - min) * scale) / 2;
 		}
-	};
+	}
 
 	static public class ExpIn extends Exp {
 		public ExpIn (float value, float power) {
