@@ -40,9 +40,13 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String inputName = "ColorData.txt";
 //    public static final ObjectFloatMap<String> named = FullPalette.NAMED;
 
-    public static final String outputAdd = "NamedMunsellOklab";
-    public static final String inputName = "ISCCNBSData.txt";
-    public static final ObjectFloatMap<String> named = NamedMunsellPalette.NAMED;
+//    public static final String outputAdd = "NamedMunsellOklab";
+//    public static final String inputName = "ISCCNBSData.txt";
+//    public static final ObjectFloatMap<String> named = NamedMunsellPalette.NAMED;
+
+    public static final String outputAdd = "BrighterMunsellOklab";
+    public static final String inputName = "BrighterMunsell.txt";
+    public static final ObjectFloatMap<String> named = BrighterMunsellPalette.NAMED;
 
 //    public static final String outputAdd = "SimpleOklab";
 //    public static final String inputName = "SimpleColorData.txt";
