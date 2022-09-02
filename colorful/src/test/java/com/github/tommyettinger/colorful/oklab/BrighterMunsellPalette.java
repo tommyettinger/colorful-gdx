@@ -51,7 +51,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Black", -0x1.ff046ep125F); LIST.add(-0x1.ff046ep125F); }
 
     /**
-     * This color constant "Dark Gray" has RGBA8888 code {@code 716477FF}, L 0.42352942, A 0.50980395, B 0.4862745, alpha 1.0, hue 0.875, saturation 0.119511, and chroma 0.033602834.
+     * This color constant "Dark Gray" has RGBA8888 code {@code 716477FF}, L 0.42352942, A 0.50980395, B 0.4862745, alpha 1.0, hue 0.875, saturation 0.11785112, and chroma 0.033602834.
      * It can be represented as a packed float with the constant {@code -0x1.f904d8p125F}.
      * <pre>
      * <font style='background-color: #716477;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #716477; color: #000000'>&nbsp;@&nbsp;</font>
@@ -63,7 +63,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Dark Gray", -0x1.f904d8p125F); LIST.add(-0x1.f904d8p125F); }
 
     /**
-     * This color constant "Medium Gray" has RGBA8888 code {@code 9E95A3FF}, L 0.60784316, A 0.5058824, B 0.49019608, alpha 1.0, hue 0.875, saturation 0.089791335, and chroma 0.022777155.
+     * This color constant "Medium Gray" has RGBA8888 code {@code 9E95A3FF}, L 0.60784316, A 0.5058824, B 0.49019608, alpha 1.0, hue 0.875, saturation 0.09273531, and chroma 0.022777155.
      * It can be represented as a packed float with the constant {@code -0x1.fb0336p125F}.
      * <pre>
      * <font style='background-color: #9E95A3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #9E95A3; color: #000000'>&nbsp;@&nbsp;</font>
@@ -123,7 +123,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Strong Pink", -0x1.03178p126F); LIST.add(-0x1.03178p126F); }
 
     /**
-     * This color constant "Deep Pink" has RGBA8888 code {@code F67E92FF}, L 0.65882355, A 0.5647059, B 0.50980395, alpha 1.0, hue 0.02781067, saturation 0.8420818, and chroma 0.1303775.
+     * This color constant "Deep Pink" has RGBA8888 code {@code F67E92FF}, L 0.65882355, A 0.5647059, B 0.50980395, alpha 1.0, hue 0.02781067, saturation 0.8220322, and chroma 0.1303775.
      * It can be represented as a packed float with the constant {@code -0x1.05215p126F}.
      * <pre>
      * <font style='background-color: #F67E92;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F67E92; color: #000000'>&nbsp;@&nbsp;</font>
@@ -159,7 +159,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Moderate Pink", -0x1.010f88p126F); LIST.add(-0x1.010f88p126F); }
 
     /**
-     * This color constant "Dark Pink" has RGBA8888 code {@code D9929AFF}, L 0.6627451, A 0.5372549, B 0.5058824, alpha 1.0, hue 0.03142344, saturation 0.50990194, and chroma 0.07513822.
+     * This color constant "Dark Pink" has RGBA8888 code {@code D9929AFF}, L 0.6627451, A 0.5372549, B 0.5058824, alpha 1.0, hue 0.03142344, saturation 0.4974653, and chroma 0.07513822.
      * It can be represented as a packed float with the constant {@code -0x1.031352p126F}.
      * <pre>
      * <font style='background-color: #D9929A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D9929A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -219,7 +219,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Pinkish Gray", -0x1.ff059p125F); LIST.add(-0x1.ff059p125F); }
 
     /**
-     * This color constant "Vivid Red" has RGBA8888 code {@code FF003EFF}, L 0.5137255, A 0.6156863, B 0.5411765, alpha 1.0, hue 0.055921316, saturation 0.9538236, and chroma 0.24463232.
+     * This color constant "Vivid Red" has RGBA8888 code {@code FF003EFF}, L 0.5137255, A 0.6156863, B 0.5411765, alpha 1.0, hue 0.055921316, saturation 0.9682755, and chroma 0.24463232.
      * It can be represented as a packed float with the constant {@code -0x1.153b06p126F}.
      * <pre>
      * <font style='background-color: #FF003E;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF003E; color: #000000'>&nbsp;@&nbsp;</font>
@@ -303,7 +303,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Very Dark Red", -0x1.ff206ep125F); LIST.add(-0x1.ff206ep125F); }
 
     /**
-     * This color constant "Light Grayish Red" has RGBA8888 code {@code CA99A0FF}, L 0.6627451, A 0.5254902, B 0.5019608, alpha 1.0, hue 0.022596559, saturation 0.34493014, and chroma 0.050931267.
+     * This color constant "Light Grayish Red" has RGBA8888 code {@code CA99A0FF}, L 0.6627451, A 0.5254902, B 0.5019608, alpha 1.0, hue 0.022596559, saturation 0.33671752, and chroma 0.050931267.
      * It can be represented as a packed float with the constant {@code -0x1.010d52p126F}.
      * <pre>
      * <font style='background-color: #CA99A0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #CA99A0; color: #000000'>&nbsp;@&nbsp;</font>
@@ -315,7 +315,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Grayish Red", -0x1.010d52p126F); LIST.add(-0x1.010d52p126F); }
 
     /**
-     * This color constant "Grayish Red" has RGBA8888 code {@code C16570FF}, L 0.5254902, A 0.5529412, B 0.50980395, alpha 1.0, hue 0.03360078, saturation 0.4338734, and chroma 0.107261956.
+     * This color constant "Grayish Red" has RGBA8888 code {@code C16570FF}, L 0.5254902, A 0.5529412, B 0.50980395, alpha 1.0, hue 0.03360078, saturation 0.42739767, and chroma 0.107261956.
      * It can be represented as a packed float with the constant {@code -0x1.051b0cp126F}.
      * <pre>
      * <font style='background-color: #C16570;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C16570; color: #000000'>&nbsp;@&nbsp;</font>
@@ -351,7 +351,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Blackish Red", -0x1.ff0c6ap125F); LIST.add(-0x1.ff0c6ap125F); }
 
     /**
-     * This color constant "Reddish Gray" has RGBA8888 code {@code AB9198FF}, L 0.60784316, A 0.5137255, B 0.49803922, alpha 1.0, hue 1.2950972E-5, saturation 0.1509434, and chroma 0.027621359.
+     * This color constant "Reddish Gray" has RGBA8888 code {@code AB9198FF}, L 0.60784316, A 0.5137255, B 0.49803922, alpha 1.0, hue 1.2950972E-5, saturation 0.14814815, and chroma 0.027621359.
      * It can be represented as a packed float with the constant {@code -0x1.ff0736p125F}.
      * <pre>
      * <font style='background-color: #AB9198;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AB9198; color: #000000'>&nbsp;@&nbsp;</font>
@@ -375,7 +375,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Dark Reddish Gray", -0x1.ff0ad2p125F); LIST.add(-0x1.ff0ad2p125F); }
 
     /**
-     * This color constant "Reddish Black" has RGBA8888 code {@code 492F3FFF}, L 0.21568628, A 0.52156866, B 0.49019608, alpha 1.0, hue 0.9488043, saturation 0.3085149, and chroma 0.0471994.
+     * This color constant "Reddish Black" has RGBA8888 code {@code 492F3FFF}, L 0.21568628, A 0.52156866, B 0.49019608, alpha 1.0, hue 0.9488043, saturation 0.3011693, and chroma 0.0471994.
      * It can be represented as a packed float with the constant {@code -0x1.fb0a6ep125F}.
      * <pre>
      * <font style='background-color: #492F3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #492F3F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -519,7 +519,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Strong Reddish Orange", -0x1.171f36p126F); LIST.add(-0x1.171f36p126F); }
 
     /**
-     * This color constant "Deep Reddish Orange" has RGBA8888 code {@code DC320AFF}, L 0.47058824, A 0.58431375, B 0.5568628, alpha 1.0, hue 0.0952538, saturation 0.96825653, and chroma 0.20259848.
+     * This color constant "Deep Reddish Orange" has RGBA8888 code {@code DC320AFF}, L 0.47058824, A 0.58431375, B 0.5568628, alpha 1.0, hue 0.0952538, saturation 0.90261203, and chroma 0.20259848.
      * It can be represented as a packed float with the constant {@code -0x1.1d2afp126F}.
      * <pre>
      * <font style='background-color: #DC320A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #DC320A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -543,7 +543,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Moderate Reddish Orange", -0x1.11193ap126F); LIST.add(-0x1.11193ap126F); }
 
     /**
-     * This color constant "Dark Reddish Orange" has RGBA8888 code {@code CD4525FF}, L 0.47058824, A 0.5686275, B 0.54901963, alpha 1.0, hue 0.09956196, saturation 0.8223557, and chroma 0.16801417.
+     * This color constant "Dark Reddish Orange" has RGBA8888 code {@code CD4525FF}, L 0.47058824, A 0.5686275, B 0.54901963, alpha 1.0, hue 0.09956196, saturation 0.79298586, and chroma 0.16801417.
      * It can be represented as a packed float with the constant {@code -0x1.1922fp126F}.
      * <pre>
      * <font style='background-color: #CD4525;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #CD4525; color: #000000'>&nbsp;@&nbsp;</font>
@@ -567,7 +567,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Grayish Reddish Orange", -0x1.0b133ap126F); LIST.add(-0x1.0b133ap126F); }
 
     /**
-     * This color constant "Strong Reddish Brown" has RGBA8888 code {@code B51C01FF}, L 0.37254903, A 0.5803922, B 0.54901963, alpha 1.0, hue 0.08823052, saturation 0.968556, and chroma 0.18758136.
+     * This color constant "Strong Reddish Brown" has RGBA8888 code {@code B51C01FF}, L 0.37254903, A 0.5803922, B 0.54901963, alpha 1.0, hue 0.08823052, saturation 0.9147473, and chroma 0.18758136.
      * It can be represented as a packed float with the constant {@code -0x1.1928bep126F}.
      * <pre>
      * <font style='background-color: #B51C01;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B51C01; color: #000000'>&nbsp;@&nbsp;</font>
@@ -627,7 +627,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Dark Reddish Brown", -0x1.071874p126F); LIST.add(-0x1.071874p126F); }
 
     /**
-     * This color constant "Light Grayish Reddish Brown" has RGBA8888 code {@code B78F88FF}, L 0.6117647, A 0.5176471, B 0.50980395, alpha 1.0, hue 0.08601887, saturation 0.23799802, and chroma 0.040217306.
+     * This color constant "Light Grayish Reddish Brown" has RGBA8888 code {@code B78F88FF}, L 0.6117647, A 0.5176471, B 0.50980395, alpha 1.0, hue 0.08601887, saturation 0.24295633, and chroma 0.040217306.
      * It can be represented as a packed float with the constant {@code -0x1.050938p126F}.
      * <pre>
      * <font style='background-color: #B78F88;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B78F88; color: #000000'>&nbsp;@&nbsp;</font>
@@ -663,7 +663,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Dark Grayish Reddish Brown", -0x1.050e84p126F); LIST.add(-0x1.050e84p126F); }
 
     /**
-     * This color constant "Vivid Orange" has RGBA8888 code {@code FF8C38FF}, L 0.6784314, A 0.5411765, B 0.5647059, alpha 1.0, hue 0.15858527, saturation 0.89993143, and chroma 0.15279381.
+     * This color constant "Vivid Orange" has RGBA8888 code {@code FF8C38FF}, L 0.6784314, A 0.5411765, B 0.5647059, alpha 1.0, hue 0.15858527, saturation 0.9203844, and chroma 0.15279381.
      * It can be represented as a packed float with the constant {@code -0x1.21155ap126F}.
      * <pre>
      * <font style='background-color: #FF8C38;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF8C38; color: #000000'>&nbsp;@&nbsp;</font>
@@ -675,7 +675,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Vivid Orange", -0x1.21155ap126F); LIST.add(-0x1.21155ap126F); }
 
     /**
-     * This color constant "Strong Orange" has RGBA8888 code {@code FF8F2FFF}, L 0.6862745, A 0.5372549, B 0.5686275, alpha 1.0, hue 0.16928826, saturation 0.91516715, and chroma 0.1555649.
+     * This color constant "Strong Orange" has RGBA8888 code {@code FF8F2FFF}, L 0.6862745, A 0.5372549, B 0.5686275, alpha 1.0, hue 0.16928826, saturation 0.93596643, and chroma 0.1555649.
      * It can be represented as a packed float with the constant {@code -0x1.23135ep126F}.
      * <pre>
      * <font style='background-color: #FF8F2F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF8F2F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -687,7 +687,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Strong Orange", -0x1.23135ep126F); LIST.add(-0x1.23135ep126F); }
 
     /**
-     * This color constant "Deep Orange" has RGBA8888 code {@code E86A00FF}, L 0.5764706, A 0.5529412, B 0.5686275, alpha 1.0, hue 0.14477962, saturation 0.9914569, and chroma 0.17267215.
+     * This color constant "Deep Orange" has RGBA8888 code {@code E86A00FF}, L 0.5764706, A 0.5529412, B 0.5686275, alpha 1.0, hue 0.14477962, saturation 0.97036207, and chroma 0.17267215.
      * It can be represented as a packed float with the constant {@code -0x1.231b26p126F}.
      * <pre>
      * <font style='background-color: #E86A00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E86A00; color: #000000'>&nbsp;@&nbsp;</font>
@@ -723,7 +723,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Moderate Orange", -0x1.131166p126F); LIST.add(-0x1.131166p126F); }
 
     /**
-     * This color constant "Brownish Orange" has RGBA8888 code {@code D7712DFF}, L 0.5686275, A 0.5411765, B 0.5568628, alpha 1.0, hue 0.14928202, saturation 0.8267145, and chroma 0.13986339.
+     * This color constant "Brownish Orange" has RGBA8888 code {@code D7712DFF}, L 0.5686275, A 0.5411765, B 0.5568628, alpha 1.0, hue 0.14928202, saturation 0.80874246, and chroma 0.13986339.
      * It can be represented as a packed float with the constant {@code -0x1.1d1522p126F}.
      * <pre>
      * <font style='background-color: #D7712D;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D7712D; color: #000000'>&nbsp;@&nbsp;</font>
@@ -735,7 +735,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Brownish Orange", -0x1.1d1522p126F); LIST.add(-0x1.1d1522p126F); }
 
     /**
-     * This color constant "Strong Brown" has RGBA8888 code {@code AE5000FF}, L 0.43529412, A 0.5411765, B 0.5568628, alpha 1.0, hue 0.14928202, saturation 1.0054636, and chroma 0.13986339.
+     * This color constant "Strong Brown" has RGBA8888 code {@code AE5000FF}, L 0.43529412, A 0.5411765, B 0.5568628, alpha 1.0, hue 0.14928202, saturation 0.95390135, and chroma 0.13986339.
      * It can be represented as a packed float with the constant {@code -0x1.1d14dep126F}.
      * <pre>
      * <font style='background-color: #AE5000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AE5000; color: #000000'>&nbsp;@&nbsp;</font>
@@ -747,7 +747,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Strong Brown", -0x1.1d14dep126F); LIST.add(-0x1.1d14dep126F); }
 
     /**
-     * This color constant "Deep Brown" has RGBA8888 code {@code 79200AFF}, L 0.25882354, A 0.5529412, B 0.5372549, alpha 1.0, hue 0.09872868, saturation 0.95581394, and chroma 0.12896542.
+     * This color constant "Deep Brown" has RGBA8888 code {@code 79200AFF}, L 0.25882354, A 0.5529412, B 0.5372549, alpha 1.0, hue 0.09872868, saturation 0.88228977, and chroma 0.12896542.
      * It can be represented as a packed float with the constant {@code -0x1.131a84p126F}.
      * <pre>
      * <font style='background-color: #79200A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #79200A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -771,7 +771,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Brown", -0x1.13113ap126F); LIST.add(-0x1.13113ap126F); }
 
     /**
-     * This color constant "Moderate Brown" has RGBA8888 code {@code 995538FF}, L 0.41960785, A 0.53333336, B 0.53333336, alpha 1.0, hue 0.125, saturation 0.6208743, and chroma 0.09391262.
+     * This color constant "Moderate Brown" has RGBA8888 code {@code 995538FF}, L 0.41960785, A 0.53333336, B 0.53333336, alpha 1.0, hue 0.125, saturation 0.5919964, and chroma 0.09391262.
      * It can be represented as a packed float with the constant {@code -0x1.1110d6p126F}.
      * <pre>
      * <font style='background-color: #995538;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #995538; color: #000000'>&nbsp;@&nbsp;</font>
@@ -783,7 +783,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Moderate Brown", -0x1.1110d6p126F); LIST.add(-0x1.1110d6p126F); }
 
     /**
-     * This color constant "Dark Brown" has RGBA8888 code {@code 63290EFF}, L 0.23137255, A 0.53333336, B 0.53333336, alpha 1.0, hue 0.125, saturation 0.9091373, and chroma 0.09391262.
+     * This color constant "Dark Brown" has RGBA8888 code {@code 63290EFF}, L 0.23137255, A 0.53333336, B 0.53333336, alpha 1.0, hue 0.125, saturation 0.84852815, and chroma 0.09391262.
      * It can be represented as a packed float with the constant {@code -0x1.111076p126F}.
      * <pre>
      * <font style='background-color: #63290E;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #63290E; color: #000000'>&nbsp;@&nbsp;</font>
@@ -807,7 +807,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Grayish Brown", -0x1.090934p126F); LIST.add(-0x1.090934p126F); }
 
     /**
-     * This color constant "Grayish Brown" has RGBA8888 code {@code 8D5C4FFF}, L 0.42352942, A 0.5254902, B 0.5176471, alpha 1.0, hue 0.09872868, saturation 0.34409302, and chroma 0.061763234.
+     * This color constant "Grayish Brown" has RGBA8888 code {@code 8D5C4FFF}, L 0.42352942, A 0.5254902, B 0.5176471, alpha 1.0, hue 0.09872868, saturation 0.32461604, and chroma 0.061763234.
      * It can be represented as a packed float with the constant {@code -0x1.090cd8p126F}.
      * <pre>
      * <font style='background-color: #8D5C4F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8D5C4F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -819,7 +819,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Grayish Brown", -0x1.090cd8p126F); LIST.add(-0x1.090cd8p126F); }
 
     /**
-     * This color constant "Dark Grayish Brown" has RGBA8888 code {@code 5B372FFF}, L 0.25490198, A 0.52156866, B 0.5137255, alpha 1.0, hue 0.09359558, saturation 0.36980012, and chroma 0.050931267.
+     * This color constant "Dark Grayish Brown" has RGBA8888 code {@code 5B372FFF}, L 0.25490198, A 0.52156866, B 0.5137255, alpha 1.0, hue 0.09359558, saturation 0.34338585, and chroma 0.050931267.
      * It can be represented as a packed float with the constant {@code -0x1.070a82p126F}.
      * <pre>
      * <font style='background-color: #5B372F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #5B372F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -843,7 +843,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Brownish Gray", -0x1.030538p126F); LIST.add(-0x1.030538p126F); }
 
     /**
-     * This color constant "Brownish Gray" has RGBA8888 code {@code 7D625FFF}, L 0.42352942, A 0.5137255, B 0.5058824, alpha 1.0, hue 0.073790275, saturation 0.1490712, and chroma 0.029749114.
+     * This color constant "Brownish Gray" has RGBA8888 code {@code 7D625FFF}, L 0.42352942, A 0.5137255, B 0.5058824, alpha 1.0, hue 0.073790275, saturation 0.15159783, and chroma 0.029749114.
      * It can be represented as a packed float with the constant {@code -0x1.0306d8p126F}.
      * <pre>
      * <font style='background-color: #7D625F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7D625F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -855,7 +855,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Brownish Gray", -0x1.0306d8p126F); LIST.add(-0x1.0306d8p126F); }
 
     /**
-     * This color constant "Brownish Black" has RGBA8888 code {@code 432C21FF}, L 0.19215687, A 0.5137255, B 0.5137255, alpha 1.0, hue 0.125, saturation 0.43514264, and chroma 0.038669903.
+     * This color constant "Brownish Black" has RGBA8888 code {@code 432C21FF}, L 0.19215687, A 0.5137255, B 0.5137255, alpha 1.0, hue 0.125, saturation 0.41902623, and chroma 0.038669903.
      * It can be represented as a packed float with the constant {@code -0x1.070662p126F}.
      * <pre>
      * <font style='background-color: #432C21;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #432C21; color: #000000'>&nbsp;@&nbsp;</font>
@@ -867,7 +867,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Brownish Black", -0x1.070662p126F); LIST.add(-0x1.070662p126F); }
 
     /**
-     * This color constant "Brilliant Orange Yellow" has RGBA8888 code {@code FFCE71FF}, L 0.827451, A 0.5058824, B 0.5568628, alpha 1.0, hue 0.22889122, saturation 0.9457966, and chroma 0.11388578.
+     * This color constant "Brilliant Orange Yellow" has RGBA8888 code {@code FFCE71FF}, L 0.827451, A 0.5058824, B 0.5568628, alpha 1.0, hue 0.22889122, saturation 0.9763062, and chroma 0.11388578.
      * It can be represented as a packed float with the constant {@code -0x1.1d03a6p126F}.
      * <pre>
      * <font style='background-color: #FFCE71;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFCE71; color: #000000'>&nbsp;@&nbsp;</font>
@@ -891,7 +891,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Strong Orange Yellow", -0x1.27077ep126F); LIST.add(-0x1.27077ep126F); }
 
     /**
-     * This color constant "Deep Orange Yellow" has RGBA8888 code {@code EE9300FF}, L 0.6666667, A 0.5254902, B 0.5764706, alpha 1.0, hue 0.19642948, saturation 0.98556376, and chroma 0.1605844.
+     * This color constant "Deep Orange Yellow" has RGBA8888 code {@code EE9300FF}, L 0.6666667, A 0.5254902, B 0.5764706, alpha 1.0, hue 0.19642948, saturation 0.96316457, and chroma 0.1605844.
      * It can be represented as a packed float with the constant {@code -0x1.270d54p126F}.
      * <pre>
      * <font style='background-color: #EE9300;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #EE9300; color: #000000'>&nbsp;@&nbsp;</font>
@@ -915,7 +915,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Orange Yellow", -0x1.1305acp126F); LIST.add(-0x1.1305acp126F); }
 
     /**
-     * This color constant "Moderate Orange Yellow" has RGBA8888 code {@code F7B56EFF}, L 0.7647059, A 0.5176471, B 0.54901963, alpha 1.0, hue 0.19157475, saturation 0.77379936, and chroma 0.10379164.
+     * This color constant "Moderate Orange Yellow" has RGBA8888 code {@code F7B56EFF}, L 0.7647059, A 0.5176471, B 0.54901963, alpha 1.0, hue 0.19157475, saturation 0.7959079, and chroma 0.10379164.
      * It can be represented as a packed float with the constant {@code -0x1.190986p126F}.
      * <pre>
      * <font style='background-color: #F7B56E;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F7B56E; color: #000000'>&nbsp;@&nbsp;</font>
@@ -939,7 +939,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Dark Orange Yellow", -0x1.210b4ep126F); LIST.add(-0x1.210b4ep126F); }
 
     /**
-     * This color constant "Pale Orange Yellow" has RGBA8888 code {@code F7D2B3FF}, L 0.84313726, A 0.50980395, B 0.52156866, alpha 1.0, hue 0.17620972, saturation 0.67082036, and chroma 0.0471994.
+     * This color constant "Pale Orange Yellow" has RGBA8888 code {@code F7D2B3FF}, L 0.84313726, A 0.50980395, B 0.52156866, alpha 1.0, hue 0.17620972, saturation 0.7061267, and chroma 0.0471994.
      * It can be represented as a packed float with the constant {@code -0x1.0b05aep126F}.
      * <pre>
      * <font style='background-color: #F7D2B3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F7D2B3; color: #000000'>&nbsp;@&nbsp;</font>
@@ -975,7 +975,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Deep Yellowish Brown", -0x1.1908bcp126F); LIST.add(-0x1.1908bcp126F); }
 
     /**
-     * This color constant "Light Yellowish Brown" has RGBA8888 code {@code E0A775FF}, L 0.70980394, A 0.5176471, B 0.5372549, alpha 1.0, hue 0.17620972, saturation 0.5200158, and chroma 0.0821242.
+     * This color constant "Light Yellowish Brown" has RGBA8888 code {@code E0A775FF}, L 0.70980394, A 0.5176471, B 0.5372549, alpha 1.0, hue 0.17620972, saturation 0.53239715, and chroma 0.0821242.
      * It can be represented as a packed float with the constant {@code -0x1.13096ap126F}.
      * <pre>
      * <font style='background-color: #E0A775;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E0A775; color: #000000'>&nbsp;@&nbsp;</font>
@@ -987,7 +987,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Yellowish Brown", -0x1.13096ap126F); LIST.add(-0x1.13096ap126F); }
 
     /**
-     * This color constant "Moderate Yellowish Brown" has RGBA8888 code {@code A57748FF}, L 0.5176471, A 0.5137255, B 0.5372549, alpha 1.0, hue 0.189452, saturation 0.58217996, and chroma 0.079095535.
+     * This color constant "Moderate Yellowish Brown" has RGBA8888 code {@code A57748FF}, L 0.5176471, A 0.5137255, B 0.5372549, alpha 1.0, hue 0.189452, saturation 0.5668594, and chroma 0.079095535.
      * It can be represented as a packed float with the constant {@code -0x1.130708p126F}.
      * <pre>
      * <font style='background-color: #A57748;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A57748; color: #000000'>&nbsp;@&nbsp;</font>
@@ -999,7 +999,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Moderate Yellowish Brown", -0x1.130708p126F); LIST.add(-0x1.130708p126F); }
 
     /**
-     * This color constant "Dark Yellowish Brown" has RGBA8888 code {@code 6C421FFF}, L 0.30588236, A 0.5176471, B 0.53333336, alpha 1.0, hue 0.16928826, saturation 0.73540217, and chroma 0.07513822.
+     * This color constant "Dark Yellowish Brown" has RGBA8888 code {@code 6C421FFF}, L 0.30588236, A 0.5176471, B 0.53333336, alpha 1.0, hue 0.16928826, saturation 0.7100435, and chroma 0.07513822.
      * It can be represented as a packed float with the constant {@code -0x1.11089cp126F}.
      * <pre>
      * <font style='background-color: #6C421F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #6C421F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1023,7 +1023,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Grayish Yellowish Brown", -0x1.070764p126F); LIST.add(-0x1.070764p126F); }
 
     /**
-     * This color constant "Grayish Yellowish Brown" has RGBA8888 code {@code A07765FF}, L 0.5176471, A 0.5176471, B 0.5176471, alpha 1.0, hue 0.125, saturation 0.3008965, and chroma 0.049718447.
+     * This color constant "Grayish Yellowish Brown" has RGBA8888 code {@code A07765FF}, L 0.5176471, A 0.5176471, B 0.5176471, alpha 1.0, hue 0.125, saturation 0.28861502, and chroma 0.049718447.
      * It can be represented as a packed float with the constant {@code -0x1.090908p126F}.
      * <pre>
      * <font style='background-color: #A07765;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A07765; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1035,7 +1035,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Grayish Yellowish Brown", -0x1.090908p126F); LIST.add(-0x1.090908p126F); }
 
     /**
-     * This color constant "Dark Grayish Yellowish Brown" has RGBA8888 code {@code 664D3BFF}, L 0.32941177, A 0.50980395, B 0.5176471, alpha 1.0, hue 0.16398115, saturation 0.3887301, and chroma 0.040217306.
+     * This color constant "Dark Grayish Yellowish Brown" has RGBA8888 code {@code 664D3BFF}, L 0.32941177, A 0.50980395, B 0.5176471, alpha 1.0, hue 0.16398115, saturation 0.37619042, and chroma 0.040217306.
      * It can be represented as a packed float with the constant {@code -0x1.0904a8p126F}.
      * <pre>
      * <font style='background-color: #664D3B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #664D3B; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1059,7 +1059,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Vivid Yellow", -0x1.2cfd9ep126F); LIST.add(-0x1.2cfd9ep126F); }
 
     /**
-     * This color constant "Brilliant Yellow" has RGBA8888 code {@code FFD95DFF}, L 0.84705883, A 0.49411765, B 0.5686275, alpha 1.0, hue 0.25882402, saturation 0.85846454, and chroma 0.13722007.
+     * This color constant "Brilliant Yellow" has RGBA8888 code {@code FFD95DFF}, L 0.84705883, A 0.49411765, B 0.5686275, alpha 1.0, hue 0.25882402, saturation 0.9013878, and chroma 0.13722007.
      * It can be represented as a packed float with the constant {@code -0x1.22fdbp126F}.
      * <pre>
      * <font style='background-color: #FFD95D;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFD95D; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1095,7 +1095,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Deep Yellow", -0x1.27015p126F); LIST.add(-0x1.27015p126F); }
 
     /**
-     * This color constant "Light Yellow" has RGBA8888 code {@code FADF98FF}, L 0.8666667, A 0.49803922, B 0.5411765, alpha 1.0, hue 0.25, saturation 0.7096774, and chroma 0.0821242.
+     * This color constant "Light Yellow" has RGBA8888 code {@code FADF98FF}, L 0.8666667, A 0.49803922, B 0.5411765, alpha 1.0, hue 0.25, saturation 0.73333335, and chroma 0.0821242.
      * It can be represented as a packed float with the constant {@code -0x1.14ffbap126F}.
      * <pre>
      * <font style='background-color: #FADF98;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FADF98; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1131,7 +1131,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Dark Yellow", -0x1.1f014ep126F); LIST.add(-0x1.1f014ep126F); }
 
     /**
-     * This color constant "Pale Yellow" has RGBA8888 code {@code F7E1BDFF}, L 0.8745098, A 0.5019608, B 0.52156866, alpha 1.0, hue 0.22370392, saturation 0.5793107, and chroma 0.04314594.
+     * This color constant "Pale Yellow" has RGBA8888 code {@code F7E1BDFF}, L 0.8745098, A 0.5019608, B 0.52156866, alpha 1.0, hue 0.22370392, saturation 0.60827625, and chroma 0.04314594.
      * It can be represented as a packed float with the constant {@code -0x1.0b01bep126F}.
      * <pre>
      * <font style='background-color: #F7E1BD;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F7E1BD; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1179,7 +1179,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Yellowish White", -0x1.0103ccp126F); LIST.add(-0x1.0103ccp126F); }
 
     /**
-     * This color constant "Yellowish Gray" has RGBA8888 code {@code D5C7B7FF}, L 0.78431374, A 0.5019608, B 0.50980395, alpha 1.0, hue 0.19880433, saturation 0.19165319, and chroma 0.019918045.
+     * This color constant "Yellowish Gray" has RGBA8888 code {@code D5C7B7FF}, L 0.78431374, A 0.5019608, B 0.50980395, alpha 1.0, hue 0.19880433, saturation 0.19764236, and chroma 0.019918045.
      * It can be represented as a packed float with the constant {@code -0x1.05019p126F}.
      * <pre>
      * <font style='background-color: #D5C7B7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D5C7B7; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1215,7 +1215,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Moderate Olive Brown", -0x1.1b00dep126F); LIST.add(-0x1.1b00dep126F); }
 
     /**
-     * This color constant "Dark Olive Brown" has RGBA8888 code {@code 583A14FF}, L 0.25490198, A 0.50980395, B 0.53333336, alpha 1.0, hue 0.19880433, saturation 0.824942, and chroma 0.069218926.
+     * This color constant "Dark Olive Brown" has RGBA8888 code {@code 583A14FF}, L 0.25490198, A 0.50980395, B 0.53333336, alpha 1.0, hue 0.19880433, saturation 0.79056937, and chroma 0.069218926.
      * It can be represented as a packed float with the constant {@code -0x1.110482p126F}.
      * <pre>
      * <font style='background-color: #583A14;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #583A14; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1239,7 +1239,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Vivid Greenish Yellow", -0x1.2ef1bap126F); LIST.add(-0x1.2ef1bap126F); }
 
     /**
-     * This color constant "Brilliant Greenish Yellow" has RGBA8888 code {@code F5E736FF}, L 0.8666667, A 0.4745098, B 0.58431375, alpha 1.0, hue 0.29236877, saturation 0.877058, and chroma 0.17547716.
+     * This color constant "Brilliant Greenish Yellow" has RGBA8888 code {@code F5E736FF}, L 0.8666667, A 0.4745098, B 0.58431375, alpha 1.0, hue 0.29236877, saturation 0.8942552, and chroma 0.17547716.
      * It can be represented as a packed float with the constant {@code -0x1.2af3bap126F}.
      * <pre>
      * <font style='background-color: #F5E736;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F5E736; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1275,7 +1275,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Deep Greenish Yellow", -0x1.26f55p126F); LIST.add(-0x1.26f55p126F); }
 
     /**
-     * This color constant "Light Greenish Yellow" has RGBA8888 code {@code FAE686FF}, L 0.8784314, A 0.49019608, B 0.5529412, alpha 1.0, hue 0.27259654, saturation 0.7252377, and chroma 0.107261956.
+     * This color constant "Light Greenish Yellow" has RGBA8888 code {@code FAE686FF}, L 0.8784314, A 0.49019608, B 0.5529412, alpha 1.0, hue 0.27259654, saturation 0.76443976, and chroma 0.107261956.
      * It can be represented as a packed float with the constant {@code -0x1.1afbcp126F}.
      * <pre>
      * <font style='background-color: #FAE686;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FAE686; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1299,7 +1299,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Moderate Greenish Yellow", -0x1.1ef78p126F); LIST.add(-0x1.1ef78p126F); }
 
     /**
-     * This color constant "Dark Greenish Yellow" has RGBA8888 code {@code B4A730FF}, L 0.64705884, A 0.48235294, B 0.5647059, alpha 1.0, hue 0.2867793, saturation 0.8316309, and chroma 0.1336143.
+     * This color constant "Dark Greenish Yellow" has RGBA8888 code {@code B4A730FF}, L 0.64705884, A 0.48235294, B 0.5647059, alpha 1.0, hue 0.2867793, saturation 0.8519146, and chroma 0.1336143.
      * It can be represented as a packed float with the constant {@code -0x1.20f74ap126F}.
      * <pre>
      * <font style='background-color: #B4A730;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B4A730; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1311,7 +1311,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Dark Greenish Yellow", -0x1.20f74ap126F); LIST.add(-0x1.20f74ap126F); }
 
     /**
-     * This color constant "Pale Greenish Yellow" has RGBA8888 code {@code F5E6ABFF}, L 0.88235295, A 0.49411765, B 0.53333336, alpha 1.0, hue 0.2676211, saturation 0.51745063, and chroma 0.06743233.
+     * This color constant "Pale Greenish Yellow" has RGBA8888 code {@code F5E6ABFF}, L 0.88235295, A 0.49411765, B 0.53333336, alpha 1.0, hue 0.2676211, saturation 0.54881126, and chroma 0.06743233.
      * It can be represented as a packed float with the constant {@code -0x1.10fdc2p126F}.
      * <pre>
      * <font style='background-color: #F5E6AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F5E6AB; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1335,7 +1335,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Grayish Greenish Yellow", -0x1.14fd84p126F); LIST.add(-0x1.14fd84p126F); }
 
     /**
-     * This color constant "Light Olive" has RGBA8888 code {@code A78F25FF}, L 0.57254905, A 0.49019608, B 0.56078434, alpha 1.0, hue 0.26980346, saturation 0.84865874, and chroma 0.12265874.
+     * This color constant "Light Olive" has RGBA8888 code {@code A78F25FF}, L 0.57254905, A 0.49019608, B 0.56078434, alpha 1.0, hue 0.26980346, saturation 0.87159544, and chroma 0.12265874.
      * It can be represented as a packed float with the constant {@code -0x1.1efb24p126F}.
      * <pre>
      * <font style='background-color: #A78F25;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A78F25; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1383,7 +1383,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Grayish Olive", -0x1.0cff36p126F); LIST.add(-0x1.0cff36p126F); }
 
     /**
-     * This color constant "Grayish Olive" has RGBA8888 code {@code 786840FF}, L 0.42352942, A 0.49803922, B 0.5294118, alpha 1.0, hue 0.25, saturation 0.516129, and chroma 0.058723815.
+     * This color constant "Grayish Olive" has RGBA8888 code {@code 786840FF}, L 0.42352942, A 0.49803922, B 0.5294118, alpha 1.0, hue 0.25, saturation 0.53333336, and chroma 0.058723815.
      * It can be represented as a packed float with the constant {@code -0x1.0efed8p126F}.
      * <pre>
      * <font style='background-color: #786840;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #786840; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1407,7 +1407,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Dark Grayish Olive", -0x1.0cfc8p126F); LIST.add(-0x1.0cfc8p126F); }
 
     /**
-     * This color constant "Light Olive Gray" has RGBA8888 code {@code AC9684FF}, L 0.6156863, A 0.5058824, B 0.5137255, alpha 1.0, hue 0.17620972, saturation 0.20800632, and chroma 0.029749114.
+     * This color constant "Light Olive Gray" has RGBA8888 code {@code AC9684FF}, L 0.6156863, A 0.5058824, B 0.5137255, alpha 1.0, hue 0.17620972, saturation 0.20327891, and chroma 0.029749114.
      * It can be represented as a packed float with the constant {@code -0x1.07033ap126F}.
      * <pre>
      * <font style='background-color: #AC9684;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AC9684; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1419,7 +1419,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Olive Gray", -0x1.07033ap126F); LIST.add(-0x1.07033ap126F); }
 
     /**
-     * This color constant "Olive Gray" has RGBA8888 code {@code 766352FF}, L 0.4117647, A 0.5058824, B 0.5137255, alpha 1.0, hue 0.17620972, saturation 0.27103853, and chroma 0.029749114.
+     * This color constant "Olive Gray" has RGBA8888 code {@code 766352FF}, L 0.4117647, A 0.5058824, B 0.5137255, alpha 1.0, hue 0.17620972, saturation 0.26306683, and chroma 0.029749114.
      * It can be represented as a packed float with the constant {@code -0x1.0702d2p126F}.
      * <pre>
      * <font style='background-color: #766352;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #766352; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1443,7 +1443,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Olive Black", -0x1.06fe5cp126F); LIST.add(-0x1.06fe5cp126F); }
 
     /**
-     * This color constant "Vivid Yellow Green" has RGBA8888 code {@code B0ED00FF}, L 0.81960785, A 0.43529412, B 0.5882353, alpha 1.0, hue 0.34674743, saturation 0.94975764, and chroma 0.21798135.
+     * This color constant "Vivid Yellow Green" has RGBA8888 code {@code B0ED00FF}, L 0.81960785, A 0.43529412, B 0.5882353, alpha 1.0, hue 0.34674743, saturation 0.96613276, and chroma 0.21798135.
      * It can be represented as a packed float with the constant {@code -0x1.2cdfa2p126F}.
      * <pre>
      * <font style='background-color: #B0ED00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B0ED00; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1455,7 +1455,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Vivid Yellow Green", -0x1.2cdfa2p126F); LIST.add(-0x1.2cdfa2p126F); }
 
     /**
-     * This color constant "Brilliant Yellow Green" has RGBA8888 code {@code CBED54FF}, L 0.84705883, A 0.45490196, B 0.57254905, alpha 1.0, hue 0.33353055, saturation 0.75705165, and chroma 0.17017984.
+     * This color constant "Brilliant Yellow Green" has RGBA8888 code {@code CBED54FF}, L 0.84705883, A 0.45490196, B 0.57254905, alpha 1.0, hue 0.33353055, saturation 0.7703333, and chroma 0.17017984.
      * It can be represented as a packed float with the constant {@code -0x1.24e9bp126F}.
      * <pre>
      * <font style='background-color: #CBED54;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #CBED54; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1467,7 +1467,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Brilliant Yellow Green", -0x1.24e9bp126F); LIST.add(-0x1.24e9bp126F); }
 
     /**
-     * This color constant "Strong Yellow Green" has RGBA8888 code {@code 91B615FF}, L 0.6509804, A 0.4509804, B 0.57254905, alpha 1.0, hue 0.33966506, saturation 0.9172328, and chroma 0.17443058.
+     * This color constant "Strong Yellow Green" has RGBA8888 code {@code 91B615FF}, L 0.6509804, A 0.4509804, B 0.57254905, alpha 1.0, hue 0.33966506, saturation 0.9363418, and chroma 0.17443058.
      * It can be represented as a packed float with the constant {@code -0x1.24e74cp126F}.
      * <pre>
      * <font style='background-color: #91B615;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #91B615; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1479,7 +1479,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Strong Yellow Green", -0x1.24e74cp126F); LIST.add(-0x1.24e74cp126F); }
 
     /**
-     * This color constant "Deep Yellow Green" has RGBA8888 code {@code 558400FF}, L 0.4627451, A 0.44705883, B 0.5568628, alpha 1.0, hue 0.3636593, saturation 0.8821971, and chroma 0.15477823.
+     * This color constant "Deep Yellow Green" has RGBA8888 code {@code 558400FF}, L 0.4627451, A 0.44705883, B 0.5568628, alpha 1.0, hue 0.3636593, saturation 0.92322946, and chroma 0.15477823.
      * It can be represented as a packed float with the constant {@code -0x1.1ce4ecp126F}.
      * <pre>
      * <font style='background-color: #558400;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #558400; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1503,7 +1503,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Yellow Green", -0x1.14f3b6p126F); LIST.add(-0x1.14f3b6p126F); }
 
     /**
-     * This color constant "Moderate Yellow Green" has RGBA8888 code {@code 9BAF5CFF}, L 0.6509804, A 0.47058824, B 0.54509807, alpha 1.0, hue 0.33405274, saturation 0.5788518, and chroma 0.107261956.
+     * This color constant "Moderate Yellow Green" has RGBA8888 code {@code 9BAF5CFF}, L 0.6509804, A 0.47058824, B 0.54509807, alpha 1.0, hue 0.33405274, saturation 0.5911678, and chroma 0.107261956.
      * It can be represented as a packed float with the constant {@code -0x1.16f14cp126F}.
      * <pre>
      * <font style='background-color: #9BAF5C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #9BAF5C; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1539,7 +1539,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Grayish Yellow Green", -0x1.08fb56p126F); LIST.add(-0x1.08fb56p126F); }
 
     /**
-     * This color constant "Strong Olive Green" has RGBA8888 code {@code 336D00FF}, L 0.36862746, A 0.44313726, B 0.54901963, alpha 1.0, hue 0.3808874, saturation 0.8886034, and chroma 0.14956398.
+     * This color constant "Strong Olive Green" has RGBA8888 code {@code 336D00FF}, L 0.36862746, A 0.44313726, B 0.54901963, alpha 1.0, hue 0.3808874, saturation 0.9319499, and chroma 0.14956398.
      * It can be represented as a packed float with the constant {@code -0x1.18e2bcp126F}.
      * <pre>
      * <font style='background-color: #336D00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #336D00; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1551,7 +1551,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Strong Olive Green", -0x1.18e2bcp126F); LIST.add(-0x1.18e2bcp126F); }
 
     /**
-     * This color constant "Moderate Olive Green" has RGBA8888 code {@code 57721AFF}, L 0.4117647, A 0.4627451, B 0.54901963, alpha 1.0, hue 0.34638813, saturation 0.8321783, and chroma 0.12265874.
+     * This color constant "Moderate Olive Green" has RGBA8888 code {@code 57721AFF}, L 0.4117647, A 0.4627451, B 0.54901963, alpha 1.0, hue 0.34638813, saturation 0.87841046, and chroma 0.12265874.
      * It can be represented as a packed float with the constant {@code -0x1.18ecd2p126F}.
      * <pre>
      * <font style='background-color: #57721A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #57721A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1563,7 +1563,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Moderate Olive Green", -0x1.18ecd2p126F); LIST.add(-0x1.18ecd2p126F); }
 
     /**
-     * This color constant "Dark Olive Green" has RGBA8888 code {@code 294705FF}, L 0.23921569, A 0.4627451, B 0.5372549, alpha 1.0, hue 0.36663744, saturation 0.8969082, and chroma 0.104961164.
+     * This color constant "Dark Olive Green" has RGBA8888 code {@code 294705FF}, L 0.23921569, A 0.4627451, B 0.5372549, alpha 1.0, hue 0.36663744, saturation 0.9278361, and chroma 0.104961164.
      * It can be represented as a packed float with the constant {@code -0x1.12ec7ap126F}.
      * <pre>
      * <font style='background-color: #294705;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #294705; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1575,7 +1575,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Dark Olive Green", -0x1.12ec7ap126F); LIST.add(-0x1.12ec7ap126F); }
 
     /**
-     * This color constant "Grayish Olive Green" has RGBA8888 code {@code 627052FF}, L 0.42745098, A 0.48235294, B 0.5176471, alpha 1.0, hue 0.35739973, saturation 0.31234753, and chroma 0.049718447.
+     * This color constant "Grayish Olive Green" has RGBA8888 code {@code 627052FF}, L 0.42745098, A 0.48235294, B 0.5176471, alpha 1.0, hue 0.35739973, saturation 0.32836536, and chroma 0.049718447.
      * It can be represented as a packed float with the constant {@code -0x1.08f6dap126F}.
      * <pre>
      * <font style='background-color: #627052;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #627052; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1587,7 +1587,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Grayish Olive Green", -0x1.08f6dap126F); LIST.add(-0x1.08f6dap126F); }
 
     /**
-     * This color constant "Dark Grayish Olive Green" has RGBA8888 code {@code 3E452CFF}, L 0.25490198, A 0.4862745, B 0.5176471, alpha 1.0, hue 0.33601886, saturation 0.43192235, and chroma 0.044538103.
+     * This color constant "Dark Grayish Olive Green" has RGBA8888 code {@code 3E452CFF}, L 0.25490198, A 0.4862745, B 0.5176471, alpha 1.0, hue 0.33601886, saturation 0.44853476, and chroma 0.044538103.
      * It can be represented as a packed float with the constant {@code -0x1.08f882p126F}.
      * <pre>
      * <font style='background-color: #3E452C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3E452C; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1599,7 +1599,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Dark Grayish Olive Green", -0x1.08f882p126F); LIST.add(-0x1.08f882p126F); }
 
     /**
-     * This color constant "Vivid Yellowish Green" has RGBA8888 code {@code 20ED30FF}, L 0.7529412, A 0.39215687, B 0.5764706, alpha 1.0, hue 0.39851815, saturation 0.9464956, and chroma 0.26337513.
+     * This color constant "Vivid Yellowish Green" has RGBA8888 code {@code 20ED30FF}, L 0.7529412, A 0.39215687, B 0.5764706, alpha 1.0, hue 0.39851815, saturation 0.92056423, and chroma 0.26337513.
      * It can be represented as a packed float with the constant {@code -0x1.26c98p126F}.
      * <pre>
      * <font style='background-color: #20ED30;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #20ED30; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1611,7 +1611,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Vivid Yellowish Green", -0x1.26c98p126F); LIST.add(-0x1.26c98p126F); }
 
     /**
-     * This color constant "Brilliant Yellowish Green" has RGBA8888 code {@code 80ED83FF}, L 0.8, A 0.43137255, B 0.54509807, alpha 1.0, hue 0.4021605, saturation 0.5548974, and chroma 0.16359681.
+     * This color constant "Brilliant Yellowish Green" has RGBA8888 code {@code 80ED83FF}, L 0.8, A 0.43137255, B 0.54509807, alpha 1.0, hue 0.4021605, saturation 0.54759616, and chroma 0.16359681.
      * It can be represented as a packed float with the constant {@code -0x1.16dd98p126F}.
      * <pre>
      * <font style='background-color: #80ED83;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #80ED83; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1623,7 +1623,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Brilliant Yellowish Green", -0x1.16dd98p126F); LIST.add(-0x1.16dd98p126F); }
 
     /**
-     * This color constant "Strong Yellowish Green" has RGBA8888 code {@code 20B14DFF}, L 0.5803922, A 0.41960785, B 0.54509807, alpha 1.0, hue 0.41398114, saturation 0.8970695, and chroma 0.1836353.
+     * This color constant "Strong Yellowish Green" has RGBA8888 code {@code 20B14DFF}, L 0.5803922, A 0.41960785, B 0.54509807, alpha 1.0, hue 0.41398114, saturation 0.84813845, and chroma 0.1836353.
      * It can be represented as a packed float with the constant {@code -0x1.16d728p126F}.
      * <pre>
      * <font style='background-color: #20B14D;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #20B14D; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1647,7 +1647,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Deep Yellowish Green", -0x1.1adadap126F); LIST.add(-0x1.1adadap126F); }
 
     /**
-     * This color constant "Very Deep Yellowish Green" has RGBA8888 code {@code 005807FF}, L 0.2784314, A 0.4392157, B 0.5411765, alpha 1.0, hue 0.399282, saturation 1.0333931, and chroma 0.14626285.
+     * This color constant "Very Deep Yellowish Green" has RGBA8888 code {@code 005807FF}, L 0.2784314, A 0.4392157, B 0.5411765, alpha 1.0, hue 0.399282, saturation 0.979004, and chroma 0.14626285.
      * It can be represented as a packed float with the constant {@code -0x1.14e08ep126F}.
      * <pre>
      * <font style='background-color: #005807;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #005807; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1671,7 +1671,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Very Light Yellowish Green", -0x1.08f3c6p126F); LIST.add(-0x1.08f3c6p126F); }
 
     /**
-     * This color constant "Light Yellowish Green" has RGBA8888 code {@code 99DC98FF}, L 0.7764706, A 0.45490196, B 0.5294118, alpha 1.0, hue 0.39991105, saturation 0.37264305, and chroma 0.107261956.
+     * This color constant "Light Yellowish Green" has RGBA8888 code {@code 99DC98FF}, L 0.7764706, A 0.45490196, B 0.5294118, alpha 1.0, hue 0.39991105, saturation 0.36760733, and chroma 0.107261956.
      * It can be represented as a packed float with the constant {@code -0x1.0ee98cp126F}.
      * <pre>
      * <font style='background-color: #99DC98;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #99DC98; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1683,7 +1683,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Yellowish Green", -0x1.0ee98cp126F); LIST.add(-0x1.0ee98cp126F); }
 
     /**
-     * This color constant "Moderate Yellowish Green" has RGBA8888 code {@code 61AA70FF}, L 0.59607846, A 0.4509804, B 0.5254902, alpha 1.0, hue 0.41594726, saturation 0.5448017, and chroma 0.11007033.
+     * This color constant "Moderate Yellowish Green" has RGBA8888 code {@code 61AA70FF}, L 0.59607846, A 0.4509804, B 0.5254902, alpha 1.0, hue 0.41594726, saturation 0.51453495, and chroma 0.11007033.
      * It can be represented as a packed float with the constant {@code -0x1.0ce73p126F}.
      * <pre>
      * <font style='background-color: #61AA70;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #61AA70; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1695,7 +1695,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Moderate Yellowish Green", -0x1.0ce73p126F); LIST.add(-0x1.0ce73p126F); }
 
     /**
-     * This color constant "Dark Yellowish Green" has RGBA8888 code {@code 327643FF}, L 0.40392157, A 0.4509804, B 0.5254902, alpha 1.0, hue 0.41594726, saturation 0.712433, and chroma 0.11007033.
+     * This color constant "Dark Yellowish Green" has RGBA8888 code {@code 327643FF}, L 0.40392157, A 0.4509804, B 0.5254902, alpha 1.0, hue 0.41594726, saturation 0.6615449, and chroma 0.11007033.
      * It can be represented as a packed float with the constant {@code -0x1.0ce6cep126F}.
      * <pre>
      * <font style='background-color: #327643;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #327643; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1707,7 +1707,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Dark Yellowish Green", -0x1.0ce6cep126F); LIST.add(-0x1.0ce6cep126F); }
 
     /**
-     * This color constant "Very Dark Yellowish Green" has RGBA8888 code {@code 124A1FFF}, L 0.23921569, A 0.45490196, B 0.5254902, alpha 1.0, hue 0.40979147, saturation 0.869227, and chroma 0.10320191.
+     * This color constant "Very Dark Yellowish Green" has RGBA8888 code {@code 124A1FFF}, L 0.23921569, A 0.45490196, B 0.5254902, alpha 1.0, hue 0.40979147, saturation 0.7902063, and chroma 0.10320191.
      * It can be represented as a packed float with the constant {@code -0x1.0ce87ap126F}.
      * <pre>
      * <font style='background-color: #124A1F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #124A1F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1719,7 +1719,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Very Dark Yellowish Green", -0x1.0ce87ap126F); LIST.add(-0x1.0ce87ap126F); }
 
     /**
-     * This color constant "Vivid Green" has RGBA8888 code {@code 00FCAAFF}, L 0.8156863, A 0.40784314, B 0.5254902, alpha 1.0, hue 0.4529897, saturation 0.942809, and chroma 0.19048727.
+     * This color constant "Vivid Green" has RGBA8888 code {@code 00FCAAFF}, L 0.8156863, A 0.40784314, B 0.5254902, alpha 1.0, hue 0.4529897, saturation 0.9246781, and chroma 0.19048727.
      * It can be represented as a packed float with the constant {@code -0x1.0cd1ap126F}.
      * <pre>
      * <font style='background-color: #00FCAA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00FCAA; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1731,7 +1731,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Vivid Green", -0x1.0cd1ap126F); LIST.add(-0x1.0cd1ap126F); }
 
     /**
-     * This color constant "Brilliant Green" has RGBA8888 code {@code 32E4B3FF}, L 0.75686276, A 0.42352942, B 0.50980395, alpha 1.0, hue 0.47506347, saturation 0.894669, and chroma 0.15359065.
+     * This color constant "Brilliant Green" has RGBA8888 code {@code 32E4B3FF}, L 0.75686276, A 0.42352942, B 0.50980395, alpha 1.0, hue 0.47506347, saturation 0.87433565, and chroma 0.15359065.
      * It can be represented as a packed float with the constant {@code -0x1.04d982p126F}.
      * <pre>
      * <font style='background-color: #32E4B3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #32E4B3; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1743,7 +1743,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Brilliant Green", -0x1.04d982p126F); LIST.add(-0x1.04d982p126F); }
 
     /**
-     * This color constant "Strong Green" has RGBA8888 code {@code 00A375FF}, L 0.54509807, A 0.43137255, B 0.5137255, alpha 1.0, hue 0.46322072, saturation 0.97023606, and chroma 0.13942632.
+     * This color constant "Strong Green" has RGBA8888 code {@code 00A375FF}, L 0.54509807, A 0.43137255, B 0.5137255, alpha 1.0, hue 0.46322072, saturation 0.9440134, and chroma 0.13942632.
      * It can be represented as a packed float with the constant {@code -0x1.06dd16p126F}.
      * <pre>
      * <font style='background-color: #00A375;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00A375; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1779,7 +1779,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Green", -0x1.04e76p126F); LIST.add(-0x1.04e76p126F); }
 
     /**
-     * This color constant "Moderate Green" has RGBA8888 code {@code 31906EFF}, L 0.49411765, A 0.44705883, B 0.50980395, alpha 1.0, hue 0.4639029, saturation 0.7848038, and chroma 0.107261956.
+     * This color constant "Moderate Green" has RGBA8888 code {@code 31906EFF}, L 0.49411765, A 0.44705883, B 0.50980395, alpha 1.0, hue 0.4639029, saturation 0.76238084, and chroma 0.107261956.
      * It can be represented as a packed float with the constant {@code -0x1.04e4fcp126F}.
      * <pre>
      * <font style='background-color: #31906E;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #31906E; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1791,7 +1791,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Moderate Green", -0x1.04e4fcp126F); LIST.add(-0x1.04e4fcp126F); }
 
     /**
-     * This color constant "Dark Green" has RGBA8888 code {@code 0D6649FF}, L 0.34117648, A 0.4509804, B 0.50980395, alpha 1.0, hue 0.46101317, saturation 0.9162457, and chroma 0.09959023.
+     * This color constant "Dark Green" has RGBA8888 code {@code 0D6649FF}, L 0.34117648, A 0.4509804, B 0.50980395, alpha 1.0, hue 0.46101317, saturation 0.8835226, and chroma 0.09959023.
      * It can be represented as a packed float with the constant {@code -0x1.04e6aep126F}.
      * <pre>
      * <font style='background-color: #0D6649;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0D6649; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1827,7 +1827,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Very Pale Green", -0x1.fef9b8p125F); LIST.add(-0x1.fef9b8p125F); }
 
     /**
-     * This color constant "Pale Green" has RGBA8888 code {@code 9CBAB3FF}, L 0.7019608, A 0.48235294, B 0.49803922, alpha 1.0, hue 0.49998704, saturation 0.21052632, and chroma 0.0353726.
+     * This color constant "Pale Green" has RGBA8888 code {@code 9CBAB3FF}, L 0.7019608, A 0.48235294, B 0.49803922, alpha 1.0, hue 0.49998704, saturation 0.20512821, and chroma 0.0353726.
      * It can be represented as a packed float with the constant {@code -0x1.fef766p125F}.
      * <pre>
      * <font style='background-color: #9CBAB3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #9CBAB3; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1839,7 +1839,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Pale Green", -0x1.fef766p125F); LIST.add(-0x1.fef766p125F); }
 
     /**
-     * This color constant "Grayish Green" has RGBA8888 code {@code 688A82FF}, L 0.5176471, A 0.47843137, B 0.49803922, alpha 1.0, hue 0.49998704, saturation 0.32258064, and chroma 0.04314594.
+     * This color constant "Grayish Green" has RGBA8888 code {@code 688A82FF}, L 0.5176471, A 0.47843137, B 0.49803922, alpha 1.0, hue 0.49998704, saturation 0.3125, and chroma 0.04314594.
      * It can be represented as a packed float with the constant {@code -0x1.fef508p125F}.
      * <pre>
      * <font style='background-color: #688A82;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #688A82; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1863,7 +1863,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Dark Grayish Green", -0x1.fef6bp125F); LIST.add(-0x1.fef6bp125F); }
 
     /**
-     * This color constant "Blackish Green" has RGBA8888 code {@code 273A3FFF}, L 0.20784314, A 0.4862745, B 0.49019608, alpha 1.0, hue 0.59359556, saturation 0.4006168, and chroma 0.033602834.
+     * This color constant "Blackish Green" has RGBA8888 code {@code 273A3FFF}, L 0.20784314, A 0.4862745, B 0.49019608, alpha 1.0, hue 0.59359556, saturation 0.4241825, and chroma 0.033602834.
      * It can be represented as a packed float with the constant {@code -0x1.faf86ap125F}.
      * <pre>
      * <font style='background-color: #273A3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #273A3F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1923,7 +1923,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Dark Greenish Gray", -0x1.fefadcp125F); LIST.add(-0x1.fefadcp125F); }
 
     /**
-     * This color constant "Greenish Black" has RGBA8888 code {@code 2C3634FF}, L 0.19607843, A 0.49019608, B 0.49803922, alpha 1.0, hue 0.49998704, saturation 0.23529412, and chroma 0.019918045.
+     * This color constant "Greenish Black" has RGBA8888 code {@code 2C3634FF}, L 0.19607843, A 0.49019608, B 0.49803922, alpha 1.0, hue 0.49998704, saturation 0.22222222, and chroma 0.019918045.
      * It can be represented as a packed float with the constant {@code -0x1.fefa64p125F}.
      * <pre>
      * <font style='background-color: #2C3634;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #2C3634; color: #000000'>&nbsp;@&nbsp;</font>
@@ -1959,7 +1959,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Brilliant Bluish Green", -0x1.f8db8ep125F); LIST.add(-0x1.f8db8ep125F); }
 
     /**
-     * This color constant "Strong Bluish Green" has RGBA8888 code {@code 00A796FF}, L 0.5686275, A 0.4392157, B 0.49411765, alpha 1.0, hue 0.5105898, saturation 0.93958104, and chroma 0.121659465.
+     * This color constant "Strong Bluish Green" has RGBA8888 code {@code 00A796FF}, L 0.5686275, A 0.4392157, B 0.49411765, alpha 1.0, hue 0.5105898, saturation 0.9111089, and chroma 0.121659465.
      * It can be represented as a packed float with the constant {@code -0x1.fce122p125F}.
      * <pre>
      * <font style='background-color: #00A796;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00A796; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2031,7 +2031,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Very Dark Bluish Green", -0x1.f8f06ep125F); LIST.add(-0x1.f8f06ep125F); }
 
     /**
-     * This color constant "Brilliant Greenish Blue" has RGBA8888 code {@code 00D1FCFF}, L 0.7294118, A 0.4392157, B 0.45490196, alpha 1.0, hue 0.600718, saturation 0.95390135, and chroma 0.15078327.
+     * This color constant "Brilliant Greenish Blue" has RGBA8888 code {@code 00D1FCFF}, L 0.7294118, A 0.4392157, B 0.45490196, alpha 1.0, hue 0.600718, saturation 0.979004, and chroma 0.15078327.
      * It can be represented as a packed float with the constant {@code -0x1.e8e174p125F}.
      * <pre>
      * <font style='background-color: #00D1FC;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00D1FC; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2043,7 +2043,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Brilliant Greenish Blue", -0x1.e8e174p125F); LIST.add(-0x1.e8e174p125F); }
 
     /**
-     * This color constant "Strong Greenish Blue" has RGBA8888 code {@code 009BD2FF}, L 0.56078434, A 0.45490196, B 0.44705883, alpha 1.0, hue 0.638223, saturation 0.9205074, and chroma 0.13854803.
+     * This color constant "Strong Greenish Blue" has RGBA8888 code {@code 009BD2FF}, L 0.56078434, A 0.45490196, B 0.44705883, alpha 1.0, hue 0.638223, saturation 0.94607705, and chroma 0.13854803.
      * It can be represented as a packed float with the constant {@code -0x1.e4e91ep125F}.
      * <pre>
      * <font style='background-color: #009BD2;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #009BD2; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2079,7 +2079,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Greenish Blue", -0x1.eced6p125F); LIST.add(-0x1.eced6p125F); }
 
     /**
-     * This color constant "Moderate Greenish Blue" has RGBA8888 code {@code 1E8DB4FF}, L 0.50980395, A 0.45882353, B 0.45882353, alpha 1.0, hue 0.625, saturation 0.8570991, and chroma 0.116009705.
+     * This color constant "Moderate Greenish Blue" has RGBA8888 code {@code 1E8DB4FF}, L 0.50980395, A 0.45882353, B 0.45882353, alpha 1.0, hue 0.625, saturation 0.8838835, and chroma 0.116009705.
      * It can be represented as a packed float with the constant {@code -0x1.eaeb04p125F}.
      * <pre>
      * <font style='background-color: #1E8DB4;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #1E8DB4; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2091,7 +2091,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Moderate Greenish Blue", -0x1.eaeb04p125F); LIST.add(-0x1.eaeb04p125F); }
 
     /**
-     * This color constant "Dark Greenish Blue" has RGBA8888 code {@code 005E7FFF}, L 0.34117648, A 0.46666667, B 0.4627451, alpha 1.0, hue 0.63434434, saturation 0.89197, and chroma 0.09959023.
+     * This color constant "Dark Greenish Blue" has RGBA8888 code {@code 005E7FFF}, L 0.34117648, A 0.46666667, B 0.4627451, alpha 1.0, hue 0.63434434, saturation 0.9262765, and chroma 0.09959023.
      * It can be represented as a packed float with the constant {@code -0x1.eceeaep125F}.
      * <pre>
      * <font style='background-color: #005E7F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #005E7F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2103,7 +2103,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Dark Greenish Blue", -0x1.eceeaep125F); LIST.add(-0x1.eceeaep125F); }
 
     /**
-     * This color constant "Very Dark Greenish Blue" has RGBA8888 code {@code 003D53FF}, L 0.21176471, A 0.4745098, B 0.47058824, alpha 1.0, hue 0.6372099, saturation 0.8780519, and chroma 0.07753685.
+     * This color constant "Very Dark Greenish Blue" has RGBA8888 code {@code 003D53FF}, L 0.21176471, A 0.4745098, B 0.47058824, alpha 1.0, hue 0.6372099, saturation 0.92195445, and chroma 0.07753685.
      * It can be represented as a packed float with the constant {@code -0x1.f0f26cp125F}.
      * <pre>
      * <font style='background-color: #003D53;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #003D53; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2139,7 +2139,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Brilliant Blue", -0x1.e2f354p125F); LIST.add(-0x1.e2f354p125F); }
 
     /**
-     * This color constant "Strong Blue" has RGBA8888 code {@code 2C7FE4FF}, L 0.5058824, A 0.4745098, B 0.41960785, alpha 1.0, hue 0.7036233, saturation 0.773356, and chroma 0.16801417.
+     * This color constant "Strong Blue" has RGBA8888 code {@code 2C7FE4FF}, L 0.5058824, A 0.4745098, B 0.41960785, alpha 1.0, hue 0.7036233, saturation 0.78794765, and chroma 0.16801417.
      * It can be represented as a packed float with the constant {@code -0x1.d6f302p125F}.
      * <pre>
      * <font style='background-color: #2C7FE4;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #2C7FE4; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2163,7 +2163,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Deep Blue", -0x1.ccf88ep125F); LIST.add(-0x1.ccf88ep125F); }
 
     /**
-     * This color constant "Very Light Blue" has RGBA8888 code {@code A8D3FFFF}, L 0.8, A 0.4862745, B 0.46666667, alpha 1.0, hue 0.6929125, saturation 0.89936876, and chroma 0.071815535.
+     * This color constant "Very Light Blue" has RGBA8888 code {@code A8D3FFFF}, L 0.8, A 0.4862745, B 0.46666667, alpha 1.0, hue 0.6929125, saturation 0.85440034, and chroma 0.071815535.
      * It can be represented as a packed float with the constant {@code -0x1.eef998p125F}.
      * <pre>
      * <font style='background-color: #A8D3FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A8D3FF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2187,7 +2187,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Blue", -0x1.eaf766p125F); LIST.add(-0x1.eaf766p125F); }
 
     /**
-     * This color constant "Moderate Blue" has RGBA8888 code {@code 267EC9FF}, L 0.48235294, A 0.47058824, B 0.43529412, alpha 1.0, hue 0.68437123, saturation 0.77618885, and chroma 0.1415982.
+     * This color constant "Moderate Blue" has RGBA8888 code {@code 267EC9FF}, L 0.48235294, A 0.47058824, B 0.43529412, alpha 1.0, hue 0.68437123, saturation 0.8122906, and chroma 0.1415982.
      * It can be represented as a packed float with the constant {@code -0x1.def0f6p125F}.
      * <pre>
      * <font style='background-color: #267EC9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #267EC9; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2199,7 +2199,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Moderate Blue", -0x1.def0f6p125F); LIST.add(-0x1.def0f6p125F); }
 
     /**
-     * This color constant "Dark Blue" has RGBA8888 code {@code 16457FFF}, L 0.27058825, A 0.48235294, B 0.44313726, alpha 1.0, hue 0.70571566, saturation 0.728011, and chroma 0.11861114.
+     * This color constant "Dark Blue" has RGBA8888 code {@code 16457FFF}, L 0.27058825, A 0.48235294, B 0.44313726, alpha 1.0, hue 0.70571566, saturation 0.8089011, and chroma 0.11861114.
      * It can be represented as a packed float with the constant {@code -0x1.e2f68ap125F}.
      * <pre>
      * <font style='background-color: #16457F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #16457F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2235,7 +2235,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Pale Blue", -0x1.f2fd64p125F); LIST.add(-0x1.f2fd64p125F); }
 
     /**
-     * This color constant "Grayish Blue" has RGBA8888 code {@code 5A7DA2FF}, L 0.4862745, A 0.4862745, B 0.46666667, alpha 1.0, hue 0.6929125, saturation 0.34873483, and chroma 0.071815535.
+     * This color constant "Grayish Blue" has RGBA8888 code {@code 5A7DA2FF}, L 0.4862745, A 0.4862745, B 0.46666667, alpha 1.0, hue 0.6929125, saturation 0.3714784, and chroma 0.071815535.
      * It can be represented as a packed float with the constant {@code -0x1.eef8f8p125F}.
      * <pre>
      * <font style='background-color: #5A7DA2;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #5A7DA2; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2247,7 +2247,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Grayish Blue", -0x1.eef8f8p125F); LIST.add(-0x1.eef8f8p125F); }
 
     /**
-     * This color constant "Dark Grayish Blue" has RGBA8888 code {@code 3B516EFF}, L 0.3137255, A 0.49019608, B 0.47058824, alpha 1.0, hue 0.70571566, saturation 0.33860976, and chroma 0.061763234.
+     * This color constant "Dark Grayish Blue" has RGBA8888 code {@code 3B516EFF}, L 0.3137255, A 0.49019608, B 0.47058824, alpha 1.0, hue 0.70571566, saturation 0.37333897, and chroma 0.061763234.
      * It can be represented as a packed float with the constant {@code -0x1.f0faap125F}.
      * <pre>
      * <font style='background-color: #3B516E;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3B516E; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2259,7 +2259,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Dark Grayish Blue", -0x1.f0faap125F); LIST.add(-0x1.f0faap125F); }
 
     /**
-     * This color constant "Blackish Blue" has RGBA8888 code {@code 21354EFF}, L 0.19607843, A 0.49019608, B 0.47058824, alpha 1.0, hue 0.70571566, saturation 0.4412188, and chroma 0.061763234.
+     * This color constant "Blackish Blue" has RGBA8888 code {@code 21354EFF}, L 0.19607843, A 0.49019608, B 0.47058824, alpha 1.0, hue 0.70571566, saturation 0.48534065, and chroma 0.061763234.
      * It can be represented as a packed float with the constant {@code -0x1.f0fa64p125F}.
      * <pre>
      * <font style='background-color: #21354E;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #21354E; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2307,7 +2307,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Bluish Gray", -0x1.f8ff38p125F); LIST.add(-0x1.f8ff38p125F); }
 
     /**
-     * This color constant "Dark Bluish Gray" has RGBA8888 code {@code 61687BFF}, L 0.41960785, A 0.49803922, B 0.48235294, alpha 1.0, hue 0.75, saturation 0.121212125, and chroma 0.0353726.
+     * This color constant "Dark Bluish Gray" has RGBA8888 code {@code 61687BFF}, L 0.41960785, A 0.49803922, B 0.48235294, alpha 1.0, hue 0.75, saturation 0.12307692, and chroma 0.0353726.
      * It can be represented as a packed float with the constant {@code -0x1.f6fed6p125F}.
      * <pre>
      * <font style='background-color: #61687B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #61687B; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2319,7 +2319,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Dark Bluish Gray", -0x1.f6fed6p125F); LIST.add(-0x1.f6fed6p125F); }
 
     /**
-     * This color constant "Bluish Black" has RGBA8888 code {@code 2F364AFF}, L 0.20784314, A 0.49803922, B 0.47843137, alpha 1.0, hue 0.75, saturation 0.16666667, and chroma 0.04314594.
+     * This color constant "Bluish Black" has RGBA8888 code {@code 2F364AFF}, L 0.20784314, A 0.49803922, B 0.47843137, alpha 1.0, hue 0.75, saturation 0.16129032, and chroma 0.04314594.
      * It can be represented as a packed float with the constant {@code -0x1.f4fe6ap125F}.
      * <pre>
      * <font style='background-color: #2F364A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #2F364A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2331,7 +2331,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Bluish Black", -0x1.f4fe6ap125F); LIST.add(-0x1.f4fe6ap125F); }
 
     /**
-     * This color constant "Vivid Purplish Blue" has RGBA8888 code {@code 534DEDFF}, L 0.41960785, A 0.5137255, B 0.3882353, alpha 1.0, hue 0.77259654, saturation 0.8443066, and chroma 0.22432896.
+     * This color constant "Vivid Purplish Blue" has RGBA8888 code {@code 534DEDFF}, L 0.41960785, A 0.5137255, B 0.3882353, alpha 1.0, hue 0.77259654, saturation 0.8570991, and chroma 0.22432896.
      * It can be represented as a packed float with the constant {@code -0x1.c706d6p125F}.
      * <pre>
      * <font style='background-color: #534DED;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #534DED; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2343,7 +2343,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Vivid Purplish Blue", -0x1.c706d6p125F); LIST.add(-0x1.c706d6p125F); }
 
     /**
-     * This color constant "Brilliant Purplish Blue" has RGBA8888 code {@code 909BF5FF}, L 0.64705884, A 0.5058824, B 0.4392157, alpha 1.0, hue 0.77110875, saturation 0.81798625, and chroma 0.121659465.
+     * This color constant "Brilliant Purplish Blue" has RGBA8888 code {@code 909BF5FF}, L 0.64705884, A 0.5058824, B 0.4392157, alpha 1.0, hue 0.77110875, saturation 0.8407081, and chroma 0.121659465.
      * It can be represented as a packed float with the constant {@code -0x1.e1034ap125F}.
      * <pre>
      * <font style='background-color: #909BF5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #909BF5; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2367,7 +2367,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Strong Purplish Blue", -0x1.db02f4p125F); LIST.add(-0x1.db02f4p125F); }
 
     /**
-     * This color constant "Deep Purplish Blue" has RGBA8888 code {@code 352FA4FF}, L 0.27058825, A 0.50980395, B 0.40784314, alpha 1.0, hue 0.77065516, saturation 0.6923829, and chroma 0.18462972.
+     * This color constant "Deep Purplish Blue" has RGBA8888 code {@code 352FA4FF}, L 0.27058825, A 0.50980395, B 0.40784314, alpha 1.0, hue 0.77065516, saturation 0.6822008, and chroma 0.18462972.
      * It can be represented as a packed float with the constant {@code -0x1.d1048ap125F}.
      * <pre>
      * <font style='background-color: #352FA4;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #352FA4; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2403,7 +2403,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Purplish Blue", -0x1.eb0152p125F); LIST.add(-0x1.eb0152p125F); }
 
     /**
-     * This color constant "Moderate Purplish Blue" has RGBA8888 code {@code 5960AFFF}, L 0.41960785, A 0.5058824, B 0.4392157, alpha 1.0, hue 0.77110875, saturation 0.45172375, and chroma 0.121659465.
+     * This color constant "Moderate Purplish Blue" has RGBA8888 code {@code 5960AFFF}, L 0.41960785, A 0.5058824, B 0.4392157, alpha 1.0, hue 0.77110875, saturation 0.45856807, and chroma 0.121659465.
      * It can be represented as a packed float with the constant {@code -0x1.e102d6p125F}.
      * <pre>
      * <font style='background-color: #5960AF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #5960AF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2415,7 +2415,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Moderate Purplish Blue", -0x1.e102d6p125F); LIST.add(-0x1.e102d6p125F); }
 
     /**
-     * This color constant "Dark Purplish Blue" has RGBA8888 code {@code 2F2A73FF}, L 0.20784314, A 0.50980395, B 0.43529412, alpha 1.0, hue 0.7795081, saturation 0.58138645, and chroma 0.1303775.
+     * This color constant "Dark Purplish Blue" has RGBA8888 code {@code 2F2A73FF}, L 0.20784314, A 0.50980395, B 0.43529412, alpha 1.0, hue 0.7795081, saturation 0.57118666, and chroma 0.1303775.
      * It can be represented as a packed float with the constant {@code -0x1.df046ap125F}.
      * <pre>
      * <font style='background-color: #2F2A73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #2F2A73; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2439,7 +2439,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Very Pale Purplish Blue", -0x1.f301acp125F); LIST.add(-0x1.f301acp125F); }
 
     /**
-     * This color constant "Pale Purplish Blue" has RGBA8888 code {@code 9EA5CEFF}, L 0.6627451, A 0.5019608, B 0.47058824, alpha 1.0, hue 0.77259654, saturation 0.40406102, and chroma 0.058723815.
+     * This color constant "Pale Purplish Blue" has RGBA8888 code {@code 9EA5CEFF}, L 0.6627451, A 0.5019608, B 0.47058824, alpha 1.0, hue 0.77259654, saturation 0.41594517, and chroma 0.058723815.
      * It can be represented as a packed float with the constant {@code -0x1.f10152p125F}.
      * <pre>
      * <font style='background-color: #9EA5CE;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #9EA5CE; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2463,7 +2463,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Grayish Purplish Blue", -0x1.e700ccp125F); LIST.add(-0x1.e700ccp125F); }
 
     /**
-     * This color constant "Vivid Violet" has RGBA8888 code {@code 9240F8FF}, L 0.4745098, A 0.56078434, B 0.39215687, alpha 1.0, hue 0.8351486, saturation 0.88407636, and chroma 0.24662022.
+     * This color constant "Vivid Violet" has RGBA8888 code {@code 9240F8FF}, L 0.4745098, A 0.56078434, B 0.39215687, alpha 1.0, hue 0.8351486, saturation 0.90970176, and chroma 0.24662022.
      * It can be represented as a packed float with the constant {@code -0x1.c91ef2p125F}.
      * <pre>
      * <font style='background-color: #9240F8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #9240F8; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2487,7 +2487,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Brilliant Violet", -0x1.e30d4ap125F); LIST.add(-0x1.e30d4ap125F); }
 
     /**
-     * This color constant "Strong Violet" has RGBA8888 code {@code 7C47D0FF}, L 0.42745098, A 0.54509807, B 0.4117647, alpha 1.0, hue 0.82947695, saturation 0.6509072, and chroma 0.1974106.
+     * This color constant "Strong Violet" has RGBA8888 code {@code 7C47D0FF}, L 0.42745098, A 0.54509807, B 0.4117647, alpha 1.0, hue 0.82947695, saturation 0.6594718, and chroma 0.1974106.
      * It can be represented as a packed float with the constant {@code -0x1.d316dap125F}.
      * <pre>
      * <font style='background-color: #7C47D0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7C47D0; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2499,7 +2499,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Strong Violet", -0x1.d316dap125F); LIST.add(-0x1.d316dap125F); }
 
     /**
-     * This color constant "Deep Violet" has RGBA8888 code {@code 570D97FF}, L 0.25490198, A 0.5529412, B 0.4117647, alpha 1.0, hue 0.84020853, saturation 0.9482476, and chroma 0.2049944.
+     * This color constant "Deep Violet" has RGBA8888 code {@code 570D97FF}, L 0.25490198, A 0.5529412, B 0.4117647, alpha 1.0, hue 0.84020853, saturation 0.9313146, and chroma 0.2049944.
      * It can be represented as a packed float with the constant {@code -0x1.d31a82p125F}.
      * <pre>
      * <font style='background-color: #570D97;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #570D97; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2535,7 +2535,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Violet", -0x1.eb0956p125F); LIST.add(-0x1.eb0956p125F); }
 
     /**
-     * This color constant "Moderate Violet" has RGBA8888 code {@code 7552B8FF}, L 0.42352942, A 0.53333336, B 0.43137255, alpha 1.0, hue 0.8274942, saturation 0.49962038, and chroma 0.15199278.
+     * This color constant "Moderate Violet" has RGBA8888 code {@code 7552B8FF}, L 0.42352942, A 0.53333336, B 0.43137255, alpha 1.0, hue 0.8274942, saturation 0.51294357, and chroma 0.15199278.
      * It can be represented as a packed float with the constant {@code -0x1.dd10d8p125F}.
      * <pre>
      * <font style='background-color: #7552B8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7552B8; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2547,7 +2547,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Moderate Violet", -0x1.dd10d8p125F); LIST.add(-0x1.dd10d8p125F); }
 
     /**
-     * This color constant "Dark Violet" has RGBA8888 code {@code 482B74FF}, L 0.23921569, A 0.5294118, B 0.44313726, alpha 1.0, hue 0.8326307, saturation 0.59720427, and chroma 0.12753771.
+     * This color constant "Dark Violet" has RGBA8888 code {@code 482B74FF}, L 0.23921569, A 0.5294118, B 0.44313726, alpha 1.0, hue 0.8326307, saturation 0.58634603, and chroma 0.12753771.
      * It can be represented as a packed float with the constant {@code -0x1.e30e7ap125F}.
      * <pre>
      * <font style='background-color: #482B74;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #482B74; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2571,7 +2571,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Very Pale Violet", -0x1.f505aap125F); LIST.add(-0x1.f505aap125F); }
 
     /**
-     * This color constant "Pale Violet" has RGBA8888 code {@code AFA0CFFF}, L 0.67058825, A 0.5137255, B 0.47058824, alpha 1.0, hue 0.8326307, saturation 0.4031129, and chroma 0.064659946.
+     * This color constant "Pale Violet" has RGBA8888 code {@code AFA0CFFF}, L 0.67058825, A 0.5137255, B 0.47058824, alpha 1.0, hue 0.8326307, saturation 0.4134491, and chroma 0.064659946.
      * It can be represented as a packed float with the constant {@code -0x1.f10756p125F}.
      * <pre>
      * <font style='background-color: #AFA0CF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AFA0CF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2583,7 +2583,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Pale Violet", -0x1.f10756p125F); LIST.add(-0x1.f10756p125F); }
 
     /**
-     * This color constant "Grayish Violet" has RGBA8888 code {@code 7359A0FF}, L 0.41960785, A 0.5254902, B 0.4509804, alpha 1.0, hue 0.83405274, saturation 0.36559063, and chroma 0.11007033.
+     * This color constant "Grayish Violet" has RGBA8888 code {@code 7359A0FF}, L 0.41960785, A 0.5254902, B 0.4509804, alpha 1.0, hue 0.83405274, saturation 0.3608427, and chroma 0.11007033.
      * It can be represented as a packed float with the constant {@code -0x1.e70cd6p125F}.
      * <pre>
      * <font style='background-color: #7359A0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7359A0; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2595,7 +2595,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Grayish Violet", -0x1.e70cd6p125F); LIST.add(-0x1.e70cd6p125F); }
 
     /**
-     * This color constant "Vivid Purple" has RGBA8888 code {@code DA32FDFF}, L 0.56078434, A 0.60784316, B 0.40784314, alpha 1.0, hue 0.8905432, saturation 0.9058835, and chroma 0.28260309.
+     * This color constant "Vivid Purple" has RGBA8888 code {@code DA32FDFF}, L 0.56078434, A 0.60784316, B 0.40784314, alpha 1.0, hue 0.8905432, saturation 0.94117767, and chroma 0.28260309.
      * It can be represented as a packed float with the constant {@code -0x1.d1371ep125F}.
      * <pre>
      * <font style='background-color: #DA32FD;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #DA32FD; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2607,7 +2607,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Vivid Purple", -0x1.d1371ep125F); LIST.add(-0x1.d1371ep125F); }
 
     /**
-     * This color constant "Brilliant Purple" has RGBA8888 code {@code DB9FEFFF}, L 0.7254902, A 0.5411765, B 0.45882353, alpha 1.0, hue 0.88256735, saturation 0.70790803, and chroma 0.116009705.
+     * This color constant "Brilliant Purple" has RGBA8888 code {@code DB9FEFFF}, L 0.7254902, A 0.5411765, B 0.45882353, alpha 1.0, hue 0.88256735, saturation 0.72517407, and chroma 0.116009705.
      * It can be represented as a packed float with the constant {@code -0x1.eb1572p125F}.
      * <pre>
      * <font style='background-color: #DB9FEF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #DB9FEF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2631,7 +2631,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Strong Purple", -0x1.dd270ep125F); LIST.add(-0x1.dd270ep125F); }
 
     /**
-     * This color constant "Deep Purple" has RGBA8888 code {@code 86209EFF}, L 0.34901962, A 0.5764706, B 0.43137255, alpha 1.0, hue 0.88786715, saturation 0.86061674, and chroma 0.20469645.
+     * This color constant "Deep Purple" has RGBA8888 code {@code 86209EFF}, L 0.34901962, A 0.5764706, B 0.43137255, alpha 1.0, hue 0.88786715, saturation 0.8467358, and chroma 0.20469645.
      * It can be represented as a packed float with the constant {@code -0x1.dd26b2p125F}.
      * <pre>
      * <font style='background-color: #86209E;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #86209E; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2643,7 +2643,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Deep Purple", -0x1.dd26b2p125F); LIST.add(-0x1.dd26b2p125F); }
 
     /**
-     * This color constant "Very Deep Purple" has RGBA8888 code {@code 620079FF}, L 0.23921569, A 0.5686275, B 0.43529412, alpha 1.0, hue 0.88434434, saturation 0.9829873, and chroma 0.18790646.
+     * This color constant "Very Deep Purple" has RGBA8888 code {@code 620079FF}, L 0.23921569, A 0.5686275, B 0.43529412, alpha 1.0, hue 0.88434434, saturation 0.9633276, and chroma 0.18790646.
      * It can be represented as a packed float with the constant {@code -0x1.df227ap125F}.
      * <pre>
      * <font style='background-color: #620079;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #620079; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2667,7 +2667,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Very Light Purple", -0x1.f30daap125F); LIST.add(-0x1.f30daap125F); }
 
     /**
-     * This color constant "Light Purple" has RGBA8888 code {@code CCA2E0FF}, L 0.70980394, A 0.5294118, B 0.46666667, alpha 1.0, hue 0.875, saturation 0.51425946, and chroma 0.08856081.
+     * This color constant "Light Purple" has RGBA8888 code {@code CCA2E0FF}, L 0.70980394, A 0.5294118, B 0.46666667, alpha 1.0, hue 0.875, saturation 0.526219, and chroma 0.08856081.
      * It can be represented as a packed float with the constant {@code -0x1.ef0f6ap125F}.
      * <pre>
      * <font style='background-color: #CCA2E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #CCA2E0; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2691,7 +2691,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Moderate Purple", -0x1.e71b0ep125F); LIST.add(-0x1.e71b0ep125F); }
 
     /**
-     * This color constant "Dark Purple" has RGBA8888 code {@code 743E86FF}, L 0.34901962, A 0.54509807, B 0.45490196, alpha 1.0, hue 0.88191015, saturation 0.52512324, and chroma 0.12705825.
+     * This color constant "Dark Purple" has RGBA8888 code {@code 743E86FF}, L 0.34901962, A 0.54509807, B 0.45490196, alpha 1.0, hue 0.88191015, saturation 0.51678795, and chroma 0.12705825.
      * It can be represented as a packed float with the constant {@code -0x1.e916b2p125F}.
      * <pre>
      * <font style='background-color: #743E86;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #743E86; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2727,7 +2727,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Very Pale Purple", -0x1.f707b6p125F); LIST.add(-0x1.f707b6p125F); }
 
     /**
-     * This color constant "Pale Purple" has RGBA8888 code {@code C0A6CCFF}, L 0.69803923, A 0.5176471, B 0.47843137, alpha 1.0, hue 0.875, saturation 0.30743772, and chroma 0.055518243.
+     * This color constant "Pale Purple" has RGBA8888 code {@code C0A6CCFF}, L 0.69803923, A 0.5176471, B 0.47843137, alpha 1.0, hue 0.875, saturation 0.3142697, and chroma 0.055518243.
      * It can be represented as a packed float with the constant {@code -0x1.f50964p125F}.
      * <pre>
      * <font style='background-color: #C0A6CC;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C0A6CC; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2751,7 +2751,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Grayish Purple", -0x1.f30f0ap125F); LIST.add(-0x1.f30f0ap125F); }
 
     /**
-     * This color constant "Dark Grayish Purple" has RGBA8888 code {@code 6B4C73FF}, L 0.35686275, A 0.5254902, B 0.4745098, alpha 1.0, hue 0.8872099, saturation 0.29740465, and chroma 0.071815535.
+     * This color constant "Dark Grayish Purple" has RGBA8888 code {@code 6B4C73FF}, L 0.35686275, A 0.5254902, B 0.4745098, alpha 1.0, hue 0.8872099, saturation 0.29268396, and chroma 0.071815535.
      * It can be represented as a packed float with the constant {@code -0x1.f30cb6p125F}.
      * <pre>
      * <font style='background-color: #6B4C73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #6B4C73; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2763,7 +2763,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Dark Grayish Purple", -0x1.f30cb6p125F); LIST.add(-0x1.f30cb6p125F); }
 
     /**
-     * This color constant "Blackish Purple" has RGBA8888 code {@code 462B48FF}, L 0.20784314, A 0.5254902, B 0.47843137, alpha 1.0, hue 0.90127134, saturation 0.39101478, and chroma 0.06652104.
+     * This color constant "Blackish Purple" has RGBA8888 code {@code 462B48FF}, L 0.20784314, A 0.5254902, B 0.47843137, alpha 1.0, hue 0.90127134, saturation 0.3823256, and chroma 0.06652104.
      * It can be represented as a packed float with the constant {@code -0x1.f50c6ap125F}.
      * <pre>
      * <font style='background-color: #462B48;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #462B48; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2787,7 +2787,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Purplish White", -0x1.fb03ccp125F); LIST.add(-0x1.fb03ccp125F); }
 
     /**
-     * This color constant "Light Purplish Gray" has RGBA8888 code {@code D3C3DBFF}, L 0.7882353, A 0.50980395, B 0.4862745, alpha 1.0, hue 0.875, saturation 0.2828427, and chroma 0.033602834.
+     * This color constant "Light Purplish Gray" has RGBA8888 code {@code D3C3DBFF}, L 0.7882353, A 0.50980395, B 0.4862745, alpha 1.0, hue 0.875, saturation 0.2925959, and chroma 0.033602834.
      * It can be represented as a packed float with the constant {@code -0x1.f90592p125F}.
      * <pre>
      * <font style='background-color: #D3C3DB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D3C3DB; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2799,7 +2799,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Purplish Gray", -0x1.f90592p125F); LIST.add(-0x1.f90592p125F); }
 
     /**
-     * This color constant "Purplish Gray" has RGBA8888 code {@code A395AAFF}, L 0.6156863, A 0.50980395, B 0.4862745, alpha 1.0, hue 0.875, saturation 0.13685937, and chroma 0.033602834.
+     * This color constant "Purplish Gray" has RGBA8888 code {@code A395AAFF}, L 0.6156863, A 0.50980395, B 0.4862745, alpha 1.0, hue 0.875, saturation 0.14142135, and chroma 0.033602834.
      * It can be represented as a packed float with the constant {@code -0x1.f9053ap125F}.
      * <pre>
      * <font style='background-color: #A395AA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A395AA; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2811,7 +2811,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Purplish Gray", -0x1.f9053ap125F); LIST.add(-0x1.f9053ap125F); }
 
     /**
-     * This color constant "Dark Purplish Gray" has RGBA8888 code {@code 73627CFF}, L 0.42352942, A 0.5137255, B 0.48235294, alpha 1.0, hue 0.875, saturation 0.15934801, and chroma 0.044538103.
+     * This color constant "Dark Purplish Gray" has RGBA8888 code {@code 73627CFF}, L 0.42352942, A 0.5137255, B 0.48235294, alpha 1.0, hue 0.875, saturation 0.15713483, and chroma 0.044538103.
      * It can be represented as a packed float with the constant {@code -0x1.f706d8p125F}.
      * <pre>
      * <font style='background-color: #73627C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #73627C; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2823,7 +2823,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Dark Purplish Gray", -0x1.f706d8p125F); LIST.add(-0x1.f706d8p125F); }
 
     /**
-     * This color constant "Purplish Black" has RGBA8888 code {@code 3F3146FF}, L 0.21176471, A 0.5137255, B 0.48235294, alpha 1.0, hue 0.875, saturation 0.24595018, and chroma 0.044538103.
+     * This color constant "Purplish Black" has RGBA8888 code {@code 3F3146FF}, L 0.21176471, A 0.5137255, B 0.48235294, alpha 1.0, hue 0.875, saturation 0.2407172, and chroma 0.044538103.
      * It can be represented as a packed float with the constant {@code -0x1.f7066cp125F}.
      * <pre>
      * <font style='background-color: #3F3146;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3F3146; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2859,7 +2859,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Strong Reddish Purple", -0x1.e92f0ep125F); LIST.add(-0x1.e92f0ep125F); }
 
     /**
-     * This color constant "Deep Reddish Purple" has RGBA8888 code {@code 9B1786FF}, L 0.36078432, A 0.5921569, B 0.45490196, alpha 1.0, hue 0.9316074, saturation 0.91037095, and chroma 0.20439805.
+     * This color constant "Deep Reddish Purple" has RGBA8888 code {@code 9B1786FF}, L 0.36078432, A 0.5921569, B 0.45490196, alpha 1.0, hue 0.9316074, saturation 0.8949409, and chroma 0.20439805.
      * It can be represented as a packed float with the constant {@code -0x1.e92eb8p125F}.
      * <pre>
      * <font style='background-color: #9B1786;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #9B1786; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2871,7 +2871,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Deep Reddish Purple", -0x1.e92eb8p125F); LIST.add(-0x1.e92eb8p125F); }
 
     /**
-     * This color constant "Very Deep Reddish Purple" has RGBA8888 code {@code 6C0066FF}, L 0.24313726, A 0.5764706, B 0.45490196, alpha 1.0, hue 0.91996604, saturation 0.99240977, and chroma 0.17686298.
+     * This color constant "Very Deep Reddish Purple" has RGBA8888 code {@code 6C0066FF}, L 0.24313726, A 0.5764706, B 0.45490196, alpha 1.0, hue 0.91996604, saturation 0.97129464, and chroma 0.17686298.
      * It can be represented as a packed float with the constant {@code -0x1.e9267cp125F}.
      * <pre>
      * <font style='background-color: #6C0066;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #6C0066; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2883,7 +2883,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Very Deep Reddish Purple", -0x1.e9267cp125F); LIST.add(-0x1.e9267cp125F); }
 
     /**
-     * This color constant "Light Reddish Purple" has RGBA8888 code {@code D78EC2FF}, L 0.6666667, A 0.54509807, B 0.47843137, alpha 1.0, hue 0.9371773, saturation 0.4642857, and chroma 0.09959023.
+     * This color constant "Light Reddish Purple" has RGBA8888 code {@code D78EC2FF}, L 0.6666667, A 0.54509807, B 0.47843137, alpha 1.0, hue 0.9371773, saturation 0.44827586, and chroma 0.09959023.
      * It can be represented as a packed float with the constant {@code -0x1.f51754p125F}.
      * <pre>
      * <font style='background-color: #D78EC2;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D78EC2; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2895,7 +2895,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Reddish Purple", -0x1.f51754p125F); LIST.add(-0x1.f51754p125F); }
 
     /**
-     * This color constant "Moderate Reddish Purple" has RGBA8888 code {@code BF5BAEFF}, L 0.5294118, A 0.5686275, B 0.4627451, alpha 1.0, hue 0.92620975, saturation 0.5366563, and chroma 0.1555649.
+     * This color constant "Moderate Reddish Purple" has RGBA8888 code {@code BF5BAEFF}, L 0.5294118, A 0.5686275, B 0.4627451, alpha 1.0, hue 0.92620975, saturation 0.529595, and chroma 0.1555649.
      * It can be represented as a packed float with the constant {@code -0x1.ed230ep125F}.
      * <pre>
      * <font style='background-color: #BF5BAE;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BF5BAE; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2907,7 +2907,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Moderate Reddish Purple", -0x1.ed230ep125F); LIST.add(-0x1.ed230ep125F); }
 
     /**
-     * This color constant "Dark Reddish Purple" has RGBA8888 code {@code 823973FF}, L 0.34901962, A 0.5568628, B 0.47058824, alpha 1.0, hue 0.930514, saturation 0.5808051, and chroma 0.12753771.
+     * This color constant "Dark Reddish Purple" has RGBA8888 code {@code 823973FF}, L 0.34901962, A 0.5568628, B 0.47058824, alpha 1.0, hue 0.930514, saturation 0.57079124, and chroma 0.12753771.
      * It can be represented as a packed float with the constant {@code -0x1.f11cb2p125F}.
      * <pre>
      * <font style='background-color: #823973;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #823973; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2931,7 +2931,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Very Dark Reddish Purple", -0x1.ed1a7p125F); LIST.add(-0x1.ed1a7p125F); }
 
     /**
-     * This color constant "Pale Reddish Purple" has RGBA8888 code {@code C696BCFF}, L 0.6627451, A 0.5294118, B 0.48235294, alpha 1.0, hue 0.92620975, saturation 0.2981424, and chroma 0.068331465.
+     * This color constant "Pale Reddish Purple" has RGBA8888 code {@code C696BCFF}, L 0.6627451, A 0.5294118, B 0.48235294, alpha 1.0, hue 0.92620975, saturation 0.2885249, and chroma 0.068331465.
      * It can be represented as a packed float with the constant {@code -0x1.f70f52p125F}.
      * <pre>
      * <font style='background-color: #C696BC;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C696BC; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2967,7 +2967,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Brilliant Purplish Pink", -0x1.f3179cp125F); LIST.add(-0x1.f3179cp125F); }
 
     /**
-     * This color constant "Strong Purplish Pink" has RGBA8888 code {@code FB9AD7FF}, L 0.7411765, A 0.5568628, B 0.47843137, alpha 1.0, hue 0.9488043, saturation 0.85466963, and chroma 0.12115674.
+     * This color constant "Strong Purplish Pink" has RGBA8888 code {@code FB9AD7FF}, L 0.7411765, A 0.5568628, B 0.47843137, alpha 1.0, hue 0.9488043, saturation 0.8321783, and chroma 0.12115674.
      * It can be represented as a packed float with the constant {@code -0x1.f51d7ap125F}.
      * <pre>
      * <font style='background-color: #FB9AD7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FB9AD7; color: #000000'>&nbsp;@&nbsp;</font>
@@ -2979,7 +2979,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Strong Purplish Pink", -0x1.f51d7ap125F); LIST.add(-0x1.f51d7ap125F); }
 
     /**
-     * This color constant "Deep Purplish Pink" has RGBA8888 code {@code EB81C1FF}, L 0.6666667, A 0.5647059, B 0.47843137, alpha 1.0, hue 0.954483, saturation 0.7088018, and chroma 0.13587911.
+     * This color constant "Deep Purplish Pink" has RGBA8888 code {@code EB81C1FF}, L 0.6666667, A 0.5647059, B 0.47843137, alpha 1.0, hue 0.954483, saturation 0.69490373, and chroma 0.13587911.
      * It can be represented as a packed float with the constant {@code -0x1.f52154p125F}.
      * <pre>
      * <font style='background-color: #EB81C1;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #EB81C1; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3015,7 +3015,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Moderate Purplish Pink", -0x1.f9138p125F); LIST.add(-0x1.f9138p125F); }
 
     /**
-     * This color constant "Dark Purplish Pink" has RGBA8888 code {@code DC8EB1FF}, L 0.6666667, A 0.54509807, B 0.49019608, alpha 1.0, hue 0.9737039, saturation 0.5289359, and chroma 0.091942206.
+     * This color constant "Dark Purplish Pink" has RGBA8888 code {@code DC8EB1FF}, L 0.6666667, A 0.54509807, B 0.49019608, alpha 1.0, hue 0.9737039, saturation 0.51768196, and chroma 0.091942206.
      * It can be represented as a packed float with the constant {@code -0x1.fb1754p125F}.
      * <pre>
      * <font style='background-color: #DC8EB1;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #DC8EB1; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3039,7 +3039,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Pale Purplish Pink", -0x1.fb09b6p125F); LIST.add(-0x1.fb09b6p125F); }
 
     /**
-     * This color constant "Grayish Purplish Pink" has RGBA8888 code {@code DDAFC8FF}, L 0.74509805, A 0.5254902, B 0.49019608, alpha 1.0, hue 0.95571566, saturation 0.41600627, and chroma 0.054407768.
+     * This color constant "Grayish Purplish Pink" has RGBA8888 code {@code DDAFC8FF}, L 0.74509805, A 0.5254902, B 0.49019608, alpha 1.0, hue 0.95571566, saturation 0.40445054, and chroma 0.054407768.
      * It can be represented as a packed float with the constant {@code -0x1.fb0d7cp125F}.
      * <pre>
      * <font style='background-color: #DDAFC8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #DDAFC8; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3051,7 +3051,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Grayish Purplish Pink", -0x1.fb0d7cp125F); LIST.add(-0x1.fb0d7cp125F); }
 
     /**
-     * This color constant "Vivid Purplish Red" has RGBA8888 code {@code FF2A9AFF}, L 0.56078434, A 0.62352943, B 0.48235294, alpha 1.0, hue 0.98019654, saturation 0.94850093, and chroma 0.24859223.
+     * This color constant "Vivid Purplish Red" has RGBA8888 code {@code FF2A9AFF}, L 0.56078434, A 0.62352943, B 0.48235294, alpha 1.0, hue 0.98019654, saturation 0.93475455, and chroma 0.24859223.
      * It can be represented as a packed float with the constant {@code -0x1.f73f1ep125F}.
      * <pre>
      * <font style='background-color: #FF2A9A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF2A9A; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3075,7 +3075,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Strong Purplish Red", -0x1.f93706p125F); LIST.add(-0x1.f93706p125F); }
 
     /**
-     * This color constant "Deep Purplish Red" has RGBA8888 code {@code B00070FF}, L 0.3764706, A 0.6039216, B 0.47843137, alpha 1.0, hue 0.97084755, saturation 0.98068076, and chroma 0.21144326.
+     * This color constant "Deep Purplish Red" has RGBA8888 code {@code B00070FF}, L 0.3764706, A 0.6039216, B 0.47843137, alpha 1.0, hue 0.97084755, saturation 0.9634758, and chroma 0.21144326.
      * It can be represented as a packed float with the constant {@code -0x1.f534cp125F}.
      * <pre>
      * <font style='background-color: #B00070;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B00070; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3099,7 +3099,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Very Deep Purplish Red", -0x1.f3287cp125F); LIST.add(-0x1.f3287cp125F); }
 
     /**
-     * This color constant "Moderate Purplish Red" has RGBA8888 code {@code D74B8EFF}, L 0.5254902, A 0.5882353, B 0.4862745, alpha 1.0, hue 0.9793449, saturation 0.6723138, and chroma 0.17789528.
+     * This color constant "Moderate Purplish Red" has RGBA8888 code {@code D74B8EFF}, L 0.5254902, A 0.5882353, B 0.4862745, alpha 1.0, hue 0.9793449, saturation 0.6627093, and chroma 0.17789528.
      * It can be represented as a packed float with the constant {@code -0x1.f92d0cp125F}.
      * <pre>
      * <font style='background-color: #D74B8E;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D74B8E; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3135,7 +3135,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Very Dark Purplish Red", -0x1.f7206ep125F); LIST.add(-0x1.f7206ep125F); }
 
     /**
-     * This color constant "Light Grayish Purplish Red" has RGBA8888 code {@code CB97ABFF}, L 0.6627451, A 0.5294118, B 0.49411765, alpha 1.0, hue 0.98019654, saturation 0.35053295, and chroma 0.059754133.
+     * This color constant "Light Grayish Purplish Red" has RGBA8888 code {@code CB97ABFF}, L 0.6627451, A 0.5294118, B 0.49411765, alpha 1.0, hue 0.98019654, saturation 0.3430748, and chroma 0.059754133.
      * It can be represented as a packed float with the constant {@code -0x1.fd0f52p125F}.
      * <pre>
      * <font style='background-color: #CB97AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #CB97AB; color: #000000'>&nbsp;@&nbsp;</font>
@@ -3147,7 +3147,7 @@ public class BrighterMunsellPalette {
     static { NAMED.put("Light Grayish Purplish Red", -0x1.fd0f52p125F); LIST.add(-0x1.fd0f52p125F); }
 
     /**
-     * This color constant "Grayish Purplish Red" has RGBA8888 code {@code BD638AFF}, L 0.5254902, A 0.5568628, B 0.49019608, alpha 1.0, hue 0.97889125, saturation 0.4386303, and chroma 0.114952646.
+     * This color constant "Grayish Purplish Red" has RGBA8888 code {@code BD638AFF}, L 0.5254902, A 0.5568628, B 0.49019608, alpha 1.0, hue 0.97889125, saturation 0.43236417, and chroma 0.114952646.
      * It can be represented as a packed float with the constant {@code -0x1.fb1d0cp125F}.
      * <pre>
      * <font style='background-color: #BD638A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BD638A; color: #000000'>&nbsp;@&nbsp;</font>
