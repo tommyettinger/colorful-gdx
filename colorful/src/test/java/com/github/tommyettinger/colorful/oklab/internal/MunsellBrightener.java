@@ -46,14 +46,14 @@ public class MunsellBrightener extends ApplicationAdapter {
         config.setIdleFPS(1);
         config.useVsync(true);
 
-        float c = SimplePalette.RASPBERRY;
-        System.out.printf("%08X Original, H %f, S %f, L %f\n", ColorTools.toRGBA8888(c), oklabHue(c), oklabSaturation(c), oklabLightness(c));
-        c = ColorTools.fromRGBA8888(ColorTools.toRGBA8888(c));
-        System.out.printf("%08X Round Trip, H %f, S %f, L %f\n", ColorTools.toRGBA8888(c), oklabHue(c), oklabSaturation(c), oklabLightness(c));
-        c = oklabByHSL(oklabHue(c), oklabSaturation(c), oklabLightness(c), alpha(c));
-        System.out.printf("%08X Reconstructed, H %f, S %f, L %f\n", ColorTools.toRGBA8888(c), oklabHue(c), oklabSaturation(c), oklabLightness(c));
-        c = oklabByHSL(oklabHue(c), (float) Math.pow(oklabSaturation(c), 0.75) * 1.047f, oklabLightness(c), alpha(c));
-        System.out.printf("%08X Saturated, H %f, S %f, L %f\n", ColorTools.toRGBA8888(c), oklabHue(c), oklabSaturation(c), oklabLightness(c));
+//        float c = SimplePalette.BLUE;
+//        System.out.printf("%08X Original, H %f, S %f, L %f, A %f, B %f\n", ColorTools.toRGBA8888(c), oklabHue(c), oklabSaturation(c), oklabLightness(c), channelA(c), channelB(c));
+//        c = ColorTools.fromRGBA8888(ColorTools.toRGBA8888(c));
+//        System.out.printf("%08X Round Trip, H %f, S %f, L %f, A %f, B %f\n", ColorTools.toRGBA8888(c), oklabHue(c), oklabSaturation(c), oklabLightness(c), channelA(c), channelB(c));
+//        c = oklabByHSL(oklabHue(c), oklabSaturation(c), oklabLightness(c), alpha(c));
+//        System.out.printf("%08X Reconstructed, H %f, S %f, L %f, A %f, B %f\n", ColorTools.toRGBA8888(c), oklabHue(c), oklabSaturation(c), oklabLightness(c), channelA(c), channelB(c));
+//        c = oklabByHSL(oklabHue(c), (float) Math.pow(oklabSaturation(c), 0.75) * 1.047f, oklabLightness(c), alpha(c));
+//        System.out.printf("%08X Saturated, H %f, S %f, L %f, A %f, B %f\n", ColorTools.toRGBA8888(c), oklabHue(c), oklabSaturation(c), oklabLightness(c), channelA(c), channelB(c));
 
 
         new Lwjgl3Application(new MunsellBrightener(), config);
@@ -67,7 +67,7 @@ public class MunsellBrightener extends ApplicationAdapter {
         for (int i = 0; i < lines.length; i++) {
             tabSplit(rec, lines[i]);
             c = fromRGBA8888(StringKit.intFromHex(rec[1]));
-            c = oklabByHSL(oklabHue(c), (float) Math.pow(oklabSaturation(c), 0.75) * 1.047f, oklabLightness(c), alpha(c));
+            c = oklabByHSL(oklabHue(c), (float) Math.pow(oklabSaturation(c), 0.75) * 1.047f, (float) Math.pow(oklabLightness(c), 0.8f), alpha(c));
             sb.append(rec[0]).append('\t').append(StringKit.hex(toRGBA8888(c)).toUpperCase()).append('\t').append(rec[2]).append('\n');
         }
         sb.setLength(sb.length() - 1);
