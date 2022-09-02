@@ -147,7 +147,7 @@ public class SimplePalette {
     static { NAMED.put("orange", -0x1.25194cp126F); LIST.add(-0x1.25194cp126F); }
 
     /**
-     * This color constant "yellow" has RGBA8888 code {@code FFFF00FF}, L 0.92941177, A 0.4627451, B 0.59607846, alpha 1.0, hue 0.3049839, saturation 1.0026664, and chroma 0.20529193.
+     * This color constant "yellow" has RGBA8888 code {@code FFFF00FF}, L 0.92941177, A 0.4627451, B 0.59607846, alpha 1.0, hue 0.3049839, saturation 0.9662058, and chroma 0.20529193.
      * It can be represented as a packed float with the constant {@code -0x1.30eddap126F}.
      * <pre>
      * <font style='background-color: #FFFF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFFF00; color: #000000'>&nbsp;@&nbsp;</font>
@@ -183,7 +183,7 @@ public class SimplePalette {
     static { NAMED.put("blue", -0x1.aef69cp125F); LIST.add(-0x1.aef69cp125F); }
 
     /**
-     * This color constant "indigo" has RGBA8888 code {@code 520FE0FF}, L 0.32156864, A 0.53333336, B 0.36862746, alpha 1.0, hue 0.79236877, saturation 0.9635285, and chroma 0.27001202.
+     * This color constant "indigo" has RGBA8888 code {@code 520FE0FF}, L 0.32156864, A 0.53333336, B 0.36862746, alpha 1.0, hue 0.79236877, saturation 0.95014614, and chroma 0.27001202.
      * It can be represented as a packed float with the constant {@code -0x1.bd10a4p125F}.
      * <pre>
      * <font style='background-color: #520FE0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #520FE0; color: #000000'>&nbsp;@&nbsp;</font>
@@ -195,7 +195,7 @@ public class SimplePalette {
     static { NAMED.put("indigo", -0x1.bd10a4p125F); LIST.add(-0x1.bd10a4p125F); }
 
     /**
-     * This color constant "violet" has RGBA8888 code {@code 9040EFFF}, L 0.4627451, A 0.56078434, B 0.39607844, alpha 1.0, hue 0.83780813, saturation 0.82509935, and chroma 0.23984502.
+     * This color constant "violet" has RGBA8888 code {@code 9040EFFF}, L 0.4627451, A 0.56078434, B 0.39607844, alpha 1.0, hue 0.83780813, saturation 0.84801877, and chroma 0.23984502.
      * It can be represented as a packed float with the constant {@code -0x1.cb1eecp125F}.
      * <pre>
      * <font style='background-color: #9040EF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #9040EF; color: #000000'>&nbsp;@&nbsp;</font>
@@ -219,7 +219,7 @@ public class SimplePalette {
     static { NAMED.put("purple", -0x1.c734fep125F); LIST.add(-0x1.c734fep125F); }
 
     /**
-     * This color constant "brown" has RGBA8888 code {@code 8F573BFF}, L 0.4117647, A 0.5254902, B 0.5294118, alpha 1.0, hue 0.13558689, saturation 0.5451357, and chroma 0.07753685.
+     * This color constant "brown" has RGBA8888 code {@code 8F573BFF}, L 0.4117647, A 0.5254902, B 0.5294118, alpha 1.0, hue 0.13558689, saturation 0.5315073, and chroma 0.07753685.
      * It can be represented as a packed float with the constant {@code -0x1.0f0cd2p126F}.
      * <pre>
      * <font style='background-color: #8F573B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8F573B; color: #000000'>&nbsp;@&nbsp;</font>
@@ -231,7 +231,7 @@ public class SimplePalette {
     static { NAMED.put("brown", -0x1.0f0cd2p126F); LIST.add(-0x1.0f0cd2p126F); }
 
     /**
-     * This color constant "pink" has RGBA8888 code {@code FFA0E0FF}, L 0.7607843, A 0.5568628, B 0.4745098, alpha 1.0, hue 0.939452, saturation 0.9231711, and chroma 0.124142565.
+     * This color constant "pink" has RGBA8888 code {@code FFA0E0FF}, L 0.7607843, A 0.5568628, B 0.4745098, alpha 1.0, hue 0.939452, saturation 0.89752746, and chroma 0.124142565.
      * It can be represented as a packed float with the constant {@code -0x1.f31d84p125F}.
      * <pre>
      * <font style='background-color: #FFA0E0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFA0E0; color: #000000'>&nbsp;@&nbsp;</font>
@@ -243,7 +243,7 @@ public class SimplePalette {
     static { NAMED.put("pink", -0x1.f31d84p125F); LIST.add(-0x1.f31d84p125F); }
 
     /**
-     * This color constant "magenta" has RGBA8888 code {@code F500F5FF}, L 0.5764706, A 0.6313726, B 0.41568628, alpha 1.0, hue 0.9119308, saturation 0.97469467, and chroma 0.31098264.
+     * This color constant "magenta" has RGBA8888 code {@code F500F5FF}, L 0.5764706, A 0.6313726, B 0.41568628, alpha 1.0, hue 0.9119308, saturation 0.96295136, and chroma 0.31098264.
      * It can be represented as a packed float with the constant {@code -0x1.d54326p125F}.
      * <pre>
      * <font style='background-color: #F500F5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F500F5; color: #000000'>&nbsp;@&nbsp;</font>
@@ -267,7 +267,7 @@ public class SimplePalette {
     static { NAMED.put("brick", -0x1.112306p126F); LIST.add(-0x1.112306p126F); }
 
     /**
-     * This color constant "ember" has RGBA8888 code {@code F55A32FF}, L 0.57254905, A 0.57254905, B 0.5568628, alpha 1.0, hue 0.10637331, saturation 0.86455137, and chroma 0.1836353.
+     * This color constant "ember" has RGBA8888 code {@code F55A32FF}, L 0.57254905, A 0.57254905, B 0.5568628, alpha 1.0, hue 0.10637331, saturation 0.8493838, and chroma 0.1836353.
      * It can be represented as a packed float with the constant {@code -0x1.1d2524p126F}.
      * <pre>
      * <font style='background-color: #F55A32;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F55A32; color: #000000'>&nbsp;@&nbsp;</font>
@@ -291,7 +291,7 @@ public class SimplePalette {
     static { NAMED.put("salmon", -0x1.112938p126F); LIST.add(-0x1.112938p126F); }
 
     /**
-     * This color constant "chocolate" has RGBA8888 code {@code 683818FF}, L 0.27450982, A 0.5254902, B 0.53333336, alpha 1.0, hue 0.14477962, saturation 0.7863279, and chroma 0.0835974.
+     * This color constant "chocolate" has RGBA8888 code {@code 683818FF}, L 0.27450982, A 0.5254902, B 0.53333336, alpha 1.0, hue 0.14477962, saturation 0.76011693, and chroma 0.0835974.
      * It can be represented as a packed float with the constant {@code -0x1.110c8cp126F}.
      * <pre>
      * <font style='background-color: #683818;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #683818; color: #000000'>&nbsp;@&nbsp;</font>
@@ -327,7 +327,7 @@ public class SimplePalette {
     static { NAMED.put("bronze", -0x1.1f073cp126F); LIST.add(-0x1.1f073cp126F); }
 
     /**
-     * This color constant "cinnamon" has RGBA8888 code {@code D2691DFF}, L 0.54509807, A 0.5411765, B 0.56078434, alpha 1.0, hue 0.15413038, saturation 0.9030925, and chroma 0.14626285.
+     * This color constant "cinnamon" has RGBA8888 code {@code D2691DFF}, L 0.54509807, A 0.5411765, B 0.56078434, alpha 1.0, hue 0.15413038, saturation 0.88256764, and chroma 0.14626285.
      * It can be represented as a packed float with the constant {@code -0x1.1f1516p126F}.
      * <pre>
      * <font style='background-color: #D2691D;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D2691D; color: #000000'>&nbsp;@&nbsp;</font>
@@ -339,7 +339,7 @@ public class SimplePalette {
     static { NAMED.put("cinnamon", -0x1.1f1516p126F); LIST.add(-0x1.1f1516p126F); }
 
     /**
-     * This color constant "apricot" has RGBA8888 code {@code FFA828FF}, L 0.7372549, A 0.52156866, B 0.5764706, alpha 1.0, hue 0.20362332, saturation 0.9280273, and chroma 0.1582875.
+     * This color constant "apricot" has RGBA8888 code {@code FFA828FF}, L 0.7372549, A 0.52156866, B 0.5764706, alpha 1.0, hue 0.20362332, saturation 0.97119135, and chroma 0.1582875.
      * It can be represented as a packed float with the constant {@code -0x1.270b78p126F}.
      * <pre>
      * <font style='background-color: #FFA828;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFA828; color: #000000'>&nbsp;@&nbsp;</font>
@@ -351,7 +351,7 @@ public class SimplePalette {
     static { NAMED.put("apricot", -0x1.270b78p126F); LIST.add(-0x1.270b78p126F); }
 
     /**
-     * This color constant "peach" has RGBA8888 code {@code FFBF81FF}, L 0.79607844, A 0.5176471, B 0.54509807, alpha 1.0, hue 0.1871773, saturation 0.8965517, and chroma 0.096477255.
+     * This color constant "peach" has RGBA8888 code {@code FFBF81FF}, L 0.79607844, A 0.5176471, B 0.54509807, alpha 1.0, hue 0.1871773, saturation 0.9285714, and chroma 0.096477255.
      * It can be represented as a packed float with the constant {@code -0x1.170996p126F}.
      * <pre>
      * <font style='background-color: #FFBF81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFBF81; color: #000000'>&nbsp;@&nbsp;</font>
@@ -387,7 +387,7 @@ public class SimplePalette {
     static { NAMED.put("saffron", -0x1.2cf9a8p126F); LIST.add(-0x1.2cf9a8p126F); }
 
     /**
-     * This color constant "butter" has RGBA8888 code {@code FFF288FF}, L 0.9098039, A 0.4862745, B 0.5568628, alpha 1.0, hue 0.28142345, saturation 0.8498366, and chroma 0.11653464.
+     * This color constant "butter" has RGBA8888 code {@code FFF288FF}, L 0.9098039, A 0.4862745, B 0.5568628, alpha 1.0, hue 0.28142345, saturation 0.92709446, and chroma 0.11653464.
      * It can be represented as a packed float with the constant {@code -0x1.1cf9dp126F}.
      * <pre>
      * <font style='background-color: #FFF288;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFF288; color: #000000'>&nbsp;@&nbsp;</font>
@@ -399,7 +399,7 @@ public class SimplePalette {
     static { NAMED.put("butter", -0x1.1cf9dp126F); LIST.add(-0x1.1cf9dp126F); }
 
     /**
-     * This color constant "chartreuse" has RGBA8888 code {@code C8FF41FF}, L 0.8862745, A 0.4392157, B 0.58431375, alpha 1.0, hue 0.34525383, saturation 0.96825653, and chroma 0.2070681.
+     * This color constant "chartreuse" has RGBA8888 code {@code C8FF41FF}, L 0.8862745, A 0.4392157, B 0.58431375, alpha 1.0, hue 0.34525383, saturation 0.91817427, and chroma 0.2070681.
      * It can be represented as a packed float with the constant {@code -0x1.2ae1c4p126F}.
      * <pre>
      * <font style='background-color: #C8FF41;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C8FF41; color: #000000'>&nbsp;@&nbsp;</font>
@@ -411,7 +411,7 @@ public class SimplePalette {
     static { NAMED.put("chartreuse", -0x1.2ae1c4p126F); LIST.add(-0x1.2ae1c4p126F); }
 
     /**
-     * This color constant "cactus" has RGBA8888 code {@code 30A000FF}, L 0.5254902, A 0.41960785, B 0.5647059, alpha 1.0, hue 0.38786715, saturation 0.92101085, and chroma 0.20558903.
+     * This color constant "cactus" has RGBA8888 code {@code 30A000FF}, L 0.5254902, A 0.41960785, B 0.5647059, alpha 1.0, hue 0.38786715, saturation 0.95450217, and chroma 0.20558903.
      * It can be represented as a packed float with the constant {@code -0x1.20d70cp126F}.
      * <pre>
      * <font style='background-color: #30A000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #30A000; color: #000000'>&nbsp;@&nbsp;</font>
@@ -423,7 +423,7 @@ public class SimplePalette {
     static { NAMED.put("cactus", -0x1.20d70cp126F); LIST.add(-0x1.20d70cp126F); }
 
     /**
-     * This color constant "lime" has RGBA8888 code {@code 93D300FF}, L 0.7294118, A 0.43529412, B 0.5803922, alpha 1.0, hue 0.35363457, saturation 0.92634237, and chroma 0.20558903.
+     * This color constant "lime" has RGBA8888 code {@code 93D300FF}, L 0.7294118, A 0.43529412, B 0.5803922, alpha 1.0, hue 0.35363457, saturation 0.9600275, and chroma 0.20558903.
      * It can be represented as a packed float with the constant {@code -0x1.28df74p126F}.
      * <pre>
      * <font style='background-color: #93D300;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #93D300; color: #000000'>&nbsp;@&nbsp;</font>
@@ -447,7 +447,7 @@ public class SimplePalette {
     static { NAMED.put("olive", -0x1.1ef2fap126F); LIST.add(-0x1.1ef2fap126F); }
 
     /**
-     * This color constant "fern" has RGBA8888 code {@code 4E7942FF}, L 0.43137255, A 0.4627451, B 0.5294118, alpha 1.0, hue 0.3843443, saturation 0.49149364, and chroma 0.0945603.
+     * This color constant "fern" has RGBA8888 code {@code 4E7942FF}, L 0.43137255, A 0.4627451, B 0.5294118, alpha 1.0, hue 0.3843443, saturation 0.51240826, and chroma 0.0945603.
      * It can be represented as a packed float with the constant {@code -0x1.0eecdcp126F}.
      * <pre>
      * <font style='background-color: #4E7942;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #4E7942; color: #000000'>&nbsp;@&nbsp;</font>
@@ -459,7 +459,7 @@ public class SimplePalette {
     static { NAMED.put("fern", -0x1.0eecdcp126F); LIST.add(-0x1.0eecdcp126F); }
 
     /**
-     * This color constant "moss" has RGBA8888 code {@code 204608FF}, L 0.22745098, A 0.45882353, B 0.5372549, alpha 1.0, hue 0.375, saturation 0.8838835, and chroma 0.11062346.
+     * This color constant "moss" has RGBA8888 code {@code 204608FF}, L 0.22745098, A 0.45882353, B 0.5372549, alpha 1.0, hue 0.375, saturation 0.94280905, and chroma 0.11062346.
      * It can be represented as a packed float with the constant {@code -0x1.12ea74p126F}.
      * <pre>
      * <font style='background-color: #204608;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #204608; color: #000000'>&nbsp;@&nbsp;</font>
@@ -471,7 +471,7 @@ public class SimplePalette {
     static { NAMED.put("moss", -0x1.12ea74p126F); LIST.add(-0x1.12ea74p126F); }
 
     /**
-     * This color constant "celery" has RGBA8888 code {@code 7DFF73FF}, L 0.84313726, A 0.41960785, B 0.56078434, alpha 1.0, hue 0.39260027, saturation 0.89868414, and chroma 0.20078278.
+     * This color constant "celery" has RGBA8888 code {@code 7DFF73FF}, L 0.84313726, A 0.41960785, B 0.56078434, alpha 1.0, hue 0.39260027, saturation 0.88318956, and chroma 0.20078278.
      * It can be represented as a packed float with the constant {@code -0x1.1ed7aep126F}.
      * <pre>
      * <font style='background-color: #7DFF73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7DFF73; color: #000000'>&nbsp;@&nbsp;</font>
@@ -483,7 +483,7 @@ public class SimplePalette {
     static { NAMED.put("celery", -0x1.1ed7aep126F); LIST.add(-0x1.1ed7aep126F); }
 
     /**
-     * This color constant "sage" has RGBA8888 code {@code ABE3C5FF}, L 0.81960785, A 0.46666667, B 0.50980395, alpha 1.0, hue 0.44291252, saturation 0.31644458, and chroma 0.069218926.
+     * This color constant "sage" has RGBA8888 code {@code ABE3C5FF}, L 0.81960785, A 0.46666667, B 0.50980395, alpha 1.0, hue 0.44291252, saturation 0.31069103, and chroma 0.069218926.
      * It can be represented as a packed float with the constant {@code -0x1.04efa2p126F}.
      * <pre>
      * <font style='background-color: #ABE3C5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABE3C5; color: #000000'>&nbsp;@&nbsp;</font>
@@ -495,7 +495,7 @@ public class SimplePalette {
     static { NAMED.put("sage", -0x1.04efa2p126F); LIST.add(-0x1.04efa2p126F); }
 
     /**
-     * This color constant "jade" has RGBA8888 code {@code 3FBF3FFF}, L 0.6313726, A 0.41568628, B 0.5568628, alpha 1.0, hue 0.4012713, saturation 0.8324831, and chroma 0.20259848.
+     * This color constant "jade" has RGBA8888 code {@code 3FBF3FFF}, L 0.6313726, A 0.41568628, B 0.5568628, alpha 1.0, hue 0.4012713, saturation 0.806468, and chroma 0.20259848.
      * It can be represented as a packed float with the constant {@code -0x1.1cd542p126F}.
      * <pre>
      * <font style='background-color: #3FBF3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3FBF3F; color: #000000'>&nbsp;@&nbsp;</font>
@@ -567,7 +567,7 @@ public class SimplePalette {
     static { NAMED.put("sky", -0x1.ece356p125F); LIST.add(-0x1.ece356p125F); }
 
     /**
-     * This color constant "cobalt" has RGBA8888 code {@code 0046ABFF}, L 0.30588236, A 0.48235294, B 0.4117647, alpha 1.0, hue 0.72136545, saturation 0.7710579, and chroma 0.1792624.
+     * This color constant "cobalt" has RGBA8888 code {@code 0046ABFF}, L 0.30588236, A 0.48235294, B 0.4117647, alpha 1.0, hue 0.72136545, saturation 0.9126808, and chroma 0.1792624.
      * It can be represented as a packed float with the constant {@code -0x1.d2f69cp125F}.
      * <pre>
      * <font style='background-color: #0046AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0046AB; color: #000000'>&nbsp;@&nbsp;</font>
@@ -579,7 +579,7 @@ public class SimplePalette {
     static { NAMED.put("cobalt", -0x1.d2f69cp125F); LIST.add(-0x1.d2f69cp125F); }
 
     /**
-     * This color constant "denim" has RGBA8888 code {@code 3088B8FF}, L 0.5058824, A 0.46666667, B 0.45490196, alpha 1.0, hue 0.64991105, saturation 0.7556373, and chroma 0.11172148.
+     * This color constant "denim" has RGBA8888 code {@code 3088B8FF}, L 0.5058824, A 0.46666667, B 0.45490196, alpha 1.0, hue 0.64991105, saturation 0.7772269, and chroma 0.11172148.
      * It can be represented as a packed float with the constant {@code -0x1.e8ef02p125F}.
      * <pre>
      * <font style='background-color: #3088B8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3088B8; color: #000000'>&nbsp;@&nbsp;</font>
@@ -615,7 +615,7 @@ public class SimplePalette {
     static { NAMED.put("lavender", -0x1.df1156p125F); LIST.add(-0x1.df1156p125F); }
 
     /**
-     * This color constant "plum" has RGBA8888 code {@code BE0DC6FF}, L 0.45490196, A 0.60784316, B 0.42352942, alpha 1.0, hue 0.9050996, saturation 0.9531788, and chroma 0.26337513.
+     * This color constant "plum" has RGBA8888 code {@code BE0DC6FF}, L 0.45490196, A 0.60784316, B 0.42352942, alpha 1.0, hue 0.9050996, saturation 0.9399402, and chroma 0.26337513.
      * It can be represented as a packed float with the constant {@code -0x1.d936e8p125F}.
      * <pre>
      * <font style='background-color: #BE0DC6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BE0DC6; color: #000000'>&nbsp;@&nbsp;</font>
@@ -639,7 +639,7 @@ public class SimplePalette {
     static { NAMED.put("mauve", -0x1.f11518p125F); LIST.add(-0x1.f11518p125F); }
 
     /**
-     * This color constant "rose" has RGBA8888 code {@code E61E78FF}, L 0.49411765, A 0.6156863, B 0.49411765, alpha 1.0, hue 0.99470973, saturation 0.92358965, and chroma 0.23076649.
+     * This color constant "rose" has RGBA8888 code {@code E61E78FF}, L 0.49411765, A 0.6156863, B 0.49411765, alpha 1.0, hue 0.99470973, saturation 0.90959585, and chroma 0.23076649.
      * It can be represented as a packed float with the constant {@code -0x1.fd3afcp125F}.
      * <pre>
      * <font style='background-color: #E61E78;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E61E78; color: #000000'>&nbsp;@&nbsp;</font>

@@ -25,7 +25,8 @@ public class GamutWriter extends ApplicationAdapter {
             double L = light * 0x1p-8;
             PER_HUE:
             for (int angle = 0; angle < 256; angle++) {
-                double theta = (angle + 2.5 - L - L) * 0x1p-7 * Math.PI;
+                double theta = (angle) * 0x1p-7 * Math.PI;
+//                double theta = (angle + 2.5 - L - L) * 0x1p-7 * Math.PI;
                 double s = Math.sin(theta), c = Math.cos(theta);
                 for (int dist = 252; dist >= 0; dist--) {
                     double d = dist * 0x1p-8, A = c * d, B = s * d;
