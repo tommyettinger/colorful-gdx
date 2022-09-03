@@ -161,8 +161,8 @@ public class ColorTools {
 	 * @return an adjusted L value that can be fed into a conversion to RGBA or something similar
 	 */
 	public static float reverseLight(float L) {
-		L = (float) Math.sqrt(L);
-		final float shape = 1.55f, turning = 0.95f;
+		L = (float) Math.sqrt(L * 0x0.ffp0f);
+		final float shape = 1.52f, turning = 0.963f;
 		final float d = turning - L;
 		float r;
 		if(d < 0)

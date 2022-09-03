@@ -113,8 +113,8 @@ public class BasicChecks {
         }
     }
     public static double reverseLight(double L) {
-        L = Math.sqrt(L);
-        final double shape = 1.55, turning = 0.95;
+        L = Math.sqrt(L * 0x0.ffp0); // 255.0/256.0
+        final double shape = 1.52, turning = 0.963;
         final double d = turning - L;
         double r;
         if(d < 0)

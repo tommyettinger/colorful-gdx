@@ -26,8 +26,8 @@ public class CompareLightnessDemo extends ApplicationAdapter {
     private TextureAtlas.AtlasRegion pixel;
     private final Color color = new Color();
     private float r = SimplePalette.TRANSPARENT;
-    private float shape = 0.64516133f, turning = 0.95f;
-    private final float iShape = 1.55f;
+    private float shape = 0.6578947368421053f, turning=0.963f; // shape=0.65786f, turning=0.96241f
+    private final float iShape = 1.52f;
 //    private float shape = 1.625f, turning = 0f;
 //    private float shape = 1.1726f, turning = 0.1f;
 
@@ -112,7 +112,8 @@ public class CompareLightnessDemo extends ApplicationAdapter {
             batch.draw(pixel, 256f + j * 2f, height * 0.6f, 2f, height * 0.2f);
             batch.setPackedColor(com.github.tommyettinger.colorful.ycwcm.ColorTools.toRGBA(com.github.tommyettinger.colorful.ycwcm.ColorTools.ycwcm(r, 0.5f, 0.5f, 1f)));
             batch.draw(pixel, 256f + j * 2f, height * 0.4f, 2f, height * 0.2f);
-            batch.setPackedColor(com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA(com.github.tommyettinger.colorful.oklab.ColorTools.oklab(r, 0.5f, 0.5f, 1f)));
+            batch.setPackedColor(oklabToRGBA(com.github.tommyettinger.colorful.oklab.ColorTools.oklab(r, 0.5f, 0.5f, 1f), shape, turning));
+//            batch.setPackedColor(com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA(com.github.tommyettinger.colorful.oklab.ColorTools.oklab(r, 0.5f, 0.5f, 1f)));
             batch.draw(pixel, 256f + j * 2f, height * 0.2f, 2f, height * 0.2f);
             batch.setPackedColor(com.github.tommyettinger.colorful.ipt_hq.ColorTools.toRGBA(com.github.tommyettinger.colorful.ipt_hq.ColorTools.ipt(r, 0.5f, 0.5f, 1f)));
             batch.draw(pixel, 256f + j * 2f, 0, 2f, height * 0.2f);
@@ -125,8 +126,8 @@ public class CompareLightnessDemo extends ApplicationAdapter {
     {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
         final float L = reverseLightConf((decoded & 0xff) / 255f, shape, turning);
-        final float A = ((decoded >>> 8 & 0xff) - 127.5f) / 127.5f;
-        final float B = ((decoded >>> 16 & 0xff) - 127.5f) / 127.5f;
+        final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+        final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
         final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
         final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
         final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
@@ -139,8 +140,16 @@ public class CompareLightnessDemo extends ApplicationAdapter {
         return x * x * x;
     }
 
-    public static float reverseLightConf(float x, float s, float t){
-        return OtherMath.barronSpline((float) Math.sqrt(x), 1f/s, t);
+    public static float reverseLightConf(float L, float shape, float turning) {
+        L = (float) Math.sqrt(L * 0x0.ffp0f);
+//        final float shape = 1.55f, turning = 0.95f;
+        final float d = turning - L;
+        float r;
+        if(d < 0)
+            r = ((1f - turning) * (L - 1f)) / (1f - (L + d / shape)) + 1f;
+        else
+            r = (turning * L) / (1e-20f + (L + d / shape));
+        return r;
     }
 
 //    public static float forwardLight(final float x) {
