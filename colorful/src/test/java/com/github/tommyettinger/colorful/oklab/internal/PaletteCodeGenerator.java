@@ -20,9 +20,9 @@ import static com.github.tommyettinger.colorful.oklab.ColorTools.*;
  * Created by Tommy Ettinger on 12/8/2019.
  */
 public class PaletteCodeGenerator extends ApplicationAdapter {
-    public static final String outputAdd = "Oklab";
-    public static final String inputName = "AuroraColorData.txt";
-    public static final ObjectFloatMap<String> named = Palette.NAMED;
+//    public static final String outputAdd = "Oklab";
+//    public static final String inputName = "AuroraColorData.txt";
+//    public static final ObjectFloatMap<String> named = Palette.NAMED;
 
 //    public static final String outputAdd = "YamOklab";
 //    public static final String inputName = "YamColorData.txt";
@@ -48,11 +48,11 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String inputName = "BrighterMunsell.txt";
 //    public static final ObjectFloatMap<String> named = BrighterMunsellPalette.NAMED;
 
-//    public static final String outputAdd = "SimpleOklab";
-//    public static final String inputName = "SimpleColorData.txt";
-//    public static final ObjectFloatMap<String> named = SimplePalette.NAMED;
+    public static final String outputAdd = "SimpleOklab";
+    public static final String inputName = "SimpleColorData.txt";
+    public static final ObjectFloatMap<String> named = SimplePalette.NAMED;
 
-    public static final boolean INT_PACK = false;
+    public static final boolean INT_PACK = true;
 
     public static void tabSplit(String[] receiving, String source) {
         int dl = 1, idx = -1, idx2;
@@ -81,7 +81,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         float c;
         String templateFull = "\n/**\n" +
                 "* This color constant \"`Name\" has RGBA8888 code {@code `RRGGBBAA}, L `LCHAN, A `ACHAN, B `BCHAN, alpha `ALPHA, hue `HUE, saturation `SAT, and chroma `CHR.\n" +
-                "* It can be represented as `PACKTYPE with the constant {@code `PACKED}.\n" +
+                "* `PACKTYPE {@code `PACKED}.\n" +
                 "* <pre>\n" +
                 "* <font style='background-color: #FEDCBA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FEDCBA; color: #000000'>&nbsp;@&nbsp;</font>\n" +
                 "* <font style='background-color: #FEDCBA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FEDCBA'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FEDCBA'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FEDCBA'>&nbsp;@&nbsp;</font><font style='background-color: #FEDCBA; color: #888888'>&nbsp;@&nbsp;</font>\n" +
@@ -116,8 +116,8 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                             ? "0x"+StringKit.hex((NumberUtils.floatToIntColor(c)))
                             : Float.toHexString(c) + 'F')
                     .replace("`PACKTYPE", INT_PACK
-                            ? "an int"
-                            : "a packed float")
+                            ? "It has the encoded Oklab value"
+                            : "It can be represented as a packed float with the constant")
                     .replace("`TYPE", INT_PACK
                             ? "int"
                             : "float")

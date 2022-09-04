@@ -139,14 +139,14 @@ public class ColorTools {
 	 * @return an adjusted L value that can be used internally
 	 */
 	public static float forwardLight(final float L) {
-		final float shape = 0.64516133f, turning = 0.95f;
+		final float shape = 0.6578947368421053f, turning = 0.963f;
 		final float d = turning - L;
 		float r;
-		if(d < 0)
+		if (d < 0)
 			r = ((1f - turning) * (L - 1f)) / (1f - (L + shape * d)) + 1f;
 		else
 			r = (turning * L) / (1e-20f + (L + shape * d));
-		return r * r;
+		return r * r * (256f / 255f);
 	}
 
 //	public static float forwardLight(final float L) {
@@ -165,7 +165,7 @@ public class ColorTools {
 		final float shape = 1.52f, turning = 0.963f;
 		final float d = turning - L;
 		float r;
-		if(d < 0)
+		if (d < 0)
 			r = ((1f - turning) * (L - 1f)) / (1f - (L + shape * d)) + 1f;
 		else
 			r = (turning * L) / (1e-20f + (L + shape * d));
