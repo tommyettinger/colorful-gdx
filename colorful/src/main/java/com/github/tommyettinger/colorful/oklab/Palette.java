@@ -76,40 +76,40 @@ public class Palette {
     static { NAMED.put("Shadow", -0x1.fefe44p125F); LIST.add(-0x1.fefe44p125F); }
 
     /**
-     * This color constant "Graphite" has RGBA8888 code {@code 373737FF}, L 0.21176471, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
-     * It can be represented as a packed float with the constant {@code -0x1.fefe6cp125F}.
+     * This color constant "Graphite" has RGBA8888 code {@code 373737FF}, L 0.20784314, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
+     * It can be represented as a packed float with the constant {@code -0x1.fefe6ap125F}.
      * <pre>
      * <font style='background-color: #373737;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #373737; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #373737;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #373737'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #373737'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #373737'>&nbsp;@&nbsp;</font><font style='background-color: #373737; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #373737;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #373737; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float GRAPHITE = -0x1.fefe6cp125F;
-    static { NAMED.put("Graphite", -0x1.fefe6cp125F); LIST.add(-0x1.fefe6cp125F); }
+    public static final float GRAPHITE = -0x1.fefe6ap125F;
+    static { NAMED.put("Graphite", -0x1.fefe6ap125F); LIST.add(-0x1.fefe6ap125F); }
 
     /**
-     * This color constant "Dark Gray" has RGBA8888 code {@code 494949FF}, L 0.2901961, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
-     * It can be represented as a packed float with the constant {@code -0x1.fefe94p125F}.
+     * This color constant "Dark Gray" has RGBA8888 code {@code 494949FF}, L 0.28627452, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
+     * It can be represented as a packed float with the constant {@code -0x1.fefe92p125F}.
      * <pre>
      * <font style='background-color: #494949;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #494949; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #494949;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #494949'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #494949'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #494949'>&nbsp;@&nbsp;</font><font style='background-color: #494949; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #494949;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #494949; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float DARK_GRAY = -0x1.fefe94p125F;
-    static { NAMED.put("Dark Gray", -0x1.fefe94p125F); LIST.add(-0x1.fefe94p125F); }
+    public static final float DARK_GRAY = -0x1.fefe92p125F;
+    static { NAMED.put("Dark Gray", -0x1.fefe92p125F); LIST.add(-0x1.fefe92p125F); }
 
     /**
-     * This color constant "Lead" has RGBA8888 code {@code 5B5B5BFF}, L 0.3647059, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
-     * It can be represented as a packed float with the constant {@code -0x1.fefebap125F}.
+     * This color constant "Lead" has RGBA8888 code {@code 5B5B5BFF}, L 0.36078432, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
+     * It can be represented as a packed float with the constant {@code -0x1.fefeb8p125F}.
      * <pre>
      * <font style='background-color: #5B5B5B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #5B5B5B; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #5B5B5B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #5B5B5B'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #5B5B5B'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #5B5B5B'>&nbsp;@&nbsp;</font><font style='background-color: #5B5B5B; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #5B5B5B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #5B5B5B; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float LEAD = -0x1.fefebap125F;
-    static { NAMED.put("Lead", -0x1.fefebap125F); LIST.add(-0x1.fefebap125F); }
+    public static final float LEAD = -0x1.fefeb8p125F;
+    static { NAMED.put("Lead", -0x1.fefeb8p125F); LIST.add(-0x1.fefeb8p125F); }
 
     /**
      * This color constant "Iron" has RGBA8888 code {@code 6E6E6EFF}, L 0.44313726, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
@@ -148,64 +148,64 @@ public class Palette {
     static { NAMED.put("Chinchilla", -0x1.feff2ap125F); LIST.add(-0x1.feff2ap125F); }
 
     /**
-     * This color constant "Greyhound" has RGBA8888 code {@code A4A4A4FF}, L 0.6509804, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
-     * It can be represented as a packed float with the constant {@code -0x1.feff4cp125F}.
+     * This color constant "Greyhound" has RGBA8888 code {@code A4A4A4FF}, L 0.654902, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
+     * It can be represented as a packed float with the constant {@code -0x1.feff4ep125F}.
      * <pre>
      * <font style='background-color: #A4A4A4;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A4A4A4; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #A4A4A4;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #A4A4A4'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #A4A4A4'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #A4A4A4'>&nbsp;@&nbsp;</font><font style='background-color: #A4A4A4; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #A4A4A4;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A4A4A4; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float GREYHOUND = -0x1.feff4cp125F;
-    static { NAMED.put("Greyhound", -0x1.feff4cp125F); LIST.add(-0x1.feff4cp125F); }
+    public static final float GREYHOUND = -0x1.feff4ep125F;
+    static { NAMED.put("Greyhound", -0x1.feff4ep125F); LIST.add(-0x1.feff4ep125F); }
 
     /**
-     * This color constant "Silver" has RGBA8888 code {@code B6B6B6FF}, L 0.7176471, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
-     * It can be represented as a packed float with the constant {@code -0x1.feff6ep125F}.
+     * This color constant "Silver" has RGBA8888 code {@code B6B6B6FF}, L 0.72156864, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
+     * It can be represented as a packed float with the constant {@code -0x1.feff7p125F}.
      * <pre>
      * <font style='background-color: #B6B6B6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B6B6B6; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #B6B6B6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #B6B6B6'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #B6B6B6'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #B6B6B6'>&nbsp;@&nbsp;</font><font style='background-color: #B6B6B6; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #B6B6B6;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B6B6B6; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SILVER = -0x1.feff6ep125F;
-    static { NAMED.put("Silver", -0x1.feff6ep125F); LIST.add(-0x1.feff6ep125F); }
+    public static final float SILVER = -0x1.feff7p125F;
+    static { NAMED.put("Silver", -0x1.feff7p125F); LIST.add(-0x1.feff7p125F); }
 
     /**
-     * This color constant "Light Gray" has RGBA8888 code {@code C9C9C9FF}, L 0.78431374, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
-     * It can be represented as a packed float with the constant {@code -0x1.feff9p125F}.
+     * This color constant "Light Gray" has RGBA8888 code {@code C9C9C9FF}, L 0.7921569, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
+     * It can be represented as a packed float with the constant {@code -0x1.feff94p125F}.
      * <pre>
      * <font style='background-color: #C9C9C9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C9C9C9; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C9C9C9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #C9C9C9'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #C9C9C9'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #C9C9C9'>&nbsp;@&nbsp;</font><font style='background-color: #C9C9C9; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C9C9C9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C9C9C9; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float LIGHT_GRAY = -0x1.feff9p125F;
-    static { NAMED.put("Light Gray", -0x1.feff9p125F); LIST.add(-0x1.feff9p125F); }
+    public static final float LIGHT_GRAY = -0x1.feff94p125F;
+    static { NAMED.put("Light Gray", -0x1.feff94p125F); LIST.add(-0x1.feff94p125F); }
 
     /**
-     * This color constant "Platinum" has RGBA8888 code {@code DBDBDBFF}, L 0.84705883, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
-     * It can be represented as a packed float with the constant {@code -0x1.feffbp125F}.
+     * This color constant "Platinum" has RGBA8888 code {@code DBDBDBFF}, L 0.85490197, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
+     * It can be represented as a packed float with the constant {@code -0x1.feffb4p125F}.
      * <pre>
      * <font style='background-color: #DBDBDB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #DBDBDB; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #DBDBDB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #DBDBDB'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #DBDBDB'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #DBDBDB'>&nbsp;@&nbsp;</font><font style='background-color: #DBDBDB; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #DBDBDB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #DBDBDB; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PLATINUM = -0x1.feffbp125F;
-    static { NAMED.put("Platinum", -0x1.feffbp125F); LIST.add(-0x1.feffbp125F); }
+    public static final float PLATINUM = -0x1.feffb4p125F;
+    static { NAMED.put("Platinum", -0x1.feffb4p125F); LIST.add(-0x1.feffb4p125F); }
 
     /**
-     * This color constant "Cloud" has RGBA8888 code {@code EDEDEDFF}, L 0.90588236, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
-     * It can be represented as a packed float with the constant {@code -0x1.feffcep125F}.
+     * This color constant "Cloud" has RGBA8888 code {@code EDEDEDFF}, L 0.91764706, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
+     * It can be represented as a packed float with the constant {@code -0x1.feffd4p125F}.
      * <pre>
      * <font style='background-color: #EDEDED;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #EDEDED; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #EDEDED;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #EDEDED'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #EDEDED'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #EDEDED'>&nbsp;@&nbsp;</font><font style='background-color: #EDEDED; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #EDEDED;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #EDEDED; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float CLOUD = -0x1.feffcep125F;
-    static { NAMED.put("Cloud", -0x1.feffcep125F); LIST.add(-0x1.feffcep125F); }
+    public static final float CLOUD = -0x1.feffd4p125F;
+    static { NAMED.put("Cloud", -0x1.feffd4p125F); LIST.add(-0x1.feffd4p125F); }
 
     /**
      * This color constant "White" has RGBA8888 code {@code FFFFFFFF}, L 1.0, A 0.49803922, B 0.49803922, alpha 1.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
@@ -232,52 +232,52 @@ public class Palette {
     static { NAMED.put("Seawater", -0x1.f8e6ep125F); LIST.add(-0x1.f8e6ep125F); }
 
     /**
-     * This color constant "Hospital Green" has RGBA8888 code {@code 3FBFBFFF}, L 0.6666667, A 0.44313726, B 0.48235294, alpha 1.0, hue 0.54428434, saturation 0.83201253, and chroma 0.11861114.
-     * It can be represented as a packed float with the constant {@code -0x1.f6e354p125F}.
+     * This color constant "Hospital Green" has RGBA8888 code {@code 3FBFBFFF}, L 0.67058825, A 0.44313726, B 0.48235294, alpha 1.0, hue 0.54428434, saturation 0.83201253, and chroma 0.11861114.
+     * It can be represented as a packed float with the constant {@code -0x1.f6e356p125F}.
      * <pre>
      * <font style='background-color: #3FBFBF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3FBFBF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #3FBFBF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #3FBFBF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #3FBFBF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #3FBFBF'>&nbsp;@&nbsp;</font><font style='background-color: #3FBFBF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #3FBFBF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3FBFBF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float HOSPITAL_GREEN = -0x1.f6e354p125F;
-    static { NAMED.put("Hospital Green", -0x1.f6e354p125F); LIST.add(-0x1.f6e354p125F); }
+    public static final float HOSPITAL_GREEN = -0x1.f6e356p125F;
+    static { NAMED.put("Hospital Green", -0x1.f6e356p125F); LIST.add(-0x1.f6e356p125F); }
 
     /**
-     * This color constant "Cyan" has RGBA8888 code {@code 00FFFFFF}, L 0.8509804, A 0.42352942, B 0.47843137, alpha 1.0, hue 0.5409493, saturation 0.9583845, and chroma 0.1582875.
-     * It can be represented as a packed float with the constant {@code -0x1.f4d9b2p125F}.
+     * This color constant "Cyan" has RGBA8888 code {@code 00FFFFFF}, L 0.85882354, A 0.42352942, B 0.47843137, alpha 1.0, hue 0.5409493, saturation 1.0340465, and chroma 0.1582875.
+     * It can be represented as a packed float with the constant {@code -0x1.f4d9b6p125F}.
      * <pre>
      * <font style='background-color: #00FFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00FFFF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #00FFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #00FFFF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #00FFFF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #00FFFF'>&nbsp;@&nbsp;</font><font style='background-color: #00FFFF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #00FFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00FFFF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float CYAN = -0x1.f4d9b2p125F;
-    static { NAMED.put("Cyan", -0x1.f4d9b2p125F); LIST.add(-0x1.f4d9b2p125F); }
+    public static final float CYAN = -0x1.f4d9b6p125F;
+    static { NAMED.put("Cyan", -0x1.f4d9b6p125F); LIST.add(-0x1.f4d9b6p125F); }
 
     /**
-     * This color constant "Bubble" has RGBA8888 code {@code BFFFFFFF}, L 0.91764706, A 0.47058824, B 0.49019608, alpha 1.0, hue 0.54428434, saturation 0.8564835, and chroma 0.061763234.
-     * It can be represented as a packed float with the constant {@code -0x1.faf1d4p125F}.
+     * This color constant "Bubble" has RGBA8888 code {@code BFFFFFFF}, L 0.92941177, A 0.47058824, B 0.49019608, alpha 1.0, hue 0.54428434, saturation 1.0400157, and chroma 0.061763234.
+     * It can be represented as a packed float with the constant {@code -0x1.faf1dap125F}.
      * <pre>
      * <font style='background-color: #BFFFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BFFFFF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #BFFFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #BFFFFF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #BFFFFF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #BFFFFF'>&nbsp;@&nbsp;</font><font style='background-color: #BFFFFF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #BFFFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BFFFFF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float BUBBLE = -0x1.faf1d4p125F;
-    static { NAMED.put("Bubble", -0x1.faf1d4p125F); LIST.add(-0x1.faf1d4p125F); }
+    public static final float BUBBLE = -0x1.faf1dap125F;
+    static { NAMED.put("Bubble", -0x1.faf1dap125F); LIST.add(-0x1.faf1dap125F); }
 
     /**
-     * This color constant "Periwinkle" has RGBA8888 code {@code 8181FFFF}, L 0.5803922, A 0.5137255, B 0.41568628, alpha 1.0, hue 0.779965, saturation 0.95011365, and chroma 0.17017984.
-     * It can be represented as a packed float with the constant {@code -0x1.d50728p125F}.
+     * This color constant "Periwinkle" has RGBA8888 code {@code 8181FFFF}, L 0.58431375, A 0.5137255, B 0.41568628, alpha 1.0, hue 0.779965, saturation 0.95011365, and chroma 0.17017984.
+     * It can be represented as a packed float with the constant {@code -0x1.d5072ap125F}.
      * <pre>
      * <font style='background-color: #8181FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8181FF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #8181FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #8181FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #8181FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #8181FF'>&nbsp;@&nbsp;</font><font style='background-color: #8181FF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #8181FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8181FF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PERIWINKLE = -0x1.d50728p125F;
-    static { NAMED.put("Periwinkle", -0x1.d50728p125F); LIST.add(-0x1.d50728p125F); }
+    public static final float PERIWINKLE = -0x1.d5072ap125F;
+    static { NAMED.put("Periwinkle", -0x1.d5072ap125F); LIST.add(-0x1.d5072ap125F); }
 
     /**
      * This color constant "Blue" has RGBA8888 code {@code 0000FFFF}, L 0.30588236, A 0.48235294, B 0.34117648, alpha 1.0, hue 0.73413044, saturation 0.9925803, and chroma 0.31835338.
@@ -364,40 +364,40 @@ public class Palette {
     static { NAMED.put("Magenta", -0x1.d54326p125F); LIST.add(-0x1.d54326p125F); }
 
     /**
-     * This color constant "Bubblegum Pink" has RGBA8888 code {@code FD81FFFF}, L 0.7176471, A 0.5803922, B 0.44313726, alpha 1.0, hue 0.90640444, saturation 0.9524098, and chroma 0.19616999.
-     * It can be represented as a packed float with the constant {@code -0x1.e3296ep125F}.
+     * This color constant "Bubblegum Pink" has RGBA8888 code {@code FD81FFFF}, L 0.72156864, A 0.5803922, B 0.44313726, alpha 1.0, hue 0.90640444, saturation 0.97072536, and chroma 0.19616999.
+     * It can be represented as a packed float with the constant {@code -0x1.e3297p125F}.
      * <pre>
      * <font style='background-color: #FD81FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FD81FF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FD81FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FD81FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FD81FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FD81FF'>&nbsp;@&nbsp;</font><font style='background-color: #FD81FF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FD81FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FD81FF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float BUBBLEGUM_PINK = -0x1.e3296ep125F;
-    static { NAMED.put("Bubblegum Pink", -0x1.e3296ep125F); LIST.add(-0x1.e3296ep125F); }
+    public static final float BUBBLEGUM_PINK = -0x1.e3297p125F;
+    static { NAMED.put("Bubblegum Pink", -0x1.e3297p125F); LIST.add(-0x1.e3297p125F); }
 
     /**
-     * This color constant "Pork Chop" has RGBA8888 code {@code FFC0CBFF}, L 0.81960785, A 0.5294118, B 0.5019608, alpha 1.0, hue 0.019803474, saturation 0.84865874, and chroma 0.058723815.
-     * It can be represented as a packed float with the constant {@code -0x1.010fa2p126F}.
+     * This color constant "Pork Chop" has RGBA8888 code {@code FFC0CBFF}, L 0.827451, A 0.5294118, B 0.5019608, alpha 1.0, hue 0.019803474, saturation 0.89580643, and chroma 0.058723815.
+     * It can be represented as a packed float with the constant {@code -0x1.010fa6p126F}.
      * <pre>
      * <font style='background-color: #FFC0CB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFC0CB; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFC0CB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFC0CB'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFC0CB'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFC0CB'>&nbsp;@&nbsp;</font><font style='background-color: #FFC0CB; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFC0CB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFC0CB; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PORK_CHOP = -0x1.010fa2p126F;
-    static { NAMED.put("Pork Chop", -0x1.010fa2p126F); LIST.add(-0x1.010fa2p126F); }
+    public static final float PORK_CHOP = -0x1.010fa6p126F;
+    static { NAMED.put("Pork Chop", -0x1.010fa6p126F); LIST.add(-0x1.010fa6p126F); }
 
     /**
-     * This color constant "Raw Meat" has RGBA8888 code {@code FF8181FF}, L 0.6745098, A 0.5647059, B 0.52156866, alpha 1.0, hue 0.053987134, saturation 0.94882923, and chroma 0.13587911.
-     * It can be represented as a packed float with the constant {@code -0x1.0b2158p126F}.
+     * This color constant "Raw Meat" has RGBA8888 code {@code FF8181FF}, L 0.6784314, A 0.5647059, B 0.52156866, alpha 1.0, hue 0.053987134, saturation 0.9744733, and chroma 0.13587911.
+     * It can be represented as a packed float with the constant {@code -0x1.0b215ap126F}.
      * <pre>
      * <font style='background-color: #FF8181;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF8181; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF8181;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FF8181'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FF8181'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FF8181'>&nbsp;@&nbsp;</font><font style='background-color: #FF8181; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF8181;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF8181; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float RAW_MEAT = -0x1.0b2158p126F;
-    static { NAMED.put("Raw Meat", -0x1.0b2158p126F); LIST.add(-0x1.0b2158p126F); }
+    public static final float RAW_MEAT = -0x1.0b215ap126F;
+    static { NAMED.put("Raw Meat", -0x1.0b215ap126F); LIST.add(-0x1.0b215ap126F); }
 
     /**
      * This color constant "Red" has RGBA8888 code {@code FF0000FF}, L 0.50980395, A 0.6117647, B 0.56078434, alpha 1.0, hue 0.08024464, saturation 0.98868626, and chroma 0.25345513.
@@ -412,52 +412,52 @@ public class Palette {
     static { NAMED.put("Red", -0x1.1f3904p126F); LIST.add(-0x1.1f3904p126F); }
 
     /**
-     * This color constant "Putty" has RGBA8888 code {@code BF3F3FFF}, L 0.44313726, A 0.57254905, B 0.5294118, alpha 1.0, hue 0.063416936, saturation 0.67591894, and chroma 0.15595676.
-     * It can be represented as a packed float with the constant {@code -0x1.0f24e2p126F}.
+     * This color constant "Putty" has RGBA8888 code {@code BF3F3FFF}, L 0.4392157, A 0.57254905, B 0.5294118, alpha 1.0, hue 0.063416936, saturation 0.6871843, and chroma 0.15595676.
+     * It can be represented as a packed float with the constant {@code -0x1.0f24ep126F}.
      * <pre>
      * <font style='background-color: #BF3F3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BF3F3F; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #BF3F3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #BF3F3F'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #BF3F3F'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #BF3F3F'>&nbsp;@&nbsp;</font><font style='background-color: #BF3F3F; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #BF3F3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BF3F3F; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PUTTY = -0x1.0f24e2p126F;
-    static { NAMED.put("Putty", -0x1.0f24e2p126F); LIST.add(-0x1.0f24e2p126F); }
+    public static final float PUTTY = -0x1.0f24ep126F;
+    static { NAMED.put("Putty", -0x1.0f24ep126F); LIST.add(-0x1.0f24ep126F); }
 
     /**
-     * This color constant "Sienna" has RGBA8888 code {@code 7F0000FF}, L 0.24705882, A 0.5686275, B 0.5372549, alpha 1.0, hue 0.080711745, saturation 0.9577331, and chroma 0.1555649.
-     * It can be represented as a packed float with the constant {@code -0x1.13227ep126F}.
+     * This color constant "Sienna" has RGBA8888 code {@code 7F0000FF}, L 0.24313726, A 0.5686275, B 0.5372549, alpha 1.0, hue 0.080711745, saturation 0.9805362, and chroma 0.1555649.
+     * It can be represented as a packed float with the constant {@code -0x1.13227cp126F}.
      * <pre>
      * <font style='background-color: #7F0000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7F0000; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #7F0000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #7F0000'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #7F0000'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #7F0000'>&nbsp;@&nbsp;</font><font style='background-color: #7F0000; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #7F0000;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7F0000; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SIENNA = -0x1.13227ep126F;
-    static { NAMED.put("Sienna", -0x1.13227ep126F); LIST.add(-0x1.13227ep126F); }
+    public static final float SIENNA = -0x1.13227cp126F;
+    static { NAMED.put("Sienna", -0x1.13227cp126F); LIST.add(-0x1.13227cp126F); }
 
     /**
-     * This color constant "Seal Brown" has RGBA8888 code {@code 551414FF}, L 0.17254902, A 0.54509807, B 0.52156866, alpha 1.0, hue 0.073790275, saturation 0.7892004, and chroma 0.09959023.
-     * It can be represented as a packed float with the constant {@code -0x1.0b1658p126F}.
+     * This color constant "Seal Brown" has RGBA8888 code {@code 551414FF}, L 0.16862746, A 0.54509807, B 0.52156866, alpha 1.0, hue 0.073790275, saturation 0.7892004, and chroma 0.09959023.
+     * It can be represented as a packed float with the constant {@code -0x1.0b1656p126F}.
      * <pre>
      * <font style='background-color: #551414;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #551414; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #551414;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #551414'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #551414'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #551414'>&nbsp;@&nbsp;</font><font style='background-color: #551414; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #551414;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #551414; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SEAL_BROWN = -0x1.0b1658p126F;
-    static { NAMED.put("Seal Brown", -0x1.0b1658p126F); LIST.add(-0x1.0b1658p126F); }
+    public static final float SEAL_BROWN = -0x1.0b1656p126F;
+    static { NAMED.put("Seal Brown", -0x1.0b1656p126F); LIST.add(-0x1.0b1656p126F); }
 
     /**
-     * This color constant "Mummy Brown" has RGBA8888 code {@code 7F3F00FF}, L 0.3254902, A 0.5294118, B 0.54509807, alpha 1.0, hue 0.15640444, saturation 0.93046486, and chroma 0.107261956.
-     * It can be represented as a packed float with the constant {@code -0x1.170ea6p126F}.
+     * This color constant "Mummy Brown" has RGBA8888 code {@code 7F3F00FF}, L 0.32156864, A 0.5294118, B 0.54509807, alpha 1.0, hue 0.15640444, saturation 0.93046486, and chroma 0.107261956.
+     * It can be represented as a packed float with the constant {@code -0x1.170ea4p126F}.
      * <pre>
      * <font style='background-color: #7F3F00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7F3F00; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #7F3F00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #7F3F00'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #7F3F00'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #7F3F00'>&nbsp;@&nbsp;</font><font style='background-color: #7F3F00; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #7F3F00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7F3F00; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float MUMMY_BROWN = -0x1.170ea6p126F;
-    static { NAMED.put("Mummy Brown", -0x1.170ea6p126F); LIST.add(-0x1.170ea6p126F); }
+    public static final float MUMMY_BROWN = -0x1.170ea4p126F;
+    static { NAMED.put("Mummy Brown", -0x1.170ea4p126F); LIST.add(-0x1.170ea4p126F); }
 
     /**
      * This color constant "Fawn" has RGBA8888 code {@code BF7F3FFF}, L 0.5686275, A 0.52156866, B 0.54901963, alpha 1.0, hue 0.18118605, saturation 0.6984303, and chroma 0.106691405.
@@ -472,64 +472,64 @@ public class Palette {
     static { NAMED.put("Fawn", -0x1.190b22p126F); LIST.add(-0x1.190b22p126F); }
 
     /**
-     * This color constant "Orange" has RGBA8888 code {@code FF7F00FF}, L 0.6509804, A 0.54901963, B 0.57254905, alpha 1.0, hue 0.1544865, saturation 0.9592387, and chroma 0.17443058.
-     * It can be represented as a packed float with the constant {@code -0x1.25194cp126F}.
+     * This color constant "Orange" has RGBA8888 code {@code FF7F00FF}, L 0.654902, A 0.54901963, B 0.57254905, alpha 1.0, hue 0.1544865, saturation 0.979648, and chroma 0.17443058.
+     * It can be represented as a packed float with the constant {@code -0x1.25194ep126F}.
      * <pre>
      * <font style='background-color: #FF7F00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF7F00; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF7F00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FF7F00'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FF7F00'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FF7F00'>&nbsp;@&nbsp;</font><font style='background-color: #FF7F00; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF7F00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF7F00; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float ORANGE = -0x1.25194cp126F;
-    static { NAMED.put("Orange", -0x1.25194cp126F); LIST.add(-0x1.25194cp126F); }
+    public static final float ORANGE = -0x1.25194ep126F;
+    static { NAMED.put("Orange", -0x1.25194ep126F); LIST.add(-0x1.25194ep126F); }
 
     /**
-     * This color constant "Peach" has RGBA8888 code {@code FFBF81FF}, L 0.79607844, A 0.5176471, B 0.54509807, alpha 1.0, hue 0.1871773, saturation 0.9285714, and chroma 0.096477255.
-     * It can be represented as a packed float with the constant {@code -0x1.170996p126F}.
+     * This color constant "Peach" has RGBA8888 code {@code FFBF81FF}, L 0.8039216, A 0.5176471, B 0.54509807, alpha 1.0, hue 0.1871773, saturation 0.962963, and chroma 0.096477255.
+     * It can be represented as a packed float with the constant {@code -0x1.17099ap126F}.
      * <pre>
      * <font style='background-color: #FFBF81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFBF81; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFBF81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFBF81'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFBF81'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFBF81'>&nbsp;@&nbsp;</font><font style='background-color: #FFBF81; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFBF81;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFBF81; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PEACH = -0x1.170996p126F;
-    static { NAMED.put("Peach", -0x1.170996p126F); LIST.add(-0x1.170996p126F); }
+    public static final float PEACH = -0x1.17099ap126F;
+    static { NAMED.put("Peach", -0x1.17099ap126F); LIST.add(-0x1.17099ap126F); }
 
     /**
-     * This color constant "Cream" has RGBA8888 code {@code FFFFBFFF}, L 0.9647059, A 0.4862745, B 0.53333336, alpha 1.0, hue 0.30119568, saturation 0.9035079, and chroma 0.071815535.
-     * It can be represented as a packed float with the constant {@code -0x1.10f9ecp126F}.
+     * This color constant "Cream" has RGBA8888 code {@code FFFFBFFF}, L 0.972549, A 0.4862745, B 0.53333336, alpha 1.0, hue 0.30119568, saturation 1.1858541, and chroma 0.071815535.
+     * It can be represented as a packed float with the constant {@code -0x1.10f9fp126F}.
      * <pre>
      * <font style='background-color: #FFFFBF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFFFBF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFFFBF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFFFBF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFFFBF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFFFBF'>&nbsp;@&nbsp;</font><font style='background-color: #FFFFBF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFFFBF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFFFBF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float CREAM = -0x1.10f9ecp126F;
-    static { NAMED.put("Cream", -0x1.10f9ecp126F); LIST.add(-0x1.10f9ecp126F); }
+    public static final float CREAM = -0x1.10f9fp126F;
+    static { NAMED.put("Cream", -0x1.10f9fp126F); LIST.add(-0x1.10f9fp126F); }
 
     /**
-     * This color constant "Yellow" has RGBA8888 code {@code FFFF00FF}, L 0.92941177, A 0.4627451, B 0.59607846, alpha 1.0, hue 0.3049839, saturation 0.9662058, and chroma 0.20529193.
-     * It can be represented as a packed float with the constant {@code -0x1.30eddap126F}.
+     * This color constant "Yellow" has RGBA8888 code {@code FFFF00FF}, L 0.9411765, A 0.4627451, B 0.59607846, alpha 1.0, hue 0.3049839, saturation 1.3285329, and chroma 0.20529193.
+     * It can be represented as a packed float with the constant {@code -0x1.30edep126F}.
      * <pre>
      * <font style='background-color: #FFFF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFFF00; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFFF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFFF00'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFFF00'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFFF00'>&nbsp;@&nbsp;</font><font style='background-color: #FFFF00; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFFF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFFF00; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float YELLOW = -0x1.30eddap126F;
-    static { NAMED.put("Yellow", -0x1.30eddap126F); LIST.add(-0x1.30eddap126F); }
+    public static final float YELLOW = -0x1.30edep126F;
+    static { NAMED.put("Yellow", -0x1.30edep126F); LIST.add(-0x1.30edep126F); }
 
     /**
-     * This color constant "Earwax" has RGBA8888 code {@code BFBF3FFF}, L 0.72156864, A 0.4745098, B 0.5686275, alpha 1.0, hue 0.30119568, saturation 0.824942, and chroma 0.14584495.
-     * It can be represented as a packed float with the constant {@code -0x1.22f37p126F}.
+     * This color constant "Earwax" has RGBA8888 code {@code BFBF3FFF}, L 0.7254902, A 0.4745098, B 0.5686275, alpha 1.0, hue 0.30119568, saturation 0.824942, and chroma 0.14584495.
+     * It can be represented as a packed float with the constant {@code -0x1.22f372p126F}.
      * <pre>
      * <font style='background-color: #BFBF3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BFBF3F; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #BFBF3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #BFBF3F'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #BFBF3F'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #BFBF3F'>&nbsp;@&nbsp;</font><font style='background-color: #BFBF3F; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #BFBF3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BFBF3F; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float EARWAX = -0x1.22f37p126F;
-    static { NAMED.put("Earwax", -0x1.22f37p126F); LIST.add(-0x1.22f37p126F); }
+    public static final float EARWAX = -0x1.22f372p126F;
+    static { NAMED.put("Earwax", -0x1.22f372p126F); LIST.add(-0x1.22f372p126F); }
 
     /**
      * This color constant "Umber" has RGBA8888 code {@code 7F7F00FF}, L 0.4862745, A 0.4745098, B 0.56078434, alpha 1.0, hue 0.30708748, saturation 0.9493337, and chroma 0.13131043.
@@ -556,76 +556,76 @@ public class Palette {
     static { NAMED.put("Ivy Green", -0x1.1ad8d2p126F); LIST.add(-0x1.1ad8d2p126F); }
 
     /**
-     * This color constant "Jade" has RGBA8888 code {@code 3FBF3FFF}, L 0.6313726, A 0.41568628, B 0.5568628, alpha 1.0, hue 0.4012713, saturation 0.806468, and chroma 0.20259848.
-     * It can be represented as a packed float with the constant {@code -0x1.1cd542p126F}.
+     * This color constant "Jade" has RGBA8888 code {@code 3FBF3FFF}, L 0.63529414, A 0.41568628, B 0.5568628, alpha 1.0, hue 0.4012713, saturation 0.806468, and chroma 0.20259848.
+     * It can be represented as a packed float with the constant {@code -0x1.1cd544p126F}.
      * <pre>
      * <font style='background-color: #3FBF3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3FBF3F; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #3FBF3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #3FBF3F'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #3FBF3F'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #3FBF3F'>&nbsp;@&nbsp;</font><font style='background-color: #3FBF3F; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #3FBF3F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3FBF3F; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float JADE = -0x1.1cd542p126F;
-    static { NAMED.put("Jade", -0x1.1cd542p126F); LIST.add(-0x1.1cd542p126F); }
+    public static final float JADE = -0x1.1cd544p126F;
+    static { NAMED.put("Jade", -0x1.1cd544p126F); LIST.add(-0x1.1cd544p126F); }
 
     /**
-     * This color constant "Green" has RGBA8888 code {@code 00FF00FF}, L 0.8, A 0.38039216, B 0.5882353, alpha 1.0, hue 0.39588714, saturation 0.9947925, and chroma 0.29610303.
-     * It can be represented as a packed float with the constant {@code -0x1.2cc398p126F}.
+     * This color constant "Green" has RGBA8888 code {@code 00FF00FF}, L 0.80784315, A 0.38039216, B 0.5882353, alpha 1.0, hue 0.39588714, saturation 1.0080564, and chroma 0.29610303.
+     * It can be represented as a packed float with the constant {@code -0x1.2cc39cp126F}.
      * <pre>
      * <font style='background-color: #00FF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00FF00; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #00FF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #00FF00'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #00FF00'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #00FF00'>&nbsp;@&nbsp;</font><font style='background-color: #00FF00; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #00FF00;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00FF00; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float GREEN = -0x1.2cc398p126F;
-    static { NAMED.put("Green", -0x1.2cc398p126F); LIST.add(-0x1.2cc398p126F); }
+    public static final float GREEN = -0x1.2cc39cp126F;
+    static { NAMED.put("Green", -0x1.2cc39cp126F); LIST.add(-0x1.2cc39cp126F); }
 
     /**
-     * This color constant "Celadon" has RGBA8888 code {@code AFFFAFFF}, L 0.8862745, A 0.44705883, B 0.53333336, alpha 1.0, hue 0.4036119, saturation 0.95826596, and chroma 0.12463325.
-     * It can be represented as a packed float with the constant {@code -0x1.10e5c4p126F}.
+     * This color constant "Celadon" has RGBA8888 code {@code AFFFAFFF}, L 0.89411765, A 0.44705883, B 0.53333336, alpha 1.0, hue 0.4036119, saturation 1.0540925, and chroma 0.12463325.
+     * It can be represented as a packed float with the constant {@code -0x1.10e5c8p126F}.
      * <pre>
      * <font style='background-color: #AFFFAF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AFFFAF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #AFFFAF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #AFFFAF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #AFFFAF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #AFFFAF'>&nbsp;@&nbsp;</font><font style='background-color: #AFFFAF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #AFFFAF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AFFFAF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float CELADON = -0x1.10e5c4p126F;
-    static { NAMED.put("Celadon", -0x1.10e5c4p126F); LIST.add(-0x1.10e5c4p126F); }
+    public static final float CELADON = -0x1.10e5c8p126F;
+    static { NAMED.put("Celadon", -0x1.10e5c8p126F); LIST.add(-0x1.10e5c8p126F); }
 
     /**
-     * This color constant "Puce" has RGBA8888 code {@code BCAFC0FF}, L 0.70980394, A 0.5058824, B 0.49019608, alpha 1.0, hue 0.875, saturation 0.13155475, and chroma 0.022777155.
-     * It can be represented as a packed float with the constant {@code -0x1.fb036ap125F}.
+     * This color constant "Puce" has RGBA8888 code {@code BCAFC0FF}, L 0.7176471, A 0.5058824, B 0.49019608, alpha 1.0, hue 0.875, saturation 0.13797206, and chroma 0.022777155.
+     * It can be represented as a packed float with the constant {@code -0x1.fb036ep125F}.
      * <pre>
      * <font style='background-color: #BCAFC0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BCAFC0; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #BCAFC0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #BCAFC0'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #BCAFC0'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #BCAFC0'>&nbsp;@&nbsp;</font><font style='background-color: #BCAFC0; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #BCAFC0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BCAFC0; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PUCE = -0x1.fb036ap125F;
-    static { NAMED.put("Puce", -0x1.fb036ap125F); LIST.add(-0x1.fb036ap125F); }
+    public static final float PUCE = -0x1.fb036ep125F;
+    static { NAMED.put("Puce", -0x1.fb036ep125F); LIST.add(-0x1.fb036ep125F); }
 
     /**
-     * This color constant "Beige" has RGBA8888 code {@code CBAA89FF}, L 0.69803923, A 0.50980395, B 0.5254902, alpha 1.0, hue 0.18556869, saturation 0.33112058, and chroma 0.054407768.
-     * It can be represented as a packed float with the constant {@code -0x1.0d0564p126F}.
+     * This color constant "Beige" has RGBA8888 code {@code CBAA89FF}, L 0.7019608, A 0.50980395, B 0.5254902, alpha 1.0, hue 0.18556869, saturation 0.3384788, and chroma 0.054407768.
+     * It can be represented as a packed float with the constant {@code -0x1.0d0566p126F}.
      * <pre>
      * <font style='background-color: #CBAA89;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #CBAA89; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #CBAA89;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #CBAA89'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #CBAA89'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #CBAA89'>&nbsp;@&nbsp;</font><font style='background-color: #CBAA89; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #CBAA89;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #CBAA89; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float BEIGE = -0x1.0d0564p126F;
-    static { NAMED.put("Beige", -0x1.0d0564p126F); LIST.add(-0x1.0d0564p126F); }
+    public static final float BEIGE = -0x1.0d0566p126F;
+    static { NAMED.put("Beige", -0x1.0d0566p126F); LIST.add(-0x1.0d0566p126F); }
 
     /**
-     * This color constant "Wet Stone" has RGBA8888 code {@code A6A090FF}, L 0.63529414, A 0.49803922, B 0.50980395, alpha 1.0, hue 0.25, saturation 0.15, and chroma 0.019918045.
-     * It can be represented as a packed float with the constant {@code -0x1.04ff44p126F}.
+     * This color constant "Wet Stone" has RGBA8888 code {@code A6A090FF}, L 0.6392157, A 0.49803922, B 0.50980395, alpha 1.0, hue 0.25, saturation 0.15, and chroma 0.019918045.
+     * It can be represented as a packed float with the constant {@code -0x1.04ff46p126F}.
      * <pre>
      * <font style='background-color: #A6A090;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A6A090; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #A6A090;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #A6A090'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #A6A090'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #A6A090'>&nbsp;@&nbsp;</font><font style='background-color: #A6A090; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #A6A090;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A6A090; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float WET_STONE = -0x1.04ff44p126F;
-    static { NAMED.put("Wet Stone", -0x1.04ff44p126F); LIST.add(-0x1.04ff44p126F); }
+    public static final float WET_STONE = -0x1.04ff46p126F;
+    static { NAMED.put("Wet Stone", -0x1.04ff46p126F); LIST.add(-0x1.04ff46p126F); }
 
     /**
      * This color constant "Slow Creek" has RGBA8888 code {@code 7E9494FF}, L 0.57254905, A 0.4862745, B 0.49411765, alpha 1.0, hue 0.5511957, saturation 0.20401792, and chroma 0.029749114.
@@ -676,88 +676,88 @@ public class Palette {
     static { NAMED.put("Light Skin 2", -0x1.090ef6p126F); LIST.add(-0x1.090ef6p126F); }
 
     /**
-     * This color constant "Light Skin 3" has RGBA8888 code {@code C07872FF}, L 0.5647059, A 0.5372549, B 0.5176471, alpha 1.0, hue 0.073790275, saturation 0.39229262, and chroma 0.0821242.
-     * It can be represented as a packed float with the constant {@code -0x1.09132p126F}.
+     * This color constant "Light Skin 3" has RGBA8888 code {@code C07872FF}, L 0.5686275, A 0.5372549, B 0.5176471, alpha 1.0, hue 0.073790275, saturation 0.39929786, and chroma 0.0821242.
+     * It can be represented as a packed float with the constant {@code -0x1.091322p126F}.
      * <pre>
      * <font style='background-color: #C07872;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C07872; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C07872;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #C07872'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #C07872'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #C07872'>&nbsp;@&nbsp;</font><font style='background-color: #C07872; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C07872;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C07872; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float LIGHT_SKIN_3 = -0x1.09132p126F;
-    static { NAMED.put("Light Skin 3", -0x1.09132p126F); LIST.add(-0x1.09132p126F); }
+    public static final float LIGHT_SKIN_3 = -0x1.091322p126F;
+    static { NAMED.put("Light Skin 3", -0x1.091322p126F); LIST.add(-0x1.091322p126F); }
 
     /**
-     * This color constant "Light Skin 4" has RGBA8888 code {@code D08A74FF}, L 0.62352943, A 0.53333336, B 0.5254902, alpha 1.0, hue 0.105220385, saturation 0.48518103, and chroma 0.0835974.
-     * It can be represented as a packed float with the constant {@code -0x1.0d113ep126F}.
+     * This color constant "Light Skin 4" has RGBA8888 code {@code D08A74FF}, L 0.627451, A 0.53333336, B 0.5254902, alpha 1.0, hue 0.105220385, saturation 0.49572846, and chroma 0.0835974.
+     * It can be represented as a packed float with the constant {@code -0x1.0d114p126F}.
      * <pre>
      * <font style='background-color: #D08A74;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D08A74; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #D08A74;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #D08A74'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #D08A74'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #D08A74'>&nbsp;@&nbsp;</font><font style='background-color: #D08A74; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #D08A74;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D08A74; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float LIGHT_SKIN_4 = -0x1.0d113ep126F;
-    static { NAMED.put("Light Skin 4", -0x1.0d113ep126F); LIST.add(-0x1.0d113ep126F); }
+    public static final float LIGHT_SKIN_4 = -0x1.0d114p126F;
+    static { NAMED.put("Light Skin 4", -0x1.0d114p126F); LIST.add(-0x1.0d114p126F); }
 
     /**
-     * This color constant "Light Skin 5" has RGBA8888 code {@code E19B7DFF}, L 0.6862745, A 0.5294118, B 0.5294118, alpha 1.0, hue 0.125, saturation 0.5801902, and chroma 0.082864076.
-     * It can be represented as a packed float with the constant {@code -0x1.0f0f5ep126F}.
+     * This color constant "Light Skin 5" has RGBA8888 code {@code E19B7DFF}, L 0.6901961, A 0.5294118, B 0.5294118, alpha 1.0, hue 0.125, saturation 0.5954583, and chroma 0.082864076.
+     * It can be represented as a packed float with the constant {@code -0x1.0f0f6p126F}.
      * <pre>
      * <font style='background-color: #E19B7D;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E19B7D; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E19B7D;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #E19B7D'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #E19B7D'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #E19B7D'>&nbsp;@&nbsp;</font><font style='background-color: #E19B7D; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E19B7D;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E19B7D; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float LIGHT_SKIN_5 = -0x1.0f0f5ep126F;
-    static { NAMED.put("Light Skin 5", -0x1.0f0f5ep126F); LIST.add(-0x1.0f0f5ep126F); }
+    public static final float LIGHT_SKIN_5 = -0x1.0f0f6p126F;
+    static { NAMED.put("Light Skin 5", -0x1.0f0f6p126F); LIST.add(-0x1.0f0f6p126F); }
 
     /**
-     * This color constant "Light Skin 6" has RGBA8888 code {@code EBAA8CFF}, L 0.73333335, A 0.5254902, B 0.5254902, alpha 1.0, hue 0.125, saturation 0.6386771, and chroma 0.071815535.
-     * It can be represented as a packed float with the constant {@code -0x1.0d0d76p126F}.
+     * This color constant "Light Skin 6" has RGBA8888 code {@code EBAA8CFF}, L 0.7372549, A 0.5254902, B 0.5254902, alpha 1.0, hue 0.125, saturation 0.6386771, and chroma 0.071815535.
+     * It can be represented as a packed float with the constant {@code -0x1.0d0d78p126F}.
      * <pre>
      * <font style='background-color: #EBAA8C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #EBAA8C; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #EBAA8C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #EBAA8C'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #EBAA8C'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #EBAA8C'>&nbsp;@&nbsp;</font><font style='background-color: #EBAA8C; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #EBAA8C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #EBAA8C; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float LIGHT_SKIN_6 = -0x1.0d0d76p126F;
-    static { NAMED.put("Light Skin 6", -0x1.0d0d76p126F); LIST.add(-0x1.0d0d76p126F); }
+    public static final float LIGHT_SKIN_6 = -0x1.0d0d78p126F;
+    static { NAMED.put("Light Skin 6", -0x1.0d0d78p126F); LIST.add(-0x1.0d0d78p126F); }
 
     /**
-     * This color constant "Light Skin 7" has RGBA8888 code {@code F5B99BFF}, L 0.78039217, A 0.52156866, B 0.5254902, alpha 1.0, hue 0.13720988, saturation 0.73756355, and chroma 0.06652104.
-     * It can be represented as a packed float with the constant {@code -0x1.0d0b8ep126F}.
+     * This color constant "Light Skin 7" has RGBA8888 code {@code F5B99BFF}, L 0.7882353, A 0.52156866, B 0.5254902, alpha 1.0, hue 0.13720988, saturation 0.76829535, and chroma 0.06652104.
+     * It can be represented as a packed float with the constant {@code -0x1.0d0b92p126F}.
      * <pre>
      * <font style='background-color: #F5B99B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F5B99B; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #F5B99B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #F5B99B'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #F5B99B'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #F5B99B'>&nbsp;@&nbsp;</font><font style='background-color: #F5B99B; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #F5B99B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F5B99B; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float LIGHT_SKIN_7 = -0x1.0d0b8ep126F;
-    static { NAMED.put("Light Skin 7", -0x1.0d0b8ep126F); LIST.add(-0x1.0d0b8ep126F); }
+    public static final float LIGHT_SKIN_7 = -0x1.0d0b92p126F;
+    static { NAMED.put("Light Skin 7", -0x1.0d0b92p126F); LIST.add(-0x1.0d0b92p126F); }
 
     /**
-     * This color constant "Light Skin 8" has RGBA8888 code {@code F6C8AFFF}, L 0.81960785, A 0.5176471, B 0.52156866, alpha 1.0, hue 0.13941902, saturation 0.781025, and chroma 0.055518243.
-     * It can be represented as a packed float with the constant {@code -0x1.0b09a2p126F}.
+     * This color constant "Light Skin 8" has RGBA8888 code {@code F6C8AFFF}, L 0.827451, A 0.5176471, B 0.52156866, alpha 1.0, hue 0.13941902, saturation 0.8221316, and chroma 0.055518243.
+     * It can be represented as a packed float with the constant {@code -0x1.0b09a6p126F}.
      * <pre>
      * <font style='background-color: #F6C8AF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F6C8AF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #F6C8AF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #F6C8AF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #F6C8AF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #F6C8AF'>&nbsp;@&nbsp;</font><font style='background-color: #F6C8AF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #F6C8AF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F6C8AF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float LIGHT_SKIN_8 = -0x1.0b09a2p126F;
-    static { NAMED.put("Light Skin 8", -0x1.0b09a2p126F); LIST.add(-0x1.0b09a2p126F); }
+    public static final float LIGHT_SKIN_8 = -0x1.0b09a6p126F;
+    static { NAMED.put("Light Skin 8", -0x1.0b09a6p126F); LIST.add(-0x1.0b09a6p126F); }
 
     /**
-     * This color constant "Light Skin 9" has RGBA8888 code {@code F5E1D2FF}, L 0.8784314, A 0.5058824, B 0.50980395, alpha 1.0, hue 0.15640444, saturation 0.5547002, and chroma 0.022777155.
-     * It can be represented as a packed float with the constant {@code -0x1.0503cp126F}.
+     * This color constant "Light Skin 9" has RGBA8888 code {@code F5E1D2FF}, L 0.8901961, A 0.5058824, B 0.50980395, alpha 1.0, hue 0.15640444, saturation 0.6555548, and chroma 0.022777155.
+     * It can be represented as a packed float with the constant {@code -0x1.0503c6p126F}.
      * <pre>
      * <font style='background-color: #F5E1D2;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F5E1D2; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #F5E1D2;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #F5E1D2'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #F5E1D2'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #F5E1D2'>&nbsp;@&nbsp;</font><font style='background-color: #F5E1D2; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #F5E1D2;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F5E1D2; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float LIGHT_SKIN_9 = -0x1.0503cp126F;
-    static { NAMED.put("Light Skin 9", -0x1.0503cp126F); LIST.add(-0x1.0503cp126F); }
+    public static final float LIGHT_SKIN_9 = -0x1.0503c6p126F;
+    static { NAMED.put("Light Skin 9", -0x1.0503c6p126F); LIST.add(-0x1.0503c6p126F); }
 
     /**
      * This color constant "Dark Skin 1" has RGBA8888 code {@code 573B3BFF}, L 0.2627451, A 0.5176471, B 0.5058824, alpha 1.0, hue 0.060548004, saturation 0.24478021, and chroma 0.03705794.
@@ -796,76 +796,76 @@ public class Palette {
     static { NAMED.put("Dark Skin 3", -0x1.0510d2p126F); LIST.add(-0x1.0510d2p126F); }
 
     /**
-     * This color constant "Pink Skin 1" has RGBA8888 code {@code AB7373FF}, L 0.5254902, A 0.5294118, B 0.50980395, alpha 1.0, hue 0.057087466, saturation 0.26289243, and chroma 0.061763234.
-     * It can be represented as a packed float with the constant {@code -0x1.050f0cp126F}.
+     * This color constant "Pink Skin 1" has RGBA8888 code {@code AB7373FF}, L 0.5294118, A 0.5294118, B 0.50980395, alpha 1.0, hue 0.057087466, saturation 0.2670001, and chroma 0.061763234.
+     * It can be represented as a packed float with the constant {@code -0x1.050f0ep126F}.
      * <pre>
      * <font style='background-color: #AB7373;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AB7373; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #AB7373;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #AB7373'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #AB7373'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #AB7373'>&nbsp;@&nbsp;</font><font style='background-color: #AB7373; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #AB7373;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AB7373; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PINK_SKIN_1 = -0x1.050f0cp126F;
-    static { NAMED.put("Pink Skin 1", -0x1.050f0cp126F); LIST.add(-0x1.050f0cp126F); }
+    public static final float PINK_SKIN_1 = -0x1.050f0ep126F;
+    static { NAMED.put("Pink Skin 1", -0x1.050f0ep126F); LIST.add(-0x1.050f0ep126F); }
 
     /**
-     * This color constant "Pink Skin 2" has RGBA8888 code {@code C78F8FFF}, L 0.6313726, A 0.5294118, B 0.50980395, alpha 1.0, hue 0.057087466, saturation 0.3797335, and chroma 0.061763234.
-     * It can be represented as a packed float with the constant {@code -0x1.050f42p126F}.
+     * This color constant "Pink Skin 2" has RGBA8888 code {@code C78F8FFF}, L 0.63529414, A 0.5294118, B 0.50980395, alpha 1.0, hue 0.057087466, saturation 0.3883638, and chroma 0.061763234.
+     * It can be represented as a packed float with the constant {@code -0x1.050f44p126F}.
      * <pre>
      * <font style='background-color: #C78F8F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C78F8F; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C78F8F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #C78F8F'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #C78F8F'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #C78F8F'>&nbsp;@&nbsp;</font><font style='background-color: #C78F8F; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C78F8F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C78F8F; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PINK_SKIN_2 = -0x1.050f42p126F;
-    static { NAMED.put("Pink Skin 2", -0x1.050f42p126F); LIST.add(-0x1.050f42p126F); }
+    public static final float PINK_SKIN_2 = -0x1.050f44p126F;
+    static { NAMED.put("Pink Skin 2", -0x1.050f44p126F); LIST.add(-0x1.050f44p126F); }
 
     /**
-     * This color constant "Pink Skin 3" has RGBA8888 code {@code E3ABABFF}, L 0.73333335, A 0.5254902, B 0.5058824, alpha 1.0, hue 0.044284336, saturation 0.50207657, and chroma 0.052115876.
-     * It can be represented as a packed float with the constant {@code -0x1.030d76p126F}.
+     * This color constant "Pink Skin 3" has RGBA8888 code {@code E3ABABFF}, L 0.7411765, A 0.5254902, B 0.5058824, alpha 1.0, hue 0.044284336, saturation 0.52000785, and chroma 0.052115876.
+     * It can be represented as a packed float with the constant {@code -0x1.030d7ap126F}.
      * <pre>
      * <font style='background-color: #E3ABAB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E3ABAB; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E3ABAB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #E3ABAB'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #E3ABAB'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #E3ABAB'>&nbsp;@&nbsp;</font><font style='background-color: #E3ABAB; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E3ABAB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E3ABAB; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PINK_SKIN_3 = -0x1.030d76p126F;
-    static { NAMED.put("Pink Skin 3", -0x1.030d76p126F); LIST.add(-0x1.030d76p126F); }
+    public static final float PINK_SKIN_3 = -0x1.030d7ap126F;
+    static { NAMED.put("Pink Skin 3", -0x1.030d7ap126F); LIST.add(-0x1.030d7ap126F); }
 
     /**
-     * This color constant "Pink Skin 4" has RGBA8888 code {@code F8D2DAFF}, L 0.85490197, A 0.5176471, B 0.49803922, alpha 1.0, hue 1.2950972E-5, saturation 0.6666667, and chroma 0.0353726.
-     * It can be represented as a packed float with the constant {@code -0x1.ff09b4p125F}.
+     * This color constant "Pink Skin 4" has RGBA8888 code {@code F8D2DAFF}, L 0.8627451, A 0.5176471, B 0.49803922, alpha 1.0, hue 1.2950972E-5, saturation 0.71428573, and chroma 0.0353726.
+     * It can be represented as a packed float with the constant {@code -0x1.ff09b8p125F}.
      * <pre>
      * <font style='background-color: #F8D2DA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F8D2DA; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #F8D2DA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #F8D2DA'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #F8D2DA'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #F8D2DA'>&nbsp;@&nbsp;</font><font style='background-color: #F8D2DA; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #F8D2DA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F8D2DA; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PINK_SKIN_4 = -0x1.ff09b4p125F;
-    static { NAMED.put("Pink Skin 4", -0x1.ff09b4p125F); LIST.add(-0x1.ff09b4p125F); }
+    public static final float PINK_SKIN_4 = -0x1.ff09b8p125F;
+    static { NAMED.put("Pink Skin 4", -0x1.ff09b8p125F); LIST.add(-0x1.ff09b8p125F); }
 
     /**
-     * This color constant "Bronze Skin 4" has RGBA8888 code {@code E3C7ABFF}, L 0.79607844, A 0.5058824, B 0.5176471, alpha 1.0, hue 0.189452, saturation 0.37139067, and chroma 0.03705794.
-     * It can be represented as a packed float with the constant {@code -0x1.090396p126F}.
+     * This color constant "Bronze Skin 4" has RGBA8888 code {@code E3C7ABFF}, L 0.8039216, A 0.5058824, B 0.5176471, alpha 1.0, hue 0.189452, saturation 0.3989011, and chroma 0.03705794.
+     * It can be represented as a packed float with the constant {@code -0x1.09039ap126F}.
      * <pre>
      * <font style='background-color: #E3C7AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E3C7AB; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E3C7AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #E3C7AB'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #E3C7AB'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #E3C7AB'>&nbsp;@&nbsp;</font><font style='background-color: #E3C7AB; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E3C7AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E3C7AB; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float BRONZE_SKIN_4 = -0x1.090396p126F;
-    static { NAMED.put("Bronze Skin 4", -0x1.090396p126F); LIST.add(-0x1.090396p126F); }
+    public static final float BRONZE_SKIN_4 = -0x1.09039ap126F;
+    static { NAMED.put("Bronze Skin 4", -0x1.09039ap126F); LIST.add(-0x1.09039ap126F); }
 
     /**
-     * This color constant "Bronze Skin 3" has RGBA8888 code {@code C49E73FF}, L 0.654902, A 0.50980395, B 0.5294118, alpha 1.0, hue 0.19291253, saturation 0.3883638, and chroma 0.061763234.
-     * It can be represented as a packed float with the constant {@code -0x1.0f054ep126F}.
+     * This color constant "Bronze Skin 3" has RGBA8888 code {@code C49E73FF}, L 0.65882355, A 0.50980395, B 0.5294118, alpha 1.0, hue 0.19291253, saturation 0.3883638, and chroma 0.061763234.
+     * It can be represented as a packed float with the constant {@code -0x1.0f055p126F}.
      * <pre>
      * <font style='background-color: #C49E73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C49E73; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C49E73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #C49E73'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #C49E73'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #C49E73'>&nbsp;@&nbsp;</font><font style='background-color: #C49E73; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C49E73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C49E73; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float BRONZE_SKIN_3 = -0x1.0f054ep126F;
-    static { NAMED.put("Bronze Skin 3", -0x1.0f054ep126F); LIST.add(-0x1.0f054ep126F); }
+    public static final float BRONZE_SKIN_3 = -0x1.0f055p126F;
+    static { NAMED.put("Bronze Skin 3", -0x1.0f055p126F); LIST.add(-0x1.0f055p126F); }
 
     /**
      * This color constant "Bronze Skin 2" has RGBA8888 code {@code 8F7357FF}, L 0.4862745, A 0.50980395, B 0.52156866, alpha 1.0, hue 0.17620972, saturation 0.3626056, and chroma 0.0471994.
@@ -880,16 +880,16 @@ public class Palette {
     static { NAMED.put("Bronze Skin 2", -0x1.0b04f8p126F); LIST.add(-0x1.0b04f8p126F); }
 
     /**
-     * This color constant "Bronze Skin 1" has RGBA8888 code {@code 73573BFF}, L 0.37254903, A 0.50980395, B 0.5254902, alpha 1.0, hue 0.18556869, saturation 0.49134022, and chroma 0.054407768.
-     * It can be represented as a packed float with the constant {@code -0x1.0d04bep126F}.
+     * This color constant "Bronze Skin 1" has RGBA8888 code {@code 73573BFF}, L 0.36862746, A 0.50980395, B 0.5254902, alpha 1.0, hue 0.18556869, saturation 0.49134022, and chroma 0.054407768.
+     * It can be represented as a packed float with the constant {@code -0x1.0d04bcp126F}.
      * <pre>
      * <font style='background-color: #73573B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #73573B; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #73573B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #73573B'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #73573B'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #73573B'>&nbsp;@&nbsp;</font><font style='background-color: #73573B; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #73573B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #73573B; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float BRONZE_SKIN_1 = -0x1.0d04bep126F;
-    static { NAMED.put("Bronze Skin 1", -0x1.0d04bep126F); LIST.add(-0x1.0d04bep126F); }
+    public static final float BRONZE_SKIN_1 = -0x1.0d04bcp126F;
+    static { NAMED.put("Bronze Skin 1", -0x1.0d04bcp126F); LIST.add(-0x1.0d04bcp126F); }
 
     /**
      * This color constant "Taupe" has RGBA8888 code {@code 3B2D1FFF}, L 0.18039216, A 0.5058824, B 0.5137255, alpha 1.0, hue 0.17620972, saturation 0.4259177, and chroma 0.029749114.
@@ -904,16 +904,16 @@ public class Palette {
     static { NAMED.put("Taupe", -0x1.07025cp126F); LIST.add(-0x1.07025cp126F); }
 
     /**
-     * This color constant "Drab Green" has RGBA8888 code {@code 414123FF}, L 0.24705882, A 0.49019608, B 0.52156866, alpha 1.0, hue 0.30119568, saturation 0.5499613, and chroma 0.0471994.
-     * It can be represented as a packed float with the constant {@code -0x1.0afa7ep126F}.
+     * This color constant "Drab Green" has RGBA8888 code {@code 414123FF}, L 0.24313726, A 0.49019608, B 0.52156866, alpha 1.0, hue 0.30119568, saturation 0.5499613, and chroma 0.0471994.
+     * It can be represented as a packed float with the constant {@code -0x1.0afa7cp126F}.
      * <pre>
      * <font style='background-color: #414123;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #414123; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #414123;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #414123'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #414123'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #414123'>&nbsp;@&nbsp;</font><font style='background-color: #414123; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #414123;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #414123; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float DRAB_GREEN = -0x1.0afa7ep126F;
-    static { NAMED.put("Drab Green", -0x1.0afa7ep126F); LIST.add(-0x1.0afa7ep126F); }
+    public static final float DRAB_GREEN = -0x1.0afa7cp126F;
+    static { NAMED.put("Drab Green", -0x1.0afa7cp126F); LIST.add(-0x1.0afa7cp126F); }
 
     /**
      * This color constant "Lizard Scales" has RGBA8888 code {@code 73733BFF}, L 0.44705883, A 0.4862745, B 0.5372549, alpha 1.0, hue 0.29637668, saturation 0.63274586, and chroma 0.079095535.
@@ -940,100 +940,100 @@ public class Palette {
     static { NAMED.put("Cricket", -0x1.10f91cp126F); LIST.add(-0x1.10f91cp126F); }
 
     /**
-     * This color constant "Olive Oil" has RGBA8888 code {@code A2A255FF}, L 0.62352943, A 0.48235294, B 0.54509807, alpha 1.0, hue 0.30119568, saturation 0.6023386, and chroma 0.096477255.
-     * It can be represented as a packed float with the constant {@code -0x1.16f73ep126F}.
+     * This color constant "Olive Oil" has RGBA8888 code {@code A2A255FF}, L 0.627451, A 0.48235294, B 0.54509807, alpha 1.0, hue 0.30119568, saturation 0.6023386, and chroma 0.096477255.
+     * It can be represented as a packed float with the constant {@code -0x1.16f74p126F}.
      * <pre>
      * <font style='background-color: #A2A255;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A2A255; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #A2A255;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #A2A255'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #A2A255'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #A2A255'>&nbsp;@&nbsp;</font><font style='background-color: #A2A255; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #A2A255;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A2A255; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float OLIVE_OIL = -0x1.16f73ep126F;
-    static { NAMED.put("Olive Oil", -0x1.16f73ep126F); LIST.add(-0x1.16f73ep126F); }
+    public static final float OLIVE_OIL = -0x1.16f74p126F;
+    static { NAMED.put("Olive Oil", -0x1.16f74p126F); LIST.add(-0x1.16f74p126F); }
 
     /**
-     * This color constant "Dun" has RGBA8888 code {@code B5B572FF}, L 0.69411767, A 0.4862745, B 0.5372549, alpha 1.0, hue 0.29637668, saturation 0.4745594, and chroma 0.079095535.
-     * It can be represented as a packed float with the constant {@code -0x1.12f962p126F}.
+     * This color constant "Dun" has RGBA8888 code {@code B5B572FF}, L 0.7019608, A 0.4862745, B 0.5372549, alpha 1.0, hue 0.29637668, saturation 0.46401364, and chroma 0.079095535.
+     * It can be represented as a packed float with the constant {@code -0x1.12f966p126F}.
      * <pre>
      * <font style='background-color: #B5B572;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B5B572; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #B5B572;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #B5B572'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #B5B572'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #B5B572'>&nbsp;@&nbsp;</font><font style='background-color: #B5B572; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #B5B572;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B5B572; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float DUN = -0x1.12f962p126F;
-    static { NAMED.put("Dun", -0x1.12f962p126F); LIST.add(-0x1.12f962p126F); }
+    public static final float DUN = -0x1.12f966p126F;
+    static { NAMED.put("Dun", -0x1.12f966p126F); LIST.add(-0x1.12f966p126F); }
 
     /**
-     * This color constant "Corn Silk" has RGBA8888 code {@code C7C78FFF}, L 0.7607843, A 0.4862745, B 0.5294118, alpha 1.0, hue 0.30708748, saturation 0.35600016, and chroma 0.064659946.
-     * It can be represented as a packed float with the constant {@code -0x1.0ef984p126F}.
+     * This color constant "Corn Silk" has RGBA8888 code {@code C7C78FFF}, L 0.76862746, A 0.4862745, B 0.5294118, alpha 1.0, hue 0.30708748, saturation 0.34873483, and chroma 0.064659946.
+     * It can be represented as a packed float with the constant {@code -0x1.0ef988p126F}.
      * <pre>
      * <font style='background-color: #C7C78F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C7C78F; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C7C78F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #C7C78F'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #C7C78F'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #C7C78F'>&nbsp;@&nbsp;</font><font style='background-color: #C7C78F; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C7C78F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C7C78F; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float CORN_SILK = -0x1.0ef984p126F;
-    static { NAMED.put("Corn Silk", -0x1.0ef984p126F); LIST.add(-0x1.0ef984p126F); }
+    public static final float CORN_SILK = -0x1.0ef988p126F;
+    static { NAMED.put("Corn Silk", -0x1.0ef988p126F); LIST.add(-0x1.0ef988p126F); }
 
     /**
-     * This color constant "Tan" has RGBA8888 code {@code DADAABFF}, L 0.83137256, A 0.49019608, B 0.5254902, alpha 1.0, hue 0.29428434, saturation 0.2912044, and chroma 0.054407768.
-     * It can be represented as a packed float with the constant {@code -0x1.0cfba8p126F}.
+     * This color constant "Tan" has RGBA8888 code {@code DADAABFF}, L 0.8392157, A 0.49019608, B 0.5254902, alpha 1.0, hue 0.29428434, saturation 0.2854945, and chroma 0.054407768.
+     * It can be represented as a packed float with the constant {@code -0x1.0cfbacp126F}.
      * <pre>
      * <font style='background-color: #DADAAB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #DADAAB; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #DADAAB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #DADAAB'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #DADAAB'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #DADAAB'>&nbsp;@&nbsp;</font><font style='background-color: #DADAAB; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #DADAAB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #DADAAB; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float TAN = -0x1.0cfba8p126F;
-    static { NAMED.put("Tan", -0x1.0cfba8p126F); LIST.add(-0x1.0cfba8p126F); }
+    public static final float TAN = -0x1.0cfbacp126F;
+    static { NAMED.put("Tan", -0x1.0cfbacp126F); LIST.add(-0x1.0cfbacp126F); }
 
     /**
-     * This color constant "Straw" has RGBA8888 code {@code EDEDC7FF}, L 0.8980392, A 0.49019608, B 0.5176471, alpha 1.0, hue 0.310548, saturation 0.19582418, and chroma 0.040217306.
-     * It can be represented as a packed float with the constant {@code -0x1.08fbcap126F}.
+     * This color constant "Straw" has RGBA8888 code {@code EDEDC7FF}, L 0.90588236, A 0.49019608, B 0.5176471, alpha 1.0, hue 0.310548, saturation 0.1923273, and chroma 0.040217306.
+     * It can be represented as a packed float with the constant {@code -0x1.08fbcep126F}.
      * <pre>
      * <font style='background-color: #EDEDC7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #EDEDC7; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #EDEDC7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #EDEDC7'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #EDEDC7'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #EDEDC7'>&nbsp;@&nbsp;</font><font style='background-color: #EDEDC7; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #EDEDC7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #EDEDC7; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float STRAW = -0x1.08fbcap126F;
-    static { NAMED.put("Straw", -0x1.08fbcap126F); LIST.add(-0x1.08fbcap126F); }
+    public static final float STRAW = -0x1.08fbcep126F;
+    static { NAMED.put("Straw", -0x1.08fbcep126F); LIST.add(-0x1.08fbcep126F); }
 
     /**
-     * This color constant "Honeydew" has RGBA8888 code {@code C7E3ABFF}, L 0.8352941, A 0.4745098, B 0.5254902, alpha 1.0, hue 0.3627901, saturation 0.28811076, and chroma 0.071815535.
-     * It can be represented as a packed float with the constant {@code -0x1.0cf3aap126F}.
+     * This color constant "Honeydew" has RGBA8888 code {@code C7E3ABFF}, L 0.84313726, A 0.4745098, B 0.5254902, alpha 1.0, hue 0.3627901, saturation 0.28811076, and chroma 0.071815535.
+     * It can be represented as a packed float with the constant {@code -0x1.0cf3aep126F}.
      * <pre>
      * <font style='background-color: #C7E3AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C7E3AB; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C7E3AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #C7E3AB'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #C7E3AB'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #C7E3AB'>&nbsp;@&nbsp;</font><font style='background-color: #C7E3AB; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C7E3AB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C7E3AB; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float HONEYDEW = -0x1.0cf3aap126F;
-    static { NAMED.put("Honeydew", -0x1.0cf3aap126F); LIST.add(-0x1.0cf3aap126F); }
+    public static final float HONEYDEW = -0x1.0cf3aep126F;
+    static { NAMED.put("Honeydew", -0x1.0cf3aep126F); LIST.add(-0x1.0cf3aep126F); }
 
     /**
-     * This color constant "Tarnish" has RGBA8888 code {@code ABC78FFF}, L 0.7372549, A 0.4745098, B 0.5294118, alpha 1.0, hue 0.3524291, saturation 0.35714287, and chroma 0.07753685.
-     * It can be represented as a packed float with the constant {@code -0x1.0ef378p126F}.
+     * This color constant "Tarnish" has RGBA8888 code {@code ABC78FFF}, L 0.74509805, A 0.4745098, B 0.5294118, alpha 1.0, hue 0.3524291, saturation 0.35714287, and chroma 0.07753685.
+     * It can be represented as a packed float with the constant {@code -0x1.0ef37cp126F}.
      * <pre>
      * <font style='background-color: #ABC78F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABC78F; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #ABC78F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #ABC78F'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #ABC78F'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #ABC78F'>&nbsp;@&nbsp;</font><font style='background-color: #ABC78F; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #ABC78F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABC78F; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float TARNISH = -0x1.0ef378p126F;
-    static { NAMED.put("Tarnish", -0x1.0ef378p126F); LIST.add(-0x1.0ef378p126F); }
+    public static final float TARNISH = -0x1.0ef37cp126F;
+    static { NAMED.put("Tarnish", -0x1.0ef37cp126F); LIST.add(-0x1.0ef37cp126F); }
 
     /**
-     * This color constant "Pea Soup" has RGBA8888 code {@code 8EBE55FF}, L 0.6784314, A 0.45490196, B 0.5529412, alpha 1.0, hue 0.35600415, saturation 0.6594257, and chroma 0.13854803.
-     * It can be represented as a packed float with the constant {@code -0x1.1ae95ap126F}.
+     * This color constant "Pea Soup" has RGBA8888 code {@code 8EBE55FF}, L 0.68235296, A 0.45490196, B 0.5529412, alpha 1.0, hue 0.35600415, saturation 0.6594257, and chroma 0.13854803.
+     * It can be represented as a packed float with the constant {@code -0x1.1ae95cp126F}.
      * <pre>
      * <font style='background-color: #8EBE55;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8EBE55; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #8EBE55;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #8EBE55'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #8EBE55'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #8EBE55'>&nbsp;@&nbsp;</font><font style='background-color: #8EBE55; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #8EBE55;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8EBE55; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PEA_SOUP = -0x1.1ae95ap126F;
-    static { NAMED.put("Pea Soup", -0x1.1ae95ap126F); LIST.add(-0x1.1ae95ap126F); }
+    public static final float PEA_SOUP = -0x1.1ae95cp126F;
+    static { NAMED.put("Pea Soup", -0x1.1ae95cp126F); LIST.add(-0x1.1ae95cp126F); }
 
     /**
      * This color constant "Marsh" has RGBA8888 code {@code 738F57FF}, L 0.5294118, A 0.47058824, B 0.5294118, alpha 1.0, hue 0.3644131, saturation 0.45234665, and chroma 0.082864076.
@@ -1060,16 +1060,16 @@ public class Palette {
     static { NAMED.put("Asparagus", -0x1.12ece6p126F); LIST.add(-0x1.12ece6p126F); }
 
     /**
-     * This color constant "Peat Bog" has RGBA8888 code {@code 465032FF}, L 0.29803923, A 0.48235294, B 0.52156866, alpha 1.0, hue 0.34359556, saturation 0.4973174, and chroma 0.055518243.
-     * It can be represented as a packed float with the constant {@code -0x1.0af698p126F}.
+     * This color constant "Peat Bog" has RGBA8888 code {@code 465032FF}, L 0.29411766, A 0.48235294, B 0.52156866, alpha 1.0, hue 0.34359556, saturation 0.4973174, and chroma 0.055518243.
+     * It can be represented as a packed float with the constant {@code -0x1.0af696p126F}.
      * <pre>
      * <font style='background-color: #465032;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #465032; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #465032;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #465032'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #465032'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #465032'>&nbsp;@&nbsp;</font><font style='background-color: #465032; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #465032;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #465032; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PEAT_BOG = -0x1.0af698p126F;
-    static { NAMED.put("Peat Bog", -0x1.0af698p126F); LIST.add(-0x1.0af698p126F); }
+    public static final float PEAT_BOG = -0x1.0af696p126F;
+    static { NAMED.put("Peat Bog", -0x1.0af696p126F); LIST.add(-0x1.0af696p126F); }
 
     /**
      * This color constant "Deep Jungle" has RGBA8888 code {@code 191E0FFF}, L 0.09411765, A 0.4862745, B 0.5137255, alpha 1.0, hue 0.3524291, saturation 0.625, and chroma 0.038669903.
@@ -1108,16 +1108,16 @@ public class Palette {
     static { NAMED.put("Olive Green", -0x1.06f29ep126F); LIST.add(-0x1.06f29ep126F); }
 
     /**
-     * This color constant "Gray Green" has RGBA8888 code {@code 506450FF}, L 0.3764706, A 0.48235294, B 0.50980395, alpha 1.0, hue 0.3975709, saturation 0.2173913, and chroma 0.040217306.
-     * It can be represented as a packed float with the constant {@code -0x1.04f6cp126F}.
+     * This color constant "Gray Green" has RGBA8888 code {@code 506450FF}, L 0.37254903, A 0.48235294, B 0.50980395, alpha 1.0, hue 0.3975709, saturation 0.22222222, and chroma 0.040217306.
+     * It can be represented as a packed float with the constant {@code -0x1.04f6bep126F}.
      * <pre>
      * <font style='background-color: #506450;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #506450; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #506450;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #506450'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #506450'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #506450'>&nbsp;@&nbsp;</font><font style='background-color: #506450; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #506450;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #506450; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float GRAY_GREEN = -0x1.04f6cp126F;
-    static { NAMED.put("Gray Green", -0x1.04f6cp126F); LIST.add(-0x1.04f6cp126F); }
+    public static final float GRAY_GREEN = -0x1.04f6bep126F;
+    static { NAMED.put("Gray Green", -0x1.04f6bep126F); LIST.add(-0x1.04f6bep126F); }
 
     /**
      * This color constant "Maidenhair Fern" has RGBA8888 code {@code 3B7349FF}, L 0.4, A 0.45882353, B 0.52156866, alpha 1.0, hue 0.41398114, saturation 0.5424141, and chroma 0.09260367.
@@ -1144,100 +1144,100 @@ public class Palette {
     static { NAMED.put("Kelly Green", -0x1.0ee902p126F); LIST.add(-0x1.0ee902p126F); }
 
     /**
-     * This color constant "Dusty Green" has RGBA8888 code {@code 73AB73FF}, L 0.6117647, A 0.45882353, B 0.5254902, alpha 1.0, hue 0.40278715, saturation 0.39375985, and chroma 0.096477255.
-     * It can be represented as a packed float with the constant {@code -0x1.0ceb38p126F}.
+     * This color constant "Dusty Green" has RGBA8888 code {@code 73AB73FF}, L 0.6156863, A 0.45882353, B 0.5254902, alpha 1.0, hue 0.40278715, saturation 0.39375985, and chroma 0.096477255.
+     * It can be represented as a packed float with the constant {@code -0x1.0ceb3ap126F}.
      * <pre>
      * <font style='background-color: #73AB73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #73AB73; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #73AB73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #73AB73'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #73AB73'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #73AB73'>&nbsp;@&nbsp;</font><font style='background-color: #73AB73; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #73AB73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #73AB73; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float DUSTY_GREEN = -0x1.0ceb38p126F;
-    static { NAMED.put("Dusty Green", -0x1.0ceb38p126F); LIST.add(-0x1.0ceb38p126F); }
+    public static final float DUSTY_GREEN = -0x1.0ceb3ap126F;
+    static { NAMED.put("Dusty Green", -0x1.0ceb3ap126F); LIST.add(-0x1.0ceb3ap126F); }
 
     /**
-     * This color constant "Garter Snake" has RGBA8888 code {@code 64C082FF}, L 0.6666667, A 0.44313726, B 0.5254902, alpha 1.0, hue 0.42620972, saturation 0.5906595, and chroma 0.124142565.
-     * It can be represented as a packed float with the constant {@code -0x1.0ce354p126F}.
+     * This color constant "Garter Snake" has RGBA8888 code {@code 64C082FF}, L 0.67058825, A 0.44313726, B 0.5254902, alpha 1.0, hue 0.42620972, saturation 0.5906595, and chroma 0.124142565.
+     * It can be represented as a packed float with the constant {@code -0x1.0ce356p126F}.
      * <pre>
      * <font style='background-color: #64C082;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #64C082; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #64C082;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #64C082'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #64C082'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #64C082'>&nbsp;@&nbsp;</font><font style='background-color: #64C082; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #64C082;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #64C082; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float GARTER_SNAKE = -0x1.0ce354p126F;
-    static { NAMED.put("Garter Snake", -0x1.0ce354p126F); LIST.add(-0x1.0ce354p126F); }
+    public static final float GARTER_SNAKE = -0x1.0ce356p126F;
+    static { NAMED.put("Garter Snake", -0x1.0ce356p126F); LIST.add(-0x1.0ce356p126F); }
 
     /**
-     * This color constant "Silver Green" has RGBA8888 code {@code 8FC78FFF}, L 0.7137255, A 0.45882353, B 0.5254902, alpha 1.0, hue 0.40278715, saturation 0.3538132, and chroma 0.096477255.
-     * It can be represented as a packed float with the constant {@code -0x1.0ceb6cp126F}.
+     * This color constant "Silver Green" has RGBA8888 code {@code 8FC78FFF}, L 0.72156864, A 0.45882353, B 0.5254902, alpha 1.0, hue 0.40278715, saturation 0.3538132, and chroma 0.096477255.
+     * It can be represented as a packed float with the constant {@code -0x1.0ceb7p126F}.
      * <pre>
      * <font style='background-color: #8FC78F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8FC78F; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #8FC78F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #8FC78F'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #8FC78F'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #8FC78F'>&nbsp;@&nbsp;</font><font style='background-color: #8FC78F; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #8FC78F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8FC78F; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SILVER_GREEN = -0x1.0ceb6cp126F;
-    static { NAMED.put("Silver Green", -0x1.0ceb6cp126F); LIST.add(-0x1.0ceb6cp126F); }
+    public static final float SILVER_GREEN = -0x1.0ceb7p126F;
+    static { NAMED.put("Silver Green", -0x1.0ceb7p126F); LIST.add(-0x1.0ceb7p126F); }
 
     /**
-     * This color constant "Pistachio" has RGBA8888 code {@code A2D8A2FF}, L 0.7764706, A 0.4627451, B 0.52156866, alpha 1.0, hue 0.40640444, saturation 0.30904725, and chroma 0.08575976.
-     * It can be represented as a packed float with the constant {@code -0x1.0aed8cp126F}.
+     * This color constant "Pistachio" has RGBA8888 code {@code A2D8A2FF}, L 0.78431374, A 0.4627451, B 0.52156866, alpha 1.0, hue 0.40640444, saturation 0.30904725, and chroma 0.08575976.
+     * It can be represented as a packed float with the constant {@code -0x1.0aed9p126F}.
      * <pre>
      * <font style='background-color: #A2D8A2;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A2D8A2; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #A2D8A2;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #A2D8A2'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #A2D8A2'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #A2D8A2'>&nbsp;@&nbsp;</font><font style='background-color: #A2D8A2; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #A2D8A2;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A2D8A2; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PISTACHIO = -0x1.0aed8cp126F;
-    static { NAMED.put("Pistachio", -0x1.0aed8cp126F); LIST.add(-0x1.0aed8cp126F); }
+    public static final float PISTACHIO = -0x1.0aed9p126F;
+    static { NAMED.put("Pistachio", -0x1.0aed9p126F); LIST.add(-0x1.0aed9p126F); }
 
     /**
-     * This color constant "Angel Wing" has RGBA8888 code {@code E1F8FAFF}, L 0.92941177, A 0.4862745, B 0.49411765, alpha 1.0, hue 0.5511957, saturation 0.45175394, and chroma 0.029749114.
-     * It can be represented as a packed float with the constant {@code -0x1.fcf9dap125F}.
+     * This color constant "Angel Wing" has RGBA8888 code {@code E1F8FAFF}, L 0.9372549, A 0.4862745, B 0.49411765, alpha 1.0, hue 0.5511957, saturation 0.52704626, and chroma 0.029749114.
+     * It can be represented as a packed float with the constant {@code -0x1.fcf9dep125F}.
      * <pre>
      * <font style='background-color: #E1F8FA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E1F8FA; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E1F8FA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #E1F8FA'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #E1F8FA'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #E1F8FA'>&nbsp;@&nbsp;</font><font style='background-color: #E1F8FA; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E1F8FA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E1F8FA; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float ANGEL_WING = -0x1.fcf9dap125F;
-    static { NAMED.put("Angel Wing", -0x1.fcf9dap125F); LIST.add(-0x1.fcf9dap125F); }
+    public static final float ANGEL_WING = -0x1.fcf9dep125F;
+    static { NAMED.put("Angel Wing", -0x1.fcf9dep125F); LIST.add(-0x1.fcf9dep125F); }
 
     /**
-     * This color constant "Sage Green" has RGBA8888 code {@code B4EECAFF}, L 0.85490197, A 0.46666667, B 0.50980395, alpha 1.0, hue 0.44291252, saturation 0.42720017, and chroma 0.069218926.
-     * It can be represented as a packed float with the constant {@code -0x1.04efb4p126F}.
+     * This color constant "Sage Green" has RGBA8888 code {@code B4EECAFF}, L 0.8666667, A 0.46666667, B 0.50980395, alpha 1.0, hue 0.44291252, saturation 0.47466686, and chroma 0.069218926.
+     * It can be represented as a packed float with the constant {@code -0x1.04efbap126F}.
      * <pre>
      * <font style='background-color: #B4EECA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B4EECA; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #B4EECA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #B4EECA'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #B4EECA'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #B4EECA'>&nbsp;@&nbsp;</font><font style='background-color: #B4EECA; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #B4EECA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B4EECA; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SAGE_GREEN = -0x1.04efb4p126F;
-    static { NAMED.put("Sage Green", -0x1.04efb4p126F); LIST.add(-0x1.04efb4p126F); }
+    public static final float SAGE_GREEN = -0x1.04efbap126F;
+    static { NAMED.put("Sage Green", -0x1.04efbap126F); LIST.add(-0x1.04efbap126F); }
 
     /**
-     * This color constant "Dried Sage" has RGBA8888 code {@code ABE3C5FF}, L 0.81960785, A 0.46666667, B 0.50980395, alpha 1.0, hue 0.44291252, saturation 0.31069103, and chroma 0.069218926.
-     * It can be represented as a packed float with the constant {@code -0x1.04efa2p126F}.
+     * This color constant "Dried Sage" has RGBA8888 code {@code ABE3C5FF}, L 0.83137256, A 0.46666667, B 0.50980395, alpha 1.0, hue 0.44291252, saturation 0.34176013, and chroma 0.069218926.
+     * It can be represented as a packed float with the constant {@code -0x1.04efa8p126F}.
      * <pre>
      * <font style='background-color: #ABE3C5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABE3C5; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #ABE3C5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #ABE3C5'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #ABE3C5'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #ABE3C5'>&nbsp;@&nbsp;</font><font style='background-color: #ABE3C5; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #ABE3C5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABE3C5; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float DRIED_SAGE = -0x1.04efa2p126F;
-    static { NAMED.put("Dried Sage", -0x1.04efa2p126F); LIST.add(-0x1.04efa2p126F); }
+    public static final float DRIED_SAGE = -0x1.04efa8p126F;
+    static { NAMED.put("Dried Sage", -0x1.04efa8p126F); LIST.add(-0x1.04efa8p126F); }
 
     /**
-     * This color constant "Artichoke" has RGBA8888 code {@code 87B48EFF}, L 0.65882355, A 0.46666667, B 0.5137255, alpha 1.0, hue 0.42620972, saturation 0.34401047, and chroma 0.071815535.
-     * It can be represented as a packed float with the constant {@code -0x1.06ef5p126F}.
+     * This color constant "Artichoke" has RGBA8888 code {@code 87B48EFF}, L 0.6627451, A 0.46666667, B 0.5137255, alpha 1.0, hue 0.42620972, saturation 0.34401047, and chroma 0.071815535.
+     * It can be represented as a packed float with the constant {@code -0x1.06ef52p126F}.
      * <pre>
      * <font style='background-color: #87B48E;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #87B48E; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #87B48E;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #87B48E'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #87B48E'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #87B48E'>&nbsp;@&nbsp;</font><font style='background-color: #87B48E; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #87B48E;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #87B48E; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float ARTICHOKE = -0x1.06ef5p126F;
-    static { NAMED.put("Artichoke", -0x1.06ef5p126F); LIST.add(-0x1.06ef5p126F); }
+    public static final float ARTICHOKE = -0x1.06ef52p126F;
+    static { NAMED.put("Artichoke", -0x1.06ef52p126F); LIST.add(-0x1.06ef52p126F); }
 
     /**
      * This color constant "Viridian" has RGBA8888 code {@code 507D5FFF}, L 0.4509804, A 0.46666667, B 0.5137255, alpha 1.0, hue 0.42620972, saturation 0.4472136, and chroma 0.071815535.
@@ -1276,16 +1276,16 @@ public class Palette {
     static { NAMED.put("Hunter Green", -0x1.02f64cp126F); LIST.add(-0x1.02f64cp126F); }
 
     /**
-     * This color constant "Dark Teal" has RGBA8888 code {@code 234146FF}, L 0.23137255, A 0.47843137, B 0.4862745, alpha 1.0, hue 0.58601886, saturation 0.64788353, and chroma 0.050931267.
-     * It can be represented as a packed float with the constant {@code -0x1.f8f476p125F}.
+     * This color constant "Dark Teal" has RGBA8888 code {@code 234146FF}, L 0.22745098, A 0.47843137, B 0.4862745, alpha 1.0, hue 0.58601886, saturation 0.64788353, and chroma 0.050931267.
+     * It can be represented as a packed float with the constant {@code -0x1.f8f474p125F}.
      * <pre>
      * <font style='background-color: #234146;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #234146; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #234146;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #234146'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #234146'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #234146'>&nbsp;@&nbsp;</font><font style='background-color: #234146; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #234146;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #234146; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float DARK_TEAL = -0x1.f8f476p125F;
-    static { NAMED.put("Dark Teal", -0x1.f8f476p125F); LIST.add(-0x1.f8f476p125F); }
+    public static final float DARK_TEAL = -0x1.f8f474p125F;
+    static { NAMED.put("Dark Teal", -0x1.f8f474p125F); LIST.add(-0x1.f8f474p125F); }
 
     /**
      * This color constant "Kyanite" has RGBA8888 code {@code 3B7373FF}, L 0.41568628, A 0.46666667, B 0.49019608, alpha 1.0, hue 0.53898686, saturation 0.63432395, and chroma 0.069218926.
@@ -1300,100 +1300,100 @@ public class Palette {
     static { NAMED.put("Kyanite", -0x1.faeed4p125F); LIST.add(-0x1.faeed4p125F); }
 
     /**
-     * This color constant "Spearmint" has RGBA8888 code {@code 64ABABFF}, L 0.61960787, A 0.4627451, B 0.49019608, alpha 1.0, hue 0.53480494, saturation 0.5587603, and chroma 0.07674564.
-     * It can be represented as a packed float with the constant {@code -0x1.faed3cp125F}.
+     * This color constant "Spearmint" has RGBA8888 code {@code 64ABABFF}, L 0.62352943, A 0.4627451, B 0.49019608, alpha 1.0, hue 0.53480494, saturation 0.5587603, and chroma 0.07674564.
+     * It can be represented as a packed float with the constant {@code -0x1.faed3ep125F}.
      * <pre>
      * <font style='background-color: #64ABAB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #64ABAB; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #64ABAB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #64ABAB'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #64ABAB'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #64ABAB'>&nbsp;@&nbsp;</font><font style='background-color: #64ABAB; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #64ABAB;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #64ABAB; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SPEARMINT = -0x1.faed3cp125F;
-    static { NAMED.put("Spearmint", -0x1.faed3cp125F); LIST.add(-0x1.faed3cp125F); }
+    public static final float SPEARMINT = -0x1.faed3ep125F;
+    static { NAMED.put("Spearmint", -0x1.faed3ep125F); LIST.add(-0x1.faed3ep125F); }
 
     /**
-     * This color constant "Amazonite" has RGBA8888 code {@code 8FC7C7FF}, L 0.73333335, A 0.47058824, B 0.49019608, alpha 1.0, hue 0.54428434, saturation 0.39351946, and chroma 0.061763234.
-     * It can be represented as a packed float with the constant {@code -0x1.faf176p125F}.
+     * This color constant "Amazonite" has RGBA8888 code {@code 8FC7C7FF}, L 0.7372549, A 0.47058824, B 0.49019608, alpha 1.0, hue 0.54428434, saturation 0.39351946, and chroma 0.061763234.
+     * It can be represented as a packed float with the constant {@code -0x1.faf178p125F}.
      * <pre>
      * <font style='background-color: #8FC7C7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8FC7C7; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #8FC7C7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #8FC7C7'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #8FC7C7'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #8FC7C7'>&nbsp;@&nbsp;</font><font style='background-color: #8FC7C7; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #8FC7C7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8FC7C7; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float AMAZONITE = -0x1.faf176p125F;
-    static { NAMED.put("Amazonite", -0x1.faf176p125F); LIST.add(-0x1.faf176p125F); }
+    public static final float AMAZONITE = -0x1.faf178p125F;
+    static { NAMED.put("Amazonite", -0x1.faf178p125F); LIST.add(-0x1.faf178p125F); }
 
     /**
-     * This color constant "Pastel Sky" has RGBA8888 code {@code ABE3E3FF}, L 0.83137256, A 0.4745098, B 0.49019608, alpha 1.0, hue 0.5511957, saturation 0.31622776, and chroma 0.054407768.
-     * It can be represented as a packed float with the constant {@code -0x1.faf3a8p125F}.
+     * This color constant "Pastel Sky" has RGBA8888 code {@code ABE3E3FF}, L 0.8392157, A 0.4745098, B 0.49019608, alpha 1.0, hue 0.5511957, saturation 0.3085149, and chroma 0.054407768.
+     * It can be represented as a packed float with the constant {@code -0x1.faf3acp125F}.
      * <pre>
      * <font style='background-color: #ABE3E3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABE3E3; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #ABE3E3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #ABE3E3'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #ABE3E3'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #ABE3E3'>&nbsp;@&nbsp;</font><font style='background-color: #ABE3E3; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #ABE3E3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABE3E3; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PASTEL_SKY = -0x1.faf3a8p125F;
-    static { NAMED.put("Pastel Sky", -0x1.faf3a8p125F); LIST.add(-0x1.faf3a8p125F); }
+    public static final float PASTEL_SKY = -0x1.faf3acp125F;
+    static { NAMED.put("Pastel Sky", -0x1.faf3acp125F); LIST.add(-0x1.faf3acp125F); }
 
     /**
-     * This color constant "Aquamarine" has RGBA8888 code {@code C7F1F1FF}, L 0.8862745, A 0.47843137, B 0.49411765, alpha 1.0, hue 0.53142345, saturation 0.37770516, and chroma 0.044538103.
-     * It can be represented as a packed float with the constant {@code -0x1.fcf5c4p125F}.
+     * This color constant "Aquamarine" has RGBA8888 code {@code C7F1F1FF}, L 0.8980392, A 0.47843137, B 0.49411765, alpha 1.0, hue 0.53142345, saturation 0.443393, and chroma 0.044538103.
+     * It can be represented as a packed float with the constant {@code -0x1.fcf5cap125F}.
      * <pre>
      * <font style='background-color: #C7F1F1;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C7F1F1; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C7F1F1;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #C7F1F1'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #C7F1F1'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #C7F1F1'>&nbsp;@&nbsp;</font><font style='background-color: #C7F1F1; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C7F1F1;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C7F1F1; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float AQUAMARINE = -0x1.fcf5c4p125F;
-    static { NAMED.put("Aquamarine", -0x1.fcf5c4p125F); LIST.add(-0x1.fcf5c4p125F); }
+    public static final float AQUAMARINE = -0x1.fcf5cap125F;
+    static { NAMED.put("Aquamarine", -0x1.fcf5cap125F); LIST.add(-0x1.fcf5cap125F); }
 
     /**
-     * This color constant "Dust Bunny" has RGBA8888 code {@code BED2F0FF}, L 0.80784315, A 0.49411765, B 0.47843137, alpha 1.0, hue 0.71857655, saturation 0.5665577, and chroma 0.044538103.
-     * It can be represented as a packed float with the constant {@code -0x1.f4fd9cp125F}.
+     * This color constant "Dust Bunny" has RGBA8888 code {@code BED2F0FF}, L 0.81960785, A 0.49411765, B 0.47843137, alpha 1.0, hue 0.71857655, saturation 0.5998846, and chroma 0.044538103.
+     * It can be represented as a packed float with the constant {@code -0x1.f4fda2p125F}.
      * <pre>
      * <font style='background-color: #BED2F0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BED2F0; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #BED2F0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #BED2F0'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #BED2F0'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #BED2F0'>&nbsp;@&nbsp;</font><font style='background-color: #BED2F0; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #BED2F0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BED2F0; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float DUST_BUNNY = -0x1.f4fd9cp125F;
-    static { NAMED.put("Dust Bunny", -0x1.f4fd9cp125F); LIST.add(-0x1.f4fd9cp125F); }
+    public static final float DUST_BUNNY = -0x1.f4fda2p125F;
+    static { NAMED.put("Dust Bunny", -0x1.f4fda2p125F); LIST.add(-0x1.f4fda2p125F); }
 
     /**
-     * This color constant "Patina" has RGBA8888 code {@code ABC7E3FF}, L 0.7647059, A 0.49019608, B 0.47843137, alpha 1.0, hue 0.689452, saturation 0.44876373, and chroma 0.0471994.
-     * It can be represented as a packed float with the constant {@code -0x1.f4fb86p125F}.
+     * This color constant "Patina" has RGBA8888 code {@code ABC7E3FF}, L 0.77254903, A 0.49019608, B 0.47843137, alpha 1.0, hue 0.689452, saturation 0.4682752, and chroma 0.0471994.
+     * It can be represented as a packed float with the constant {@code -0x1.f4fb8ap125F}.
      * <pre>
      * <font style='background-color: #ABC7E3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABC7E3; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #ABC7E3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #ABC7E3'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #ABC7E3'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #ABC7E3'>&nbsp;@&nbsp;</font><font style='background-color: #ABC7E3; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #ABC7E3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABC7E3; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PATINA = -0x1.f4fb86p125F;
-    static { NAMED.put("Patina", -0x1.f4fb86p125F); LIST.add(-0x1.f4fb86p125F); }
+    public static final float PATINA = -0x1.f4fb8ap125F;
+    static { NAMED.put("Patina", -0x1.f4fb8ap125F); LIST.add(-0x1.f4fb8ap125F); }
 
     /**
-     * This color constant "Chipped Granite" has RGBA8888 code {@code A8B9DCFF}, L 0.7254902, A 0.49411765, B 0.4745098, alpha 1.0, hue 0.7237039, saturation 0.45057502, and chroma 0.052115876.
-     * It can be represented as a packed float with the constant {@code -0x1.f2fd72p125F}.
+     * This color constant "Chipped Granite" has RGBA8888 code {@code A8B9DCFF}, L 0.73333335, A 0.49411765, B 0.4745098, alpha 1.0, hue 0.7237039, saturation 0.46790484, and chroma 0.052115876.
+     * It can be represented as a packed float with the constant {@code -0x1.f2fd76p125F}.
      * <pre>
      * <font style='background-color: #A8B9DC;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A8B9DC; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #A8B9DC;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #A8B9DC'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #A8B9DC'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #A8B9DC'>&nbsp;@&nbsp;</font><font style='background-color: #A8B9DC; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #A8B9DC;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A8B9DC; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float CHIPPED_GRANITE = -0x1.f2fd72p125F;
-    static { NAMED.put("Chipped Granite", -0x1.f2fd72p125F); LIST.add(-0x1.f2fd72p125F); }
+    public static final float CHIPPED_GRANITE = -0x1.f2fd76p125F;
+    static { NAMED.put("Chipped Granite", -0x1.f2fd76p125F); LIST.add(-0x1.f2fd76p125F); }
 
     /**
-     * This color constant "Blue Smoke" has RGBA8888 code {@code 8FABC7FF}, L 0.6627451, A 0.49019608, B 0.4745098, alpha 1.0, hue 0.6988043, saturation 0.3513642, and chroma 0.054407768.
-     * It can be represented as a packed float with the constant {@code -0x1.f2fb52p125F}.
+     * This color constant "Blue Smoke" has RGBA8888 code {@code 8FABC7FF}, L 0.6666667, A 0.49019608, B 0.4745098, alpha 1.0, hue 0.6988043, saturation 0.36140317, and chroma 0.054407768.
+     * It can be represented as a packed float with the constant {@code -0x1.f2fb54p125F}.
      * <pre>
      * <font style='background-color: #8FABC7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8FABC7; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #8FABC7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #8FABC7'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #8FABC7'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #8FABC7'>&nbsp;@&nbsp;</font><font style='background-color: #8FABC7; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #8FABC7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8FABC7; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float BLUE_SMOKE = -0x1.f2fb52p125F;
-    static { NAMED.put("Blue Smoke", -0x1.f2fb52p125F); LIST.add(-0x1.f2fb52p125F); }
+    public static final float BLUE_SMOKE = -0x1.f2fb54p125F;
+    static { NAMED.put("Blue Smoke", -0x1.f2fb54p125F); LIST.add(-0x1.f2fb54p125F); }
 
     /**
      * This color constant "Air Force Blue" has RGBA8888 code {@code 578FC7FF}, L 0.5529412, A 0.47843137, B 0.4509804, alpha 1.0, hue 0.6871773, saturation 0.5531915, and chroma 0.106691405.
@@ -1444,52 +1444,52 @@ public class Palette {
     static { NAMED.put("Murk", -0x1.f0fc2cp125F); LIST.add(-0x1.f0fc2cp125F); }
 
     /**
-     * This color constant "Ninja" has RGBA8888 code {@code 1F1F3BFF}, L 0.1254902, A 0.5058824, B 0.46666667, alpha 1.0, hue 0.78898686, saturation 0.3926767, and chroma 0.06743233.
-     * It can be represented as a packed float with the constant {@code -0x1.ef024p125F}.
+     * This color constant "Ninja" has RGBA8888 code {@code 1F1F3BFF}, L 0.12156863, A 0.5058824, B 0.46666667, alpha 1.0, hue 0.78898686, saturation 0.4022542, and chroma 0.06743233.
+     * It can be represented as a packed float with the constant {@code -0x1.ef023ep125F}.
      * <pre>
      * <font style='background-color: #1F1F3B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #1F1F3B; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #1F1F3B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #1F1F3B'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #1F1F3B'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #1F1F3B'>&nbsp;@&nbsp;</font><font style='background-color: #1F1F3B; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #1F1F3B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #1F1F3B; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float NINJA = -0x1.ef024p125F;
-    static { NAMED.put("Ninja", -0x1.ef024p125F); LIST.add(-0x1.ef024p125F); }
+    public static final float NINJA = -0x1.ef023ep125F;
+    static { NAMED.put("Ninja", -0x1.ef023ep125F); LIST.add(-0x1.ef023ep125F); }
 
     /**
-     * This color constant "Watercolor Black" has RGBA8888 code {@code 3B3B57FF}, L 0.24313726, A 0.5058824, B 0.4745098, alpha 1.0, hue 0.8011957, saturation 0.21439171, and chroma 0.052115876.
-     * It can be represented as a packed float with the constant {@code -0x1.f3027cp125F}.
+     * This color constant "Watercolor Black" has RGBA8888 code {@code 3B3B57FF}, L 0.23921569, A 0.5058824, B 0.4745098, alpha 1.0, hue 0.8011957, saturation 0.21808812, and chroma 0.052115876.
+     * It can be represented as a packed float with the constant {@code -0x1.f3027ap125F}.
      * <pre>
      * <font style='background-color: #3B3B57;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3B3B57; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #3B3B57;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #3B3B57'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #3B3B57'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #3B3B57'>&nbsp;@&nbsp;</font><font style='background-color: #3B3B57; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #3B3B57;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3B3B57; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float WATERCOLOR_BLACK = -0x1.f3027cp125F;
-    static { NAMED.put("Watercolor Black", -0x1.f3027cp125F); LIST.add(-0x1.f3027cp125F); }
+    public static final float WATERCOLOR_BLACK = -0x1.f3027ap125F;
+    static { NAMED.put("Watercolor Black", -0x1.f3027ap125F); LIST.add(-0x1.f3027ap125F); }
 
     /**
-     * This color constant "Iolite" has RGBA8888 code {@code 494973FF}, L 0.30980393, A 0.5058824, B 0.4627451, alpha 1.0, hue 0.7848049, saturation 0.25609845, and chroma 0.07513822.
-     * It can be represented as a packed float with the constant {@code -0x1.ed029ep125F}.
+     * This color constant "Iolite" has RGBA8888 code {@code 494973FF}, L 0.30588236, A 0.5058824, B 0.4627451, alpha 1.0, hue 0.7848049, saturation 0.25970548, and chroma 0.07513822.
+     * It can be represented as a packed float with the constant {@code -0x1.ed029cp125F}.
      * <pre>
      * <font style='background-color: #494973;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #494973; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #494973;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #494973'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #494973'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #494973'>&nbsp;@&nbsp;</font><font style='background-color: #494973; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #494973;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #494973; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float IOLITE = -0x1.ed029ep125F;
-    static { NAMED.put("Iolite", -0x1.ed029ep125F); LIST.add(-0x1.ed029ep125F); }
+    public static final float IOLITE = -0x1.ed029cp125F;
+    static { NAMED.put("Iolite", -0x1.ed029cp125F); LIST.add(-0x1.ed029cp125F); }
 
     /**
-     * This color constant "Boysenberry" has RGBA8888 code {@code 57578FFF}, L 0.3764706, A 0.50980395, B 0.45490196, alpha 1.0, hue 0.79236877, saturation 0.30404678, and chroma 0.091942206.
-     * It can be represented as a packed float with the constant {@code -0x1.e904cp125F}.
+     * This color constant "Boysenberry" has RGBA8888 code {@code 57578FFF}, L 0.37254903, A 0.50980395, B 0.45490196, alpha 1.0, hue 0.79236877, saturation 0.30004618, and chroma 0.091942206.
+     * It can be represented as a packed float with the constant {@code -0x1.e904bep125F}.
      * <pre>
      * <font style='background-color: #57578F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #57578F; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #57578F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #57578F'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #57578F'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #57578F'>&nbsp;@&nbsp;</font><font style='background-color: #57578F; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #57578F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #57578F; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float BOYSENBERRY = -0x1.e904cp125F;
-    static { NAMED.put("Boysenberry", -0x1.e904cp125F); LIST.add(-0x1.e904cp125F); }
+    public static final float BOYSENBERRY = -0x1.e904bep125F;
+    static { NAMED.put("Boysenberry", -0x1.e904bep125F); LIST.add(-0x1.e904bep125F); }
 
     /**
      * This color constant "Watercolor Gray" has RGBA8888 code {@code 736EAAFF}, L 0.4745098, A 0.50980395, B 0.45490196, alpha 1.0, hue 0.79236877, saturation 0.37382802, and chroma 0.091942206.
@@ -1516,64 +1516,64 @@ public class Palette {
     static { NAMED.put("Blue Steel", -0x1.e10506p125F); LIST.add(-0x1.e10506p125F); }
 
     /**
-     * This color constant "Twilight Cloud" has RGBA8888 code {@code 8F8FC7FF}, L 0.59607846, A 0.5058824, B 0.4627451, alpha 1.0, hue 0.7848049, saturation 0.42881602, and chroma 0.07513822.
-     * It can be represented as a packed float with the constant {@code -0x1.ed033p125F}.
+     * This color constant "Twilight Cloud" has RGBA8888 code {@code 8F8FC7FF}, L 0.6, A 0.5058824, B 0.4627451, alpha 1.0, hue 0.7848049, saturation 0.42881602, and chroma 0.07513822.
+     * It can be represented as a packed float with the constant {@code -0x1.ed0332p125F}.
      * <pre>
      * <font style='background-color: #8F8FC7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8F8FC7; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #8F8FC7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #8F8FC7'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #8F8FC7'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #8F8FC7'>&nbsp;@&nbsp;</font><font style='background-color: #8F8FC7; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #8F8FC7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8F8FC7; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float TWILIGHT_CLOUD = -0x1.ed033p125F;
-    static { NAMED.put("Twilight Cloud", -0x1.ed033p125F); LIST.add(-0x1.ed033p125F); }
+    public static final float TWILIGHT_CLOUD = -0x1.ed0332p125F;
+    static { NAMED.put("Twilight Cloud", -0x1.ed0332p125F); LIST.add(-0x1.ed0332p125F); }
 
     /**
-     * This color constant "Smog" has RGBA8888 code {@code ABABE3FF}, L 0.69803923, A 0.5058824, B 0.4627451, alpha 1.0, hue 0.7848049, saturation 0.5948093, and chroma 0.07513822.
-     * It can be represented as a packed float with the constant {@code -0x1.ed0364p125F}.
+     * This color constant "Smog" has RGBA8888 code {@code ABABE3FF}, L 0.7058824, A 0.5058824, B 0.4627451, alpha 1.0, hue 0.7848049, saturation 0.6146363, and chroma 0.07513822.
+     * It can be represented as a packed float with the constant {@code -0x1.ed0368p125F}.
      * <pre>
      * <font style='background-color: #ABABE3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABABE3; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #ABABE3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #ABABE3'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #ABABE3'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #ABABE3'>&nbsp;@&nbsp;</font><font style='background-color: #ABABE3; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #ABABE3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ABABE3; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SMOG = -0x1.ed0364p125F;
-    static { NAMED.put("Smog", -0x1.ed0364p125F); LIST.add(-0x1.ed0364p125F); }
+    public static final float SMOG = -0x1.ed0368p125F;
+    static { NAMED.put("Smog", -0x1.ed0368p125F); LIST.add(-0x1.ed0368p125F); }
 
     /**
-     * This color constant "Tropic Mist" has RGBA8888 code {@code D0DAF8FF}, L 0.84705883, A 0.49803922, B 0.47843137, alpha 1.0, hue 0.75, saturation 0.71428573, and chroma 0.04314594.
-     * It can be represented as a packed float with the constant {@code -0x1.f4ffbp125F}.
+     * This color constant "Tropic Mist" has RGBA8888 code {@code D0DAF8FF}, L 0.85490197, A 0.49803922, B 0.47843137, alpha 1.0, hue 0.75, saturation 0.7692308, and chroma 0.04314594.
+     * It can be represented as a packed float with the constant {@code -0x1.f4ffb4p125F}.
      * <pre>
      * <font style='background-color: #D0DAF8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D0DAF8; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #D0DAF8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #D0DAF8'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #D0DAF8'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #D0DAF8'>&nbsp;@&nbsp;</font><font style='background-color: #D0DAF8; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #D0DAF8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D0DAF8; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float TROPIC_MIST = -0x1.f4ffbp125F;
-    static { NAMED.put("Tropic Mist", -0x1.f4ffbp125F); LIST.add(-0x1.f4ffbp125F); }
+    public static final float TROPIC_MIST = -0x1.f4ffb4p125F;
+    static { NAMED.put("Tropic Mist", -0x1.f4ffb4p125F); LIST.add(-0x1.f4ffb4p125F); }
 
     /**
-     * This color constant "Feather Down" has RGBA8888 code {@code E3E3FFFF}, L 0.88235295, A 0.5019608, B 0.48235294, alpha 1.0, hue 0.78898686, saturation 0.8246211, and chroma 0.0353726.
-     * It can be represented as a packed float with the constant {@code -0x1.f701c2p125F}.
+     * This color constant "Feather Down" has RGBA8888 code {@code E3E3FFFF}, L 0.89411765, A 0.5019608, B 0.48235294, alpha 1.0, hue 0.78898686, saturation 0.9162457, and chroma 0.0353726.
+     * It can be represented as a packed float with the constant {@code -0x1.f701c8p125F}.
      * <pre>
      * <font style='background-color: #E3E3FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E3E3FF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E3E3FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #E3E3FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #E3E3FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #E3E3FF'>&nbsp;@&nbsp;</font><font style='background-color: #E3E3FF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E3E3FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E3E3FF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float FEATHER_DOWN = -0x1.f701c2p125F;
-    static { NAMED.put("Feather Down", -0x1.f701c2p125F); LIST.add(-0x1.f701c2p125F); }
+    public static final float FEATHER_DOWN = -0x1.f701c8p125F;
+    static { NAMED.put("Feather Down", -0x1.f701c8p125F); LIST.add(-0x1.f701c8p125F); }
 
     /**
-     * This color constant "Mild Violet" has RGBA8888 code {@code AB8FC7FF}, L 0.62352943, A 0.52156866, B 0.46666667, alpha 1.0, hue 0.8524291, saturation 0.4, and chroma 0.079095535.
-     * It can be represented as a packed float with the constant {@code -0x1.ef0b3ep125F}.
+     * This color constant "Mild Violet" has RGBA8888 code {@code AB8FC7FF}, L 0.627451, A 0.52156866, B 0.46666667, alpha 1.0, hue 0.8524291, saturation 0.4, and chroma 0.079095535.
+     * It can be represented as a packed float with the constant {@code -0x1.ef0b4p125F}.
      * <pre>
      * <font style='background-color: #AB8FC7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AB8FC7; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #AB8FC7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #AB8FC7'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #AB8FC7'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #AB8FC7'>&nbsp;@&nbsp;</font><font style='background-color: #AB8FC7; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #AB8FC7;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AB8FC7; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float MILD_VIOLET = -0x1.ef0b3ep125F;
-    static { NAMED.put("Mild Violet", -0x1.ef0b3ep125F); LIST.add(-0x1.ef0b3ep125F); }
+    public static final float MILD_VIOLET = -0x1.ef0b4p125F;
+    static { NAMED.put("Mild Violet", -0x1.ef0b4p125F); LIST.add(-0x1.ef0b4p125F); }
 
     /**
      * This color constant "Violet Cushions" has RGBA8888 code {@code 8F57C7FF}, L 0.4745098, A 0.54509807, B 0.43137255, alpha 1.0, hue 0.8478395, saturation 0.56239605, and chroma 0.16359681.
@@ -1624,16 +1624,16 @@ public class Palette {
     static { NAMED.put("Eminence", -0x1.f70c56p125F); LIST.add(-0x1.f70c56p125F); }
 
     /**
-     * This color constant "Prune" has RGBA8888 code {@code 463246FF}, L 0.22352941, A 0.5176471, B 0.4862745, alpha 1.0, hue 0.91398114, saturation 0.2591534, and chroma 0.044538103.
-     * It can be represented as a packed float with the constant {@code -0x1.f90872p125F}.
+     * This color constant "Prune" has RGBA8888 code {@code 463246FF}, L 0.21960784, A 0.5176471, B 0.4862745, alpha 1.0, hue 0.91398114, saturation 0.2591534, and chroma 0.044538103.
+     * It can be represented as a packed float with the constant {@code -0x1.f9087p125F}.
      * <pre>
      * <font style='background-color: #463246;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #463246; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #463246;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #463246'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #463246'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #463246'>&nbsp;@&nbsp;</font><font style='background-color: #463246; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #463246;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #463246; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PRUNE = -0x1.f90872p125F;
-    static { NAMED.put("Prune", -0x1.f90872p125F); LIST.add(-0x1.f90872p125F); }
+    public static final float PRUNE = -0x1.f9087p125F;
+    static { NAMED.put("Prune", -0x1.f9087p125F); LIST.add(-0x1.f9087p125F); }
 
     /**
      * This color constant "Dusty Grape" has RGBA8888 code {@code 724072FF}, L 0.3372549, A 0.5411765, B 0.47058824, alpha 1.0, hue 0.90979147, saturation 0.44197983, and chroma 0.1008085.
@@ -1684,88 +1684,88 @@ public class Palette {
     static { NAMED.put("Mauve", -0x1.f11518p125F); LIST.add(-0x1.f11518p125F); }
 
     /**
-     * This color constant "Ham" has RGBA8888 code {@code EBACE1FF}, L 0.7647059, A 0.5372549, B 0.4745098, alpha 1.0, hue 0.91398114, saturation 0.5553287, and chroma 0.08992863.
-     * It can be represented as a packed float with the constant {@code -0x1.f31386p125F}.
+     * This color constant "Ham" has RGBA8888 code {@code EBACE1FF}, L 0.77254903, A 0.5372549, B 0.4745098, alpha 1.0, hue 0.91398114, saturation 0.5830952, and chroma 0.08992863.
+     * It can be represented as a packed float with the constant {@code -0x1.f3138ap125F}.
      * <pre>
      * <font style='background-color: #EBACE1;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #EBACE1; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #EBACE1;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #EBACE1'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #EBACE1'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #EBACE1'>&nbsp;@&nbsp;</font><font style='background-color: #EBACE1; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #EBACE1;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #EBACE1; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float HAM = -0x1.f31386p125F;
-    static { NAMED.put("Ham", -0x1.f31386p125F); LIST.add(-0x1.f31386p125F); }
+    public static final float HAM = -0x1.f3138ap125F;
+    static { NAMED.put("Ham", -0x1.f3138ap125F); LIST.add(-0x1.f3138ap125F); }
 
     /**
-     * This color constant "Cotton Candy" has RGBA8888 code {@code FFDCF5FF}, L 0.8901961, A 0.5176471, B 0.49019608, alpha 1.0, hue 0.939452, saturation 0.82848686, and chroma 0.040217306.
-     * It can be represented as a packed float with the constant {@code -0x1.fb09c6p125F}.
+     * This color constant "Cotton Candy" has RGBA8888 code {@code FFDCF5FF}, L 0.9019608, A 0.5176471, B 0.49019608, alpha 1.0, hue 0.939452, saturation 0.97912085, and chroma 0.040217306.
+     * It can be represented as a packed float with the constant {@code -0x1.fb09ccp125F}.
      * <pre>
      * <font style='background-color: #FFDCF5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFDCF5; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFDCF5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFDCF5'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFDCF5'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFDCF5'>&nbsp;@&nbsp;</font><font style='background-color: #FFDCF5; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFDCF5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFDCF5; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float COTTON_CANDY = -0x1.fb09c6p125F;
-    static { NAMED.put("Cotton Candy", -0x1.fb09c6p125F); LIST.add(-0x1.fb09c6p125F); }
+    public static final float COTTON_CANDY = -0x1.fb09ccp125F;
+    static { NAMED.put("Cotton Candy", -0x1.fb09ccp125F); LIST.add(-0x1.fb09ccp125F); }
 
     /**
-     * This color constant "Silver Pink" has RGBA8888 code {@code E3C7E3FF}, L 0.8117647, A 0.5176471, B 0.4862745, alpha 1.0, hue 0.91398114, saturation 0.36443448, and chroma 0.044538103.
-     * It can be represented as a packed float with the constant {@code -0x1.f9099ep125F}.
+     * This color constant "Silver Pink" has RGBA8888 code {@code E3C7E3FF}, L 0.8235294, A 0.5176471, B 0.4862745, alpha 1.0, hue 0.91398114, saturation 0.4021346, and chroma 0.044538103.
+     * It can be represented as a packed float with the constant {@code -0x1.f909a4p125F}.
      * <pre>
      * <font style='background-color: #E3C7E3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E3C7E3; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E3C7E3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #E3C7E3'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #E3C7E3'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #E3C7E3'>&nbsp;@&nbsp;</font><font style='background-color: #E3C7E3; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E3C7E3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E3C7E3; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SILVER_PINK = -0x1.f9099ep125F;
-    static { NAMED.put("Silver Pink", -0x1.f9099ep125F); LIST.add(-0x1.f9099ep125F); }
+    public static final float SILVER_PINK = -0x1.f909a4p125F;
+    static { NAMED.put("Silver Pink", -0x1.f909a4p125F); LIST.add(-0x1.f909a4p125F); }
 
     /**
-     * This color constant "Tea Rose" has RGBA8888 code {@code E1B9D2FF}, L 0.7764706, A 0.52156866, B 0.49019608, alpha 1.0, hue 0.9488043, saturation 0.3952847, and chroma 0.0471994.
-     * It can be represented as a packed float with the constant {@code -0x1.fb0b8cp125F}.
+     * This color constant "Tea Rose" has RGBA8888 code {@code E1B9D2FF}, L 0.78431374, A 0.52156866, B 0.49019608, alpha 1.0, hue 0.9488043, saturation 0.42163703, and chroma 0.0471994.
+     * It can be represented as a packed float with the constant {@code -0x1.fb0b9p125F}.
      * <pre>
      * <font style='background-color: #E1B9D2;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E1B9D2; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E1B9D2;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #E1B9D2'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #E1B9D2'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #E1B9D2'>&nbsp;@&nbsp;</font><font style='background-color: #E1B9D2; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E1B9D2;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E1B9D2; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float TEA_ROSE = -0x1.fb0b8cp125F;
-    static { NAMED.put("Tea Rose", -0x1.fb0b8cp125F); LIST.add(-0x1.fb0b8cp125F); }
+    public static final float TEA_ROSE = -0x1.fb0b9p125F;
+    static { NAMED.put("Tea Rose", -0x1.fb0b9p125F); LIST.add(-0x1.fb0b9p125F); }
 
     /**
-     * This color constant "Old Rose" has RGBA8888 code {@code D7A0BEFF}, L 0.7058824, A 0.53333336, B 0.49019608, alpha 1.0, hue 0.96519506, saturation 0.44973388, and chroma 0.069218926.
-     * It can be represented as a packed float with the constant {@code -0x1.fb1168p125F}.
+     * This color constant "Old Rose" has RGBA8888 code {@code D7A0BEFF}, L 0.70980394, A 0.53333336, B 0.49019608, alpha 1.0, hue 0.96519506, saturation 0.46097723, and chroma 0.069218926.
+     * It can be represented as a packed float with the constant {@code -0x1.fb116ap125F}.
      * <pre>
      * <font style='background-color: #D7A0BE;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D7A0BE; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #D7A0BE;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #D7A0BE'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #D7A0BE'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #D7A0BE'>&nbsp;@&nbsp;</font><font style='background-color: #D7A0BE; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #D7A0BE;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D7A0BE; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float OLD_ROSE = -0x1.fb1168p125F;
-    static { NAMED.put("Old Rose", -0x1.fb1168p125F); LIST.add(-0x1.fb1168p125F); }
+    public static final float OLD_ROSE = -0x1.fb116ap125F;
+    static { NAMED.put("Old Rose", -0x1.fb116ap125F); LIST.add(-0x1.fb116ap125F); }
 
     /**
-     * This color constant "Dusty Pink" has RGBA8888 code {@code C78FB9FF}, L 0.64705884, A 0.5372549, B 0.48235294, alpha 1.0, hue 0.939452, saturation 0.35312554, and chroma 0.0821242.
-     * It can be represented as a packed float with the constant {@code -0x1.f7134ap125F}.
+     * This color constant "Dusty Pink" has RGBA8888 code {@code C78FB9FF}, L 0.6509804, A 0.5372549, B 0.48235294, alpha 1.0, hue 0.939452, saturation 0.359011, and chroma 0.0821242.
+     * It can be represented as a packed float with the constant {@code -0x1.f7134cp125F}.
      * <pre>
      * <font style='background-color: #C78FB9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C78FB9; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C78FB9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #C78FB9'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #C78FB9'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #C78FB9'>&nbsp;@&nbsp;</font><font style='background-color: #C78FB9; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C78FB9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C78FB9; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float DUSTY_PINK = -0x1.f7134ap125F;
-    static { NAMED.put("Dusty Pink", -0x1.f7134ap125F); LIST.add(-0x1.f7134ap125F); }
+    public static final float DUSTY_PINK = -0x1.f7134cp125F;
+    static { NAMED.put("Dusty Pink", -0x1.f7134cp125F); LIST.add(-0x1.f7134cp125F); }
 
     /**
-     * This color constant "Roseate Spoonbill" has RGBA8888 code {@code C87DA0FF}, L 0.6, A 0.54509807, B 0.49019608, alpha 1.0, hue 0.9737039, saturation 0.3988697, and chroma 0.091942206.
-     * It can be represented as a packed float with the constant {@code -0x1.fb1732p125F}.
+     * This color constant "Roseate Spoonbill" has RGBA8888 code {@code C87DA0FF}, L 0.6039216, A 0.54509807, B 0.49019608, alpha 1.0, hue 0.9737039, saturation 0.40551752, and chroma 0.091942206.
+     * It can be represented as a packed float with the constant {@code -0x1.fb1734p125F}.
      * <pre>
      * <font style='background-color: #C87DA0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C87DA0; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C87DA0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #C87DA0'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #C87DA0'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #C87DA0'>&nbsp;@&nbsp;</font><font style='background-color: #C87DA0; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C87DA0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C87DA0; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float ROSEATE_SPOONBILL = -0x1.fb1732p125F;
-    static { NAMED.put("Roseate Spoonbill", -0x1.fb1732p125F); LIST.add(-0x1.fb1732p125F); }
+    public static final float ROSEATE_SPOONBILL = -0x1.fb1734p125F;
+    static { NAMED.put("Roseate Spoonbill", -0x1.fb1734p125F); LIST.add(-0x1.fb1734p125F); }
 
     /**
      * This color constant "Thulian Pink" has RGBA8888 code {@code C35A91FF}, L 0.52156866, A 0.5686275, B 0.48235294, alpha 1.0, hue 0.96519506, saturation 0.51941097, and chroma 0.1411665.
@@ -1792,16 +1792,16 @@ public class Palette {
     static { NAMED.put("Brown Velvet", -0x1.fd0e66p125F); LIST.add(-0x1.fd0e66p125F); }
 
     /**
-     * This color constant "Nightshade" has RGBA8888 code {@code 321623FF}, L 0.11764706, A 0.5254902, B 0.49411765, alpha 1.0, hue 0.97740346, saturation 0.48765984, and chroma 0.052115876.
-     * It can be represented as a packed float with the constant {@code -0x1.fd0c3cp125F}.
+     * This color constant "Nightshade" has RGBA8888 code {@code 321623FF}, L 0.11372549, A 0.5254902, B 0.49411765, alpha 1.0, hue 0.97740346, saturation 0.5050763, and chroma 0.052115876.
+     * It can be represented as a packed float with the constant {@code -0x1.fd0c3ap125F}.
      * <pre>
      * <font style='background-color: #321623;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #321623; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #321623;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #321623'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #321623'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #321623'>&nbsp;@&nbsp;</font><font style='background-color: #321623; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #321623;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #321623; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float NIGHTSHADE = -0x1.fd0c3cp125F;
-    static { NAMED.put("Nightshade", -0x1.fd0c3cp125F); LIST.add(-0x1.fd0c3cp125F); }
+    public static final float NIGHTSHADE = -0x1.fd0c3ap125F;
+    static { NAMED.put("Nightshade", -0x1.fd0c3ap125F); LIST.add(-0x1.fd0c3ap125F); }
 
     /**
      * This color constant "Scribe Ink" has RGBA8888 code {@code 280A1EFF}, L 0.078431375, A 0.53333336, B 0.4862745, alpha 1.0, hue 0.9488043, saturation 0.79056937, and chroma 0.071815535.
@@ -1852,16 +1852,16 @@ public class Palette {
     static { NAMED.put("Hot Sauce", -0x1.1728aap126F); LIST.add(-0x1.1728aap126F); }
 
     /**
-     * This color constant "Lurid Red" has RGBA8888 code {@code DA2010FF}, L 0.4509804, A 0.5921569, B 0.5529412, alpha 1.0, hue 0.084052734, saturation 0.89628667, and chroma 0.21173172.
-     * It can be represented as a packed float with the constant {@code -0x1.1b2ee6p126F}.
+     * This color constant "Lurid Red" has RGBA8888 code {@code DA2010FF}, L 0.44705883, A 0.5921569, B 0.5529412, alpha 1.0, hue 0.084052734, saturation 0.89628667, and chroma 0.21173172.
+     * It can be represented as a packed float with the constant {@code -0x1.1b2ee4p126F}.
      * <pre>
      * <font style='background-color: #DA2010;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #DA2010; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #DA2010;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #DA2010'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #DA2010'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #DA2010'>&nbsp;@&nbsp;</font><font style='background-color: #DA2010; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #DA2010;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #DA2010; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float LURID_RED = -0x1.1b2ee6p126F;
-    static { NAMED.put("Lurid Red", -0x1.1b2ee6p126F); LIST.add(-0x1.1b2ee6p126F); }
+    public static final float LURID_RED = -0x1.1b2ee4p126F;
+    static { NAMED.put("Lurid Red", -0x1.1b2ee4p126F); LIST.add(-0x1.1b2ee4p126F); }
 
     /**
      * This color constant "Brick" has RGBA8888 code {@code D5524AFF}, L 0.5137255, A 0.5686275, B 0.53333336, alpha 1.0, hue 0.073790275, saturation 0.60073465, and chroma 0.15199278.
@@ -1876,76 +1876,76 @@ public class Palette {
     static { NAMED.put("Brick", -0x1.112306p126F); LIST.add(-0x1.112306p126F); }
 
     /**
-     * This color constant "Bright Red" has RGBA8888 code {@code FF3C0AFF}, L 0.54509807, A 0.5921569, B 0.5647059, alpha 1.0, hue 0.09809959, saturation 0.9642912, and chroma 0.22432896.
-     * It can be represented as a packed float with the constant {@code -0x1.212f16p126F}.
+     * This color constant "Bright Red" has RGBA8888 code {@code FF3C0AFF}, L 0.54901963, A 0.5921569, B 0.5647059, alpha 1.0, hue 0.09809959, saturation 0.9803628, and chroma 0.22432896.
+     * It can be represented as a packed float with the constant {@code -0x1.212f18p126F}.
      * <pre>
      * <font style='background-color: #FF3C0A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF3C0A; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF3C0A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FF3C0A'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FF3C0A'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FF3C0A'>&nbsp;@&nbsp;</font><font style='background-color: #FF3C0A; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF3C0A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF3C0A; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float BRIGHT_RED = -0x1.212f16p126F;
-    static { NAMED.put("Bright Red", -0x1.212f16p126F); LIST.add(-0x1.212f16p126F); }
+    public static final float BRIGHT_RED = -0x1.212f18p126F;
+    static { NAMED.put("Bright Red", -0x1.212f18p126F); LIST.add(-0x1.212f18p126F); }
 
     /**
-     * This color constant "Embers" has RGBA8888 code {@code F55A32FF}, L 0.57254905, A 0.57254905, B 0.5568628, alpha 1.0, hue 0.10637331, saturation 0.8493838, and chroma 0.1836353.
-     * It can be represented as a packed float with the constant {@code -0x1.1d2524p126F}.
+     * This color constant "Embers" has RGBA8888 code {@code F55A32FF}, L 0.5764706, A 0.57254905, B 0.5568628, alpha 1.0, hue 0.10637331, saturation 0.86455137, and chroma 0.1836353.
+     * It can be represented as a packed float with the constant {@code -0x1.1d2526p126F}.
      * <pre>
      * <font style='background-color: #F55A32;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F55A32; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #F55A32;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #F55A32'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #F55A32'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #F55A32'>&nbsp;@&nbsp;</font><font style='background-color: #F55A32; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #F55A32;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F55A32; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float EMBERS = -0x1.1d2524p126F;
-    static { NAMED.put("Embers", -0x1.1d2524p126F); LIST.add(-0x1.1d2524p126F); }
+    public static final float EMBERS = -0x1.1d2526p126F;
+    static { NAMED.put("Embers", -0x1.1d2526p126F); LIST.add(-0x1.1d2526p126F); }
 
     /**
-     * This color constant "Salmon" has RGBA8888 code {@code FF6262FF}, L 0.6117647, A 0.5803922, B 0.53333336, alpha 1.0, hue 0.06443131, saturation 0.9519716, and chroma 0.17337766.
-     * It can be represented as a packed float with the constant {@code -0x1.112938p126F}.
+     * This color constant "Salmon" has RGBA8888 code {@code FF6262FF}, L 0.6156863, A 0.5803922, B 0.53333336, alpha 1.0, hue 0.06443131, saturation 0.9722263, and chroma 0.17337766.
+     * It can be represented as a packed float with the constant {@code -0x1.11293ap126F}.
      * <pre>
      * <font style='background-color: #FF6262;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF6262; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF6262;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FF6262'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FF6262'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FF6262'>&nbsp;@&nbsp;</font><font style='background-color: #FF6262; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF6262;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF6262; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SALMON = -0x1.112938p126F;
-    static { NAMED.put("Salmon", -0x1.112938p126F); LIST.add(-0x1.112938p126F); }
+    public static final float SALMON = -0x1.11293ap126F;
+    static { NAMED.put("Salmon", -0x1.11293ap126F); LIST.add(-0x1.11293ap126F); }
 
     /**
-     * This color constant "Taxicab Yellow" has RGBA8888 code {@code F6BD31FF}, L 0.77254903, A 0.5019608, B 0.5764706, alpha 1.0, hue 0.24205942, saturation 0.8706515, and chroma 0.15239382.
-     * It can be represented as a packed float with the constant {@code -0x1.27018ap126F}.
+     * This color constant "Taxicab Yellow" has RGBA8888 code {@code F6BD31FF}, L 0.78039217, A 0.5019608, B 0.5764706, alpha 1.0, hue 0.24205942, saturation 0.8706515, and chroma 0.15239382.
+     * It can be represented as a packed float with the constant {@code -0x1.27018ep126F}.
      * <pre>
      * <font style='background-color: #F6BD31;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F6BD31; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #F6BD31;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #F6BD31'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #F6BD31'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #F6BD31'>&nbsp;@&nbsp;</font><font style='background-color: #F6BD31; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #F6BD31;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F6BD31; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float TAXICAB_YELLOW = -0x1.27018ap126F;
-    static { NAMED.put("Taxicab Yellow", -0x1.27018ap126F); LIST.add(-0x1.27018ap126F); }
+    public static final float TAXICAB_YELLOW = -0x1.27018ep126F;
+    static { NAMED.put("Taxicab Yellow", -0x1.27018ep126F); LIST.add(-0x1.27018ep126F); }
 
     /**
-     * This color constant "Apricot" has RGBA8888 code {@code FFA53CFF}, L 0.7294118, A 0.5254902, B 0.5686275, alpha 1.0, hue 0.19098291, saturation 0.9421077, and chroma 0.14584495.
-     * It can be represented as a packed float with the constant {@code -0x1.230d74p126F}.
+     * This color constant "Apricot" has RGBA8888 code {@code FFA53CFF}, L 0.7372549, A 0.5254902, B 0.5686275, alpha 1.0, hue 0.19098291, saturation 0.9904209, and chroma 0.14584495.
+     * It can be represented as a packed float with the constant {@code -0x1.230d78p126F}.
      * <pre>
      * <font style='background-color: #FFA53C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFA53C; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFA53C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFA53C'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFA53C'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFA53C'>&nbsp;@&nbsp;</font><font style='background-color: #FFA53C; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFA53C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFA53C; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float APRICOT = -0x1.230d74p126F;
-    static { NAMED.put("Apricot", -0x1.230d74p126F); LIST.add(-0x1.230d74p126F); }
+    public static final float APRICOT = -0x1.230d78p126F;
+    static { NAMED.put("Apricot", -0x1.230d78p126F); LIST.add(-0x1.230d78p126F); }
 
     /**
-     * This color constant "Burnt Yellow" has RGBA8888 code {@code D79B0FFF}, L 0.65882355, A 0.5058824, B 0.57254905, alpha 1.0, hue 0.23330018, saturation 0.9319499, and chroma 0.14500555.
-     * It can be represented as a packed float with the constant {@code -0x1.25035p126F}.
+     * This color constant "Burnt Yellow" has RGBA8888 code {@code D79B0FFF}, L 0.6627451, A 0.5058824, B 0.57254905, alpha 1.0, hue 0.23330018, saturation 0.9319499, and chroma 0.14500555.
+     * It can be represented as a packed float with the constant {@code -0x1.250352p126F}.
      * <pre>
      * <font style='background-color: #D79B0F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D79B0F; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #D79B0F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #D79B0F'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #D79B0F'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #D79B0F'>&nbsp;@&nbsp;</font><font style='background-color: #D79B0F; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #D79B0F;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D79B0F; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float BURNT_YELLOW = -0x1.25035p126F;
-    static { NAMED.put("Burnt Yellow", -0x1.25035p126F); LIST.add(-0x1.25035p126F); }
+    public static final float BURNT_YELLOW = -0x1.250352p126F;
+    static { NAMED.put("Burnt Yellow", -0x1.250352p126F); LIST.add(-0x1.250352p126F); }
 
     /**
      * This color constant "Dry Pepper" has RGBA8888 code {@code DA6E0AFF}, L 0.5647059, A 0.5411765, B 0.5647059, alpha 1.0, hue 0.15858527, saturation 0.9203844, and chroma 0.15279381.
@@ -1996,16 +1996,16 @@ public class Palette {
     static { NAMED.put("Ochre", -0x1.110a7cp126F); LIST.add(-0x1.110a7cp126F); }
 
     /**
-     * This color constant "Dull Green" has RGBA8888 code {@code 53500AFF}, L 0.30588236, A 0.48235294, B 0.5411765, alpha 1.0, hue 0.30549568, saturation 0.86701477, and chroma 0.08924734.
-     * It can be represented as a packed float with the constant {@code -0x1.14f69cp126F}.
+     * This color constant "Dull Green" has RGBA8888 code {@code 53500AFF}, L 0.3019608, A 0.48235294, B 0.5411765, alpha 1.0, hue 0.30549568, saturation 0.86701477, and chroma 0.08924734.
+     * It can be represented as a packed float with the constant {@code -0x1.14f69ap126F}.
      * <pre>
      * <font style='background-color: #53500A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #53500A; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #53500A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #53500A'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #53500A'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #53500A'>&nbsp;@&nbsp;</font><font style='background-color: #53500A; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #53500A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #53500A; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float DULL_GREEN = -0x1.14f69cp126F;
-    static { NAMED.put("Dull Green", -0x1.14f69cp126F); LIST.add(-0x1.14f69cp126F); }
+    public static final float DULL_GREEN = -0x1.14f69ap126F;
+    static { NAMED.put("Dull Green", -0x1.14f69ap126F); LIST.add(-0x1.14f69ap126F); }
 
     /**
      * This color constant "Army Green" has RGBA8888 code {@code 626200FF}, L 0.37254903, A 0.47843137, B 0.54901963, alpha 1.0, hue 0.30842525, saturation 0.92855924, and chroma 0.106691405.
@@ -2032,112 +2032,112 @@ public class Palette {
     static { NAMED.put("Driftwood", -0x1.0cff06p126F); LIST.add(-0x1.0cff06p126F); }
 
     /**
-     * This color constant "Dry Brush" has RGBA8888 code {@code AC9400FF}, L 0.5882353, A 0.4862745, B 0.5686275, alpha 1.0, hue 0.27629608, saturation 0.96043617, and chroma 0.13942632.
-     * It can be represented as a packed float with the constant {@code -0x1.22f92cp126F}.
+     * This color constant "Dry Brush" has RGBA8888 code {@code AC9400FF}, L 0.5921569, A 0.4862745, B 0.5686275, alpha 1.0, hue 0.27629608, saturation 0.96043617, and chroma 0.13942632.
+     * It can be represented as a packed float with the constant {@code -0x1.22f92ep126F}.
      * <pre>
      * <font style='background-color: #AC9400;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AC9400; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #AC9400;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #AC9400'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #AC9400'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #AC9400'>&nbsp;@&nbsp;</font><font style='background-color: #AC9400; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #AC9400;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #AC9400; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float DRY_BRUSH = -0x1.22f92cp126F;
-    static { NAMED.put("Dry Brush", -0x1.22f92cp126F); LIST.add(-0x1.22f92cp126F); }
+    public static final float DRY_BRUSH = -0x1.22f92ep126F;
+    static { NAMED.put("Dry Brush", -0x1.22f92ep126F); LIST.add(-0x1.22f92ep126F); }
 
     /**
-     * This color constant "Mush" has RGBA8888 code {@code B1B10AFF}, L 0.6666667, A 0.47058824, B 0.5764706, alpha 1.0, hue 0.3035705, saturation 0.96316457, and chroma 0.1632233.
-     * It can be represented as a packed float with the constant {@code -0x1.26f154p126F}.
+     * This color constant "Mush" has RGBA8888 code {@code B1B10AFF}, L 0.6745098, A 0.47058824, B 0.5764706, alpha 1.0, hue 0.3035705, saturation 0.96316457, and chroma 0.1632233.
+     * It can be represented as a packed float with the constant {@code -0x1.26f158p126F}.
      * <pre>
      * <font style='background-color: #B1B10A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B1B10A; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #B1B10A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #B1B10A'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #B1B10A'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #B1B10A'>&nbsp;@&nbsp;</font><font style='background-color: #B1B10A; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #B1B10A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B1B10A; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float MUSH = -0x1.26f154p126F;
-    static { NAMED.put("Mush", -0x1.26f154p126F); LIST.add(-0x1.26f154p126F); }
+    public static final float MUSH = -0x1.26f158p126F;
+    static { NAMED.put("Mush", -0x1.26f158p126F); LIST.add(-0x1.26f158p126F); }
 
     /**
-     * This color constant "Banana Pudding" has RGBA8888 code {@code E6D55AFF}, L 0.8117647, A 0.48235294, B 0.5647059, alpha 1.0, hue 0.2867793, saturation 0.7128265, and chroma 0.1336143.
-     * It can be represented as a packed float with the constant {@code -0x1.20f79ep126F}.
+     * This color constant "Banana Pudding" has RGBA8888 code {@code E6D55AFF}, L 0.8235294, A 0.48235294, B 0.5647059, alpha 1.0, hue 0.2867793, saturation 0.7128265, and chroma 0.1336143.
+     * It can be represented as a packed float with the constant {@code -0x1.20f7a4p126F}.
      * <pre>
      * <font style='background-color: #E6D55A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E6D55A; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E6D55A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #E6D55A'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #E6D55A'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #E6D55A'>&nbsp;@&nbsp;</font><font style='background-color: #E6D55A; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E6D55A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E6D55A; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float BANANA_PUDDING = -0x1.20f79ep126F;
-    static { NAMED.put("Banana Pudding", -0x1.20f79ep126F); LIST.add(-0x1.20f79ep126F); }
+    public static final float BANANA_PUDDING = -0x1.20f7a4p126F;
+    static { NAMED.put("Banana Pudding", -0x1.20f7a4p126F); LIST.add(-0x1.20f7a4p126F); }
 
     /**
-     * This color constant "Saffron" has RGBA8888 code {@code FFD510FF}, L 0.83137256, A 0.4862745, B 0.5882353, alpha 1.0, hue 0.27065513, saturation 0.9467276, and chroma 0.17789528.
-     * It can be represented as a packed float with the constant {@code -0x1.2cf9a8p126F}.
+     * This color constant "Saffron" has RGBA8888 code {@code FFD510FF}, L 0.84313726, A 0.4862745, B 0.5882353, alpha 1.0, hue 0.27065513, saturation 0.9467276, and chroma 0.17789528.
+     * It can be represented as a packed float with the constant {@code -0x1.2cf9aep126F}.
      * <pre>
      * <font style='background-color: #FFD510;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFD510; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFD510;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFD510'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFD510'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFD510'>&nbsp;@&nbsp;</font><font style='background-color: #FFD510; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFD510;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFD510; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SAFFRON = -0x1.2cf9a8p126F;
-    static { NAMED.put("Saffron", -0x1.2cf9a8p126F); LIST.add(-0x1.2cf9a8p126F); }
+    public static final float SAFFRON = -0x1.2cf9aep126F;
+    static { NAMED.put("Saffron", -0x1.2cf9aep126F); LIST.add(-0x1.2cf9aep126F); }
 
     /**
-     * This color constant "Pencil Yellow" has RGBA8888 code {@code FFEA4AFF}, L 0.88235295, A 0.47843137, B 0.5803922, alpha 1.0, hue 0.28720093, saturation 0.83027047, and chroma 0.1658202.
-     * It can be represented as a packed float with the constant {@code -0x1.28f5c2p126F}.
+     * This color constant "Pencil Yellow" has RGBA8888 code {@code FFEA4AFF}, L 0.89411765, A 0.47843137, B 0.5803922, alpha 1.0, hue 0.28720093, saturation 0.9385666, and chroma 0.1658202.
+     * It can be represented as a packed float with the constant {@code -0x1.28f5c8p126F}.
      * <pre>
      * <font style='background-color: #FFEA4A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFEA4A; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFEA4A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FFEA4A'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FFEA4A'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FFEA4A'>&nbsp;@&nbsp;</font><font style='background-color: #FFEA4A; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FFEA4A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FFEA4A; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PENCIL_YELLOW = -0x1.28f5c2p126F;
-    static { NAMED.put("Pencil Yellow", -0x1.28f5c2p126F); LIST.add(-0x1.28f5c2p126F); }
+    public static final float PENCIL_YELLOW = -0x1.28f5c8p126F;
+    static { NAMED.put("Pencil Yellow", -0x1.28f5c8p126F); LIST.add(-0x1.28f5c8p126F); }
 
     /**
-     * This color constant "Chartreuse" has RGBA8888 code {@code C8FF41FF}, L 0.8862745, A 0.4392157, B 0.58431375, alpha 1.0, hue 0.34525383, saturation 0.91817427, and chroma 0.2070681.
-     * It can be represented as a packed float with the constant {@code -0x1.2ae1c4p126F}.
+     * This color constant "Chartreuse" has RGBA8888 code {@code C8FF41FF}, L 0.89411765, A 0.4392157, B 0.58431375, alpha 1.0, hue 0.34525383, saturation 1.0441982, and chroma 0.2070681.
+     * It can be represented as a packed float with the constant {@code -0x1.2ae1c8p126F}.
      * <pre>
      * <font style='background-color: #C8FF41;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C8FF41; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C8FF41;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #C8FF41'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #C8FF41'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #C8FF41'>&nbsp;@&nbsp;</font><font style='background-color: #C8FF41; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #C8FF41;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #C8FF41; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float CHARTREUSE = -0x1.2ae1c4p126F;
-    static { NAMED.put("Chartreuse", -0x1.2ae1c4p126F); LIST.add(-0x1.2ae1c4p126F); }
+    public static final float CHARTREUSE = -0x1.2ae1c8p126F;
+    static { NAMED.put("Chartreuse", -0x1.2ae1c8p126F); LIST.add(-0x1.2ae1c8p126F); }
 
     /**
-     * This color constant "Absinthe" has RGBA8888 code {@code 9BF046FF}, L 0.8156863, A 0.42745098, B 0.5764706, alpha 1.0, hue 0.36663744, saturation 0.8408515, and chroma 0.209995.
-     * It can be represented as a packed float with the constant {@code -0x1.26dbap126F}.
+     * This color constant "Absinthe" has RGBA8888 code {@code 9BF046FF}, L 0.8235294, A 0.42745098, B 0.5764706, alpha 1.0, hue 0.36663744, saturation 0.8408515, and chroma 0.209995.
+     * It can be represented as a packed float with the constant {@code -0x1.26dba4p126F}.
      * <pre>
      * <font style='background-color: #9BF046;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #9BF046; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #9BF046;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #9BF046'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #9BF046'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #9BF046'>&nbsp;@&nbsp;</font><font style='background-color: #9BF046; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #9BF046;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #9BF046; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float ABSINTHE = -0x1.26dbap126F;
-    static { NAMED.put("Absinthe", -0x1.26dbap126F); LIST.add(-0x1.26dbap126F); }
+    public static final float ABSINTHE = -0x1.26dba4p126F;
+    static { NAMED.put("Absinthe", -0x1.26dba4p126F); LIST.add(-0x1.26dba4p126F); }
 
     /**
-     * This color constant "Infection" has RGBA8888 code {@code 96DC19FF}, L 0.75686276, A 0.43137255, B 0.5803922, alpha 1.0, hue 0.35831934, saturation 0.9316729, and chroma 0.2105755.
-     * It can be represented as a packed float with the constant {@code -0x1.28dd82p126F}.
+     * This color constant "Infection" has RGBA8888 code {@code 96DC19FF}, L 0.7647059, A 0.43137255, B 0.5803922, alpha 1.0, hue 0.35831934, saturation 0.9158818, and chroma 0.2105755.
+     * It can be represented as a packed float with the constant {@code -0x1.28dd86p126F}.
      * <pre>
      * <font style='background-color: #96DC19;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #96DC19; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #96DC19;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #96DC19'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #96DC19'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #96DC19'>&nbsp;@&nbsp;</font><font style='background-color: #96DC19; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #96DC19;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #96DC19; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float INFECTION = -0x1.28dd82p126F;
-    static { NAMED.put("Infection", -0x1.28dd82p126F); LIST.add(-0x1.28dd82p126F); }
+    public static final float INFECTION = -0x1.28dd86p126F;
+    static { NAMED.put("Infection", -0x1.28dd86p126F); LIST.add(-0x1.28dd86p126F); }
 
     /**
-     * This color constant "Frog Green" has RGBA8888 code {@code 73C805FF}, L 0.6784314, A 0.42745098, B 0.5764706, alpha 1.0, hue 0.36663744, saturation 0.96097314, and chroma 0.209995.
-     * It can be represented as a packed float with the constant {@code -0x1.26db5ap126F}.
+     * This color constant "Frog Green" has RGBA8888 code {@code 73C805FF}, L 0.68235296, A 0.42745098, B 0.5764706, alpha 1.0, hue 0.36663744, saturation 0.96097314, and chroma 0.209995.
+     * It can be represented as a packed float with the constant {@code -0x1.26db5cp126F}.
      * <pre>
      * <font style='background-color: #73C805;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #73C805; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #73C805;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #73C805'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #73C805'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #73C805'>&nbsp;@&nbsp;</font><font style='background-color: #73C805; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #73C805;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #73C805; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float FROG_GREEN = -0x1.26db5ap126F;
-    static { NAMED.put("Frog Green", -0x1.26db5ap126F); LIST.add(-0x1.26db5ap126F); }
+    public static final float FROG_GREEN = -0x1.26db5cp126F;
+    static { NAMED.put("Frog Green", -0x1.26db5cp126F); LIST.add(-0x1.26db5cp126F); }
 
     /**
      * This color constant "Avocado" has RGBA8888 code {@code 6AA805FF}, L 0.58431375, A 0.4392157, B 0.5686275, alpha 1.0, hue 0.36058098, saturation 0.9563571, and chroma 0.18263547.
@@ -2164,16 +2164,16 @@ public class Palette {
     static { NAMED.put("Woodlands", -0x1.18e6cp126F); LIST.add(-0x1.18e6cp126F); }
 
     /**
-     * This color constant "Dark Pine" has RGBA8888 code {@code 283405FF}, L 0.1764706, A 0.4745098, B 0.5294118, alpha 1.0, hue 0.3524291, saturation 0.8695652, and chroma 0.07753685.
-     * It can be represented as a packed float with the constant {@code -0x1.0ef25ap126F}.
+     * This color constant "Dark Pine" has RGBA8888 code {@code 283405FF}, L 0.17254902, A 0.4745098, B 0.5294118, alpha 1.0, hue 0.3524291, saturation 0.8695652, and chroma 0.07753685.
+     * It can be represented as a packed float with the constant {@code -0x1.0ef258p126F}.
      * <pre>
      * <font style='background-color: #283405;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #283405; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #283405;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #283405'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #283405'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #283405'>&nbsp;@&nbsp;</font><font style='background-color: #283405; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #283405;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #283405; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float DARK_PINE = -0x1.0ef25ap126F;
-    static { NAMED.put("Dark Pine", -0x1.0ef25ap126F); LIST.add(-0x1.0ef25ap126F); }
+    public static final float DARK_PINE = -0x1.0ef258p126F;
+    static { NAMED.put("Dark Pine", -0x1.0ef258p126F); LIST.add(-0x1.0ef258p126F); }
 
     /**
      * This color constant "Moss Green" has RGBA8888 code {@code 204608FF}, L 0.22745098, A 0.45882353, B 0.5372549, alpha 1.0, hue 0.375, saturation 0.94280905, and chroma 0.11062346.
@@ -2212,76 +2212,76 @@ public class Palette {
     static { NAMED.put("Forest Glen", -0x1.1ed4f8p126F); LIST.add(-0x1.1ed4f8p126F); }
 
     /**
-     * This color constant "Malachite" has RGBA8888 code {@code 0AD70AFF}, L 0.6862745, A 0.39215687, B 0.5764706, alpha 1.0, hue 0.39851815, saturation 0.98825276, and chroma 0.26337513.
-     * It can be represented as a packed float with the constant {@code -0x1.26c95ep126F}.
+     * This color constant "Malachite" has RGBA8888 code {@code 0AD70AFF}, L 0.6901961, A 0.39215687, B 0.5764706, alpha 1.0, hue 0.39851815, saturation 0.98825276, and chroma 0.26337513.
+     * It can be represented as a packed float with the constant {@code -0x1.26c96p126F}.
      * <pre>
      * <font style='background-color: #0AD70A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0AD70A; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #0AD70A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #0AD70A'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #0AD70A'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #0AD70A'>&nbsp;@&nbsp;</font><font style='background-color: #0AD70A; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #0AD70A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #0AD70A; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float MALACHITE = -0x1.26c95ep126F;
-    static { NAMED.put("Malachite", -0x1.26c95ep126F); LIST.add(-0x1.26c95ep126F); }
+    public static final float MALACHITE = -0x1.26c96p126F;
+    static { NAMED.put("Malachite", -0x1.26c96p126F); LIST.add(-0x1.26c96p126F); }
 
     /**
-     * This color constant "Apple Green" has RGBA8888 code {@code 14E60AFF}, L 0.7294118, A 0.3882353, B 0.5803922, alpha 1.0, hue 0.3975709, saturation 0.9859155, and chroma 0.27427328.
-     * It can be represented as a packed float with the constant {@code -0x1.28c774p126F}.
+     * This color constant "Apple Green" has RGBA8888 code {@code 14E60AFF}, L 0.7372549, A 0.3882353, B 0.5803922, alpha 1.0, hue 0.3975709, saturation 0.9722222, and chroma 0.27427328.
+     * It can be represented as a packed float with the constant {@code -0x1.28c778p126F}.
      * <pre>
      * <font style='background-color: #14E60A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #14E60A; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #14E60A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #14E60A'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #14E60A'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #14E60A'>&nbsp;@&nbsp;</font><font style='background-color: #14E60A; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #14E60A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #14E60A; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float APPLE_GREEN = -0x1.28c774p126F;
-    static { NAMED.put("Apple Green", -0x1.28c774p126F); LIST.add(-0x1.28c774p126F); }
+    public static final float APPLE_GREEN = -0x1.28c778p126F;
+    static { NAMED.put("Apple Green", -0x1.28c778p126F); LIST.add(-0x1.28c778p126F); }
 
     /**
-     * This color constant "Celery" has RGBA8888 code {@code 7DFF73FF}, L 0.84313726, A 0.41960785, B 0.56078434, alpha 1.0, hue 0.39260027, saturation 0.88318956, and chroma 0.20078278.
-     * It can be represented as a packed float with the constant {@code -0x1.1ed7aep126F}.
+     * This color constant "Celery" has RGBA8888 code {@code 7DFF73FF}, L 0.85490197, A 0.41960785, B 0.56078434, alpha 1.0, hue 0.39260027, saturation 1.0044117, and chroma 0.20078278.
+     * It can be represented as a packed float with the constant {@code -0x1.1ed7b4p126F}.
      * <pre>
      * <font style='background-color: #7DFF73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7DFF73; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #7DFF73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #7DFF73'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #7DFF73'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #7DFF73'>&nbsp;@&nbsp;</font><font style='background-color: #7DFF73; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #7DFF73;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7DFF73; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float CELERY = -0x1.1ed7aep126F;
-    static { NAMED.put("Celery", -0x1.1ed7aep126F); LIST.add(-0x1.1ed7aep126F); }
+    public static final float CELERY = -0x1.1ed7b4p126F;
+    static { NAMED.put("Celery", -0x1.1ed7b4p126F); LIST.add(-0x1.1ed7b4p126F); }
 
     /**
-     * This color constant "Mint Green" has RGBA8888 code {@code 4BF05AFF}, L 0.7764706, A 0.40392157, B 0.5647059, alpha 1.0, hue 0.4019004, saturation 0.79488873, and chroma 0.23076649.
-     * It can be represented as a packed float with the constant {@code -0x1.20cf8cp126F}.
+     * This color constant "Mint Green" has RGBA8888 code {@code 4BF05AFF}, L 0.78431374, A 0.40392157, B 0.5647059, alpha 1.0, hue 0.4019004, saturation 0.7842902, and chroma 0.23076649.
+     * It can be represented as a packed float with the constant {@code -0x1.20cf9p126F}.
      * <pre>
      * <font style='background-color: #4BF05A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #4BF05A; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #4BF05A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #4BF05A'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #4BF05A'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #4BF05A'>&nbsp;@&nbsp;</font><font style='background-color: #4BF05A; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #4BF05A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #4BF05A; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float MINT_GREEN = -0x1.20cf8cp126F;
-    static { NAMED.put("Mint Green", -0x1.20cf8cp126F); LIST.add(-0x1.20cf8cp126F); }
+    public static final float MINT_GREEN = -0x1.20cf9p126F;
+    static { NAMED.put("Mint Green", -0x1.20cf9p126F); LIST.add(-0x1.20cf9p126F); }
 
     /**
-     * This color constant "Emerald" has RGBA8888 code {@code 00C514FF}, L 0.6313726, A 0.4, B 0.57254905, alpha 1.0, hue 0.3965574, saturation 0.9812699, and chroma 0.24612474.
-     * It can be represented as a packed float with the constant {@code -0x1.24cd42p126F}.
+     * This color constant "Emerald" has RGBA8888 code {@code 00C514FF}, L 0.63529414, A 0.4, B 0.57254905, alpha 1.0, hue 0.3965574, saturation 0.9812699, and chroma 0.24612474.
+     * It can be represented as a packed float with the constant {@code -0x1.24cd44p126F}.
      * <pre>
      * <font style='background-color: #00C514;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00C514; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #00C514;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #00C514'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #00C514'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #00C514'>&nbsp;@&nbsp;</font><font style='background-color: #00C514; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #00C514;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00C514; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float EMERALD = -0x1.24cd42p126F;
-    static { NAMED.put("Emerald", -0x1.24cd42p126F); LIST.add(-0x1.24cd42p126F); }
+    public static final float EMERALD = -0x1.24cd44p126F;
+    static { NAMED.put("Emerald", -0x1.24cd44p126F); LIST.add(-0x1.24cd44p126F); }
 
     /**
-     * This color constant "Prase" has RGBA8888 code {@code 05B450FF}, L 0.5882353, A 0.41568628, B 0.54509807, alpha 1.0, hue 0.4173693, saturation 0.9127084, and chroma 0.19048727.
-     * It can be represented as a packed float with the constant {@code -0x1.16d52cp126F}.
+     * This color constant "Prase" has RGBA8888 code {@code 05B450FF}, L 0.5921569, A 0.41568628, B 0.54509807, alpha 1.0, hue 0.4173693, saturation 0.9127084, and chroma 0.19048727.
+     * It can be represented as a packed float with the constant {@code -0x1.16d52ep126F}.
      * <pre>
      * <font style='background-color: #05B450;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #05B450; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #05B450;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #05B450'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #05B450'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #05B450'>&nbsp;@&nbsp;</font><font style='background-color: #05B450; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #05B450;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #05B450; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PRASE = -0x1.16d52cp126F;
-    static { NAMED.put("Prase", -0x1.16d52cp126F); LIST.add(-0x1.16d52cp126F); }
+    public static final float PRASE = -0x1.16d52ep126F;
+    static { NAMED.put("Prase", -0x1.16d52ep126F); LIST.add(-0x1.16d52ep126F); }
 
     /**
      * This color constant "Eucalyptus" has RGBA8888 code {@code 1C8C4EFF}, L 0.46666667, A 0.43529412, B 0.5294118, alpha 1.0, hue 0.42620972, saturation 0.8726119, and chroma 0.1415982.
@@ -2296,16 +2296,16 @@ public class Palette {
     static { NAMED.put("Eucalyptus", -0x1.0edeeep126F); LIST.add(-0x1.0edeeep126F); }
 
     /**
-     * This color constant "Zucchini" has RGBA8888 code {@code 123832FF}, L 0.18431373, A 0.4745098, B 0.49803922, alpha 1.0, hue 0.49998704, saturation 0.7058824, and chroma 0.050931267.
-     * It can be represented as a packed float with the constant {@code -0x1.fef25ep125F}.
+     * This color constant "Zucchini" has RGBA8888 code {@code 123832FF}, L 0.18039216, A 0.4745098, B 0.49803922, alpha 1.0, hue 0.49998704, saturation 0.7058824, and chroma 0.050931267.
+     * It can be represented as a packed float with the constant {@code -0x1.fef25cp125F}.
      * <pre>
      * <font style='background-color: #123832;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #123832; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #123832;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #123832'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #123832'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #123832'>&nbsp;@&nbsp;</font><font style='background-color: #123832; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #123832;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #123832; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float ZUCCHINI = -0x1.fef25ep125F;
-    static { NAMED.put("Zucchini", -0x1.fef25ep125F); LIST.add(-0x1.fef25ep125F); }
+    public static final float ZUCCHINI = -0x1.fef25cp125F;
+    static { NAMED.put("Zucchini", -0x1.fef25cp125F); LIST.add(-0x1.fef25cp125F); }
 
     /**
      * This color constant "Soft Teal" has RGBA8888 code {@code 129880FF}, L 0.5176471, A 0.4392157, B 0.5019608, alpha 1.0, hue 0.4894102, saturation 0.93958104, and chroma 0.12115674.
@@ -2320,112 +2320,112 @@ public class Palette {
     static { NAMED.put("Soft Teal", -0x1.00e108p126F); LIST.add(-0x1.00e108p126F); }
 
     /**
-     * This color constant "Medium Teal" has RGBA8888 code {@code 06C491FF}, L 0.6509804, A 0.42352942, B 0.5137255, alpha 1.0, hue 0.46697098, saturation 0.94714576, and chroma 0.15477823.
-     * It can be represented as a packed float with the constant {@code -0x1.06d94cp126F}.
+     * This color constant "Medium Teal" has RGBA8888 code {@code 06C491FF}, L 0.654902, A 0.42352942, B 0.5137255, alpha 1.0, hue 0.46697098, saturation 0.94714576, and chroma 0.15477823.
+     * It can be represented as a packed float with the constant {@code -0x1.06d94ep126F}.
      * <pre>
      * <font style='background-color: #06C491;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #06C491; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #06C491;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #06C491'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #06C491'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #06C491'>&nbsp;@&nbsp;</font><font style='background-color: #06C491; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #06C491;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #06C491; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float MEDIUM_TEAL = -0x1.06d94cp126F;
-    static { NAMED.put("Medium Teal", -0x1.06d94cp126F); LIST.add(-0x1.06d94cp126F); }
+    public static final float MEDIUM_TEAL = -0x1.06d94ep126F;
+    static { NAMED.put("Medium Teal", -0x1.06d94ep126F); LIST.add(-0x1.06d94ep126F); }
 
     /**
-     * This color constant "Spring Green" has RGBA8888 code {@code 00DE6AFF}, L 0.7176471, A 0.40392157, B 0.54901963, alpha 1.0, hue 0.42098877, saturation 0.9252436, and chroma 0.21487926.
-     * It can be represented as a packed float with the constant {@code -0x1.18cf6ep126F}.
+     * This color constant "Spring Green" has RGBA8888 code {@code 00DE6AFF}, L 0.72156864, A 0.40392157, B 0.54901963, alpha 1.0, hue 0.42098877, saturation 0.9252436, and chroma 0.21487926.
+     * It can be represented as a packed float with the constant {@code -0x1.18cf7p126F}.
      * <pre>
      * <font style='background-color: #00DE6A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00DE6A; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #00DE6A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #00DE6A'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #00DE6A'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #00DE6A'>&nbsp;@&nbsp;</font><font style='background-color: #00DE6A; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #00DE6A;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00DE6A; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SPRING_GREEN = -0x1.18cf6ep126F;
-    static { NAMED.put("Spring Green", -0x1.18cf6ep126F); LIST.add(-0x1.18cf6ep126F); }
+    public static final float SPRING_GREEN = -0x1.18cf7p126F;
+    static { NAMED.put("Spring Green", -0x1.18cf7p126F); LIST.add(-0x1.18cf7p126F); }
 
     /**
-     * This color constant "Turquoise" has RGBA8888 code {@code 2DEBA8FF}, L 0.77254903, A 0.41568628, B 0.52156866, alpha 1.0, hue 0.45571566, saturation 0.89144206, and chroma 0.17337766.
-     * It can be represented as a packed float with the constant {@code -0x1.0ad58ap126F}.
+     * This color constant "Turquoise" has RGBA8888 code {@code 2DEBA8FF}, L 0.78039217, A 0.41568628, B 0.52156866, alpha 1.0, hue 0.45571566, saturation 0.89144206, and chroma 0.17337766.
+     * It can be represented as a packed float with the constant {@code -0x1.0ad58ep126F}.
      * <pre>
      * <font style='background-color: #2DEBA8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #2DEBA8; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #2DEBA8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #2DEBA8'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #2DEBA8'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #2DEBA8'>&nbsp;@&nbsp;</font><font style='background-color: #2DEBA8; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #2DEBA8;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #2DEBA8; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float TURQUOISE = -0x1.0ad58ap126F;
-    static { NAMED.put("Turquoise", -0x1.0ad58ap126F); LIST.add(-0x1.0ad58ap126F); }
+    public static final float TURQUOISE = -0x1.0ad58ep126F;
+    static { NAMED.put("Turquoise", -0x1.0ad58ep126F); LIST.add(-0x1.0ad58ep126F); }
 
     /**
-     * This color constant "Seafoam" has RGBA8888 code {@code 3CFEA5FF}, L 0.827451, A 0.4117647, B 0.5294118, alpha 1.0, hue 0.4445043, saturation 0.9003615, and chroma 0.18528971.
-     * It can be represented as a packed float with the constant {@code -0x1.0ed3a6p126F}.
+     * This color constant "Seafoam" has RGBA8888 code {@code 3CFEA5FF}, L 0.8352941, A 0.4117647, B 0.5294118, alpha 1.0, hue 0.4445043, saturation 0.9753916, and chroma 0.18528971.
+     * It can be represented as a packed float with the constant {@code -0x1.0ed3aap126F}.
      * <pre>
      * <font style='background-color: #3CFEA5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3CFEA5; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #3CFEA5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #3CFEA5'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #3CFEA5'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #3CFEA5'>&nbsp;@&nbsp;</font><font style='background-color: #3CFEA5; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #3CFEA5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #3CFEA5; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SEAFOAM = -0x1.0ed3a6p126F;
-    static { NAMED.put("Seafoam", -0x1.0ed3a6p126F); LIST.add(-0x1.0ed3a6p126F); }
+    public static final float SEAFOAM = -0x1.0ed3aap126F;
+    static { NAMED.put("Seafoam", -0x1.0ed3aap126F); LIST.add(-0x1.0ed3aap126F); }
 
     /**
-     * This color constant "Variscite" has RGBA8888 code {@code 6AFFCDFF}, L 0.85490197, A 0.43137255, B 0.50980395, alpha 1.0, hue 0.47218934, saturation 0.9085619, and chroma 0.1381068.
-     * It can be represented as a packed float with the constant {@code -0x1.04ddb4p126F}.
+     * This color constant "Variscite" has RGBA8888 code {@code 6AFFCDFF}, L 0.8666667, A 0.43137255, B 0.50980395, alpha 1.0, hue 0.47218934, saturation 1.0154516, and chroma 0.1381068.
+     * It can be represented as a packed float with the constant {@code -0x1.04ddbap126F}.
      * <pre>
      * <font style='background-color: #6AFFCD;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #6AFFCD; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #6AFFCD;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #6AFFCD'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #6AFFCD'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #6AFFCD'>&nbsp;@&nbsp;</font><font style='background-color: #6AFFCD; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #6AFFCD;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #6AFFCD; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float VARISCITE = -0x1.04ddb4p126F;
-    static { NAMED.put("Variscite", -0x1.04ddb4p126F); LIST.add(-0x1.04ddb4p126F); }
+    public static final float VARISCITE = -0x1.04ddbap126F;
+    static { NAMED.put("Variscite", -0x1.04ddbap126F); LIST.add(-0x1.04ddbap126F); }
 
     /**
-     * This color constant "Refreshing Mist" has RGBA8888 code {@code 91EBFFFF}, L 0.84313726, A 0.4627451, B 0.4745098, alpha 1.0, hue 0.59359556, saturation 0.9013879, and chroma 0.08992863.
-     * It can be represented as a packed float with the constant {@code -0x1.f2edaep125F}.
+     * This color constant "Refreshing Mist" has RGBA8888 code {@code 91EBFFFF}, L 0.8509804, A 0.4627451, B 0.4745098, alpha 1.0, hue 0.59359556, saturation 0.94057864, and chroma 0.08992863.
+     * It can be represented as a packed float with the constant {@code -0x1.f2edb2p125F}.
      * <pre>
      * <font style='background-color: #91EBFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #91EBFF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #91EBFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #91EBFF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #91EBFF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #91EBFF'>&nbsp;@&nbsp;</font><font style='background-color: #91EBFF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #91EBFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #91EBFF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float REFRESHING_MIST = -0x1.f2edaep125F;
-    static { NAMED.put("Refreshing Mist", -0x1.f2edaep125F); LIST.add(-0x1.f2edaep125F); }
+    public static final float REFRESHING_MIST = -0x1.f2edb2p125F;
+    static { NAMED.put("Refreshing Mist", -0x1.f2edb2p125F); LIST.add(-0x1.f2edb2p125F); }
 
     /**
-     * This color constant "Shining Sky" has RGBA8888 code {@code 55E6FFFF}, L 0.8, A 0.44313726, B 0.46666667, alpha 1.0, hue 0.5826307, saturation 0.9214009, and chroma 0.13131043.
-     * It can be represented as a packed float with the constant {@code -0x1.eee398p125F}.
+     * This color constant "Shining Sky" has RGBA8888 code {@code 55E6FFFF}, L 0.80784315, A 0.44313726, B 0.46666667, alpha 1.0, hue 0.5826307, saturation 0.97724336, and chroma 0.13131043.
+     * It can be represented as a packed float with the constant {@code -0x1.eee39cp125F}.
      * <pre>
      * <font style='background-color: #55E6FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #55E6FF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #55E6FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #55E6FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #55E6FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #55E6FF'>&nbsp;@&nbsp;</font><font style='background-color: #55E6FF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #55E6FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #55E6FF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SHINING_SKY = -0x1.eee398p125F;
-    static { NAMED.put("Shining Sky", -0x1.eee398p125F); LIST.add(-0x1.eee398p125F); }
+    public static final float SHINING_SKY = -0x1.eee39cp125F;
+    static { NAMED.put("Shining Sky", -0x1.eee39cp125F); LIST.add(-0x1.eee39cp125F); }
 
     /**
-     * This color constant "Steam" has RGBA8888 code {@code 7DD7F0FF}, L 0.7764706, A 0.4627451, B 0.47058824, alpha 1.0, hue 0.6052204, saturation 0.67069143, and chroma 0.0945603.
-     * It can be represented as a packed float with the constant {@code -0x1.f0ed8cp125F}.
+     * This color constant "Steam" has RGBA8888 code {@code 7DD7F0FF}, L 0.78431374, A 0.4627451, B 0.47058824, alpha 1.0, hue 0.6052204, saturation 0.71260965, and chroma 0.0945603.
+     * It can be represented as a packed float with the constant {@code -0x1.f0ed9p125F}.
      * <pre>
      * <font style='background-color: #7DD7F0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7DD7F0; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #7DD7F0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #7DD7F0'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #7DD7F0'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #7DD7F0'>&nbsp;@&nbsp;</font><font style='background-color: #7DD7F0; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #7DD7F0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7DD7F0; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float STEAM = -0x1.f0ed8cp125F;
-    static { NAMED.put("Steam", -0x1.f0ed8cp125F); LIST.add(-0x1.f0ed8cp125F); }
+    public static final float STEAM = -0x1.f0ed9p125F;
+    static { NAMED.put("Steam", -0x1.f0ed9p125F); LIST.add(-0x1.f0ed9p125F); }
 
     /**
-     * This color constant "Robin Egg Blue" has RGBA8888 code {@code 08DED5FF}, L 0.7490196, A 0.42745098, B 0.4862745, alpha 1.0, hue 0.5262961, saturation 0.96043617, and chroma 0.14709508.
-     * It can be represented as a packed float with the constant {@code -0x1.f8db7ep125F}.
+     * This color constant "Robin Egg Blue" has RGBA8888 code {@code 08DED5FF}, L 0.7529412, A 0.42745098, B 0.4862745, alpha 1.0, hue 0.5262961, saturation 0.96043617, and chroma 0.14709508.
+     * It can be represented as a packed float with the constant {@code -0x1.f8db8p125F}.
      * <pre>
      * <font style='background-color: #08DED5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #08DED5; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #08DED5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #08DED5'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #08DED5'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #08DED5'>&nbsp;@&nbsp;</font><font style='background-color: #08DED5; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #08DED5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #08DED5; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float ROBIN_EGG_BLUE = -0x1.f8db7ep125F;
-    static { NAMED.put("Robin Egg Blue", -0x1.f8db7ep125F); LIST.add(-0x1.f8db7ep125F); }
+    public static final float ROBIN_EGG_BLUE = -0x1.f8db8p125F;
+    static { NAMED.put("Robin Egg Blue", -0x1.f8db8p125F); LIST.add(-0x1.f8db8p125F); }
 
     /**
      * This color constant "Denim Blue" has RGBA8888 code {@code 109CDEFF}, L 0.57254905, A 0.45882353, B 0.4392157, alpha 1.0, hue 0.65640444, saturation 0.9013878, and chroma 0.14626285.
@@ -2440,28 +2440,28 @@ public class Palette {
     static { NAMED.put("Denim Blue", -0x1.e0eb24p125F); LIST.add(-0x1.e0eb24p125F); }
 
     /**
-     * This color constant "Deep Teal" has RGBA8888 code {@code 055A5CFF}, L 0.30980393, A 0.4627451, B 0.4862745, alpha 1.0, hue 0.5511957, saturation 0.9035079, and chroma 0.079095535.
-     * It can be represented as a packed float with the constant {@code -0x1.f8ec9ep125F}.
+     * This color constant "Deep Teal" has RGBA8888 code {@code 055A5CFF}, L 0.30588236, A 0.4627451, B 0.4862745, alpha 1.0, hue 0.5511957, saturation 0.9035079, and chroma 0.079095535.
+     * It can be represented as a packed float with the constant {@code -0x1.f8ec9cp125F}.
      * <pre>
      * <font style='background-color: #055A5C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #055A5C; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #055A5C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #055A5C'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #055A5C'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #055A5C'>&nbsp;@&nbsp;</font><font style='background-color: #055A5C; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #055A5C;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #055A5C; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float DEEP_TEAL = -0x1.f8ec9ep125F;
-    static { NAMED.put("Deep Teal", -0x1.f8ec9ep125F); LIST.add(-0x1.f8ec9ep125F); }
+    public static final float DEEP_TEAL = -0x1.f8ec9cp125F;
+    static { NAMED.put("Deep Teal", -0x1.f8ec9cp125F); LIST.add(-0x1.f8ec9cp125F); }
 
     /**
-     * This color constant "Navy Blue" has RGBA8888 code {@code 162C52FF}, L 0.16862746, A 0.49019608, B 0.45882353, alpha 1.0, hue 0.71857655, saturation 0.63737744, and chroma 0.084324345.
-     * It can be represented as a packed float with the constant {@code -0x1.eafa56p125F}.
+     * This color constant "Navy Blue" has RGBA8888 code {@code 162C52FF}, L 0.16470589, A 0.49019608, B 0.45882353, alpha 1.0, hue 0.71857655, saturation 0.63737744, and chroma 0.084324345.
+     * It can be represented as a packed float with the constant {@code -0x1.eafa54p125F}.
      * <pre>
      * <font style='background-color: #162C52;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #162C52; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #162C52;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #162C52'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #162C52'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #162C52'>&nbsp;@&nbsp;</font><font style='background-color: #162C52; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #162C52;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #162C52; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float NAVY_BLUE = -0x1.eafa56p125F;
-    static { NAMED.put("Navy Blue", -0x1.eafa56p125F); LIST.add(-0x1.eafa56p125F); }
+    public static final float NAVY_BLUE = -0x1.eafa54p125F;
+    static { NAMED.put("Navy Blue", -0x1.eafa54p125F); LIST.add(-0x1.eafa54p125F); }
 
     /**
      * This color constant "Blueberry" has RGBA8888 code {@code 0F377DFF}, L 0.22745098, A 0.4862745, B 0.43137255, alpha 1.0, hue 0.7221893, saturation 0.8420818, and chroma 0.13942632.
@@ -2536,88 +2536,88 @@ public class Palette {
     static { NAMED.put("Dull Azure", -0x1.d6f2f4p125F); LIST.add(-0x1.d6f2f4p125F); }
 
     /**
-     * This color constant "Ripped Denim" has RGBA8888 code {@code 699DC3FF}, L 0.59607846, A 0.47843137, B 0.46666667, alpha 1.0, hue 0.6610861, saturation 0.4492372, and chroma 0.079095535.
-     * It can be represented as a packed float with the constant {@code -0x1.eef53p125F}.
+     * This color constant "Ripped Denim" has RGBA8888 code {@code 699DC3FF}, L 0.6, A 0.47843137, B 0.46666667, alpha 1.0, hue 0.6610861, saturation 0.4492372, and chroma 0.079095535.
+     * It can be represented as a packed float with the constant {@code -0x1.eef532p125F}.
      * <pre>
      * <font style='background-color: #699DC3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #699DC3; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #699DC3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #699DC3'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #699DC3'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #699DC3'>&nbsp;@&nbsp;</font><font style='background-color: #699DC3; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #699DC3;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #699DC3; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float RIPPED_DENIM = -0x1.eef53p125F;
-    static { NAMED.put("Ripped Denim", -0x1.eef53p125F); LIST.add(-0x1.eef53p125F); }
+    public static final float RIPPED_DENIM = -0x1.eef532p125F;
+    static { NAMED.put("Ripped Denim", -0x1.eef532p125F); LIST.add(-0x1.eef532p125F); }
 
     /**
-     * This color constant "Calm Sky" has RGBA8888 code {@code 4AA4FFFF}, L 0.627451, A 0.47058824, B 0.42745098, alpha 1.0, hue 0.69098294, saturation 0.9421077, and chroma 0.15595676.
-     * It can be represented as a packed float with the constant {@code -0x1.daf14p125F}.
+     * This color constant "Calm Sky" has RGBA8888 code {@code 4AA4FFFF}, L 0.6313726, A 0.47058824, B 0.42745098, alpha 1.0, hue 0.69098294, saturation 0.9656604, and chroma 0.15595676.
+     * It can be represented as a packed float with the constant {@code -0x1.daf142p125F}.
      * <pre>
      * <font style='background-color: #4AA4FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #4AA4FF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #4AA4FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #4AA4FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #4AA4FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #4AA4FF'>&nbsp;@&nbsp;</font><font style='background-color: #4AA4FF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #4AA4FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #4AA4FF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float CALM_SKY = -0x1.daf14p125F;
-    static { NAMED.put("Calm Sky", -0x1.daf14p125F); LIST.add(-0x1.daf14p125F); }
+    public static final float CALM_SKY = -0x1.daf142p125F;
+    static { NAMED.put("Calm Sky", -0x1.daf142p125F); LIST.add(-0x1.daf142p125F); }
 
     /**
-     * This color constant "Vapor" has RGBA8888 code {@code 90B0FFFF}, L 0.7019608, A 0.49411765, B 0.44313726, alpha 1.0, hue 0.73865414, saturation 0.9679771, and chroma 0.11388578.
-     * It can be represented as a packed float with the constant {@code -0x1.e2fd66p125F}.
+     * This color constant "Vapor" has RGBA8888 code {@code 90B0FFFF}, L 0.7058824, A 0.49411765, B 0.44313726, alpha 1.0, hue 0.73865414, saturation 0.9679771, and chroma 0.11388578.
+     * It can be represented as a packed float with the constant {@code -0x1.e2fd68p125F}.
      * <pre>
      * <font style='background-color: #90B0FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #90B0FF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #90B0FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #90B0FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #90B0FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #90B0FF'>&nbsp;@&nbsp;</font><font style='background-color: #90B0FF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #90B0FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #90B0FF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float VAPOR = -0x1.e2fd66p125F;
-    static { NAMED.put("Vapor", -0x1.e2fd66p125F); LIST.add(-0x1.e2fd66p125F); }
+    public static final float VAPOR = -0x1.e2fd68p125F;
+    static { NAMED.put("Vapor", -0x1.e2fd68p125F); LIST.add(-0x1.e2fd68p125F); }
 
     /**
-     * This color constant "Powder Blue" has RGBA8888 code {@code 5AC5FFFF}, L 0.72156864, A 0.4627451, B 0.4509804, alpha 1.0, hue 0.6475709, saturation 0.90909094, and chroma 0.12265874.
-     * It can be represented as a packed float with the constant {@code -0x1.e6ed7p125F}.
+     * This color constant "Powder Blue" has RGBA8888 code {@code 5AC5FFFF}, L 0.7254902, A 0.4627451, B 0.4509804, alpha 1.0, hue 0.6475709, saturation 0.90909094, and chroma 0.12265874.
+     * It can be represented as a packed float with the constant {@code -0x1.e6ed72p125F}.
      * <pre>
      * <font style='background-color: #5AC5FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #5AC5FF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #5AC5FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #5AC5FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #5AC5FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #5AC5FF'>&nbsp;@&nbsp;</font><font style='background-color: #5AC5FF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #5AC5FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #5AC5FF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float POWDER_BLUE = -0x1.e6ed7p125F;
-    static { NAMED.put("Powder Blue", -0x1.e6ed7p125F); LIST.add(-0x1.e6ed7p125F); }
+    public static final float POWDER_BLUE = -0x1.e6ed72p125F;
+    static { NAMED.put("Powder Blue", -0x1.e6ed72p125F); LIST.add(-0x1.e6ed72p125F); }
 
     /**
-     * This color constant "Suds" has RGBA8888 code {@code BEB9FAFF}, L 0.75686276, A 0.50980395, B 0.45882353, alpha 1.0, hue 0.7963767, saturation 0.8700256, and chroma 0.084324345.
-     * It can be represented as a packed float with the constant {@code -0x1.eb0582p125F}.
+     * This color constant "Suds" has RGBA8888 code {@code BEB9FAFF}, L 0.7647059, A 0.50980395, B 0.45882353, alpha 1.0, hue 0.7963767, saturation 0.8700256, and chroma 0.084324345.
+     * It can be represented as a packed float with the constant {@code -0x1.eb0586p125F}.
      * <pre>
      * <font style='background-color: #BEB9FA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BEB9FA; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #BEB9FA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #BEB9FA'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #BEB9FA'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #BEB9FA'>&nbsp;@&nbsp;</font><font style='background-color: #BEB9FA; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #BEB9FA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BEB9FA; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SUDS = -0x1.eb0582p125F;
-    static { NAMED.put("Suds", -0x1.eb0582p125F); LIST.add(-0x1.eb0582p125F); }
+    public static final float SUDS = -0x1.eb0586p125F;
+    static { NAMED.put("Suds", -0x1.eb0586p125F); LIST.add(-0x1.eb0586p125F); }
 
     /**
-     * This color constant "Strong Cyan" has RGBA8888 code {@code 00BFFFFF}, L 0.68235296, A 0.44705883, B 0.44313726, alpha 1.0, hue 0.6308874, saturation 0.95524865, and chroma 0.15477823.
-     * It can be represented as a packed float with the constant {@code -0x1.e2e55cp125F}.
+     * This color constant "Strong Cyan" has RGBA8888 code {@code 00BFFFFF}, L 0.6862745, A 0.44705883, B 0.44313726, alpha 1.0, hue 0.6308874, saturation 0.95524865, and chroma 0.15477823.
+     * It can be represented as a packed float with the constant {@code -0x1.e2e55ep125F}.
      * <pre>
      * <font style='background-color: #00BFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00BFFF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #00BFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #00BFFF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #00BFFF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #00BFFF'>&nbsp;@&nbsp;</font><font style='background-color: #00BFFF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #00BFFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #00BFFF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float STRONG_CYAN = -0x1.e2e55cp125F;
-    static { NAMED.put("Strong Cyan", -0x1.e2e55cp125F); LIST.add(-0x1.e2e55cp125F); }
+    public static final float STRONG_CYAN = -0x1.e2e55ep125F;
+    static { NAMED.put("Strong Cyan", -0x1.e2e55ep125F); LIST.add(-0x1.e2e55ep125F); }
 
     /**
-     * This color constant "Sharp Azure" has RGBA8888 code {@code 007FFFFF}, L 0.5137255, A 0.47058824, B 0.4, alpha 1.0, hue 0.706557, saturation 0.9796796, and chroma 0.20765679.
-     * It can be represented as a packed float with the constant {@code -0x1.ccf106p125F}.
+     * This color constant "Sharp Azure" has RGBA8888 code {@code 007FFFFF}, L 0.5176471, A 0.47058824, B 0.4, alpha 1.0, hue 0.706557, saturation 0.9796796, and chroma 0.20765679.
+     * It can be represented as a packed float with the constant {@code -0x1.ccf108p125F}.
      * <pre>
      * <font style='background-color: #007FFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #007FFF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #007FFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #007FFF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #007FFF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #007FFF'>&nbsp;@&nbsp;</font><font style='background-color: #007FFF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #007FFF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #007FFF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SHARP_AZURE = -0x1.ccf106p125F;
-    static { NAMED.put("Sharp Azure", -0x1.ccf106p125F); LIST.add(-0x1.ccf106p125F); }
+    public static final float SHARP_AZURE = -0x1.ccf108p125F;
+    static { NAMED.put("Sharp Azure", -0x1.ccf108p125F); LIST.add(-0x1.ccf108p125F); }
 
     /**
      * This color constant "Blue Eye" has RGBA8888 code {@code 4B7DC8FF}, L 0.49803922, A 0.48235294, B 0.4392157, alpha 1.0, hue 0.7085295, saturation 0.5645155, and chroma 0.12609385.
@@ -2680,16 +2680,16 @@ public class Palette {
     static { NAMED.put("Cornflower Blue", -0x1.bd02cp125F); LIST.add(-0x1.bd02cp125F); }
 
     /**
-     * This color constant "Polished Sapphire" has RGBA8888 code {@code 101CDAFF}, L 0.2784314, A 0.4862745, B 0.3647059, alpha 1.0, hue 0.73599005, saturation 0.898213, and chroma 0.2709147.
-     * It can be represented as a packed float with the constant {@code -0x1.baf88ep125F}.
+     * This color constant "Polished Sapphire" has RGBA8888 code {@code 101CDAFF}, L 0.27450982, A 0.4862745, B 0.3647059, alpha 1.0, hue 0.73599005, saturation 0.898213, and chroma 0.2709147.
+     * It can be represented as a packed float with the constant {@code -0x1.baf88cp125F}.
      * <pre>
      * <font style='background-color: #101CDA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #101CDA; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #101CDA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #101CDA'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #101CDA'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #101CDA'>&nbsp;@&nbsp;</font><font style='background-color: #101CDA; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #101CDA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #101CDA; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float POLISHED_SAPPHIRE = -0x1.baf88ep125F;
-    static { NAMED.put("Polished Sapphire", -0x1.baf88ep125F); LIST.add(-0x1.baf88ep125F); }
+    public static final float POLISHED_SAPPHIRE = -0x1.baf88cp125F;
+    static { NAMED.put("Polished Sapphire", -0x1.baf88cp125F); LIST.add(-0x1.baf88cp125F); }
 
     /**
      * This color constant "Royal Blue" has RGBA8888 code {@code 0010BDFF}, L 0.22745098, A 0.4862745, B 0.37254903, alpha 1.0, hue 0.7351178, saturation 0.94530344, and chroma 0.25537437.
@@ -2704,16 +2704,16 @@ public class Palette {
     static { NAMED.put("Royal Blue", -0x1.bef874p125F); LIST.add(-0x1.bef874p125F); }
 
     /**
-     * This color constant "Indigo" has RGBA8888 code {@code 231094FF}, L 0.19215687, A 0.5058824, B 0.39607844, alpha 1.0, hue 0.76221764, saturation 0.91497576, and chroma 0.20736265.
-     * It can be represented as a packed float with the constant {@code -0x1.cb0262p125F}.
+     * This color constant "Indigo" has RGBA8888 code {@code 231094FF}, L 0.1882353, A 0.5058824, B 0.39607844, alpha 1.0, hue 0.76221764, saturation 0.9313146, and chroma 0.20736265.
+     * It can be represented as a packed float with the constant {@code -0x1.cb026p125F}.
      * <pre>
      * <font style='background-color: #231094;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #231094; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #231094;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #231094'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #231094'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #231094'>&nbsp;@&nbsp;</font><font style='background-color: #231094; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #231094;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #231094; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float INDIGO = -0x1.cb0262p125F;
-    static { NAMED.put("Indigo", -0x1.cb0262p125F); LIST.add(-0x1.cb0262p125F); }
+    public static final float INDIGO = -0x1.cb026p125F;
+    static { NAMED.put("Indigo", -0x1.cb026p125F); LIST.add(-0x1.cb026p125F); }
 
     /**
      * This color constant "Space Blue" has RGBA8888 code {@code 0C2148FF}, L 0.1254902, A 0.49019608, B 0.45490196, alpha 1.0, hue 0.72136545, saturation 0.7710579, and chroma 0.091942206.
@@ -2728,16 +2728,16 @@ public class Palette {
     static { NAMED.put("Space Blue", -0x1.e8fa4p125F); LIST.add(-0x1.e8fa4p125F); }
 
     /**
-     * This color constant "Thick Amethyst" has RGBA8888 code {@code 5010B0FF}, L 0.27058825, A 0.5411765, B 0.39607844, alpha 1.0, hue 0.81369054, saturation 0.9256127, and chroma 0.22269051.
-     * It can be represented as a packed float with the constant {@code -0x1.cb148ap125F}.
+     * This color constant "Thick Amethyst" has RGBA8888 code {@code 5010B0FF}, L 0.26666668, A 0.5411765, B 0.39607844, alpha 1.0, hue 0.81369054, saturation 0.9256127, and chroma 0.22269051.
+     * It can be represented as a packed float with the constant {@code -0x1.cb1488p125F}.
      * <pre>
      * <font style='background-color: #5010B0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #5010B0; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #5010B0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #5010B0'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #5010B0'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #5010B0'>&nbsp;@&nbsp;</font><font style='background-color: #5010B0; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #5010B0;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #5010B0; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float THICK_AMETHYST = -0x1.cb148ap125F;
-    static { NAMED.put("Thick Amethyst", -0x1.cb148ap125F); LIST.add(-0x1.cb148ap125F); }
+    public static final float THICK_AMETHYST = -0x1.cb1488p125F;
+    static { NAMED.put("Thick Amethyst", -0x1.cb1488p125F); LIST.add(-0x1.cb1488p125F); }
 
     /**
      * This color constant "Juicy Grape" has RGBA8888 code {@code 6010D0FF}, L 0.32156864, A 0.54901963, B 0.38039216, alpha 1.0, hue 0.8150709, saturation 0.9616342, and chroma 0.2575164.
@@ -2776,100 +2776,100 @@ public class Palette {
     static { NAMED.put("Purple Freesia", -0x1.c920fcp125F); LIST.add(-0x1.c920fcp125F); }
 
     /**
-     * This color constant "Thin Amethyst" has RGBA8888 code {@code 7F00FFFF}, L 0.40784314, A 0.5647059, B 0.36862746, alpha 1.0, hue 0.82570946, saturation 0.96419275, and chroma 0.29174224.
-     * It can be represented as a packed float with the constant {@code -0x1.bd20dp125F}.
+     * This color constant "Thin Amethyst" has RGBA8888 code {@code 7F00FFFF}, L 0.40392157, A 0.5647059, B 0.36862746, alpha 1.0, hue 0.82570946, saturation 0.97687954, and chroma 0.29174224.
+     * It can be represented as a packed float with the constant {@code -0x1.bd20cep125F}.
      * <pre>
      * <font style='background-color: #7F00FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7F00FF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #7F00FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #7F00FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #7F00FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #7F00FF'>&nbsp;@&nbsp;</font><font style='background-color: #7F00FF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #7F00FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #7F00FF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float THIN_AMETHYST = -0x1.bd20dp125F;
-    static { NAMED.put("Thin Amethyst", -0x1.bd20dp125F); LIST.add(-0x1.bd20dp125F); }
+    public static final float THIN_AMETHYST = -0x1.bd20cep125F;
+    static { NAMED.put("Thin Amethyst", -0x1.bd20cep125F); LIST.add(-0x1.bd20cep125F); }
 
     /**
-     * This color constant "Orchid" has RGBA8888 code {@code BD62FFFF}, L 0.58431375, A 0.5686275, B 0.4117647, alpha 1.0, hue 0.8591479, saturation 0.98018414, and chroma 0.22269051.
-     * It can be represented as a packed float with the constant {@code -0x1.d3232ap125F}.
+     * This color constant "Orchid" has RGBA8888 code {@code BD62FFFF}, L 0.5882353, A 0.5686275, B 0.4117647, alpha 1.0, hue 0.8591479, saturation 0.9973804, and chroma 0.22269051.
+     * It can be represented as a packed float with the constant {@code -0x1.d3232cp125F}.
      * <pre>
      * <font style='background-color: #BD62FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BD62FF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #BD62FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #BD62FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #BD62FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #BD62FF'>&nbsp;@&nbsp;</font><font style='background-color: #BD62FF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #BD62FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BD62FF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float ORCHID = -0x1.d3232ap125F;
-    static { NAMED.put("Orchid", -0x1.d3232ap125F); LIST.add(-0x1.d3232ap125F); }
+    public static final float ORCHID = -0x1.d3232cp125F;
+    static { NAMED.put("Orchid", -0x1.d3232cp125F); LIST.add(-0x1.d3232cp125F); }
 
     /**
-     * This color constant "Lavender" has RGBA8888 code {@code B991FFFF}, L 0.67058825, A 0.53333336, B 0.43529412, alpha 1.0, hue 0.83155453, saturation 0.9414133, and chroma 0.14500555.
-     * It can be represented as a packed float with the constant {@code -0x1.df1156p125F}.
+     * This color constant "Lavender" has RGBA8888 code {@code B991FFFF}, L 0.6745098, A 0.53333336, B 0.43529412, alpha 1.0, hue 0.83155453, saturation 0.9661873, and chroma 0.14500555.
+     * It can be represented as a packed float with the constant {@code -0x1.df1158p125F}.
      * <pre>
      * <font style='background-color: #B991FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B991FF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #B991FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #B991FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #B991FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #B991FF'>&nbsp;@&nbsp;</font><font style='background-color: #B991FF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #B991FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #B991FF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float LAVENDER = -0x1.df1156p125F;
-    static { NAMED.put("Lavender", -0x1.df1156p125F); LIST.add(-0x1.df1156p125F); }
+    public static final float LAVENDER = -0x1.df1158p125F;
+    static { NAMED.put("Lavender", -0x1.df1158p125F); LIST.add(-0x1.df1158p125F); }
 
     /**
-     * This color constant "Lilac" has RGBA8888 code {@code D7A5FFFF}, L 0.7411765, A 0.5372549, B 0.4509804, alpha 1.0, hue 0.860581, saturation 0.9188529, and chroma 0.12265874.
-     * It can be represented as a packed float with the constant {@code -0x1.e7137ap125F}.
+     * This color constant "Lilac" has RGBA8888 code {@code D7A5FFFF}, L 0.7490196, A 0.5372549, B 0.4509804, alpha 1.0, hue 0.860581, saturation 0.9762812, and chroma 0.12265874.
+     * It can be represented as a packed float with the constant {@code -0x1.e7137ep125F}.
      * <pre>
      * <font style='background-color: #D7A5FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D7A5FF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #D7A5FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #D7A5FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #D7A5FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #D7A5FF'>&nbsp;@&nbsp;</font><font style='background-color: #D7A5FF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #D7A5FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D7A5FF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float LILAC = -0x1.e7137ap125F;
-    static { NAMED.put("Lilac", -0x1.e7137ap125F); LIST.add(-0x1.e7137ap125F); }
+    public static final float LILAC = -0x1.e7137ep125F;
+    static { NAMED.put("Lilac", -0x1.e7137ep125F); LIST.add(-0x1.e7137ep125F); }
 
     /**
-     * This color constant "Soap" has RGBA8888 code {@code D7C3FAFF}, L 0.8, A 0.5176471, B 0.46666667, alpha 1.0, hue 0.8389139, saturation 0.8576346, and chroma 0.07513822.
-     * It can be represented as a packed float with the constant {@code -0x1.ef0998p125F}.
+     * This color constant "Soap" has RGBA8888 code {@code D7C3FAFF}, L 0.8117647, A 0.5176471, B 0.46666667, alpha 1.0, hue 0.8389139, saturation 0.8984744, and chroma 0.07513822.
+     * It can be represented as a packed float with the constant {@code -0x1.ef099ep125F}.
      * <pre>
      * <font style='background-color: #D7C3FA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D7C3FA; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #D7C3FA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #D7C3FA'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #D7C3FA'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #D7C3FA'>&nbsp;@&nbsp;</font><font style='background-color: #D7C3FA; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #D7C3FA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #D7C3FA; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SOAP = -0x1.ef0998p125F;
-    static { NAMED.put("Soap", -0x1.ef0998p125F); LIST.add(-0x1.ef0998p125F); }
+    public static final float SOAP = -0x1.ef099ep125F;
+    static { NAMED.put("Soap", -0x1.ef099ep125F); LIST.add(-0x1.ef099ep125F); }
 
     /**
-     * This color constant "Pink Tutu" has RGBA8888 code {@code F8C6FCFF}, L 0.8392157, A 0.5294118, B 0.4745098, alpha 1.0, hue 0.8975709, saturation 0.8333333, and chroma 0.07753685.
-     * It can be represented as a packed float with the constant {@code -0x1.f30facp125F}.
+     * This color constant "Pink Tutu" has RGBA8888 code {@code F8C6FCFF}, L 0.8509804, A 0.5294118, B 0.4745098, alpha 1.0, hue 0.8975709, saturation 0.90909094, and chroma 0.07753685.
+     * It can be represented as a packed float with the constant {@code -0x1.f30fb2p125F}.
      * <pre>
      * <font style='background-color: #F8C6FC;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F8C6FC; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #F8C6FC;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #F8C6FC'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #F8C6FC'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #F8C6FC'>&nbsp;@&nbsp;</font><font style='background-color: #F8C6FC; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #F8C6FC;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #F8C6FC; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PINK_TUTU = -0x1.f30facp125F;
-    static { NAMED.put("Pink Tutu", -0x1.f30facp125F); LIST.add(-0x1.f30facp125F); }
+    public static final float PINK_TUTU = -0x1.f30fb2p125F;
+    static { NAMED.put("Pink Tutu", -0x1.f30fb2p125F); LIST.add(-0x1.f30fb2p125F); }
 
     /**
-     * This color constant "Thistle" has RGBA8888 code {@code E673FFFF}, L 0.6666667, A 0.5764706, B 0.43137255, alpha 1.0, hue 0.88786715, saturation 0.95450217, and chroma 0.20469645.
-     * It can be represented as a packed float with the constant {@code -0x1.dd2754p125F}.
+     * This color constant "Thistle" has RGBA8888 code {@code E673FFFF}, L 0.67058825, A 0.5764706, B 0.43137255, alpha 1.0, hue 0.88786715, saturation 0.97217816, and chroma 0.20469645.
+     * It can be represented as a packed float with the constant {@code -0x1.dd2756p125F}.
      * <pre>
      * <font style='background-color: #E673FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E673FF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E673FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #E673FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #E673FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #E673FF'>&nbsp;@&nbsp;</font><font style='background-color: #E673FF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #E673FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #E673FF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float THISTLE = -0x1.dd2754p125F;
-    static { NAMED.put("Thistle", -0x1.dd2754p125F); LIST.add(-0x1.dd2754p125F); }
+    public static final float THISTLE = -0x1.dd2756p125F;
+    static { NAMED.put("Thistle", -0x1.dd2756p125F); LIST.add(-0x1.dd2756p125F); }
 
     /**
-     * This color constant "Heliotrope" has RGBA8888 code {@code FF52FFFF}, L 0.6509804, A 0.6117647, B 0.42745098, alpha 1.0, hue 0.91158056, saturation 0.97520274, and chroma 0.26545262.
-     * It can be represented as a packed float with the constant {@code -0x1.db394cp125F}.
+     * This color constant "Heliotrope" has RGBA8888 code {@code FF52FFFF}, L 0.654902, A 0.6117647, B 0.42745098, alpha 1.0, hue 0.91158056, saturation 0.9893361, and chroma 0.26545262.
+     * It can be represented as a packed float with the constant {@code -0x1.db394ep125F}.
      * <pre>
      * <font style='background-color: #FF52FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF52FF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF52FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FF52FF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FF52FF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FF52FF'>&nbsp;@&nbsp;</font><font style='background-color: #FF52FF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF52FF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF52FF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float HELIOTROPE = -0x1.db394cp125F;
-    static { NAMED.put("Heliotrope", -0x1.db394cp125F); LIST.add(-0x1.db394cp125F); }
+    public static final float HELIOTROPE = -0x1.db394ep125F;
+    static { NAMED.put("Heliotrope", -0x1.db394ep125F); LIST.add(-0x1.db394ep125F); }
 
     /**
      * This color constant "Purple" has RGBA8888 code {@code DA20E0FF}, L 0.5294118, A 0.6156863, B 0.41960785, alpha 1.0, hue 0.90640444, saturation 0.91279775, and chroma 0.28065258.
@@ -2908,40 +2908,40 @@ public class Palette {
     static { NAMED.put("Medium Plum", -0x1.d936e8p125F); LIST.add(-0x1.d936e8p125F); }
 
     /**
-     * This color constant "Violet" has RGBA8888 code {@code 8C14BEFF}, L 0.37254903, A 0.5803922, B 0.40784314, alpha 1.0, hue 0.86777616, saturation 0.9296962, and chroma 0.24363229.
-     * It can be represented as a packed float with the constant {@code -0x1.d128bep125F}.
+     * This color constant "Violet" has RGBA8888 code {@code 8C14BEFF}, L 0.36862746, A 0.5803922, B 0.40784314, alpha 1.0, hue 0.86777616, saturation 0.9296962, and chroma 0.24363229.
+     * It can be represented as a packed float with the constant {@code -0x1.d128bcp125F}.
      * <pre>
      * <font style='background-color: #8C14BE;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8C14BE; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #8C14BE;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #8C14BE'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #8C14BE'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #8C14BE'>&nbsp;@&nbsp;</font><font style='background-color: #8C14BE; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #8C14BE;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #8C14BE; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float VIOLET = -0x1.d128bep125F;
-    static { NAMED.put("Violet", -0x1.d128bep125F); LIST.add(-0x1.d128bep125F); }
+    public static final float VIOLET = -0x1.d128bcp125F;
+    static { NAMED.put("Violet", -0x1.d128bcp125F); LIST.add(-0x1.d128bcp125F); }
 
     /**
-     * This color constant "Grape Lollipop" has RGBA8888 code {@code 5A187BFF}, L 0.24313726, A 0.5568628, B 0.43529412, alpha 1.0, hue 0.86987174, saturation 0.84352744, and chroma 0.17160846.
-     * It can be represented as a packed float with the constant {@code -0x1.df1c7cp125F}.
+     * This color constant "Grape Lollipop" has RGBA8888 code {@code 5A187BFF}, L 0.23921569, A 0.5568628, B 0.43529412, alpha 1.0, hue 0.86987174, saturation 0.8600672, and chroma 0.17160846.
+     * It can be represented as a packed float with the constant {@code -0x1.df1c7ap125F}.
      * <pre>
      * <font style='background-color: #5A187B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #5A187B; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #5A187B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #5A187B'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #5A187B'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #5A187B'>&nbsp;@&nbsp;</font><font style='background-color: #5A187B; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #5A187B;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #5A187B; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float GRAPE_LOLLIPOP = -0x1.df1c7cp125F;
-    static { NAMED.put("Grape Lollipop", -0x1.df1c7cp125F); LIST.add(-0x1.df1c7cp125F); }
+    public static final float GRAPE_LOLLIPOP = -0x1.df1c7ap125F;
+    static { NAMED.put("Grape Lollipop", -0x1.df1c7ap125F); LIST.add(-0x1.df1c7ap125F); }
 
     /**
-     * This color constant "Mulberry" has RGBA8888 code {@code 641464FF}, L 0.23921569, A 0.5647059, B 0.45490196, alpha 1.0, hue 0.90858525, saturation 0.8436857, and chroma 0.15712644.
-     * It can be represented as a packed float with the constant {@code -0x1.e9207ap125F}.
+     * This color constant "Mulberry" has RGBA8888 code {@code 641464FF}, L 0.23529412, A 0.5647059, B 0.45490196, alpha 1.0, hue 0.90858525, saturation 0.86163646, and chroma 0.15712644.
+     * It can be represented as a packed float with the constant {@code -0x1.e92078p125F}.
      * <pre>
      * <font style='background-color: #641464;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #641464; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #641464;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #641464'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #641464'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #641464'>&nbsp;@&nbsp;</font><font style='background-color: #641464; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #641464;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #641464; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float MULBERRY = -0x1.e9207ap125F;
-    static { NAMED.put("Mulberry", -0x1.e9207ap125F); LIST.add(-0x1.e9207ap125F); }
+    public static final float MULBERRY = -0x1.e92078p125F;
+    static { NAMED.put("Mulberry", -0x1.e92078p125F); LIST.add(-0x1.e92078p125F); }
 
     /**
      * This color constant "Grape Soda" has RGBA8888 code {@code 410062FF}, L 0.16470589, A 0.54901963, B 0.43529412, alpha 1.0, hue 0.8586049, saturation 0.98169184, and chroma 0.16172063.
@@ -2968,28 +2968,28 @@ public class Palette {
     static { NAMED.put("Eggplant", -0x1.e7123ep125F); LIST.add(-0x1.e7123ep125F); }
 
     /**
-     * This color constant "Cherry Syrup" has RGBA8888 code {@code 551937FF}, L 0.19215687, A 0.5529412, B 0.49019608, alpha 1.0, hue 0.97740346, saturation 0.74432296, and chroma 0.107261956.
-     * It can be represented as a packed float with the constant {@code -0x1.fb1a62p125F}.
+     * This color constant "Cherry Syrup" has RGBA8888 code {@code 551937FF}, L 0.1882353, A 0.5529412, B 0.49019608, alpha 1.0, hue 0.97740346, saturation 0.76443976, and chroma 0.107261956.
+     * It can be represented as a packed float with the constant {@code -0x1.fb1a6p125F}.
      * <pre>
      * <font style='background-color: #551937;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #551937; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #551937;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #551937'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #551937'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #551937'>&nbsp;@&nbsp;</font><font style='background-color: #551937; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #551937;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #551937; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float CHERRY_SYRUP = -0x1.fb1a62p125F;
-    static { NAMED.put("Cherry Syrup", -0x1.fb1a62p125F); LIST.add(-0x1.fb1a62p125F); }
+    public static final float CHERRY_SYRUP = -0x1.fb1a6p125F;
+    static { NAMED.put("Cherry Syrup", -0x1.fb1a6p125F); LIST.add(-0x1.fb1a6p125F); }
 
     /**
-     * This color constant "Plum Juice" has RGBA8888 code {@code A01982FF}, L 0.36862746, A 0.5921569, B 0.45882353, alpha 1.0, hue 0.9371773, saturation 0.88135594, and chroma 0.20108652.
-     * It can be represented as a packed float with the constant {@code -0x1.eb2ebcp125F}.
+     * This color constant "Plum Juice" has RGBA8888 code {@code A01982FF}, L 0.3647059, A 0.5921569, B 0.45882353, alpha 1.0, hue 0.9371773, saturation 0.88135594, and chroma 0.20108652.
+     * It can be represented as a packed float with the constant {@code -0x1.eb2ebap125F}.
      * <pre>
      * <font style='background-color: #A01982;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A01982; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #A01982;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #A01982'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #A01982'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #A01982'>&nbsp;@&nbsp;</font><font style='background-color: #A01982; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #A01982;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #A01982; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PLUM_JUICE = -0x1.eb2ebcp125F;
-    static { NAMED.put("Plum Juice", -0x1.eb2ebcp125F); LIST.add(-0x1.eb2ebcp125F); }
+    public static final float PLUM_JUICE = -0x1.eb2ebap125F;
+    static { NAMED.put("Plum Juice", -0x1.eb2ebap125F); LIST.add(-0x1.eb2ebap125F); }
 
     /**
      * This color constant "Fruit Punch" has RGBA8888 code {@code C80078FF}, L 0.42745098, A 0.6117647, B 0.48235294, alpha 1.0, hue 0.9781724, saturation 0.95982176, and chroma 0.22541466.
@@ -3004,40 +3004,40 @@ public class Palette {
     static { NAMED.put("Fruit Punch", -0x1.f738dap125F); LIST.add(-0x1.f738dap125F); }
 
     /**
-     * This color constant "Bubble Gum" has RGBA8888 code {@code FF50BFFF}, L 0.6156863, A 0.60784316, B 0.46666667, alpha 1.0, hue 0.95571566, saturation 0.9244584, and chroma 0.22487247.
-     * It can be represented as a packed float with the constant {@code -0x1.ef373ap125F}.
+     * This color constant "Bubble Gum" has RGBA8888 code {@code FF50BFFF}, L 0.61960787, A 0.60784316, B 0.46666667, alpha 1.0, hue 0.95571566, saturation 0.939369, and chroma 0.22487247.
+     * It can be represented as a packed float with the constant {@code -0x1.ef373cp125F}.
      * <pre>
      * <font style='background-color: #FF50BF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF50BF; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF50BF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FF50BF'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FF50BF'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FF50BF'>&nbsp;@&nbsp;</font><font style='background-color: #FF50BF; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF50BF;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF50BF; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float BUBBLE_GUM = -0x1.ef373ap125F;
-    static { NAMED.put("Bubble Gum", -0x1.ef373ap125F); LIST.add(-0x1.ef373ap125F); }
+    public static final float BUBBLE_GUM = -0x1.ef373cp125F;
+    static { NAMED.put("Bubble Gum", -0x1.ef373cp125F); LIST.add(-0x1.ef373cp125F); }
 
     /**
-     * This color constant "Pink Lemonade" has RGBA8888 code {@code FF6AC5FF}, L 0.654902, A 0.5921569, B 0.47058824, alpha 1.0, hue 0.954842, saturation 0.9259259, and chroma 0.19271713.
-     * It can be represented as a packed float with the constant {@code -0x1.f12f4ep125F}.
+     * This color constant "Pink Lemonade" has RGBA8888 code {@code FF6AC5FF}, L 0.65882355, A 0.5921569, B 0.47058824, alpha 1.0, hue 0.954842, saturation 0.9433962, and chroma 0.19271713.
+     * It can be represented as a packed float with the constant {@code -0x1.f12f5p125F}.
      * <pre>
      * <font style='background-color: #FF6AC5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF6AC5; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF6AC5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FF6AC5'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FF6AC5'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FF6AC5'>&nbsp;@&nbsp;</font><font style='background-color: #FF6AC5; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FF6AC5;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FF6AC5; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float PINK_LEMONADE = -0x1.f12f4ep125F;
-    static { NAMED.put("Pink Lemonade", -0x1.f12f4ep125F); LIST.add(-0x1.f12f4ep125F); }
+    public static final float PINK_LEMONADE = -0x1.f12f5p125F;
+    static { NAMED.put("Pink Lemonade", -0x1.f12f5p125F); LIST.add(-0x1.f12f5p125F); }
 
     /**
-     * This color constant "Shrimp" has RGBA8888 code {@code FAA0B9FF}, L 0.7411765, A 0.54901963, B 0.49803922, alpha 1.0, hue 1.2950972E-5, saturation 0.83870965, and chroma 0.09773435.
-     * It can be represented as a packed float with the constant {@code -0x1.ff197ap125F}.
+     * This color constant "Shrimp" has RGBA8888 code {@code FAA0B9FF}, L 0.7490196, A 0.54901963, B 0.49803922, alpha 1.0, hue 1.2950972E-5, saturation 0.8965517, and chroma 0.09773435.
+     * It can be represented as a packed float with the constant {@code -0x1.ff197ep125F}.
      * <pre>
      * <font style='background-color: #FAA0B9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FAA0B9; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FAA0B9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #FAA0B9'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #FAA0B9'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #FAA0B9'>&nbsp;@&nbsp;</font><font style='background-color: #FAA0B9; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #FAA0B9;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FAA0B9; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float SHRIMP = -0x1.ff197ap125F;
-    static { NAMED.put("Shrimp", -0x1.ff197ap125F); LIST.add(-0x1.ff197ap125F); }
+    public static final float SHRIMP = -0x1.ff197ep125F;
+    static { NAMED.put("Shrimp", -0x1.ff197ep125F); LIST.add(-0x1.ff197ep125F); }
 
     /**
      * This color constant "Flamingo" has RGBA8888 code {@code FC3A8CFF}, L 0.5647059, A 0.6117647, B 0.49411765, alpha 1.0, hue 0.99452704, saturation 0.90678865, and chroma 0.22296442.
@@ -3064,40 +3064,40 @@ public class Palette {
     static { NAMED.put("Rose", -0x1.fd3afcp125F); LIST.add(-0x1.fd3afcp125F); }
 
     /**
-     * This color constant "Carmine" has RGBA8888 code {@code BD1039FF}, L 0.3882353, A 0.59607846, B 0.5254902, alpha 1.0, hue 0.043443024, saturation 0.9440549, and chroma 0.198028.
-     * It can be represented as a packed float with the constant {@code -0x1.0d30c6p126F}.
+     * This color constant "Carmine" has RGBA8888 code {@code BD1039FF}, L 0.38431373, A 0.59607846, B 0.5254902, alpha 1.0, hue 0.043443024, saturation 0.9440549, and chroma 0.198028.
+     * It can be represented as a packed float with the constant {@code -0x1.0d30c4p126F}.
      * <pre>
      * <font style='background-color: #BD1039;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BD1039; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #BD1039;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #BD1039'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #BD1039'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #BD1039'>&nbsp;@&nbsp;</font><font style='background-color: #BD1039; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #BD1039;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #BD1039; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float CARMINE = -0x1.0d30c6p126F;
-    static { NAMED.put("Carmine", -0x1.0d30c6p126F); LIST.add(-0x1.0d30c6p126F); }
+    public static final float CARMINE = -0x1.0d30c4p126F;
+    static { NAMED.put("Carmine", -0x1.0d30c4p126F); LIST.add(-0x1.0d30c4p126F); }
 
     /**
-     * This color constant "Bologna" has RGBA8888 code {@code 98344DFF}, L 0.36078432, A 0.5647059, B 0.5058824, alpha 1.0, hue 0.018649152, saturation 0.6459337, and chroma 0.12943782.
-     * It can be represented as a packed float with the constant {@code -0x1.0320b8p126F}.
+     * This color constant "Bologna" has RGBA8888 code {@code 98344DFF}, L 0.35686275, A 0.5647059, B 0.5058824, alpha 1.0, hue 0.018649152, saturation 0.6583555, and chroma 0.12943782.
+     * It can be represented as a packed float with the constant {@code -0x1.0320b6p126F}.
      * <pre>
      * <font style='background-color: #98344D;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #98344D; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #98344D;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #98344D'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #98344D'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #98344D'>&nbsp;@&nbsp;</font><font style='background-color: #98344D; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #98344D;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #98344D; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float BOLOGNA = -0x1.0320b8p126F;
-    static { NAMED.put("Bologna", -0x1.0320b8p126F); LIST.add(-0x1.0320b8p126F); }
+    public static final float BOLOGNA = -0x1.0320b6p126F;
+    static { NAMED.put("Bologna", -0x1.0320b6p126F); LIST.add(-0x1.0320b6p126F); }
 
     /**
-     * This color constant "Raspberry" has RGBA8888 code {@code 911437FF}, L 0.3019608, A 0.5803922, B 0.5137255, alpha 1.0, hue 0.029965011, saturation 0.9096833, and chroma 0.16247371.
-     * It can be represented as a packed float with the constant {@code -0x1.07289ap126F}.
+     * This color constant "Raspberry" has RGBA8888 code {@code 911437FF}, L 0.29803923, A 0.5803922, B 0.5137255, alpha 1.0, hue 0.029965011, saturation 0.9096833, and chroma 0.16247371.
+     * It can be represented as a packed float with the constant {@code -0x1.072898p126F}.
      * <pre>
      * <font style='background-color: #911437;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #911437; color: #000000'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #911437;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #911437'>&nbsp;@&nbsp;</font><font style='background-color: #888888; color: #911437'>&nbsp;@&nbsp;</font><font style='background-color: #ffffff; color: #911437'>&nbsp;@&nbsp;</font><font style='background-color: #911437; color: #888888'>&nbsp;@&nbsp;</font>
      * <font style='background-color: #911437;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #911437; color: #ffffff'>&nbsp;@&nbsp;</font>
      * </pre>
      */
-    public static final float RASPBERRY = -0x1.07289ap126F;
-    static { NAMED.put("Raspberry", -0x1.07289ap126F); LIST.add(-0x1.07289ap126F); }
+    public static final float RASPBERRY = -0x1.072898p126F;
+    static { NAMED.put("Raspberry", -0x1.072898p126F); LIST.add(-0x1.072898p126F); }
 
     /**
      * All names for colors in this palette, in alphabetical order. You can fetch the corresponding packed float color
