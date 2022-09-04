@@ -122,56 +122,57 @@ public class ColorTools {
 		return component * component;
 	}
 
-	/**
-	 * Used to return from a linear, gamma-corrected input to an sRGB, non-linear output, using gamma 2.0.
-	 * Really just a float version of the square root of component.
-	 * @param component a linear channel of a color, to be made non-linear
-	 * @return a non-linear version of component
-	 */
-	private static float reverseGamma(final float component) {
-		return (float)Math.sqrt(component);
-	}
+    /**
+     * Used to return from a linear, gamma-corrected input to an sRGB, non-linear output, using gamma 2.0.
+     * Really just a float version of the square root of component.
+     * @param component a linear channel of a color, to be made non-linear
+     * @return a non-linear version of component
+     */
+    private static float reverseGamma(final float component) {
+        return (float)Math.sqrt(component);
+    }
 
-	/**
-	 * Changes the curve of a requested L value so that it matches the internally-used curve. This takes a curve with a
-	 * very-dark area similar to sRGB (a very small one), and makes it significantly larger. This is typically used on
-	 * "to Oklab" conversions.
-	 * @param L lightness, from 0 to 1 inclusive
-	 * @return an adjusted L value that can be used internally
-	 */
-	public static float forwardLight(final float L) {
-        final float shape = 0.64516133f, turning = 0.95f;
+    /**
+     * Changes the curve of a requested L value so that it matches the internally-used curve. This takes a curve with a
+     * very-dark area similar to sRGB (a very small one), and makes it significantly larger. This is typically used on
+     * "to Oklab" conversions.
+     *
+     * @param L lightness, from 0 to 1 inclusive
+     * @return an adjusted L value that can be used internally
+     */
+    public static float forwardLight(final float L) {
+        final float shape = 0.6578947368421053f, turning = 0.963f;
         final float d = turning - L;
-		float r;
-        if(d < 0)
+        float r;
+        if (d < 0)
             r = ((1f - turning) * (L - 1f)) / (1f - (L + shape * d)) + 1f;
         else
             r = (turning * L) / (1e-20f + (L + shape * d));
-		return r * r;
+        return r * r * (256f / 255f);
     }
 
 //	public static float forwardLight(final float L) {
 //		return (L - 1.004f) / (1f - L * 0.4285714f) + 1.004f;
 //	}
 
-	/**
-	 * Changes the curve of the internally-used lightness when it is output to another format. This makes the very-dark
-	 * area smaller, matching (kind-of) the curve that the standard sRGB lightness uses. This is typically used on "from
-	 * Oklab" conversions.
-	 * @param L lightness, from 0 to 1 inclusive
-	 * @return an adjusted L value that can be fed into a conversion to RGBA or something similar
-	 */
-
+    /**
+     * Changes the curve of the internally-used lightness when it is output to another format. This makes the very-dark
+     * area smaller, matching (kind-of) the curve that the standard sRGB lightness uses. This is typically used on "from
+     * Oklab" conversions.
+     *
+     * @param L lightness, from 0 to 1 inclusive
+     * @return an adjusted L value that can be fed into a conversion to RGBA or something similar
+     */
     public static float reverseLight(float L) {
-		L = (float) Math.sqrt(L * 0x0.ffp0f);
+        L = (float) Math.sqrt(L * 0x0.ffp0f);
         final float shape = 1.52f, turning = 0.963f;
         final float d = turning - L;
-		float r;
-        if(d < 0)
+        float r;
+        if (d < 0)
             r = ((1f - turning) * (L - 1f)) / (1f - (L + shape * d)) + 1f;
         else
             r = (turning * L) / (1e-20f + (L + shape * d));
-		return r;
+        return r;
     }
 
 //	public static float reverseLight(final float L) {
