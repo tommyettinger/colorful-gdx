@@ -9,6 +9,7 @@ import com.github.tommyettinger.colorful.internal.StringKit;
 import com.github.tommyettinger.colorful.rgb.CSSPalette;
 import com.github.tommyettinger.colorful.rgb.ColorTools;
 import com.github.tommyettinger.colorful.rgb.FullPalette;
+import com.github.tommyettinger.colorful.rgb.MunsellishPalette;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,9 +24,9 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String inputName = "AuroraColorData.txt";
 //    public static final ObjectFloatMap<String> named = Palette.NAMED;
 
-    public static final String outputAdd = "CSSRGB";
-    public static final String inputName = "CSSColorData.txt";
-    public static final ObjectFloatMap<String> named = CSSPalette.NAMED;
+//    public static final String outputAdd = "CSSRGB";
+//    public static final String inputName = "CSSColorData.txt";
+//    public static final ObjectFloatMap<String> named = CSSPalette.NAMED;
 //
 //    public static final String outputAdd = "FullRGB";
 //    public static final String inputName = "ColorData.txt";
@@ -34,6 +35,10 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String outputAdd = "NamedMunsellRGB";
 //    public static final String inputName = "ISCCNBSData.txt";
 //    public static final ObjectFloatMap<String> named = NamedMunsellPalette.NAMED;
+
+    public static final String outputAdd = "MunsellishRGB";
+    public static final String inputName = "Munsellish.txt";
+    public static final ObjectFloatMap<String> named = MunsellishPalette.NAMED;
 
     public static void tabSplit(String[] receiving, String source) {
         int dl = 1, idx = -1, idx2;
