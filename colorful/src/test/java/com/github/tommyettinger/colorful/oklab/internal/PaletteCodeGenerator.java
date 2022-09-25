@@ -32,9 +32,9 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String inputName = "Yam2ColorData.txt";
 //    public static final ObjectFloatMap<String> named = Yam2Palette.NAMED;
 
-    public static final String outputAdd = "Yam3Oklab";
-    public static final String inputName = "Yam3ColorData.txt";
-    public static final ObjectFloatMap<String> named = Yam3Palette.NAMED;
+//    public static final String outputAdd = "Yam3Oklab";
+//    public static final String inputName = "Yam3ColorData.txt";
+//    public static final ObjectFloatMap<String> named = Yam3Palette.NAMED;
 
 //    public static final String outputAdd = "FullOklab";
 //    public static final String inputName = "ColorData.txt";
@@ -48,9 +48,9 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String inputName = "BrighterMunsell.txt";
 //    public static final ObjectFloatMap<String> named = BrighterMunsellPalette.NAMED;
 
-//    public static final String outputAdd = "MunsellishOklab";
-//    public static final String inputName = "Munsellish.txt";
-//    public static final ObjectFloatMap<String> named = MunsellishPalette.NAMED;
+    public static final String outputAdd = "Munsellish2Oklab";
+    public static final String inputName = "Munsellish2.txt";
+    public static final ObjectFloatMap<String> named = Munsellish2Palette.NAMED;
 
 //    public static final String outputAdd = "SimpleOklab";
 //    public static final String inputName = "SimpleColorData.txt";
@@ -190,6 +190,9 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                             + (int)Math.signum(ColorTools.channelL(c1.value) - ColorTools.channelL(c2.value));
             }
         });
+        System.out.println("\nnew int[]{");
+        int column = 0;
+        StringBuilder hx = new StringBuilder(2048);
         sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Chroma</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
@@ -207,7 +210,16 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                             ? "0x"+StringKit.hex((NumberUtils.floatToIntColor(c)))
                             : Float.toHexString(c) + 'F')
             );
+            System.out.print("0x" + StringKit.hex(toRGBA8888(c)) + ", ");
+            if((column = column + 1 & 7) == 0)
+                System.out.println();
+            hx.append(StringKit.hex(toRGBA8888(c)).substring(0, 6).toUpperCase()).append('\n');
         }
+        System.out.println("}");
+
+        hx.deleteCharAt(hx.length() - 1);
+        Gdx.files.local(inputName.replace(".txt", ".hex")).writeString(hx.toString(), false);
+
         sb.append("</table>\n</body>\n</html>");
         Gdx.files.local(INT_PACK ? "ColorTableHue.html" : "ColorTableHue"+outputAdd+".html").writeString(sb.toString(), false);
 
