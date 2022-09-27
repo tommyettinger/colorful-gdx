@@ -36,9 +36,9 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String inputName = "Yam3ColorData.txt";
 //    public static final ObjectFloatMap<String> named = Yam3Palette.NAMED;
 
-//    public static final String outputAdd = "FullOklab";
-//    public static final String inputName = "ColorData.txt";
-//    public static final ObjectFloatMap<String> named = FullPalette.NAMED;
+    public static final String outputAdd = "FullOklab";
+    public static final String inputName = "ColorData.txt";
+    public static final ObjectFloatMap<String> named = FullPalette.NAMED;
 
 //    public static final String outputAdd = "NamedMunsellOklab";
 //    public static final String inputName = "ISCCNBSData.txt";
@@ -48,15 +48,15 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String inputName = "BrighterMunsell.txt";
 //    public static final ObjectFloatMap<String> named = BrighterMunsellPalette.NAMED;
 
-    public static final String outputAdd = "Munsellish2Oklab";
-    public static final String inputName = "Munsellish2.txt";
-    public static final ObjectFloatMap<String> named = Munsellish2Palette.NAMED;
+//    public static final String outputAdd = "Munsellish2Oklab";
+//    public static final String inputName = "Munsellish2.txt";
+//    public static final ObjectFloatMap<String> named = Munsellish2Palette.NAMED;
 
 //    public static final String outputAdd = "SimpleOklab";
 //    public static final String inputName = "SimpleColorData.txt";
 //    public static final ObjectFloatMap<String> named = SimplePalette.NAMED;
 
-    public static final boolean INT_PACK = false;
+    public static final boolean INT_PACK = true;
 
     public static void tabSplit(String[] receiving, String source) {
         int dl = 1, idx = -1, idx2;

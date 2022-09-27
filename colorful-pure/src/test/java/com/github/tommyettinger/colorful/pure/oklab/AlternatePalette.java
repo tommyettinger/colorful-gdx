@@ -966,7 +966,6 @@ public final class AlternatePalette {
         if(invert) z = 0.25f - z;
         if(b < 0) z = 0.5f - z;
         return a < 0 ? (int)(1+z) - z : z;
-
     }
 
     /**
