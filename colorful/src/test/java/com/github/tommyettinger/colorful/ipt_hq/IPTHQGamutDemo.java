@@ -19,7 +19,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.anim8.AnimatedGif;
 import com.github.tommyettinger.anim8.AnimatedPNG;
 import com.github.tommyettinger.anim8.Dithered;
-import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.colorful.TrigTools;
 
 import static com.badlogic.gdx.Gdx.input;
@@ -125,7 +124,7 @@ public class IPTHQGamutDemo extends ApplicationAdapter {
     @Override
     public void render() {
         handleInput();
-        layer = TrigTools.acos_(TrigTools.sin_(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) * 2f;
+        layer = TrigTools.acosTurns(TrigTools.sinTurns(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) * 2f;
         renderInternal();
     }
     

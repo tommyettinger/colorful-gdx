@@ -179,7 +179,7 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
         alpha = Math.min(Math.max(alpha, 0f), 1f);
         final float A2 = (A - 0.5f);
         final float B2 = (B - 0.5f);
-        final float hue = TrigTools.atan2_(B2, A2);
+        final float hue = TrigTools.atan2Turns(B2, A2);
         final int idx = (int) (L * 255.999f) << 8 | (int)(256f * hue);
         final float dist = getRawGamutValue(idx) * 0.5f;
         if(dist * dist * 0x1p-16f >= (A2 * A2 + B2 * B2))
@@ -187,8 +187,8 @@ public class OklabLimitToGamutCheck extends ApplicationAdapter {
                     ColorTools.oklab(L, A, B, alpha);
         return NumberUtils.intBitsToFloat(
                 (int) (alpha * 127.999f) << 25 |
-                        (int) (TrigTools.sin_(hue) * dist + 127.5f) << 16 |
-                        (int) (TrigTools.cos_(hue) * dist + 127.5f) << 8 |
+                        (int) (TrigTools.sinTurns(hue) * dist + 127.5f) << 16 |
+                        (int) (TrigTools.cosTurns(hue) * dist + 127.5f) << 8 |
                         (int) (L * 255f));
     }
 //    public static boolean inGamut(final float packed)

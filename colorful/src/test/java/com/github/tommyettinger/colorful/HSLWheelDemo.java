@@ -82,13 +82,13 @@ public class HSLWheelDemo extends ApplicationAdapter {
         batch.begin();
         batch.draw(blank, 0, 0, 512, 512);
         final float
-                maxDist = 254f * TrigTools.sin_(layer * 0.5f) + 1f,
+                maxDist = 254f * TrigTools.sinTurns(layer * 0.5f) + 1f,
                 iMax = 1f / maxDist;
         for (int dist = 0; dist <= maxDist; dist++) {
             final int circ = dist * 16;
             final float ic = 1f / circ;
             for (int t = 0; t < circ; t++) {
-                final float angle = t * ic, x = TrigTools.cos_(angle), y = TrigTools.sin_(angle);
+                final float angle = t * ic, x = TrigTools.cosTurns(angle), y = TrigTools.sinTurns(angle);
                 final float sat = dist * iMax;// * (0.5f - Math.abs(layer - 0.5f)) * 2f;
                 batch.setColor(angle, sat, layer, 1f);
                 batch.draw(blank, 255.5f + x * dist, 255.5f + y * dist, 1f, 1f);

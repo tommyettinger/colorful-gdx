@@ -212,8 +212,8 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = TrigTools.cos_(H) * C;
-        float V = TrigTools.sin_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
+        float V = TrigTools.sinTurns(H) * C;
 
         // Luv to XYZ
         float x, y, z;
@@ -266,8 +266,8 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = TrigTools.cos_(H) * C;
-        float V = TrigTools.sin_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
+        float V = TrigTools.sinTurns(H) * C;
 
         // Luv to XYZ
         float x, y, z;
@@ -320,8 +320,8 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = TrigTools.cos_(H) * C;
-        float V = TrigTools.sin_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
+        float V = TrigTools.sinTurns(H) * C;
 
         // Luv to XYZ
         float x, y, z;
@@ -395,7 +395,7 @@ public class ColorTools {
 
         // Luv to Lch
         float C = (float)Math.sqrt(U * U + V * V);
-        h = TrigTools.atan2_(V, U);
+        h = TrigTools.atan2Turns(V, U);
 
         // Lch to HSLuv
         if (L > 0.99999f) {
@@ -444,7 +444,7 @@ public class ColorTools {
 
         // Luv to Lch
         float C = (float)Math.sqrt(U * U + V * V);
-        h = TrigTools.atan2_(V, U);
+        h = TrigTools.atan2Turns(V, U);
 
         // Lch to HSLuv
         if (L > 0.99999f) {
@@ -492,7 +492,7 @@ public class ColorTools {
         // Luv to Lch
         float C = (float)Math.sqrt(U * U + V * V);
 
-        h = TrigTools.atan2_(V, U);
+        h = TrigTools.atan2Turns(V, U);
 
         // Lch to HSLuv
         if (L > 0.99999f) {
@@ -542,7 +542,7 @@ public class ColorTools {
 
         // Luv to Lch
         float C = (float)Math.sqrt(U * U + V * V);
-        h = TrigTools.atan2_(V, U);
+        h = TrigTools.atan2Turns(V, U);
 
 
         // Lch to HSLuv
@@ -587,8 +587,8 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = TrigTools.cos_(H) * C;
-        float V = TrigTools.sin_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
+        float V = TrigTools.sinTurns(H) * C;
 
         // Luv to XYZ
         float x, y, z;
@@ -636,8 +636,8 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = TrigTools.cos_(H) * C;
-        float V = TrigTools.sin_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
+        float V = TrigTools.sinTurns(H) * C;
 
         // Luv to XYZ
         float x, y, z;
@@ -685,8 +685,8 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = TrigTools.cos_(H) * C;
-        float V = TrigTools.sin_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
+        float V = TrigTools.sinTurns(H) * C;
 
         // Luv to XYZ
         float x, y, z;
@@ -744,8 +744,8 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = TrigTools.cos_(H) * C;
-        float V = TrigTools.sin_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
+        float V = TrigTools.sinTurns(H) * C;
 
         // Luv to XYZ
         float x, y, z;
@@ -793,8 +793,8 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = TrigTools.cos_(H) * C;
-        float V = TrigTools.sin_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
+        float V = TrigTools.sinTurns(H) * C;
 
         // Luv to XYZ
         float x, y, z;
@@ -842,8 +842,8 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = TrigTools.cos_(H) * C;
-        float V = TrigTools.sin_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
+        float V = TrigTools.sinTurns(H) * C;
 
         // Luv to XYZ
         float x, y, z;
@@ -915,8 +915,8 @@ public class ColorTools {
      */
     public static float chromaLimit(final float hue, final float lightness) {
         final float h = hue - MathUtils.floor(hue);
-        float sin = TrigTools.sin_(h);
-        float cos = TrigTools.cos_(h);
+        float sin = TrigTools.sinTurns(h);
+        float cos = TrigTools.cosTurns(h);
         float sub1 = (lightness + 0.16f) / 1.16f;
         sub1 *= sub1 * sub1;
         float sub2 = sub1 > epsilon ? sub1 : lightness / kappa;
@@ -1083,8 +1083,8 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = TrigTools.cos_(H) * C;
-        float V = TrigTools.sin_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
+        float V = TrigTools.sinTurns(H) * C;
 
         // Luv to XYZ
         float x, y, z;
@@ -1152,8 +1152,8 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = TrigTools.cos_(H) * C;
-        float V = TrigTools.sin_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
+        float V = TrigTools.sinTurns(H) * C;
 
         // Luv to XYZ
         float x, y, z;
@@ -1223,8 +1223,8 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = TrigTools.cos_(H) * C;
-        float V = TrigTools.sin_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
+        float V = TrigTools.sinTurns(H) * C;
 
         // Luv to XYZ
         float x, y, z;
@@ -1314,8 +1314,8 @@ public class ColorTools {
             C = chromaLimit(H, L) * S;
 
         // Lch to Luv
-        float U = TrigTools.cos_(H) * C;
-        float V = TrigTools.sin_(H) * C;
+        float U = TrigTools.cosTurns(H) * C;
+        float V = TrigTools.sinTurns(H) * C;
 
         // Luv to XYZ
         float x, y, z;
@@ -1759,8 +1759,8 @@ public class ColorTools {
             Cs = chromaLimit(Hs, Ls) * (ss / 255f);
         }
         // Lch to Luv
-        float Us = TrigTools.cos_(Hs) * Cs;
-        float Vs = TrigTools.sin_(Hs) * Cs;
+        float Us = TrigTools.cosTurns(Hs) * Cs;
+        float Vs = TrigTools.sinTurns(Hs) * Cs;
 
         float He = he / 255f, Ce, Le;
         if (le == 255) {
@@ -1774,8 +1774,8 @@ public class ColorTools {
             Ce = chromaLimit(He, Le) * (se / 255f);
         }
         // Lch to Luv
-        float Ue = TrigTools.cos_(He) * Ce;
-        float Ve = TrigTools.sin_(He) * Ce;
+        float Ue = TrigTools.cosTurns(He) * Ce;
+        float Ve = TrigTools.sinTurns(He) * Ce;
 
         float H, S, L, U, V;
 
@@ -1784,7 +1784,7 @@ public class ColorTools {
         V = (Vs + change * (Ve - Vs));
 
         // Luv to Lch
-        H = TrigTools.atan2_(V, U);
+        H = TrigTools.atan2Turns(V, U);
 
 
         // Lch to HSLuv

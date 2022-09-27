@@ -20,11 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.anim8.AnimatedGif;
 import com.github.tommyettinger.anim8.AnimatedPNG;
 import com.github.tommyettinger.anim8.Dithered;
-import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.colorful.ycwcm.ColorfulBatch;
-import com.github.tommyettinger.colorful.ycwcm.Palette;
-
-import java.io.IOException;
 
 import static com.badlogic.gdx.Gdx.input;
 
@@ -332,7 +328,7 @@ public class ColorSolidDemo extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if(!recording)
             handleInput();
-        layer = TrigTools.acos_(TrigTools.sin_(layer())) * 2f;
+        layer = TrigTools.acosTurns(TrigTools.sinTurns(layer())) * 2f;
         ycwcmBatch.setProjectionMatrix(screenView.getCamera().combined);
 //        ycwcmBatch.setPackedColor(Palette.GRAY);
         ycwcmBatch.begin();

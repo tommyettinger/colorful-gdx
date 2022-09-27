@@ -116,7 +116,7 @@ public class IPTGamutDemo extends ApplicationAdapter {
     @Override
     public void render() {
         handleInput();
-        layer = TrigTools.acos_(TrigTools.sin_(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) * 2f;
+        layer = TrigTools.acosTurns(TrigTools.sinTurns(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) * 2f;
         renderInternal();
     }
     

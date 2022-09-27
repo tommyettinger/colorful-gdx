@@ -134,7 +134,7 @@ public class UbePaletteGenerator extends ApplicationAdapter {
             for (int i = 0; i < hueKeys.length; i++) {
                 float hue = hueKeys[i], quart = barronSpline(wave * 0.25f, 0.5f, 0.95f),
                         lightAdjust = 1f,
-                        satAdjust = (hue >= (0.08f) && hue < (0.16f) ? 1f - TrigTools.sin_((hue - 0.08f) * 0.5f / (0.16f - 0.08f)) * 0.4f : 1.0f) * (1f - (i & 1) * 0.1f);
+                        satAdjust = (hue >= (0.08f) && hue < (0.16f) ? 1f - TrigTools.sinTurns((hue - 0.08f) * 0.5f / (0.16f - 0.08f)) * 0.4f : 1.0f) * (1f - (i & 1) * 0.1f);
                 int chroma = 255, outerLight = 128;
                 float outerC = 1f, outerL = outerLight / 255f;
 

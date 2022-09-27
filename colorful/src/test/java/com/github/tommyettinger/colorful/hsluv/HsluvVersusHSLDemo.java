@@ -71,7 +71,7 @@ public class HsluvVersusHSLDemo extends ApplicationAdapter {
         Array<Pixmap> pixmaps = new Array<>(frameCount);
         if(SAVING_GIF || SAVING_APNG) {
             for (int i = 0; i < frameCount; i++) {
-                layer = TrigTools.acos_(TrigTools.sin_(i / (frameCount - 1f))) * 2f;
+                layer = TrigTools.acosTurns(TrigTools.sinTurns(i / (frameCount - 1f))) * 2f;
                 renderInternal();
 
                 // this gets a screenshot of the current window and adds it to the Array of Pixmap.
@@ -104,7 +104,7 @@ public class HsluvVersusHSLDemo extends ApplicationAdapter {
     @Override
     public void render() {
         handleInput();
-        layer = TrigTools.acos_(TrigTools.sin_(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) * 2f;
+        layer = TrigTools.acosTurns(TrigTools.sinTurns(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) * 2f;
         renderInternal();
     }
     
@@ -119,13 +119,13 @@ public class HsluvVersusHSLDemo extends ApplicationAdapter {
 //        batch.setColor(layer, 0.5f, 0.5f, 1f);
 //        batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
         final float
-                maxDist = 127f * TrigTools.sin_(layer * 0.5f) + 1f,
+                maxDist = 127f * TrigTools.sinTurns(layer * 0.5f) + 1f,
                 iMax = 1f / maxDist;
         for (int dist = 0; dist <= maxDist; dist++) {
             final int circ = dist * 16;
             final float ic = 1f / circ;
             for (int t = 0; t < circ; t++) {
-                final float angle = t * ic, x = TrigTools.cos_(angle), y = TrigTools.sin_(angle);
+                final float angle = t * ic, x = TrigTools.cosTurns(angle), y = TrigTools.sinTurns(angle);
                 final float sat = dist * iMax;// * (0.5f - Math.abs(layer - 0.5f)) * 2f;
                 batch.setColor(angle, sat, layer, 1f);
                 batch.draw(blank, 127.25f + x * dist, 127.25f + y * dist, 1f, 1f);
@@ -143,7 +143,7 @@ public class HsluvVersusHSLDemo extends ApplicationAdapter {
             final int circ = dist * 16;
             final float ic = 1f / circ;
             for (int t = 0; t < circ; t++) {
-                final float angle = t * ic, x = TrigTools.cos_(angle), y = TrigTools.sin_(angle);
+                final float angle = t * ic, x = TrigTools.cosTurns(angle), y = TrigTools.sinTurns(angle);
                 final float sat = dist * iMax;// * (0.5f - Math.abs(layer - 0.5f)) * 2f;
                 batch.setColor(angle, sat, layer, 1f);
                 batch.draw(blank, 127.25f + 256f + x * dist, 127.25f + y * dist, 1f, 1f);

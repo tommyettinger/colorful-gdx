@@ -90,7 +90,7 @@ public class CIELABByHCLWheelDemo extends ApplicationAdapter {
             final int circ = dist * 16;
             final float ic = 1f / circ;
             for (int t = 0; t < circ; t++) {
-                final float angle = t * ic, x = TrigTools.cos_(angle), y = TrigTools.sin_(angle);
+                final float angle = t * ic, x = TrigTools.cosTurns(angle), y = TrigTools.sinTurns(angle);
 //                final float g = ColorTools.getRawGamutValue((int)(layer * 255.999f) << 8 | (int)(angle * 256f));
 //                if(g < dist) continue;
                 final float chr = dist * iMax;// * (0.5f - Math.abs(layer - 0.5f)) * 2f;

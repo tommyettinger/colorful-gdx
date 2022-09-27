@@ -988,7 +988,7 @@ public class ColorTools {
 		final float h = (decoded & 0xff) / 255f;
 		final float s = (decoded >>> 8 & 0xff) / 255f;
 		final float i = (decoded >>> 16 & 0xff) / 255f;
-		final float y = TrigTools.cos_(h) * s, z = TrigTools.sin_(h) * s;
+		final float y = TrigTools.cosTurns(h) * s, z = TrigTools.sinTurns(h) * s;
 		final float crMid = 0.3481738f * y + 0.104959644f * z;
 		final float crScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(crMid) >>> 31)) * 0.16420607f / -crMid;
 		final float mgMid = 0.122068435f * y + -0.070396f * z;
@@ -1014,7 +1014,7 @@ public class ColorTools {
 	 * @return a packed float in IPT format
 	 */
 	public static float fromHSI(float hue, float saturation, float intensity, float alpha){
-		final float y = TrigTools.cos_(hue) * saturation, z = TrigTools.sin_(hue) * saturation;
+		final float y = TrigTools.cosTurns(hue) * saturation, z = TrigTools.sinTurns(hue) * saturation;
 		final float crMid = 0.3481738f * y + 0.104959644f * z;
 		final float crScale = (intensity - 0.5f + (NumberUtils.floatToRawIntBits(crMid) >>> 31)) * 0.16420607f / -crMid;
 		final float mgMid = 0.122068435f * y + -0.070396f * z;

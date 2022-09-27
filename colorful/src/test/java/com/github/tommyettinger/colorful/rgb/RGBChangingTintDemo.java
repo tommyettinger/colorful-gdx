@@ -103,9 +103,9 @@ public class RGBChangingTintDemo extends ApplicationAdapter {
         batch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) {
 
-            float f = seed++ * 0x1p-14f, a = TrigTools.sin_(f * 2.625f + TrigTools.cos_(f * 0.25f - 0.314f)) * 0.75f,
-                    b = TrigTools.cos_(a + TrigTools.sin_(f - a * 0.5f) + 0.618f) * 0.75f,
-                    c = TrigTools.cos_(TrigTools.atan2_(MathUtils.cos(a + 0.618f), TrigTools.sin_(b - 0.618f))) * 0.25f,
+            float f = seed++ * 0x1p-14f, a = TrigTools.sinTurns(f * 2.625f + TrigTools.cosTurns(f * 0.25f - 0.314f)) * 0.75f,
+                    b = TrigTools.cosTurns(a + TrigTools.sinTurns(f - a * 0.5f) + 0.618f) * 0.75f,
+                    c = TrigTools.cosTurns(TrigTools.atan2Turns(MathUtils.cos(a + 0.618f), TrigTools.sinTurns(b - 0.618f))) * 0.25f,
                     n = (TrigTools.sin(c * 2f - a) - TrigTools.cos(b * 2f - c)) * 0.25f + 0.5f;
             a = MathUtils.clamp(0.5f + a, 0f, 1f);
             b = MathUtils.clamp(0.5f + b, 0f, 1f);

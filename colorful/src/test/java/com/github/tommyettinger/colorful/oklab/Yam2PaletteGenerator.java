@@ -141,8 +141,8 @@ public class Yam2PaletteGenerator extends ApplicationAdapter {
             }
             for (int i = 0; i < hueKeys.length; i++) {
                 float hue = hueKeys[i], quart = wave * 0.25f, fraction = i / (float)hueKeys.length,
-                        lightAdjust = (fraction >= 0.48f && fraction < 0.58f ? 1f - TrigTools.sin_((fraction - 0.48f) * 5f) * 0.2f : 1.0f),
-                        satAdjust = (fraction >= (0.06f) && fraction < (0.13f) ? 0.7f - TrigTools.sin_((fraction - 0.06f) * 20f) * 0.3f : 1.0f) * (1f - (i & 1) * 0.1f);
+                        lightAdjust = (fraction >= 0.48f && fraction < 0.58f ? 1f - TrigTools.sinTurns((fraction - 0.48f) * 5f) * 0.2f : 1.0f),
+                        satAdjust = (fraction >= (0.06f) && fraction < (0.13f) ? 0.7f - TrigTools.sinTurns((fraction - 0.06f) * 20f) * 0.3f : 1.0f) * (1f - (i & 1) * 0.1f);
                 int chroma = 0, outerLight = 0;
                 for (int l = 0, gamut = (int) (hue * 256f); l < 256; l++, gamut += 256) {
                     if (chroma != (chroma = Math.max(chroma, ColorTools.getRawGamutValue(gamut))))
