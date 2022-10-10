@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -20,7 +21,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.anim8.AnimatedGif;
 import com.github.tommyettinger.anim8.AnimatedPNG;
 import com.github.tommyettinger.anim8.Dithered;
-import com.github.tommyettinger.colorful.ycwcm.ColorfulBatch;
+import com.github.tommyettinger.anim8.PaletteReducer;
+import com.github.tommyettinger.colorful.hsluv.ColorfulBatch;
 
 import static com.badlogic.gdx.Gdx.input;
 
@@ -30,7 +32,7 @@ public class ColorSolidDemo extends ApplicationAdapter {
 //    public static final int SCREEN_HEIGHT = 862;
     public static final int SCREEN_WIDTH = 512;
     public static final int SCREEN_HEIGHT = 512;
-    private ColorfulBatch ycwcmBatch;
+    private ColorfulBatch hsluvBatch;
     private com.github.tommyettinger.colorful.cielab.ColorfulBatch cielabBatch;
     private com.github.tommyettinger.colorful.ipt_hq.ColorfulBatch ipthqBatch;
     private com.github.tommyettinger.colorful.oklab.ColorfulBatch oklabBatch;
@@ -62,7 +64,7 @@ public class ColorSolidDemo extends ApplicationAdapter {
     public void create() {
         startTime = TimeUtils.millis();
         Pixmap b = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        b.drawPixel(0, 0, 0x7F7F81FF);
+        b.drawPixel(0, 0, 0x808080FF);
         blank = new Texture(b);
         font = new BitmapFont(Gdx.files.internal("font.fnt"));
         font.setColor(1f, 0.5f, 0.5f, 1f);
@@ -70,7 +72,7 @@ public class ColorSolidDemo extends ApplicationAdapter {
         pixmaps = new Array<>(true, 256, Pixmap.class);
         gif = new AnimatedGif();
 //        gif.palette = new PaletteReducer();
-        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE);
+        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.ROBERTS);
         gif.fastAnalysis = false;
         gif.setDitherStrength(0.75f);
 
@@ -78,36 +80,38 @@ public class ColorSolidDemo extends ApplicationAdapter {
 
         pp = new PixmapIO.PNG();
 
-        ycwcmBatch = new ColorfulBatch();
+        hsluvBatch = new ColorfulBatch();
         {
-            String vertexShader = ycwcmBatch.getShader().getVertexShaderSource();
-            String fragmentShader =
-                    "#ifdef GL_ES\n" +
-                            "#define LOWP lowp\n" +
-                            "precision mediump float;\n" +
-                            "#else\n" +
-                            "#define LOWP \n" +
-                            "#endif\n" +
-                            "varying vec2 v_texCoords;\n" +
-                            "varying LOWP vec4 v_color;\n" +
-                            "varying LOWP vec4 v_tweak;\n" +
-                            "varying float v_lightFix;\n" +
-                            "uniform sampler2D u_texture;\n" +
-                            "const vec3 bright = vec3(0.375, 0.5, 0.125);\n" +
-                            "void main()\n" +
-                            "{\n" +
-                            "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                            "   vec3 ycc = vec3(\n" +
-                            "     (v_color.r - 0.5) + dot(tgt.rgb, bright),\n" + // luma
-                            "     (v_color.g - 0.5) * 2.0 + (tgt.r - tgt.b),\n" + // warmth
-                            "     (v_color.b - 0.5) * 2.0 + (tgt.g - tgt.b));\n" + // mildness
-                            "   gl_FragColor = vec4( (mat3(1.0, 1.0, 1.0, 0.625, -0.375, -0.375, -0.5, 0.5, -0.5) * ycc), v_color.a * tgt.a);\n" +
-                            "   if(any(notEqual(clamp(gl_FragColor.rgb, 0.0, 1.0), gl_FragColor.rgb))) discard;\n" +
-                            "}";
+            String vertexShader = Shaders.vertexShaderHsluv;
+            String fragmentShader = Shaders.fragmentShaderHsluv.replace("gl_FragColor = vec4(sRGB(clamp(luv2rgb(luv), 0.0, 1.0)), v_color.a * tgt.a);",
+                    "vec3 back = luv2rgb(luv); gl_FragColor = vec4(clamp(back, 0.0, 1.0), v_color.a * tgt.a); if(any(notEqual(back, gl_FragColor.rgb))) discard; gl_FragColor.rgb = sRGB(gl_FragColor.rgb);");
+
+//                    "#ifdef GL_ES\n" +
+//                            "#define LOWP lowp\n" +
+//                            "precision mediump float;\n" +
+//                            "#else\n" +
+//                            "#define LOWP \n" +
+//                            "#endif\n" +
+//                            "varying vec2 v_texCoords;\n" +
+//                            "varying LOWP vec4 v_color;\n" +
+//                            "varying LOWP vec4 v_tweak;\n" +
+//                            "varying float v_lightFix;\n" +
+//                            "uniform sampler2D u_texture;\n" +
+//                            "const vec3 bright = vec3(0.375, 0.5, 0.125);\n" +
+//                            "void main()\n" +
+//                            "{\n" +
+//                            "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+//                            "   vec3 ycc = vec3(\n" +
+//                            "     (v_color.r - 0.5) + dot(tgt.rgb, bright),\n" + // luma
+//                            "     (v_color.g - 0.5) * 2.0 + (tgt.r - tgt.b),\n" + // warmth
+//                            "     (v_color.b - 0.5) * 2.0 + (tgt.g - tgt.b));\n" + // mildness
+//                            "   gl_FragColor = vec4( (mat3(1.0, 1.0, 1.0, 0.625, -0.375, -0.375, -0.5, 0.5, -0.5) * ycc), v_color.a * tgt.a);\n" +
+//                            "   if(any(notEqual(clamp(gl_FragColor.rgb, 0.0, 1.0), gl_FragColor.rgb))) discard;\n" +
+//                            "}";
             ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
 
             if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
-            ycwcmBatch.setShader(shader);
+            hsluvBatch.setShader(shader);
         }
         cielabBatch = new com.github.tommyettinger.colorful.cielab.ColorfulBatch();
         {
@@ -303,6 +307,7 @@ public class ColorSolidDemo extends ApplicationAdapter {
             render();
             pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         }
+//        gif.palette = new PaletteReducer(pixmaps);
         gif.write(Gdx.files.local("ColorSolids.gif"), pixmaps, 30);
         png.write(Gdx.files.local("ColorSolids.png"), pixmaps, 30);
 //        int idx = 0;
@@ -329,17 +334,33 @@ public class ColorSolidDemo extends ApplicationAdapter {
         if(!recording)
             handleInput();
         layer = TrigTools.acosTurns(TrigTools.sinTurns(layer())) * 2f;
-        ycwcmBatch.setProjectionMatrix(screenView.getCamera().combined);
+        hsluvBatch.setProjectionMatrix(screenView.getCamera().combined);
 //        ycwcmBatch.setPackedColor(Palette.GRAY);
-        ycwcmBatch.begin();
+        hsluvBatch.begin();
 //        ycwcmBatch.draw(blank, 0, 0, 512, 512);
-        for (int x = 0; x < 256; x++) {
-            for (int y = 0; y < 256; y++) {
-                ycwcmBatch.setColor(layer, x * 0x1p-8f, y * 0x1p-8f, 1f);
-                ycwcmBatch.draw(blank, x, y + 256f, 1f, 1f);
+//        for (int x = 0; x < 256; x++) {
+//            for (int y = 0; y < 256; y++) {
+//                hsluvBatch.setColor(TrigTools.atan2Turns(y - 127.5f, x - 127.5f), Vector2.len(x / 255f - 0.5f, y / 255f - 0.5f), layer, 1f);
+//                hsluvBatch.draw(blank, x, y + 256f, 1f, 1f);
+//            }
+//        }
+
+        final float
+                maxDist = 127f * TrigTools.sinTurns(layer * 0.5f) + 1f,
+                iMax = 1f / maxDist;
+        for (int dist = 0; dist <= maxDist; dist++) {
+            final int circ = dist * 16;
+            final float ic = 1f / circ;
+            for (int t = 0; t < circ; t++) {
+                final float angle = t * ic, x = TrigTools.cosTurns(angle), y = TrigTools.sinTurns(angle);
+                final float sat = dist * iMax;// * (0.5f - Math.abs(layer - 0.5f)) * 2f;
+                hsluvBatch.setColor(angle, sat, layer, 1f);
+                hsluvBatch.draw(blank, 127.25f + x * dist, 127.25f + y * dist + 256f, 1f, 1f);
             }
         }
-        ycwcmBatch.end();
+
+
+        hsluvBatch.end();
         cielabBatch.setProjectionMatrix(screenView.getCamera().combined);
         cielabBatch.begin();
         for (int x = 0; x < 256; x++) {
