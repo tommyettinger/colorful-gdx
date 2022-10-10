@@ -24,8 +24,8 @@ import com.github.tommyettinger.colorful.TrigTools;
 import static com.badlogic.gdx.Gdx.input;
 
 public class OklabGamutDemo extends ApplicationAdapter {
-    public static final int SCREEN_WIDTH = 512;
-    public static final int SCREEN_HEIGHT = 512;
+    public static final int SCREEN_WIDTH = 128;
+    public static final int SCREEN_HEIGHT = 128;
     private SpriteBatch batch;
     private Viewport screenView;
     private Texture blank;
@@ -50,7 +50,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
     public void create() {
         startTime = TimeUtils.millis();
         Pixmap blank = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        blank.drawPixel(0, 0, 0x7F7F81FF);
+        blank.drawPixel(0, 0, 0x808080FF);
         this.blank = new Texture(blank);
         batch = new SpriteBatch();
         String vertexShader = batch.getShader().getVertexShaderSource();
@@ -126,7 +126,7 @@ public class OklabGamutDemo extends ApplicationAdapter {
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is fast and great with smooth gradients, but the temporal dithering looks weird here.
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // this should be dithered before usage
-        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is the current default; fairly high quality
+        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.ROBERTS); // this is the current default; fairly high quality
         gif.setDitherStrength(0.75f);
         gif.fastAnalysis = false;
 //        gif.palette = new PaletteReducer(pixmaps);
@@ -298,10 +298,10 @@ public class OklabGamutDemo extends ApplicationAdapter {
 //        batch.draw(blank, 0, 0, 512, 512);
         batch.setColor(layer, 0.5f, 0.5f, 1f);
         batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
-        for (int x = 0; x < 512; x++) {
-            for (int y = 0; y < 512; y++) {
-                batch.setColor(layer, x * 0x1p-9f, y * 0x1p-9f, 1f);
-                batch.draw(blank, x, y, 1f, 1f);
+        for (int x = 0; x < 256; x++) {
+            for (int y = 0; y < 256; y++) {
+                batch.setColor(layer, x * 0x1p-8f, y * 0x1p-8f, 1f);
+                batch.draw(blank, x - 64f, y - 64f, 1f, 1f);
             }
         }
         batch.end();
