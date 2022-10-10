@@ -344,14 +344,16 @@ has been fixed since 0.6.0 , and shouldn't affect code using the current version
 
 Using the Maven Central dependency is recommended, and Gradle and Maven can both depend on this library using that repository.
 
+To depend on colorful, which is the main way to use the library and uses libGDX, use:
+
 Gradle dependency (`implementation` should be changed to `api` if any other dependencies use `api`):
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.8.2'
+implementation 'com.github.tommyettinger:colorful:0.8.3'
 ```
 
 Gradle dependency if also using GWT to make an HTML application:
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.8.2:sources'
+implementation 'com.github.tommyettinger:colorful:0.8.3:sources'
 ```
 
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
@@ -364,24 +366,24 @@ If you don't use Gradle, here's the Maven dependency:
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful</artifactId>
-  <version>0.8.2</version>
+  <version>0.8.3</version>
 </dependency>
 ```
 
-Using colorful-pure is similar:
+Using colorful-pure is similar; note that **Most Client-Side Applications Do Not Need These Following Steps**.
 
 Gradle dependency (`implementation` should be changed to `api` if any other dependencies use `api`):
 ```groovy
-implementation 'com.github.tommyettinger:colorful-pure:0.8.2'
+implementation 'com.github.tommyettinger:colorful-pure:0.8.3'
 ```
 
 Gradle dependency if also using GWT to make an HTML application:
 ```groovy
 implementation 'com.github.tommyettinger:funderby:0.0.1:sources'
-implementation 'com.github.tommyettinger:digital:0.1.0:sources'
-implementation 'com.github.tommyettinger:juniper:0.1.2:sources'
+implementation 'com.github.tommyettinger:digital:0.1.4:sources'
+implementation 'com.github.tommyettinger:juniper:0.1.6:sources'
 implementation 'com.github.tommyettinger:jdkgdxds:1.0.4:sources'
-implementation 'com.github.tommyettinger:colorful-pure:0.8.2:sources'
+implementation 'com.github.tommyettinger:colorful-pure:0.8.3:sources'
 ```
 
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
@@ -398,7 +400,7 @@ If you don't use Gradle, here's the Maven dependency (GWT dependencies should be
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful-pure</artifactId>
-  <version>0.8.2</version>
+  <version>0.8.3</version>
 </dependency>
 ```
 

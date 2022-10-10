@@ -1001,7 +1001,7 @@
 <span class="source-line-no">988</span><span id="line-988">                final float h = (decoded &amp; 0xff) / 255f;</span>
 <span class="source-line-no">989</span><span id="line-989">                final float s = (decoded &gt;&gt;&gt; 8 &amp; 0xff) / 255f;</span>
 <span class="source-line-no">990</span><span id="line-990">                final float i = (decoded &gt;&gt;&gt; 16 &amp; 0xff) / 255f;</span>
-<span class="source-line-no">991</span><span id="line-991">                final float y = TrigTools.cos_(h) * s, z = TrigTools.sin_(h) * s;</span>
+<span class="source-line-no">991</span><span id="line-991">                final float y = TrigTools.cosTurns(h) * s, z = TrigTools.sinTurns(h) * s;</span>
 <span class="source-line-no">992</span><span id="line-992">                final float crMid = 0.3481738f * y + 0.104959644f * z;</span>
 <span class="source-line-no">993</span><span id="line-993">                final float crScale = (i - 0.5f + (NumberUtils.floatToRawIntBits(crMid) &gt;&gt;&gt; 31)) * 0.16420607f / -crMid;</span>
 <span class="source-line-no">994</span><span id="line-994">                final float mgMid = 0.122068435f * y + -0.070396f * z;</span>
@@ -1027,7 +1027,7 @@
 <span class="source-line-no">1014</span><span id="line-1014">         * @return a packed float in IPT format</span>
 <span class="source-line-no">1015</span><span id="line-1015">         */</span>
 <span class="source-line-no">1016</span><span id="line-1016">        public static float fromHSI(float hue, float saturation, float intensity, float alpha){</span>
-<span class="source-line-no">1017</span><span id="line-1017">                final float y = TrigTools.cos_(hue) * saturation, z = TrigTools.sin_(hue) * saturation;</span>
+<span class="source-line-no">1017</span><span id="line-1017">                final float y = TrigTools.cosTurns(hue) * saturation, z = TrigTools.sinTurns(hue) * saturation;</span>
 <span class="source-line-no">1018</span><span id="line-1018">                final float crMid = 0.3481738f * y + 0.104959644f * z;</span>
 <span class="source-line-no">1019</span><span id="line-1019">                final float crScale = (intensity - 0.5f + (NumberUtils.floatToRawIntBits(crMid) &gt;&gt;&gt; 31)) * 0.16420607f / -crMid;</span>
 <span class="source-line-no">1020</span><span id="line-1020">                final float mgMid = 0.122068435f * y + -0.070396f * z;</span>

@@ -472,8 +472,8 @@
 <span class="source-line-no">459</span><span id="line-459">    public static float chromaLimit(final float hue, final float lightness) {</span>
 <span class="source-line-no">460</span><span id="line-460">        final float h = hue - MathUtils.floor(hue);</span>
 <span class="source-line-no">461</span><span id="line-461">        final float L = (1f/1.16f)*(lightness + 0.16f);</span>
-<span class="source-line-no">462</span><span id="line-462">        final float A = TrigTools.cos_(h) * (1.26365817f);</span>
-<span class="source-line-no">463</span><span id="line-463">        final float B = TrigTools.sin_(h) * (1.26365817f);</span>
+<span class="source-line-no">462</span><span id="line-462">        final float A = TrigTools.cosTurns(h) * (1.26365817f);</span>
+<span class="source-line-no">463</span><span id="line-463">        final float B = TrigTools.sinTurns(h) * (1.26365817f);</span>
 <span class="source-line-no">464</span><span id="line-464">        final float y = reverseXYZ(L);</span>
 <span class="source-line-no">465</span><span id="line-465">        float A2 = A, B2 = B;</span>
 <span class="source-line-no">466</span><span id="line-466">        for (int attempt = 127; attempt &gt;= 0; attempt--) {</span>
@@ -501,10 +501,10 @@
 <span class="source-line-no">488</span><span id="line-488">    public static float maximizeSaturation(final float packed) {</span>
 <span class="source-line-no">489</span><span id="line-489">        final int decoded = NumberUtils.floatToRawIntBits(packed);</span>
 <span class="source-line-no">490</span><span id="line-490">        final float lightness = (decoded &amp; 255) / 255f;</span>
-<span class="source-line-no">491</span><span id="line-491">        final float h = TrigTools.atan2_(((decoded &gt;&gt;&gt; 16 &amp; 0xff) - 127.5f), ((decoded &gt;&gt;&gt; 8 &amp; 0xff) - 127.5f));</span>
+<span class="source-line-no">491</span><span id="line-491">        final float h = TrigTools.atan2Turns(((decoded &gt;&gt;&gt; 16 &amp; 0xff) - 127.5f), ((decoded &gt;&gt;&gt; 8 &amp; 0xff) - 127.5f));</span>
 <span class="source-line-no">492</span><span id="line-492">        final float L = (1f/1.16f)*(lightness + 0.16f);</span>
-<span class="source-line-no">493</span><span id="line-493">        final float A = TrigTools.cos_(h) * 1.26365817f * 0.2f;</span>
-<span class="source-line-no">494</span><span id="line-494">        final float B = TrigTools.sin_(h) * 1.26365817f * 0.5f;</span>
+<span class="source-line-no">493</span><span id="line-493">        final float A = TrigTools.cosTurns(h) * 1.26365817f * 0.2f;</span>
+<span class="source-line-no">494</span><span id="line-494">        final float B = TrigTools.sinTurns(h) * 1.26365817f * 0.5f;</span>
 <span class="source-line-no">495</span><span id="line-495">        final float y = reverseXYZ(L);</span>
 <span class="source-line-no">496</span><span id="line-496">        float A2 = A, B2 = B;</span>
 <span class="source-line-no">497</span><span id="line-497">        for (int attempt = 127; attempt &gt;= 0; attempt--) {</span>
@@ -538,10 +538,10 @@
 <span class="source-line-no">525</span><span id="line-525">        A = Math.min(Math.max(A, 0f), 1f);</span>
 <span class="source-line-no">526</span><span id="line-526">        B = Math.min(Math.max(B, 0f), 1f);</span>
 <span class="source-line-no">527</span><span id="line-527">        alpha = Math.min(Math.max(alpha, 0f), 1f);</span>
-<span class="source-line-no">528</span><span id="line-528">        final float h = TrigTools.atan2_(B - 0.5f, A - 0.5f);</span>
+<span class="source-line-no">528</span><span id="line-528">        final float h = TrigTools.atan2Turns(B - 0.5f, A - 0.5f);</span>
 <span class="source-line-no">529</span><span id="line-529">        final float L0 = (1f/1.16f)*(L + 0.16f);</span>
-<span class="source-line-no">530</span><span id="line-530">        final float A0 = TrigTools.cos_(h) * 1.26365817f;</span>
-<span class="source-line-no">531</span><span id="line-531">        final float B0 = TrigTools.sin_(h) * 1.26365817f;</span>
+<span class="source-line-no">530</span><span id="line-530">        final float A0 = TrigTools.cosTurns(h) * 1.26365817f;</span>
+<span class="source-line-no">531</span><span id="line-531">        final float B0 = TrigTools.sinTurns(h) * 1.26365817f;</span>
 <span class="source-line-no">532</span><span id="line-532">        final float y = reverseXYZ(L0);</span>
 <span class="source-line-no">533</span><span id="line-533">        float A2 = A0, B2 = B0;</span>
 <span class="source-line-no">534</span><span id="line-534">        for (int attempt = 127; attempt &gt;= 0; attempt--) {</span>
@@ -571,7 +571,7 @@
 <span class="source-line-no">558</span><span id="line-558">        final int decoded = NumberUtils.floatToRawIntBits(packed);</span>
 <span class="source-line-no">559</span><span id="line-559">        final float A = ((decoded &gt;&gt;&gt; 8 &amp; 0xff) - 127.5f) *  (0.2f / 127.5f);</span>
 <span class="source-line-no">560</span><span id="line-560">        final float B = ((decoded &gt;&gt;&gt; 16 &amp; 0xff) - 127.5f) * (0.5f / 127.5f);</span>
-<span class="source-line-no">561</span><span id="line-561">        return TrigTools.atan2_(B, A);</span>
+<span class="source-line-no">561</span><span id="line-561">        return TrigTools.atan2Turns(B, A);</span>
 <span class="source-line-no">562</span><span id="line-562">    }</span>
 <span class="source-line-no">563</span><span id="line-563"></span>
 <span class="source-line-no">564</span><span id="line-564">    /**</span>
@@ -587,10 +587,10 @@
 <span class="source-line-no">574</span><span id="line-574">        final float L = (1f/1.16f)*(((decoded &amp; 0xff) / 255f) + 0.16f);</span>
 <span class="source-line-no">575</span><span id="line-575">        final float A = ((decoded &gt;&gt;&gt; 8 &amp; 0xff) - 127.5f) *  (0.2f / 127.5f);</span>
 <span class="source-line-no">576</span><span id="line-576">        final float B = ((decoded &gt;&gt;&gt; 16 &amp; 0xff) - 127.5f) * (0.5f / 127.5f);</span>
-<span class="source-line-no">577</span><span id="line-577">        final float h = TrigTools.atan2_(B, A);</span>
+<span class="source-line-no">577</span><span id="line-577">        final float h = TrigTools.atan2Turns(B, A);</span>
 <span class="source-line-no">578</span><span id="line-578">        final float L0 = (1f/1.16f)*(L + 0.16f);</span>
-<span class="source-line-no">579</span><span id="line-579">        final float A0 = TrigTools.cos_(h) * 1.26365817f;</span>
-<span class="source-line-no">580</span><span id="line-580">        final float B0 = TrigTools.sin_(h) * 1.26365817f;</span>
+<span class="source-line-no">579</span><span id="line-579">        final float A0 = TrigTools.cosTurns(h) * 1.26365817f;</span>
+<span class="source-line-no">580</span><span id="line-580">        final float B0 = TrigTools.sinTurns(h) * 1.26365817f;</span>
 <span class="source-line-no">581</span><span id="line-581">        final float y = reverseXYZ(L0);</span>
 <span class="source-line-no">582</span><span id="line-582">        float A2 = A0, B2 = B0;</span>
 <span class="source-line-no">583</span><span id="line-583">        for (int attempt = 127; attempt &gt;= 0; attempt--) {</span>
@@ -650,8 +650,8 @@
 <span class="source-line-no">637</span><span id="line-637">        alpha = Math.min(Math.max(alpha, 0f), 1f);</span>
 <span class="source-line-no">638</span><span id="line-638">        final float L = (1f/1.16f)*(lightness + 0.16f);</span>
 <span class="source-line-no">639</span><span id="line-639">        final float L0 = (1f/1.16f)*(L + 0.16f);</span>
-<span class="source-line-no">640</span><span id="line-640">        final float cos = TrigTools.cos_(hue);</span>
-<span class="source-line-no">641</span><span id="line-641">        final float sin = TrigTools.sin_(hue);</span>
+<span class="source-line-no">640</span><span id="line-640">        final float cos = TrigTools.cosTurns(hue);</span>
+<span class="source-line-no">641</span><span id="line-641">        final float sin = TrigTools.sinTurns(hue);</span>
 <span class="source-line-no">642</span><span id="line-642">        final float A0 = cos * 1.26365817f * 0.2f;</span>
 <span class="source-line-no">643</span><span id="line-643">        final float B0 = sin * 1.26365817f * 0.5f;</span>
 <span class="source-line-no">644</span><span id="line-644">        final float y = reverseXYZ(L0);</span>
@@ -703,8 +703,8 @@
 <span class="source-line-no">690</span><span id="line-690">        alpha = Math.min(Math.max(alpha, 0f), 1f);</span>
 <span class="source-line-no">691</span><span id="line-691">        return NumberUtils.intBitsToFloat(</span>
 <span class="source-line-no">692</span><span id="line-692">                (int) (alpha * 127.999f) &lt;&lt; 25 |</span>
-<span class="source-line-no">693</span><span id="line-693">                        Math.min(Math.max((int) (TrigTools.sin_(hue) /* * 2f */ * chroma + 127.5f), 0), 255) &lt;&lt; 16 |</span>
-<span class="source-line-no">694</span><span id="line-694">                        Math.min(Math.max((int) (TrigTools.cos_(hue) /* * 5f */ * chroma + 127.5f), 0), 255) &lt;&lt; 8 |</span>
+<span class="source-line-no">693</span><span id="line-693">                        Math.min(Math.max((int) (TrigTools.sinTurns(hue) /* * 2f */ * chroma + 127.5f), 0), 255) &lt;&lt; 16 |</span>
+<span class="source-line-no">694</span><span id="line-694">                        Math.min(Math.max((int) (TrigTools.cosTurns(hue) /* * 5f */ * chroma + 127.5f), 0), 255) &lt;&lt; 8 |</span>
 <span class="source-line-no">695</span><span id="line-695">                        (int) (lightness * 255.999f));</span>
 <span class="source-line-no">696</span><span id="line-696">    }</span>
 <span class="source-line-no">697</span><span id="line-697"></span>
