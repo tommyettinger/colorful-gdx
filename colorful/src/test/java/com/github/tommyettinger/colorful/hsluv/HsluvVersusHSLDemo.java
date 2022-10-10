@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.anim8.AnimatedGif;
 import com.github.tommyettinger.anim8.AnimatedPNG;
 import com.github.tommyettinger.anim8.Dithered;
+import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.colorful.Shaders;
 import com.github.tommyettinger.colorful.TrigTools;
 
@@ -84,11 +85,12 @@ public class HsluvVersusHSLDemo extends ApplicationAdapter {
 ////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
 ////        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
 //            gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
-            gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is the current default; fairly high quality
-            gif.setDitherStrength(0.5f);
-            gif.fastAnalysis = true;
+            gif.setDitherAlgorithm(Dithered.DitherAlgorithm.ROBERTS); // this is the current default; fairly high quality
+            gif.setDitherStrength(1f);
+//            gif.fastAnalysis = true; // not needed with an exact or pre-analyzed palette.
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // should be dithered already if using this
-//        gif.palette.analyze(pixmaps, 100); // this can be used to attempt to analyze the image to get a palette...
+        gif.palette = new PaletteReducer(); // uses DB Aurora as its palette
+//        gif.palette.analyze(pixmaps, 500); // this can be used to attempt to analyze the image to get a palette...
 ////        // 24 is how many frames per second the animated GIF should play back at.
             gif.write(Gdx.files.local("HsluvVersusHSL.gif"), pixmaps, 24);
         }
