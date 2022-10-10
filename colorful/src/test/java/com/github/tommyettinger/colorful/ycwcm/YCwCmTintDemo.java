@@ -77,7 +77,7 @@ public class YCwCmTintDemo extends ApplicationAdapter {
 
     @Override
     public void create() {
-        batch = Shaders.makeBatch();
+        batch = Shaders.makeYCwCmBatch();
         defaultShader = SpriteBatch.createDefaultShader();
         shader = batch.getShader();
         screenView = new ScreenViewport();

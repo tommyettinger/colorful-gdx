@@ -9,7 +9,7 @@ import com.github.tommyettinger.colorful.ycwcm.ColorfulSprite;
 /**
  * Shader code to construct a {@link ShaderProgram} that can render the specialized colors produced by the rest of this
  * library. The shader code is meant for use in a {@link com.badlogic.gdx.graphics.g2d.SpriteBatch}; a convenience
- * method, {@link #makeBatch()}, is provided to generate and return a SpriteBatch that uses a correct ShaderProgram.
+ * method, {@link #makeYCwCmBatch()}, is provided to generate and return a SpriteBatch that uses a correct ShaderProgram.
  * Many of the shaders here are experimental and meant as a basis for user code, rather than a complete solution.
  * If you aren't familiar with shaders in libGDX, <a href="https://github.com/libgdx/libgdx/wiki/Shaders">see this
  * libGDX wiki article</a> for more information.
@@ -117,8 +117,11 @@ void main()
      * An earlier version of this attempted to use some useful code by CypherCove in gdx-tween, but the current version
      * doesn't share any code, and doesn't really do any gamma correction either. It does less... gamma... un-correction
      * than {@link #fragmentShaderRGBA}, though, so if the source images are gamma-corrected this should be fine.
+     * <br>
+     * This was called {@code fragmentShaderGammaRGBA}, but it doesn't do any gamma-correction now. It still seems quite
+     * smooth. Where {@link #fragmentShaderRGBA} adds the batch color to the pixel colors, this multiplies them.
      */
-    public static final String fragmentShaderGammaRGBA =
+    public static final String fragmentShaderMultiplyRGBA =
             "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
                     "precision mediump float;\n" +
@@ -216,24 +219,27 @@ void main()
      * <br>
      * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
      * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
-     * @return a ShaderProgram that uses the RGBA shader {@link #fragmentShaderGammaRGBA}
+     * <br>
+     * This was called {@code makeGammaRGBAShader}, but because it doesn't currently do any gamma correction, naming it
+     * {@code makeMultiplyRGBAShader} seems more appropriate. {@link #makeRGBAShader()} is the additive counterpart.
+     * @return a ShaderProgram that uses the RGBA shader {@link #fragmentShaderMultiplyRGBA}
      */
-    public static ShaderProgram makeGammaRGBAShader()
+    public static ShaderProgram makeMultiplyRGBAShader()
     {
-        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShaderGammaRGBA);
+        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShaderMultiplyRGBA);
         if(!shader.isCompiled())
             throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
         return shader;
     }
     /**
-     * Prepares and returns a new SpriteBatch that uses {@link #vertexShader} and {@link #fragmentShaderHigherContrast}
+     * Prepares and returns a new SpriteBatch that uses {@link #vertexShader} and {@link #fragmentShaderHigherContrastRGBA}
      * from this class, making it able to render RGBA colors from the libGDX or the rgb package. This also takes a
      * {@code contrast} parameter, which modifies the contrast in the higher-contrast fragment shader; if greater than
      * 1.0 it will make light colors lighter and dark colors darker, while if it is less than 1.0 it will make all but
      * the darkest colors closer to the upper-middle-range of lightness. If you want to adjust contrast per-sprite, use
      * a {@link com.github.tommyettinger.colorful.rgb.ColorfulBatch} (those can adjust colors in more ways); you can
      * simply use {@code new ColorfulBatch()} to make one of those. Note that a SpriteBatch like this produces
-     * won't be able to render a {@link com.github.tommyettinger.colorful.rgb.ColorfulBatch}, but ColorfulBatch can.
+     * won't be able to render a {@link com.github.tommyettinger.colorful.rgb.ColorfulSprite}, but ColorfulBatch can.
      * ColorfulBatch also will calculate contrast differently from the shader this uses. It also takes a contrast in its
      * tweak value that is limited to a 0.0 to 1.0 range, rather than 0.0 on up here. One potential use for this method
      * is to "deep-fry" a scene's image by using very high contrast (5.0 or higher).
@@ -245,7 +251,7 @@ void main()
      */
     public static SpriteBatch makeRGBABatch(final float contrast)
     {
-        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShaderHigherContrast.replace("   1.5   ", Float.toString(Math.max(contrast, 0.0f))));
+        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShaderHigherContrastRGBA.replace("   1.5   ", Float.toString(Math.max(contrast, 0.0f))));
         if(!shader.isCompiled())
             throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
         return new SpriteBatch(1000, shader);
@@ -258,14 +264,17 @@ void main()
      * are additive instead of multiplicative, with 0.5 as a neutral value. This does not support the "tweak" features
      * that {@link ColorfulBatch} does, which include multiplicative counterparts to the additive operations this
      * supports on luma, chromatic warmth, and chromatic mildness, plus a contrast adjustment. If you want to adjust
-     * contrast globally, you can use {@link #makeBatch(float)} to set the contrast for a new Batch with a new shader.
+     * contrast globally, you can use {@link #makeYCwCmBatch(float)} to set the contrast for a new Batch with a new shader.
      * <br>
-     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
-     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
+     * You can generate YCwCm colors using any of various methods in the {@code ycwcm} package, such as
+     * {@link com.github.tommyettinger.colorful.ycwcm.ColorTools#ycwcm(float, float, float, float)}.
      * <br>
      * Meant for use with {@link #vertexShader}.
+     * <br>
+     * This was called {@code fragmentShader}, a name which dates back to when this was the only one in this file. It is
+     * not the only one anymore.
      */
-    public static final String fragmentShader =
+    public static final String fragmentShaderYCwCm =
             "#ifdef GL_ES\n" +
                     "#define LOWP lowp\n" +
                     "precision mediump float;\n" +
@@ -289,7 +298,7 @@ void main()
                     "   gl_FragColor = vec4( (clamp(mat3(1.0, 1.0, 1.0, 0.625, -0.375, -0.375, -0.5, 0.5, -0.5) * ycc, 0.0, 1.0)), v_color.a * tgt.a);\n" +
                     "}";
     /**
-     * A variant on {@link #fragmentShader} that adjusts luma to make mid-range colors darker, while keeping light
+     * A variant on {@link #fragmentShaderYCwCm} that adjusts luma to make mid-range colors darker, while keeping light
      * colors light. This is not the same as {@link ColorfulBatch} even when the contrast for ColorfulBatch's tweak is
      * the same as what this uses (1.375 here, which is roughly 0.875f in a tweak value). ColorfulBatch does some work
      * in the vertex shader so it may be a little faster than this approach, and it seems to have less severe effects on
@@ -334,7 +343,7 @@ void main()
     public static final String fragmentShaderLowerContrast = fragmentShaderHigherContrast.replace("   1.375   ", "0.625");
 
     /**
-     * Prepares and returns a new SpriteBatch that uses the default {@link #vertexShader} and {@link #fragmentShader}
+     * Prepares and returns a new SpriteBatch that uses the default {@link #vertexShader} and {@link #fragmentShaderYCwCm}
      * from this class, making it able to render YCwCm colors from the ycwcm package. It won't be a
      * {@link ColorfulBatch} (those can adjust colors in more ways); you can simply use {@code new ColorfulBatch()} to
      * make one of those. Note that a SpriteBatch like this produces won't be able to render a {@link ColorfulSprite},
@@ -344,16 +353,16 @@ void main()
      * {@link com.github.tommyettinger.colorful.ycwcm.ColorTools#ycwcm(float, float, float, float)}.
      * @return a freshly allocated SpriteBatch that will also have a new ShaderProgram for rendering YCwCm
      */
-    public static SpriteBatch makeBatch()
+    public static SpriteBatch makeYCwCmBatch()
     {
-        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
+        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShaderYCwCm);
         if(!shader.isCompiled())
             throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
         return new SpriteBatch(1000, shader);
     }
 
     /**
-     * Prepares and returns a new SpriteBatch that uses the default {@link #vertexShader} and {@link #fragmentShader}
+     * Prepares and returns a new SpriteBatch that uses the default {@link #vertexShader} and {@link #fragmentShaderYCwCm}
      * from this class, making it able to render YCwCm colors from the ycwcm package. This also takes a
      * {@code contrast} parameter; if greater than 1.0 it will make light colors lighter and dark colors darker, while
      * if it is less than 1.0 it will make all but the darkest colors closer to the upper-middle-range of lightness.
@@ -369,7 +378,7 @@ void main()
      * @param contrast how much contrast should be emphasized; higher than 1.0 is more contrasting, and this should usually be between 0.1 and 2.0
      * @return a freshly allocated SpriteBatch that will also have a new ShaderProgram for rendering YCwCm
      */
-    public static SpriteBatch makeBatch(final float contrast)
+    public static SpriteBatch makeYCwCmBatch(final float contrast)
     {
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShaderHigherContrast.replace("   1.375   ", Float.toString(Math.min(Math.max(contrast, 0.01f), 10f))));
         if(!shader.isCompiled())
@@ -403,7 +412,7 @@ void main()
     }
 
     /**
-     * Similar to {@link #fragmentShader}, but this uses the very perceptually-accurate IPT color space as described by
+     * Similar to {@link #fragmentShaderYCwCm}, but this uses the very perceptually-accurate IPT color space as described by
      * Ebner and Fairchild, instead of the custom YCwCm color space. IPT doesn't really need that much more computation
      * to be done by the shader, but tends to make gradual changes in color much smoother. If comparing to YCwCm, then
      * Y (luma) is like I (intensity) here, so when a Batch color has 0 for I (stored in the r channel), it makes the

@@ -31,9 +31,9 @@ public class InvertRGBDemo extends ApplicationAdapter {
     protected Texture screenTexture;
 
     private long lastProcessedTime = 0L;
-    private float L = 1f;
-    private float A = 1f;
-    private float B = 1f;
+    private float r = 1f;
+    private float g = 1f;
+    private float b = 1f;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -105,7 +105,7 @@ public class InvertRGBDemo extends ApplicationAdapter {
         batch.setProjectionMatrix(screenView.getCamera().combined);
         colorizeBatch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) {
-            colorizeBatch.setColor(L, A, B, 1f);
+            colorizeBatch.setColor(r, g, b, 1f);
             colorizeBatch.begin();
             colorizeBatch.draw(screenTexture, 0, 0);
             colorizeBatch.end();
@@ -126,7 +126,7 @@ public class InvertRGBDemo extends ApplicationAdapter {
 
     public void handleInput() {
         if (input.isKeyPressed(Input.Keys.V)) // view
-            System.out.println("L=" + L + ",A=" + A + ",B=" + B);
+            System.out.println("r=" + r + ",g=" + g + ",b=" + b);
         else if (input.isKeyPressed(Input.Keys.D))
             load("samples/Dawnlike.png");
         else if (input.isKeyPressed(Input.Keys.M))
@@ -137,7 +137,7 @@ public class InvertRGBDemo extends ApplicationAdapter {
             load("samples/Painting_by_Henri_Biva.jpg");
         else if (input.isKeyPressed(Input.Keys.W)) // Wargame, pixel art cartoon style
             load("samples/Color_Guard.png");
-        else if (input.isKeyPressed(Input.Keys.G)) // grayscale palette
+        else if (input.isKeyPressed(Input.Keys.O)) // old-style grayscale palette
             load("samples/Grayscale_Spaceships.png");
         else if (input.isKeyPressed(Input.Keys.Q) || input.isKeyPressed(Input.Keys.ESCAPE)) //quit
             Gdx.app.exit();
@@ -146,17 +146,17 @@ public class InvertRGBDemo extends ApplicationAdapter {
             if (TimeUtils.timeSinceMillis(lastProcessedTime) < 150)
                 return;
             lastProcessedTime = TimeUtils.millis();
-            if (input.isKeyPressed(Input.Keys.L)) //light
-                L = MathUtils.clamp(L + (UIUtils.shift() ? -0x3p-7f : 0x3p-7f), 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.A)) //warm
-                A = MathUtils.clamp(A + (UIUtils.shift() ? -0x3p-8f : 0x3p-8f), 0f, 1f);
-            else if (input.isKeyPressed(Input.Keys.B)) //mild
-                B = MathUtils.clamp(B + (UIUtils.shift() ? -0x3p-8f : 0x3p-8f), 0f, 1f);
+            if (input.isKeyPressed(Input.Keys.R)) //red
+                r = MathUtils.clamp(r + (UIUtils.shift() ? -0x3p-7f : 0x3p-7f), 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.G)) //green
+                g = MathUtils.clamp(g + (UIUtils.shift() ? -0x3p-8f : 0x3p-8f), 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.B)) //blue
+                b = MathUtils.clamp(b + (UIUtils.shift() ? -0x3p-8f : 0x3p-8f), 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.Z)) // zero changes
             {
-                L = 1f;
-                A = 1f;
-                B = 1f;
+                r = 1f;
+                g = 1f;
+                b = 1f;
             }
         }
     }

@@ -25,7 +25,7 @@ public class ColorTools {
 	/**
 	 * Gets a packed float representation of a color given as 4 float components, here, R (red), G (green), B (blue),
 	 * and A (alpha or opacity). As long as you use a batch with {@link Shaders#fragmentShaderRGBA} or
-	 * {@link Shaders#fragmentShaderGammaRGBA} as its shader, colors passed with
+	 * {@link Shaders#fragmentShaderMultiplyRGBA} as its shader, colors passed with
 	 * {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)} will be interpreted as RGB. All channels range
 	 * from 0.0 to 1.0, inclusive. Alpha is the multiplicative opacity of the color.
 	 * <br>

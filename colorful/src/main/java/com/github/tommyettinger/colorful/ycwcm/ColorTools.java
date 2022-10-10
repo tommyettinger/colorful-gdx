@@ -22,7 +22,7 @@ public class ColorTools {
 	/**
 	 * Gets a packed float representation of a color given as 4 float components, here, Y (luma or lightness), Cw
 	 * (chromatic warmth), Cm (chromatic mildness), and A (alpha or opacity). As long as you use a shader with
-	 * {@link Shaders#fragmentShader} as its shader, colors passed with
+	 * {@link Shaders#fragmentShaderYCwCm} as its shader, colors passed with
 	 * {@link com.badlogic.gdx.graphics.g2d.Batch#setPackedColor(float)} will be interpreted as YCwCm.
 	 * Luma should be between 0 and 1, inclusive, with 0 used for very dark colors (almost only black), and 1 used for
 	 * very light colors (almost only white). The two chroma values range from 0.0 to 1.0, and there's some aesthetic

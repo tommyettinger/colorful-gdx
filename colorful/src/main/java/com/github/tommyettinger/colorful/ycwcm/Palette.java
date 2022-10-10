@@ -3142,7 +3142,7 @@ public class Palette {
 
     /**
      * Changes the existing RGBA Color instances in {@link Colors} to use YCwCm and so be able to be shown normally by
-     * {@link ColorfulBatch} or a Batch using {@link com.github.tommyettinger.colorful.Shaders#fragmentShader}.
+     * {@link ColorfulBatch} or a Batch using {@link com.github.tommyettinger.colorful.Shaders#fragmentShaderYCwCm}.
      * Any colors used in libGDX text markup look up their values in Colors, so calling this can help display fonts
      * where markup is enabled. This only needs to be called once, and if you call {@link #appendToKnownColors()}, then
      * that should be done after this to avoid mixing RGBA and YCwCm colors.
