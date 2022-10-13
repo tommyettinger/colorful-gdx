@@ -1,9 +1,66 @@
 package com.github.tommyettinger.colorful;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.rgb.ColorTools;
 
 public class HSLCorrectnessTest {
+
+    /**
+     * Converts a packed float in RGBA format to a packed float in "HSLA format" (hue, saturation, lightness, alpha),
+     * which isn't one of the regular formats this supports but can be useful for conversions.
+     * @param rgba an RGBA-format packed float
+     * @return an "HSLA-format" packed float
+     */
+    public static float rgb2hslRogue(final float rgba) {
+        final int decoded = NumberUtils.floatToRawIntBits(rgba);
+        return rgb2hslRogue((decoded & 0xFF) / 255f, (decoded >>> 8 & 0xFF) / 255f, (decoded >>> 16 & 0xFF) / 255f, (decoded >>> 25 & 0x7F) / 127f);
+    }
+
+    /**
+     * Converts the four RGBA components, each in the 0.0 to 1.0 range, to a packed float in "HSLA format" (hue,
+     * saturation, lightness, alpha), which isn't one of the regular formats this supports but can be useful for
+     * conversions.
+     * @param r red, from 0.0 to 1.0
+     * @param g green, from 0.0 to 1.0
+     * @param b blue, from 0.0 to 1.0
+     * @param a alpha, from 0.0 to 1.0
+     * @return an "HSLA-format" packed float
+     */
+    public static float rgb2hslRogue(final float r, final float g, final float b, final float a) {
+
+        float hue, sat, lit;
+        if (r == g && g == b)
+        {
+            return Color.toFloatBits(0f, 0f, r, a);
+        }
+
+        float min = Math.min(r, Math.min(g, b));
+        float max = Math.max(r, Math.max(g, b));
+
+        float delta = max - min;
+
+        if (r == max)
+            hue = (g - b) / delta;
+        else if (g == max)
+            hue = (b - r) / delta + 2f;
+        else
+            hue = (r - g) / delta + 4f;
+
+        hue /= 6f;
+        hue -= MathUtils.floor(hue);
+
+        float div = max + min;
+        lit = div * 0.5f;
+        if (div > 1f)
+            div = 2f - div;
+
+        sat = (max - min) / div;
+        return Color.toFloatBits(hue, sat, lit, a);
+    }
+
     /**
      * Cross-reference with <a href="https://en.wikipedia.org/wiki/HSL_and_HSV#Examples">Wikipedia - HSL and HSV</a>.
      * @param args
@@ -57,15 +114,15 @@ public class HSLCorrectnessTest {
         for (int c : colors) {
             float[] target = map.get(c);
             float abgr = ColorTools.fromRGBA8888(c);
-            float hsla = FloatColors.rgb2hsl(abgr);
+            float hsla = rgb2hslRogue(abgr);
             float hue = ColorTools.red(hsla) * 360f;
             float sat = ColorTools.green(hsla);
             float lit = ColorTools.blue(hsla);
             float err;
             err = hue - target[0]; hMax = Math.max(Math.abs(err), hMax); hRel += err; hAbs += Math.abs(err);
+            System.out.printf("0x%08X: %7.3f %4.3f %4.3f with hue error %5.4f\n", c, hue, sat, lit, err);
             err = sat - target[1]; sMax = Math.max(Math.abs(err), sMax); sRel += err; sAbs += Math.abs(err);
             err = lit - target[2]; lMax = Math.max(Math.abs(err), lMax); lRel += err; lAbs += Math.abs(err);
-            System.out.printf("0x%08X: %7.3f %4.3f %4.3f\n", c, hue, sat, lit);
         }
 
         System.out.printf("Hue: Relative error %8.6f, absolute error %8.6f, max error %8.6f\n", hRel, hAbs, hMax);
