@@ -730,7 +730,7 @@ public class SimplePalette {
      * @return a packed float color as described
      */
     public static float parseDescription(final String description) {
-        float intensity = 0f, saturation = 0f;
+        float lightness = 0f, saturation = 0f;
         final String[] terms = description.split("[^a-zA-Z]+");
         mixing.clear();
         for(String term : terms) {
@@ -741,13 +741,13 @@ public class SimplePalette {
                     if (len > 2 && term.charAt(2) == 'g') {
                         switch (len) {
                             case 9:
-                                intensity += 0.125f;
+                                lightness += 0.15f;
                             case 8:
-                                intensity += 0.125f;
+                                lightness += 0.15f;
                             case 7:
-                                intensity += 0.125f;
+                                lightness += 0.15f;
                             case 5:
-                                intensity += 0.125f;
+                                lightness += 0.15f;
                                 break;
                             default:
                                 mixing.add(TRANSPARENT);
@@ -761,67 +761,67 @@ public class SimplePalette {
                     if (len > 1 && term.charAt(1) == 'i') {
                         switch (len) {
                             case 8:
-                                saturation += 0.2f;
+                                saturation += 0.25f;
                             case 7:
                                 saturation += 0.2f;
                             case 6:
-                                saturation += 0.2f;
+                                saturation += 0.15f;
                             case 4:
-                                saturation += 0.2f;
+                                saturation += 0.1f;
                                 break;
                             default:
-                                mixing.add(0f);
+                                mixing.add(TRANSPARENT);
                                 break;
                         }
                     } else {
-                        mixing.add(NAMED.get(term, 0f));
+                        mixing.add(NAMED.get(term, TRANSPARENT));
                     }
                     break;
                 case 'd':
                     if (len > 1 && term.charAt(1) == 'a') {
                         switch (len) {
                             case 8:
-                                intensity -= 0.15f;
+                                lightness -= 0.15f;
                             case 7:
-                                intensity -= 0.15f;
+                                lightness -= 0.15f;
                             case 6:
-                                intensity -= 0.15f;
+                                lightness -= 0.15f;
                             case 4:
-                                intensity -= 0.15f;
+                                lightness -= 0.15f;
                                 break;
                             default:
-                                mixing.add(0f);
+                                mixing.add(TRANSPARENT);
                                 break;
                         }
                     } else if (len > 1 && term.charAt(1) == 'u') {
                         switch (len) {
                             case 8:
-                                saturation -= 0.2f;
+                                saturation -= 0.25f;
                             case 7:
                                 saturation -= 0.2f;
                             case 6:
-                                saturation -= 0.2f;
+                                saturation -= 0.15f;
                             case 4:
-                                saturation -= 0.2f;
+                                saturation -= 0.1f;
                                 break;
                             default:
-                                mixing.add(0f);
+                                mixing.add(TRANSPARENT);
                                 break;
                         }
                     } else {
-                        mixing.add(NAMED.get(term, 0f));
+                        mixing.add(NAMED.get(term, TRANSPARENT));
                     }
                     break;
                 default:
-                    mixing.add(NAMED.get(term, 0f));
+                    mixing.add(NAMED.get(term, TRANSPARENT));
                     break;
             }
         }
         float result = FloatColors.mix(mixing.items, 0, mixing.size);
         if(result == 0f) return result;
 
-        if(intensity > 0) result = ColorTools.lighten(result, intensity);
-        else if(intensity < 0) result = ColorTools.darken(result, -intensity);
+        if(lightness > 0) result = ColorTools.lighten(result, lightness);
+        else if(lightness < 0) result = ColorTools.darken(result, -lightness);
 
         if(saturation > 0) result = (ColorTools.enrich(result, saturation));
         else if(saturation < 0) result = ColorTools.limitToGamut(ColorTools.dullen(result, -saturation));

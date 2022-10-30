@@ -727,24 +727,25 @@ public class SimplePalette {
      * @return a packed float color as described
      */
     public static float parseDescription(final String description) {
-        float intensity = 0f, saturation = 0f;
+        float lightness = 0f, saturation = 0f;
         final String[] terms = description.split("[^a-zA-Z]+");
         mixing.clear();
         for(String term : terms) {
             if (term == null || term.isEmpty()) continue;
             final int len = term.length();
+
             switch (term.charAt(0)) {
                 case 'l':
                     if (len > 2 && term.charAt(2) == 'g') {
                         switch (len) {
                             case 9:
-                                intensity += 0.125f;
+                                lightness += 0.15f;
                             case 8:
-                                intensity += 0.125f;
+                                lightness += 0.15f;
                             case 7:
-                                intensity += 0.125f;
+                                lightness += 0.15f;
                             case 5:
-                                intensity += 0.125f;
+                                lightness += 0.15f;
                                 break;
                             default:
                                 mixing.add(TRANSPARENT);
@@ -758,13 +759,13 @@ public class SimplePalette {
                     if (len > 1 && term.charAt(1) == 'i') {
                         switch (len) {
                             case 8:
-                                saturation += 0.2f;
+                                saturation += 0.25f;
                             case 7:
                                 saturation += 0.2f;
                             case 6:
-                                saturation += 0.2f;
+                                saturation += 0.15f;
                             case 4:
-                                saturation += 0.2f;
+                                saturation += 0.1f;
                                 break;
                             default:
                                 mixing.add(TRANSPARENT);
@@ -778,13 +779,13 @@ public class SimplePalette {
                     if (len > 1 && term.charAt(1) == 'a') {
                         switch (len) {
                             case 8:
-                                intensity -= 0.15f;
+                                lightness -= 0.15f;
                             case 7:
-                                intensity -= 0.15f;
+                                lightness -= 0.15f;
                             case 6:
-                                intensity -= 0.15f;
+                                lightness -= 0.15f;
                             case 4:
-                                intensity -= 0.15f;
+                                lightness -= 0.15f;
                                 break;
                             default:
                                 mixing.add(TRANSPARENT);
@@ -793,13 +794,13 @@ public class SimplePalette {
                     } else if (len > 1 && term.charAt(1) == 'u') {
                         switch (len) {
                             case 8:
-                                saturation -= 0.2f;
+                                saturation -= 0.25f;
                             case 7:
                                 saturation -= 0.2f;
                             case 6:
-                                saturation -= 0.2f;
+                                saturation -= 0.15f;
                             case 4:
-                                saturation -= 0.2f;
+                                saturation -= 0.1f;
                                 break;
                             default:
                                 mixing.add(TRANSPARENT);
@@ -816,8 +817,8 @@ public class SimplePalette {
         }
         float result = mix(mixing.items, 0, mixing.size());
 
-        if(intensity > 0) result = lighten(result, intensity);
-        else if(intensity < 0) result = darken(result, -intensity);
+        if(lightness > 0) result = lighten(result, lightness);
+        else if(lightness < 0) result = darken(result, -lightness);
 
         if(saturation > 0) result = enrich(result, saturation);
         else if(saturation < 0) result = limitToGamut(dullen(result, -saturation));
