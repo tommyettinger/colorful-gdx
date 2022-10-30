@@ -974,8 +974,9 @@ public class SimplePalette {
         final int paletteSize = namesByHue.size, colorTries = (int)Math.pow(paletteSize, mixCount), totalTries = colorTries * 81;
         final float targetL = ColorTools.channelL(oklab), targetA = ColorTools.channelA(oklab), targetB = ColorTools.channelB(oklab);
         mixing.clear();
+        final float first = colorsByHue.get(0);
         for (int i = 0; i < mixCount; i++) {
-            mixing.add(colorsByHue.get(0));
+            mixing.add(first);
         }
         int bestCode = 0;
         for (int c = 0; c < totalTries; c++) {
