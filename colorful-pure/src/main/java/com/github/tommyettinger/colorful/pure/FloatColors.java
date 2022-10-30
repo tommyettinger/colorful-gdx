@@ -237,10 +237,11 @@ public class FloatColors {
      * @return an even mix of all colors given, as a packed float color
      */
     public static float mix(float[] colors, int offset, int size) {
-        if(colors == null || colors.length < offset + size || offset < 0 || size <= 0)
+        final int end = offset + size;
+        if(colors == null || colors.length < end || offset < 0 || size <= 0)
             return 0f; // transparent, usually
         float result = colors[offset];
-        for (int i = offset + 1, o = offset + size, denom = 2; i < o; i++, denom++) {
+        for (int i = offset + 1, denom = 2; i < end; i++, denom++) {
             result = lerpFloatColors(result, colors[i], 1f / denom);
         }
         return result;

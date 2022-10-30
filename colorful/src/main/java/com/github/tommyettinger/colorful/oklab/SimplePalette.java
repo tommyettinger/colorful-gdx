@@ -733,7 +733,7 @@ public class SimplePalette {
         float lightness = 0f, saturation = 0f;
         final String[] terms = description.split("[^a-zA-Z]+");
         mixing.clear();
-        for(String term : terms) {
+        for (String term : terms) {
             if (term == null || term.isEmpty()) continue;
             final int len = term.length();
             switch (term.charAt(0)) {
@@ -748,14 +748,10 @@ public class SimplePalette {
                                 lightness += 0.15f;
                             case 5:
                                 lightness += 0.15f;
-                                break;
-                            default:
-                                mixing.add(TRANSPARENT);
-                                break;
+                                continue;
                         }
-                    } else {
-                        mixing.add(NAMED.get(term, TRANSPARENT));
                     }
+                    mixing.add(NAMED.get(term, TRANSPARENT));
                     break;
                 case 'r':
                     if (len > 1 && term.charAt(1) == 'i') {
@@ -768,14 +764,10 @@ public class SimplePalette {
                                 saturation += 0.15f;
                             case 4:
                                 saturation += 0.1f;
-                                break;
-                            default:
-                                mixing.add(TRANSPARENT);
-                                break;
+                                continue;
                         }
-                    } else {
-                        mixing.add(NAMED.get(term, TRANSPARENT));
                     }
+                    mixing.add(NAMED.get(term, TRANSPARENT));
                     break;
                 case 'd':
                     if (len > 1 && term.charAt(1) == 'a') {
@@ -788,10 +780,7 @@ public class SimplePalette {
                                 lightness -= 0.15f;
                             case 4:
                                 lightness -= 0.15f;
-                                break;
-                            default:
-                                mixing.add(TRANSPARENT);
-                                break;
+                                continue;
                         }
                     } else if (len > 1 && term.charAt(1) == 'u') {
                         switch (len) {
@@ -803,14 +792,10 @@ public class SimplePalette {
                                 saturation -= 0.15f;
                             case 4:
                                 saturation -= 0.1f;
-                                break;
-                            default:
-                                mixing.add(TRANSPARENT);
-                                break;
+                                continue;
                         }
-                    } else {
-                        mixing.add(NAMED.get(term, TRANSPARENT));
                     }
+                    mixing.add(NAMED.get(term, TRANSPARENT));
                     break;
                 default:
                     mixing.add(NAMED.get(term, TRANSPARENT));
