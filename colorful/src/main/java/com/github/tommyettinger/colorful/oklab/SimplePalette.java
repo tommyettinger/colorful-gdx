@@ -716,16 +716,21 @@ public class SimplePalette {
      * spaces and/or hyphens). Any word that is the name of a color in this SimplePalette will be looked up in
      * {@link #NAMED} and tracked; if there is more than one of these color name words, the colors will be mixed using
      * {@link FloatColors#mix(float[], int, int)}, or if there is just one color name word, then the corresponding color
-     * will be used. The special adjectives "light" and "dark" change the intensity of the described color; likewise,
-     * "rich" and "dull" change the saturation (the difference of the chromatic channels from grayscale). All of these
-     * adjectives can have "-er" or "-est" appended to make their effect twice or three times as strong. Technically,
-     * the chars appended to an adjective don't matter, only their count, so "lightaa" is the same as "lighter" and
-     * "richcat" is the same as "richest". There's an unofficial fourth level as well, used when any 4 characters are
-     * appended to an adjective (as in "darkmost"); it has four times the effect of the original adjective. If a color
-     * name or adjective is invalid, it is considered the same as adding the color {@link #TRANSPARENT}.
+     * will be used. If a color name or adjective is invalid, it is considered the same as adding the color
+     * {@link #TRANSPARENT}.
+     * <br>
+     * The special adjectives "light" and "dark" change the lightness of the described color; likewise, "rich" and
+     * "dull" change the saturation (how different the color is from grayscale). All of these adjectives can have "-er"
+     * or "-est" appended to make their effect twice or three times as strong. Technically, the chars appended to an
+     * adjective don't matter, only their count, so "lightaa" is the same as "lighter" and "richcat" is the same as
+     * "richest". There's an unofficial fourth level as well, used when any 4 characters are appended to an adjective
+     * (as in "darkmost"); it has four times the effect of the original adjective. There are also the adjectives
+     * "bright" (equivalent to "light rich"), "pale" ("light dull"), "deep" ("dark rich"), and "weak" ("dark dull").
+     * These can be amplified like the other four, except that "pale" goes to "paler", "palest", and then to
+     * "palemax" or (its equivalent) "palemost", where only the word length is checked.
      * <br>
      * Examples of valid descriptions include "blue", "dark green", "duller red", "peach pink", "indigo purple mauve",
-     * and "lightest richer apricot-olive".
+     * "lightest richer apricot-olive", "bright magenta", "palest cyan blue", "deep fern black", and "weakmost celery".
      * @param description a color description, as a lower-case String matching the above format
      * @return a packed float color as described
      */
@@ -736,6 +741,7 @@ public class SimplePalette {
         for (String term : terms) {
             if (term == null || term.isEmpty()) continue;
             final int len = term.length();
+
             switch (term.charAt(0)) {
                 case 'l':
                     if (len > 2 && term.charAt(2) == 'g') {
@@ -753,8 +759,69 @@ public class SimplePalette {
                     }
                     mixing.add(NAMED.get(term, TRANSPARENT));
                     break;
+                case 'b':
+                    if (len > 3 && (term.charAt(3) == 'g')) { // bright
+                        switch (len) {
+                            case 10:
+                                lightness += 0.150f;
+                                saturation += 0.25f;
+                            case 9:
+                                lightness += 0.150f;
+                                saturation += 0.2f;
+                            case 8:
+                                lightness += 0.150f;
+                                saturation += 0.1f;
+                            case 6:
+                                lightness += 0.150f;
+                                saturation += 0.1f;
+                                continue;
+                        }
+                    }
+                    mixing.add(NAMED.get(term, TRANSPARENT));
+                    break;
+                case 'p':
+                    if (len > 2 && (term.charAt(2) == 'l')) { // pale
+                        switch (len) {
+                            case 8: // palemost
+                            case 7: // palerer
+                                lightness += 0.150f;
+                                saturation -= 0.25f;
+                            case 6: // palest
+                                lightness += 0.150f;
+                                saturation -= 0.2f;
+                            case 5: // paler
+                                lightness += 0.150f;
+                                saturation -= 0.15f;
+                            case 4: // pale
+                                lightness += 0.150f;
+                                saturation -= 0.1f;
+                                continue;
+                        }
+                    }
+                    mixing.add(NAMED.get(term, TRANSPARENT));
+                    break;
+                case 'w':
+                    if (len > 3 && (term.charAt(3) == 'k')) { // weak
+                        switch (len) {
+                            case 8:
+                                lightness -= 0.150f;
+                                saturation -= 0.25f;
+                            case 7:
+                                lightness -= 0.150f;
+                                saturation -= 0.2f;
+                            case 6:
+                                lightness -= 0.150f;
+                                saturation -= 0.15f;
+                            case 4:
+                                lightness -= 0.150f;
+                                saturation -= 0.1f;
+                                continue;
+                        }
+                    }
+                    mixing.add(NAMED.get(term, TRANSPARENT));
+                    break;
                 case 'r':
-                    if (len > 1 && term.charAt(1) == 'i') {
+                    if (len > 1 && (term.charAt(1) == 'i')) { // rich
                         switch (len) {
                             case 8:
                                 saturation += 0.25f;
@@ -770,19 +837,19 @@ public class SimplePalette {
                     mixing.add(NAMED.get(term, TRANSPARENT));
                     break;
                 case 'd':
-                    if (len > 1 && term.charAt(1) == 'a') {
+                    if (len > 1 && (term.charAt(1) == 'a')) { // dark
                         switch (len) {
                             case 8:
-                                lightness -= 0.15f;
+                                lightness -= 0.150f;
                             case 7:
-                                lightness -= 0.15f;
+                                lightness -= 0.150f;
                             case 6:
-                                lightness -= 0.15f;
+                                lightness -= 0.150f;
                             case 4:
-                                lightness -= 0.15f;
+                                lightness -= 0.150f;
                                 continue;
                         }
-                    } else if (len > 1 && term.charAt(1) == 'u') {
+                    } else if (len > 1 && (term.charAt(1) == 'u')) { // dull
                         switch (len) {
                             case 8:
                                 saturation -= 0.25f;
@@ -792,6 +859,22 @@ public class SimplePalette {
                                 saturation -= 0.15f;
                             case 4:
                                 saturation -= 0.1f;
+                                continue;
+                        }
+                    } else if (len > 3 && (term.charAt(3) == 'p')) { // deep
+                        switch (len) {
+                            case 8:
+                                lightness -= 0.150f;
+                                saturation += 0.25f;
+                            case 7:
+                                lightness -= 0.150f;
+                                saturation += 0.2f;
+                            case 6:
+                                lightness -= 0.150f;
+                                saturation += 0.15f;
+                            case 4:
+                                lightness -= 0.150f;
+                                saturation += 0.1f;
                                 continue;
                         }
                     }
