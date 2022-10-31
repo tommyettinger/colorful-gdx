@@ -982,11 +982,11 @@ public class SimplePalette {
             for (int i = 0, e = 1; i < mixCount; i++, e *= paletteSize) {
                 mixing.set(i, colorsByHue.get((c / e) % paletteSize));
             }
-            int idxI = ((c / colorTries) % 9 - 4), idxS = (c / (colorTries * 9) - 4);
+            int idxL = ((c / colorTries) % 9 - 4), idxS = (c / (colorTries * 9) - 4);
 
             float result = FloatColors.mix(mixing.items, 0, mixCount);
-            if(idxI > 0) result = ColorTools.lighten(result, 0.15f * idxI);
-            else if(idxI < 0) result = ColorTools.darken(result, -0.15f * idxI);
+            if(idxL > 0) result = ColorTools.lighten(result, 0.15f * idxL);
+            else if(idxL < 0) result = ColorTools.darken(result, -0.15f * idxL);
 
             if(idxS > 0) result = ColorTools.limitToGamut(ColorTools.enrich(result, idxS * (idxS + 3) * 0.025f));
             else if(idxS < 0) result = ColorTools.dullen(result, idxS * (-idxS + 3) * -0.025f);

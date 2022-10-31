@@ -976,9 +976,11 @@ public class SimplePalette {
             if(idxS > 0) result = (ColorTools.enrich(result, idxS * 0.200f));
             else if(idxS < 0) result = ColorTools.dullen(result, idxS * -0.200f);
 
-            final float dL = com.github.tommyettinger.colorful.pure.oklab.ColorTools.channelL(result) - targetL;
-            final float dA = com.github.tommyettinger.colorful.pure.oklab.ColorTools.channelA(result) - targetA;
-            final float dB = com.github.tommyettinger.colorful.pure.oklab.ColorTools.channelB(result) - targetB;
+            oklab = com.github.tommyettinger.colorful.pure.oklab.ColorTools.fromRGBA(result);
+
+            final float dL = com.github.tommyettinger.colorful.pure.oklab.ColorTools.channelL(oklab) - targetL;
+            final float dA = com.github.tommyettinger.colorful.pure.oklab.ColorTools.channelA(oklab) - targetA;
+            final float dB = com.github.tommyettinger.colorful.pure.oklab.ColorTools.channelB(oklab) - targetB;
             if(bestDistance > (bestDistance = Math.min(dL * dL + dA * dA + dB * dB, bestDistance)))
                 bestCode = c;
         }
