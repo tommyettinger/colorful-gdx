@@ -888,6 +888,11 @@ public class SimplePalette {
     
     private static final ObjectList<String> namesByHue = new ObjectList<>(NAMES_BY_HUE);
     private static final FloatList colorsByHue = new FloatList(COLORS_BY_HUE);
+
+    private static final String[] lightAdjectives = {"darkmost ", "darkest ", "darker ", "dark ", "", "light ", "lighter ", "lightest ", "lightmost "};
+    private static final String[] satAdjectives = {"dullmost ", "dullest ", "duller ", "dull ", "", "rich ", "richer ", "richest ", "richmost "};
+    private static final String[] combinedAdjectives = new String[81];
+
     static {
         int trn = namesByHue.indexOf("transparent");
         namesByHue.removeAt(trn);
@@ -902,6 +907,38 @@ public class SimplePalette {
         ALIASES.put("ocean", TEAL);
         ALIASES.put("sapphire", COBALT);
         NAMED.putAll(ALIASES);
+
+        for (int sat = 0, idx = 0; sat < 9; sat++) {
+            for (int lit = 0; lit < 9; lit++) {
+                int s = sat - 4, l = lit - 4;
+                if(s != l && s != -l)
+                    combinedAdjectives[idx] = lightAdjectives[lit] + satAdjectives[sat];
+                ++idx;
+            }
+        }
+
+        // Special cases for multiple-effect adjectives:
+        combinedAdjectives[0 * 9 + 0] = "weakmost ";
+        combinedAdjectives[1 * 9 + 1] = "weakest ";
+        combinedAdjectives[2 * 9 + 2] = "weaker ";
+        combinedAdjectives[3 * 9 + 3] = "weak ";
+
+        combinedAdjectives[0 * 9 + 8] = "palemost ";
+        combinedAdjectives[1 * 9 + 7] = "palest ";
+        combinedAdjectives[2 * 9 + 6] = "paler ";
+        combinedAdjectives[3 * 9 + 5] = "pale ";
+
+        combinedAdjectives[8 * 9 + 0] = "deepmost ";
+        combinedAdjectives[7 * 9 + 1] = "deepest ";
+        combinedAdjectives[6 * 9 + 2] = "deeper ";
+        combinedAdjectives[5 * 9 + 3] = "deep ";
+
+        combinedAdjectives[8 * 9 + 8] = "brightmost ";
+        combinedAdjectives[7 * 9 + 7] = "brightest ";
+        combinedAdjectives[6 * 9 + 6] = "brighter ";
+        combinedAdjectives[5 * 9 + 5] = "bright ";
+
+        combinedAdjectives[4 * 9 + 4] = "";
     }
     /**
      * Given a color as a packed RGBA float, this finds the closest description it can to match the given color while
@@ -918,9 +955,9 @@ public class SimplePalette {
         float oklab = com.github.tommyettinger.colorful.pure.oklab.ColorTools.fromRGBA(rgb);
         float bestDistance = Float.POSITIVE_INFINITY;
         final int paletteSize = namesByHue.size(), colorTries = (int)Math.pow(paletteSize, mixCount), totalTries = colorTries * 81;
-        final float targetL = com.github.tommyettinger.colorful.pure.oklab.ColorTools.channelL(oklab), targetA = com.github.tommyettinger.colorful.pure.oklab.ColorTools.channelA(oklab), targetB = com.github.tommyettinger.colorful.pure.oklab.ColorTools.channelB(oklab);
-        final String[] lightAdjectives = {"darkmost ", "darkest ", "darker ", "dark ", "", "light ", "lighter ", "lightest ", "lightmost "};
-        final String[] satAdjectives = {"dullmost ", "dullest ", "duller ", "dull ", "", "rich ", "richer ", "richest ", "richmost "};
+        final float targetL = com.github.tommyettinger.colorful.pure.oklab.ColorTools.channelL(oklab),
+                targetA = com.github.tommyettinger.colorful.pure.oklab.ColorTools.channelA(oklab),
+                targetB = com.github.tommyettinger.colorful.pure.oklab.ColorTools.channelB(oklab);
         mixing.clear();
         for (int i = 0; i < mixCount; i++) {
             mixing.add(colorsByHue.get(0));
@@ -930,10 +967,14 @@ public class SimplePalette {
             for (int i = 0, e = 1; i < mixCount; i++, e *= paletteSize) {
                 mixing.set(i, colorsByHue.get((c / e) % paletteSize));
             }
-            int idxI = ((c / colorTries) % 9 - 4), idxS = (c / (colorTries * 9) - 4);
+            int idxL = ((c / colorTries) % 9 - 4), idxS = (c / (colorTries * 9) - 4);
 
-            final float result = com.github.tommyettinger.colorful.pure.oklab.ColorTools.fromRGBA(
-                    toEditedFloat(FloatColors.mix(mixing.items, 0, mixCount), 0f, 0.200f * idxS, 0.200f * idxI, 0f));
+            float result = FloatColors.mix(mixing.items, 0, mixCount);
+            if(idxL > 0) result = ColorTools.lighten(result, 0.20f * idxL);
+            else if(idxL < 0) result = ColorTools.darken(result, -0.20f * idxL);
+
+            if(idxS > 0) result = (ColorTools.enrich(result, idxS * 0.200f));
+            else if(idxS < 0) result = ColorTools.dullen(result, idxS * -0.200f);
 
             final float dL = com.github.tommyettinger.colorful.pure.oklab.ColorTools.channelL(result) - targetL;
             final float dA = com.github.tommyettinger.colorful.pure.oklab.ColorTools.channelA(result) - targetA;
@@ -942,7 +983,7 @@ public class SimplePalette {
                 bestCode = c;
         }
 
-        StringBuilder description = new StringBuilder(lightAdjectives[(bestCode / colorTries) % 9] + satAdjectives[bestCode / (colorTries * 9)]);
+        StringBuilder description = new StringBuilder(combinedAdjectives[(bestCode / colorTries)]);
         for (int i = 0, e = 1; i < mixCount; e *= paletteSize) {
             description.append(namesByHue.get((bestCode / e) % paletteSize));
             if(++i < mixCount)
