@@ -741,7 +741,6 @@ public class SimplePalette {
         for (String term : terms) {
             if (term == null || term.isEmpty()) continue;
             final int len = term.length();
-
             switch (term.charAt(0)) {
                 case 'l':
                     if (len > 2 && term.charAt(2) == 'g') {

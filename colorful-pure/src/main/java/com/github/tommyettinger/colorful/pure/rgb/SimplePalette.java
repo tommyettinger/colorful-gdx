@@ -724,7 +724,7 @@ public class SimplePalette {
      * @return a packed float color as described
      */
     public static float parseDescription(final String description) {
-        float intensity = 0f, saturation = 0f;
+        float lightness = 0f, saturation = 0f;
         final String[] terms = description.split("[^a-zA-Z]+");
         mixing.clear();
         for(String term : terms) {
@@ -735,24 +735,81 @@ public class SimplePalette {
                     if (len > 2 && term.charAt(2) == 'g') {
                         switch (len) {
                             case 9:
-                                intensity += 0.200f;
+                                lightness += 0.20f;
                             case 8:
-                                intensity += 0.200f;
+                                lightness += 0.20f;
                             case 7:
-                                intensity += 0.200f;
+                                lightness += 0.20f;
                             case 5:
-                                intensity += 0.200f;
-                                break;
-                            default:
-                                mixing.add(TRANSPARENT);
-                                break;
+                                lightness += 0.20f;
+                                continue;
                         }
-                    } else {
-                        mixing.add(NAMED.get(term));
                     }
+                    mixing.add(NAMED.get(term));
+                    break;
+                case 'b':
+                    if (len > 3 && (term.charAt(3) == 'g')) { // bright
+                        switch (len) {
+                            case 10:
+                                lightness += 0.20f;
+                                saturation += 0.200f;
+                            case 9:
+                                lightness += 0.20f;
+                                saturation += 0.200f;
+                            case 8:
+                                lightness += 0.20f;
+                                saturation += 0.200f;
+                            case 6:
+                                lightness += 0.20f;
+                                saturation += 0.200f;
+                                continue;
+                        }
+                    }
+                    mixing.add(NAMED.get(term));
+                    break;
+                case 'p':
+                    if (len > 2 && (term.charAt(2) == 'l')) { // pale
+                        switch (len) {
+                            case 8: // palemost
+                            case 7: // palerer
+                                lightness += 0.20f;
+                                saturation -= 0.200f;
+                            case 6: // palest
+                                lightness += 0.20f;
+                                saturation -= 0.200f;
+                            case 5: // paler
+                                lightness += 0.20f;
+                                saturation -= 0.200f;
+                            case 4: // pale
+                                lightness += 0.20f;
+                                saturation -= 0.200f;
+                                continue;
+                        }
+                    }
+                    mixing.add(NAMED.get(term));
+                    break;
+                case 'w':
+                    if (len > 3 && (term.charAt(3) == 'k')) { // weak
+                        switch (len) {
+                            case 8:
+                                lightness -= 0.20f;
+                                saturation -= 0.200f;
+                            case 7:
+                                lightness -= 0.20f;
+                                saturation -= 0.200f;
+                            case 6:
+                                lightness -= 0.20f;
+                                saturation -= 0.200f;
+                            case 4:
+                                lightness -= 0.20f;
+                                saturation -= 0.200f;
+                                continue;
+                        }
+                    }
+                    mixing.add(NAMED.get(term));
                     break;
                 case 'r':
-                    if (len > 1 && term.charAt(1) == 'i') {
+                    if (len > 1 && (term.charAt(1) == 'i')) { // rich
                         switch (len) {
                             case 8:
                                 saturation += 0.200f;
@@ -762,32 +819,25 @@ public class SimplePalette {
                                 saturation += 0.200f;
                             case 4:
                                 saturation += 0.200f;
-                                break;
-                            default:
-                                mixing.add(TRANSPARENT);
-                                break;
+                                continue;
                         }
-                    } else {
-                        mixing.add(NAMED.get(term));
                     }
+                    mixing.add(NAMED.get(term));
                     break;
                 case 'd':
-                    if (len > 1 && term.charAt(1) == 'a') {
+                    if (len > 1 && (term.charAt(1) == 'a')) { // dark
                         switch (len) {
                             case 8:
-                                intensity -= 0.200f;
+                                lightness -= 0.20f;
                             case 7:
-                                intensity -= 0.200f;
+                                lightness -= 0.20f;
                             case 6:
-                                intensity -= 0.200f;
+                                lightness -= 0.20f;
                             case 4:
-                                intensity -= 0.200f;
-                                break;
-                            default:
-                                mixing.add(TRANSPARENT);
-                                break;
+                                lightness -= 0.20f;
+                                continue;
                         }
-                    } else if (len > 1 && term.charAt(1) == 'u') {
+                    } else if (len > 1 && (term.charAt(1) == 'u')) { // dull
                         switch (len) {
                             case 8:
                                 saturation -= 0.200f;
@@ -797,14 +847,26 @@ public class SimplePalette {
                                 saturation -= 0.200f;
                             case 4:
                                 saturation -= 0.200f;
-                                break;
-                            default:
-                                mixing.add(TRANSPARENT);
-                                break;
+                                continue;
                         }
-                    } else {
-                        mixing.add(NAMED.get(term));
+                    } else if (len > 3 && (term.charAt(3) == 'p')) { // deep
+                        switch (len) {
+                            case 8:
+                                lightness -= 0.20f;
+                                saturation += 0.200f;
+                            case 7:
+                                lightness -= 0.20f;
+                                saturation += 0.200f;
+                            case 6:
+                                lightness -= 0.20f;
+                                saturation += 0.200f;
+                            case 4:
+                                lightness -= 0.20f;
+                                saturation += 0.200f;
+                                continue;
+                        }
                     }
+                    mixing.add(NAMED.get(term));
                     break;
                 default:
                     mixing.add(NAMED.get(term));
@@ -815,8 +877,8 @@ public class SimplePalette {
         float result = FloatColors.mix(mixing.items, 0, mixing.size());
         if(result == 0f) return result;
 
-        if(intensity > 0) result = ColorTools.lighten(result, intensity);
-        else if(intensity < 0) result = ColorTools.darken(result, -intensity);
+        if(lightness > 0) result = ColorTools.lighten(result, lightness);
+        else if(lightness < 0) result = ColorTools.darken(result, -lightness);
 
         if(saturation > 0) result = (ColorTools.enrich(result, saturation));
         else if(saturation < 0) result = ColorTools.dullen(result, -saturation);
