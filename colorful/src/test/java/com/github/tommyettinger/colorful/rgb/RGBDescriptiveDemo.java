@@ -38,7 +38,8 @@ public class RGBDescriptiveDemo extends ApplicationAdapter {
         stage = new Stage();
         nameField = new TextField("gray", skin);
         nameField.setDisabled(false);
-        hexField = new TextField("808080", skin);
+        hexField = new TextField("ffffff", skin);
+//        hexField = new TextField("808080", skin);
         hexField.setDisabled(false);
         hexField.setTextFieldFilter(new TextField.TextFieldFilter() {
             @Override
@@ -87,6 +88,7 @@ public class RGBDescriptiveDemo extends ApplicationAdapter {
                 String h = hexField.getText();
                 if(h.length() > 6) h = h.substring(0, 6);
                 t = SimplePalette.bestMatch(ColorTools.fromRGBA8888(Integer.parseInt(h, 16) << 8 | 0xFF), 1);
+//                t = com.github.tommyettinger.colorful.oklab.SimplePalette.bestMatch(com.github.tommyettinger.colorful.oklab.ColorTools.fromRGBA8888(Integer.parseInt(h, 16) << 8 | 0xFF), 1);
             }catch (NumberFormatException ignored){}
             nameField.setText(t);
             float c = SimplePalette.parseDescription(nameField.getText());
