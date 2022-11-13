@@ -739,7 +739,7 @@
 <span class="source-line-no">726</span><span id="line-726">     * @return a packed float color as described</span>
 <span class="source-line-no">727</span><span id="line-727">     */</span>
 <span class="source-line-no">728</span><span id="line-728">    public static float parseDescription(final String description) {</span>
-<span class="source-line-no">729</span><span id="line-729">        float intensity = 0f, saturation = 0f;</span>
+<span class="source-line-no">729</span><span id="line-729">        float lightness = 0f, saturation = 0f;</span>
 <span class="source-line-no">730</span><span id="line-730">        final String[] terms = description.split("[^a-zA-Z]+");</span>
 <span class="source-line-no">731</span><span id="line-731">        mixing.clear();</span>
 <span class="source-line-no">732</span><span id="line-732">        for(String term : terms) {</span>
@@ -750,161 +750,258 @@
 <span class="source-line-no">737</span><span id="line-737">                    if (len &gt; 2 &amp;&amp; term.charAt(2) == 'g') {</span>
 <span class="source-line-no">738</span><span id="line-738">                        switch (len) {</span>
 <span class="source-line-no">739</span><span id="line-739">                            case 9:</span>
-<span class="source-line-no">740</span><span id="line-740">                                intensity += 0.125f;</span>
+<span class="source-line-no">740</span><span id="line-740">                                lightness += 0.150f;</span>
 <span class="source-line-no">741</span><span id="line-741">                            case 8:</span>
-<span class="source-line-no">742</span><span id="line-742">                                intensity += 0.125f;</span>
+<span class="source-line-no">742</span><span id="line-742">                                lightness += 0.150f;</span>
 <span class="source-line-no">743</span><span id="line-743">                            case 7:</span>
-<span class="source-line-no">744</span><span id="line-744">                                intensity += 0.125f;</span>
+<span class="source-line-no">744</span><span id="line-744">                                lightness += 0.150f;</span>
 <span class="source-line-no">745</span><span id="line-745">                            case 5:</span>
-<span class="source-line-no">746</span><span id="line-746">                                intensity += 0.125f;</span>
-<span class="source-line-no">747</span><span id="line-747">                                break;</span>
-<span class="source-line-no">748</span><span id="line-748">                            default:</span>
-<span class="source-line-no">749</span><span id="line-749">                                mixing.add(TRANSPARENT);</span>
-<span class="source-line-no">750</span><span id="line-750">                                break;</span>
-<span class="source-line-no">751</span><span id="line-751">                        }</span>
-<span class="source-line-no">752</span><span id="line-752">                    } else {</span>
-<span class="source-line-no">753</span><span id="line-753">                        mixing.add(NAMED.get(term));</span>
-<span class="source-line-no">754</span><span id="line-754">                    }</span>
-<span class="source-line-no">755</span><span id="line-755">                    break;</span>
-<span class="source-line-no">756</span><span id="line-756">                case 'r':</span>
-<span class="source-line-no">757</span><span id="line-757">                    if (len &gt; 1 &amp;&amp; term.charAt(1) == 'i') {</span>
-<span class="source-line-no">758</span><span id="line-758">                        switch (len) {</span>
-<span class="source-line-no">759</span><span id="line-759">                            case 8:</span>
-<span class="source-line-no">760</span><span id="line-760">                                saturation += 0.2f;</span>
-<span class="source-line-no">761</span><span id="line-761">                            case 7:</span>
-<span class="source-line-no">762</span><span id="line-762">                                saturation += 0.2f;</span>
-<span class="source-line-no">763</span><span id="line-763">                            case 6:</span>
-<span class="source-line-no">764</span><span id="line-764">                                saturation += 0.2f;</span>
-<span class="source-line-no">765</span><span id="line-765">                            case 4:</span>
-<span class="source-line-no">766</span><span id="line-766">                                saturation += 0.2f;</span>
-<span class="source-line-no">767</span><span id="line-767">                                break;</span>
-<span class="source-line-no">768</span><span id="line-768">                            default:</span>
-<span class="source-line-no">769</span><span id="line-769">                                mixing.add(0f);</span>
-<span class="source-line-no">770</span><span id="line-770">                                break;</span>
-<span class="source-line-no">771</span><span id="line-771">                        }</span>
-<span class="source-line-no">772</span><span id="line-772">                    } else {</span>
-<span class="source-line-no">773</span><span id="line-773">                        mixing.add(NAMED.get(term));</span>
-<span class="source-line-no">774</span><span id="line-774">                    }</span>
-<span class="source-line-no">775</span><span id="line-775">                    break;</span>
-<span class="source-line-no">776</span><span id="line-776">                case 'd':</span>
-<span class="source-line-no">777</span><span id="line-777">                    if (len &gt; 1 &amp;&amp; term.charAt(1) == 'a') {</span>
-<span class="source-line-no">778</span><span id="line-778">                        switch (len) {</span>
-<span class="source-line-no">779</span><span id="line-779">                            case 8:</span>
-<span class="source-line-no">780</span><span id="line-780">                                intensity -= 0.15f;</span>
-<span class="source-line-no">781</span><span id="line-781">                            case 7:</span>
-<span class="source-line-no">782</span><span id="line-782">                                intensity -= 0.15f;</span>
-<span class="source-line-no">783</span><span id="line-783">                            case 6:</span>
-<span class="source-line-no">784</span><span id="line-784">                                intensity -= 0.15f;</span>
-<span class="source-line-no">785</span><span id="line-785">                            case 4:</span>
-<span class="source-line-no">786</span><span id="line-786">                                intensity -= 0.15f;</span>
-<span class="source-line-no">787</span><span id="line-787">                                break;</span>
-<span class="source-line-no">788</span><span id="line-788">                            default:</span>
-<span class="source-line-no">789</span><span id="line-789">                                mixing.add(0f);</span>
-<span class="source-line-no">790</span><span id="line-790">                                break;</span>
-<span class="source-line-no">791</span><span id="line-791">                        }</span>
-<span class="source-line-no">792</span><span id="line-792">                    } else if (len &gt; 1 &amp;&amp; term.charAt(1) == 'u') {</span>
-<span class="source-line-no">793</span><span id="line-793">                        switch (len) {</span>
-<span class="source-line-no">794</span><span id="line-794">                            case 8:</span>
-<span class="source-line-no">795</span><span id="line-795">                                saturation -= 0.2f;</span>
-<span class="source-line-no">796</span><span id="line-796">                            case 7:</span>
-<span class="source-line-no">797</span><span id="line-797">                                saturation -= 0.2f;</span>
-<span class="source-line-no">798</span><span id="line-798">                            case 6:</span>
-<span class="source-line-no">799</span><span id="line-799">                                saturation -= 0.2f;</span>
-<span class="source-line-no">800</span><span id="line-800">                            case 4:</span>
-<span class="source-line-no">801</span><span id="line-801">                                saturation -= 0.2f;</span>
-<span class="source-line-no">802</span><span id="line-802">                                break;</span>
-<span class="source-line-no">803</span><span id="line-803">                            default:</span>
-<span class="source-line-no">804</span><span id="line-804">                                mixing.add(0f);</span>
-<span class="source-line-no">805</span><span id="line-805">                                break;</span>
-<span class="source-line-no">806</span><span id="line-806">                        }</span>
-<span class="source-line-no">807</span><span id="line-807">                    } else {</span>
-<span class="source-line-no">808</span><span id="line-808">                        mixing.add(NAMED.get(term));</span>
-<span class="source-line-no">809</span><span id="line-809">                    }</span>
-<span class="source-line-no">810</span><span id="line-810">                    break;</span>
-<span class="source-line-no">811</span><span id="line-811">                default:</span>
-<span class="source-line-no">812</span><span id="line-812">                    mixing.add(NAMED.get(term));</span>
-<span class="source-line-no">813</span><span id="line-813">                    break;</span>
-<span class="source-line-no">814</span><span id="line-814">            }</span>
-<span class="source-line-no">815</span><span id="line-815">        }</span>
-<span class="source-line-no">816</span><span id="line-816">        float result = mix(mixing.items, 0, mixing.size());</span>
-<span class="source-line-no">817</span><span id="line-817">        if(result == 0f) return result;</span>
-<span class="source-line-no">818</span><span id="line-818"></span>
-<span class="source-line-no">819</span><span id="line-819">        if(intensity &gt; 0) result = ColorTools.lighten(result, intensity);</span>
-<span class="source-line-no">820</span><span id="line-820">        else if(intensity &lt; 0) result = ColorTools.darken(result, -intensity);</span>
-<span class="source-line-no">821</span><span id="line-821"></span>
-<span class="source-line-no">822</span><span id="line-822">        if(saturation &gt; 0) result = (ColorTools.enrich(result, saturation));</span>
-<span class="source-line-no">823</span><span id="line-823">        else if(saturation &lt; 0) result = (ColorTools.dullen(result, -saturation));</span>
-<span class="source-line-no">824</span><span id="line-824"></span>
-<span class="source-line-no">825</span><span id="line-825">        return result;</span>
-<span class="source-line-no">826</span><span id="line-826">    }</span>
-<span class="source-line-no">827</span><span id="line-827"></span>
-<span class="source-line-no">828</span><span id="line-828">    private static final ObjectList&lt;String&gt; namesByHue = new ObjectList&lt;&gt;(NAMES_BY_HUE);</span>
-<span class="source-line-no">829</span><span id="line-829">    private static final FloatList colorsByHue = new FloatList(COLORS_BY_HUE);</span>
-<span class="source-line-no">830</span><span id="line-830">    static {</span>
-<span class="source-line-no">831</span><span id="line-831">        int trn = namesByHue.indexOf("transparent");</span>
-<span class="source-line-no">832</span><span id="line-832">        namesByHue.removeAt(trn);</span>
-<span class="source-line-no">833</span><span id="line-833">        colorsByHue.removeAt(trn);</span>
-<span class="source-line-no">834</span><span id="line-834">        ALIASES.put("grey", GRAY);</span>
-<span class="source-line-no">835</span><span id="line-835">        ALIASES.put("gold", SAFFRON);</span>
-<span class="source-line-no">836</span><span id="line-836">        ALIASES.put("puce", MAUVE);</span>
-<span class="source-line-no">837</span><span id="line-837">        ALIASES.put("sand", TAN);</span>
-<span class="source-line-no">838</span><span id="line-838">        ALIASES.put("skin", PEACH); // Yes, I am aware that there is more than one skin color, but this can only map to one.</span>
-<span class="source-line-no">839</span><span id="line-839">        ALIASES.put("coral", SALMON);</span>
-<span class="source-line-no">840</span><span id="line-840">        ALIASES.put("azure", SKY);</span>
-<span class="source-line-no">841</span><span id="line-841">        ALIASES.put("ocean", TEAL);</span>
-<span class="source-line-no">842</span><span id="line-842">        ALIASES.put("sapphire", COBALT);</span>
-<span class="source-line-no">843</span><span id="line-843">        NAMED.putAll(ALIASES);</span>
-<span class="source-line-no">844</span><span id="line-844">    }</span>
-<span class="source-line-no">845</span><span id="line-845">    /**</span>
-<span class="source-line-no">846</span><span id="line-846">     * Given a color as a packed HSLuv float, this finds the closest description it can to match the given color while</span>
-<span class="source-line-no">847</span><span id="line-847">     * using at most {@code mixCount} colors to mix in. You should only use small numbers for mixCount, like 1 to 3;</span>
-<span class="source-line-no">848</span><span id="line-848">     * this can take quite a while to run otherwise. This returns a String description that can be passed to</span>
-<span class="source-line-no">849</span><span id="line-849">     * {@link #parseDescription(String)}. It is likely that this will use very contrasting colors if mixCount is 2 or</span>
-<span class="source-line-no">850</span><span id="line-850">     * greater and the color to match is desaturated or brownish.</span>
-<span class="source-line-no">851</span><span id="line-851">     * @param hsluv a packed HSLuv float color to attempt to match</span>
-<span class="source-line-no">852</span><span id="line-852">     * @param mixCount how many color names this will use in the returned description</span>
-<span class="source-line-no">853</span><span id="line-853">     * @return a description that can be fed to {@link #parseDescription(String)} to get a similar color</span>
-<span class="source-line-no">854</span><span id="line-854">     */</span>
-<span class="source-line-no">855</span><span id="line-855">    public static String bestMatch(final float hsluv, int mixCount) {</span>
-<span class="source-line-no">856</span><span id="line-856">        mixCount = Math.max(1, mixCount);</span>
-<span class="source-line-no">857</span><span id="line-857">        float bestDistance = Float.POSITIVE_INFINITY;</span>
-<span class="source-line-no">858</span><span id="line-858">        final int paletteSize = namesByHue.size(), colorTries = (int)Math.pow(paletteSize, mixCount), totalTries = colorTries * 81;</span>
-<span class="source-line-no">859</span><span id="line-859">        final float targetH = ColorTools.channelH(hsluv), targetS = ColorTools.channelS(hsluv), targetL = ColorTools.channelL(hsluv);</span>
-<span class="source-line-no">860</span><span id="line-860">        final String[] lightAdjectives = {"darkmost ", "darkest ", "darker ", "dark ", "", "light ", "lighter ", "lightest ", "lightmost "};</span>
-<span class="source-line-no">861</span><span id="line-861">        final String[] satAdjectives = {"dullmost ", "dullest ", "duller ", "dull ", "", "rich ", "richer ", "richest ", "richmost "};</span>
-<span class="source-line-no">862</span><span id="line-862">        mixing.clear();</span>
-<span class="source-line-no">863</span><span id="line-863">        for (int i = 0; i &lt; mixCount; i++) {</span>
-<span class="source-line-no">864</span><span id="line-864">            mixing.add(colorsByHue.get(0));</span>
-<span class="source-line-no">865</span><span id="line-865">        }</span>
-<span class="source-line-no">866</span><span id="line-866">        int bestCode = 0;</span>
-<span class="source-line-no">867</span><span id="line-867">        for (int c = 0; c &lt; totalTries; c++) {</span>
-<span class="source-line-no">868</span><span id="line-868">            for (int i = 0, e = 1; i &lt; mixCount; i++, e *= paletteSize) {</span>
-<span class="source-line-no">869</span><span id="line-869">                mixing.set(i, colorsByHue.get((c / e) % paletteSize));</span>
-<span class="source-line-no">870</span><span id="line-870">            }</span>
-<span class="source-line-no">871</span><span id="line-871">            int idxI = ((c / colorTries) % 9 - 4), idxS = (c / (colorTries * 9) - 4);</span>
-<span class="source-line-no">872</span><span id="line-872"></span>
-<span class="source-line-no">873</span><span id="line-873">            float result = mix(mixing.items, 0, mixCount);</span>
-<span class="source-line-no">874</span><span id="line-874">            if(idxI &gt; 0) result = ColorTools.lighten(result, 0.125f * idxI);</span>
-<span class="source-line-no">875</span><span id="line-875">            else if(idxI &lt; 0) result = ColorTools.darken(result, -0.15f * idxI);</span>
-<span class="source-line-no">876</span><span id="line-876"></span>
-<span class="source-line-no">877</span><span id="line-877">            if(idxS &gt; 0) result = ColorTools.limitToGamut(ColorTools.enrich(result, 0.2f * idxS));</span>
-<span class="source-line-no">878</span><span id="line-878">            else if(idxS &lt; 0) result = ColorTools.dullen(result, -0.2f * idxS);</span>
-<span class="source-line-no">879</span><span id="line-879"></span>
-<span class="source-line-no">880</span><span id="line-880">            float dH = Math.abs(ColorTools.channelH(result) - targetH), dS = ColorTools.channelS(result) - targetS, dL = ColorTools.channelL(result) - targetL;</span>
-<span class="source-line-no">881</span><span id="line-881">            if(dH &gt; 0.5f) dH = 1f - dH;</span>
-<span class="source-line-no">882</span><span id="line-882">            if(bestDistance &gt; (bestDistance = Math.min(dH * dH + dS * dS + dL * dL, bestDistance)))</span>
-<span class="source-line-no">883</span><span id="line-883">                bestCode = c;</span>
-<span class="source-line-no">884</span><span id="line-884">        }</span>
-<span class="source-line-no">885</span><span id="line-885"></span>
-<span class="source-line-no">886</span><span id="line-886">        StringBuilder description = new StringBuilder(lightAdjectives[(bestCode / colorTries) % 9] + satAdjectives[bestCode / (colorTries * 9)]);</span>
-<span class="source-line-no">887</span><span id="line-887">        for (int i = 0, e = 1; i &lt; mixCount; e *= paletteSize) {</span>
-<span class="source-line-no">888</span><span id="line-888">            description.append(namesByHue.get((bestCode / e) % paletteSize));</span>
-<span class="source-line-no">889</span><span id="line-889">            if(++i &lt; mixCount)</span>
-<span class="source-line-no">890</span><span id="line-890">                description.append(' ');</span>
-<span class="source-line-no">891</span><span id="line-891">        }</span>
-<span class="source-line-no">892</span><span id="line-892">        return description.toString();</span>
-<span class="source-line-no">893</span><span id="line-893">    }</span>
-<span class="source-line-no">894</span><span id="line-894">}</span>
+<span class="source-line-no">746</span><span id="line-746">                                lightness += 0.150f;</span>
+<span class="source-line-no">747</span><span id="line-747">                                continue;</span>
+<span class="source-line-no">748</span><span id="line-748">                        }</span>
+<span class="source-line-no">749</span><span id="line-749">                    }</span>
+<span class="source-line-no">750</span><span id="line-750">                    mixing.add(NAMED.get(term));</span>
+<span class="source-line-no">751</span><span id="line-751">                    break;</span>
+<span class="source-line-no">752</span><span id="line-752">                case 'b':</span>
+<span class="source-line-no">753</span><span id="line-753">                    if (len &gt; 3 &amp;&amp; (term.charAt(3) == 'g')) { // bright</span>
+<span class="source-line-no">754</span><span id="line-754">                        switch (len) {</span>
+<span class="source-line-no">755</span><span id="line-755">                            case 10:</span>
+<span class="source-line-no">756</span><span id="line-756">                                lightness += 0.150f;</span>
+<span class="source-line-no">757</span><span id="line-757">                                saturation += 0.200f;</span>
+<span class="source-line-no">758</span><span id="line-758">                            case 9:</span>
+<span class="source-line-no">759</span><span id="line-759">                                lightness += 0.150f;</span>
+<span class="source-line-no">760</span><span id="line-760">                                saturation += 0.200f;</span>
+<span class="source-line-no">761</span><span id="line-761">                            case 8:</span>
+<span class="source-line-no">762</span><span id="line-762">                                lightness += 0.150f;</span>
+<span class="source-line-no">763</span><span id="line-763">                                saturation += 0.200f;</span>
+<span class="source-line-no">764</span><span id="line-764">                            case 6:</span>
+<span class="source-line-no">765</span><span id="line-765">                                lightness += 0.150f;</span>
+<span class="source-line-no">766</span><span id="line-766">                                saturation += 0.200f;</span>
+<span class="source-line-no">767</span><span id="line-767">                                continue;</span>
+<span class="source-line-no">768</span><span id="line-768">                        }</span>
+<span class="source-line-no">769</span><span id="line-769">                    }</span>
+<span class="source-line-no">770</span><span id="line-770">                    mixing.add(NAMED.get(term));</span>
+<span class="source-line-no">771</span><span id="line-771">                    break;</span>
+<span class="source-line-no">772</span><span id="line-772">                case 'p':</span>
+<span class="source-line-no">773</span><span id="line-773">                    if (len &gt; 2 &amp;&amp; (term.charAt(2) == 'l')) { // pale</span>
+<span class="source-line-no">774</span><span id="line-774">                        switch (len) {</span>
+<span class="source-line-no">775</span><span id="line-775">                            case 8: // palemost</span>
+<span class="source-line-no">776</span><span id="line-776">                            case 7: // palerer</span>
+<span class="source-line-no">777</span><span id="line-777">                                lightness += 0.150f;</span>
+<span class="source-line-no">778</span><span id="line-778">                                saturation -= 0.200f;</span>
+<span class="source-line-no">779</span><span id="line-779">                            case 6: // palest</span>
+<span class="source-line-no">780</span><span id="line-780">                                lightness += 0.150f;</span>
+<span class="source-line-no">781</span><span id="line-781">                                saturation -= 0.200f;</span>
+<span class="source-line-no">782</span><span id="line-782">                            case 5: // paler</span>
+<span class="source-line-no">783</span><span id="line-783">                                lightness += 0.150f;</span>
+<span class="source-line-no">784</span><span id="line-784">                                saturation -= 0.200f;</span>
+<span class="source-line-no">785</span><span id="line-785">                            case 4: // pale</span>
+<span class="source-line-no">786</span><span id="line-786">                                lightness += 0.150f;</span>
+<span class="source-line-no">787</span><span id="line-787">                                saturation -= 0.200f;</span>
+<span class="source-line-no">788</span><span id="line-788">                                continue;</span>
+<span class="source-line-no">789</span><span id="line-789">                        }</span>
+<span class="source-line-no">790</span><span id="line-790">                    }</span>
+<span class="source-line-no">791</span><span id="line-791">                    mixing.add(NAMED.get(term));</span>
+<span class="source-line-no">792</span><span id="line-792">                    break;</span>
+<span class="source-line-no">793</span><span id="line-793">                case 'w':</span>
+<span class="source-line-no">794</span><span id="line-794">                    if (len &gt; 3 &amp;&amp; (term.charAt(3) == 'k')) { // weak</span>
+<span class="source-line-no">795</span><span id="line-795">                        switch (len) {</span>
+<span class="source-line-no">796</span><span id="line-796">                            case 8:</span>
+<span class="source-line-no">797</span><span id="line-797">                                lightness -= 0.150f;</span>
+<span class="source-line-no">798</span><span id="line-798">                                saturation -= 0.200f;</span>
+<span class="source-line-no">799</span><span id="line-799">                            case 7:</span>
+<span class="source-line-no">800</span><span id="line-800">                                lightness -= 0.150f;</span>
+<span class="source-line-no">801</span><span id="line-801">                                saturation -= 0.200f;</span>
+<span class="source-line-no">802</span><span id="line-802">                            case 6:</span>
+<span class="source-line-no">803</span><span id="line-803">                                lightness -= 0.150f;</span>
+<span class="source-line-no">804</span><span id="line-804">                                saturation -= 0.200f;</span>
+<span class="source-line-no">805</span><span id="line-805">                            case 4:</span>
+<span class="source-line-no">806</span><span id="line-806">                                lightness -= 0.150f;</span>
+<span class="source-line-no">807</span><span id="line-807">                                saturation -= 0.200f;</span>
+<span class="source-line-no">808</span><span id="line-808">                                continue;</span>
+<span class="source-line-no">809</span><span id="line-809">                        }</span>
+<span class="source-line-no">810</span><span id="line-810">                    }</span>
+<span class="source-line-no">811</span><span id="line-811">                    mixing.add(NAMED.get(term));</span>
+<span class="source-line-no">812</span><span id="line-812">                    break;</span>
+<span class="source-line-no">813</span><span id="line-813">                case 'r':</span>
+<span class="source-line-no">814</span><span id="line-814">                    if (len &gt; 1 &amp;&amp; (term.charAt(1) == 'i')) { // rich</span>
+<span class="source-line-no">815</span><span id="line-815">                        switch (len) {</span>
+<span class="source-line-no">816</span><span id="line-816">                            case 8:</span>
+<span class="source-line-no">817</span><span id="line-817">                                saturation += 0.200f;</span>
+<span class="source-line-no">818</span><span id="line-818">                            case 7:</span>
+<span class="source-line-no">819</span><span id="line-819">                                saturation += 0.200f;</span>
+<span class="source-line-no">820</span><span id="line-820">                            case 6:</span>
+<span class="source-line-no">821</span><span id="line-821">                                saturation += 0.200f;</span>
+<span class="source-line-no">822</span><span id="line-822">                            case 4:</span>
+<span class="source-line-no">823</span><span id="line-823">                                saturation += 0.200f;</span>
+<span class="source-line-no">824</span><span id="line-824">                                continue;</span>
+<span class="source-line-no">825</span><span id="line-825">                        }</span>
+<span class="source-line-no">826</span><span id="line-826">                    }</span>
+<span class="source-line-no">827</span><span id="line-827">                    mixing.add(NAMED.get(term));</span>
+<span class="source-line-no">828</span><span id="line-828">                    break;</span>
+<span class="source-line-no">829</span><span id="line-829">                case 'd':</span>
+<span class="source-line-no">830</span><span id="line-830">                    if (len &gt; 1 &amp;&amp; (term.charAt(1) == 'a')) { // dark</span>
+<span class="source-line-no">831</span><span id="line-831">                        switch (len) {</span>
+<span class="source-line-no">832</span><span id="line-832">                            case 8:</span>
+<span class="source-line-no">833</span><span id="line-833">                                lightness -= 0.150f;</span>
+<span class="source-line-no">834</span><span id="line-834">                            case 7:</span>
+<span class="source-line-no">835</span><span id="line-835">                                lightness -= 0.150f;</span>
+<span class="source-line-no">836</span><span id="line-836">                            case 6:</span>
+<span class="source-line-no">837</span><span id="line-837">                                lightness -= 0.150f;</span>
+<span class="source-line-no">838</span><span id="line-838">                            case 4:</span>
+<span class="source-line-no">839</span><span id="line-839">                                lightness -= 0.150f;</span>
+<span class="source-line-no">840</span><span id="line-840">                                continue;</span>
+<span class="source-line-no">841</span><span id="line-841">                        }</span>
+<span class="source-line-no">842</span><span id="line-842">                    } else if (len &gt; 1 &amp;&amp; (term.charAt(1) == 'u')) { // dull</span>
+<span class="source-line-no">843</span><span id="line-843">                        switch (len) {</span>
+<span class="source-line-no">844</span><span id="line-844">                            case 8:</span>
+<span class="source-line-no">845</span><span id="line-845">                                saturation -= 0.200f;</span>
+<span class="source-line-no">846</span><span id="line-846">                            case 7:</span>
+<span class="source-line-no">847</span><span id="line-847">                                saturation -= 0.200f;</span>
+<span class="source-line-no">848</span><span id="line-848">                            case 6:</span>
+<span class="source-line-no">849</span><span id="line-849">                                saturation -= 0.200f;</span>
+<span class="source-line-no">850</span><span id="line-850">                            case 4:</span>
+<span class="source-line-no">851</span><span id="line-851">                                saturation -= 0.200f;</span>
+<span class="source-line-no">852</span><span id="line-852">                                continue;</span>
+<span class="source-line-no">853</span><span id="line-853">                        }</span>
+<span class="source-line-no">854</span><span id="line-854">                    } else if (len &gt; 3 &amp;&amp; (term.charAt(3) == 'p')) { // deep</span>
+<span class="source-line-no">855</span><span id="line-855">                        switch (len) {</span>
+<span class="source-line-no">856</span><span id="line-856">                            case 8:</span>
+<span class="source-line-no">857</span><span id="line-857">                                lightness -= 0.150f;</span>
+<span class="source-line-no">858</span><span id="line-858">                                saturation += 0.200f;</span>
+<span class="source-line-no">859</span><span id="line-859">                            case 7:</span>
+<span class="source-line-no">860</span><span id="line-860">                                lightness -= 0.150f;</span>
+<span class="source-line-no">861</span><span id="line-861">                                saturation += 0.200f;</span>
+<span class="source-line-no">862</span><span id="line-862">                            case 6:</span>
+<span class="source-line-no">863</span><span id="line-863">                                lightness -= 0.150f;</span>
+<span class="source-line-no">864</span><span id="line-864">                                saturation += 0.200f;</span>
+<span class="source-line-no">865</span><span id="line-865">                            case 4:</span>
+<span class="source-line-no">866</span><span id="line-866">                                lightness -= 0.150f;</span>
+<span class="source-line-no">867</span><span id="line-867">                                saturation += 0.200f;</span>
+<span class="source-line-no">868</span><span id="line-868">                                continue;</span>
+<span class="source-line-no">869</span><span id="line-869">                        }</span>
+<span class="source-line-no">870</span><span id="line-870">                    }</span>
+<span class="source-line-no">871</span><span id="line-871">                    mixing.add(NAMED.get(term));</span>
+<span class="source-line-no">872</span><span id="line-872">                    break;</span>
+<span class="source-line-no">873</span><span id="line-873">                default:</span>
+<span class="source-line-no">874</span><span id="line-874">                    mixing.add(NAMED.get(term));</span>
+<span class="source-line-no">875</span><span id="line-875">                    break;</span>
+<span class="source-line-no">876</span><span id="line-876">            }</span>
+<span class="source-line-no">877</span><span id="line-877">        }</span>
+<span class="source-line-no">878</span><span id="line-878">        float result = mix(mixing.items, 0, mixing.size());</span>
+<span class="source-line-no">879</span><span id="line-879">        if(result == 0f) return result;</span>
+<span class="source-line-no">880</span><span id="line-880"></span>
+<span class="source-line-no">881</span><span id="line-881">        if(lightness &gt; 0) result = ColorTools.lighten(result, lightness);</span>
+<span class="source-line-no">882</span><span id="line-882">        else if(lightness &lt; 0) result = ColorTools.darken(result, -lightness);</span>
+<span class="source-line-no">883</span><span id="line-883"></span>
+<span class="source-line-no">884</span><span id="line-884">        if(saturation &gt; 0) result = (ColorTools.enrich(result, saturation));</span>
+<span class="source-line-no">885</span><span id="line-885">        else if(saturation &lt; 0) result = (ColorTools.dullen(result, -saturation));</span>
+<span class="source-line-no">886</span><span id="line-886"></span>
+<span class="source-line-no">887</span><span id="line-887">        return result;</span>
+<span class="source-line-no">888</span><span id="line-888">    }</span>
+<span class="source-line-no">889</span><span id="line-889"></span>
+<span class="source-line-no">890</span><span id="line-890">    private static final ObjectList&lt;String&gt; namesByHue = new ObjectList&lt;&gt;(NAMES_BY_HUE);</span>
+<span class="source-line-no">891</span><span id="line-891">    private static final FloatList colorsByHue = new FloatList(COLORS_BY_HUE);</span>
+<span class="source-line-no">892</span><span id="line-892"></span>
+<span class="source-line-no">893</span><span id="line-893">    private static final String[] lightAdjectives = {"darkmost ", "darkest ", "darker ", "dark ", "", "light ", "lighter ", "lightest ", "lightmost "};</span>
+<span class="source-line-no">894</span><span id="line-894">    private static final String[] satAdjectives = {"dullmost ", "dullest ", "duller ", "dull ", "", "rich ", "richer ", "richest ", "richmost "};</span>
+<span class="source-line-no">895</span><span id="line-895">    private static final String[] combinedAdjectives = new String[81];</span>
+<span class="source-line-no">896</span><span id="line-896"></span>
+<span class="source-line-no">897</span><span id="line-897">    static {</span>
+<span class="source-line-no">898</span><span id="line-898">        int trn = namesByHue.indexOf("transparent");</span>
+<span class="source-line-no">899</span><span id="line-899">        namesByHue.removeAt(trn);</span>
+<span class="source-line-no">900</span><span id="line-900">        colorsByHue.removeAt(trn);</span>
+<span class="source-line-no">901</span><span id="line-901">        ALIASES.put("grey", GRAY);</span>
+<span class="source-line-no">902</span><span id="line-902">        ALIASES.put("gold", SAFFRON);</span>
+<span class="source-line-no">903</span><span id="line-903">        ALIASES.put("puce", MAUVE);</span>
+<span class="source-line-no">904</span><span id="line-904">        ALIASES.put("sand", TAN);</span>
+<span class="source-line-no">905</span><span id="line-905">        ALIASES.put("skin", PEACH); // Yes, I am aware that there is more than one skin color, but this can only map to one.</span>
+<span class="source-line-no">906</span><span id="line-906">        ALIASES.put("coral", SALMON);</span>
+<span class="source-line-no">907</span><span id="line-907">        ALIASES.put("azure", SKY);</span>
+<span class="source-line-no">908</span><span id="line-908">        ALIASES.put("ocean", TEAL);</span>
+<span class="source-line-no">909</span><span id="line-909">        ALIASES.put("sapphire", COBALT);</span>
+<span class="source-line-no">910</span><span id="line-910">        NAMED.putAll(ALIASES);</span>
+<span class="source-line-no">911</span><span id="line-911"></span>
+<span class="source-line-no">912</span><span id="line-912">        for (int sat = 0, idx = 0; sat &lt; 9; sat++) {</span>
+<span class="source-line-no">913</span><span id="line-913">            for (int lit = 0; lit &lt; 9; lit++) {</span>
+<span class="source-line-no">914</span><span id="line-914">                int s = sat - 4, l = lit - 4;</span>
+<span class="source-line-no">915</span><span id="line-915">                if(s != l &amp;&amp; s != -l)</span>
+<span class="source-line-no">916</span><span id="line-916">                    combinedAdjectives[idx] = lightAdjectives[lit] + satAdjectives[sat];</span>
+<span class="source-line-no">917</span><span id="line-917">                ++idx;</span>
+<span class="source-line-no">918</span><span id="line-918">            }</span>
+<span class="source-line-no">919</span><span id="line-919">        }</span>
+<span class="source-line-no">920</span><span id="line-920"></span>
+<span class="source-line-no">921</span><span id="line-921">        // Special cases for multiple-effect adjectives:</span>
+<span class="source-line-no">922</span><span id="line-922">        combinedAdjectives[0 * 9 + 0] = "weakmost ";</span>
+<span class="source-line-no">923</span><span id="line-923">        combinedAdjectives[1 * 9 + 1] = "weakest ";</span>
+<span class="source-line-no">924</span><span id="line-924">        combinedAdjectives[2 * 9 + 2] = "weaker ";</span>
+<span class="source-line-no">925</span><span id="line-925">        combinedAdjectives[3 * 9 + 3] = "weak ";</span>
+<span class="source-line-no">926</span><span id="line-926"></span>
+<span class="source-line-no">927</span><span id="line-927">        combinedAdjectives[0 * 9 + 8] = "palemost ";</span>
+<span class="source-line-no">928</span><span id="line-928">        combinedAdjectives[1 * 9 + 7] = "palest ";</span>
+<span class="source-line-no">929</span><span id="line-929">        combinedAdjectives[2 * 9 + 6] = "paler ";</span>
+<span class="source-line-no">930</span><span id="line-930">        combinedAdjectives[3 * 9 + 5] = "pale ";</span>
+<span class="source-line-no">931</span><span id="line-931"></span>
+<span class="source-line-no">932</span><span id="line-932">        combinedAdjectives[8 * 9 + 0] = "deepmost ";</span>
+<span class="source-line-no">933</span><span id="line-933">        combinedAdjectives[7 * 9 + 1] = "deepest ";</span>
+<span class="source-line-no">934</span><span id="line-934">        combinedAdjectives[6 * 9 + 2] = "deeper ";</span>
+<span class="source-line-no">935</span><span id="line-935">        combinedAdjectives[5 * 9 + 3] = "deep ";</span>
+<span class="source-line-no">936</span><span id="line-936"></span>
+<span class="source-line-no">937</span><span id="line-937">        combinedAdjectives[8 * 9 + 8] = "brightmost ";</span>
+<span class="source-line-no">938</span><span id="line-938">        combinedAdjectives[7 * 9 + 7] = "brightest ";</span>
+<span class="source-line-no">939</span><span id="line-939">        combinedAdjectives[6 * 9 + 6] = "brighter ";</span>
+<span class="source-line-no">940</span><span id="line-940">        combinedAdjectives[5 * 9 + 5] = "bright ";</span>
+<span class="source-line-no">941</span><span id="line-941"></span>
+<span class="source-line-no">942</span><span id="line-942">        combinedAdjectives[4 * 9 + 4] = "";</span>
+<span class="source-line-no">943</span><span id="line-943">    }</span>
+<span class="source-line-no">944</span><span id="line-944">    /**</span>
+<span class="source-line-no">945</span><span id="line-945">     * Given a color as a packed HSLuv float, this finds the closest description it can to match the given color while</span>
+<span class="source-line-no">946</span><span id="line-946">     * using at most {@code mixCount} colors to mix in. You should only use small numbers for mixCount, like 1 to 3;</span>
+<span class="source-line-no">947</span><span id="line-947">     * this can take quite a while to run otherwise. This returns a String description that can be passed to</span>
+<span class="source-line-no">948</span><span id="line-948">     * {@link #parseDescription(String)}. It is likely that this will use very contrasting colors if mixCount is 2 or</span>
+<span class="source-line-no">949</span><span id="line-949">     * greater and the color to match is desaturated or brownish.</span>
+<span class="source-line-no">950</span><span id="line-950">     * @param hsluv a packed HSLuv float color to attempt to match</span>
+<span class="source-line-no">951</span><span id="line-951">     * @param mixCount how many color names this will use in the returned description</span>
+<span class="source-line-no">952</span><span id="line-952">     * @return a description that can be fed to {@link #parseDescription(String)} to get a similar color</span>
+<span class="source-line-no">953</span><span id="line-953">     */</span>
+<span class="source-line-no">954</span><span id="line-954">    public static String bestMatch(final float hsluv, int mixCount) {</span>
+<span class="source-line-no">955</span><span id="line-955">        mixCount = Math.max(1, mixCount);</span>
+<span class="source-line-no">956</span><span id="line-956">        float bestDistance = Float.POSITIVE_INFINITY;</span>
+<span class="source-line-no">957</span><span id="line-957">        final int paletteSize = namesByHue.size(), colorTries = (int)Math.pow(paletteSize, mixCount), totalTries = colorTries * 81;</span>
+<span class="source-line-no">958</span><span id="line-958">        final float targetH = ColorTools.channelH(hsluv), targetS = ColorTools.channelS(hsluv), targetL = ColorTools.channelL(hsluv);</span>
+<span class="source-line-no">959</span><span id="line-959">        mixing.clear();</span>
+<span class="source-line-no">960</span><span id="line-960">        for (int i = 0; i &lt; mixCount; i++) {</span>
+<span class="source-line-no">961</span><span id="line-961">            mixing.add(colorsByHue.get(0));</span>
+<span class="source-line-no">962</span><span id="line-962">        }</span>
+<span class="source-line-no">963</span><span id="line-963">        int bestCode = 0;</span>
+<span class="source-line-no">964</span><span id="line-964">        for (int c = 0; c &lt; totalTries; c++) {</span>
+<span class="source-line-no">965</span><span id="line-965">            for (int i = 0, e = 1; i &lt; mixCount; i++, e *= paletteSize) {</span>
+<span class="source-line-no">966</span><span id="line-966">                mixing.set(i, colorsByHue.get((c / e) % paletteSize));</span>
+<span class="source-line-no">967</span><span id="line-967">            }</span>
+<span class="source-line-no">968</span><span id="line-968">            int idxL = ((c / colorTries) % 9 - 4), idxS = (c / (colorTries * 9) - 4);</span>
+<span class="source-line-no">969</span><span id="line-969"></span>
+<span class="source-line-no">970</span><span id="line-970">            float result = mix(mixing.items, 0, mixCount);</span>
+<span class="source-line-no">971</span><span id="line-971">            if(idxL &gt; 0) result = ColorTools.lighten(result, 0.15f * idxL);</span>
+<span class="source-line-no">972</span><span id="line-972">            else if(idxL &lt; 0) result = ColorTools.darken(result, -0.15f * idxL);</span>
+<span class="source-line-no">973</span><span id="line-973"></span>
+<span class="source-line-no">974</span><span id="line-974">            if(idxS &gt; 0) result = ColorTools.limitToGamut(ColorTools.enrich(result, 0.2f * idxS));</span>
+<span class="source-line-no">975</span><span id="line-975">            else if(idxS &lt; 0) result = ColorTools.dullen(result, -0.2f * idxS);</span>
+<span class="source-line-no">976</span><span id="line-976"></span>
+<span class="source-line-no">977</span><span id="line-977">            float dH = Math.abs(ColorTools.channelH(result) - targetH), dS = ColorTools.channelS(result) - targetS, dL = ColorTools.channelL(result) - targetL;</span>
+<span class="source-line-no">978</span><span id="line-978">            if(dH &gt; 0.5f) dH = 1f - dH;</span>
+<span class="source-line-no">979</span><span id="line-979">            if(bestDistance &gt; (bestDistance = Math.min(dH * dH + dS * dS + dL * dL, bestDistance)))</span>
+<span class="source-line-no">980</span><span id="line-980">                bestCode = c;</span>
+<span class="source-line-no">981</span><span id="line-981">        }</span>
+<span class="source-line-no">982</span><span id="line-982"></span>
+<span class="source-line-no">983</span><span id="line-983">        StringBuilder description = new StringBuilder(combinedAdjectives[(bestCode / colorTries)]);</span>
+<span class="source-line-no">984</span><span id="line-984">        for (int i = 0, e = 1; i &lt; mixCount; e *= paletteSize) {</span>
+<span class="source-line-no">985</span><span id="line-985">            description.append(namesByHue.get((bestCode / e) % paletteSize));</span>
+<span class="source-line-no">986</span><span id="line-986">            if(++i &lt; mixCount)</span>
+<span class="source-line-no">987</span><span id="line-987">                description.append(' ');</span>
+<span class="source-line-no">988</span><span id="line-988">        }</span>
+<span class="source-line-no">989</span><span id="line-989">        return description.toString();</span>
+<span class="source-line-no">990</span><span id="line-990">    }</span>
+<span class="source-line-no">991</span><span id="line-991">}</span>
 
 
 

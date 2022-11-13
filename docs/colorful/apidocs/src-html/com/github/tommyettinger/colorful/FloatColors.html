@@ -273,15 +273,16 @@
 <span class="source-line-no">260</span><span id="line-260">     * @return an even mix of all colors given, as a packed float color</span>
 <span class="source-line-no">261</span><span id="line-261">     */</span>
 <span class="source-line-no">262</span><span id="line-262">    public static float mix(float[] colors, int offset, int size) {</span>
-<span class="source-line-no">263</span><span id="line-263">        if(colors == null || colors.length &lt; offset + size || offset &lt; 0 || size &lt;= 0)</span>
-<span class="source-line-no">264</span><span id="line-264">            return 0f; // transparent, usually</span>
-<span class="source-line-no">265</span><span id="line-265">        float result = colors[offset];</span>
-<span class="source-line-no">266</span><span id="line-266">        for (int i = offset + 1, o = offset + size, denom = 2; i &lt; o; i++, denom++) {</span>
-<span class="source-line-no">267</span><span id="line-267">            result = lerpFloatColors(result, colors[i], 1f / denom);</span>
-<span class="source-line-no">268</span><span id="line-268">        }</span>
-<span class="source-line-no">269</span><span id="line-269">        return result;</span>
-<span class="source-line-no">270</span><span id="line-270">    }</span>
-<span class="source-line-no">271</span><span id="line-271">}</span>
+<span class="source-line-no">263</span><span id="line-263">        final int end = offset + size;</span>
+<span class="source-line-no">264</span><span id="line-264">        if(colors == null || colors.length &lt; end || offset &lt; 0 || size &lt;= 0)</span>
+<span class="source-line-no">265</span><span id="line-265">            return 0f; // transparent, usually</span>
+<span class="source-line-no">266</span><span id="line-266">        float result = colors[offset];</span>
+<span class="source-line-no">267</span><span id="line-267">        for (int i = offset + 1, denom = 2; i &lt; end; i++, denom++) {</span>
+<span class="source-line-no">268</span><span id="line-268">            result = lerpFloatColors(result, colors[i], 1f / denom);</span>
+<span class="source-line-no">269</span><span id="line-269">        }</span>
+<span class="source-line-no">270</span><span id="line-270">        return result;</span>
+<span class="source-line-no">271</span><span id="line-271">    }</span>
+<span class="source-line-no">272</span><span id="line-272">}</span>
 
 
 
