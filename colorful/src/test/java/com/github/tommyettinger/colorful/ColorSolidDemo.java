@@ -71,10 +71,10 @@ public class ColorSolidDemo extends ApplicationAdapter {
 
         pixmaps = new Array<>(true, 256, Pixmap.class);
         gif = new AnimatedGif();
-//        gif.palette = new PaletteReducer();
-        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.ROBERTS);
+        gif.palette = new PaletteReducer();
+        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE);
         gif.fastAnalysis = false;
-        gif.setDitherStrength(0.75f);
+        gif.setDitherStrength(1f);
 
         png = new AnimatedPNG();
 

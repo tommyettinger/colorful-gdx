@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.anim8.AnimatedGif;
 import com.github.tommyettinger.anim8.AnimatedPNG;
 import com.github.tommyettinger.anim8.Dithered;
+import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.colorful.TrigTools;
 
 import static com.badlogic.gdx.Gdx.input;
@@ -121,15 +122,15 @@ public class OklabGamutDemo extends ApplicationAdapter {
 //// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
 //// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
         AnimatedGif gif = new AnimatedGif();
-//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
+        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is fast and great with smooth gradients, but the temporal dithering looks weird here.
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // this should be dithered before usage
-        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.ROBERTS); // this is the current default; fairly high quality
-        gif.setDitherStrength(0.75f);
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is the current default; fairly high quality
+        gif.setDitherStrength(1f);
         gif.fastAnalysis = false;
-//        gif.palette = new PaletteReducer(pixmaps);
+        gif.palette = new PaletteReducer();
 //        // 24 is how many frames per second the animated GIF should play back at.
         gif.write(Gdx.files.local("OklabGamut.gif"), pixmaps, 24);
 
