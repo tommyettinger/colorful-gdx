@@ -13,9 +13,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.tommyettinger.anim8.AnimatedGif;
+import com.github.tommyettinger.anim8.AnimatedPNG;
+import com.github.tommyettinger.anim8.Dithered;
+import com.github.tommyettinger.anim8.PaletteReducer;
 import com.github.tommyettinger.colorful.FourWheelRandom;
 import com.github.tommyettinger.colorful.Shaders;
 import com.github.tommyettinger.colorful.TrigTools;
@@ -34,7 +40,7 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
     private float layer = 0.5f;
     private GridPoint2 center = new GridPoint2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
-    private PoissonDisk poisson = new PoissonDisk(SCREEN_WIDTH, SCREEN_HEIGHT, 5, new FourWheelRandom());
+//    private PoissonDisk poisson = new PoissonDisk(SCREEN_WIDTH, SCREEN_HEIGHT, 5, new FourWheelRandom());
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -64,24 +70,54 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-//        for (int li = 0; li < 256; li++) {
-//            for (int h = 0; h < 256; h++) {
-//                System.out.printf("%d %d %1.5f: %01.5f\n", h, li, ColorTools.chromaLimit(h * 0x1p-8f, li * 0x1p-8f), ColorTools.chroma(ColorTools.oklabByHSL(h * 0x1p-8f, 1f, li * 0x1p-8f, 1f)));
-//            }
-//        }
-    }
+        final int frameCount = 256;
+        Array<Pixmap> pixmaps = new Array<>(frameCount);
+        for (int i = 0; i < frameCount; i++) {
+            layer = i * 2f / (frameCount - 1f);
+            int floor = MathUtils.floorPositive(layer);
+            layer = (floor & 1) + (layer - floor) * (-(floor & 1) | 1);
 
+            renderInternal();
+            // this gets a screenshot of the current window and adds it to the Array of Pixmap.
+            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        }
+
+//
+//// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
+//// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
+        AnimatedGif gif = new AnimatedGif();
+        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is fast and great with smooth gradients, but the temporal dithering looks weird here.
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // this should be dithered before usage
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is the current default; fairly high quality
+        gif.setDitherStrength(1f);
+        gif.fastAnalysis = false;
+        gif.palette = new PaletteReducer();
+//        // 24 is how many frames per second the animated GIF should play back at.
+        gif.write(Gdx.files.local("OklabByHCL.gif"), pixmaps, 24);
+
+//// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
+        AnimatedPNG png = new AnimatedPNG();
+//// 24 is how many frames per second the animated PNG should play back at.
+        png.write(Gdx.files.local("OklabByHCL.png"), pixmaps, 24);
+    }
 
     @Override
     public void render() {
+        handleInput();
+        layer = TimeUtils.timeSinceMillis(startTime) * 0x1p-13f;
+        int floor = MathUtils.floorPositive(layer);
+        layer = (floor & 1) + (layer - floor) * (-(floor & 1) | 1);
+        renderInternal();
+    }
+
+    public void renderInternal() {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         handleInput();
-        poisson.sampleCircle(center, 256, 30);
-        layer = TimeUtils.timeSinceMillis(startTime) * 0x1p-13f;
-//        boolean showOut = (TimeUtils.timeSinceMillis(startTime) & 0x100L) == 0L;
-        int floor = MathUtils.floorPositive(layer);
-        layer = (floor & 1) + (layer - floor) * (-(floor & 1) | 1);
+//        poisson.sampleCircle(center, 256, 30);
         batch.setProjectionMatrix(screenView.getCamera().combined);
         batch.setColor(0.5f, 0.5f, 0.5f, 1f);
         batch.begin();
@@ -98,7 +134,7 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
                 final float angle = t * ic, x = TrigTools.cosTurns(angle), y = TrigTools.sinTurns(angle);
 //                final float g = ColorTools.getRawGamutValue((int)(layer * 255.999f) << 8 | (int)(angle * 256f));
 //                if(g < dist) continue;
-                if(poisson.array[(int)(256 + x * dist)][(int) (256 + y * dist)] == 0) continue;
+//                if(poisson.array[(int)(256 + x * dist)][(int) (256 + y * dist)] == 0) continue;
                 final float chr = dist * iMax;// * (0.5f - Math.abs(layer - 0.5f)) * 2f;
 //                if(random.nextLong() < 0x6800000000000000L && chr > ColorTools.chromaLimit(angle, layer)) continue;
 //                batch.setPackedColor(ColorTools.oklabByHCL(angle, chr, layer, 1f));
