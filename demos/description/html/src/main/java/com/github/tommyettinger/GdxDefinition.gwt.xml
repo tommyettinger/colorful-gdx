@@ -5,6 +5,7 @@
 	<inherits name="com.badlogic.gdx.backends.gdx_backends_gwt" />
 	<inherits name="com.github.tommyettinger.DescriptionDemo" />
 	<inherits name="com.github.tommyettinger.colorful.colorful" />
+	<inherits name="digital" />
 	<entry-point class="com.github.tommyettinger.gwt.GwtLauncher" />
 	<set-configuration-property name="gdx.assetpath" value="../assets" />
 	<set-configuration-property name="xsiframe.failIfScriptTag" value="FALSE"/>

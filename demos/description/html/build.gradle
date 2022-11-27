@@ -33,6 +33,7 @@ dependencies {
 	implementation "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
 	implementation "com.github.tommyettinger:colorful:$colorfulVersion:sources"
 //	implementation "com.github.tommyettinger.colorful-gdx:colorful:$colorfulVersion:sources"
+	implementation "com.github.tommyettinger:digital:$digitalVersion:sources"
 }
 
 import org.akhikhl.gretty.AppBeforeIntegrationTestTask
