@@ -1868,4 +1868,57 @@ void main()
                     "  luv.yz = (luv.yz) + (v_color.yz);\n" +
                     "  gl_FragColor = vec4(sRGB(clamp(luv2rgb(luv), 0.0, 1.0)), v_color.a * tgt.a);\n" +
                     "}";
+
+    /**
+     * A simple shader that renders just like SpriteBatch's default shader, except that when it would draw white, it
+     * instead draws red (which can be replaced in the shader code with a custom color, as with
+     * {@link #makeSwappingBatch(float, float, float)}).
+     * <br>
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}, or just by using normal
+     * SpriteBatch and Color methods.
+     * <br>
+     * Meant for use with {@link #vertexShader}.
+     */
+    public static final String fragmentShaderSwapWhite =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "   vec4 tgt = texture2D(u_texture, v_texCoords);\n" +
+                    "   if(tgt.r + tgt.g + tgt.b == 3.0)\n" + // color of the pixel in the Texture must be white
+                    "     gl_FragColor = vec4(   1.00, 0.00, 0.00   , tgt.a) * v_color;\n" +
+                    "   else\n" +
+                    "     gl_FragColor = tgt * v_color;\n" +
+                    "}";
+
+    /**
+     * Prepares and returns a new SpriteBatch that uses {@link #vertexShader} and {@link #fragmentShaderSwapWhite}
+     * from this class, making it able to render RGBA colors from libGDX or the rgb package. This also takes red, green,
+     * and blue parameters, each between 0.0 and 1.0, which define the color that white will be replaced with.
+     * <br>
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}, or just by using normal
+     * SpriteBatch and Color methods.
+     *
+     * @param red   between 0.0 and 1.0, the red value of the color to replace white with.
+     * @param green between 0.0 and 1.0, the green value of the color to replace white with.
+     * @param blue  between 0.0 and 1.0, the blue value of the color to replace white with.
+     * @return a freshly allocated SpriteBatch that will also have a new ShaderProgram for rendering RGB with contrast
+     */
+    public static SpriteBatch makeSwappingBatch(final float red, final float green, final float blue)
+    {
+        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShaderSwapWhite.replace("   1.00, 0.00, 0.00   ", red + ", " + green + ", " + blue));
+        if(!shader.isCompiled())
+            throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
+        return new SpriteBatch(1000, shader);
+    }
+
 }
