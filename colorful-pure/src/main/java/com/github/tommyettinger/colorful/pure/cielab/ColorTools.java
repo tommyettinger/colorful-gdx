@@ -1,8 +1,24 @@
+/*
+ * Copyright (c) 2023 See AUTHORS file.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.github.tommyettinger.colorful.pure.cielab;
 
 import com.github.tommyettinger.colorful.pure.FloatColors;
-import com.github.tommyettinger.colorful.pure.MathTools;
 import com.github.tommyettinger.digital.BitConversion;
+import com.github.tommyettinger.digital.MathTools;
 import com.github.tommyettinger.digital.TrigTools;
 import com.github.tommyettinger.random.EnhancedRandom;
 
@@ -393,7 +409,7 @@ public class ColorTools {
         final float h = hue - MathTools.floor(hue);
         final float L = (1f/1.16f)*(lightness + 0.16f);
         final float A = TrigTools.cosTurns(h) * (1.26365817f);
-        final float B = MathTools.sin_(h) * (1.26365817f);
+        final float B = TrigTools.sinTurns(h) * (1.26365817f);
         final float y = reverseXYZ(L);
         float A2 = A, B2 = B;
         for (int attempt = 127; attempt >= 0; attempt--) {
@@ -421,10 +437,10 @@ public class ColorTools {
     public static float maximizeSaturation(final float packed) {
         final int decoded = BitConversion.floatToRawIntBits(packed);
         final float lightness = (decoded & 255) / 255f;
-        final float h = MathTools.atan2_(((decoded >>> 16 & 0xff) - 127.5f), ((decoded >>> 8 & 0xff) - 127.5f));
+        final float h = TrigTools.atan2Turns(((decoded >>> 16 & 0xff) - 127.5f), ((decoded >>> 8 & 0xff) - 127.5f));
         final float L = (1f/1.16f)*(lightness + 0.16f);
         final float A = TrigTools.cosTurns(h) * 1.26365817f * 0.2f;
-        final float B = MathTools.sin_(h) * 1.26365817f * 0.5f;
+        final float B = TrigTools.sinTurns(h) * 1.26365817f * 0.5f;
         final float y = reverseXYZ(L);
         float A2 = A, B2 = B;
         for (int attempt = 127; attempt >= 0; attempt--) {
@@ -458,10 +474,10 @@ public class ColorTools {
         A = Math.min(Math.max(A, 0f), 1f);
         B = Math.min(Math.max(B, 0f), 1f);
         alpha = Math.min(Math.max(alpha, 0f), 1f);
-        final float h = MathTools.atan2_(B - 0.5f, A - 0.5f);
+        final float h = TrigTools.atan2Turns(B - 0.5f, A - 0.5f);
         final float L0 = (1f/1.16f)*(L + 0.16f);
         final float A0 = TrigTools.cosTurns(h) * 1.26365817f;
-        final float B0 = MathTools.sin_(h) * 1.26365817f;
+        final float B0 = TrigTools.sinTurns(h) * 1.26365817f;
         final float y = reverseXYZ(L0);
         float A2 = A0, B2 = B0;
         for (int attempt = 127; attempt >= 0; attempt--) {
@@ -491,7 +507,7 @@ public class ColorTools {
         final int decoded = BitConversion.floatToRawIntBits(packed);
         final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (0.2f / 127.5f);
         final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
-        return MathTools.atan2_(B, A);
+        return TrigTools.atan2Turns(B, A);
     }
 
     /**
@@ -507,10 +523,10 @@ public class ColorTools {
         final float L = (1f/1.16f)*(((decoded & 0xff) / 255f) + 0.16f);
         final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (0.2f / 127.5f);
         final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
-        final float h = MathTools.atan2_(B, A);
+        final float h = TrigTools.atan2Turns(B, A);
         final float L0 = (1f/1.16f)*(L + 0.16f);
         final float A0 = TrigTools.cosTurns(h) * 1.26365817f;
-        final float B0 = MathTools.sin_(h) * 1.26365817f;
+        final float B0 = TrigTools.sinTurns(h) * 1.26365817f;
         final float y = reverseXYZ(L0);
         float A2 = A0, B2 = B0;
         for (int attempt = 127; attempt >= 0; attempt--) {
@@ -571,7 +587,7 @@ public class ColorTools {
         final float L = (1f/1.16f)*(lightness + 0.16f);
         final float L0 = (1f/1.16f)*(L + 0.16f);
         final float cos = TrigTools.cosTurns(hue);
-        final float sin = MathTools.sin_(hue);
+        final float sin = TrigTools.sinTurns(hue);
         final float A0 = cos * 1.26365817f * 0.2f;
         final float B0 = sin * 1.26365817f * 0.5f;
         final float y = reverseXYZ(L0);
@@ -623,7 +639,7 @@ public class ColorTools {
         alpha = Math.min(Math.max(alpha, 0f), 1f);
         return BitConversion.intBitsToFloat(
                 (int) (alpha * 127.999f) << 25 |
-                        Math.min(Math.max((int) (MathTools.sin_(hue) /* * 2f */ * chroma + 127.5f), 0), 255) << 16 |
+                        Math.min(Math.max((int) (TrigTools.sinTurns(hue) /* * 2f */ * chroma + 127.5f), 0), 255) << 16 |
                         Math.min(Math.max((int) (TrigTools.cosTurns(hue) /* * 5f */ * chroma + 127.5f), 0), 255) << 8 |
                         (int) (lightness * 255.999f));
     }

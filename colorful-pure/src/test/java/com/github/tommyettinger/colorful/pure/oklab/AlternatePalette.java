@@ -1,13 +1,28 @@
+/*
+ * Copyright (c) 2023 See AUTHORS file.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.github.tommyettinger.colorful.pure.oklab;
 
-import com.github.tommyettinger.colorful.pure.MathTools;
 import com.github.tommyettinger.digital.TrigTools;
 import com.github.tommyettinger.ds.IntList;
 import com.github.tommyettinger.ds.ObjectIntOrderedMap;
 import com.github.tommyettinger.ds.ObjectList;
 import com.github.tommyettinger.digital.BitConversion;
 
-import static com.github.tommyettinger.colorful.pure.MathTools.floor;
+import static com.github.tommyettinger.digital.MathTools.floor;
 import static com.github.tommyettinger.colorful.pure.oklab.Gamut.GAMUT_DATA;
 
 /**
@@ -940,7 +955,7 @@ public final class AlternatePalette {
     public static float saturation(final int packed) {
         final float A = ((packed >>> 8 & 0xff) - 127.5f);
         final float B = ((packed >>> 16 & 0xff) - 127.5f);
-        final float hue = MathTools.atan2_(B, A);
+        final float hue = TrigTools.atan2Turns(B, A);
         final int idx = (packed & 0xff) << 8 | (int) (256f * hue);
         final float dist = GAMUT_DATA[idx] + 1.5f;
         return dist == 3.5f ? 0f : (A * A + B * B) * 4f / (dist * dist);
@@ -1163,7 +1178,7 @@ public final class AlternatePalette {
         final float dist = GAMUT_DATA[idx] * saturation * 0.5f;
         return (
                 (int) (alpha * 255.999f) << 24 |
-                        (int) (MathTools.sin_(hue) * dist + 128f) << 16 |
+                        (int) (TrigTools.sinTurns(hue) * dist + 128f) << 16 |
                         (int) (TrigTools.cosTurns(hue) * dist + 128f) << 8 |
                         (int) (lightness * 255.999f));
     }
@@ -1195,7 +1210,7 @@ public final class AlternatePalette {
         final float dist = Math.min(chroma * 127.5f, GAMUT_DATA[idx] * 0.5f);
         return (
                 (int) (alpha * 255.999f) << 24 |
-                        (int) (MathTools.sin_(hue) * dist + 128f) << 16 |
+                        (int) (TrigTools.sinTurns(hue) * dist + 128f) << 16 |
                         (int) (TrigTools.cosTurns(hue) * dist + 128f) << 8 |
                         (int) (lightness * 255.999f));
     }
@@ -1208,16 +1223,16 @@ public final class AlternatePalette {
      * from 0 to 255 with: {@code (L << 8 | H)} or the simpler equivalent {@code (L * 256 + H)}. These assume L and H
      * have been limited to the 0 to 255 range already. This does not bounds-check index. Because hue is not typically
      * measured between 0 and 255, getting that value is a bit different; you can use
-     * {@link MathTools#atan2_(float, float)} (with an Oklab color's B for y, then its A for x) and multiply it by 256
-     * to get H.
+     * {@link TrigTools#atan2Turns(float, float)} (with an Oklab color's B for y, then its A for x) and multiply it by
+     * 256 to get H.
      * <br>
      * The distance this returns is a byte between 0 and 82 (both inclusive), as the Euclidean distance from the center
      * grayscale value at the lightness in the index, to the edge of the gamut at the same lightness, along the hue in
      * the index. This is measured in a space from -1 to 1 for both A and B, with the 0 in the center meaning grayscale,
      * and multiplied by 256 to get a meaningful byte value. To return to the A and B values Oklab uses here, you would
      * need to use some trigonometry on the hue (if it's in the 0 to 1 range, you can call
-     * {@link MathTools#cos_(float)} on the hue to almost get A, and {@link MathTools#sin_(float)} to almost get B),
-     * then multiply each of those by the distance, divide each by 256.0, and add 0.5.
+     * {@link TrigTools#cosTurns(float)} on the hue to almost get A, and {@link TrigTools#sinTurns(float)} to almost get
+     * B), then multiply each of those by the distance, divide each by 256.0, and add 0.5.
      * <br>
      * Only intended for the narrow cases where external code needs read-only access to the internal Oklab gamut data.
      * The gamut data is quite large (the Oklab ColorTools file is 236 KB at the time of writing, while the IPT_HQ
@@ -1239,7 +1254,7 @@ public final class AlternatePalette {
     {
         final float A = ((packed >>> 8 & 0xff) - 127f) / 255f;
         final float B = ((packed >>> 16 & 0xff) - 127f) / 255f;
-        final float g = GAMUT_DATA[(packed & 0xff) << 8 | (int)(256f * MathTools.atan2_(B, A))];
+        final float g = GAMUT_DATA[(packed & 0xff) << 8 | (int)(256f * TrigTools.atan2Turns(B, A))];
         return g * g * 0x1p-18 + 0x1p-14 >= (A * A + B * B);
     }
 
@@ -1254,7 +1269,7 @@ public final class AlternatePalette {
     {
         float A2 = (A - 127f) / 255f;
         float B2 = (B - 127f) / 255f;
-        final float g = GAMUT_DATA[(L & 0xFF) << 8 | (int)(256f * MathTools.atan2_(B2, A2))];
+        final float g = GAMUT_DATA[(L & 0xFF) << 8 | (int)(256f * TrigTools.atan2Turns(B2, A2))];
         return g * g * 0x1p-18 + 0x1p-14 >= (A2 * A2 + B2 * B2);
     }
 
@@ -1269,12 +1284,12 @@ public final class AlternatePalette {
     public static int maximizeSaturation(final int packed) {
         final float A = ((packed >>> 8 & 0xff) - 127.5f);
         final float B = ((packed >>> 16 & 0xff) - 127.5f);
-        final float hue = MathTools.atan2_(B, A);
+        final float hue = TrigTools.atan2Turns(B, A);
         final int idx = (packed & 0xff) << 8 | (int) (256f * hue);
         final float dist = GAMUT_DATA[idx] * 0.5f;
         return ((packed & 0xFF0000FF) |
                         (int) (TrigTools.cosTurns(hue) * dist + 128f) << 8 |
-                        (int) (MathTools.sin_(hue) * dist + 128f) << 16);
+                        (int) (TrigTools.sinTurns(hue) * dist + 128f) << 16);
     }
 
     /**
@@ -1295,12 +1310,12 @@ public final class AlternatePalette {
         alpha = Math.min(Math.max(alpha, 0), 255);
         final float A2 = (A - 127.5f);
         final float B2 = (B - 127.5f);
-        final float hue = MathTools.atan2_(B2, A2);
+        final float hue = TrigTools.atan2Turns(B2, A2);
         final int idx = L << 8 | (int)(256f * hue);
         final float dist = GAMUT_DATA[idx] * 0.5f;
         return (
                 alpha << 24 |
-                        (int) (MathTools.sin_(hue) * dist + 128f) << 16 |
+                        (int) (TrigTools.sinTurns(hue) * dist + 128f) << 16 |
                         (int) (TrigTools.cosTurns(hue) * dist + 128f) << 8 |
                         L);
     }
@@ -1315,7 +1330,7 @@ public final class AlternatePalette {
     public static int limitToGamut(final int packed) {
         final float A = ((packed >>> 8 & 0xff) - 127.5f);
         final float B = ((packed >>> 16 & 0xff) - 127.5f);
-        final float hue = MathTools.atan2_(B, A);
+        final float hue = TrigTools.atan2Turns(B, A);
         final int idx = (packed & 0xff) << 8 | (int) (256f * hue);
         final float dist = GAMUT_DATA[idx] * 0.5f;
         if (dist * dist >= (A * A + B * B))
@@ -1323,7 +1338,7 @@ public final class AlternatePalette {
         return (
                 (packed & 0xFF0000FF) |
                         (int) (TrigTools.cosTurns(hue) * dist + 128f) << 8 |
-                        (int) (MathTools.sin_(hue) * dist + 128f) << 16);
+                        (int) (TrigTools.sinTurns(hue) * dist + 128f) << 16);
     }
 
     /**
@@ -1357,14 +1372,14 @@ public final class AlternatePalette {
         alpha = Math.min(Math.max(alpha, 0), 255);
         final float A2 = (A - 127.5f) / 255f;
         final float B2 = (B - 127.5f) / 255f;
-        final float hue = MathTools.atan2_(B2, A2);
+        final float hue = TrigTools.atan2Turns(B2, A2);
         final int idx = L << 8 | (int)(256f * hue);
         final float dist = GAMUT_DATA[idx] * 0.5f;
         if(dist * dist * 0x1p-16f + 0x1p-14f >= (A2 * A2 + B2 * B2))
             return L | A << 8 | B << 16 | alpha << 24;
         return (
                 alpha << 24 |
-                        (int) (MathTools.sin_(hue) * dist + 128f) << 16 |
+                        (int) (TrigTools.sinTurns(hue) * dist + 128f) << 16 |
                         (int) (TrigTools.cosTurns(hue) * dist + 128f) << 8 |
                         L);
     }
