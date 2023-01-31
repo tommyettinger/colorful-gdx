@@ -3,8 +3,6 @@
 eclipse.project.name = project.name
 
 sourceSets.test.resources.srcDirs = [ file('src/test/resources').path ]
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 javadoc.destinationDir = file('../docs/colorful/apidocs')
 javadoc.options.source("17")
@@ -13,11 +11,19 @@ javadoc.options.source("17")
 ((StandardJavadocDocletOptions)javadoc.options).use(true)
 ((StandardJavadocDocletOptions)javadoc.options).bottom("Copyright &#169; Tommy Ettinger 2020-2023. All rights reserved. Are you a copyright lawyer? If so, I want you to think, are you actually helping people, or just wasting their time? Maybe do some pro bono work for a cause that matters?")
 
-if(JavaVersion.current().isJava9Compatible()) {
-    allprojects {
-        tasks.withType(JavaCompile) {
-            options.release.set(8)
-        }
+compileJava {
+    sourceCompatibility = 7
+    targetCompatibility = 7
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.release.set(7)
+    }
+}
+
+compileTestJava {
+    sourceCompatibility = 8
+    targetCompatibility = 8
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.release.set(8)
     }
 }
 
