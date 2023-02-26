@@ -171,7 +171,7 @@ public class ColorfulBatch implements Batch {
                 + "void main()\n"
                 + "{\n"
                 + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
-                + "   v_color.rgb = v_color.rgb * 2.0 - 1.0;\n"
+                + "   v_color.rgb = v_color.rgb - 0.5;\n"
 //                + "   v_color.rgb = v_color.rgb * 0.5 - 0.25;\n"
                 + "   v_color.a = v_color.a * (255.0/254.0);\n"
                 + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"

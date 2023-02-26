@@ -44,7 +44,7 @@ import com.github.tommyettinger.colorful.ycwcm.ColorfulSprite;
  * Note that you don't need to specify a shader from here at all if you use a ColorfulBatch from this library!
  * There is a ColorfulBatch in each of the color space subpackages, such as {@code rgb}, {@code oklab}, and {@code ipt}.
  * All of those allow a multiplicative "tweak" to each color channel before an additive change is applied to that
- * channel; to contrast, all of the shaders here can only permit one or the other for a given channel. ColorfulBatch may
+ * channel; to contrast, all the shaders here can only permit one or the other for a given channel. ColorfulBatch may
  * act oddly if it has to interact with SpriteBatch-specific classes like {@link com.badlogic.gdx.graphics.g2d.Sprite},
  * so there are ColorfulSprite classes that also allow setting the "tweak" and additive change per-sprite. Still, it can
  * be a good idea to use the shaders here if you have an existing SpriteBatch, or want to use the various experimental
@@ -91,9 +91,14 @@ void main()
      * and black darkens a color to black, but nothing can brighten a color. With this, 50% gray is the neutral color,
      * white adds 0.5 to the RGB channels (brightening it and also desaturating it), and black subtracts 0.5 from the
      * RGB channels (darkening and desaturating, but not to black unless the color is already somewhat dark). When
-     * tinting with white, this looks like <a href="https://i.imgur.com/iAb1rig.png">The Mona Lisa on the left</a>, when
+     * tinting with white, this looks like <a href="https://i.imgur.com/yFtgdwz.png">The Mona Lisa on the left</a>, when
      * tinting with 50% gray, it makes no change, and when tinting with black, it almost reaches all black, but some
-     * faint part of the image is still barely visible.
+     * part of the image is still visible.
+     * <br>
+     * This is probably the fastest shader here, since it does so little math to compute a brighter or darker color. The
+     * code here changed from a more complex RGBA shader that used pow(), but didn't look different enough from
+     * {@link #fragmentShaderMultiplyRGBA} to warrant having both. Note that the Multiply version can actually reduce an
+     * image's colors to all black, but this version cannot.
      * <br>
      * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
      * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
@@ -113,7 +118,8 @@ void main()
                     "void main()\n" +
                     "{\n" +
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                    "   gl_FragColor = clamp(vec4(tgt.rgb * pow((v_color.rgb + 0.1) * 1.666, vec3(1.5)), v_color.a * tgt.a), 0.0, 1.0);\n" +
+                    "   gl_FragColor = clamp(vec4(tgt.rgb + (v_color.rgb - 0.5), v_color.a * tgt.a), 0.0, 1.0);\n" +
+//                    "   gl_FragColor = clamp(vec4(tgt.rgb * pow((v_color.rgb + 0.1) * 1.666, vec3(1.5)), v_color.a * tgt.a), 0.0, 1.0);\n" +
                     "}";
     /**
      * A simple shader that uses multiplicative blending with "normal" RGBA colors, and is simpler than
@@ -189,7 +195,7 @@ void main()
                     "void main()\n" +
                     "{\n" +
                     "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                    "  tgt.rgb = barronSpline(clamp(tgt.rgb + v_color.rgb, 0.0, 1.0), contrast);\n" +
+                    "  tgt.rgb = barronSpline(clamp(tgt.rgb + v_color.rgb - 0.5, 0.0, 1.0), contrast);\n" +
                     "  tgt.a *= v_color.a;\n" +
                     "  gl_FragColor = tgt;\n" +
                     "}";
