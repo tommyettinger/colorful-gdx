@@ -35,7 +35,7 @@ subprojects {
     group = parent.group
     ext.projectName = 'colorful'
     repositories {
-        mavenLocal()
+//        mavenLocal()
         mavenCentral()
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
         maven { url 'https://jitpack.io' }
