@@ -29,15 +29,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.tommyettinger.anim8.AnimatedGif;
-import com.github.tommyettinger.anim8.AnimatedPNG;
-import com.github.tommyettinger.anim8.Dithered;
-import com.github.tommyettinger.anim8.PaletteReducer;
+import com.github.tommyettinger.anim8.*;
 import com.github.tommyettinger.colorful.FourWheelRandom;
 import com.github.tommyettinger.colorful.Shaders;
 import com.github.tommyettinger.colorful.TrigTools;
@@ -48,12 +46,14 @@ import static com.badlogic.gdx.Gdx.input;
 public class OklabByHCLWheelDemo extends ApplicationAdapter {
     public static final int SCREEN_WIDTH = 512;
     public static final int SCREEN_HEIGHT = 512;
+    public static final boolean WRITING = true;
     private SpriteBatch batch;
     private Viewport screenView;
     private BitmapFont font;
     private Texture blank;
     private long lastProcessedTime = 0L, startTime;
     private float layer = 0.5f;
+    private float shape = 1.75f, turning = 0.65f;
     private GridPoint2 center = new GridPoint2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
 //    private PoissonDisk poisson = new PoissonDisk(SCREEN_WIDTH, SCREEN_HEIGHT, 5, new FourWheelRandom());
@@ -64,6 +64,7 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.setIdleFPS(10);
         config.useVsync(true);
+        config.disableAudio(true);
 //        config.setResizable(false);
 
         final OklabByHCLWheelDemo app = new OklabByHCLWheelDemo();
@@ -79,45 +80,49 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
         font = new BitmapFont(Gdx.files.internal("font.fnt"));
         font.setColor(1f, 0.5f, 0.5f, 1f);
         ShaderProgram shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderOklab);
-        if(!shader.isCompiled())
+        if (!shader.isCompiled())
             System.out.println(shader.getLog());
         batch = new SpriteBatch(2000, shader);
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        final int frameCount = 256;
-        Array<Pixmap> pixmaps = new Array<>(frameCount);
-        for (int i = 0; i < frameCount; i++) {
-            layer = i * 2f / (frameCount - 1f);
-            int floor = MathUtils.floorPositive(layer);
-            layer = (floor & 1) + (layer - floor) * (-(floor & 1) | 1);
+        if (WRITING) {
+            final int frameCount = 256;
+            Array<Pixmap> pixmaps = new Array<>(frameCount);
+            for (int i = 0; i < frameCount; i++) {
+                layer = i * 2f / (frameCount - 1f);
+                int floor = MathUtils.floorPositive(layer);
+                layer = (floor & 1) + (layer - floor) * (-(floor & 1) | 1);
 
-            renderInternal();
-            // this gets a screenshot of the current window and adds it to the Array of Pixmap.
-            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        }
+                renderInternal();
+                // this gets a screenshot of the current window and adds it to the Array of Pixmap.
+                pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+            }
 
-//
+
 //// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
 //// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
-        AnimatedGif gif = new AnimatedGif();
-        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
+            AnimatedGif gif = new AnimatedGif();
+            gif.setDitherAlgorithm(Dithered.DitherAlgorithm.DODGY); // might be better with complicated color stuff
+//            gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is fast and great with smooth gradients, but the temporal dithering looks weird here.
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // this should be dithered before usage
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is the current default; fairly high quality
-        gif.setDitherStrength(1f);
-        gif.fastAnalysis = false;
-        gif.palette = new PaletteReducer();
+            gif.setDitherStrength(0.5f);
+            gif.fastAnalysis = false;
+            gif.palette = new PaletteReducer();
 //        // 24 is how many frames per second the animated GIF should play back at.
-        gif.write(Gdx.files.local("OklabByHCL.gif"), pixmaps, 24);
+            gif.write(Gdx.files.local("OklabByHSL.gif"), pixmaps, 24);
 
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
-        AnimatedPNG png = new AnimatedPNG();
+            AnimatedPNG png = new AnimatedPNG();
+            png.setCompression(9);
 //// 24 is how many frames per second the animated PNG should play back at.
-        png.write(Gdx.files.local("OklabByHCL.png"), pixmaps, 24);
+            png.write(Gdx.files.local("OklabByHSL.png"), pixmaps, 24);
+        }
     }
 
     @Override
@@ -126,6 +131,7 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
         layer = TimeUtils.timeSinceMillis(startTime) * 0x1p-13f;
         int floor = MathUtils.floorPositive(layer);
         layer = (floor & 1) + (layer - floor) * (-(floor & 1) | 1);
+//        layer = 0.5f;
         renderInternal();
     }
 
@@ -151,14 +157,14 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
 //                final float g = ColorTools.getRawGamutValue((int)(layer * 255.999f) << 8 | (int)(angle * 256f));
 //                if(g < dist) continue;
 //                if(poisson.array[(int)(256 + x * dist)][(int) (256 + y * dist)] == 0) continue;
-                final float chr = dist * iMax;// * (0.5f - Math.abs(layer - 0.5f)) * 2f;
-//                if(random.nextLong() < 0x6800000000000000L && chr > ColorTools.chromaLimit(angle, layer)) continue;
-//                batch.setPackedColor(ColorTools.oklabByHCL(angle, chr, layer, 1f));
-                batch.setPackedColor(ColorTools.oklabByHCL(angle, chr * ColorTools.chromaLimit(angle, layer), layer, 1f));
+                final float chr = dist * iMax, hue = OtherMath.barronSpline(angle, shape, turning);// * (0.5f - Math.abs(layer - 0.5f)) * 2f;
+//                if(chr > ColorTools.chromaLimit(hue, layer)) continue;
+//                batch.setPackedColor(ColorTools.oklabByHCL(hue, chr, layer, 1f));
+                batch.setPackedColor(ColorTools.oklabByHSL(hue, chr, layer, 1f));
                 batch.draw(blank, 256f + x * dist, 256f + y * dist, 2f, 2f);
             }
         }
-        batch.setColor(layer * 0.9f + 0.05f, 0.5f, 0.5f, 1f);
+        batch.setColor(layer, 0.5f, 0.5f, 1f);
         batch.draw(blank, 255f, 255f, 2f, 2f);
         batch.end();
     }
@@ -173,5 +179,11 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
     public void handleInput() {
         if (input.isKeyPressed(Input.Keys.Q) || input.isKeyPressed(Input.Keys.ESCAPE)) //quit
             Gdx.app.exit();
+        else if(input.isKeyPressed(Input.Keys.S))
+            shape += Gdx.graphics.getDeltaTime() * (UIUtils.shift() ? -0.5f : 0.5f);
+        else if(input.isKeyPressed(Input.Keys.T))
+            turning = Math.min(Math.max(turning + Gdx.graphics.getDeltaTime() * (UIUtils.shift() ? -0.25f : 0.25f), 0f), 1f);
+        else if(input.isKeyJustPressed(Input.Keys.P))
+            System.out.println("shape = " + shape + "; turning = " + turning + ";");
     }
 }

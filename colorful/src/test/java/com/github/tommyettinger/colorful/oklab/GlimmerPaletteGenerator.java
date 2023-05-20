@@ -105,7 +105,9 @@ public class GlimmerPaletteGenerator {
     private static final IntArray rgba = new IntArray(limit);
     private static final FloatArray labs = new FloatArray(limit);
     private static int idx = 1;
-    private static double chroma = 0.5, lightness = 0.5;
+    private static double chroma = 0.25, lightness = 0.5;
+//    private static double distA = 0.675, distB = 0.8;
+    private static double distA = 0.25, distB = 0.55;
     private static void addL(int rgba8888){
         float oklab = ColorTools.oklab((rgba8888 >>> 8 & 255) / 255f, 0.5f, 0.5f, 1f);
         rgba.add(ColorTools.toRGBA8888(oklab));
@@ -115,14 +117,14 @@ public class GlimmerPaletteGenerator {
         ++idx;
         lightness += 0.8191725133961645;
         lightness -= (int)lightness;
-        int li = (int)(Math.pow(1.0-Math.pow(1.0- lightness, 0.8), 0.675) * 255.999), hue = (0xAB * idx & 0xff);
+        int li = (int)(Math.pow(1.0-Math.pow(1.0- lightness, distB), distA) * 255.999), hue = (0xAB * idx & 0xff);
 //        int li = (int)(Math.pow(1.0-Math.pow(1.0- lightness, 1.3), 1.7) * 255.999), hue = (0xAB * idx & 0xff);
         final int i = li << 8 | hue;
         chroma += 0.5497004779019703;
         chroma -= (int)chroma;
         double ch = Math.sqrt(chroma);
         final double dist = GAMUT_DATA[i] * ch;
-        if(li == 0) System.out.println("HSL " + hue * 0x1p-8f + " " + ch * ch + " " + li * 0x1p-8f + " (" + lightness + ") ");
+        if(li == 0) System.out.println("HSL " + hue * 0x1p-8f + " " + ch + " " + li * 0x1p-8f + " (" + lightness + ") ");
         float oklab = NumberUtils.intBitsToFloat(
                 (0xFE000000) | li |
                         (int) (TrigTools.sinTurns(hue * 0x1p-8f) * dist + 127.5f) << 16 |
@@ -152,20 +154,20 @@ public class GlimmerPaletteGenerator {
 
         addL(0x000000FF);
         addL(0xFFFFFFFF);
-        addL(0x888888FF);
-        addL(0x444444FF);
-        addL(0xCCCCCCFF);
-        addL(0x222222FF);
-        addL(0xAAAAAAFF);
-        addL(0x666666FF);
-        addL(0xEEEEEEFF);
-        addL(0x111111FF);
-        addL(0x999999FF);
-        addL(0x555555FF);
-        addL(0xDDDDDDFF);
-        addL(0x333333FF);
-        addL(0xBBBBBBFF);
-        addL(0x777777FF);
+//        addL(0x888888FF);
+//        addL(0x444444FF);
+//        addL(0xCCCCCCFF);
+//        addL(0x222222FF);
+//        addL(0xAAAAAAFF);
+//        addL(0x666666FF);
+//        addL(0xEEEEEEFF);
+//        addL(0x111111FF);
+//        addL(0x999999FF);
+//        addL(0x555555FF);
+//        addL(0xDDDDDDFF);
+//        addL(0x333333FF);
+//        addL(0xBBBBBBFF);
+//        addL(0x777777FF);
 
 //        int idx = 1, initial = rgba.size;
         while (rgba.size < limit) {
