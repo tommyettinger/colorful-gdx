@@ -285,6 +285,18 @@ public class FloatColors {
         }
         return result;
     }
+    /**
+     * Mixes any number of colors with arbitrary weights per-color. Takes an array ofr varargs of alternating floats
+     * representing colors and weights, as with {@code color, weight, color, weight...}.
+     * If {@code colors} is null or has no items, this returns 0f (usually transparent in most color spaces).
+     * @param colors an array or varargs that should contain alternating {@code color, weight, color, weight...} floats
+     * @return a mix of all colors given respecting their weights, as a packed float color
+     */
+    public static float unevenMix(float... colors) {
+        if(colors == null || colors.length == 0) return 0f;
+        if(colors.length == 1) return colors[0];
+        return unevenMix(colors, 0, colors.length);
+    }
 
     /**
      * Mixes any number of colors with arbitrary weights per-color. Takes an array of alternating floats representing
