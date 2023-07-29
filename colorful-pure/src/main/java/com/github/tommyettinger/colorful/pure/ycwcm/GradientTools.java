@@ -17,20 +17,20 @@
 package com.github.tommyettinger.colorful.pure.ycwcm;
 
 import com.github.tommyettinger.colorful.pure.FloatColors;
-import com.github.tommyettinger.colorful.pure.Interpolations;
-import com.github.tommyettinger.colorful.pure.Interpolations.Interpolation;
+import com.github.tommyettinger.digital.Interpolations;
+import com.github.tommyettinger.digital.Interpolations.InterpolationFunction;
 import com.github.tommyettinger.digital.MathTools;
 import com.github.tommyettinger.ds.FloatList;
 
 /**
  * Static methods for handling gradients of smoothly-changing colors, typically inside of {@link FloatList}s.
  * The intent is for the FloatList to be used as a sequence of packed float YCwCm colors. You can create a new
- * FloatList gradient with {@link #makeGradient(float, float, int, Interpolation)}, but any FloatList will work
+ * FloatList gradient with {@link #makeGradient(float, float, int, InterpolationFunction)}, but any FloatList will work
  * (although it only makes sense if it contains packed float colors or is empty). Once you have a FloatList, you can
- * pass it to {@link #appendGradient(FloatList, float, float, int, Interpolation)} to make a gradient between two
- * colors, or {@link #appendGradientChain(FloatList, int, Interpolation, float...)} to make a gradient between more
+ * pass it to {@link #appendGradient(FloatList, float, float, int, InterpolationFunction)} to make a gradient between two
+ * colors, or {@link #appendGradientChain(FloatList, int, InterpolationFunction, float...)} to make a gradient between more
  * than two colors. You can also customize each section between colors with
- * {@link #appendPartialGradient(FloatList, float, float, int, Interpolation)}, which is just like appendGradient() but
+ * {@link #appendPartialGradient(FloatList, float, float, int, InterpolationFunction)}, which is just like appendGradient() but
  * doesn't add the end color (since it is the start color of the next partial gradient, until you finally end by
  * appending just the end). Using appendPartialGradient(), you can have each transition use a different number of steps.
  */
@@ -54,14 +54,14 @@ public class GradientTools {
     }
     /**
      * Creates a FloatList gradient from the packed float YCwCm color {@code start} to the packed float YCwCm color
-     * {@code end}, taking the specified number of steps and using the specified Interpolation for how it transitions.
+     * {@code end}, taking the specified number of steps and using the specified InterpolationFunction for how it transitions.
      * @param start the packed float YCwCm color to start with
      * @param end the packed float YCwCm color to end on
      * @param steps how many steps the gradient should use; usually greater than 2, and must be non-negative
-     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions to end
+     * @param interpolation a libGDX InterpolationFunction that can be used to customize how start transitions to end
      * @return a new FloatList that contains the requested gradient
      */
-    public static FloatList makeGradient(float start, float end, int steps, Interpolation interpolation) {
+    public static FloatList makeGradient(float start, float end, int steps, InterpolationFunction interpolation) {
         FloatList appending = new FloatList(steps);
         if(steps <= 0) {
             return appending;
@@ -76,7 +76,7 @@ public class GradientTools {
 
     /**
      * Appends a gradient from the packed float YCwCm color {@code start} to the packed float YCwCm color {@code end},
-     * taking the specified number of steps and using linear Interpolation for how it transitions.
+     * taking the specified number of steps and using linear InterpolationFunction for how it transitions.
      * @param appending a FloatList that will be appended to
      * @param start the packed float YCwCm color to start with
      * @param end the packed float YCwCm color to end on
@@ -88,15 +88,15 @@ public class GradientTools {
     }
     /**
      * Appends a gradient from the packed float YCwCm color {@code start} to the packed float YCwCm color {@code end},
-     * taking the specified number of steps and using the specified Interpolation for how it transitions.
+     * taking the specified number of steps and using the specified InterpolationFunction for how it transitions.
      * @param appending a FloatList that will be appended to
      * @param start the packed float YCwCm color to start with
      * @param end the packed float YCwCm color to end on
      * @param steps how many steps the gradient should use; usually greater than 2
-     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions to end
+     * @param interpolation a libGDX InterpolationFunction that can be used to customize how start transitions to end
      * @return {@code appending}, after adding the gradient to the end
      */
-    public static FloatList appendGradient(FloatList appending, float start, float end, int steps, Interpolation interpolation) {
+    public static FloatList appendGradient(FloatList appending, float start, float end, int steps, InterpolationFunction interpolation) {
         if(appending == null)
             return null;
         if(steps <= 0) {
@@ -113,7 +113,7 @@ public class GradientTools {
 
     /**
      * Appends a gradient between several packed float YCwCm colors provided in {@code chain}. This uses linear
-     * Interpolation for the whole gradient. Appends to the end of {@code appending} and produces a total of
+     * InterpolationFunction for the whole gradient. Appends to the end of {@code appending} and produces a total of
      * {@code steps} colors.
      * @param appending a FloatList that will be appended to
      * @param steps how many steps the gradient should use; usually greater than 2
@@ -126,7 +126,7 @@ public class GradientTools {
 
     /**
      * Appends a gradient between several packed float YCwCm colors provided in {@code chain}. This uses linear
-     * Interpolation for the whole gradient. Appends to the end of {@code appending} and produces a total of
+     * InterpolationFunction for the whole gradient. Appends to the end of {@code appending} and produces a total of
      * {@code steps} colors.
      * @param appending a FloatList that will be appended to
      * @param steps how many steps the gradient should use; usually greater than 2
@@ -139,15 +139,15 @@ public class GradientTools {
 
     /**
      * Appends a gradient between several packed float YCwCm colors provided in {@code chain}. This uses the specified
-     * Interpolation for the whole gradient, which can make some colors use smaller sections than others. Appends to the
+     * InterpolationFunction for the whole gradient, which can make some colors use smaller sections than others. Appends to the
      * end of {@code appending} and produces a total of {@code steps} colors.
      * @param appending a FloatList that will be appended to
      * @param steps how many steps the gradient should use; usually greater than 2
-     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions to end
+     * @param interpolation a libGDX InterpolationFunction that can be used to customize how start transitions to end
      * @param chain a FloatList of packed float YCwCm colors that this will interpolate through in order
      * @return {@code appending}, after adding the gradient to the end
      */
-    public static FloatList appendGradientChain(FloatList appending, int steps, Interpolation interpolation, FloatList chain) {
+    public static FloatList appendGradientChain(FloatList appending, int steps, InterpolationFunction interpolation, FloatList chain) {
         if (appending == null)
             return null;
         if(chain == null)
@@ -175,15 +175,15 @@ public class GradientTools {
 
     /**
      * Appends a gradient between several packed float YCwCm colors provided in {@code chain}. This uses the specified
-     * Interpolation for the whole gradient, which can make some colors use smaller sections than others. Appends to the
+     * InterpolationFunction for the whole gradient, which can make some colors use smaller sections than others. Appends to the
      * end of {@code appending} and produces a total of {@code steps} colors.
      * @param appending a FloatList that will be appended to
      * @param steps how many steps the gradient should use; usually greater than 2
-     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions to end
+     * @param interpolation a libGDX InterpolationFunction that can be used to customize how start transitions to end
      * @param chain an array or varargs of packed float YCwCm colors that this will interpolate through in order
      * @return {@code appending}, after adding the gradient to the end
      */
-    public static FloatList appendGradientChain(FloatList appending, int steps, Interpolation interpolation, float... chain) {
+    public static FloatList appendGradientChain(FloatList appending, int steps, InterpolationFunction interpolation, float... chain) {
         if (appending == null)
             return null;
         if(chain == null)
@@ -224,7 +224,7 @@ public class GradientTools {
         return appendPartialGradient(appending, start, end, steps, Interpolations.linear);
     }
     /**
-     * Exactly like {@link #appendGradient(FloatList, float, float, int, Interpolation)}, but does not include
+     * Exactly like {@link #appendGradient(FloatList, float, float, int, InterpolationFunction)}, but does not include
      * {@code end} in what it appends to {@code appending}. This is intended for the implementation of chained
      * gradients, where the end of a previous gradient becomes the start of the next one. This still uses the specified
      * number of steps, it just doesn't append {@code end} in the last step.
@@ -232,10 +232,10 @@ public class GradientTools {
      * @param start the packed float YCwCm color to start with
      * @param end the packed float YCwCm color to end just before
      * @param steps how many steps the gradient should use; usually greater than 2
-     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions toward end
+     * @param interpolation a libGDX InterpolationFunction that can be used to customize how start transitions toward end
      * @return {@code appending}, after adding the gradient to its end
      */
-    public static FloatList appendPartialGradient(FloatList appending, float start, float end, int steps, Interpolation interpolation){
+    public static FloatList appendPartialGradient(FloatList appending, float start, float end, int steps, InterpolationFunction interpolation){
         if(appending == null)
             return null;
         if(steps <= 0) {

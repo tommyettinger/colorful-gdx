@@ -27,7 +27,9 @@ import static com.github.tommyettinger.digital.MathTools.barronSpline;
  * <br>
  * This class is mostly copied directly from libGDX. Changes have been made to avoid copying even more over.
  * @author Nathan Sweet
+ * @deprecated Use {@link com.github.tommyettinger.digital.Interpolations} from digital instead.
  */
+@Deprecated
 public final class Interpolations {
 	public static abstract class Interpolation {
 		/**

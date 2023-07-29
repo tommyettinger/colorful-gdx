@@ -46,7 +46,7 @@ public class OklabGradientDemo extends ApplicationAdapter {
     private TextureRegion pixel;
     private final FloatArray colors = new FloatArray(1024);
     private float start, end;
-    private Interpolation interpolation = Interpolation.linear;
+    private final Interpolation interpolation = Interpolation.smooth;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -94,6 +94,17 @@ public class OklabGradientDemo extends ApplicationAdapter {
             }
         });
         input.setInputProcessor(stage);
+
+        int largeSize = 450;
+        FloatArray largePalette = GradientTools.appendGradientChain(new FloatArray(largeSize), largeSize, interpolation, Palette.SPACE_BLUE, Palette.FERN_GREEN, Palette.LURID_RED, Palette.CLOUD);
+        System.out.println("float[] gradient = new float[] {");
+        for (int y = 0, index = 0; y < largeSize; y += 9) {
+            for (int x = 0; x < 9; x++) {
+                System.out.print(Float.toHexString(ColorTools.toRGBA(largePalette.get(index++))) + "f, ");
+            }
+            System.out.println();
+        }
+        System.out.println("};");
     }
 
 

@@ -17,6 +17,7 @@
 package com.github.tommyettinger.colorful.pure;
 
 import com.github.tommyettinger.digital.BitConversion;
+import com.github.tommyettinger.digital.TrigTools;
 
 /**
  * Some alternative approximations to sin(), cos(), asin(), acos(), atan(), and atan2(), including the option to measure
@@ -27,12 +28,12 @@ import com.github.tommyettinger.digital.BitConversion;
  * measure turns in degrees, either from -180 to 180 for {@link #atan2Degrees(float, float)} or from 0 to 360 for
  * {@link #atan2Degrees360(float, float)}. Also has {@link #lerp(float, float, float)}, why not.
  * <br>
- * New code should use {@link com.github.tommyettinger.digital.TrigTools} for trigonometric methods instead; it has
+ * New code should use {@link TrigTools} for trigonometric methods instead; it has
  * sinTurns() instead of sin_(), and other naming has similar changes, but should be faster and more precise. The other
  * methods have parallels in {@link com.github.tommyettinger.digital.MathTools}.
- * <br>
- * Created by Tommy Ettinger on 8/6/2019.
+ * @deprecated New code should use {@link TrigTools} and {@link com.github.tommyettinger.digital.MathTools}.
  */
+@Deprecated
 public class MathTools {
 
     /**
