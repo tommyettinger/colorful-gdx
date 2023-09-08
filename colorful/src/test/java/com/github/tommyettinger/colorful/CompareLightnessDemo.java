@@ -155,7 +155,12 @@ public class CompareLightnessDemo extends ApplicationAdapter {
     public static float oklabToRGBA0(final float packed)
     {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
-        final float L = (float) Math.sqrt((decoded & 0xff) / 255f);
+        // Our reverseLight() can just raise L to the 2.0/3.0 power.
+        // That makes the forwardLight():
+        //   cube((float)Math.sqrt(L))
+        final float L0 = OtherMath.cbrt((decoded & 0xff) / 255f);
+        final float L = L0 * L0;
+//        final float L = (float) Math.pow((decoded & 0xff) / 255f, 0.666f);
         final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
         final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
         final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
