@@ -78,6 +78,7 @@ public class CompareLightnessDemo extends ApplicationAdapter {
         tab.add("Hsluv:       ").center().grow().minWidth(200).row();
         tab.add("YCwCm:       ").center().grow().minWidth(200).row();
         tab.add("Oklab:       ").center().grow().minWidth(200).row();
+        tab.add("Oklab Fancy: ").center().grow().minWidth(200).row();
         tab.add("IPT_HQ:      ").center().grow().minWidth(200);
         stage.getRoot().addActor(tab);
         input.setInputProcessor(new InputMultiplexer(new InputAdapter(){
@@ -98,7 +99,7 @@ public class CompareLightnessDemo extends ApplicationAdapter {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float width = Gdx.graphics.getWidth();
-        float height = Gdx.graphics.getHeight();
+        float height = Gdx.graphics.getHeight() / 6f;
 
         if(input.isKeyPressed(Input.Keys.LEFT))
             turning = Math.max(0f, turning - Gdx.graphics.getDeltaTime() * 0.25f);
@@ -122,21 +123,36 @@ public class CompareLightnessDemo extends ApplicationAdapter {
         for (int j = 0; j < 256; j++) {
             r = j / 255f;
             batch.setPackedColor(ColorTools.rgb(r, r, r, 1f));
-            batch.draw(pixel, 256f + j * 2f, height * 0.8f, 2f, height * 0.2f);
+            batch.draw(pixel, 256f + j * 2f, height * 5f, 2f, height);
             batch.setPackedColor(com.github.tommyettinger.colorful.hsluv.ColorTools.toRGBA(com.github.tommyettinger.colorful.hsluv.ColorTools.hsluv(0.5f, 0f, (r), 1f)));
 //            batch.setPackedColor(com.github.tommyettinger.colorful.hsluv.ColorTools.toRGBA(com.github.tommyettinger.colorful.hsluv.ColorTools.hsluv(0.5f, 0f, barronSpline(r, 1.1726f, 0.1f), 1f)));
-            batch.draw(pixel, 256f + j * 2f, height * 0.6f, 2f, height * 0.2f);
+            batch.draw(pixel, 256f + j * 2f, height * 4f, 2f, height);
             batch.setPackedColor(com.github.tommyettinger.colorful.ycwcm.ColorTools.toRGBA(com.github.tommyettinger.colorful.ycwcm.ColorTools.ycwcm(r, 0.5f, 0.5f, 1f)));
-            batch.draw(pixel, 256f + j * 2f, height * 0.4f, 2f, height * 0.2f);
-            batch.setPackedColor(oklabToRGBA(com.github.tommyettinger.colorful.oklab.ColorTools.oklab(r, 0.5f, 0.5f, 1f), shape, turning));
-//            batch.setPackedColor(com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA(com.github.tommyettinger.colorful.oklab.ColorTools.oklab(r, 0.5f, 0.5f, 1f)));
-            batch.draw(pixel, 256f + j * 2f, height * 0.2f, 2f, height * 0.2f);
+            batch.draw(pixel, 256f + j * 2f, height * 3f, 2f, height);
+            batch.setPackedColor(com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA(com.github.tommyettinger.colorful.oklab.ColorTools.oklab(r, 0.5f, 0.5f, 1f)));
+            batch.draw(pixel, 256f + j * 2f, height * 2f, 2f, height);
+            batch.setPackedColor(oklabToRGBA(com.github.tommyettinger.colorful.oklab.ColorTools.oklab(r, 0.5f, 0.5f, 1f)));
+            batch.draw(pixel, 256f + j * 2f, height, 2f, height);
             batch.setPackedColor(com.github.tommyettinger.colorful.ipt_hq.ColorTools.toRGBA(com.github.tommyettinger.colorful.ipt_hq.ColorTools.ipt(r, 0.5f, 0.5f, 1f)));
-            batch.draw(pixel, 256f + j * 2f, 0, 2f, height * 0.2f);
+            batch.draw(pixel, 256f + j * 2f, 0, 2f, height);
         }
         batch.setPackedColor(Color.WHITE_FLOAT_BITS);
         stage.getRoot().draw(batch, 1);
         batch.end();
+    }
+    public static float oklabToRGBA(final float packed)
+    {
+        final int decoded = NumberUtils.floatToRawIntBits(packed);
+        final float L = reverseLight((decoded & 0xff) / 255f);
+        final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+        final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
+        final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+        final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+        final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+        final int r = (int)((float)Math.sqrt(Math.min(Math.max(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f), 1f)) * 255.999f);
+        final int g = (int)((float)Math.sqrt(Math.min(Math.max(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f), 1f)) * 255.999f);
+        final int b = (int)((float)Math.sqrt(Math.min(Math.max(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f), 1f)) * 255.999f);
+        return NumberUtils.intBitsToFloat(r | g << 8 | b << 16 | (decoded & 0xfe000000));
     }
     public static float oklabToRGBA(final float packed, final float shape, final float turning)
     {
@@ -156,6 +172,12 @@ public class CompareLightnessDemo extends ApplicationAdapter {
         return x * x * x;
     }
 
+    public static float reverseLight(float L) {
+        L = (float) Math.sqrt(L);
+        final float k1 = 0.206f, k3 = 1.17087f; // k2 = 0.03, but that is already included.
+        final float t = (k3 * L - k1);
+        return (t + (float) Math.sqrt(t * t + 0.1405044f * L)) * 0.5f;
+    }
     public static float reverseLightConf(float L, float shape, float turning) {
         L = (float) Math.sqrt(L * 0x0.ffp0f);
 //        final float shape = 1.55f, turning = 0.95f;
