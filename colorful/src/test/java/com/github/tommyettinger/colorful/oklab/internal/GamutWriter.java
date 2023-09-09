@@ -150,7 +150,8 @@ public class GamutWriter extends ApplicationAdapter {
         System.out.println("Wrote code snippet to " + filename);
     }
     public static double reverseLight(double L) {
-        return Math.pow(L * (255.0/256.0), 2.0/3.0);
+        return Math.pow(L, 2.0/3.0);
+//        return Math.pow(L * (255.0/256.0), 2.0/3.0);
     }
 //    public static double reverseLight(double L) {
 //        L = Math.sqrt(L);

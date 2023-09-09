@@ -24,7 +24,7 @@ import org.junit.Test;
 
 import static com.github.tommyettinger.colorful.oklab.ColorTools.*;
 
-public class BasicChecks {
+public class BasicCheckTest {
 //    public static float limitToGamut(float L, float A, float B, float alpha) {
 //        L = Math.min(Math.max(L, 0f), 1f);
 //        A = Math.min(Math.max(A, 0f), 1f);
@@ -106,7 +106,7 @@ public class BasicChecks {
             float L = (ColorTools.channelL(color));
             float A = ColorTools.channelA(color);
             float B = ColorTools.channelB(color);
-            if(!inGamut(L, A, B)){
+            if(!inGamut(L, A, B) || !ColorTools.inGamut(L, A, B)){
                 System.out.printf("%s is having problems! It has L=%a,A=%a,B=%a\n", name, L, A, B);
                 hues.add(oklabHue(color));
                 analyzeFailure(L, A, B);
@@ -116,8 +116,8 @@ public class BasicChecks {
 //            }
             A = (A + 0.5f) % 1f;
             B = (B + 0.5f) % 1f;
-            if(inGamut(L, A, B)){
-                System.out.printf("%s's inverse should not be in gamut!!!!! It has L=%f,A=%f,B=%f\n", name, L, A, B);
+            if(inGamut(L, A, B) || ColorTools.inGamut(L, A, B)){
+                System.out.printf("%s with max chromatic offset should not be in gamut!!!!! It has L=%f,A=%f,B=%f\n", name, L, A, B);
             }
         }
         hues.sort();
@@ -130,7 +130,7 @@ public class BasicChecks {
         }
     }
     public static double reverseLight(double L) {
-        return Math.pow(L * (255.0/256.0), 2.0/3.0);
+        return Math.pow(L, 2.0/3.0);
     }
 
 //    public static double reverseLight(double L) {
@@ -160,6 +160,9 @@ public class BasicChecks {
         //forwardLight() for double
 //        L = (L - 1.00457) / (1.0 - L * 0.4285714) + 1.00457;
 
+//        A -= 0.499;
+//        B -= 0.499;
+
         A -= 0x1.fdfdfep-2;
         B -= 0x1.fdfdfep-2;
 
@@ -170,12 +173,22 @@ public class BasicChecks {
         double s = (L + -0.0894841775 * A + -1.2914855480 * B);
         s *= s * s;
 
-        final double r = +4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s;
-        if(r < 0.0 || r > 1.0) return false;
-        final double g = -1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s;
-        if(g < 0.0 || g > 1.0) return false;
-        final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
-        return (b >= 0.0 && b <= 1.0);
+//        final double r = +4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s;
+//        if(r < -0x1p-8 || r > 0x101p-8) return false;
+//        final double g = -1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s;
+//        if(g < -0x1p-8 || g > 0x101p-8) return false;
+//        final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
+//        return (b >= -0x1p-8 && b <= 0x101p-8);
+
+        double dr = Math.sqrt((+4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s)*255.999f);
+        final int r = (int)dr;
+        if(Double.isNaN(dr) || r < 0 || r > 255) return false;
+        double dg = Math.sqrt((-1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s)*255.999f);
+        final int g = (int)dg;
+        if(Double.isNaN(dg) || g < 0 || g > 255) return false;
+        double db = Math.sqrt((-0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s)*255.999f);
+        final int b = (int)db;
+        return (!Double.isNaN(db) && b >= 0 && b <= 255);
 
 //        final double r = +4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s;
 //        if(r < -0x1p-8 || r > 0x101p-8) return false;
