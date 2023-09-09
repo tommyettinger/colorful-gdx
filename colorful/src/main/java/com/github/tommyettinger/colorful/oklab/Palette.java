@@ -43,7 +43,6 @@ public class Palette {
     public static final FloatArray LIST = new FloatArray(256);
 
 
-
     /**
      * This color constant "Transparent" has RGBA8888 code {@code 00000000}, L 0.0, A 0.49803922, B 0.49803922, alpha 0.0, hue 0.0, saturation 0.0, and chroma 0.0055242716.
      * It can be represented as a packed float with the constant {@code 0x0.fefep-126F}.
