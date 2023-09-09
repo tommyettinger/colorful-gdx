@@ -76,8 +76,8 @@ public class CompareLightnessDemo extends ApplicationAdapter {
 //        tab.add(title).colspan(2).growX().minWidth(300).row();
         tab.add("RGB:         ").center().grow().minWidth(200).row();
         tab.add("Oklab:       ").center().grow().minWidth(200).row();
-        tab.add("YCwCm:       ").center().grow().minWidth(200).row();
         tab.add("Oklab0:      ").center().grow().minWidth(200).row();
+        tab.add("YCwCm:       ").center().grow().minWidth(200).row();
         tab.add("Oklab Fancy: ").center().grow().minWidth(200).row();
         tab.add("Hsluv:       ").center().grow().minWidth(200);
         stage.getRoot().addActor(tab);
@@ -126,9 +126,9 @@ public class CompareLightnessDemo extends ApplicationAdapter {
             batch.draw(pixel, 256f + j * 2f, height * 5f, 2f, height);
             batch.setPackedColor(com.github.tommyettinger.colorful.oklab.ColorTools.toRGBA(com.github.tommyettinger.colorful.oklab.ColorTools.oklab(r, 0.5f, 0.5f, 1f)));
             batch.draw(pixel, 256f + j * 2f, height * 4f, 2f, height);
-            batch.setPackedColor(com.github.tommyettinger.colorful.ycwcm.ColorTools.toRGBA(com.github.tommyettinger.colorful.ycwcm.ColorTools.ycwcm(r, 0.5f, 0.5f, 1f)));
-            batch.draw(pixel, 256f + j * 2f, height * 3f, 2f, height);
             batch.setPackedColor(oklabToRGBA0(com.github.tommyettinger.colorful.oklab.ColorTools.oklab(r, 0.5f, 0.5f, 1f)));
+            batch.draw(pixel, 256f + j * 2f, height * 3f, 2f, height);
+            batch.setPackedColor(com.github.tommyettinger.colorful.ycwcm.ColorTools.toRGBA(com.github.tommyettinger.colorful.ycwcm.ColorTools.ycwcm(r, 0.5f, 0.5f, 1f)));
             batch.draw(pixel, 256f + j * 2f, height * 2f, 2f, height);
             batch.setPackedColor(oklabToRGBA(com.github.tommyettinger.colorful.oklab.ColorTools.oklab(r, 0.5f, 0.5f, 1f)));
             batch.draw(pixel, 256f + j * 2f, height, 2f, height);
@@ -174,7 +174,7 @@ public class CompareLightnessDemo extends ApplicationAdapter {
     public static float oklabToRGBA(final float packed)
     {
         final int decoded = NumberUtils.floatToRawIntBits(packed);
-        final float L = reverseLight((decoded & 0xff) / 255f);
+        final float L = reverseLightOttosson((decoded & 0xff) / 255f);
         final float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
         final float B = ((decoded >>> 16 & 255) - 127f) / 127f;
         final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
@@ -203,7 +203,13 @@ public class CompareLightnessDemo extends ApplicationAdapter {
         return x * x * x;
     }
 
-    public static float reverseLight(float L) {
+    public static float forwardLightOttosson(float L) {
+        L = (float) Math.sqrt(L);
+        final float k1 = 0.206f, k3 = 1.17087f, k2 = 0.03f;
+        return (L * (L + k1)) / (k3 * (L + k2));
+    }
+
+    public static float reverseLightOttosson(float L) {
         L = (float) Math.sqrt(L);
         final float k1 = 0.206f, k3 = 1.17087f; // k2 = 0.03, but that is already included.
         final float t = (k3 * L - k1);
