@@ -149,16 +149,19 @@ public class GamutWriter extends ApplicationAdapter {
         System.out.println("Wrote code snippet to " + filename);
     }
     public static double reverseLight(double L) {
-        L = Math.sqrt(L);
-        final double shape = 1.55, turning = 0.95;
-        final double d = turning - L;
-        double r;
-        if(d < 0)
-            r = ((1.0 - turning) * (L - 1.0)) / (1.0 - (L + shape * d)) + 1.0;
-        else
-            r = (turning * L) / (1e-50 + (L + shape * d));
-        return r;
+        return Math.pow(L, 2.0/3.0);
     }
+//    public static double reverseLight(double L) {
+//        L = Math.sqrt(L);
+//        final double shape = 1.55, turning = 0.95;
+//        final double d = turning - L;
+//        double r;
+//        if(d < 0)
+//            r = ((1.0 - turning) * (L - 1.0)) / (1.0 - (L + shape * d)) + 1.0;
+//        else
+//            r = (turning * L) / (1e-50 + (L + shape * d));
+//        return r;
+//    }
 
     /**
          * Returns true if the given Oklab values are valid to convert losslessly back to RGBA.

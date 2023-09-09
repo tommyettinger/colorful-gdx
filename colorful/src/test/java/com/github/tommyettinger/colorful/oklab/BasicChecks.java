@@ -129,16 +129,20 @@ public class BasicChecks {
         }
     }
     public static double reverseLight(double L) {
-        L = Math.sqrt(L * 0x0.ffp0); // 255.0/256.0
-        final double shape = 1.52, turning = 0.963;
-        final double d = turning - L;
-        double r;
-        if(d < 0)
-            r = ((1.0 - turning) * (L - 1.0)) / (1.0 - (L + shape * d)) + 1.0;
-        else
-            r = (turning * L) / (1e-50 + (L + shape * d));
-        return r;
+        return Math.pow(L, 2.0/3.0);
     }
+
+//    public static double reverseLight(double L) {
+//        L = Math.sqrt(L * 0x0.ffp0); // 255.0/256.0
+//        final double shape = 1.52, turning = 0.963;
+//        final double d = turning - L;
+//        double r;
+//        if(d < 0)
+//            r = ((1.0 - turning) * (L - 1.0)) / (1.0 - (L + shape * d)) + 1.0;
+//        else
+//            r = (turning * L) / (1e-50 + (L + shape * d));
+//        return r;
+//    }
 
     /**
      * Returns true if the given Oklab values are valid to convert losslessly back to RGBA.
@@ -150,7 +154,7 @@ public class BasicChecks {
     public static boolean inGamut(double L, double A, double B)
     {
         //reverseLight() for double
-        L = reverseLight(L);
+        L = reverseLight(L) * 0x0.ffp0;
         //forwardLight() for double
 //        L = (L - 1.00457) / (1.0 - L * 0.4285714) + 1.00457;
         A -= 0x1.fdfdfep-2;
