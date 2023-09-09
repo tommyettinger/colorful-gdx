@@ -749,22 +749,39 @@ public final class AlternatePalette {
      * Changes the curve of a requested L value so that it matches the internally-used curve. This takes a curve with a
      * very-dark area similar to sRGB (a very small one), and makes it significantly larger. This is typically used on
      * "to Oklab" conversions.
+     * <br>
+     * Internally, this is similar to {@code (float)Math.pow(L, 1.5f)}. At one point it used a modified "Barron spline"
+     * to get its curvature mostly right, but this now seems nearly indistinguishable from an ideal curve.
      * @param L lightness, from 0 to 1 inclusive
      * @return an adjusted L value that can be used internally
      */
     public static float forwardLight(final float L) {
-        return (L - 1.004f) / (1f - L * 0.4285714f) + 1.004f;
+        return (float) Math.sqrt(L * L * L);
     }
 
     /**
      * Changes the curve of the internally-used lightness when it is output to another format. This makes the very-dark
-     * area smaller, matching (kind-of) the curve that the standard sRGB lightness uses. This is typically used on "from
+     * area smaller, matching (closely) the curve that the standard sRGB lightness uses. This is typically used on "from
      * Oklab" conversions.
+     * <br>
+     * Internally, this is similar to {@code (float)Math.pow(L, 2f/3f)}. At one point it used a modified "Barron spline"
+     * to get its curvature mostly right, but this now seems nearly indistinguishable from an ideal curve.
+     * <br>
+     * This specific code uses a modified cube root approximation originally by Marc B. Reynolds, posted in his
+     * <a href="https://github.com/Marc-B-Reynolds/Stand-alone-junk/blob/7d8d1e19b2ab09743f46964f60244906e1023f6a/src/Posts/ballcube.c#L182-L197">"Stand-alone-junk" repo</a> .
      * @param L lightness, from 0 to 1 inclusive
      * @return an adjusted L value that can be fed into a conversion to RGBA or something similar
      */
-    public static float reverseLight(final float L) {
-        return (L - 0.993f) / (1f + L * 0.75f) + 0.993f;
+    public static float reverseLight(float L) {
+        int ix = BitConversion.floatToIntBits(L);
+        final float x0 = L;
+        ix = (ix>>>2) + (ix>>>4);
+        ix += (ix>>>4);
+        ix += (ix>>>8) + 0x2A5137A0;
+        L = BitConversion.intBitsToFloat(ix);
+        L = 0.33333334f * (2f * L + x0 / (L * L));
+        L = 0.33333334f * (1.9999999f * L + x0 / (L * L));
+        return L * L;
     }
     /**
      * Gets an Oklab packed int color that is within the gamut of viable colors by using
