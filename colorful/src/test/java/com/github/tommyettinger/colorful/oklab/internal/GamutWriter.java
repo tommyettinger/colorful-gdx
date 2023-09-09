@@ -38,7 +38,7 @@ public class GamutWriter extends ApplicationAdapter {
         int idx = 0, largestDist = -1;
         double minA = 1000.0, maxA = -1000.0, minB = 1000.0, maxB = -1000.0, maxDist = -1000.0, furthest = 300.0;
         for (int light = 0; light < 256; light++) {
-            double L = light * 0x1p-8;
+            double L = light / 255.0;
             PER_HUE:
             for (int angle = 0; angle < 256; angle++) {
                 double theta = (angle) * 0x1p-7 * Math.PI;
@@ -103,6 +103,7 @@ public class GamutWriter extends ApplicationAdapter {
                 "    static byte[] GAMUT_DATA;\n" +
                 "    static {\n" +
                 "        try {\n" +
+                "            //noinspection StringBufferReplaceableByString\n" +
                 "            GAMUT_DATA = new StringBuilder().append(\"");
         for (int i = 0; i < data.length;) {
             byte b = data[i++];
@@ -149,7 +150,7 @@ public class GamutWriter extends ApplicationAdapter {
         System.out.println("Wrote code snippet to " + filename);
     }
     public static double reverseLight(double L) {
-        return Math.pow(L, 2.0/3.0);
+        return Math.pow(L * (255.0/256.0), 2.0/3.0);
     }
 //    public static double reverseLight(double L) {
 //        L = Math.sqrt(L);
@@ -193,6 +194,7 @@ public class GamutWriter extends ApplicationAdapter {
         //reverseLight() for double
 //        L = (L - 0.993) / (1.0 + L * 0.75) + 0.993; // old
         L = reverseLight(L);
+//        L = reverseLight(L * (255.0/256.0));
 
         //unused:
         //forwardLight() for double
@@ -212,12 +214,15 @@ public class GamutWriter extends ApplicationAdapter {
 //        final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
 //        return (b >= -0x1p-8 && b <= 0x101p-8);
 
-        final double r = +4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s;
-        if(r < 0.0 || r > 1.0) return false;
-        final double g = -1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s;
-        if(g < 0.0 || g > 1.0) return false;
-        final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
-        return (b >= 0.0 && b <= 1.0);
+        double dr = Math.sqrt((+4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s)*255.999f);
+        final int r = (int)dr;
+        if(Double.isNaN(dr) || r < 0 || r > 255) return false;
+        double dg = Math.sqrt((-1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s)*255.999f);
+        final int g = (int)dg;
+        if(Double.isNaN(dg) || g < 0 || g > 255) return false;
+        double db = Math.sqrt((-0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s)*255.999f);
+        final int b = (int)db;
+        return (!Double.isNaN(db) && b >= 0 && b <= 255);
 
 
 //        return r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255;

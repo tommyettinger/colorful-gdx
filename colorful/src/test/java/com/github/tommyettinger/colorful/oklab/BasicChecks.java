@@ -109,6 +109,7 @@ public class BasicChecks {
             if(!inGamut(L, A, B)){
                 System.out.printf("%s is having problems! It has L=%a,A=%a,B=%a\n", name, L, A, B);
                 hues.add(oklabHue(color));
+                analyzeFailure(L, A, B);
             }
 //            if(inGamut(L, A, B)){
 //                System.out.printf("%s is doing fine.    It has L=%f,A=%f,B=%f\n", name, L, A, B);
@@ -129,7 +130,7 @@ public class BasicChecks {
         }
     }
     public static double reverseLight(double L) {
-        return Math.pow(L, 2.0/3.0);
+        return Math.pow(L * (255.0/256.0), 2.0/3.0);
     }
 
 //    public static double reverseLight(double L) {
@@ -154,9 +155,11 @@ public class BasicChecks {
     public static boolean inGamut(double L, double A, double B)
     {
         //reverseLight() for double
-        L = reverseLight(L) * 0x0.ffp0;
+//        L = reverseLight(L);
+        L = reverseLight(L);
         //forwardLight() for double
 //        L = (L - 1.00457) / (1.0 - L * 0.4285714) + 1.00457;
+
         A -= 0x1.fdfdfep-2;
         B -= 0x1.fdfdfep-2;
 
@@ -180,6 +183,39 @@ public class BasicChecks {
 //        if(g < -0x1p-8 || g > 0x101p-8) return false;
 //        final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
 //        return (b >= -0x1p-8 && b <= 0x101p-8);
+    }
+
+    public static boolean analyzeFailure(double L, double A, double B)
+    {
+        L = reverseLight(L);
+        A -= 0x1.fdfdfep-2;
+        B -= 0x1.fdfdfep-2;
+
+        double l = (L + +0.3963377774 * A + +0.2158037573 * B);
+        l *= l * l;
+        double m = (L + -0.1055613458 * A + -0.0638541728 * B);
+        m *= m * m;
+        double s = (L + -0.0894841775 * A + -1.2914855480 * B);
+        s *= s * s;
+
+        boolean valid = true;
+
+        final double r = +4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s;
+        if(r < 0.0 || r > 1.0) {
+            System.out.println("r out of range: " + r);
+            valid = false;
+        }
+        final double g = -1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s;
+        if(g < 0.0 || g > 1.0) {
+            System.out.println("g out of range: " + g);
+            valid = false;
+        }
+        final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
+        if(b < 0.0 || b > 1.0) {
+            System.out.println("b out of range: " + b);
+            valid = false;
+        }
+        return valid;
     }
 
     @Test
