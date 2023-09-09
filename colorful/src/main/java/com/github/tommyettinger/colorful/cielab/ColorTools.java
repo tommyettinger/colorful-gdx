@@ -123,7 +123,7 @@ public class ColorTools {
         ix += (ix>>>8) + 0x2A5137A0;
         x  = NumberUtils.intBitsToFloat(ix);
         x  = 0.33333334f*(2f * x + x0/(x*x));
-        x  = 0.33333334f*(2f * x + x0/(x*x));
+        x  = 0.33333334f*(1.9999999f * x + x0/(x*x));
         return x;
     }
 
