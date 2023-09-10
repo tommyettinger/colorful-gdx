@@ -43,7 +43,6 @@ public class FullPalette {
     public static final FloatArray LIST = new FloatArray(1019);
 
 
-
     /**
      * This color constant "Alice Blue" has RGBA8888 code {@code F0F8FFFF}, L 0.96862745, A 0.49411765, B 0.49411765, alpha 1.0, hue 0.625, saturation 0.05656854, and chroma 0.016572814.
      * It can be represented as a packed float with the constant {@code -0x1.fcfdeep125F}.
