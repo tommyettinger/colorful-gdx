@@ -38,39 +38,32 @@ import static com.github.tommyettinger.colorful.oklab.ColorTools.*;
 public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String outputAdd = "Oklab";
 //    public static final String inputName = "AuroraColorData.txt";
-//    public static final ObjectFloatMap<String> named = Palette.NAMED;
 
 //    public static final String outputAdd = "YamOklab";
 //    public static final String inputName = "YamColorData.txt";
-//    public static final ObjectFloatMap<String> named = YamPalette.NAMED;
 
 //    public static final String outputAdd = "Yam2Oklab";
 //    public static final String inputName = "Yam2ColorData.txt";
-//    public static final ObjectFloatMap<String> named = Yam2Palette.NAMED;
 
 //    public static final String outputAdd = "Yam3Oklab";
 //    public static final String inputName = "Yam3ColorData.txt";
-//    public static final ObjectFloatMap<String> named = Yam3Palette.NAMED;
 
-//    public static final String outputAdd = "FullOklab";
-//    public static final String inputName = "ColorData.txt";
-//    public static final ObjectFloatMap<String> named = FullPalette.NAMED;
+    public static final String outputAdd = "FullOklab";
+    public static final String inputName = "ColorData.txt";
 
 //    public static final String outputAdd = "NamedMunsellOklab";
 //    public static final String inputName = "ISCCNBSData.txt";
-//    public static final ObjectFloatMap<String> named = NamedMunsellPalette.NAMED;
 
 //    public static final String outputAdd = "BrighterMunsellOklab";
 //    public static final String inputName = "BrighterMunsell.txt";
-//    public static final ObjectFloatMap<String> named = BrighterMunsellPalette.NAMED;
 
 //    public static final String outputAdd = "Munsellish2Oklab";
 //    public static final String inputName = "Munsellish2.txt";
-//    public static final ObjectFloatMap<String> named = Munsellish2Palette.NAMED;
 
-    public static final String outputAdd = "SimpleOklab";
-    public static final String inputName = "SimpleColorData.txt";
-    public static final ObjectFloatMap<String> named = SimplePalette.NAMED;
+//    public static final String outputAdd = "SimpleOklab";
+//    public static final String inputName = "SimpleColorData.txt";
+
+    public static final ObjectFloatMap<String> named = new ObjectFloatMap<>(1024);
 
     public static final boolean INT_PACK = false;
 
@@ -142,6 +135,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                             ? "int"
                             : "float")
             );
+            named.put(rec[2], c);
             System.out.println(rec[2] + " : correct RGBA=" + rec[1] + ", decoded RGBA=" + StringKit.hex(toRGBA8888(c)) + ", raw=" + StringKit.hex(NumberUtils.floatToRawIntBits(c))
 //                    + ", decoded hue=" + ColorTools.hue(c) + ", decoded saturation=" + ColorTools.saturation(c) + ", decoded lightness=" + ColorTools.lightness(c)
                     + ", decoded L=" + ColorTools.channelL(c) + ", decoded A=" + (ColorTools.channelA(c)*2f-1f) + ", decoded B=" + (ColorTools.channelB(c)*2f-1f)
