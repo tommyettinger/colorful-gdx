@@ -154,14 +154,7 @@ public class BasicCheckTest {
      */
     public static boolean inGamut(double L, double A, double B)
     {
-        //reverseLight() for double
-//        L = reverseLight(L);
         L = reverseLight(L);
-        //forwardLight() for double
-//        L = (L - 1.00457) / (1.0 - L * 0.4285714) + 1.00457;
-
-//        A -= 0.499;
-//        B -= 0.499;
 
         A -= 0x1.fdfdfep-2;
         B -= 0x1.fdfdfep-2;
@@ -189,13 +182,6 @@ public class BasicCheckTest {
         double db = Math.sqrt((-0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s)*255.999f);
         final int b = (int)db;
         return (!Double.isNaN(db) && b >= 0 && b <= 255);
-
-//        final double r = +4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s;
-//        if(r < -0x1p-8 || r > 0x101p-8) return false;
-//        final double g = -1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s;
-//        if(g < -0x1p-8 || g > 0x101p-8) return false;
-//        final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
-//        return (b >= -0x1p-8 && b <= 0x101p-8);
     }
 
     public static boolean analyzeFailure(double L, double A, double B)

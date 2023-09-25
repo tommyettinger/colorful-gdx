@@ -49,7 +49,9 @@ import java.util.Comparator;
  * HUE1 HUE2", and "some HUE1 HUE2", forming a rainbow-colored band with medium lightness consistently across it. In
  * this last one, "some violet blue" is primarily blue and only has a little violet tinge, while "more violet blue" has
  * more violet, and "more blue violet" becomes primarily violet.
+ * @deprecated This palette doesn't work as well as it should; also, the docs are all slightly wrong regarding L.
  */
+@Deprecated
 public class Yam2Palette {
     public static final ObjectFloatMap<String> NAMED = new ObjectFloatMap<>(256);
     public static final FloatArray LIST = new FloatArray(256);

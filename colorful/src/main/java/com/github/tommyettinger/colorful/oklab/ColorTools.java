@@ -106,7 +106,7 @@ public class ColorTools {
 	 * @param x any non-negative finite float to find the cube root of
 	 * @return the cube root of x, approximated
 	 */
-	private static float cbrtPositive(float x) {
+	public static float cbrtPositive(float x) {
 		int ix = NumberUtils.floatToRawIntBits(x);
 		final float x0 = x;
 		ix = (ix>>>2) + (ix>>>4);
@@ -134,7 +134,7 @@ public class ColorTools {
 	 * @param component any non-linear channel of a color, to be made linear
 	 * @return a linear version of component
 	 */
-	private static float forwardGamma(final float component) {
+	public static float forwardGamma(final float component) {
 		return component * component;
 	}
 
@@ -144,7 +144,7 @@ public class ColorTools {
      * @param component a linear channel of a color, to be made non-linear
      * @return a non-linear version of component
      */
-    private static float reverseGamma(final float component) {
+    public static float reverseGamma(final float component) {
         return (float)Math.sqrt(component);
     }
 
@@ -161,20 +161,6 @@ public class ColorTools {
 	public static float forwardLight(final float L) {
 		return (float) Math.sqrt(L * L * L);
 	}
-//    public static float forwardLight(final float L) {
-//        final float shape = 0.6578947368421053f, turning = 0.963f;
-//        final float d = turning - L;
-//        float r;
-//        if (d < 0)
-//            r = ((1f - turning) * (L - 1f)) / (1f - (L + shape * d)) + 1f;
-//        else
-//            r = (turning * L) / (1e-20f + (L + shape * d));
-//        return r * r * (256f / 255f);
-//    }
-
-//	public static float forwardLight(final float L) {
-//		return (L - 1.004f) / (1f - L * 0.4285714f) + 1.004f;
-//	}
 
 	/**
 	 * Changes the curve of the internally-used lightness when it is output to another format. This makes the very-dark
@@ -200,6 +186,22 @@ public class ColorTools {
 		L  = 0.33333334f * (1.9999999f * L + x0/(L*L));
 		return L * L;
 	}
+
+//    public static float forwardLight(final float L) {
+//        final float shape = 0.6578947368421053f, turning = 0.963f;
+//        final float d = turning - L;
+//        float r;
+//        if (d < 0)
+//            r = ((1f - turning) * (L - 1f)) / (1f - (L + shape * d)) + 1f;
+//        else
+//            r = (turning * L) / (1e-20f + (L + shape * d));
+//        return r * r * (256f / 255f);
+//    }
+
+//	public static float forwardLight(final float L) {
+//		return (L - 1.004f) / (1f - L * 0.4285714f) + 1.004f;
+//	}
+
 //    public static float reverseLight(float L) {
 //        L = (float) Math.sqrt(L * 0x0.ffp0f);
 //        final float shape = 1.52f, turning = 0.963f;

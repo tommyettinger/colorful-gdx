@@ -36,8 +36,9 @@ import static com.github.tommyettinger.colorful.oklab.ColorTools.*;
  * Created by Tommy Ettinger on 12/8/2019.
  */
 public class PaletteCodeGenerator extends ApplicationAdapter {
-//    public static final String outputAdd = "Oklab";
-//    public static final String inputName = "AuroraColorData.txt";
+    public static final String outputAdd = "Oklab";
+    public static final String inputName = "AuroraColorData.txt";
+    public static final String prefix = "Aurora";
 
 //    public static final String outputAdd = "YamOklab";
 //    public static final String inputName = "YamColorData.txt";
@@ -48,20 +49,24 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String outputAdd = "Yam3Oklab";
 //    public static final String inputName = "Yam3ColorData.txt";
 
-    public static final String outputAdd = "FullOklab";
-    public static final String inputName = "ColorData.txt";
+//    public static final String outputAdd = "FullOklab";
+//    public static final String inputName = "ColorData.txt";
+//    public static final String prefix = "Full";
 
 //    public static final String outputAdd = "NamedMunsellOklab";
 //    public static final String inputName = "ISCCNBSData.txt";
+//    public static final String prefix = "NamedMunsell";
 
 //    public static final String outputAdd = "BrighterMunsellOklab";
 //    public static final String inputName = "BrighterMunsell.txt";
 
 //    public static final String outputAdd = "Munsellish2Oklab";
 //    public static final String inputName = "Munsellish2.txt";
+//    public static final String prefix = "Munsellish2";
 
 //    public static final String outputAdd = "SimpleOklab";
 //    public static final String inputName = "SimpleColorData.txt";
+//    public static final String prefix = "";
 
     public static final ObjectFloatMap<String> named = new ObjectFloatMap<>(1024);
 
@@ -93,7 +98,8 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
     public void create() {
         float c;
         String templateFull = "\n/**\n" +
-                "* This color constant \"`Name\" has RGBA8888 code {@code `RRGGBBAA}, L `LCHAN, A `ACHAN, B `BCHAN, alpha `ALPHA, hue `HUE, saturation `SAT, and chroma `CHR.\n" +
+                "* This color constant \"`Name\" has RGBA8888 code {@code `RRGGBBAA}, L `LCHAN, A `ACHAN, B `BCHAN," +
+                "* alpha `ALPHA, red `RRR, green `GGG, blue `BBB, hue `HUE, saturation `SAT, and chroma `CHR.\n" +
                 "* `PACKTYPE {@code `PACKED}.\n" +
                 "* <pre>\n" +
                 "* <font style='background-color: #FEDCBA;'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #000000; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #888888; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #ffffff; color: #000000'>&nbsp;&nbsp;&nbsp;</font><font style='background-color: #FEDCBA; color: #000000'>&nbsp;@&nbsp;</font>\n" +
@@ -119,6 +125,9 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                     .replace("`LCHAN", Float.toString(ColorTools.channelL(c)))
                     .replace("`ACHAN", Float.toString(ColorTools.channelA(c)))
                     .replace("`BCHAN", Float.toString(ColorTools.channelB(c)))
+                    .replace("`RRR", Float.toString(ColorTools.red(c)))
+                    .replace("`GGG", Float.toString(ColorTools.green(c)))
+                    .replace("`BBB", Float.toString(ColorTools.blue(c)))
                     .replace("`ALPHA", Float.toString(ColorTools.alpha(c)))
                     .replace("`HUE", Float.toString(ColorTools.oklabHue(c)))
                     .replace("`SAT", Float.toString(ColorTools.oklabSaturation(c)))
@@ -143,7 +152,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         }
         Gdx.files.local("ColorOutput"+outputAdd+".txt").writeString(sb.toString(), false);
 
-        String templateTable = "<tr>\n<td style='background-color: #FEDCBA;'></td>\n<td>Name</td>\n<td>0x`RGBA8888</td>\n<td>`LCHAN</td>\n<td>`ACHAN</td>\n<td>`BCHAN</td>\n<td>`ALPH</td>\n<td>`HUE</td>\n<td>`SAT</td>\n<td>`CHR</td>\n<td>`PACK</td>\n</tr>\n";
+        String templateTable = "<tr>\n<td style='background-color: #FEDCBA;'></td>\n<td>Name</td>\n<td>0x`RGBA8888</td>\n<td>`LCHAN</td>\n<td>`ACHAN</td>\n<td>`BCHAN</td>\n<td>`ALPH</td>\n<td>`HUE</td>\n<td>`SAT</td>\n<td>`CHR</td>\n<td>`RRR</td>\n<td>`GGG</td>\n<td>`BBB</td>\n<td>`PACK</td>\n</tr>\n";
         final int size = named.size;
         ArrayList<ObjectFloatMap.Entry<String>> PAL = new ArrayList<>(size);
         for(ObjectFloatMap.Entry<String> e : named.entries())
@@ -161,7 +170,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                 return c1.key.compareTo(c2.key);
             }
         });
-        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Chroma</th>\n<th>Packed</th>\n</tr>\n");
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Chroma</th>\n<th>Red</th>\n<th>Green</th>\n<th>Blue</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
             sb.append(templateTable.replace("Name", sc.key)
@@ -174,13 +183,16 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                     .replace("`ACHAN", Float.toString(ColorTools.channelA(c)))
                     .replace("`BCHAN", Float.toString(ColorTools.channelB(c)))
                     .replace("`ALPH", Float.toString(ColorTools.alpha(c)))
+                    .replace("`RRR", Float.toString(ColorTools.red(c)))
+                    .replace("`GGG", Float.toString(ColorTools.green(c)))
+                    .replace("`BBB", Float.toString(ColorTools.blue(c)))
                     .replace("`PACK", INT_PACK
                             ? "0x"+StringKit.hex((NumberUtils.floatToIntColor(c)))
                             : Float.toHexString(c) + 'F')
             );
         }
         sb.append("</table>\n</body>\n</html>");
-        Gdx.files.local(INT_PACK ? "ColorTableAlphabetical.html" : "ColorTable"+outputAdd+".html").writeString(sb.toString(), false);
+        Gdx.files.local(INT_PACK ? prefix+"ColorTableAlphabetical.html" : "ColorTable"+outputAdd+".html").writeString(sb.toString(), false);
 
         sb.setLength(0);
         Collections.sort(PAL, new Comparator<ObjectFloatMap.Entry<String>>() {
@@ -203,7 +215,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         System.out.println("\nnew int[]{");
         int column = 0;
         StringBuilder hx = new StringBuilder(2048);
-        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Chroma</th>\n<th>Packed</th>\n</tr>\n");
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Chroma</th>\n<th>Red</th>\n<th>Green</th>\n<th>Blue</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
             sb.append(templateTable.replace("Name", sc.key)
@@ -216,6 +228,9 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                     .replace("`ACHAN", Float.toString(ColorTools.channelA(c)))
                     .replace("`BCHAN", Float.toString(ColorTools.channelB(c)))
                     .replace("`ALPH", Float.toString(ColorTools.alpha(c)))
+                    .replace("`RRR", Float.toString(ColorTools.red(c)))
+                    .replace("`GGG", Float.toString(ColorTools.green(c)))
+                    .replace("`BBB", Float.toString(ColorTools.blue(c)))
                     .replace("`PACK", INT_PACK
                             ? "0x"+StringKit.hex((NumberUtils.floatToIntColor(c)))
                             : Float.toHexString(c) + 'F')
@@ -231,7 +246,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         Gdx.files.local(inputName.replace(".txt", ".hex")).writeString(hx.toString(), false);
 
         sb.append("</table>\n</body>\n</html>");
-        Gdx.files.local(INT_PACK ? "ColorTableHue.html" : "ColorTableHue"+outputAdd+".html").writeString(sb.toString(), false);
+        Gdx.files.local(INT_PACK ? prefix+"ColorTableHue.html" : "ColorTableHue"+outputAdd+".html").writeString(sb.toString(), false);
 
         sb.setLength(0);
         Collections.sort(PAL, new Comparator<ObjectFloatMap.Entry<String>>() {
@@ -240,7 +255,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                 return (int)Math.signum(ColorTools.channelL(c1.value) - ColorTools.channelL(c2.value));
             }
         });
-        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Chroma</th>\n<th>Packed</th>\n</tr>\n");
+        sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Chroma</th>\n<th>Red</th>\n<th>Green</th>\n<th>Blue</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
             sb.append(templateTable.replace("Name", sc.key)
@@ -253,13 +268,16 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                     .replace("`ACHAN", Float.toString(ColorTools.channelA(c)))
                     .replace("`BCHAN", Float.toString(ColorTools.channelB(c)))
                     .replace("`ALPH", Float.toString(ColorTools.alpha(c)))
+                    .replace("`RRR", Float.toString(ColorTools.red(c)))
+                    .replace("`GGG", Float.toString(ColorTools.green(c)))
+                    .replace("`BBB", Float.toString(ColorTools.blue(c)))
                     .replace("`PACK", INT_PACK
                             ? "0x"+StringKit.hex((NumberUtils.floatToIntColor(c)))
                             : Float.toHexString(c) + 'F')
             );
         }
         sb.append("</table>\n</body>\n</html>");
-        Gdx.files.local(INT_PACK ? "ColorTableLightness.html" : "ColorTableValue"+outputAdd+".html").writeString(sb.toString(), false);
+        Gdx.files.local(INT_PACK ? prefix+"ColorTableLightness.html" : "ColorTableValue"+outputAdd+".html").writeString(sb.toString(), false);
         
         Gdx.app.exit();
     }

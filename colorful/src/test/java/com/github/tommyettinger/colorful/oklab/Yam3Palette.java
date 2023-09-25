@@ -52,7 +52,9 @@ import java.util.Comparator;
  * like with the 75% saturation colors, forming a rainbow-colored band with medium lightness consistently across it. In
  * this last one, "bold violet blue" is primarily blue with some violet tint, while "bold blue violet" has more violet
  * than blue.
+ * @deprecated This palette doesn't work as well as it should; also, the docs are all slightly wrong regarding L.
  */
+@Deprecated
 public class Yam3Palette {
     public static final ObjectFloatMap<String> NAMED = new ObjectFloatMap<>(256);
     public static final FloatArray LIST = new FloatArray(256);
