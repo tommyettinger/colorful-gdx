@@ -733,7 +733,7 @@ public class SimplePalette {
      * by any non-alphanumeric character(s) other than the underscore); if so, it acts as a positive weight for that
      * color name when mixed with other named colors. The recommended separator between a color name and its weight is
      * the char {@code '^'}, but other punctuation like {@code ':'} is equally valid. You can also repeat a color name
-     * to increase its weight.
+     * to increase its weight. You may use a decimal point in weights to make them floats.
      * <br>
      * The special adjectives "light" and "dark" change the lightness of the described color; likewise, "rich" and
      * "dull" change the saturation (how different the color is from grayscale). All of these adjectives can have "-er"
@@ -773,7 +773,7 @@ public class SimplePalette {
      * by any non-alphanumeric character(s) other than the underscore); if so, it acts as a positive weight for that
      * color name when mixed with other named colors. The recommended separator between a color name and its weight is
      * the char {@code '^'}, but other punctuation like {@code ':'} is equally valid. You can also repeat a color name
-     * to increase its weight.
+     * to increase its weight. You may use a decimal point in weights to make them floats.
      * <br>
      * The special adjectives "light" and "dark" change the lightness of the described color; likewise, "rich" and
      * "dull" change the saturation (how different the color is from grayscale). All of these adjectives can have "-er"
