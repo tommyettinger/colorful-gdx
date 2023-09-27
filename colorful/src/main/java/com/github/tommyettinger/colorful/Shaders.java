@@ -119,7 +119,39 @@ void main()
                     "{\n" +
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                     "   gl_FragColor = clamp(vec4(tgt.rgb + (v_color.rgb - 0.5), v_color.a * tgt.a), 0.0, 1.0);\n" +
-//                    "   gl_FragColor = clamp(vec4(tgt.rgb * pow((v_color.rgb + 0.1) * 1.666, vec3(1.5)), v_color.a * tgt.a), 0.0, 1.0);\n" +
+                    "}";
+
+    /**
+     * Adjusts RGBA colors so the RGB values are exaggerated towards or away from 0.0 or 1.0, depending on a uniform.
+     * This uses a uniform float, 0.0 or greater, called "contrast"; when contrast is 1.0, the image is rendered without
+     * changes, but when it is 0.0, everything will be gray, and if it is greater than 1.0, contrast will be stronger.
+     * <br>
+     * This code was partly written by <a href="https://github.com/SheerSt">SheerSt</a> and partly by tommyettinger,
+     * but this is the type of shader code you see in some tutorials, so hopefully it is easy to read.
+     * <br>
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}.
+     * <br>
+     * Meant for use with {@link #vertexShader}. Make sure to set the {@code contrast} uniform before using!
+     */
+    public static final String fragmentShaderContrastUniform =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "\n" +
+                    "uniform float contrast;\n" +
+                    "\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "    vec4 color = texture2D( u_texture, v_texCoords );\n" +
+                    "    color.rgb = clamp((color.rgb - 0.5f) * contrast + 0.5f, 0.0, 1.0);\n" +
+                    "    gl_FragColor = color;\n" +
                     "}";
     /**
      * A simple shader that uses multiplicative blending with "normal" RGBA colors, and is simpler than
