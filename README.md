@@ -329,15 +329,14 @@ Tinting with the Palette color `OCHRE` and using a tweak with L=0.43, A=0.14, B=
 ### ProGuard
 
 ProGuard and Android's R8 compiler don't do well with some code here, at least out-of-the-box.
-If you are using colorful or colorful-pure version 0.8.4 or lower, you need to add this line to your
+If you are using colorful or colorful-pure, you need to add this line to your
 `proguard-rules.pro` file to use ProGuard or Android's R8 compiler:
 
 ```
 -optimizations !code/simplification/string
 ```
 
-That line should be added automatically to ProGuard configuration when depending on colorful or colorful-pure version
-0.8.5 or higher.
+This allows some large data stored in a very long String to be loaded correctly.
 
 ### GPU/Shader Incompatibility
 
