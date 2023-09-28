@@ -1,9 +1,11 @@
 apply plugin: 'application'
 
+import proguard.gradle.ProGuardTask
+
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
 mainClassName = 'com.github.tommyettinger.lwjgl3.Lwjgl3Launcher'
 eclipse.project.name = appName + '-lwjgl3'
-sourceCompatibility = 8.0
+sourceCompatibility = 11.0
 
 dependencies {
 	implementation project(':core')
@@ -25,7 +27,7 @@ run {
 
 jar {
 // sets the name of the .jar file this produces to the name of the game or app.
-	archiveBaseName.set(appName)
+	archiveFileName.set("${appName}-${version}.jar")
 // the duplicatesStrategy will matter starting in Gradle 7.0; this setting works.
 	duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
 	dependsOn configurations.runtimeClasspath
@@ -44,3 +46,20 @@ jar {
 		file(archiveFile).setExecutable(true, false)
 	}
 }
+
+
+task proguard(type: ProGuardTask) {
+	outputs.upToDateWhen { false }
+	configuration 'proguard-rules.pro'
+	//printmapping 'build/lib/out.map'
+	if (System.getProperty('java.version').startsWith('1.')) {
+		libraryjars "${System.getProperty('java.home')}/lib/rt.jar"
+	} else {
+		libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod", jarfilter: '!**.jar', filter: '!module-info.class'
+	}
+	injars (file("build/libs/${appName}-${version}.jar"))
+
+	outjars "build/libs/${appName}.jar"
+}
+
+proguard.dependsOn jar

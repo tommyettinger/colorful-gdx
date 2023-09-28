@@ -8,6 +8,7 @@ buildscript {
 	}
 	dependencies {
 		classpath "org.wisepersist:gwt-gradle-plugin:$gwtPluginVersion"
+		classpath 'com.guardsquare:proguard-gradle:7.3.2'
 	}
 }
 
@@ -18,7 +19,7 @@ allprojects {
 
 configure(subprojects) {
 	apply plugin: 'java-library'
-	sourceCompatibility = 8.0
+	sourceCompatibility = 11.0
 	compileJava {
 		options.incremental = true
 	}

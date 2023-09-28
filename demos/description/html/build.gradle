@@ -37,8 +37,8 @@ dependencies {
 	implementation "com.github.tommyettinger:gdx-backend-gwt:1.1200.1:sources"
 	implementation "com.google.jsinterop:jsinterop-annotations:2.0.0:sources"
 
-	implementation "com.github.tommyettinger:colorful:$colorfulVersion:sources"
-//	implementation "com.github.tommyettinger.colorful-gdx:colorful:$colorfulVersion:sources"
+//	implementation "com.github.tommyettinger:colorful:$colorfulVersion:sources"
+	implementation "com.github.tommyettinger.colorful-gdx:colorful:$colorfulVersion:sources"
 	implementation "com.github.tommyettinger:digital:$digitalVersion:sources"
 }
 
@@ -126,7 +126,7 @@ task distZip(type: Zip, dependsOn: dist){
 	from(outputPath)
 	archiveBaseName.set("${appName}-dist")
 	//// The result will be in html/build/ with a name containing "-dist".
-	destinationDir(file("build"))
+	destinationDirectory = file("build")
 }
 
 tasks.compileGwt.dependsOn(addSource)
