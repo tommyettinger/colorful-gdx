@@ -988,16 +988,20 @@ public class SimplePalette {
             }
         }
         if(mixing.size < 2) return 0f;
-        float result = unevenMix(mixing.items, 0, mixing.size);
 
-        if (lightness > 0) result = lighten(result, lightness);
-        else if (lightness < 0) result = darken(result, -lightness);
+        saturation = Math.min(Math.max(saturation + 1, 0), 256);
+        return (editOklab(unevenMix(mixing.items, 0, mixing.size), lightness, 0f, 0f, 0f, 1f, saturation, saturation, 1f));
 
-        if (saturation > 0) result = enrich(result, saturation);
-        else if (saturation < 0) result = limitToGamut(dullen(result, -saturation));
-        else result = limitToGamut(result);
-
-        return result;
+//        float result = unevenMix(mixing.items, 0, mixing.size);
+//
+//        if (lightness > 0) result = lighten(result, lightness);
+//        else if (lightness < 0) result = darken(result, -lightness);
+//
+//        if (saturation > 0) result = enrich(result, saturation);
+//        else if (saturation < 0) result = limitToGamut(dullen(result, -saturation));
+//        else result = limitToGamut(result);
+//
+//        return result;
     }
     
     private static final Array<String> namesByHue = new Array<>(NAMES_BY_HUE);

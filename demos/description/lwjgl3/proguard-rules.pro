@@ -46,7 +46,7 @@
 -optimizationpasses 5
 
 
-# Can't be removed...
+# Can't be removed on LWJGL3, can be with Android-only ProGuard usage
 
 # Gamut inline data fix
 -optimizations !code/simplification/string
