@@ -328,15 +328,20 @@ Tinting with the Palette color `OCHRE` and using a tweak with L=0.43, A=0.14, B=
 
 ### ProGuard
 
-ProGuard and Android's R8 compiler don't do well with some code here, at least out-of-the-box.
-If you are using colorful or colorful-pure, you need to add this line to your
-`proguard-rules.pro` file to use ProGuard or Android's R8 compiler:
+ProGuard (on desktop and iOS) doesn't do well with some code here, at least
+out-of-the-box. If you are using colorful or colorful-pure, you need to add
+this line to your `proguard-rules.pro` file to use ProGuard:
 
 ```
 -optimizations !code/simplification/string
 ```
 
 This allows some large data stored in a very long String to be loaded correctly.
+
+Note that this line will be added automatically to the Android R8 configuration,
+which is subtly different from ProGuard configuration on any other platform.
+If you only use ProGuard on Android (where it's really using R8), you don't need
+to change any `.pro` files manually to use colorful or colorful-pure.
 
 ### GPU/Shader Incompatibility
 
@@ -354,7 +359,7 @@ Gradle dependency (`implementation` should be changed to `api` if any other depe
 implementation 'com.github.tommyettinger:colorful:0.8.4'
 ```
 
-Gradle dependency if also using GWT to make an HTML application:
+Gradle dependency in the HTML project, if present:
 ```groovy
 implementation 'com.github.tommyettinger:colorful:0.8.4:sources'
 ```
@@ -380,12 +385,12 @@ Gradle dependency (`implementation` should be changed to `api` if any other depe
 implementation 'com.github.tommyettinger:colorful-pure:0.8.4'
 ```
 
-Gradle dependency if also using GWT to make an HTML application:
+Gradle dependency in the HTML project, if present:
 ```groovy
-implementation 'com.github.tommyettinger:funderby:0.0.1:sources'
-implementation 'com.github.tommyettinger:digital:0.1.4:sources'
-implementation 'com.github.tommyettinger:juniper:0.1.6:sources'
-implementation 'com.github.tommyettinger:jdkgdxds:1.0.5:sources'
+implementation 'com.github.tommyettinger:funderby:0.1.1:sources'
+implementation 'com.github.tommyettinger:digital:0.4.0:sources'
+implementation 'com.github.tommyettinger:juniper:0.3.9:sources'
+implementation 'com.github.tommyettinger:jdkgdxds:1.4.1:sources'
 implementation 'com.github.tommyettinger:colorful-pure:0.8.4:sources'
 ```
 
