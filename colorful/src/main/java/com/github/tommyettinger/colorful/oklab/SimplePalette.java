@@ -843,16 +843,16 @@ public class SimplePalette {
                         switch (len) {
                             case 10:
                                 lightness += 0.150f;
-                                saturation += 0.25f;
+                                saturation += 00.20000f;
                             case 9:
                                 lightness += 0.150f;
-                                saturation += 0.2f;
+                                saturation += 00.2000f;
                             case 8:
                                 lightness += 0.150f;
-                                saturation += 0.1f;
+                                saturation += 00.20f;
                             case 6:
                                 lightness += 0.150f;
-                                saturation += 0.1f;
+                                saturation += 00.20f;
                                 continue;
                         }
                     }
@@ -865,16 +865,16 @@ public class SimplePalette {
                             case 8: // palemost
                             case 7: // palerer
                                 lightness += 0.150f;
-                                saturation -= 0.25f;
+                                saturation -= 00.20000f;
                             case 6: // palest
                                 lightness += 0.150f;
-                                saturation -= 0.2f;
+                                saturation -= 00.2000f;
                             case 5: // paler
                                 lightness += 0.150f;
-                                saturation -= 0.15f;
+                                saturation -= 00.200f;
                             case 4: // pale
                                 lightness += 0.150f;
-                                saturation -= 0.1f;
+                                saturation -= 00.20f;
                                 continue;
                         }
                     }
@@ -886,16 +886,16 @@ public class SimplePalette {
                         switch (len) {
                             case 8:
                                 lightness -= 0.150f;
-                                saturation -= 0.25f;
+                                saturation -= 00.20000f;
                             case 7:
                                 lightness -= 0.150f;
-                                saturation -= 0.2f;
+                                saturation -= 00.2000f;
                             case 6:
                                 lightness -= 0.150f;
-                                saturation -= 0.15f;
+                                saturation -= 00.200f;
                             case 4:
                                 lightness -= 0.150f;
-                                saturation -= 0.1f;
+                                saturation -= 00.20f;
                                 continue;
                         }
                     }
@@ -906,13 +906,13 @@ public class SimplePalette {
                     if (len > 1 && (term.charAt(1) == 'i' || term.charAt(1) == 'I')) { // rich
                         switch (len) {
                             case 8:
-                                saturation += 0.25f;
+                                saturation += 00.20000f;
                             case 7:
-                                saturation += 0.2f;
+                                saturation += 00.2000f;
                             case 6:
-                                saturation += 0.15f;
+                                saturation += 00.200f;
                             case 4:
-                                saturation += 0.1f;
+                                saturation += 00.20f;
                                 continue;
                         }
                     }
@@ -935,29 +935,29 @@ public class SimplePalette {
                     } else if (len > 1 && (term.charAt(1) == 'u' || term.charAt(1) == 'U')) { // dull
                         switch (len) {
                             case 8:
-                                saturation -= 0.25f;
+                                saturation -= 00.20000f;
                             case 7:
-                                saturation -= 0.2f;
+                                saturation -= 00.2000f;
                             case 6:
-                                saturation -= 0.15f;
+                                saturation -= 00.200f;
                             case 4:
-                                saturation -= 0.1f;
+                                saturation -= 00.20f;
                                 continue;
                         }
                     } else if (len > 3 && (term.charAt(3) == 'p' || term.charAt(3) == 'P')) { // deep
                         switch (len) {
                             case 8:
                                 lightness -= 0.150f;
-                                saturation += 0.25f;
+                                saturation += 00.20000f;
                             case 7:
                                 lightness -= 0.150f;
-                                saturation += 0.2f;
+                                saturation += 00.2000f;
                             case 6:
                                 lightness -= 0.150f;
-                                saturation += 0.15f;
+                                saturation += 00.200f;
                             case 4:
                                 lightness -= 0.150f;
-                                saturation += 0.1f;
+                                saturation += 00.20f;
                                 continue;
                         }
                     }
@@ -990,7 +990,12 @@ public class SimplePalette {
         if(mixing.size < 2) return 0f;
 
         saturation = Math.min(Math.max(saturation + 1, 0), 256);
-        return (editOklab(unevenMix(mixing.items, 0, mixing.size), lightness, 0f, 0f, 0f, 1f, saturation, saturation, 1f));
+
+        if (lightness > 0) mixing.add(WHITE, lightness + lightness);
+        else if (lightness < 0) mixing.add(BLACK, -lightness - lightness);
+        return (editOklab(unevenMix(mixing.items, 0, mixing.size), 0f, 0f, 0f, 0f, 1f, saturation, saturation, 1f));
+
+//        return (editOklab(unevenMix(mixing.items, 0, mixing.size), lightness, 0f, 0f, 0f, 1f, saturation, saturation, 1f));
 
 //        float result = unevenMix(mixing.items, 0, mixing.size);
 //
