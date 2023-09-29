@@ -206,7 +206,7 @@ public class FloatColors {
      */
     public static float lerpFloatColorsBlended(final float start, final float end, float change) {
         final int s = NumberUtils.floatToRawIntBits(start), e = NumberUtils.floatToRawIntBits(end),
-                ys = (s & 0xFF), cws = (s >>> 8) & 0xFF, cms = (s >>> 16) & 0xFF, as = s >>> 24 & 0xFE,
+                ys = (s & 0xFF), cws = (s >>> 8) & 0xFF, cms = (s >>> 16) & 0xFF, as = s & 0xFE000000,
                 ye = (e & 0xFF), cwe = (e >>> 8) & 0xFF, cme = (e >>> 16) & 0xFF;
         change *= (e >>> 25) * 0.007874016f;
         return NumberUtils.intBitsToFloat(((int) (ys + change * (ye - ys)) & 0xFF)
