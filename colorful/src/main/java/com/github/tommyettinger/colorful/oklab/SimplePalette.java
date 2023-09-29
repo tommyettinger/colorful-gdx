@@ -990,23 +990,9 @@ public class SimplePalette {
         if(mixing.size < 2) return 0f;
 
         saturation = Math.min(Math.max(saturation + 1, 0), 256);
-
-        if (lightness > 0) mixing.add(WHITE, lightness + lightness);
-        else if (lightness < 0) mixing.add(BLACK, -lightness - lightness);
+        if (lightness > 0) mixing.add(WHITE, lightness * mixing.size);
+        else if (lightness < 0) mixing.add(BLACK, -lightness * mixing.size);
         return (editOklab(unevenMix(mixing.items, 0, mixing.size), 0f, 0f, 0f, 0f, 1f, saturation, saturation, 1f));
-
-//        return (editOklab(unevenMix(mixing.items, 0, mixing.size), lightness, 0f, 0f, 0f, 1f, saturation, saturation, 1f));
-
-//        float result = unevenMix(mixing.items, 0, mixing.size);
-//
-//        if (lightness > 0) result = lighten(result, lightness);
-//        else if (lightness < 0) result = darken(result, -lightness);
-//
-//        if (saturation > 0) result = enrich(result, saturation);
-//        else if (saturation < 0) result = limitToGamut(dullen(result, -saturation));
-//        else result = limitToGamut(result);
-//
-//        return result;
     }
     
     private static final Array<String> namesByHue = new Array<>(NAMES_BY_HUE);
