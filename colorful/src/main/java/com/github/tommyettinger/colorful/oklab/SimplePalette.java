@@ -991,15 +991,21 @@ public class SimplePalette {
         if(mixing.size < 2) return 0f;
 
         float result = unevenMix(mixing.items, 0, mixing.size);
-        if(saturation != 0f) {
-            saturation = Math.min(Math.max(saturation + 1, 0), 256);
-            result = editOklab(result, 0f, 0f, 0f, 0f, 1f, saturation, saturation, 1f);
-        }
-        if(lightness == 0f)
-            return result;
-        else if (lightness > 0f)
-            return lerpFloatColorsBlended(result, WHITE, lightness);
-        return lerpFloatColorsBlended(result, BLACK, -lightness);
+        if(lightness == 0f && saturation == 0f) return result;
+
+        saturation = Math.min(Math.max(saturation + 1, 0), 1000);
+        return editOklab(result, 0f, 0f, 0f, 0f, (float) Math.pow(8, lightness), saturation, saturation, 1f);
+
+//        saturation += Math.abs(lightness) * 0.5f;
+//        if(saturation != 0f) {
+//            saturation = Math.min(Math.max(saturation + 1, 0), 1000);
+//            result = ColorTools.multiplyChroma(result, saturation);
+//        }
+//        if(lightness == 0f)
+//            return result;
+//        if (lightness > 0f)
+//            return lerpFloatColorsBlended(result, WHITE, lightness);
+//        return lerpFloatColorsBlended(result, BLACK, -lightness);
     }
     
     private static final Array<String> namesByHue = new Array<>(NAMES_BY_HUE);
