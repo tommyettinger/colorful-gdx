@@ -1457,6 +1457,34 @@ public class ColorTools {
 	}
 
 	/**
+	 * Multiplies the A and B channels of {@code encoded} by {@code mul}. Typically, mul is non-negative, but if it is
+	 * negative, that will do some amount of inversion of A and B.
+	 * @param encoded a packed float color
+	 * @param mul how much to multiply the chromatic channels of {@code encoded} by
+	 * @return a packed float color that should already be in-gamut
+	 */
+	public static float multiplyChroma(float encoded, float mul) {
+		final int decoded = NumberUtils.floatToRawIntBits(encoded);
+		float L = (decoded & 0xff) / 255f;
+		float A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+		float B = ((decoded >>> 16 & 255) - 127f) / 127f;
+		float alpha = (decoded >>> 25) / 127f;
+
+		A = Math.min(Math.max(A * mul, -1f), 1f) * 0.5f;
+		B = Math.min(Math.max(B * mul, -1f), 1f) * 0.5f;
+		final float hue = TrigTools.atan2Turns(B, A);
+		final int idx = (int) (L * 255f) << 8 | (int)(256f * hue);
+		final float dist = GAMUT_DATA[idx] * 0.5f;
+		if(dist * dist * 0x1p-16f >= (A * A + B * B))
+			return oklab(L, A + 0.5f, B + 0.5f, alpha);
+		return NumberUtils.intBitsToFloat(
+				(int) (alpha * 127.999f) << 25 |
+						(int) (TrigTools.sinTurns(hue) * dist + 127.5f) << 16 |
+						(int) (TrigTools.cosTurns(hue) * dist + 127.5f) << 8 |
+						(int) (L * 255f));
+	}
+
+	/**
 	 * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.
 	 * @param random a Random object (preferably a subclass of Random, like {@link com.badlogic.gdx.math.RandomXS128})
 	 * @return a packed float color that is always in-gamut
