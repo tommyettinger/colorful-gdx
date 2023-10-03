@@ -19,7 +19,6 @@ package com.github.tommyettinger.colorful.oklab;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.NumberUtils;
-import com.github.tommyettinger.anim8.OtherMath;
 import com.github.tommyettinger.colorful.TrigTools;
 import com.github.tommyettinger.colorful.internal.StringKit;
 

@@ -36,10 +36,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.anim8.*;
-import com.github.tommyettinger.colorful.FourWheelRandom;
 import com.github.tommyettinger.colorful.Shaders;
 import com.github.tommyettinger.colorful.TrigTools;
-import com.github.tommyettinger.colorful.internal.PoissonDisk;
 
 import static com.badlogic.gdx.Gdx.input;
 

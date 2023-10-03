@@ -21,18 +21,20 @@ import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.ObjectFloatMap;
+import com.github.tommyettinger.colorful.FloatColors;
 
 import java.util.Comparator;
 
+import static com.github.tommyettinger.colorful.FloatColors.unevenMix;
 import static com.github.tommyettinger.colorful.hsluv.ColorTools.*;
 
 /**
  * A palette of predefined colors as packed HSLuv floats, the kind {@link ColorTools} works with, plus a way to describe
  * colors by combinations and adjustments. The description code is probably what you would use this class for; it
- * revolves around {@link #parseDescription(String)}, which takes a color description String and returns a packed float
- * color. The color descriptions look like "darker rich mint yellow", where the order of the words doesn't matter. They
- * can optionally include lightness changes (light/dark), and saturation changes (rich/dull), and must include one or
- * more color names that will be mixed together (repeats are allowed to use a color more heavily). The changes can be
+ * revolves around {@link #parseDescription(CharSequence)}, which takes a color description String and returns a packed
+ * float color. The color descriptions look like "darker rich mint yellow", where the order of the words doesn't matter.
+ * They can optionally include lightness changes (light/dark), and saturation changes (rich/dull), and must include one
+ * or more color names that will be mixed together (repeats are allowed to use a color more heavily). The changes can be
  * suffixed with "er", "est", or "most", such as "duller", "lightest", or "richmost", to progressively increase their
  * effect on lightness or saturation.
  * <br>
@@ -725,34 +727,100 @@ public class SimplePalette {
     private static final FloatArray mixing = new FloatArray(4);
 
     /**
-     * Parses a color description and returns the approximate color it describes, as a packed float color.
-     * Color descriptions consist of one or more lower-case words, separated by non-alphabetical characters (typically
-     * spaces and/or hyphens). Any word that is the name of a color in this SimplePalette will be looked up in
-     * {@link #NAMED} and tracked; if there is more than one of these color name words, the colors will be mixed using
-     * {@link ColorTools#mix(float[], int, int)}, or if there is just one color name word, then the corresponding color
-     * will be used. The special adjectives "light" and "dark" change the intensity of the described color; likewise,
-     * "rich" and "dull" change the saturation (the difference of the chromatic channels from grayscale). All of these
-     * adjectives can have "-er" or "-est" appended to make their effect twice or three times as strong. Technically,
-     * the chars appended to an adjective don't matter, only their count, so "lightaa" is the same as "lighter" and
-     * "richcat" is the same as "richest". There's an unofficial fourth level as well, used when any 4 characters are
-     * appended to an adjective (as in "darkmost"); it has four times the effect of the original adjective. If a color
-     * name or adjective is invalid, it is considered the same as adding the color {@link #TRANSPARENT}.
+     * Parses a color description and returns the approximate color it describes, as a packed HSLuv float color.
+     * Color descriptions consist of one or more alphabetical words, separated by non-alphanumeric characters (typically
+     * spaces and/or hyphens, though the underscore is treated as a letter). Any word that is the name of a color in
+     * this palette will be looked up in {@link #NAMED} and tracked; if there is more than one of these color name
+     * words, the colors will be mixed using {@link FloatColors#unevenMix(float[], int, int)}, or if there is just one
+     * color name word, then the corresponding color will be used. A number can be present after a color name (separated
+     * by any non-alphanumeric character(s) other than the underscore); if so, it acts as a positive weight for that
+     * color name when mixed with other named colors. The recommended separator between a color name and its weight is
+     * the char {@code '^'}, but other punctuation like {@code ':'} is equally valid. You can also repeat a color name
+     * to increase its weight. You may use a decimal point in weights to make them floats.
+     * <br>
+     * The special adjectives "light" and "dark" change the lightness of the described color; likewise, "rich" and
+     * "dull" change the saturation (how different the color is from grayscale). All of these adjectives can have "-er"
+     * or "-est" appended to make their effect twice or three times as strong. Technically, the chars appended to an
+     * adjective don't matter, only their count, so "lightaa" is the same as "lighter" and "richcat" is the same as
+     * "richest". There's an unofficial fourth level as well, used when any 4 characters are appended to an adjective
+     * (as in "darkmost"); it has four times the effect of the original adjective. There are also the adjectives
+     * "bright" (equivalent to "light rich"), "pale" ("light dull"), "deep" ("dark rich"), and "weak" ("dark dull").
+     * These can be amplified like the other four, except that "pale" goes to "paler", "palest", and then to
+     * "palemax" or (its equivalent) "palemost", where only the word length is checked. The case of adjectives doesn't
+     * matter here; they can be all-caps, all lower-case, or mixed-case without issues. The names of colors, however,
+     * are case-sensitive, because you can combine other named color palettes with the one here, and at least in one
+     * common situation (merging libGDX Colors with the palette here), the other palette uses all-caps names only.
+     * <br>
+     * If part of a color name or adjective is invalid, it is not considered; if the description is empty or fully
+     * invalid, this returns the float color {@code 0f}, or fully transparent black.
      * <br>
      * Examples of valid descriptions include "blue", "dark green", "duller red", "peach pink", "indigo purple mauve",
-     * and "lightest richer apricot-olive".
-     * @param description a color description, as a lower-case String matching the above format
-     * @return a packed float color as described
+     * "lightest richer apricot-olive", "bright magenta", "palest cyan blue", "deep fern black", "weakmost celery",
+     * "red^3 orange", and "dark deep blue^7 cyan^3".
+     * <br>
+     * This overload always reads the whole CharSequence provided.
+     *
+     * @param description a color description, as a String or other CharSequence matching the above format
+     * @return a packed HSLuv float color as described
      */
-    public static float parseDescription(final String description) {
+    public static float parseDescription(final CharSequence description) {
+        return parseDescription(description, 0, description.length());
+    }
+    /**
+     * Parses a color description and returns the approximate color it describes, as a packed HSLuv float color.
+     * Color descriptions consist of one or more alphabetical words, separated by non-alphanumeric characters (typically
+     * spaces and/or hyphens, though the underscore is treated as a letter). Any word that is the name of a color in
+     * this palette will be looked up in {@link #NAMED} and tracked; if there is more than one of these color name
+     * words, the colors will be mixed using {@link FloatColors#unevenMix(float[], int, int)}, or if there is just one
+     * color name word, then the corresponding color will be used. A number can be present after a color name (separated
+     * by any non-alphanumeric character(s) other than the underscore); if so, it acts as a positive weight for that
+     * color name when mixed with other named colors. The recommended separator between a color name and its weight is
+     * the char {@code '^'}, but other punctuation like {@code ':'} is equally valid. You can also repeat a color name
+     * to increase its weight. You may use a decimal point in weights to make them floats.
+     * <br>
+     * The special adjectives "light" and "dark" change the lightness of the described color; likewise, "rich" and
+     * "dull" change the saturation (how different the color is from grayscale). All of these adjectives can have "-er"
+     * or "-est" appended to make their effect twice or three times as strong. Technically, the chars appended to an
+     * adjective don't matter, only their count, so "lightaa" is the same as "lighter" and "richcat" is the same as
+     * "richest". There's an unofficial fourth level as well, used when any 4 characters are appended to an adjective
+     * (as in "darkmost"); it has four times the effect of the original adjective. There are also the adjectives
+     * "bright" (equivalent to "light rich"), "pale" ("light dull"), "deep" ("dark rich"), and "weak" ("dark dull").
+     * These can be amplified like the other four, except that "pale" goes to "paler", "palest", and then to
+     * "palemax" or (its equivalent) "palemost", where only the word length is checked. The case of adjectives doesn't
+     * matter here; they can be all-caps, all lower-case, or mixed-case without issues. The names of colors, however,
+     * are case-sensitive, because you can combine other named color palettes with the one here, and at least in one
+     * common situation (merging libGDX Colors with the palette here), the other palette uses all-caps names only.
+     * <br>
+     * If part of a color name or adjective is invalid, it is not considered; if the description is empty or fully
+     * invalid, this returns the float color {@code 0f}, or fully transparent black.
+     * <br>
+     * Examples of valid descriptions include "blue", "dark green", "duller red", "peach pink", "indigo purple mauve",
+     * "lightest richer apricot-olive", "bright magenta", "palest cyan blue", "deep fern black", "weakmost celery",
+     * "red^3 orange", and "dark deep blue^7 cyan^3".
+     * <br>
+     * This overload lets you specify a
+     * starting index in {@code description} to read from and a maximum {@code length} to read before stopping. If
+     * {@code length} is negative, this reads the rest of {@code description} after {@code start}.
+     *
+     * @param description a color description, as a String or other CharSequence matching the above format
+     * @param start the first character index of the description to read from
+     * @param length how much of description to attempt to parse; if negative, this parses until the end
+     * @return a packed HSLuv float color as described
+     */
+    public static float parseDescription(final CharSequence description, int start, int length) {
         float lightness = 0f, saturation = 0f;
-        final String[] terms = description.split("[^a-zA-Z]+");
+        final String[] terms = description.toString().substring(start,
+                        length < 0 ? description.length() - start : Math.min(description.length(), start + length))
+                .split("[^a-zA-Z0-9_.]+");
         mixing.clear();
-        for(String term : terms) {
+        for (int i = 0; i < terms.length; i++) {
+            String term = terms[i];
             if (term == null || term.isEmpty()) continue;
             final int len = term.length();
             switch (term.charAt(0)) {
+                case 'L':
                 case 'l':
-                    if (len > 2 && term.charAt(2) == 'g') {
+                    if (len > 2 && (term.charAt(2) == 'g' || term.charAt(2) == 'G')) { // light
                         switch (len) {
                             case 9:
                                 lightness += 0.150f;
@@ -765,87 +833,92 @@ public class SimplePalette {
                                 continue;
                         }
                     }
-                    mixing.add(NAMED.get(term, TRANSPARENT));
+                    mixing.add(NAMED.get(term, 0f), 1);
                     break;
+                case 'B':
                 case 'b':
-                    if (len > 3 && (term.charAt(3) == 'g')) { // bright
+                    if (len > 3 && (term.charAt(3) == 'g' || term.charAt(3) == 'G')) { // bright
                         switch (len) {
                             case 10:
                                 lightness += 0.150f;
-                                saturation += 0.200f;
+                                saturation += 00.20000f;
                             case 9:
                                 lightness += 0.150f;
-                                saturation += 0.200f;
+                                saturation += 00.2000f;
                             case 8:
                                 lightness += 0.150f;
-                                saturation += 0.200f;
+                                saturation += 00.20f;
                             case 6:
                                 lightness += 0.150f;
-                                saturation += 0.200f;
+                                saturation += 00.20f;
                                 continue;
                         }
                     }
-                    mixing.add(NAMED.get(term, TRANSPARENT));
+                    mixing.add(NAMED.get(term, 0f), 1);
                     break;
+                case 'P':
                 case 'p':
-                    if (len > 2 && (term.charAt(2) == 'l')) { // pale
+                    if (len > 2 && (term.charAt(2) == 'l' || term.charAt(2) == 'L')) { // pale
                         switch (len) {
                             case 8: // palemost
                             case 7: // palerer
                                 lightness += 0.150f;
-                                saturation -= 0.200f;
+                                saturation -= 00.20000f;
                             case 6: // palest
                                 lightness += 0.150f;
-                                saturation -= 0.200f;
+                                saturation -= 00.2000f;
                             case 5: // paler
                                 lightness += 0.150f;
-                                saturation -= 0.200f;
+                                saturation -= 00.200f;
                             case 4: // pale
                                 lightness += 0.150f;
-                                saturation -= 0.200f;
+                                saturation -= 00.20f;
                                 continue;
                         }
                     }
-                    mixing.add(NAMED.get(term, TRANSPARENT));
+                    mixing.add(NAMED.get(term, 0f), 1);
                     break;
+                case 'W':
                 case 'w':
-                    if (len > 3 && (term.charAt(3) == 'k')) { // weak
+                    if (len > 3 && (term.charAt(3) == 'k' || term.charAt(3) == 'K')) { // weak
                         switch (len) {
                             case 8:
                                 lightness -= 0.150f;
-                                saturation -= 0.200f;
+                                saturation -= 00.20000f;
                             case 7:
                                 lightness -= 0.150f;
-                                saturation -= 0.200f;
+                                saturation -= 00.2000f;
                             case 6:
                                 lightness -= 0.150f;
-                                saturation -= 0.200f;
+                                saturation -= 00.200f;
                             case 4:
                                 lightness -= 0.150f;
-                                saturation -= 0.200f;
+                                saturation -= 00.20f;
                                 continue;
                         }
                     }
-                    mixing.add(NAMED.get(term, TRANSPARENT));
+                    mixing.add(NAMED.get(term, 0f), 1);
                     break;
+                case 'R':
                 case 'r':
-                    if (len > 1 && (term.charAt(1) == 'i')) { // rich
+                    if (len > 1 && (term.charAt(1) == 'i' || term.charAt(1) == 'I')) { // rich
                         switch (len) {
                             case 8:
-                                saturation += 0.200f;
+                                saturation += 00.20000f;
                             case 7:
-                                saturation += 0.200f;
+                                saturation += 00.2000f;
                             case 6:
-                                saturation += 0.200f;
+                                saturation += 00.200f;
                             case 4:
-                                saturation += 0.200f;
+                                saturation += 00.20f;
                                 continue;
                         }
                     }
-                    mixing.add(NAMED.get(term, TRANSPARENT));
+                    mixing.add(NAMED.get(term, 0f), 1);
                     break;
+                case 'D':
                 case 'd':
-                    if (len > 1 && (term.charAt(1) == 'a')) { // dark
+                    if (len > 1 && (term.charAt(1) == 'a' || term.charAt(1) == 'A')) { // dark
                         switch (len) {
                             case 8:
                                 lightness -= 0.150f;
@@ -857,54 +930,74 @@ public class SimplePalette {
                                 lightness -= 0.150f;
                                 continue;
                         }
-                    } else if (len > 1 && (term.charAt(1) == 'u')) { // dull
+                    } else if (len > 1 && (term.charAt(1) == 'u' || term.charAt(1) == 'U')) { // dull
                         switch (len) {
                             case 8:
-                                saturation -= 0.200f;
+                                saturation -= 00.20000f;
                             case 7:
-                                saturation -= 0.200f;
+                                saturation -= 00.2000f;
                             case 6:
-                                saturation -= 0.200f;
+                                saturation -= 00.200f;
                             case 4:
-                                saturation -= 0.200f;
+                                saturation -= 00.20f;
                                 continue;
                         }
-                    } else if (len > 3 && (term.charAt(3) == 'p')) { // deep
+                    } else if (len > 3 && (term.charAt(3) == 'p' || term.charAt(3) == 'P')) { // deep
                         switch (len) {
                             case 8:
                                 lightness -= 0.150f;
-                                saturation += 0.200f;
+                                saturation += 00.20000f;
                             case 7:
                                 lightness -= 0.150f;
-                                saturation += 0.200f;
+                                saturation += 00.2000f;
                             case 6:
                                 lightness -= 0.150f;
-                                saturation += 0.200f;
+                                saturation += 00.200f;
                             case 4:
                                 lightness -= 0.150f;
-                                saturation += 0.200f;
+                                saturation += 00.20f;
                                 continue;
                         }
                     }
-                    mixing.add(NAMED.get(term, TRANSPARENT));
+                    mixing.add(NAMED.get(term, 0f), 1);
+                    break;
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    if(mixing.size >= 2) {
+                        float num = 1;
+                        try {
+                            num = Float.parseFloat(term);
+                        } catch (NullPointerException | NumberFormatException ignored) {
+                        }
+                        mixing.set((mixing.size & -2) - 1, num);
+                    }
                     break;
                 default:
-                    mixing.add(NAMED.get(term, TRANSPARENT));
+                    mixing.add(NAMED.get(term, 0f), 1);
                     break;
             }
         }
-        float result = mix(mixing.items, 0, mixing.size);
-        if(result == 0f) return result;
+        if(mixing.size < 2) return 0f;
 
-        if(lightness > 0) result = ColorTools.lighten(result, lightness);
-        else if(lightness < 0) result = ColorTools.darken(result, -lightness);
+        float result = unevenMix(mixing.items, 0, mixing.size);
+        if(lightness == 0f && saturation == 0f) return result;
 
-        if(saturation > 0) result = (ColorTools.enrich(result, saturation));
-        else if(saturation < 0) result = (ColorTools.dullen(result, -saturation));
-//        else result = ColorTools.limitToGamut(result);
-
-        return result;
+        saturation = Math.min(Math.max(saturation + 1, 0), 1000);
+        if(Math.abs(lightness) < 1.0e-6)
+            lightness = 1f;
+        else
+            lightness = (float) Math.pow(8, lightness);
+        return editHSLuv(result, 0f, 0f, 0f, 0f, 1f, saturation, lightness, 1f);
     }
+
     private static final Array<String> namesByHue = new Array<>(NAMES_BY_HUE);
     private static final FloatArray colorsByHue = new FloatArray(COLORS_BY_HUE);
 
@@ -964,11 +1057,11 @@ public class SimplePalette {
      * Given a color as a packed HSLuv float, this finds the closest description it can to match the given color while
      * using at most {@code mixCount} colors to mix in. You should only use small numbers for mixCount, like 1 to 3;
      * this can take quite a while to run otherwise. This returns a String description that can be passed to
-     * {@link #parseDescription(String)}. It is likely that this will use very contrasting colors if mixCount is 2 or
-     * greater and the color to match is desaturated or brownish.
+     * {@link #parseDescription(CharSequence)}. It is likely that this will use very contrasting colors if mixCount is
+     * 2 or greater and the color to match is desaturated or brownish.
      * @param hsluv a packed HSLuv float color to attempt to match
      * @param mixCount how many color names this will use in the returned description
-     * @return a description that can be fed to {@link #parseDescription(String)} to get a similar color
+     * @return a description that can be fed to {@link #parseDescription(CharSequence)} to get a similar color
      */
     public static String bestMatch(final float hsluv, int mixCount) {
         mixCount = Math.max(1, mixCount);

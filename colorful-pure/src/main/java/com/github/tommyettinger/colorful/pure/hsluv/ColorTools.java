@@ -25,7 +25,6 @@
 package com.github.tommyettinger.colorful.pure.hsluv;
 
 import com.github.tommyettinger.colorful.pure.FloatColors;
-import com.github.tommyettinger.digital.MathTools;
 import com.github.tommyettinger.digital.BitConversion;
 import com.github.tommyettinger.digital.TrigTools;
 import com.github.tommyettinger.random.EnhancedRandom;

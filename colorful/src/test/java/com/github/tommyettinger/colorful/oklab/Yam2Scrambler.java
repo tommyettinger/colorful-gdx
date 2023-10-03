@@ -21,8 +21,6 @@ import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.IntSet;
 
-import java.util.Arrays;
-
 /**
  * Reorders the Yam2 palette to try to maximize visual contrast between successive or nearby colors in the palette.
  */

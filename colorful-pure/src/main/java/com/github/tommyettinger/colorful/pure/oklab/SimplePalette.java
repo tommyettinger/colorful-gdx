@@ -21,9 +21,8 @@ import com.github.tommyettinger.ds.FloatList;
 import com.github.tommyettinger.ds.ObjectFloatOrderedMap;
 import com.github.tommyettinger.ds.ObjectList;
 
-import static com.github.tommyettinger.colorful.pure.FloatColors.lerpFloatColorsBlended;
 import static com.github.tommyettinger.colorful.pure.FloatColors.unevenMix;
-import static com.github.tommyettinger.colorful.pure.oklab.ColorTools.*;
+import static com.github.tommyettinger.colorful.pure.oklab.ColorTools.editOklab;
 
 /**
  * A palette of predefined colors as packed Oklab floats, the kind {@link ColorTools} works with, plus a way to describe
@@ -989,18 +988,11 @@ public class SimplePalette {
         if(lightness == 0f && saturation == 0f) return result;
 
         saturation = Math.min(Math.max(saturation + 1, 0), 1000);
-        return editOklab(result, 0f, 0f, 0f, 0f, (float) Math.pow(8, lightness), saturation, saturation, 1f);
-
-//        saturation += Math.abs(lightness) * 0.5f;
-//        if(saturation != 0f) {
-//            saturation = Math.min(Math.max(saturation + 1, 0), 1000);
-//            result = multiplyChroma(result, saturation);
-//        }
-//        if(lightness == 0f)
-//            return result;
-//        if (lightness > 0f)
-//            return lerpFloatColorsBlended(result, WHITE, lightness);
-//        return lerpFloatColorsBlended(result, BLACK, -lightness);
+        if(Math.abs(lightness) < 1.0e-6)
+            lightness = 1f;
+        else
+            lightness = (float) Math.pow(8, lightness);
+        return editOklab(result, 0f, 0f, 0f, 0f, lightness, saturation, saturation, 1f);
     }
 
     private static final ObjectList<String> namesByHue = new ObjectList<>(NAMES_BY_HUE);

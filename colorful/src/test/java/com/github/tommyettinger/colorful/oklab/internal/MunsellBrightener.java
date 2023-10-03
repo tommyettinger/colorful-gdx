@@ -20,16 +20,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.utils.NumberUtils;
-import com.badlogic.gdx.utils.ObjectFloatMap;
 import com.github.tommyettinger.colorful.internal.StringKit;
-import com.github.tommyettinger.colorful.oklab.ColorTools;
-import com.github.tommyettinger.colorful.oklab.NamedMunsellPalette;
-import com.github.tommyettinger.colorful.oklab.SimplePalette;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import static com.github.tommyettinger.colorful.oklab.ColorTools.*;
 

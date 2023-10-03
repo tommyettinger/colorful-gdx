@@ -22,9 +22,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.utils.ObjectFloatMap;
 import com.github.tommyettinger.colorful.internal.StringKit;
-import com.github.tommyettinger.colorful.rgb.CSSPalette;
 import com.github.tommyettinger.colorful.rgb.ColorTools;
-import com.github.tommyettinger.colorful.rgb.FullPalette;
 import com.github.tommyettinger.colorful.rgb.MunsellishPalette;
 
 import java.util.ArrayList;

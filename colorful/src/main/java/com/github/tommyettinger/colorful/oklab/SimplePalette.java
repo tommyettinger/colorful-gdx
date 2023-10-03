@@ -25,7 +25,6 @@ import com.github.tommyettinger.colorful.FloatColors;
 
 import java.util.Comparator;
 
-import static com.github.tommyettinger.colorful.FloatColors.lerpFloatColorsBlended;
 import static com.github.tommyettinger.colorful.FloatColors.unevenMix;
 import static com.github.tommyettinger.colorful.oklab.ColorTools.*;
 
@@ -994,18 +993,11 @@ public class SimplePalette {
         if(lightness == 0f && saturation == 0f) return result;
 
         saturation = Math.min(Math.max(saturation + 1, 0), 1000);
-        return editOklab(result, 0f, 0f, 0f, 0f, (float) Math.pow(8, lightness), saturation, saturation, 1f);
-
-//        saturation += Math.abs(lightness) * 0.5f;
-//        if(saturation != 0f) {
-//            saturation = Math.min(Math.max(saturation + 1, 0), 1000);
-//            result = ColorTools.multiplyChroma(result, saturation);
-//        }
-//        if(lightness == 0f)
-//            return result;
-//        if (lightness > 0f)
-//            return lerpFloatColorsBlended(result, WHITE, lightness);
-//        return lerpFloatColorsBlended(result, BLACK, -lightness);
+        if(Math.abs(lightness) < 1.0e-6)
+            lightness = 1f;
+        else
+            lightness = (float) Math.pow(8, lightness);
+        return editOklab(result, 0f, 0f, 0f, 0f, lightness, saturation, saturation, 1f);
     }
     
     private static final Array<String> namesByHue = new Array<>(NAMES_BY_HUE);
