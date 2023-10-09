@@ -27,7 +27,7 @@ import static com.github.tommyettinger.colorful.pure.hsluv.ColorTools.*;
 /**
  * A palette of predefined colors as packed HSLuv floats, the kind {@link ColorTools} works with, plus a way to describe
  * colors by combinations and adjustments. The description code is probably what you would use this class for; it
- * revolves around {@link #parseDescription(CharSequence)}, which takes a color description String and returns a packed
+ * revolves around {@link #parseDescription(String)}, which takes a color description String and returns a packed
  * float color. The color descriptions look like "darker rich mint yellow", where the order of the words doesn't matter.
  * They can optionally include lightness changes (light/dark), and saturation changes (rich/dull), and must include one
  * or more color names that will be mixed together (repeats are allowed to use a color more heavily). The changes can be
@@ -754,12 +754,12 @@ public class SimplePalette {
      * "lightest richer apricot-olive", "bright magenta", "palest cyan blue", "deep fern black", "weakmost celery",
      * "red^3 orange", and "dark deep blue^7 cyan^3".
      * <br>
-     * This overload always reads the whole CharSequence provided.
+     * This overload always reads the whole String provided.
      *
-     * @param description a color description, as a String or other CharSequence matching the above format
+     * @param description a color description, as a String matching the above format
      * @return a packed HSLuv float color as described
      */
-    public static float parseDescription(final CharSequence description) {
+    public static float parseDescription(final String description) {
         return parseDescription(description, 0, description.length());
     }
     /**
@@ -798,14 +798,14 @@ public class SimplePalette {
      * starting index in {@code description} to read from and a maximum {@code length} to read before stopping. If
      * {@code length} is negative, this reads the rest of {@code description} after {@code start}.
      *
-     * @param description a color description, as a String or other CharSequence matching the above format
+     * @param description a color description, as a String matching the above format
      * @param start the first character index of the description to read from
      * @param length how much of description to attempt to parse; if negative, this parses until the end
      * @return a packed HSLuv float color as described
      */
-    public static float parseDescription(final CharSequence description, int start, int length) {
+    public static float parseDescription(final String description, int start, int length) {
         float lightness = 0f, saturation = 0f;
-        final String[] terms = description.toString().substring(start,
+        final String[] terms = description.substring(start,
                         length < 0 ? description.length() - start : Math.min(description.length(), start + length))
                 .split("[^a-zA-Z0-9_.]+");
         mixing.clear();
@@ -1052,11 +1052,11 @@ public class SimplePalette {
      * Given a color as a packed HSLuv float, this finds the closest description it can to match the given color while
      * using at most {@code mixCount} colors to mix in. You should only use small numbers for mixCount, like 1 to 3;
      * this can take quite a while to run otherwise. This returns a String description that can be passed to
-     * {@link #parseDescription(CharSequence)}. It is likely that this will use very contrasting colors if mixCount is
+     * {@link #parseDescription(String)}. It is likely that this will use very contrasting colors if mixCount is
      * 2 or greater and the color to match is desaturated or brownish.
      * @param hsluv a packed HSLuv float color to attempt to match
      * @param mixCount how many color names this will use in the returned description
-     * @return a description that can be fed to {@link #parseDescription(CharSequence)} to get a similar color
+     * @return a description that can be fed to {@link #parseDescription(String)} to get a similar color
      */
     public static String bestMatch(final float hsluv, int mixCount) {
         mixCount = Math.max(1, mixCount);

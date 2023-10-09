@@ -45,7 +45,6 @@
 ###### PROGUARD ANNOTATIONS END #####
 -optimizationpasses 5
 
-
 # Can't be removed on LWJGL3, can be with Android-only ProGuard usage
 
 # Gamut inline data fix
