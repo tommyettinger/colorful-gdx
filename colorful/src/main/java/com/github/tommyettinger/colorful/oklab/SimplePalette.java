@@ -849,7 +849,7 @@ public class SimplePalette {
                                 saturation += 00.2000f;
                             case 8:
                                 lightness += 0.150f;
-                                saturation += 00.20f;
+                                saturation += 00.200f;
                             case 6:
                                 lightness += 0.150f;
                                 saturation += 00.20f;
@@ -990,7 +990,7 @@ public class SimplePalette {
         if(mixing.size < 2) return 0f;
 
         float result = unevenMix(mixing.items, 0, mixing.size);
-        if(lightness == 0f && saturation == 0f) return result;
+        if(result == 0f || (lightness == 0f && saturation == 0f)) return result;
 
         saturation = Math.min(Math.max(saturation + 1, 0), 1000);
         if(Math.abs(lightness) < 1.0e-6)
