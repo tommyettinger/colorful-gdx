@@ -984,14 +984,15 @@ public class SimplePalette {
         if(mixing.size() < 2) return 0f;
 
         float result = unevenMix(mixing.items, 0, mixing.size());
-        if(result == 0f || (lightness == 0f && saturation == 0f)) return result;
+        if(result == 0f) return result;
 
-        saturation = Math.min(Math.max(saturation + 1, 0), 1000);
-        if(Math.abs(lightness) < 1.0e-6)
-            lightness = 1f;
-        else
-            lightness = (float) Math.pow(8, lightness);
-        return editHSLuv(result, 0f, 0f, 0f, 0f, 1f, saturation, lightness, 1f);
+        if(lightness > 0) result = ColorTools.lerpFloatColorsBlended(result, WHITE, lightness);
+        else if(lightness < 0) result = ColorTools.lerpFloatColorsBlended(result, BLACK, -lightness);
+
+        if(saturation > 0) result = (ColorTools.enrich(result, saturation));
+        else if(saturation < 0) result = ColorTools.dullen(result, -saturation);
+
+        return result;
     }
 
     private static final ObjectList<String> namesByHue = new ObjectList<>(NAMES_BY_HUE);
