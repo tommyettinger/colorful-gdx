@@ -22,7 +22,6 @@ import com.github.tommyettinger.ds.ObjectFloatOrderedMap;
 import com.github.tommyettinger.ds.ObjectList;
 
 import static com.github.tommyettinger.colorful.pure.FloatColors.unevenMix;
-import static com.github.tommyettinger.colorful.pure.oklab.ColorTools.editOklab;
 
 /**
  * A palette of predefined colors as packed Oklab floats, the kind {@link ColorTools} works with, plus a way to describe
@@ -990,7 +989,7 @@ public class SimplePalette {
         if(lightness > 0) result = FloatColors.lerpFloatColorsBlended(result, WHITE, lightness);
         else if(lightness < 0) result = FloatColors.lerpFloatColorsBlended(result, BLACK, -lightness);
 
-        if(saturation > 0) result = (ColorTools.enrich(result, saturation));
+        if(saturation > 0) result = ColorTools.enrich(result, saturation);
         else if(saturation < 0) result = ColorTools.dullen(result, -saturation);
 
         return result;

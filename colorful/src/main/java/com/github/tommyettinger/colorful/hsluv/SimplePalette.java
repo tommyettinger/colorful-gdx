@@ -993,7 +993,7 @@ public class SimplePalette {
         if(lightness > 0) result = ColorTools.lerpFloatColorsBlended(result, WHITE, lightness);
         else if(lightness < 0) result = ColorTools.lerpFloatColorsBlended(result, BLACK, -lightness);
 
-        if(saturation > 0) result = (ColorTools.enrich(result, saturation));
+        if(saturation > 0) result = ColorTools.enrich(result, saturation);
         else if(saturation < 0) result = ColorTools.dullen(result, -saturation);
 
         return result;
