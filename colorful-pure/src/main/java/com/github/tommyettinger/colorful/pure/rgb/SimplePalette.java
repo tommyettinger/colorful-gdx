@@ -985,11 +985,11 @@ public class SimplePalette {
         float result = unevenMix(mixing.items, 0, mixing.size());
         if(result == 0f) return result;
 
-        if(saturation > 0) result = (ColorTools.enrich(result, saturation));
-        else if(saturation < 0) result = ColorTools.dullen(result, -saturation);
-
         if(lightness > 0) result = ColorTools.lighten(result, lightness);
         else if(lightness < 0) result = ColorTools.darken(result, -lightness);
+
+        if(saturation > 0) result = (ColorTools.enrich(result, saturation));
+        else if(saturation < 0) result = ColorTools.dullen(result, -saturation);
 
         return result;
     }
