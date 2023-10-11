@@ -46,11 +46,14 @@ subprojects {
 // http://blog.joda.org/2014/02/turning-off-doclint-in-jdk-8-javadoc.html
 if (JavaVersion.current().isJava8Compatible()) {
     allprojects {
-        tasks.withType(Javadoc) {
-            // The -quiet is because of some sort of weird JDK JavaCompiler bug:
-            // https://discuss.gradle.org/t/passing-arguments-to-compiler-and-javadoc/1661
-            options.addStringOption('Xdoclint:none,-missing', '-quiet')
-            options.tags('apiNote:a:"API Note"', 'implSpec:a:"Implementation Requirements"', 'implNote:a:"Implementation Note"')
+        tasks.withType(Javadoc).tap {
+            configureEach {
+                // The -quiet is because of some sort of weird JDK JavaCompiler bug:
+                // https://discuss.gradle.org/t/passing-arguments-to-compiler-and-javadoc/1661
+                options.addStringOption('Xdoclint:none,-missing', '-quiet')
+                options.tags('apiNote:a:"API Note"', 'implSpec:a:"Implementation Requirements"', 'implNote:a:"Implementation Note"')
+            }
         }
     }
 }
+

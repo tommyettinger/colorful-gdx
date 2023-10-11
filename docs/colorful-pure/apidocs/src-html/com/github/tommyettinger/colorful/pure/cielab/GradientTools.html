@@ -1,19 +1,3 @@
-<!--
-  ~ Copyright (c) 2023 See AUTHORS file.
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~   http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
-
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -27,256 +11,272 @@
 <body class="source-page">
 <main role="main">
 <div class="source-container">
-<pre><span class="source-line-no">001</span><span id="line-1">package com.github.tommyettinger.colorful.pure.cielab;</span>
-<span class="source-line-no">002</span><span id="line-2"></span>
-<span class="source-line-no">003</span><span id="line-3">import com.github.tommyettinger.colorful.pure.FloatColors;</span>
-<span class="source-line-no">004</span><span id="line-4">import com.github.tommyettinger.colorful.pure.Interpolations;</span>
-<span class="source-line-no">005</span><span id="line-5">import com.github.tommyettinger.colorful.pure.Interpolations.Interpolation;</span>
-<span class="source-line-no">006</span><span id="line-6">import com.github.tommyettinger.colorful.pure.MathTools;</span>
-<span class="source-line-no">007</span><span id="line-7">import com.github.tommyettinger.ds.FloatList;</span>
-<span class="source-line-no">008</span><span id="line-8"></span>
-<span class="source-line-no">009</span><span id="line-9">/**</span>
-<span class="source-line-no">010</span><span id="line-10"> * Static methods for handling gradients of smoothly-changing colors, typically inside of {@link FloatList}s.</span>
-<span class="source-line-no">011</span><span id="line-11"> * The intent is for the FloatList to be used as a sequence of packed float CIELAB colors. You can create a new</span>
-<span class="source-line-no">012</span><span id="line-12"> * FloatList gradient with {@link #makeGradient(float, float, int, Interpolation)}, but any FloatList will work</span>
-<span class="source-line-no">013</span><span id="line-13"> * (although it only makes sense if it contains packed float colors or is empty). Once you have a FloatList, you can</span>
-<span class="source-line-no">014</span><span id="line-14"> * pass it to {@link #appendGradient(FloatList, float, float, int, Interpolation)} to make a gradient between two</span>
-<span class="source-line-no">015</span><span id="line-15"> * colors, or {@link #appendGradientChain(FloatList, int, Interpolation, float...)} to make a gradient between more</span>
-<span class="source-line-no">016</span><span id="line-16"> * than two colors. You can also customize each section between colors with</span>
-<span class="source-line-no">017</span><span id="line-17"> * {@link #appendPartialGradient(FloatList, float, float, int, Interpolation)}, which is just like appendGradient() but</span>
-<span class="source-line-no">018</span><span id="line-18"> * doesn't add the end color (since it is the start color of the next partial gradient, until you finally end by</span>
-<span class="source-line-no">019</span><span id="line-19"> * appending just the end). Using appendPartialGradient(), you can have each transition use a different number of steps.</span>
-<span class="source-line-no">020</span><span id="line-20"> * &lt;br&gt;</span>
-<span class="source-line-no">021</span><span id="line-21"> * This class does some special handling for CIELAB colors.</span>
-<span class="source-line-no">022</span><span id="line-22"> */</span>
-<span class="source-line-no">023</span><span id="line-23">public class GradientTools {</span>
-<span class="source-line-no">024</span><span id="line-24">    /**</span>
-<span class="source-line-no">025</span><span id="line-25">     * No need to instantiate.</span>
-<span class="source-line-no">026</span><span id="line-26">     */</span>
-<span class="source-line-no">027</span><span id="line-27">    private GradientTools(){</span>
-<span class="source-line-no">028</span><span id="line-28">    }</span>
-<span class="source-line-no">029</span><span id="line-29"></span>
-<span class="source-line-no">030</span><span id="line-30">    /**</span>
-<span class="source-line-no">031</span><span id="line-31">     * Creates a FloatList gradient from the packed float CIELAB color {@code start} to the packed float CIELAB color</span>
-<span class="source-line-no">032</span><span id="line-32">     * {@code end}, taking the specified number of steps and using linear interpolation.</span>
-<span class="source-line-no">033</span><span id="line-33">     * This limits individual steps of color to the correct CIELAB gamut, so even interpolations between colors at</span>
-<span class="source-line-no">034</span><span id="line-34">     * extreme points in the color space will stay in-gamut.</span>
-<span class="source-line-no">035</span><span id="line-35">     * @param start the packed float CIELAB color to start with</span>
-<span class="source-line-no">036</span><span id="line-36">     * @param end the packed float CIELAB color to end on</span>
-<span class="source-line-no">037</span><span id="line-37">     * @param steps how many steps the gradient should use; usually greater than 2, and must be non-negative</span>
-<span class="source-line-no">038</span><span id="line-38">     * @return a new FloatList that contains the requested gradient</span>
-<span class="source-line-no">039</span><span id="line-39">     */</span>
-<span class="source-line-no">040</span><span id="line-40">    public static FloatList makeGradient(float start, float end, int steps) {</span>
-<span class="source-line-no">041</span><span id="line-41">        return makeGradient(start, end, steps, Interpolations.linear);</span>
-<span class="source-line-no">042</span><span id="line-42">    }</span>
-<span class="source-line-no">043</span><span id="line-43">    /**</span>
-<span class="source-line-no">044</span><span id="line-44">     * Creates a FloatList gradient from the packed float CIELAB color {@code start} to the packed float CIELAB color</span>
-<span class="source-line-no">045</span><span id="line-45">     * {@code end}, taking the specified number of steps and using the specified Interpolation for how it transitions.</span>
-<span class="source-line-no">046</span><span id="line-46">     * This limits individual steps of color to the correct CIELAB gamut, so even interpolations between colors at</span>
-<span class="source-line-no">047</span><span id="line-47">     * extreme points in the color space will stay in-gamut.</span>
-<span class="source-line-no">048</span><span id="line-48">     * @param start the packed float CIELAB color to start with</span>
-<span class="source-line-no">049</span><span id="line-49">     * @param end the packed float CIELAB color to end on</span>
-<span class="source-line-no">050</span><span id="line-50">     * @param steps how many steps the gradient should use; usually greater than 2, and must be non-negative</span>
-<span class="source-line-no">051</span><span id="line-51">     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions to end</span>
-<span class="source-line-no">052</span><span id="line-52">     * @return a new FloatList that contains the requested gradient</span>
-<span class="source-line-no">053</span><span id="line-53">     */</span>
-<span class="source-line-no">054</span><span id="line-54">    public static FloatList makeGradient(float start, float end, int steps, Interpolation interpolation) {</span>
-<span class="source-line-no">055</span><span id="line-55">        FloatList appending = new FloatList(steps);</span>
-<span class="source-line-no">056</span><span id="line-56">        if(steps &lt;= 0) {</span>
-<span class="source-line-no">057</span><span id="line-57">            return appending;</span>
-<span class="source-line-no">058</span><span id="line-58">        }</span>
-<span class="source-line-no">059</span><span id="line-59">        if(steps == 1) {</span>
-<span class="source-line-no">060</span><span id="line-60">            appending.add(start);</span>
-<span class="source-line-no">061</span><span id="line-61">            return appending;</span>
-<span class="source-line-no">062</span><span id="line-62">        }</span>
-<span class="source-line-no">063</span><span id="line-63">        appendPartialGradient(appending, start, end, steps - 1, interpolation).add(end);</span>
-<span class="source-line-no">064</span><span id="line-64">        return appending;</span>
-<span class="source-line-no">065</span><span id="line-65">    }</span>
-<span class="source-line-no">066</span><span id="line-66"></span>
-<span class="source-line-no">067</span><span id="line-67">    /**</span>
-<span class="source-line-no">068</span><span id="line-68">     * Appends a gradient from the packed float CIELAB color {@code start} to the packed float CIELAB color {@code end},</span>
-<span class="source-line-no">069</span><span id="line-69">     * taking the specified number of steps and using linear Interpolation for how it transitions. This limits</span>
-<span class="source-line-no">070</span><span id="line-70">     * individual steps of color to the correct CIELAB gamut, so even interpolations between colors at extreme points in</span>
-<span class="source-line-no">071</span><span id="line-71">     * the color space will stay in-gamut.</span>
-<span class="source-line-no">072</span><span id="line-72">     * @param appending a FloatList that will be appended to</span>
-<span class="source-line-no">073</span><span id="line-73">     * @param start the packed float CIELAB color to start with</span>
-<span class="source-line-no">074</span><span id="line-74">     * @param end the packed float CIELAB color to end on</span>
-<span class="source-line-no">075</span><span id="line-75">     * @param steps how many steps the gradient should use; usually greater than 2</span>
-<span class="source-line-no">076</span><span id="line-76">     * @return {@code appending}, after adding the gradient to the end</span>
-<span class="source-line-no">077</span><span id="line-77">     */</span>
-<span class="source-line-no">078</span><span id="line-78">    public static FloatList appendGradient(FloatList appending, float start, float end, int steps) {</span>
-<span class="source-line-no">079</span><span id="line-79">        return appendGradient(appending, start, end, steps, Interpolations.linear);</span>
-<span class="source-line-no">080</span><span id="line-80">    }</span>
-<span class="source-line-no">081</span><span id="line-81">    /**</span>
-<span class="source-line-no">082</span><span id="line-82">     * Appends a gradient from the packed float CIELAB color {@code start} to the packed float CIELAB color {@code end},</span>
-<span class="source-line-no">083</span><span id="line-83">     * taking the specified number of steps and using the specified Interpolation for how it transitions. This limits</span>
-<span class="source-line-no">084</span><span id="line-84">     * individual steps of color to the correct CIELAB gamut, so even interpolations between colors at extreme points in</span>
-<span class="source-line-no">085</span><span id="line-85">     * the color space will stay in-gamut.</span>
-<span class="source-line-no">086</span><span id="line-86">     * @param appending a FloatList that will be appended to</span>
-<span class="source-line-no">087</span><span id="line-87">     * @param start the packed float CIELAB color to start with</span>
-<span class="source-line-no">088</span><span id="line-88">     * @param end the packed float CIELAB color to end on</span>
-<span class="source-line-no">089</span><span id="line-89">     * @param steps how many steps the gradient should use; usually greater than 2</span>
-<span class="source-line-no">090</span><span id="line-90">     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions to end</span>
-<span class="source-line-no">091</span><span id="line-91">     * @return {@code appending}, after adding the gradient to the end</span>
-<span class="source-line-no">092</span><span id="line-92">     */</span>
-<span class="source-line-no">093</span><span id="line-93">    public static FloatList appendGradient(FloatList appending, float start, float end, int steps, Interpolation interpolation) {</span>
-<span class="source-line-no">094</span><span id="line-94">        if(appending == null)</span>
-<span class="source-line-no">095</span><span id="line-95">            return null;</span>
-<span class="source-line-no">096</span><span id="line-96">        if(steps &lt;= 0) {</span>
-<span class="source-line-no">097</span><span id="line-97">            return appending;</span>
-<span class="source-line-no">098</span><span id="line-98">        }</span>
-<span class="source-line-no">099</span><span id="line-99">        if(steps == 1) {</span>
-<span class="source-line-no">100</span><span id="line-100">            appending.add(start);</span>
-<span class="source-line-no">101</span><span id="line-101">            return appending;</span>
-<span class="source-line-no">102</span><span id="line-102">        }</span>
-<span class="source-line-no">103</span><span id="line-103">        appending.ensureCapacity(steps);</span>
-<span class="source-line-no">104</span><span id="line-104">        appendPartialGradient(appending, start, end, steps - 1, interpolation).add(end);</span>
-<span class="source-line-no">105</span><span id="line-105">        return appending;</span>
-<span class="source-line-no">106</span><span id="line-106">    }</span>
-<span class="source-line-no">107</span><span id="line-107"></span>
-<span class="source-line-no">108</span><span id="line-108">    /**</span>
-<span class="source-line-no">109</span><span id="line-109">     * Appends a gradient between several packed float CIELAB colors provided in {@code chain}. This uses linear</span>
-<span class="source-line-no">110</span><span id="line-110">     * Interpolation for the whole gradient. Appends to the end of {@code appending} and produces a total of</span>
-<span class="source-line-no">111</span><span id="line-111">     * {@code steps} colors.</span>
-<span class="source-line-no">112</span><span id="line-112">     * @param appending a FloatList that will be appended to</span>
-<span class="source-line-no">113</span><span id="line-113">     * @param steps how many steps the gradient should use; usually greater than 2</span>
-<span class="source-line-no">114</span><span id="line-114">     * @param chain an array or varargs of packed float CIELAB colors that this will interpolate through in order</span>
-<span class="source-line-no">115</span><span id="line-115">     * @return {@code appending}, after adding the gradient to the end</span>
-<span class="source-line-no">116</span><span id="line-116">     */</span>
-<span class="source-line-no">117</span><span id="line-117">    public static FloatList appendGradientChain(FloatList appending, int steps, float... chain) {</span>
-<span class="source-line-no">118</span><span id="line-118">        return appendGradientChain(appending, steps, Interpolations.linear, chain);</span>
-<span class="source-line-no">119</span><span id="line-119">    }</span>
-<span class="source-line-no">120</span><span id="line-120"></span>
-<span class="source-line-no">121</span><span id="line-121">    /**</span>
-<span class="source-line-no">122</span><span id="line-122">     * Appends a gradient between several packed float CIELAB colors provided in {@code chain}. This uses linear</span>
-<span class="source-line-no">123</span><span id="line-123">     * Interpolation for the whole gradient. Appends to the end of {@code appending} and produces a total of</span>
-<span class="source-line-no">124</span><span id="line-124">     * {@code steps} colors.</span>
-<span class="source-line-no">125</span><span id="line-125">     * @param appending a FloatList that will be appended to</span>
-<span class="source-line-no">126</span><span id="line-126">     * @param steps how many steps the gradient should use; usually greater than 2</span>
-<span class="source-line-no">127</span><span id="line-127">     * @param chain a FloatList of packed float CIELAB colors that this will interpolate through in order</span>
-<span class="source-line-no">128</span><span id="line-128">     * @return {@code appending}, after adding the gradient to the end</span>
-<span class="source-line-no">129</span><span id="line-129">     */</span>
-<span class="source-line-no">130</span><span id="line-130">    public static FloatList appendGradientChain(FloatList appending, int steps, FloatList chain) {</span>
-<span class="source-line-no">131</span><span id="line-131">        return appendGradientChain(appending, steps, Interpolations.linear, chain);</span>
-<span class="source-line-no">132</span><span id="line-132">    }</span>
-<span class="source-line-no">133</span><span id="line-133"></span>
-<span class="source-line-no">134</span><span id="line-134">    /**</span>
-<span class="source-line-no">135</span><span id="line-135">     * Appends a gradient between several packed float CIELAB colors provided in {@code chain}. This uses the specified</span>
-<span class="source-line-no">136</span><span id="line-136">     * Interpolation for the whole gradient, which can make some colors use smaller sections than others. Appends to the</span>
-<span class="source-line-no">137</span><span id="line-137">     * end of {@code appending} and produces a total of {@code steps} colors.</span>
-<span class="source-line-no">138</span><span id="line-138">     * @param appending a FloatList that will be appended to</span>
-<span class="source-line-no">139</span><span id="line-139">     * @param steps how many steps the gradient should use; usually greater than 2</span>
-<span class="source-line-no">140</span><span id="line-140">     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions to end</span>
-<span class="source-line-no">141</span><span id="line-141">     * @param chain a FloatList of packed float CIELAB colors that this will interpolate through in order</span>
-<span class="source-line-no">142</span><span id="line-142">     * @return {@code appending}, after adding the gradient to the end</span>
-<span class="source-line-no">143</span><span id="line-143">     */</span>
-<span class="source-line-no">144</span><span id="line-144">    public static FloatList appendGradientChain(FloatList appending, int steps, Interpolation interpolation, FloatList chain) {</span>
-<span class="source-line-no">145</span><span id="line-145">        if (appending == null)</span>
-<span class="source-line-no">146</span><span id="line-146">            return null;</span>
-<span class="source-line-no">147</span><span id="line-147">        if(chain == null)</span>
-<span class="source-line-no">148</span><span id="line-148">            return appending;</span>
-<span class="source-line-no">149</span><span id="line-149">        if (steps &lt;= 0 || chain.size() == 0) {</span>
-<span class="source-line-no">150</span><span id="line-150">            return appending;</span>
-<span class="source-line-no">151</span><span id="line-151">        }</span>
-<span class="source-line-no">152</span><span id="line-152">        if (steps == 1 || chain.size() == 1) {</span>
-<span class="source-line-no">153</span><span id="line-153">            appending.add(chain.first());</span>
-<span class="source-line-no">154</span><span id="line-154">            return appending;</span>
-<span class="source-line-no">155</span><span id="line-155">        }</span>
-<span class="source-line-no">156</span><span id="line-156">        appending.ensureCapacity(steps);</span>
-<span class="source-line-no">157</span><span id="line-157">        int limit = steps - 1, splits = chain.size() - 1;</span>
-<span class="source-line-no">158</span><span id="line-158">        float step = 1f / steps, change = 0f;</span>
-<span class="source-line-no">159</span><span id="line-159">        for (int i = 0; i &lt; limit; i++) {</span>
-<span class="source-line-no">160</span><span id="line-160">            float interp = interpolation.apply(change);</span>
-<span class="source-line-no">161</span><span id="line-161">            float splint = Math.min(Math.max(interp * splits, 0f), splits - 0.000001f);</span>
-<span class="source-line-no">162</span><span id="line-162">            int idx = (int)splint;</span>
-<span class="source-line-no">163</span><span id="line-163">            appending.add(ColorTools.limitToGamut(FloatColors.lerpFloatColors(chain.get(idx), chain.get(idx+1), MathTools.norm(idx, idx +1, splint))));</span>
-<span class="source-line-no">164</span><span id="line-164">            change += step;</span>
-<span class="source-line-no">165</span><span id="line-165">        }</span>
-<span class="source-line-no">166</span><span id="line-166">        appending.add(chain.get(splits));</span>
-<span class="source-line-no">167</span><span id="line-167">        return appending;</span>
-<span class="source-line-no">168</span><span id="line-168">    }</span>
-<span class="source-line-no">169</span><span id="line-169"></span>
-<span class="source-line-no">170</span><span id="line-170">    /**</span>
-<span class="source-line-no">171</span><span id="line-171">     * Appends a gradient between several packed float CIELAB colors provided in {@code chain}. This uses the specified</span>
-<span class="source-line-no">172</span><span id="line-172">     * Interpolation for the whole gradient, which can make some colors use smaller sections than others. Appends to the</span>
-<span class="source-line-no">173</span><span id="line-173">     * end of {@code appending} and produces a total of {@code steps} colors.</span>
-<span class="source-line-no">174</span><span id="line-174">     * @param appending a FloatList that will be appended to</span>
-<span class="source-line-no">175</span><span id="line-175">     * @param steps how many steps the gradient should use; usually greater than 2</span>
-<span class="source-line-no">176</span><span id="line-176">     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions to end</span>
-<span class="source-line-no">177</span><span id="line-177">     * @param chain an array or varargs of packed float CIELAB colors that this will interpolate through in order</span>
-<span class="source-line-no">178</span><span id="line-178">     * @return {@code appending}, after adding the gradient to the end</span>
-<span class="source-line-no">179</span><span id="line-179">     */</span>
-<span class="source-line-no">180</span><span id="line-180">    public static FloatList appendGradientChain(FloatList appending, int steps, Interpolation interpolation, float... chain) {</span>
-<span class="source-line-no">181</span><span id="line-181">        if (appending == null)</span>
-<span class="source-line-no">182</span><span id="line-182">            return null;</span>
-<span class="source-line-no">183</span><span id="line-183">        if(chain == null)</span>
-<span class="source-line-no">184</span><span id="line-184">            return appending;</span>
-<span class="source-line-no">185</span><span id="line-185">        if (steps &lt;= 0 || chain.length == 0) {</span>
-<span class="source-line-no">186</span><span id="line-186">            return appending;</span>
-<span class="source-line-no">187</span><span id="line-187">        }</span>
-<span class="source-line-no">188</span><span id="line-188">        if (steps == 1 || chain.length == 1) {</span>
-<span class="source-line-no">189</span><span id="line-189">            appending.add(chain[0]);</span>
-<span class="source-line-no">190</span><span id="line-190">            return appending;</span>
-<span class="source-line-no">191</span><span id="line-191">        }</span>
-<span class="source-line-no">192</span><span id="line-192">        appending.ensureCapacity(steps);</span>
-<span class="source-line-no">193</span><span id="line-193">        int limit = steps - 1, splits = chain.length - 1;</span>
-<span class="source-line-no">194</span><span id="line-194">        float step = 1f / steps, change = 0f;</span>
-<span class="source-line-no">195</span><span id="line-195">        for (int i = 0; i &lt; limit; i++) {</span>
-<span class="source-line-no">196</span><span id="line-196">            float interp = interpolation.apply(change);</span>
-<span class="source-line-no">197</span><span id="line-197">            float splint = Math.min(Math.max(interp * splits, 0f), splits - 0.000001f);</span>
-<span class="source-line-no">198</span><span id="line-198">            int idx = (int)splint;</span>
-<span class="source-line-no">199</span><span id="line-199">            appending.add(ColorTools.limitToGamut(FloatColors.lerpFloatColors(chain[idx], chain[idx+1], MathTools.norm(idx, idx +1, splint))));</span>
-<span class="source-line-no">200</span><span id="line-200">            change += step;</span>
-<span class="source-line-no">201</span><span id="line-201">        }</span>
-<span class="source-line-no">202</span><span id="line-202">        appending.add(chain[splits]);</span>
-<span class="source-line-no">203</span><span id="line-203">        return appending;</span>
-<span class="source-line-no">204</span><span id="line-204">    }</span>
-<span class="source-line-no">205</span><span id="line-205"></span>
-<span class="source-line-no">206</span><span id="line-206">    /**</span>
-<span class="source-line-no">207</span><span id="line-207">     * Exactly like {@link #appendGradient(FloatList, float, float, int)}, but does not include</span>
-<span class="source-line-no">208</span><span id="line-208">     * {@code end} in what it appends to {@code appending}. This is intended for the implementation of chained</span>
-<span class="source-line-no">209</span><span id="line-209">     * gradients, where the end of a previous gradient becomes the start of the next one. This still uses the specified</span>
-<span class="source-line-no">210</span><span id="line-210">     * number of steps, it just doesn't append {@code end} in the last step.</span>
-<span class="source-line-no">211</span><span id="line-211">     * @param appending a FloatList that will be appended to</span>
-<span class="source-line-no">212</span><span id="line-212">     * @param start the packed float CIELAB color to start with</span>
-<span class="source-line-no">213</span><span id="line-213">     * @param end the packed float CIELAB color to end just before</span>
-<span class="source-line-no">214</span><span id="line-214">     * @param steps how many steps the gradient should use; usually greater than 2</span>
-<span class="source-line-no">215</span><span id="line-215">     * @return {@code appending}, after adding the gradient to its end</span>
-<span class="source-line-no">216</span><span id="line-216">     */</span>
-<span class="source-line-no">217</span><span id="line-217">    public static FloatList appendPartialGradient(FloatList appending, float start, float end, int steps) {</span>
-<span class="source-line-no">218</span><span id="line-218">        return appendPartialGradient(appending, start, end, steps, Interpolations.linear);</span>
-<span class="source-line-no">219</span><span id="line-219">    }</span>
-<span class="source-line-no">220</span><span id="line-220">    /**</span>
-<span class="source-line-no">221</span><span id="line-221">     * Exactly like {@link #appendGradient(FloatList, float, float, int, Interpolation)}, but does not include</span>
-<span class="source-line-no">222</span><span id="line-222">     * {@code end} in what it appends to {@code appending}. This is intended for the implementation of chained</span>
-<span class="source-line-no">223</span><span id="line-223">     * gradients, where the end of a previous gradient becomes the start of the next one. This still uses the specified</span>
-<span class="source-line-no">224</span><span id="line-224">     * number of steps, it just doesn't append {@code end} in the last step.</span>
-<span class="source-line-no">225</span><span id="line-225">     * @param appending a FloatList that will be appended to</span>
-<span class="source-line-no">226</span><span id="line-226">     * @param start the packed float CIELAB color to start with</span>
-<span class="source-line-no">227</span><span id="line-227">     * @param end the packed float CIELAB color to end just before</span>
-<span class="source-line-no">228</span><span id="line-228">     * @param steps how many steps the gradient should use; usually greater than 2</span>
-<span class="source-line-no">229</span><span id="line-229">     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions toward end</span>
-<span class="source-line-no">230</span><span id="line-230">     * @return {@code appending}, after adding the gradient to its end</span>
-<span class="source-line-no">231</span><span id="line-231">     */</span>
-<span class="source-line-no">232</span><span id="line-232">    public static FloatList appendPartialGradient(FloatList appending, float start, float end, int steps, Interpolation interpolation){</span>
-<span class="source-line-no">233</span><span id="line-233">        if(appending == null)</span>
-<span class="source-line-no">234</span><span id="line-234">            return null;</span>
-<span class="source-line-no">235</span><span id="line-235">        if(steps &lt;= 0) {</span>
-<span class="source-line-no">236</span><span id="line-236">            return appending;</span>
-<span class="source-line-no">237</span><span id="line-237">        }</span>
-<span class="source-line-no">238</span><span id="line-238">        if(steps == 1) {</span>
-<span class="source-line-no">239</span><span id="line-239">            appending.add(start);</span>
-<span class="source-line-no">240</span><span id="line-240">            return appending;</span>
-<span class="source-line-no">241</span><span id="line-241">        }</span>
-<span class="source-line-no">242</span><span id="line-242">        int limit = steps;</span>
-<span class="source-line-no">243</span><span id="line-243">        float step = 1f / steps, change = 0f;</span>
-<span class="source-line-no">244</span><span id="line-244">        for (int i = 0; i &lt; limit; i++) {</span>
-<span class="source-line-no">245</span><span id="line-245">            appending.add(ColorTools.limitToGamut(FloatColors.lerpFloatColors(start, end, interpolation.apply(change))));</span>
-<span class="source-line-no">246</span><span id="line-246">            change += step;</span>
-<span class="source-line-no">247</span><span id="line-247">        }</span>
-<span class="source-line-no">248</span><span id="line-248">        return appending;</span>
-<span class="source-line-no">249</span><span id="line-249">    }</span>
-<span class="source-line-no">250</span><span id="line-250">}</span>
+<pre><span class="source-line-no">001</span><span id="line-1">/*</span>
+<span class="source-line-no">002</span><span id="line-2"> * Copyright (c) 2023 See AUTHORS file.</span>
+<span class="source-line-no">003</span><span id="line-3"> *</span>
+<span class="source-line-no">004</span><span id="line-4"> * Licensed under the Apache License, Version 2.0 (the "License");</span>
+<span class="source-line-no">005</span><span id="line-5"> * you may not use this file except in compliance with the License.</span>
+<span class="source-line-no">006</span><span id="line-6"> * You may obtain a copy of the License at</span>
+<span class="source-line-no">007</span><span id="line-7"> *</span>
+<span class="source-line-no">008</span><span id="line-8"> *   http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="source-line-no">009</span><span id="line-9"> *</span>
+<span class="source-line-no">010</span><span id="line-10"> * Unless required by applicable law or agreed to in writing, software</span>
+<span class="source-line-no">011</span><span id="line-11"> * distributed under the License is distributed on an "AS IS" BASIS,</span>
+<span class="source-line-no">012</span><span id="line-12"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="source-line-no">013</span><span id="line-13"> * See the License for the specific language governing permissions and</span>
+<span class="source-line-no">014</span><span id="line-14"> * limitations under the License.</span>
+<span class="source-line-no">015</span><span id="line-15"> */</span>
+<span class="source-line-no">016</span><span id="line-16"></span>
+<span class="source-line-no">017</span><span id="line-17">package com.github.tommyettinger.colorful.pure.cielab;</span>
+<span class="source-line-no">018</span><span id="line-18"></span>
+<span class="source-line-no">019</span><span id="line-19">import com.github.tommyettinger.colorful.pure.FloatColors;</span>
+<span class="source-line-no">020</span><span id="line-20">import com.github.tommyettinger.digital.Interpolations;</span>
+<span class="source-line-no">021</span><span id="line-21">import com.github.tommyettinger.digital.Interpolations.InterpolationFunction;</span>
+<span class="source-line-no">022</span><span id="line-22">import com.github.tommyettinger.digital.MathTools;</span>
+<span class="source-line-no">023</span><span id="line-23">import com.github.tommyettinger.ds.FloatList;</span>
+<span class="source-line-no">024</span><span id="line-24"></span>
+<span class="source-line-no">025</span><span id="line-25">/**</span>
+<span class="source-line-no">026</span><span id="line-26"> * Static methods for handling gradients of smoothly-changing colors, typically inside of {@link FloatList}s.</span>
+<span class="source-line-no">027</span><span id="line-27"> * The intent is for the FloatList to be used as a sequence of packed float CIELAB colors. You can create a new</span>
+<span class="source-line-no">028</span><span id="line-28"> * FloatList gradient with {@link #makeGradient(float, float, int, InterpolationFunction)}, but any FloatList will work</span>
+<span class="source-line-no">029</span><span id="line-29"> * (although it only makes sense if it contains packed float colors or is empty). Once you have a FloatList, you can</span>
+<span class="source-line-no">030</span><span id="line-30"> * pass it to {@link #appendGradient(FloatList, float, float, int, InterpolationFunction)} to make a gradient between two</span>
+<span class="source-line-no">031</span><span id="line-31"> * colors, or {@link #appendGradientChain(FloatList, int, InterpolationFunction, float...)} to make a gradient between more</span>
+<span class="source-line-no">032</span><span id="line-32"> * than two colors. You can also customize each section between colors with</span>
+<span class="source-line-no">033</span><span id="line-33"> * {@link #appendPartialGradient(FloatList, float, float, int, InterpolationFunction)}, which is just like appendGradient() but</span>
+<span class="source-line-no">034</span><span id="line-34"> * doesn't add the end color (since it is the start color of the next partial gradient, until you finally end by</span>
+<span class="source-line-no">035</span><span id="line-35"> * appending just the end). Using appendPartialGradient(), you can have each transition use a different number of steps.</span>
+<span class="source-line-no">036</span><span id="line-36"> * &lt;br&gt;</span>
+<span class="source-line-no">037</span><span id="line-37"> * This class does some special handling for CIELAB colors.</span>
+<span class="source-line-no">038</span><span id="line-38"> */</span>
+<span class="source-line-no">039</span><span id="line-39">public class GradientTools {</span>
+<span class="source-line-no">040</span><span id="line-40">    /**</span>
+<span class="source-line-no">041</span><span id="line-41">     * No need to instantiate.</span>
+<span class="source-line-no">042</span><span id="line-42">     */</span>
+<span class="source-line-no">043</span><span id="line-43">    private GradientTools(){</span>
+<span class="source-line-no">044</span><span id="line-44">    }</span>
+<span class="source-line-no">045</span><span id="line-45"></span>
+<span class="source-line-no">046</span><span id="line-46">    /**</span>
+<span class="source-line-no">047</span><span id="line-47">     * Creates a FloatList gradient from the packed float CIELAB color {@code start} to the packed float CIELAB color</span>
+<span class="source-line-no">048</span><span id="line-48">     * {@code end}, taking the specified number of steps and using linear interpolation.</span>
+<span class="source-line-no">049</span><span id="line-49">     * This limits individual steps of color to the correct CIELAB gamut, so even interpolations between colors at</span>
+<span class="source-line-no">050</span><span id="line-50">     * extreme points in the color space will stay in-gamut.</span>
+<span class="source-line-no">051</span><span id="line-51">     * @param start the packed float CIELAB color to start with</span>
+<span class="source-line-no">052</span><span id="line-52">     * @param end the packed float CIELAB color to end on</span>
+<span class="source-line-no">053</span><span id="line-53">     * @param steps how many steps the gradient should use; usually greater than 2, and must be non-negative</span>
+<span class="source-line-no">054</span><span id="line-54">     * @return a new FloatList that contains the requested gradient</span>
+<span class="source-line-no">055</span><span id="line-55">     */</span>
+<span class="source-line-no">056</span><span id="line-56">    public static FloatList makeGradient(float start, float end, int steps) {</span>
+<span class="source-line-no">057</span><span id="line-57">        return makeGradient(start, end, steps, Interpolations.linear);</span>
+<span class="source-line-no">058</span><span id="line-58">    }</span>
+<span class="source-line-no">059</span><span id="line-59">    /**</span>
+<span class="source-line-no">060</span><span id="line-60">     * Creates a FloatList gradient from the packed float CIELAB color {@code start} to the packed float CIELAB color</span>
+<span class="source-line-no">061</span><span id="line-61">     * {@code end}, taking the specified number of steps and using the specified Interpolation for how it transitions.</span>
+<span class="source-line-no">062</span><span id="line-62">     * This limits individual steps of color to the correct CIELAB gamut, so even interpolations between colors at</span>
+<span class="source-line-no">063</span><span id="line-63">     * extreme points in the color space will stay in-gamut.</span>
+<span class="source-line-no">064</span><span id="line-64">     * @param start the packed float CIELAB color to start with</span>
+<span class="source-line-no">065</span><span id="line-65">     * @param end the packed float CIELAB color to end on</span>
+<span class="source-line-no">066</span><span id="line-66">     * @param steps how many steps the gradient should use; usually greater than 2, and must be non-negative</span>
+<span class="source-line-no">067</span><span id="line-67">     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions to end</span>
+<span class="source-line-no">068</span><span id="line-68">     * @return a new FloatList that contains the requested gradient</span>
+<span class="source-line-no">069</span><span id="line-69">     */</span>
+<span class="source-line-no">070</span><span id="line-70">    public static FloatList makeGradient(float start, float end, int steps, InterpolationFunction interpolation) {</span>
+<span class="source-line-no">071</span><span id="line-71">        FloatList appending = new FloatList(steps);</span>
+<span class="source-line-no">072</span><span id="line-72">        if(steps &lt;= 0) {</span>
+<span class="source-line-no">073</span><span id="line-73">            return appending;</span>
+<span class="source-line-no">074</span><span id="line-74">        }</span>
+<span class="source-line-no">075</span><span id="line-75">        if(steps == 1) {</span>
+<span class="source-line-no">076</span><span id="line-76">            appending.add(start);</span>
+<span class="source-line-no">077</span><span id="line-77">            return appending;</span>
+<span class="source-line-no">078</span><span id="line-78">        }</span>
+<span class="source-line-no">079</span><span id="line-79">        appendPartialGradient(appending, start, end, steps - 1, interpolation).add(end);</span>
+<span class="source-line-no">080</span><span id="line-80">        return appending;</span>
+<span class="source-line-no">081</span><span id="line-81">    }</span>
+<span class="source-line-no">082</span><span id="line-82"></span>
+<span class="source-line-no">083</span><span id="line-83">    /**</span>
+<span class="source-line-no">084</span><span id="line-84">     * Appends a gradient from the packed float CIELAB color {@code start} to the packed float CIELAB color {@code end},</span>
+<span class="source-line-no">085</span><span id="line-85">     * taking the specified number of steps and using linear Interpolation for how it transitions. This limits</span>
+<span class="source-line-no">086</span><span id="line-86">     * individual steps of color to the correct CIELAB gamut, so even interpolations between colors at extreme points in</span>
+<span class="source-line-no">087</span><span id="line-87">     * the color space will stay in-gamut.</span>
+<span class="source-line-no">088</span><span id="line-88">     * @param appending a FloatList that will be appended to</span>
+<span class="source-line-no">089</span><span id="line-89">     * @param start the packed float CIELAB color to start with</span>
+<span class="source-line-no">090</span><span id="line-90">     * @param end the packed float CIELAB color to end on</span>
+<span class="source-line-no">091</span><span id="line-91">     * @param steps how many steps the gradient should use; usually greater than 2</span>
+<span class="source-line-no">092</span><span id="line-92">     * @return {@code appending}, after adding the gradient to the end</span>
+<span class="source-line-no">093</span><span id="line-93">     */</span>
+<span class="source-line-no">094</span><span id="line-94">    public static FloatList appendGradient(FloatList appending, float start, float end, int steps) {</span>
+<span class="source-line-no">095</span><span id="line-95">        return appendGradient(appending, start, end, steps, Interpolations.linear);</span>
+<span class="source-line-no">096</span><span id="line-96">    }</span>
+<span class="source-line-no">097</span><span id="line-97">    /**</span>
+<span class="source-line-no">098</span><span id="line-98">     * Appends a gradient from the packed float CIELAB color {@code start} to the packed float CIELAB color {@code end},</span>
+<span class="source-line-no">099</span><span id="line-99">     * taking the specified number of steps and using the specified Interpolation for how it transitions. This limits</span>
+<span class="source-line-no">100</span><span id="line-100">     * individual steps of color to the correct CIELAB gamut, so even interpolations between colors at extreme points in</span>
+<span class="source-line-no">101</span><span id="line-101">     * the color space will stay in-gamut.</span>
+<span class="source-line-no">102</span><span id="line-102">     * @param appending a FloatList that will be appended to</span>
+<span class="source-line-no">103</span><span id="line-103">     * @param start the packed float CIELAB color to start with</span>
+<span class="source-line-no">104</span><span id="line-104">     * @param end the packed float CIELAB color to end on</span>
+<span class="source-line-no">105</span><span id="line-105">     * @param steps how many steps the gradient should use; usually greater than 2</span>
+<span class="source-line-no">106</span><span id="line-106">     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions to end</span>
+<span class="source-line-no">107</span><span id="line-107">     * @return {@code appending}, after adding the gradient to the end</span>
+<span class="source-line-no">108</span><span id="line-108">     */</span>
+<span class="source-line-no">109</span><span id="line-109">    public static FloatList appendGradient(FloatList appending, float start, float end, int steps, InterpolationFunction interpolation) {</span>
+<span class="source-line-no">110</span><span id="line-110">        if(appending == null)</span>
+<span class="source-line-no">111</span><span id="line-111">            return null;</span>
+<span class="source-line-no">112</span><span id="line-112">        if(steps &lt;= 0) {</span>
+<span class="source-line-no">113</span><span id="line-113">            return appending;</span>
+<span class="source-line-no">114</span><span id="line-114">        }</span>
+<span class="source-line-no">115</span><span id="line-115">        if(steps == 1) {</span>
+<span class="source-line-no">116</span><span id="line-116">            appending.add(start);</span>
+<span class="source-line-no">117</span><span id="line-117">            return appending;</span>
+<span class="source-line-no">118</span><span id="line-118">        }</span>
+<span class="source-line-no">119</span><span id="line-119">        appending.ensureCapacity(steps);</span>
+<span class="source-line-no">120</span><span id="line-120">        appendPartialGradient(appending, start, end, steps - 1, interpolation).add(end);</span>
+<span class="source-line-no">121</span><span id="line-121">        return appending;</span>
+<span class="source-line-no">122</span><span id="line-122">    }</span>
+<span class="source-line-no">123</span><span id="line-123"></span>
+<span class="source-line-no">124</span><span id="line-124">    /**</span>
+<span class="source-line-no">125</span><span id="line-125">     * Appends a gradient between several packed float CIELAB colors provided in {@code chain}. This uses linear</span>
+<span class="source-line-no">126</span><span id="line-126">     * Interpolation for the whole gradient. Appends to the end of {@code appending} and produces a total of</span>
+<span class="source-line-no">127</span><span id="line-127">     * {@code steps} colors.</span>
+<span class="source-line-no">128</span><span id="line-128">     * @param appending a FloatList that will be appended to</span>
+<span class="source-line-no">129</span><span id="line-129">     * @param steps how many steps the gradient should use; usually greater than 2</span>
+<span class="source-line-no">130</span><span id="line-130">     * @param chain an array or varargs of packed float CIELAB colors that this will interpolate through in order</span>
+<span class="source-line-no">131</span><span id="line-131">     * @return {@code appending}, after adding the gradient to the end</span>
+<span class="source-line-no">132</span><span id="line-132">     */</span>
+<span class="source-line-no">133</span><span id="line-133">    public static FloatList appendGradientChain(FloatList appending, int steps, float... chain) {</span>
+<span class="source-line-no">134</span><span id="line-134">        return appendGradientChain(appending, steps, Interpolations.linear, chain);</span>
+<span class="source-line-no">135</span><span id="line-135">    }</span>
+<span class="source-line-no">136</span><span id="line-136"></span>
+<span class="source-line-no">137</span><span id="line-137">    /**</span>
+<span class="source-line-no">138</span><span id="line-138">     * Appends a gradient between several packed float CIELAB colors provided in {@code chain}. This uses linear</span>
+<span class="source-line-no">139</span><span id="line-139">     * Interpolation for the whole gradient. Appends to the end of {@code appending} and produces a total of</span>
+<span class="source-line-no">140</span><span id="line-140">     * {@code steps} colors.</span>
+<span class="source-line-no">141</span><span id="line-141">     * @param appending a FloatList that will be appended to</span>
+<span class="source-line-no">142</span><span id="line-142">     * @param steps how many steps the gradient should use; usually greater than 2</span>
+<span class="source-line-no">143</span><span id="line-143">     * @param chain a FloatList of packed float CIELAB colors that this will interpolate through in order</span>
+<span class="source-line-no">144</span><span id="line-144">     * @return {@code appending}, after adding the gradient to the end</span>
+<span class="source-line-no">145</span><span id="line-145">     */</span>
+<span class="source-line-no">146</span><span id="line-146">    public static FloatList appendGradientChain(FloatList appending, int steps, FloatList chain) {</span>
+<span class="source-line-no">147</span><span id="line-147">        return appendGradientChain(appending, steps, Interpolations.linear, chain);</span>
+<span class="source-line-no">148</span><span id="line-148">    }</span>
+<span class="source-line-no">149</span><span id="line-149"></span>
+<span class="source-line-no">150</span><span id="line-150">    /**</span>
+<span class="source-line-no">151</span><span id="line-151">     * Appends a gradient between several packed float CIELAB colors provided in {@code chain}. This uses the specified</span>
+<span class="source-line-no">152</span><span id="line-152">     * Interpolation for the whole gradient, which can make some colors use smaller sections than others. Appends to the</span>
+<span class="source-line-no">153</span><span id="line-153">     * end of {@code appending} and produces a total of {@code steps} colors.</span>
+<span class="source-line-no">154</span><span id="line-154">     * @param appending a FloatList that will be appended to</span>
+<span class="source-line-no">155</span><span id="line-155">     * @param steps how many steps the gradient should use; usually greater than 2</span>
+<span class="source-line-no">156</span><span id="line-156">     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions to end</span>
+<span class="source-line-no">157</span><span id="line-157">     * @param chain a FloatList of packed float CIELAB colors that this will interpolate through in order</span>
+<span class="source-line-no">158</span><span id="line-158">     * @return {@code appending}, after adding the gradient to the end</span>
+<span class="source-line-no">159</span><span id="line-159">     */</span>
+<span class="source-line-no">160</span><span id="line-160">    public static FloatList appendGradientChain(FloatList appending, int steps, InterpolationFunction interpolation, FloatList chain) {</span>
+<span class="source-line-no">161</span><span id="line-161">        if (appending == null)</span>
+<span class="source-line-no">162</span><span id="line-162">            return null;</span>
+<span class="source-line-no">163</span><span id="line-163">        if(chain == null)</span>
+<span class="source-line-no">164</span><span id="line-164">            return appending;</span>
+<span class="source-line-no">165</span><span id="line-165">        if (steps &lt;= 0 || chain.size() == 0) {</span>
+<span class="source-line-no">166</span><span id="line-166">            return appending;</span>
+<span class="source-line-no">167</span><span id="line-167">        }</span>
+<span class="source-line-no">168</span><span id="line-168">        if (steps == 1 || chain.size() == 1) {</span>
+<span class="source-line-no">169</span><span id="line-169">            appending.add(chain.first());</span>
+<span class="source-line-no">170</span><span id="line-170">            return appending;</span>
+<span class="source-line-no">171</span><span id="line-171">        }</span>
+<span class="source-line-no">172</span><span id="line-172">        appending.ensureCapacity(steps);</span>
+<span class="source-line-no">173</span><span id="line-173">        int limit = steps - 1, splits = chain.size() - 1;</span>
+<span class="source-line-no">174</span><span id="line-174">        float step = 1f / steps, change = 0f;</span>
+<span class="source-line-no">175</span><span id="line-175">        for (int i = 0; i &lt; limit; i++) {</span>
+<span class="source-line-no">176</span><span id="line-176">            float interp = interpolation.apply(change);</span>
+<span class="source-line-no">177</span><span id="line-177">            float splint = Math.min(Math.max(interp * splits, 0f), splits - 0.000001f);</span>
+<span class="source-line-no">178</span><span id="line-178">            int idx = (int)splint;</span>
+<span class="source-line-no">179</span><span id="line-179">            appending.add(ColorTools.limitToGamut(FloatColors.lerpFloatColors(chain.get(idx), chain.get(idx+1), MathTools.norm(idx, idx +1, splint))));</span>
+<span class="source-line-no">180</span><span id="line-180">            change += step;</span>
+<span class="source-line-no">181</span><span id="line-181">        }</span>
+<span class="source-line-no">182</span><span id="line-182">        appending.add(chain.get(splits));</span>
+<span class="source-line-no">183</span><span id="line-183">        return appending;</span>
+<span class="source-line-no">184</span><span id="line-184">    }</span>
+<span class="source-line-no">185</span><span id="line-185"></span>
+<span class="source-line-no">186</span><span id="line-186">    /**</span>
+<span class="source-line-no">187</span><span id="line-187">     * Appends a gradient between several packed float CIELAB colors provided in {@code chain}. This uses the specified</span>
+<span class="source-line-no">188</span><span id="line-188">     * Interpolation for the whole gradient, which can make some colors use smaller sections than others. Appends to the</span>
+<span class="source-line-no">189</span><span id="line-189">     * end of {@code appending} and produces a total of {@code steps} colors.</span>
+<span class="source-line-no">190</span><span id="line-190">     * @param appending a FloatList that will be appended to</span>
+<span class="source-line-no">191</span><span id="line-191">     * @param steps how many steps the gradient should use; usually greater than 2</span>
+<span class="source-line-no">192</span><span id="line-192">     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions to end</span>
+<span class="source-line-no">193</span><span id="line-193">     * @param chain an array or varargs of packed float CIELAB colors that this will interpolate through in order</span>
+<span class="source-line-no">194</span><span id="line-194">     * @return {@code appending}, after adding the gradient to the end</span>
+<span class="source-line-no">195</span><span id="line-195">     */</span>
+<span class="source-line-no">196</span><span id="line-196">    public static FloatList appendGradientChain(FloatList appending, int steps, InterpolationFunction interpolation, float... chain) {</span>
+<span class="source-line-no">197</span><span id="line-197">        if (appending == null)</span>
+<span class="source-line-no">198</span><span id="line-198">            return null;</span>
+<span class="source-line-no">199</span><span id="line-199">        if(chain == null)</span>
+<span class="source-line-no">200</span><span id="line-200">            return appending;</span>
+<span class="source-line-no">201</span><span id="line-201">        if (steps &lt;= 0 || chain.length == 0) {</span>
+<span class="source-line-no">202</span><span id="line-202">            return appending;</span>
+<span class="source-line-no">203</span><span id="line-203">        }</span>
+<span class="source-line-no">204</span><span id="line-204">        if (steps == 1 || chain.length == 1) {</span>
+<span class="source-line-no">205</span><span id="line-205">            appending.add(chain[0]);</span>
+<span class="source-line-no">206</span><span id="line-206">            return appending;</span>
+<span class="source-line-no">207</span><span id="line-207">        }</span>
+<span class="source-line-no">208</span><span id="line-208">        appending.ensureCapacity(steps);</span>
+<span class="source-line-no">209</span><span id="line-209">        int limit = steps - 1, splits = chain.length - 1;</span>
+<span class="source-line-no">210</span><span id="line-210">        float step = 1f / steps, change = 0f;</span>
+<span class="source-line-no">211</span><span id="line-211">        for (int i = 0; i &lt; limit; i++) {</span>
+<span class="source-line-no">212</span><span id="line-212">            float interp = interpolation.apply(change);</span>
+<span class="source-line-no">213</span><span id="line-213">            float splint = Math.min(Math.max(interp * splits, 0f), splits - 0.000001f);</span>
+<span class="source-line-no">214</span><span id="line-214">            int idx = (int)splint;</span>
+<span class="source-line-no">215</span><span id="line-215">            appending.add(ColorTools.limitToGamut(FloatColors.lerpFloatColors(chain[idx], chain[idx+1], MathTools.norm(idx, idx +1, splint))));</span>
+<span class="source-line-no">216</span><span id="line-216">            change += step;</span>
+<span class="source-line-no">217</span><span id="line-217">        }</span>
+<span class="source-line-no">218</span><span id="line-218">        appending.add(chain[splits]);</span>
+<span class="source-line-no">219</span><span id="line-219">        return appending;</span>
+<span class="source-line-no">220</span><span id="line-220">    }</span>
+<span class="source-line-no">221</span><span id="line-221"></span>
+<span class="source-line-no">222</span><span id="line-222">    /**</span>
+<span class="source-line-no">223</span><span id="line-223">     * Exactly like {@link #appendGradient(FloatList, float, float, int)}, but does not include</span>
+<span class="source-line-no">224</span><span id="line-224">     * {@code end} in what it appends to {@code appending}. This is intended for the implementation of chained</span>
+<span class="source-line-no">225</span><span id="line-225">     * gradients, where the end of a previous gradient becomes the start of the next one. This still uses the specified</span>
+<span class="source-line-no">226</span><span id="line-226">     * number of steps, it just doesn't append {@code end} in the last step.</span>
+<span class="source-line-no">227</span><span id="line-227">     * @param appending a FloatList that will be appended to</span>
+<span class="source-line-no">228</span><span id="line-228">     * @param start the packed float CIELAB color to start with</span>
+<span class="source-line-no">229</span><span id="line-229">     * @param end the packed float CIELAB color to end just before</span>
+<span class="source-line-no">230</span><span id="line-230">     * @param steps how many steps the gradient should use; usually greater than 2</span>
+<span class="source-line-no">231</span><span id="line-231">     * @return {@code appending}, after adding the gradient to its end</span>
+<span class="source-line-no">232</span><span id="line-232">     */</span>
+<span class="source-line-no">233</span><span id="line-233">    public static FloatList appendPartialGradient(FloatList appending, float start, float end, int steps) {</span>
+<span class="source-line-no">234</span><span id="line-234">        return appendPartialGradient(appending, start, end, steps, Interpolations.linear);</span>
+<span class="source-line-no">235</span><span id="line-235">    }</span>
+<span class="source-line-no">236</span><span id="line-236">    /**</span>
+<span class="source-line-no">237</span><span id="line-237">     * Exactly like {@link #appendGradient(FloatList, float, float, int, InterpolationFunction)}, but does not include</span>
+<span class="source-line-no">238</span><span id="line-238">     * {@code end} in what it appends to {@code appending}. This is intended for the implementation of chained</span>
+<span class="source-line-no">239</span><span id="line-239">     * gradients, where the end of a previous gradient becomes the start of the next one. This still uses the specified</span>
+<span class="source-line-no">240</span><span id="line-240">     * number of steps, it just doesn't append {@code end} in the last step.</span>
+<span class="source-line-no">241</span><span id="line-241">     * @param appending a FloatList that will be appended to</span>
+<span class="source-line-no">242</span><span id="line-242">     * @param start the packed float CIELAB color to start with</span>
+<span class="source-line-no">243</span><span id="line-243">     * @param end the packed float CIELAB color to end just before</span>
+<span class="source-line-no">244</span><span id="line-244">     * @param steps how many steps the gradient should use; usually greater than 2</span>
+<span class="source-line-no">245</span><span id="line-245">     * @param interpolation a libGDX Interpolation that can be used to customize how start transitions toward end</span>
+<span class="source-line-no">246</span><span id="line-246">     * @return {@code appending}, after adding the gradient to its end</span>
+<span class="source-line-no">247</span><span id="line-247">     */</span>
+<span class="source-line-no">248</span><span id="line-248">    public static FloatList appendPartialGradient(FloatList appending, float start, float end, int steps, InterpolationFunction interpolation){</span>
+<span class="source-line-no">249</span><span id="line-249">        if(appending == null)</span>
+<span class="source-line-no">250</span><span id="line-250">            return null;</span>
+<span class="source-line-no">251</span><span id="line-251">        if(steps &lt;= 0) {</span>
+<span class="source-line-no">252</span><span id="line-252">            return appending;</span>
+<span class="source-line-no">253</span><span id="line-253">        }</span>
+<span class="source-line-no">254</span><span id="line-254">        if(steps == 1) {</span>
+<span class="source-line-no">255</span><span id="line-255">            appending.add(start);</span>
+<span class="source-line-no">256</span><span id="line-256">            return appending;</span>
+<span class="source-line-no">257</span><span id="line-257">        }</span>
+<span class="source-line-no">258</span><span id="line-258">        int limit = steps;</span>
+<span class="source-line-no">259</span><span id="line-259">        float step = 1f / steps, change = 0f;</span>
+<span class="source-line-no">260</span><span id="line-260">        for (int i = 0; i &lt; limit; i++) {</span>
+<span class="source-line-no">261</span><span id="line-261">            appending.add(ColorTools.limitToGamut(FloatColors.lerpFloatColors(start, end, interpolation.apply(change))));</span>
+<span class="source-line-no">262</span><span id="line-262">            change += step;</span>
+<span class="source-line-no">263</span><span id="line-263">        }</span>
+<span class="source-line-no">264</span><span id="line-264">        return appending;</span>
+<span class="source-line-no">265</span><span id="line-265">    }</span>
+<span class="source-line-no">266</span><span id="line-266">}</span>
 
 
 
