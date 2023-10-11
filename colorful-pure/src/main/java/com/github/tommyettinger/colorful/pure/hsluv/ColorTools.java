@@ -1778,13 +1778,56 @@ public class ColorTools {
      * @return an even mix of all colors given, as a packed float color
      */
     public static float mix(float[] colors, int offset, int size) {
-        if(colors == null || colors.length < offset + size || offset < 0 || size <= 0)
+        final int end = offset + size;
+        if(colors == null || colors.length < end || offset < 0 || size <= 0)
             return 0f; // transparent, usually
         float result = colors[offset];
-        for (int i = offset + 1, o = offset + size, denom = 2; i < o; i++, denom++) {
+        for (int i = offset + 1, denom = 2; i < end; i++, denom++) {
             result = lerpFloatColors(result, colors[i], 1f / denom);
         }
         return result;
     }
 
+    /**
+     * Mixes any number of colors with arbitrary weights per-color. Takes an array ofr varargs of alternating floats
+     * representing colors and weights, as with {@code color, weight, color, weight...}.
+     * If {@code colors} is null or has no items, this returns 0f (usually transparent in most color spaces).
+     * @param colors an array or varargs that should contain alternating {@code color, weight, color, weight...} floats
+     * @return a mix of all colors given respecting their weights, as a packed float color
+     */
+    public static float unevenMix(float... colors) {
+        if(colors == null || colors.length == 0) return 0f;
+        if(colors.length <= 2) return colors[0];
+        return unevenMix(colors, 0, colors.length);
+    }
+
+    /**
+     * Mixes any number of colors with arbitrary weights per-color. Takes an array of alternating floats representing
+     * colors and weights, as with {@code color, weight, color, weight...}, starting at {@code offset} in the array and
+     * continuing for {@code size} indices in the array. The {@code size} should be an even number 2 or greater,
+     * otherwise it will be reduced by 1. The weights can be any non-negative finite float values; this method handles
+     * normalizing them internally.
+     * @param colors starting at {@code offset}, this should contain alternating {@code color, weight, color, weight...} floats
+     * @param offset where to start reading from in {@code colors}
+     * @param size how many indices to read from {@code colors}; must be an even number
+     * @return the mixed color, as a packed float in the same color space as the given float colors
+     */
+    public static float unevenMix(float[] colors, int offset, int size) {
+        size &= -2;
+        final int end = offset + size;
+        if(colors == null || colors.length < end || offset < 0 || size <= 0)
+            return 0f; // transparent, usually
+        float result = colors[offset];
+        float current = colors[offset + 1], total = current;
+        for (int i = offset+3; i < end; i += 2) {
+            total += colors[i];
+        }
+        total = 1f / total;
+        current *= total;
+        for (int i = offset+3; i < end; i += 2) {
+            float mixColor = colors[i-1], weight = colors[i] * total;
+            result = lerpFloatColors(result, mixColor, weight / (current += weight));
+        }
+        return result;
+    }
 }

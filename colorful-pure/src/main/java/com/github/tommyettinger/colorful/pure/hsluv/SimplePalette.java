@@ -983,7 +983,7 @@ public class SimplePalette {
         }
         if(mixing.size() < 2) return 0f;
 
-        float result = unevenMix(mixing.items, 0, mixing.size());
+        float result = ColorTools.unevenMix(mixing.items, 0, mixing.size());
         if(result == 0f) return result;
 
         if(lightness > 0) result = ColorTools.lerpFloatColorsBlended(result, WHITE, lightness);
