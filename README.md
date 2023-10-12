@@ -257,6 +257,11 @@ colors in SimplePalette for Oklab can be previewed in
 [this list by hue](https://tommyettinger.github.io/colorful-gdx/ColorTableHueSimpleOklab.html), or
 [this list by lightness](https://tommyettinger.github.io/colorful-gdx/ColorTableValueSimpleOklab.html).
 
+Color names can have a number after them, typically separated by a space or `^` character, that says what weight that
+color has when mixing more than one. For example, in versions 0.8.4 and earlier, you could use `red red red blue blue`
+to describe a mix that has 3/2 as much emphasis applied to red as applied to blue. Starting in version 0.8.5, there's
+the quicker syntax `red 3 blue 2` or even `red 1.5 blue`, which all mean the same thing as `red red red blue blue`.
+
 You can use [this small libGDX web app](https://tommyettinger.github.io/colorful-gdx/description/) to experiment with
 different descriptions and what they produce. Use the `[` and `]` keys to change modes; there are RGB, Oklab, IPT_HQ,
 CIELAB, comparison, and gradient modes. The comparison mode may be the most useful; it has 4 bars that change color
