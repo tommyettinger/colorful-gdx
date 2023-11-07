@@ -181,18 +181,13 @@ public class ColorTools {
             return (turning * L) / (1e-20f + (L + shape * d));
     }
 
-    static private final float[][] m = new float[][] {
+    private static final float[][] m = new float[][] {
             new float[] {+3.2404542f, -1.5371385f, -0.4985314f},
             new float[] {-0.9692660f, +1.8760108f, +0.0415560f},
             new float[] {+0.0556434f, -0.2040259f, +1.0572252f},
     };
-    static final float[][] minv = new float[][] {
-            new float[] {0.4124564f, 0.3575761f, 0.1804375f},
-            new float[] {0.2126729f, 0.7151522f, 0.0721750f},
-            new float[] {0.0193339f, 0.1191920f, 0.9503041f},
-    };
-    static private final float refU = 0.19783000664283f, refV = 0.46831999493879f;
-    static final float kappa = 9.032962962f, epsilon = 0.0088564516f;
+    private static final float refU = 0.19783000664283f, refV = 0.46831999493879f;
+    private static final float kappa = 9.032962962f, epsilon = 0.0088564516f;
 
     /**
      * Converts a packed float color in the format produced by {@link #hsluv(float, float, float, float)} to an RGBA8888 int.

@@ -125,17 +125,6 @@ public class RidgebackPaletteGenerator {
 
     }
 
-    public static long randomize3(long state) {
-        state ^= 0xABC98388FB8FAC03L;
-        state ^= state >>> 32;
-        state *= 0xBEA225F9EB34556DL;
-        state ^= state >>> 29;
-        state *= 0xBEA225F9EB34556DL;
-        state ^= state >>> 32;
-        state *= 0xBEA225F9EB34556DL;
-        return state ^ state >>> 29;
-    }
-
     public static float randomize3Float(long state) {
         state ^= 0xABC98388FB8FAC03L;
         state ^= state >>> 32;
