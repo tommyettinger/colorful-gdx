@@ -175,8 +175,7 @@ public class ColorfulBatch implements Batch {
                 + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
                 + "   v_color.w = v_color.w * (255.0/254.0);\n"
                 + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
-                + "   v_tweak.w = pow(v_tweak.w * (255.0/254.0) + 0.5, 1.709);\n"
-                + "   v_lightFix = 1.0 + pow(v_tweak.w, 1.41421356);\n"
+                + "   v_lightFix = (v_tweak.w - 0.5) * 1.5;\n"
                 + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
                 + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
                 + "}\n";
@@ -194,23 +193,29 @@ public class ColorfulBatch implements Batch {
                         "uniform sampler2D u_texture;\n" +
                         "const vec3 forward = vec3(1.0 / 3.0);\n" +
                         "float toOklab(float L) {\n" +
-                        "        const float shape = 0.64516133, turning = 0.95;\n" +
-                        "        float d = turning - L;\n" +
-                        "        float r = mix(\n" +
-                        "          ((1. - turning) * (L - 1.)) / (1. - (L + shape * d)) + 1.,\n" +
-                        "          (turning * L) / (1.0e-20 + (L + shape * d)),\n" +
-                        "          step(0.0, d));\n" +
-                        "        return r * r;\n" +
+                        "  return pow(L, 1.5);\n" +
                         "}\n" +
                         "float fromOklab(float L) {\n" +
-                        "        const float shape = 1.55, turning = 0.95;\n" +
-                        "        L = sqrt(L);\n" +
-                        "        float d = turning - L;\n" +
-                        "        return mix(\n" +
-                        "          ((1. - turning) * (L - 1.)) / (1. - (L + shape * d)) + 1.,\n" +
-                        "          (turning * L) / (1.0e-20 + (L + shape * d)),\n" +
-                        "          step(0.0, d));\n" +
+                        "  return pow(L, 0.666666);\n" +
                         "}\n" +
+//                        "float toOklab(float L) {\n" +
+//                        "        const float shape = 0.64516133, turning = 0.95;\n" +
+//                        "        float d = turning - L;\n" +
+//                        "        float r = mix(\n" +
+//                        "          ((1. - turning) * (L - 1.)) / (1. - (L + shape * d)) + 1.,\n" +
+//                        "          (turning * L) / (1.0e-20 + (L + shape * d)),\n" +
+//                        "          step(0.0, d));\n" +
+//                        "        return r * r;\n" +
+//                        "}\n" +
+//                        "float fromOklab(float L) {\n" +
+//                        "        const float shape = 1.55, turning = 0.95;\n" +
+//                        "        L = sqrt(L);\n" +
+//                        "        float d = turning - L;\n" +
+//                        "        return mix(\n" +
+//                        "          ((1. - turning) * (L - 1.)) / (1. - (L + shape * d)) + 1.,\n" +
+//                        "          (turning * L) / (1.0e-20 + (L + shape * d)),\n" +
+//                        "          step(0.0, d));\n" +
+//                        "}\n" +
 //                        "float toOklab(float L) {\n" +
 //                        "  return (L - 1.0) / (1.0 - L * 0.4285714) + 1.0;\n" +
 //                        "}\n" +
@@ -223,7 +228,9 @@ public class ColorfulBatch implements Batch {
                         "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +
                         "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +
                         "             * (tgt.rgb * tgt.rgb), forward);\n" +
-                        "  lab.x = fromOklab(clamp(pow(toOklab(lab.x), v_tweak.w) * v_lightFix * v_tweak.x + v_color.x - 0.5, 0.0, 1.0));\n" +
+                        "  lab.x = (toOklab(lab.x) - 0.5) * 2.0;\n" +
+                        "  lab.xyz = lab.xyz / (v_lightFix * abs(lab.xyz) + (1.0 - v_lightFix));\n" +
+                        "  lab.x = fromOklab(clamp(lab.x * v_tweak.x + v_color.x, 0.0, 1.0));\n" +
                         "  lab.yz = clamp((lab.yz * v_tweak.yz + v_color.yz - 0.5) * 2.0, -1.0, 1.0);\n" +
                         "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +
                         "  gl_FragColor = vec4(sqrt(clamp(" +
