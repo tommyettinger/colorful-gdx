@@ -168,14 +168,12 @@ public class ColorfulBatch implements Batch {
                 + "varying vec4 v_color;\n"
                 + "varying vec4 v_tweak;\n"
                 + "varying vec2 v_texCoords;\n"
-                + "varying float v_lightFix;\n"
                 + "\n"
                 + "void main()\n"
                 + "{\n"
                 + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
                 + "   v_color.w = v_color.w * (255.0/254.0);\n"
                 + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
-                + "   v_lightFix = (v_tweak.w - 0.5) * 1.5;\n"
                 + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
                 + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
                 + "}\n";
@@ -189,7 +187,6 @@ public class ColorfulBatch implements Batch {
                         "varying vec2 v_texCoords;\n" +
                         "varying LOWP vec4 v_color;\n" +
                         "varying LOWP vec4 v_tweak;\n" +
-                        "varying float v_lightFix;\n" +
                         "uniform sampler2D u_texture;\n" +
                         "const vec3 forward = vec3(1.0 / 3.0);\n" +
                         "float toOklab(float L) {\n" +
@@ -229,7 +226,8 @@ public class ColorfulBatch implements Batch {
                         "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +
                         "             * (tgt.rgb * tgt.rgb), forward);\n" +
                         "  lab.x = (toOklab(lab.x) - 0.5) * 2.0;\n" +
-                        "  lab.xyz = lab.xyz / (v_lightFix * abs(lab.xyz) + (1.0 - v_lightFix));\n" +
+                        "  float contrast = (v_tweak.w * (1.5 * 255.0 / 254.0) - 0.75);\n" +
+                        "  lab.xyz = lab.xyz / (contrast * abs(lab.xyz) + (1.0 - contrast));\n" +
                         "  lab.x = fromOklab(clamp(lab.x * v_tweak.x + v_color.x, 0.0, 1.0));\n" +
                         "  lab.yz = clamp((lab.yz * v_tweak.yz + v_color.yz - 0.5) * 2.0, -1.0, 1.0);\n" +
                         "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +
