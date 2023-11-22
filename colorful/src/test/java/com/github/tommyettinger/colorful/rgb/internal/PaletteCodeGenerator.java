@@ -39,9 +39,9 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String inputName = "AuroraColorData.txt";
 //    public static final String prefix = "Aurora";
 
-//    public static final String outputAdd = "FullOklab";
-//    public static final String inputName = "ColorData.txt";
-//    public static final String prefix = "Full";
+    public static final String outputAdd = "FullOklab";
+    public static final String inputName = "ColorData.txt";
+    public static final String prefix = "Full";
 
 //    public static final String outputAdd = "NamedMunsellOklab";
 //    public static final String inputName = "ISCCNBSData.txt";
@@ -54,9 +54,9 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String inputName = "Munsellish2.txt";
 //    public static final String prefix = "Munsellish2";
 
-    public static final String outputAdd = "SimpleOklab";
-    public static final String inputName = "SimpleColorData.txt";
-    public static final String prefix = "";
+//    public static final String outputAdd = "SimpleOklab";
+//    public static final String inputName = "SimpleColorData.txt";
+//    public static final String prefix = "";
 
     public static final ObjectFloatMap<String> named = new ObjectFloatMap<>(1024);
 

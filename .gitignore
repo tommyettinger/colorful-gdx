@@ -63,3 +63,4 @@ nb-configuration.xml
 ## OS Specific
 .DS_Store
 *.symbolMap
+colorful/src/test/resources/samples/Grashers_Logo.png
