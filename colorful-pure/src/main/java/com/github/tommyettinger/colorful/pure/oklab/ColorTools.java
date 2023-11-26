@@ -19,7 +19,6 @@ package com.github.tommyettinger.colorful.pure.oklab;
 import com.github.tommyettinger.colorful.pure.FloatColors;
 import com.github.tommyettinger.digital.BitConversion;
 import com.github.tommyettinger.digital.TrigTools;
-import com.github.tommyettinger.random.EnhancedRandom;
 
 import java.util.Random;
 
@@ -1414,8 +1413,7 @@ public class ColorTools {
 
 	/**
 	 * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.
-	 * @param random a Random object (preferably a subclass of Random, like
-	 * {@link com.github.tommyettinger.random.LaserRandom})
+	 * @param random a Random object (preferably a subclass of Random, like {@link com.github.tommyettinger.digital.AlternateRandom})
 	 * @return a packed float color that is always in-gamut
 	 */
 	public static float randomColor(Random random) {
@@ -1432,21 +1430,20 @@ public class ColorTools {
 
 	/**
 	 * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.
-	 * This is named differently from {@link #randomColor(Random)} to avoid confusion when a class both extends Random
-	 * and EnhancedRandom.
-	 * @param random any subclass of juniper's EnhancedRandom, such as a
-	 * {@link com.github.tommyettinger.random.DistinctRandom} or
-	 * {@link com.github.tommyettinger.random.FourWheelRandom}
+	 * This is only present for legacy compatibility; new code should use {@link #randomColor(Random)}.
+	 * @param random a Random object (or preferably a subclass of Random, like {@link com.github.tommyettinger.digital.AlternateRandom})
 	 * @return a packed float color that is always in-gamut
+	 * @deprecated Use {@link #randomColor(Random)} instead.
 	 */
-	public static float randomizedColor(EnhancedRandom random) {
-		float L = random.nextExclusiveFloat();
-		float A = random.nextExclusiveFloat();
-		float B = random.nextExclusiveFloat();
+	@Deprecated
+	public static float randomizedColor(Random random) {
+		float L = random.nextFloat();
+		float A = random.nextFloat();
+		float B = random.nextFloat();
 		while (!inGamut(L, A, B)) {
-			L = random.nextExclusiveFloat();
-			A = random.nextExclusiveFloat();
-			B = random.nextExclusiveFloat();
+			L = random.nextFloat();
+			A = random.nextFloat();
+			B = random.nextFloat();
 		}
 		return oklab(L, A, B, 1f);
 	}

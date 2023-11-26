@@ -26,7 +26,6 @@ if(JavaVersion.current().isJava9Compatible()) {
 dependencies {
     api "com.github.tommyettinger:funderby:$funderbyVersion"
     api "com.github.tommyettinger:digital:$digitalVersion"
-    api "com.github.tommyettinger:juniper:$juniperVersion"
     api "com.github.tommyettinger:jdkgdxds:$jdkgdxdsVersion"
     testImplementation "junit:junit:4.13.2"
 }

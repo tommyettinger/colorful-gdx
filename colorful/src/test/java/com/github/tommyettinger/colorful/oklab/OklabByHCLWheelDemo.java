@@ -90,8 +90,7 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
             Array<Pixmap> pixmaps = new Array<>(frameCount);
             for (int i = 0; i < frameCount; i++) {
                 layer = i * 2f / (frameCount - 1f);
-                int floor = MathUtils.floorPositive(layer);
-                layer = (floor & 1) + (layer - floor) * (-(floor & 1) | 1);
+                layer = Math.abs(layer - ((int) (layer + 16384.5) - 16384)) * 2f; // 0-1 triangle wave
 
                 renderInternal();
                 // this gets a screenshot of the current window and adds it to the Array of Pixmap.
@@ -102,7 +101,8 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
 //// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
 //// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
             AnimatedGif gif = new AnimatedGif();
-            gif.setDitherAlgorithm(Dithered.DitherAlgorithm.DODGY); // might be better with complicated color stuff
+            gif.setDitherAlgorithm(Dithered.DitherAlgorithm.WREN); // the best we have
+//            gif.setDitherAlgorithm(Dithered.DitherAlgorithm.DODGY); // might be better with complicated color stuff
 //            gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is fast and great with smooth gradients, but the temporal dithering looks weird here.
@@ -111,7 +111,7 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is the current default; fairly high quality
             gif.setDitherStrength(0.5f);
             gif.fastAnalysis = false;
-            gif.palette = new PaletteReducer();
+            gif.palette = new QualityPalette();
 //        // 24 is how many frames per second the animated GIF should play back at.
             gif.write(Gdx.files.local("OklabByHSL.gif"), pixmaps, 24);
 
@@ -127,9 +127,9 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
     public void render() {
         handleInput();
         layer = TimeUtils.timeSinceMillis(startTime) * 0x1p-13f;
-        int floor = MathUtils.floorPositive(layer);
-        layer = (floor & 1) + (layer - floor) * (-(floor & 1) | 1);
-//        layer = 0.5f;
+//        int floor = MathUtils.floorPositive(layer);
+//        layer = (floor & 1) + (layer - floor) * (-(floor & 1) | 1);
+        layer = Math.abs(layer - ((int) (layer + 16384.5) - 16384)) * 2f; // 0-1 triangle wave
         renderInternal();
     }
 
@@ -155,7 +155,8 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
 //                final float g = ColorTools.getRawGamutValue((int)(layer * 255.999f) << 8 | (int)(angle * 256f));
 //                if(g < dist) continue;
 //                if(poisson.array[(int)(256 + x * dist)][(int) (256 + y * dist)] == 0) continue;
-                final float chr = dist * iMax, hue = OtherMath.barronSpline(angle, shape, turning);// * (0.5f - Math.abs(layer - 0.5f)) * 2f;
+                final float chr = dist * iMax, hue = angle;// * (0.5f - Math.abs(layer - 0.5f)) * 2f;
+//                final float chr = dist * iMax, hue = OtherMath.barronSpline(angle, shape, turning);// * (0.5f - Math.abs(layer - 0.5f)) * 2f;
 //                if(chr > ColorTools.chromaLimit(hue, layer)) continue;
 //                batch.setPackedColor(ColorTools.oklabByHCL(hue, chr, layer, 1f));
                 batch.setPackedColor(ColorTools.oklabByHSL(hue, chr, layer, 1f));

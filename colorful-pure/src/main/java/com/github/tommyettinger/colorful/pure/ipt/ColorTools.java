@@ -20,7 +20,6 @@ import com.github.tommyettinger.colorful.pure.FloatColors;
 import com.github.tommyettinger.digital.MathTools;
 import com.github.tommyettinger.digital.TrigTools;
 import com.github.tommyettinger.digital.BitConversion;
-import com.github.tommyettinger.random.EnhancedRandom;
 
 import java.util.Random;
 
@@ -987,7 +986,7 @@ public class ColorTools {
 
 	/**
 	 * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.
-	 * @param random a Random object (or preferably a subclass of Random, like {@link com.github.tommyettinger.random.LaserRandom})
+	 * @param random a Random object (preferably a subclass of Random, like {@link com.github.tommyettinger.digital.AlternateRandom})
 	 * @return a packed float color that is always in-gamut
 	 */
 	public static float randomColor(Random random) {
@@ -1003,14 +1002,13 @@ public class ColorTools {
 
 	/**
 	 * Produces a random packed float color that is always opaque and should be uniformly distributed.
-	 * This is named differently from {@link #randomColor(Random)} to avoid confusion when a class both extends Random
-	 * and EnhancedRandom.
-	 * @param random any subclass of juniper's EnhancedRandom, such as a
-	 * {@link com.github.tommyettinger.random.DistinctRandom} or
-	 * {@link com.github.tommyettinger.random.FourWheelRandom}
+	 * This is only present for legacy compatibility; new code should use {@link #randomColor(Random)}.
+	 * @param random a Random object (or preferably a subclass of Random, like {@link com.github.tommyettinger.digital.AlternateRandom})
 	 * @return a packed float color that is always in-gamut
+	 * @deprecated Use {@link #randomColor(Random)} instead.
 	 */
-	public static float randomizedColor(EnhancedRandom random) {
+	@Deprecated
+	public static float randomizedColor(Random random) {
 		final float ir = 0.1882353f, pr = 0.83137256f - 0.5f, tr = 0.6431373f - 0.5f;
 		final float ig = 0.5764706f, pg = 0.12941177f - 0.5f, tg = 0.827451f - 0.5f;
 		final float ib = 0.23137255f, pb = 0.53333336f - 0.5f, tb = 0.02745098f - 0.5f;

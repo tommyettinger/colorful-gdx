@@ -52,7 +52,7 @@ public class FourWheelRandom extends Random {
 	protected long stateD;
 
 	/**
-	 * Creates a new LaserRandom. This constructor sets the states of the
+	 * Creates a new FourWheelRandom. This constructor sets the states of the
 	 * random number generator to values very likely to be distinct from
 	 * any other invocation of this constructor.
 	 */
@@ -65,7 +65,7 @@ public class FourWheelRandom extends Random {
 	}
 
 	/**
-	 * Creates a new LaserRandom using a single {@code long} seed.
+	 * Creates a new FourWheelRandom using a single {@code long} seed.
 	 *
 	 * @param seed the initial seed
 	 * @see #setSeed(long)
@@ -76,7 +76,7 @@ public class FourWheelRandom extends Random {
 	}
 
 	/**
-	 * Creates a new LaserRandom using the given seeds to set the corresponding states verbatim.
+	 * Creates a new FourWheelRandom using the given seeds to set the corresponding states verbatim.
 	 *
 	 * @param seedA any long; will be used exactly to set stateA as with {@link #setStateA(long)}
 	 * @param seedB any long; will be used exactly to set stateB as with {@link #setStateB(long)}
@@ -92,7 +92,7 @@ public class FourWheelRandom extends Random {
 	}
 
 	/**
-	 * LaserRandom has four possible states, all {@code long}.
+	 * FourWheelRandom has four possible states, all {@code long}.
 	 * @return 4 (four)
 	 */
 	public int getStateCount() {
@@ -903,7 +903,7 @@ public class FourWheelRandom extends Random {
 	 * {@code 1.0} from this random number generator's sequence
 	 */
 	public double nextGaussian () {
-		//// here, we want to only request one long from this LaserRandom.
+		//// here, we want to only request one long from this FourWheelRandom.
 		//// because the bitCount() doesn't really care about the numerical value of its argument, only its Hamming weight,
 		//// we use the random long un-scrambled, and get the bit count of that.
 		//// for the later steps, we multiply the random long by a specific constant and get the difference of its halves.
@@ -920,11 +920,11 @@ public class FourWheelRandom extends Random {
 	}
 
 	/**
-	 * Creates a new {@code LaserRandom} with identical states to this one, so if the same LaserRandom methods are
+	 * Creates a new {@code FourWheelRandom} with identical states to this one, so if the same FourWheelRandom methods are
 	 * called on this object and its copy (in the same order), the same outputs will be produced. This is not
 	 * guaranteed to copy the inherited state of the {@link Random} parent class, so if you call methods that are
-	 * only implemented by Random and not LaserRandom, the results may differ.
-	 * @return a deep copy of this LaserRandom.
+	 * only implemented by Random and not FourWheelRandom, the results may differ.
+	 * @return a deep copy of this FourWheelRandom.
 	 */
 	public FourWheelRandom copy () {
 		return new FourWheelRandom(stateA, stateB, stateC, stateD);

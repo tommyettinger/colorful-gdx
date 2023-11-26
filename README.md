@@ -393,9 +393,9 @@ implementation 'com.github.tommyettinger:colorful-pure:0.8.5'
 Gradle dependency in the HTML project, if present:
 ```groovy
 implementation 'com.github.tommyettinger:funderby:0.1.1:sources'
-implementation 'com.github.tommyettinger:digital:0.4.0:sources'
-implementation 'com.github.tommyettinger:juniper:0.3.9:sources'
-implementation 'com.github.tommyettinger:jdkgdxds:1.4.1:sources'
+implementation 'com.github.tommyettinger:digital:0.4.4:sources'
+implementation 'com.github.tommyettinger:juniper:0.4.2:sources'
+implementation 'com.github.tommyettinger:jdkgdxds:1.4.4:sources'
 implementation 'com.github.tommyettinger:colorful-pure:0.8.5:sources'
 ```
 
@@ -416,6 +416,8 @@ If you don't use Gradle, here's the Maven dependency (GWT dependencies should be
   <version>0.8.5</version>
 </dependency>
 ```
+
+The dependency (and GWT inherit) on Juniper won't be needed starting in the next version (0.8.6 or higher).
 
 If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/).
 

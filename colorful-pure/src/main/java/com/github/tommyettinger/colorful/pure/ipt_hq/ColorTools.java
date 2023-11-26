@@ -19,7 +19,6 @@ package com.github.tommyettinger.colorful.pure.ipt_hq;
 import com.github.tommyettinger.colorful.pure.FloatColors;
 import com.github.tommyettinger.digital.BitConversion;
 import com.github.tommyettinger.digital.MathTools;
-import com.github.tommyettinger.random.EnhancedRandom;
 
 import java.util.Random;
 
@@ -1066,7 +1065,7 @@ public class ColorTools {
 
 	/**
 	 * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.
-	 * @param random a Random object (preferably a subclass of Random, like {@link com.github.tommyettinger.random.LaserRandom})
+	 * @param random a Random object (preferably a subclass of Random, like {@link com.github.tommyettinger.digital.AlternateRandom})
 	 * @return a packed float color that is always in-gamut
 	 */
 	public static float randomColor(Random random) {
@@ -1083,14 +1082,13 @@ public class ColorTools {
 
 	/**
 	 * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.
-	 * This is named differently from {@link #randomColor(Random)} to avoid confusion when a class both extends Random
-	 * and EnhancedRandom.
-	 * @param random any subclass of juniper's EnhancedRandom, such as a
-	 * {@link com.github.tommyettinger.random.DistinctRandom} or
-	 * {@link com.github.tommyettinger.random.FourWheelRandom}
+	 * This is only present for legacy compatibility; new code should use {@link #randomColor(Random)}.
+	 * @param random a Random object (or preferably a subclass of Random, like {@link com.github.tommyettinger.digital.AlternateRandom})
 	 * @return a packed float color that is always in-gamut
+	 * @deprecated Use {@link #randomColor(Random)} instead.
 	 */
-	public static float randomizedColor(EnhancedRandom random) {
+	@Deprecated
+	public static float randomizedColor(Random random) {
 		float i = random.nextFloat();
 		float p = random.nextFloat();
 		float t = random.nextFloat();

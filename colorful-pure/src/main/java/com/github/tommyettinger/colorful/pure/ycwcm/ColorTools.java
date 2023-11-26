@@ -19,7 +19,6 @@ package com.github.tommyettinger.colorful.pure.ycwcm;
 import com.github.tommyettinger.colorful.pure.FloatColors;
 import com.github.tommyettinger.digital.MathTools;
 import com.github.tommyettinger.digital.BitConversion;
-import com.github.tommyettinger.random.EnhancedRandom;
 
 import java.util.Random;
 
@@ -911,7 +910,7 @@ public class ColorTools {
 
 	/**
 	 * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.
-	 * @param random a Random object (or preferably a subclass of Random, like {@link com.github.tommyettinger.random.LaserRandom})
+	 * @param random a Random object (or preferably a subclass of Random, like {@link com.github.tommyettinger.digital.AlternateRandom})
 	 * @return a random opaque packed float color that is always in-gamut
 	 */
 	public static float randomColor(Random random) {
@@ -927,14 +926,13 @@ public class ColorTools {
 
 	/**
 	 * Produces a random packed float color that is always in-gamut (and opaque) and should be uniformly distributed.
-	 * This is named differently from {@link #randomColor(Random)} to avoid confusion when a class both extends Random
-	 * and EnhancedRandom.
-	 * @param random any subclass of juniper's EnhancedRandom, such as a
-	 * {@link com.github.tommyettinger.random.DistinctRandom} or
-	 * {@link com.github.tommyettinger.random.FourWheelRandom}
+	 * This is only present for legacy compatibility; new code should use {@link #randomColor(Random)}.
+	 * @param random a Random object (or preferably a subclass of Random, like {@link com.github.tommyettinger.digital.AlternateRandom})
 	 * @return a packed float color that is always in-gamut
+	 * @deprecated Use {@link #randomColor(Random)} instead.
 	 */
-	public static float randomizedColor(EnhancedRandom random) {
+	@Deprecated
+	public static float randomizedColor(Random random) {
 		final float yr = +0.375f, wr = +0.5f, mr = +0.0f;
 		final float yg = +0.500f, wg = +0.0f, mg = +0.5f;
 		final float yb = +0.125f, wb = -0.5f, mb = -0.5f;
