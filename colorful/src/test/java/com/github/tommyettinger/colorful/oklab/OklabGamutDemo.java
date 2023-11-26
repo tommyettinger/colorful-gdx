@@ -41,11 +41,13 @@ import com.github.tommyettinger.colorful.TrigTools;
 import static com.badlogic.gdx.Gdx.input;
 
 public class OklabGamutDemo extends ApplicationAdapter {
+    private static final boolean WRITING = false;
     public static final int SCREEN_WIDTH = 128;
     public static final int SCREEN_HEIGHT = 128;
     private SpriteBatch batch;
     private Viewport screenView;
     private Texture blank;
+    private boolean paused = false;
     private long lastProcessedTime = 0L, startTime;
     private float layer = 0.5f;
     private float L = 0.5f, A = 0.5f, B = 0.5f, contrast = 0.5f;
@@ -113,36 +115,38 @@ public class OklabGamutDemo extends ApplicationAdapter {
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.enableBlending();
 
-        final int frameCount = 120;
-        Array<Pixmap> pixmaps = new Array<>(frameCount);
-        for (int i = 0; i < frameCount; i++) {
-            layer = i / (frameCount - 1f);
-            renderInternal();
-            // this gets a screenshot of the current window and adds it to the Array of Pixmap.
-            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        }
+        if (WRITING) {
+            final int frameCount = 120;
+            Array<Pixmap> pixmaps = new Array<>(frameCount);
+            for (int i = 0; i < frameCount; i++) {
+                layer = i / (frameCount - 1f);
+                renderInternal();
+                // this gets a screenshot of the current window and adds it to the Array of Pixmap.
+                pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+            }
 
 //
 //// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
 //// plus transparent, and seems to be more accurate than any attempts to analyze an image with almost every color.
-        AnimatedGif gif = new AnimatedGif();
-        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
+            AnimatedGif gif = new AnimatedGif();
+            gif.setDitherAlgorithm(Dithered.DitherAlgorithm.WREN); // the best we have
+//        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.GRADIENT_NOISE); // this is better than it sounds
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.SCATTER); // this is pretty fast to compute, and also good
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is fast and great with smooth gradients, but the temporal dithering looks weird here.
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // this should be dithered before usage
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is the current default; fairly high quality
-        gif.setDitherStrength(1f);
-        gif.fastAnalysis = false;
-        gif.palette = new PaletteReducer();
+            gif.setDitherStrength(1f);
+            gif.fastAnalysis = false;
+            gif.palette = new PaletteReducer();
 //        // 24 is how many frames per second the animated GIF should play back at.
-        gif.write(Gdx.files.local("OklabGamut.gif"), pixmaps, 24);
+            gif.write(Gdx.files.local("OklabGamut.gif"), pixmaps, 24);
 
 //// AnimatedPNG uses full-color, so it doesn't involve dithering or color reduction at all.
-        AnimatedPNG png = new AnimatedPNG();
+            AnimatedPNG png = new AnimatedPNG();
 //// 24 is how many frames per second the animated PNG should play back at.
-        png.write(Gdx.files.local("OklabGamut.png"), pixmaps, 24);
-
+            png.write(Gdx.files.local("OklabGamut.png"), pixmaps, 24);
+        }
 //        PixmapIO.PNG still = new PixmapIO.PNG();
 //        int idx = 0;
 //        for (Pixmap pm : pixmaps){
@@ -289,7 +293,8 @@ public class OklabGamutDemo extends ApplicationAdapter {
     @Override
     public void render() {
         handleInput();
-        layer = TrigTools.acosTurns(TrigTools.sinTurns(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) * 2f;
+        if(!paused)
+            layer = TrigTools.acosTurns(TrigTools.sinTurns(TimeUtils.timeSinceMillis(startTime) * 0x1p-13f)) * 2f;
         renderInternal();
     }
     
@@ -322,9 +327,11 @@ public class OklabGamutDemo extends ApplicationAdapter {
     public void handleInput() {
         if (input.isKeyPressed(Input.Keys.Q) || input.isKeyPressed(Input.Keys.ESCAPE)) //quit
             Gdx.app.exit();
-        else if (TimeUtils.timeSinceMillis(lastProcessedTime) > 150) {
+        else if (input.isKeyPressed(Input.Keys.ANY_KEY) && TimeUtils.timeSinceMillis(lastProcessedTime) > 150) {
             lastProcessedTime = TimeUtils.millis();
-            if (input.isKeyPressed(Input.Keys.RIGHT) || input.isKeyPressed(Input.Keys.UP)) {
+            if(input.isKeyPressed(Input.Keys.SPACE)){
+                paused = !paused;
+            } else if (input.isKeyPressed(Input.Keys.RIGHT) || input.isKeyPressed(Input.Keys.UP)) {
                 layer = MathUtils.clamp(layer + 0x1p-7f, 0f, 1f);
             } else if (input.isKeyPressed(Input.Keys.LEFT) || input.isKeyPressed(Input.Keys.DOWN)) {
                 layer = MathUtils.clamp(layer - 0x1p-7f, 0f, 1f);

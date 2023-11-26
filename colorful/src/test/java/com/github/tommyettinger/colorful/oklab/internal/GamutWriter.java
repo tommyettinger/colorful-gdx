@@ -20,6 +20,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.github.tommyettinger.colorful.internal.StringKit;
 import com.github.tommyettinger.colorful.oklab.ColorTools;
 
 public class GamutWriter extends ApplicationAdapter {
@@ -34,8 +35,9 @@ public class GamutWriter extends ApplicationAdapter {
     }
 
     public void create() {
-        byte[] initial = new byte[65536], all = new byte[65536];
         int idx = 0, largestDist = -1;
+        int[] initial = new int[65536];
+        byte[] all = new byte[65536];
         double minA = 1000.0, maxA = -1000.0, minB = 1000.0, maxB = -1000.0, maxDist = -1000.0, furthest = 300.0;
         for (int light = 0; light < 256; light++) {
             double L = light / 255.0;
@@ -48,7 +50,7 @@ public class GamutWriter extends ApplicationAdapter {
                     double d = dist * 0x1p-8, A = c * d, B = s * d;
                     if(inGamut(L, A, B))
                     {
-                        initial[idx++] = (byte) (dist+=2);
+                        initial[idx++] = (dist+=2);
                         largestDist = Math.max(largestDist, dist);
                         minA = Math.min(minA, A);
                         maxA = Math.max(maxA, A);
@@ -62,6 +64,8 @@ public class GamutWriter extends ApplicationAdapter {
                 System.out.println("Problem at light " + light + " angle " + angle);
             }
         }
+        System.out.println(StringKit.join(", ", initial));
+
         for (int light = 0; light < 256; light++) {
             for (int angle = 0; angle < 256; angle++) {
                 all[light << 8 | angle] = (byte) Math.max(Math.max(initial[light << 8 | angle],
@@ -194,8 +198,9 @@ public class GamutWriter extends ApplicationAdapter {
 
         //reverseLight() for double
 //        L = (L - 0.993) / (1.0 + L * 0.75) + 0.993; // old
-        L = reverseLight(L);
 //        L = reverseLight(L * (255.0/256.0));
+
+        L = reverseLight(L);
 
         //unused:
         //forwardLight() for double
