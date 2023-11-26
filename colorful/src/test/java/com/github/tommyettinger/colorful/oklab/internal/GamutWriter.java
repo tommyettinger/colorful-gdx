@@ -35,9 +35,9 @@ public class GamutWriter extends ApplicationAdapter {
     }
 
     public void create() {
-        int idx = 0, largestDist = -1;
         int[] initial = new int[65536];
         byte[] all = new byte[65536];
+        int idx = 0, largestDist = -1;
         double minA = 1000.0, maxA = -1000.0, minB = 1000.0, maxB = -1000.0, maxDist = -1000.0, furthest = 300.0;
         for (int light = 0; light < 256; light++) {
             double L = light / 255.0;
@@ -220,13 +220,13 @@ public class GamutWriter extends ApplicationAdapter {
 //        final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
 //        return (b >= -0x1p-8 && b <= 0x101p-8);
 
-        double dr = Math.sqrt((+4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s)*255.999f);
+        double dr = Math.sqrt(+4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s)*255.999f;
         final int r = (int)dr;
         if(Double.isNaN(dr) || r < 0 || r > 255) return false;
-        double dg = Math.sqrt((-1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s)*255.999f);
+        double dg = Math.sqrt(-1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s)*255.999f;
         final int g = (int)dg;
         if(Double.isNaN(dg) || g < 0 || g > 255) return false;
-        double db = Math.sqrt((-0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s)*255.999f);
+        double db = Math.sqrt(-0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s)*255.999f;
         final int b = (int)db;
         return (!Double.isNaN(db) && b >= 0 && b <= 255);
 

@@ -32,16 +32,13 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.tommyettinger.anim8.AnimatedGif;
-import com.github.tommyettinger.anim8.AnimatedPNG;
-import com.github.tommyettinger.anim8.Dithered;
-import com.github.tommyettinger.anim8.PaletteReducer;
+import com.github.tommyettinger.anim8.*;
 import com.github.tommyettinger.colorful.TrigTools;
 
 import static com.badlogic.gdx.Gdx.input;
 
 public class OklabGamutDemo extends ApplicationAdapter {
-    private static final boolean WRITING = false;
+    private static final boolean WRITING = true;
     public static final int SCREEN_WIDTH = 128;
     public static final int SCREEN_HEIGHT = 128;
     private SpriteBatch batch;
@@ -136,9 +133,9 @@ public class OklabGamutDemo extends ApplicationAdapter {
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.PATTERN); // this is very slow, but high-quality
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE); // this should be dithered before usage
 //        gif.setDitherAlgorithm(Dithered.DitherAlgorithm.NEUE); // this is the current default; fairly high quality
-            gif.setDitherStrength(1f);
+            gif.setDitherStrength(0.5f);
             gif.fastAnalysis = false;
-            gif.palette = new PaletteReducer();
+            gif.palette = new QualityPalette();
 //        // 24 is how many frames per second the animated GIF should play back at.
             gif.write(Gdx.files.local("OklabGamut.gif"), pixmaps, 24);
 
@@ -306,8 +303,8 @@ public class OklabGamutDemo extends ApplicationAdapter {
         batch.setColor(0.5f, 0.5f, 0.5f, 1f);
         batch.begin();
 //        batch.draw(blank, 0, 0, 512, 512);
-        batch.setColor(layer, 0.5f, 0.5f, 1f);
-        batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
+//        batch.setColor(layer, 0.5f, 0.5f, 1f);
+//        batch.draw(blank, 254.75f, 254.75f, 1.5f, 1.5f);
         for (int x = 0; x < 256; x++) {
             for (int y = 0; y < 256; y++) {
                 batch.setColor(layer, x * 0x1p-8f, y * 0x1p-8f, 1f);
