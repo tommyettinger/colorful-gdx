@@ -107,7 +107,7 @@ public class GamutWriter extends ApplicationAdapter {
                 "    static byte[] GAMUT_DATA;\n" +
                 "    static {\n" +
                 "        try {\n" +
-                "            //noinspection StringBufferReplaceableByString\n" +
+                "            //noinspection StringBufferReplaceableByString,CharsetObjectCanBeUsed\n" +
                 "            GAMUT_DATA = new StringBuilder().append(\"");
         for (int i = 0; i < data.length;) {
             byte b = data[i++];
@@ -143,9 +143,10 @@ public class GamutWriter extends ApplicationAdapter {
             if((sb.length() & 0xFFFF) == 0xFFFF)
                 sb.append("\").append(\"");
         }
-        sb.append("\").toString().getBytes(\"ISO-8859-1\");\n" +
-                "        } catch (UnsupportedEncodingException e) {\n" +
-                "            e.printStackTrace();\n" +
+        sb.append("\").toString()\n" +
+                "                    .getBytes(\"ISO-8859-1\");\n" +
+                "        } catch (UnsupportedEncodingException ignored) {\n" +
+                "            System.out.println(\"You may ask yourself, 'How did I get here?' Well, there's an encoding problem.\");\n" +
                 "            GAMUT_DATA = new byte[65536];\n" +
                 "        }\n" +
                 "    }\n" +
@@ -220,13 +221,13 @@ public class GamutWriter extends ApplicationAdapter {
 //        final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
 //        return (b >= -0x1p-8 && b <= 0x101p-8);
 
-        double dr = Math.sqrt(+4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s)*255.999f;
+        double dr = Math.sqrt(+4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s)*255f;
         final int r = (int)dr;
         if(Double.isNaN(dr) || r < 0 || r > 255) return false;
-        double dg = Math.sqrt(-1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s)*255.999f;
+        double dg = Math.sqrt(-1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s)*255f;
         final int g = (int)dg;
         if(Double.isNaN(dg) || g < 0 || g > 255) return false;
-        double db = Math.sqrt(-0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s)*255.999f;
+        double db = Math.sqrt(-0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s)*255f;
         final int b = (int)db;
         return (!Double.isNaN(db) && b >= 0 && b <= 255);
 
