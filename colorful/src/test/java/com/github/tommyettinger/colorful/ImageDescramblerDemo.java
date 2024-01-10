@@ -36,7 +36,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class ImageScramblerDemo extends ApplicationAdapter {
+public class ImageDescramblerDemo extends ApplicationAdapter {
     public static final int SCREEN_WIDTH = 512;
     public static final int SCREEN_HEIGHT = 384;
     protected SpriteBatch batch;
@@ -52,13 +52,12 @@ public class ImageScramblerDemo extends ApplicationAdapter {
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("Image Scrambler Demo");
+        config.setTitle("Image Descrambler Demo");
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.setIdleFPS(10);
         config.useVsync(true);
         config.useOpenGL3(true, 4, 2);
-        config.setTransparentFramebuffer(true);
-        final ImageScramblerDemo app = new ImageScramblerDemo();
+        final ImageDescramblerDemo app = new ImageDescramblerDemo();
         config.setWindowListener(new Lwjgl3WindowAdapter() {
             @Override
             public void filesDropped(String[] files) {
@@ -118,16 +117,19 @@ public class ImageScramblerDemo extends ApplicationAdapter {
                         "vec4 getColor(){\n" +
 //                        "  uint w = scramblePosition();\n" +
                         "  uint a = packUnorm4x8(texture2D(u_texture, v_texCoords));\n" +
+//                        "  a = (a << 24u | a >> 8u);\n" +
                         "  a = (a << 8u | a >> 24u);\n" +
-//                        "  a *= 3u;\n" +
-                        "  a *= 0xAAAAAAABu;\n" +
+//                        "  a *= 0xAAAAAAABu;\n" +
+                        "  a *= 3u;\n" +
 //                        "  uint i = 2u ^ (a * 3u);\n" +
 //                        "  i = i * (2u - (a * i));\n" +
 //                        "  i = i * (2u - (a * i));\n" +
 //                        "  i = i * (2u - (a * i)) & ~1u;\n" +
+//                        "  a = (a << 8u | a >> 24u);\n" +
 //                        "  return unpackUnorm4x8(a);\n" +
 //                        "  return unpackUnorm4x8((i << 24u | i >> 8u));\n" +
                         "  return unpackUnorm4x8((a << 8u | a >> 24u));\n" +
+//                        "  return unpackUnorm4x8((a << 24u | a >> 8u));\n" +
                         "}\n" +
                         "void main()\n" +
                         "{\n" +
@@ -144,7 +146,7 @@ public class ImageScramblerDemo extends ApplicationAdapter {
         // if you don't have these files on this absolute path, that's fine, and they will be ignored
 //        load("samples/Painting_by_Henri_Biva.jpg");
 //        load("samples/Among_the_Sierra_Nevada_by_Albert_Bierstadt.jpg");
-        load("samples/Dawnlike.png");
+        load("samples/Scrambled.png");
 //        load("C:/d/Art/translucent-bubble.png");
 
         FrameBuffer fb = new FrameBuffer(Pixmap.Format.RGBA8888,
@@ -152,7 +154,7 @@ public class ImageScramblerDemo extends ApplicationAdapter {
         fb.begin();
         render();
         Pixmap pm = ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
-        PixmapIO.writePNG(Gdx.files.local("Scrambled.png"), pm, 7, true);
+        PixmapIO.writePNG(Gdx.files.local("Descrambled.png"), pm, 7, true);
         fb.end(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
         pm.dispose();
     }
