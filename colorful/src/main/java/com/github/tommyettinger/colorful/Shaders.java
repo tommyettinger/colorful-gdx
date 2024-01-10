@@ -558,7 +558,7 @@ void main()
      * from their middle point at 1/2, which is used for grayscale. This is normal for Oklab, and allows colors to be
      * compared for approximate difference using Euclidean distance. Importantly, Oklab preserves the meaning of its L
      * channel (lightness) very well when comparing two arbitrary colors, while also doing well when comparing chroma
-     * (see {@link com.github.tommyettinger.colorful.oklab.ColorTools#chroma(float)}.
+     * (see {@link com.github.tommyettinger.colorful.oklab.ColorTools#chroma(float)}).
      * <br>
      * You can generate Oklab colors using any of various methods in the {@code oklab} package, such as
      * {@link com.github.tommyettinger.colorful.oklab.ColorTools#oklab(float, float, float, float)}.
