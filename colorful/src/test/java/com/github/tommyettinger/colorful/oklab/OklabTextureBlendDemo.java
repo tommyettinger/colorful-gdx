@@ -23,17 +23,14 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowAdapter;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.colorful.Shaders;
-
-import static com.badlogic.gdx.Gdx.input;
 
 public class OklabTextureBlendDemo extends ApplicationAdapter {
     //public static final int backgroundColor = Color.rgba8888(Color.DARK_GRAY);
@@ -45,7 +42,8 @@ public class OklabTextureBlendDemo extends ApplicationAdapter {
     protected Viewport screenView;
     protected Texture dirt, grass;
 
-    private ShaderProgram blendShader;
+    private ShaderProgram oklabShader;
+    private ShaderProgram rgbShader;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -83,7 +81,7 @@ public class OklabTextureBlendDemo extends ApplicationAdapter {
 
     @Override
     public void create() {
-        blendShader = new ShaderProgram(Shaders.vertexShader,
+        oklabShader = new ShaderProgram(Shaders.vertexShader,
                 "#ifdef GL_ES\n" +
                         "#define LOWP lowp\n" +
                         "precision mediump float;\n" +
@@ -120,9 +118,29 @@ public class OklabTextureBlendDemo extends ApplicationAdapter {
                         "                 (lab * lab * lab)," +
                         "                 0.0, 1.0)), v_color.a * mix(dirt.a, grass.a, v_texCoords.x));\n" +
                         "}");
-        if(!blendShader.isCompiled())
-            System.out.println(blendShader.getLog());
-        batch = new SpriteBatch(1000, blendShader);
+        if(!oklabShader.isCompiled())
+            System.out.println(oklabShader.getLog());
+        rgbShader = new ShaderProgram(Shaders.vertexShader,
+                "#ifdef GL_ES\n" +
+                        "#define LOWP lowp\n" +
+                        "precision mediump float;\n" +
+                        "#else\n" +
+                        "#define LOWP \n" +
+                        "#endif\n" +
+                        "varying vec2 v_texCoords;\n" +
+                        "varying LOWP vec4 v_color;\n" +
+                        "uniform sampler2D u_texture;\n" +
+                        "uniform sampler2D u_texture2;\n" +
+                        "void main()\n" +
+                        "{\n" +
+                        "  vec4 dirt = texture2D( u_texture, v_texCoords );\n" +
+                        "  vec4 grass = texture2D( u_texture2, v_texCoords );\n" +
+                        "  vec3 rgb = mix(dirt.rgb, grass.rgb, v_texCoords.xxx) * v_color.rgb;\n" +
+                        "  gl_FragColor = vec4(rgb, v_color.a * mix(dirt.a, grass.a, v_texCoords.x));\n" +
+                        "}");
+        if(!rgbShader.isCompiled())
+            System.out.println(rgbShader.getLog());
+        batch = new SpriteBatch(1000, oklabShader);
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -140,13 +158,19 @@ public class OklabTextureBlendDemo extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//        handleInput();
-        batch.setColor(0.5f, 0.5f, 0.5f, 1f);
+        if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
+            batch.setShader(rgbShader);
+        } else if(Gdx.input.isKeyJustPressed(Input.Keys.O)){
+            batch.setShader(oklabShader);
+        }
+        if(batch.getShader() == oklabShader)
+            batch.setColor(0.5f, 0.5f, 0.5f, 1f);
+        else batch.setPackedColor(Color.WHITE_FLOAT_BITS);
         batch.setProjectionMatrix(screenView.getCamera().combined);
         dirt.bind(1);
         batch.begin();
 
-        blendShader.setUniformi("u_texture2", 1);
+        batch.getShader().setUniformi("u_texture2", 1);
         Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
         batch.draw(grass, 0, 0);
         batch.end();
