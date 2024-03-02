@@ -1679,7 +1679,7 @@ void main()
      */
     public static SpriteBatch makeSaturatingBatch(final float saturationMultiplier)
     {
-        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShaderDoubleSaturation.replace("   2.0   ", Float.toString(saturationMultiplier)));
+        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShaderDoubleSaturation.replace("  2.000  ", Float.toString(saturationMultiplier)));
         if(!shader.isCompiled())
             throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
         return new SpriteBatch(1000, shader);
