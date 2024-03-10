@@ -696,26 +696,6 @@ void main()
      */
     public static final String partialCodeHSL =
                     "const float eps = 1.0e-10;\n" +
-                    "////Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a\n" +
-                    "////different distribution that matches primary colors in painting (where purple is opposite yellow).\n" +
-                    "//float official2primaries(float hue) {\n" +
-                    "//    return  hue * (  2.137\n" +
-                    "//          + hue * (  0.542\n" +
-                    "//          + hue * (-15.141\n" +
-                    "//          + hue * ( 30.120\n" +
-                    "//          + hue * (-22.541\n" +
-                    "//          + hue *   5.883)))));\n" +
-                    "//}\n" +
-                    "////Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a\n" +
-                    "////different distribution that matches primary colors in painting (where purple is opposite yellow).\n" +
-                    "//float primaries2official(float hue) {\n" +
-                    "//    return  hue * (  0.677\n" +
-                    "//          + hue * ( -0.123\n" +
-                    "//          + hue * (-11.302\n" +
-                    "//          + hue * ( 46.767\n" +
-                    "//          + hue * (-58.493\n" +
-                    "//          + hue *   23.474)))));\n" +
-                    "//}\n" +
                     "vec4 rgb2hsl(vec4 c)\n" +
                     "{\n" +
                     "    const vec4 J = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n" +
@@ -732,7 +712,28 @@ void main()
                     "    vec3 p = abs(fract(c.x + K.xyz) * 6.0 - K.www);\n" +
                     "    float v = (c.z + c.y * min(c.z, 1.0 - c.z));\n" +
                     "    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n" +
-                    "}";
+                    "}" +
+                            "////Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a\n" +
+                            "////different distribution that matches primary colors in painting (where purple is opposite yellow).\n" +
+                            "//float official2primaries(float hue) {\n" +
+                            "//    return  hue * (  2.137\n" +
+                            "//          + hue * (  0.542\n" +
+                            "//          + hue * (-15.141\n" +
+                            "//          + hue * ( 30.120\n" +
+                            "//          + hue * (-22.541\n" +
+                            "//          + hue *   5.883)))));\n" +
+                            "//}\n" +
+                            "////Call this to go to the official HSL hue distribution (where blue is opposite yellow) from a\n" +
+                            "////different distribution that matches primary colors in painting (where purple is opposite yellow).\n" +
+                            "//float primaries2official(float hue) {\n" +
+                            "//    return  hue * (  0.677\n" +
+                            "//          + hue * ( -0.123\n" +
+                            "//          + hue * (-11.302\n" +
+                            "//          + hue * ( 46.767\n" +
+                            "//          + hue * (-58.493\n" +
+                            "//          + hue *   23.474)))));\n" +
+                            "//}\n"
+            ;
 
     /**
      * Adjusted-hue version of {@link #partialCodeHSL}, supplying HSL to-and-from RGB conversions with a smaller range
@@ -867,10 +868,9 @@ void main()
                     "    return rgb * c + cross(k, rgb) * sin(hue) + k * dot(k, rgb) * (1.0 - c);\n" +
                     "}\n";
 
-
     /**
-     * Treats the color as hue, saturation, lightness, and... uh... well, this is pretty much only useful when the batch
-     * color's {@code a} is 1 . You probably want {@link #fragmentShaderHSLC} or {@link #fragmentShaderHSLA}.
+     * Treats the color as hue, saturation, lightness, and alpha.
+     * You probably want {@link #fragmentShaderHSLC} or {@link #fragmentShaderHSLA}.
      * <br>
      * EXPERIMENTAL. Meant more for reading and editing than serious usage.
      */
@@ -889,8 +889,8 @@ void main()
                     "{\n" +
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                     "   vec4 hsl = rgb2hsl(tgt);\n" +
-                    "   hsl.x = fract((fract(v_color.x + 0.5 - hsl.x) - 0.5) * v_color.w + hsl.x);\n" +
-                    "   hsl.yz = mix(hsl.yz, v_color.yz, v_color.w);\n" +
+                    "   hsl.x = fract(v_color.x + hsl.x);\n" +
+                    "   hsl.yz = hsl.yz * v_color.yz;\n" +
                     "   gl_FragColor = hsl2rgb(hsl);\n" +
                     "}";
 
@@ -1022,6 +1022,50 @@ void main()
                     "     dot(tgt.rgb, vec3(1.0, -0.375, 0.5)),\n" + // back to green
                     "     dot(tgt.rgb, vec3(1.0, -0.375, -0.5)),\n" + // back to blue
                     "     tgt.a * v_color.w), 0.0, 1.0);\n" + // keep alpha, then clamp
+                    "}";
+    /**
+     * Allows changing Hue/Saturation/Lightness/Alpha, with hue as a rotation.
+     * <br>
+     * You can generate HSLA colors using methods like {@link FloatColors#rgb2hsl(float, float, float, float)}.
+     * <br>
+     * Meant to be used with {@link #vertexShader}, unlike what {@link #fragmentShaderHSLC} expects.
+     */
+    public static final String fragmentShaderHSLA2 =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "const float eps = 1.0e-10;\n" +
+                    "vec4 rgb2hsl(vec4 c)\n" +
+                    "{\n" +
+                    "    const vec4 J = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n" +
+                    "    vec4 p = mix(vec4(c.bg, J.wz), vec4(c.gb, J.xy), step(c.b, c.g));\n" +
+                    "    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));\n" +
+                    "    float d = q.x - min(q.w, q.y);\n" +
+                    "    float l = q.x * (1.0 - 0.5 * d / (q.x + eps));\n" +
+                    "    return vec4(abs(q.z + (q.w - q.y) / (6.0 * d + eps)), (q.x - l) / (min(l, 1.0 - l) + eps), l, c.a);\n" +
+                    "}\n" +
+                    "\n" +
+                    "vec4 hsl2rgb(vec4 c)\n" +
+                    "{\n" +
+                    "    const vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n" +
+                    "    vec3 p = abs(fract(c.x + K.xyz) * 6.0 - K.www);\n" +
+                    "    float v = (c.z + c.y * min(c.z, 1.0 - c.z));\n" +
+                    "    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n" +
+                    "}\n" +
+                    "\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "   vec4 hsl = rgb2hsl(tgt);\n" +
+                    "   hsl.x = fract(v_color.x + hsl.x);\n" +
+                    "   hsl.yz = hsl.yz * v_color.yz;\n" +
+                    "   gl_FragColor = hsl2rgb(hsl);\n" +
                     "}";
     /**
      * Generally a lower-quality hue rotation than {@link #fragmentShaderHSLC}; this is here as a work in progress.

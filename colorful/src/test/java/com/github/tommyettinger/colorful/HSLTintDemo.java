@@ -28,6 +28,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -47,11 +48,11 @@ public class HSLTintDemo extends ApplicationAdapter {
     private long lastProcessedTime = 0L;
     private ShaderProgram defaultShader;
 //    private ShaderProgram shaderBroken;
-    private ShaderProgram shaderHSLC, shaderHSLC2;
+    private ShaderProgram shaderHSL, shaderHSLA2;
     private boolean flipping = true;
-    private float hue = 0.5f, sat = 0.5f, lightness = 0.5f, // all neutral values
+    private float hue = 0f, sat = 1f, lightness = 1f, // all neutral values
     //// contrast can be used by some shaders as alpha/opacity; it's currently lightness contrast
-            contrast = 0.5f;
+            contrast = 1f;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -100,13 +101,13 @@ public class HSLTintDemo extends ApplicationAdapter {
 //        shaderBroken = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL2);
 //        if(!shaderBroken.isCompiled())
 //            System.out.println(shaderBroken.getLog());
-        shaderHSLC = new ShaderProgram(Shaders.vertexShaderHSLC, Shaders.fragmentShaderHSLC);
-        if(!shaderHSLC.isCompiled())
-            System.out.println(shaderHSLC.getLog());
-        shaderHSLC2 = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL4);
-        if(!shaderHSLC2.isCompiled())
-            System.out.println(shaderHSLC2.getLog());
-        batch = new SpriteBatch(8000, defaultShader);
+        shaderHSL = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL);
+        if(!shaderHSL.isCompiled())
+            System.out.println(shaderHSL.getLog());
+        shaderHSLA2 = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSLA2);
+        if(!shaderHSLA2.isCompiled())
+            System.out.println(shaderHSLA2.getLog());
+        batch = new SpriteBatch(8000, shaderHSL);
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -127,23 +128,23 @@ public class HSLTintDemo extends ApplicationAdapter {
         handleInput();
         batch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) { 
-//            if(flipping && (TimeUtils.millis() & 1024) == 0) {
-//                if(batch.getShader() == shaderHSLC) {
+            if(input.isKeyJustPressed(Input.Keys.F)) { // Flip
+                if(batch.getShader() == shaderHSL) {
             //// this should act like Shader 1, but will also adjust lightness in a sine-wave
-//                    Gdx.graphics.setTitle("Shader 2");
-                    batch.setShader(shaderHSLC2);
-//                }
-//                else {
-            //// this should be the default for hue rotations
-//                    Gdx.graphics.setTitle("Shader 1");
-//                    batch.setShader(shaderHSLC);
-//                }
-//            }
+                    Gdx.graphics.setTitle("Shader 2");
+                    batch.setShader(shaderHSLA2);
+                }
+                else {
+            // this should be the default for hue rotations
+                    Gdx.graphics.setTitle("Shader 1");
+                    batch.setShader(shaderHSL);
+                }
+            }
             // the bitwise AND with 0xFFFFFF is needed to make the millisecond time a usable size for a float
             // it causes the animation to jump, but very rarely, once every 18 minutes or so
-            hue = (TimeUtils.millis() & 0xFFFFFF) * 0.0007f;
-            // we need to make sure hue and lightness are in the 0.0 to 1.0 range. If they are positive, this does that.
-            hue -= (int)hue;
+//            hue = (TimeUtils.millis() & 0xFFFFFF) * 0.0007f;
+////             we need to make sure hue and lightness are in the 0.0 to 1.0 range. If they are positive, this does that.
+//            hue -= (int)hue;
 //            lightness = (TimeUtils.millis() & 0xFFFFFF) * 0.0016f;
 //            lightness -= (int)lightness;
             batch.setColor(hue, sat, lightness, contrast);
@@ -167,7 +168,7 @@ public class HSLTintDemo extends ApplicationAdapter {
 
     public void handleInput() {
         if (input.isKeyPressed(Input.Keys.P)) // print
-            System.out.println("Y=" + hue + ",Cw=" + sat + ",Cm=" + lightness);
+            System.out.println("H=" + hue + ",S=" + sat + ",L=" + lightness);
         else if (input.isKeyPressed(Input.Keys.M))
             load("samples/Mona_Lisa.jpg");
         else if (input.isKeyPressed(Input.Keys.S)) //Sierra Nevada
@@ -188,7 +189,7 @@ public class HSLTintDemo extends ApplicationAdapter {
                 return;
             lastProcessedTime = TimeUtils.millis();
             if (input.isKeyPressed(Input.Keys.H)) //hue
-                hue = (hue += 0x7p-8f) - MathUtils.floor(hue);
+                hue = (hue += (UIUtils.shift() ? 0x7p-8f : -0x7p-8f)) - MathUtils.floor(hue);
             else if (input.isKeyPressed(Input.Keys.RIGHT)) //saturation increase
                 sat = MathUtils.clamp(sat + 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.LEFT)) //saturation decrease
@@ -203,13 +204,13 @@ public class HSLTintDemo extends ApplicationAdapter {
                 contrast = MathUtils.clamp(contrast - 0x3p-7f, 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.R)) //reset
             {
-                hue = 0.5f;
-                sat = 0.5f;
-                lightness = 0.5f;
-                contrast = 0.5f;
+                hue = 0f;
+                sat = 1f;
+                lightness = 1f;
+                contrast = 1f;
             }
-            else if (input.isKeyPressed(Input.Keys.F))
-                flipping = !flipping;
+//            else if (input.isKeyPressed(Input.Keys.F))
+//                flipping = !flipping;
         }
     }
 
