@@ -279,7 +279,7 @@ public class RGBHSLBatch implements Batch {
         color.r = (intBits & 0xff) / 255f;
         color.g = ((intBits >>> 8) & 0xff) / 255f;
         color.b = ((intBits >>> 16) & 0xff) / 255f;
-        color.a = ((intBits >>> 24) & 0xff) / 255f;
+        color.a = (intBits >>> 25) / 127f;
         return color;
     }
 
@@ -293,10 +293,10 @@ public class RGBHSLBatch implements Batch {
      * roughness, but 1.0 is neutral for saturation; using {@code (0.0f, 1.0f, 0.0f, 0.0f)} will effectively remove the
      * tweak. You can also use {@link #setTweak(float)} with {@link #TWEAK_RESET}, which is very slightly more
      * efficient, to remove the tweak or set it to a neutral value.
-     * @param hue multiplicative hue channel, from 0 to 1; 0.5 is neutral
+     * @param hue additive hue channel, from 0 to 1; 0.0 is neutral
      * @param saturation multiplicative saturation channel, from 0 to 1; 1.0 is neutral
-     * @param lightness multiplicative lightness channel, from 0 to 1; 0.0 is neutral
-     * @param roughness affects how lightness changes, from 0 (no extra roughness, smooth) to 1 (high roughness, chaotic look look); 0.0 is neutral
+     * @param lightness additive lightness channel, from 0 to 1; 0.0 is neutral
+     * @param roughness affects how lightness changes, from 0 (no extra roughness, smooth) to 1 (high roughness, chaotic look); 0.0 is neutral
      */
     public void setTweak (float hue, float saturation, float lightness, float roughness) {
         tweak = ColorTools.rgb(hue, saturation, lightness, roughness);
