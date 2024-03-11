@@ -47,7 +47,7 @@ public class RGBHSLTintDemo extends ApplicationAdapter {
     protected Texture screenTexture;
 
     private long lastProcessedTime = 0L;
-    private float red = 1f, green = 1f, blue = 1f, hue = 0f, sat = 1f, light = 0f, roughness = 0f;
+    private float red = 1f, green = 1f, blue = 1f, hue = 0f, sat = 0.5f, light = 0.5f, roughness = 0f;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -178,8 +178,8 @@ public class RGBHSLTintDemo extends ApplicationAdapter {
                 green = 1f;
                 blue = 1f;
                 hue = 0f;
-                sat = 1f;
-                light = 0f;
+                sat = 0.5f;
+                light = 0.5f;
                 roughness = 0f;
             }
         }

@@ -31,10 +31,15 @@ import java.nio.Buffer;
 /**
  * A substitute for {@link com.badlogic.gdx.graphics.g2d.SpriteBatch} that adds an extra attribute to store another
  * color's worth of channels, called the "tweak" and used to modify the color with HSL changes, while the primary color
- * tints the color. This RGBHSLBatch uses the RGB color space, like SpriteBatch, but the batch
+ * tints the color. Hue changes are rotations from red to orange to yellow etc. Saturation brings all colors to
+ * grayscale when it is 0.0, does nothing when it is 0.5, and oversaturates the image when it is 1.0 . Lightness darkens
+ * the image when it is 0.0, does nothing when it is 0.5, and lightens it when it is 1.0. "Potency" determines how much
+ * the RGB effects should overpower the actual color of the image; 0.0 uses the rest of the shader normally, 1.0 fully
+ * replaces the pixel with the RGB values of the batch color, and values in between mix the two options. This
+ * RGBHSLBatch uses the RGB color space, like SpriteBatch, but the batch
  * color here is multiplicative for the red, green, blue, and alpha channels, while the tweak is multiplicative for
- * saturation and roughness and additive for hue, and lightness. The neutral value for all multiplicative channels is
- * 1.0, but 0.0 for the additive channels.
+ * saturation, additive for hue and lightness, and somewhat multiplicative for potency. The neutral value for the RGBA
+ * channels is 1.0, but neutral is 0.0 for hue and potency, and 0.5 for lightness and saturation.
  */
 public class RGBHSLBatch implements Batch {
     public static final int SPRITE_SIZE = 24;
@@ -63,15 +68,15 @@ public class RGBHSLBatch implements Batch {
     private ShaderProgram customShader = null;
     private boolean ownsShader;
 
-    protected float color = Color.toFloatBits(0.5f, 0.5f, 0.5f, 1f);
-    private final Color tempColor = new Color(0.5f, 0.5f, 0.5f, 1f);
+    protected float color = Color.toFloatBits(1f, 1f, 1f, 1f);
+    private final Color tempColor = new Color(1f, 1f, 1f, 1f);
 
     /**
      * A constant packed float that can be assigned to this RGBHSLBatch's tweak with {@link #setTweak(float)} to make
      * all the tweak adjustments virtually imperceptible. When this is set as the tweak, it won't change the
-     * lightness addend or roughness multiplier, and it won't change hue or saturation, either.
+     * lightness addend or potency multiplier, and it won't change hue or saturation, either.
      */
-    public static final float TWEAK_RESET = Color.toFloatBits(0f, 1f, 0f, 1f);
+    public static final float TWEAK_RESET = Color.toFloatBits(0f, 0.5f, 0.5f, 0f);
     protected float tweak = TWEAK_RESET;
 
     /** Number of render calls since the last {@link #begin()}. **/
@@ -200,13 +205,12 @@ public class RGBHSLBatch implements Batch {
                         "void main()\n" +
                         "{\n" +
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "  float rough = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453) - 0.5;\n" +
                         "  tgt = rgb2hsl(tgt);\n" +
                         "  tgt.xz += v_tweak.xz;\n" +
                         "  tgt.x = fract(tgt.x);\n" +
-                        "  tgt.z = clamp(tgt.z + rough * v_tweak.w, 0.0, 1.0);\n" +
-                        "  tgt.y *= v_tweak.y;\n" +
-                        "  gl_FragColor = hsl2rgb(tgt) * v_color.rgba;\n" +
+                        "  tgt.z = clamp(tgt.z - 0.5f, 0.0, 1.0);\n" +
+                        "  tgt.y *= v_tweak.y * 2.0;\n" +
+                        "  gl_FragColor = vec4(mix(hsl2rgb(tgt).rgb * v_color.rgb, v_color.rgb, v_tweak.w), tgt.a);\n" +
                         "}";
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
         if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
@@ -289,22 +293,22 @@ public class RGBHSLBatch implements Batch {
     }
 
     /**
-     * Sets the HSL and roughness parts of the shader's color changes. 0.0 is a neutral value for hue, lightness, and
-     * roughness, but 1.0 is neutral for saturation; using {@code (0.0f, 1.0f, 0.0f, 0.0f)} will effectively remove the
+     * Sets the HSL and potency parts of the shader's color changes. 0.0 is a neutral value for hue, lightness, and
+     * potency, but 1.0 is neutral for saturation; using {@code (0.0f, 0.5f, 0.5f, 0.0f)} will effectively remove the
      * tweak. You can also use {@link #setTweak(float)} with {@link #TWEAK_RESET}, which is very slightly more
      * efficient, to remove the tweak or set it to a neutral value.
-     * @param hue additive hue channel, from 0 to 1; 0.0 is neutral
-     * @param saturation multiplicative saturation channel, from 0 to 1; 1.0 is neutral
-     * @param lightness additive lightness channel, from 0 to 1; 0.0 is neutral
-     * @param roughness affects how lightness changes, from 0 (no extra roughness, smooth) to 1 (high roughness, chaotic look); 0.0 is neutral
+     * @param hueAdd additive hue channel, from 0 to 1; 0.0 is neutral
+     * @param satMul multiplicative saturation channel, from 0 to 1; 0.5 is neutral
+     * @param lightAdd additive lightness channel, from 0 to 1; 0.5 is neutral
+     * @param potency affects how strong the first three parameters are, from 0 (normal effects) to 1 (RGB values used exactly); 0.0 is neutral
      */
-    public void setTweak (float hue, float saturation, float lightness, float roughness) {
-        tweak = ColorTools.rgb(hue, saturation, lightness, roughness);
+    public void setTweak (float hueAdd, float satMul, float lightAdd, float potency) {
+        tweak = ColorTools.rgb(hueAdd, satMul, lightAdd, potency);
     }
     /**
      * Sets the tweak using a single packed RGB float.
      * @see #setTweak(float, float, float, float)
-     * @param tweak a packed HSL float, with roughness instead of alpha
+     * @param tweak a packed HSL float, with potency instead of alpha
      */
     public void setTweak (final float tweak) {
         this.tweak = tweak;
@@ -315,9 +319,9 @@ public class RGBHSLBatch implements Batch {
     }
 
     /**
-     * Takes the tweak as an int in the format: red (8 bits), green (8 bits), blue (8 bits), roughness (7 bits),
+     * Takes the tweak as an int in the format: red (8 bits), green (8 bits), blue (8 bits), potency (7 bits),
      * (1 ignored bit at the end).
-     * @param tweak the tweak to use as an integer, with hue in the most significant bits and roughness in least
+     * @param tweak the tweak to use as an integer, with hue in the most significant bits and potency in least
      */
     public void setIntTweak(final int tweak) {
         this.tweak = NumberUtils.intBitsToFloat(Integer.reverseBytes(tweak & -2));
@@ -327,7 +331,7 @@ public class RGBHSLBatch implements Batch {
      * A convenience method that sets both the color (with {@link #setColor(float)}) and the tweak (with
      * {@link #setTweak(float)}) at the same time.
      * @param color the RGB components and alpha, as a packed float
-     * @param tweak the HSL components and roughness, as a packed float
+     * @param tweak the HSL components and potency, as a packed float
      */
     public void setTweakedColor(final float color, final float tweak) {
         setColor(color);
@@ -336,21 +340,21 @@ public class RGBHSLBatch implements Batch {
     /**
      * A convenience method that sets both the color (with {@link #setColor(float, float, float, float)}) and the tweak
      * (with {@link #setTweak(float, float, float, float)}) at the same time.
-     * @param redMul multiplicative red channel, from 0 to 1; 0.5 is neutral
-     * @param greenMul multiplicative green channel, from 0 to 1; 0.5 is neutral
-     * @param blueMul multiplicative blue channel, from 0 to 1; 0.5 is neutral
+     * @param redMul multiplicative red channel, from 0 to 1; 1.0 is neutral
+     * @param greenMul multiplicative green channel, from 0 to 1; 1.0 is neutral
+     * @param blueMul multiplicative blue channel, from 0 to 1; 1.0 is neutral
      * @param alphaMul multiplicative alpha channel, from 0 to 1; 1.0 is neutral
-     * @param hueAdd multiplicative red channel, from 0 to 1; 0.5 is neutral
-     * @param satMul multiplicative green channel, from 0 to 1; 0.5 is neutral
-     * @param lightAdd multiplicative blue channel, from 0 to 1; 0.5 is neutral
-     * @param roughness affects how lightness changes, from 0 (no extra roughness, smooth) to 1 (high roughness, chaotic look look); 0.0 is neutral
+     * @param hueAdd additive hue channel, from 0 to 1; 0.0 is neutral
+     * @param satMul multiplicative saturation channel, from 0 to 1; 0.5 is neutral
+     * @param lightAdd additive lightness channel, from 0 to 1; 0.5 is neutral
+     * @param potency affects how strong the first three parameters are, from 0 (normal effects) to 1 (RGB values used exactly); 0.0 is neutral
      */
     public void setTweakedColor (final float redMul, final float greenMul,
                                  final float blueMul, final float alphaMul,
                                  final float hueAdd, final float satMul,
-                                 final float lightAdd, final float roughness) {
+                                 final float lightAdd, final float potency) {
         setColor(redMul, greenMul, blueMul, alphaMul);
-        setTweak(hueAdd, satMul, lightAdd, roughness);
+        setTweak(hueAdd, satMul, lightAdd, potency);
     }
 
 
