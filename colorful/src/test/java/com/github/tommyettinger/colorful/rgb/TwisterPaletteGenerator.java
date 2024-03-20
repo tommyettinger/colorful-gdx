@@ -16,6 +16,10 @@
 
 package com.github.tommyettinger.colorful.rgb;
 
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Files;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.IntSet;
 import com.github.tommyettinger.colorful.FloatColors;
@@ -65,15 +69,28 @@ smallLimit = 64
 0xEFEF34FF, 0xEBEF1CFF, 0xEBF30CFF, 0xF3FB04FF, 0x00FF00FF, 0x0CEB00FF, 0x10D704FF, 0x10BA08FF,
 0x08AE08FF, 0x049A04FF, 0x008604FF, 0x006904FF, 0x045100FF, 0x043804FF, 0x04200CFF, 0x081400FF,
 }
+smallLimit=32, with checks to avoid sudden jumps
+{
+0x00000000, 0x000000FF, 0x002900FF, 0x183110FF, 0x312110FF, 0x4A1029FF, 0x6B1031FF, 0x9C0829FF,
+0xCE1031FF, 0xEF0831FF, 0xFF0018FF, 0xEF0821FF, 0xEF3139FF, 0xEF425AFF, 0xEF3173FF, 0xF71894FF,
+0xFF18B5FF, 0xE721D6FF, 0xEF10F7FF, 0xE700DEFF, 0xC608C6FF, 0xA508CEFF, 0x7B10DEFF, 0x6318E7FF,
+0x4210DEFF, 0x1808EFFF, 0x1818D6FF, 0x3129EFFF, 0x3939FFFF, 0x2163FFFF, 0x2984F7FF, 0x18ADF7FF,
+0x00C6F7FF, 0x08DEFFFF, 0x10FFF7FF, 0x10EFFFFF, 0x21D6E7FF, 0x39CED6FF, 0x63D6DEFF, 0x7BE7E7FF,
+0xA5E7E7FF, 0xB5EFFFFF, 0xE7EFFFFF, 0xE7FFF7FF, 0xF7F7DEFF, 0xFFEFB5FF, 0xFFF78CFF, 0xFFFF63FF,
+0xF7EF42FF, 0xEFF710FF, 0xEFE729FF, 0xC6E731FF, 0x9CF731FF, 0x7BF710FF, 0x52FF21FF, 0x31FF18FF,
+0x18FF00FF, 0x10FF10FF, 0x18E710FF, 0x18B510FF, 0x219421FF, 0x106B18FF, 0x104218FF, 0x002118FF,
+}
  */
 public class TwisterPaletteGenerator {
     private static final int limit = 64, smallLimit = 32;
     private static final IntArray rgba = new IntArray(limit);
     private static final IntSet added = new IntSet(limit);
-
+    private static final long seed = 1L;
+    private static final float twistiness = 0.05f;
     public static void main(String[] args) {
+        GdxNativesLoader.load();
         rgba.add(0);
-        FourWheelRandom random = new FourWheelRandom(1L);
+        FourWheelRandom random = new FourWheelRandom(seed);
         ObjectOrderedSet<PointI3> valid = new ObjectOrderedSet<>(smallLimit * smallLimit * smallLimit);
         for (int r = 0; r < smallLimit; r++) {
             for (int g = 0; g < smallLimit; g++) {
@@ -82,27 +99,30 @@ public class TwisterPaletteGenerator {
                 }
             }
         }
-        TwistedLineI3 twist = new TwistedLineI3(random, valid.toArray(new PointI3[0]), 0.15f);
+        TwistedLineI3 twist = new TwistedLineI3(random, valid.toArray(new PointI3[0]), twistiness);
         ObjectDeque<PointI3> fullPath = new ObjectDeque<>(), partialPath;
         int e = smallLimit-1, h = smallLimit >>> 1;
         PointI3[] waypoints = {
                 pt(0,0,0), pt(e,0,0), pt(e,0,e), pt(0,0,e), pt(0,e,e), pt(e,e,e), pt(e,e,0), pt(0,e,0), pt(1,1,1)
         };
         for (int i = 1; i < waypoints.length; i++) {
-            while(!twist.graph.contains(waypoints[i-1])){
-                PointI3 base = waypoints[i-1];
-                base.x += base.x < h ? 1 : -1;
-                base.y += base.y < h ? 1 : -1;
-                base.z += base.z < h ? 1 : -1;
-            }
-            while(!twist.graph.contains(waypoints[i])){
-                PointI3 base = waypoints[i];
-                base.x += base.x < h ? 1 : -1;
-                base.y += base.y < h ? 1 : -1;
-                base.z += base.z < h ? 1 : -1;
-            }
             partialPath = twist.line(waypoints[i-1], waypoints[i]);
             partialPath.pollLast();
+            while(partialPath.isEmpty()){
+                PointI3 start = waypoints[i-1];
+                start.x += start.x < h ? 1 : -1;
+                start.y += start.y < h ? 1 : -1;
+                start.z += start.z < h ? 1 : -1;
+                PointI3 end = waypoints[i];
+                end.x += end.x < h ? 1 : -1;
+                end.y += end.y < h ? 1 : -1;
+                end.z += end.z < h ? 1 : -1;
+                if(twist.graph.contains(waypoints[i-1]) && twist.graph.contains(waypoints[i])) {
+                    partialPath = twist.line(start, end);
+                    partialPath.pollLast();
+                }
+            }
+            System.out.println("Adding " + partialPath.size + " colors, between " + waypoints[i-1] + " and " + waypoints[i]);
             fullPath.addAll(partialPath);
             twist.graph.removeVertices(partialPath);
         }
@@ -125,5 +145,15 @@ public class TwisterPaletteGenerator {
             if(7 == (i & 7)) sb.append('\n');
         }
         System.out.println(sb.append('}'));
+
+        Pixmap palette = new Pixmap(rgba.size, 1, Pixmap.Format.RGBA8888);
+        for (int i = 0; i < rgba.size; i++) {
+            palette.drawPixel(i, 0, rgba.get(i));
+        }
+        Lwjgl3Files files = new Lwjgl3Files();
+        String name = "Twister-"+seed+"-" + System.currentTimeMillis() + ".png";
+        PixmapIO.writePNG(files.local(name), palette);
+        System.out.println("Wrote to " + name);
+        palette.dispose();
     }
 }
