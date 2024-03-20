@@ -32,6 +32,7 @@ dependencies {
     testImplementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
     testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     testImplementation "com.github.tommyettinger:anim8-gdx:$anim8Version"
+    testImplementation 'com.github.tommyettinger:gand:598ea885f2'
     testImplementation "junit:junit:4.13.2"
 }
 
