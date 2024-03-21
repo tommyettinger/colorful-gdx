@@ -96,10 +96,31 @@ import java.util.Collections;
 0x2B0257FF, 0x866CC2FF, 0x8333E5FF, 0xC418FEFF, 0xCA58F6FF, 0x662C76FF, 0xDDA2E2FF, 0xE276E3FF,
 0xFF00FFFF, 0xA2309AFF, 0x774F70FF, 0xDC47BFFF, 0xB64E9BFF, 0xEA3D85FF, 0xD36A8CFF, 0x7A003CFF,
 }
+
+// Judo31, based on Japanese Woodblock 12
+{
+0x00000000, 0x292826FF, 0x363C43FF, 0x55504CFF, 0x57615DFF, 0x696E6FFF, 0x798486FF, 0xA9A6A0FF,
+0xBFB4ABFF, 0xD7D2CBFF, 0xFAF5F2FF, 0xB03A48FF, 0xAF582FFF, 0xD4804DFF, 0xE0C872FF, 0x849867FF,
+0x71D372FF, 0x51F55CFF, 0x45BE81FF, 0x7ED7FBFF, 0x5AB5F8FF, 0x0062EBFF, 0x384497FF, 0x8377B2FF,
+0x6A3D93FF, 0xE5BDF0FF, 0xBB04A4FF, 0xCB63AEFF, 0x8D1D73FF, 0xA16683FF, 0xE090B5FF, 0xFA408DFF,
+}
+
+// Judo63, based on Japanese Woodblock 12
+{
+0x00000000, 0x0C0C10FF, 0x292826FF, 0x363C43FF, 0x3B3E38FF, 0x55504CFF, 0x57615DFF, 0x696E6FFF,
+0x766A6DFF, 0x798486FF, 0x968E92FF, 0xA9A6A0FF, 0xBFB4ABFF, 0xBDB7C0FF, 0xB4C1C5FF, 0xD7D2CBFF,
+0xCFD7DEFF, 0xF7F2EBFF, 0xAC0852FF, 0x7A283FFF, 0xE71C61FF, 0x53262AFF, 0xB03A48FF, 0xEB6168FF,
+0xC2585BFF, 0xCF380CFF, 0xD4804DFF, 0x8A532FFF, 0xE0C872FF, 0xC8B200FF, 0x9F984BFF, 0xD3E764FF,
+0xB6E000FF, 0x596D17FF, 0x72834EFF, 0x7BBC69FF, 0x1C5312FF, 0xC0F3B8FF, 0x19B911FF, 0x0F961EFF,
+0x64E66FFF, 0x26AC7FFF, 0x68E3D3FF, 0x32B4B9FF, 0x005C71FF, 0x5697ECFF, 0x406BB0FF, 0x2960FFFF,
+0x6C7DCFFF, 0x3E46A2FF, 0x30179FFF, 0x5836D5FF, 0x1F103FFF, 0xA05AFAFF, 0xB687E6FF, 0x9043D0FF,
+0x9500CDFF, 0x521765FF, 0xC652D4FF, 0x89198FFF, 0x7E407EFF, 0xA668A1FF, 0xE877C3FF, 0xC02E93FF,
+}
+
  */
 public class VectorPaletteExpander {
     static final long SEED = 1L;
-    static final int LIMIT = 31;
+    static final int LIMIT = 63;
     static final IntArray RGBA = new IntArray(LIMIT+1);
 
     static final int[] DB8 = new int[]{
@@ -111,11 +132,26 @@ public class VectorPaletteExpander {
     static final int[] HYPER8 = new int[]{
             0x000000FF, 0xFFFFFFFF, 0xFF0000FF, 0x00FF00FF, 0x0000FFFF, 0x00FFFFFF, 0xFF00FFFF, 0xFFFF00FF};
 
+    static final int[] JAPANESE_WOODBLOCK = new int[]{
+0x2B2821FF,
+0x624C3CFF,
+0xD9AC8BFF,
+0xE3CFB4FF,
+0x243D5CFF,
+0x5D7275FF,
+0x5C8B93FF,
+0xB1A58DFF,
+0xB03A48FF,
+0xD4804DFF,
+0xE0C872FF,
+0x3E6958FF,
+    };
+
     public static void main(String[] args) {
         GdxNativesLoader.load();
         FourWheelRandom random = new FourWheelRandom(SEED);
         ArrayList<Vector3> vs = new ArrayList<>(LIMIT);
-        int[] base = HYPER8;
+        int[] base = JAPANESE_WOODBLOCK;
         for (int i = 0; i < base.length; i++) {
             vs.add(OklabVectors.fromRGBA8888(new Vector3(), base[i]));
         }
@@ -181,7 +217,7 @@ public class VectorPaletteExpander {
             palette.drawPixel(i, 0, RGBA.get(i));
         }
         Lwjgl3Files files = new Lwjgl3Files();
-        String name = "Hype"+LIMIT+"-"+SEED+"-" + System.currentTimeMillis() + ".png";
+        String name = "Judo"+LIMIT+"-"+SEED+"-" + System.currentTimeMillis() + ".png";
         PixmapIO.writePNG(files.local(name), palette);
         System.out.println("Wrote to " + name);
         palette.dispose();
