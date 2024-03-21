@@ -1,8 +1,11 @@
 package com.github.tommyettinger.colorful.oklab;
 
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Files;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.IntArray;
-import com.badlogic.gdx.utils.ObjectFloatMap;
 import com.github.tommyettinger.colorful.FourWheelRandom;
 import com.github.tommyettinger.colorful.TrigTools;
 import com.github.tommyettinger.colorful.internal.StringKit;
@@ -10,8 +13,19 @@ import com.github.tommyettinger.colorful.oklab.internal.OklabVectors;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
+/*
+{
+0x00000000, 0x595C42FF, 0x605C6DFF, 0x7B7584FF, 0x97A38CFF, 0xB3A0A3FF, 0xC7E6D7FF, 0xD6E4FFFF,
+0xFCE1F0FF, 0xDB296AFF, 0xA26976FF, 0xD23C4FFF, 0x753D38FF, 0x47231EFF, 0xCC624CFF, 0xFFD1C3FF,
+0xA95C2BFF, 0x82684BFF, 0xEFAD5FFF, 0xA39025FF, 0xB8AA23FF, 0xFBFDBEFF, 0xE0EC91FF, 0x849A4FFF,
+0x76AA3AFF, 0x618148FF, 0x9BB795FF, 0x79EF8EFF, 0x3CA757FF, 0x007851FF, 0x45937BFF, 0x26544CFF,
+0x186A64FF, 0x5BE1E1FF, 0x9BFCFFFF, 0x6DB5BAFF, 0x00C9E6FF, 0x90DAE8FF, 0x4AA5E3FF, 0x2A74CDFF,
+0x2A5591FF, 0x153DA1FF, 0x869DD0FF, 0x132892FF, 0x3753FFFF, 0x222341FF, 0x7F7BB0FF, 0x5E33D6FF,
+0x410B9DFF, 0xA590D0FF, 0x7727A4FF, 0x5B4766FF, 0x79009AFF, 0xD8AEE5FF, 0x771683FF, 0xA91DABFF,
+0x2B1328FF, 0xFF88ECFF, 0xEFC6DFFF, 0xDF7BB7FF, 0x4A0E34FF, 0xA44371FF, 0xAB2B69FF, 0x55293BFF,
+}
+ */
 public class VectorPaletteExpander {
     static final long SEED = 1L;
     static final int LIMIT = 63;
@@ -24,30 +38,28 @@ public class VectorPaletteExpander {
             0x6DB5BAFF, 0x26544CFF, 0x76AA3AFF, 0xFBFDBEFF, 0xD23C4FFF, 0x2B1328FF, 0x753D38FF, 0xEFAD5FFF};
 
     public static void main(String[] args) {
-//        RGBA.add(0); // transparent
+        GdxNativesLoader.load();
         FourWheelRandom random = new FourWheelRandom(SEED);
         ArrayList<Vector3> vs = new ArrayList<>(LIMIT);
         int[] base = PROSPECAL;
         for (int i = 0; i < base.length; i++) {
             vs.add(OklabVectors.fromRGBA8888(new Vector3(), base[i]));
         }
-//        RGBA.addAll(base);
         ITERS:
         for (int iter = vs.size(); iter < LIMIT; iter++) {
             int triesLeft = 100;
-            float threshold = 1f / iter, lowThreshold = 0.95f * threshold * threshold;
+            float threshold = 1f / iter, lowThreshold = 0.04f, move = (float)Math.sqrt(threshold);
             TRIALS:
             while (triesLeft-- > 0){
-                int choice = triesLeft % iter;
+                int choice = random.nextInt(iter);
                 Vector3 initial = vs.get(choice), next = new Vector3();
-                OklabVectors.randomChangeIfValid(next, initial, threshold, random);
+                if(OklabVectors.randomChangeIfValid(next, initial, move, random) == null) continue;
                 for (int i = 0; i < iter; i++) {
                     if(i == choice) continue;
                     Vector3 other = vs.get(i);
                     if(other.dst(next) < lowThreshold) continue TRIALS;
                 }
                 vs.add(next);
-//                RGBA.add(OklabVectors.toRGBA8888(next));
                 continue ITERS;
             }
             // failed to find a valid color in 100 tries
@@ -80,6 +92,16 @@ public class VectorPaletteExpander {
             if(7 == (i & 7)) sb.append('\n');
         }
         System.out.println(sb.append('}'));
+
+        Pixmap palette = new Pixmap(RGBA.size, 1, Pixmap.Format.RGBA8888);
+        for (int i = 0; i < RGBA.size; i++) {
+            palette.drawPixel(i, 0, RGBA.get(i));
+        }
+        Lwjgl3Files files = new Lwjgl3Files();
+        String name = "Web-"+SEED+"-" + System.currentTimeMillis() + ".png";
+        PixmapIO.writePNG(files.local(name), palette);
+        System.out.println("Wrote to " + name);
+        palette.dispose();
 
     }
 
