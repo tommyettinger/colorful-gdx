@@ -25,6 +25,18 @@ import java.util.Collections;
 0x410B9DFF, 0xA590D0FF, 0x7727A4FF, 0x5B4766FF, 0x79009AFF, 0xD8AEE5FF, 0x771683FF, 0xA91DABFF,
 0x2B1328FF, 0xFF88ECFF, 0xEFC6DFFF, 0xDF7BB7FF, 0x4A0E34FF, 0xA44371FF, 0xAB2B69FF, 0x55293BFF,
 }
+
+{
+0x00000000, 0x211B20FF, 0x282B2AFF, 0x424D4AFF, 0x61615FFF, 0x8F9390FF, 0x9AAAABFF, 0xC5C2C0FF,
+0xD7D6DCFF, 0xB1114DFF, 0xD23C4FFF, 0xFF7A7BFF, 0xFD4A4FFF, 0x753D38FF, 0xA03D34FF, 0xC57264FF,
+0x5E2800FF, 0xA95C2BFF, 0xD7986AFF, 0xEFAD5FFF, 0xFFDF1AFF, 0xE9CB30FF, 0x9F8F28FF, 0xAEA951FF,
+0xFBFDBEFF, 0x6A7400FF, 0x9DC022FF, 0x425900FF, 0xACDA76FF, 0xB6FA61FF, 0x76AA3AFF, 0x51E640FF,
+0x00C33BFF, 0x2C9641FF, 0x94F4B6FF, 0x24A081FF, 0x307876FF, 0x88F4FBFF, 0x00DDE9FF, 0x305F7DFF,
+0x22A2FBFF, 0x72B1FFFF, 0x668DC5FF, 0x1F67CEFF, 0x144094FF, 0x0000A1FF, 0x15296EFF, 0x1B2EDEFF,
+0x5E35D1FF, 0x825BF5FF, 0xA598DFFF, 0x42375EFF, 0xAD69ECFF, 0x653282FF, 0xB317F5FF, 0xE357F6FF,
+0x925F92FF, 0xA91DABFF, 0xFF8EFCFF, 0xDD64BBFF, 0x651E4DFF, 0xF900A7FF, 0xC65985FF, 0xE89EB5FF,
+}
+
  */
 public class VectorPaletteExpander {
     static final long SEED = 1L;
@@ -48,7 +60,7 @@ public class VectorPaletteExpander {
         ITERS:
         for (int iter = vs.size(); iter < LIMIT; iter++) {
             int triesLeft = 100;
-            float threshold = 1f / iter, lowThreshold = 0.04f, move = (float)Math.sqrt(threshold);
+            float threshold = 1f / iter, lowThreshold = 0.08f, move = (float)Math.sqrt(threshold);
             TRIALS:
             while (triesLeft-- > 0){
                 int choice = random.nextInt(iter);
@@ -66,16 +78,24 @@ public class VectorPaletteExpander {
             System.err.println("OH NO, FAILED ON ITERATION " + iter);
             throw new RuntimeException("SAD FACE :(");
         }
-
+        final float GRAY_LIMIT = 0.005f;
+        for (int i = 0; i < vs.size(); i++) {
+            Vector3 v = vs.get(i);
+            if(v.y * v.y + v.z * v.z <= GRAY_LIMIT){
+                v.y *= 0.25f;
+                v.z *= 0.25f;
+            }
+        }
         Collections.sort(vs, (c1, c2) -> {
 //                if (ColorTools.alphaInt(c1.value) < 128) return -10000;
 //                else if (ColorTools.alphaInt(c2.value) < 128) return 10000;
-            float s1 = (float)Math.sqrt(c1.y * c1.y + c1.z * c1.z), s2 = (float)Math.sqrt(c2.y * c2.y + c2.z * c2.z);
-            if(s1 <= 0.05f && s2 > 0.05f)
+            float s1 = (c1.y * c1.y + c1.z * c1.z), s2 = (c2.y * c2.y + c2.z * c2.z);
+
+            if(s1 <= GRAY_LIMIT && s2 > GRAY_LIMIT)
                 return -1000;
-            else if(s1 > 0.05f && s2 <= 0.05f)
+            else if(s1 > GRAY_LIMIT && s2 <= GRAY_LIMIT)
                 return 1000;
-            else if(s1 <= 0.05f && s2 <= 0.05f)
+            else if(s1 <= GRAY_LIMIT && s2 <= GRAY_LIMIT)
                 return (int)Math.signum(c1.x - c2.x);
             else
                 return 2 * (int)Math.signum(TrigTools.atan2Turns(c1.z, c1.y) - TrigTools.atan2Turns(c2.z, c2.y))
