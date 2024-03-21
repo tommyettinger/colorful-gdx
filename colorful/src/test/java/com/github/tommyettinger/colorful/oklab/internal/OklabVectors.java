@@ -1,8 +1,11 @@
 package com.github.tommyettinger.colorful.oklab.internal;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.oklab.ColorTools;
+
+import java.util.Random;
 
 import static com.github.tommyettinger.colorful.oklab.ColorTools.*;
 
@@ -43,4 +46,40 @@ public final class OklabVectors {
         );
         return filling;
     }
+
+    public static Vector3 randomChangeIfValid(Vector3 filling, Vector3 original, float change, Random random){
+        if(random == null)
+            random = MathUtils.random;
+        // set to random direction, using random
+        float u = random.nextFloat();
+        float v = random.nextFloat();
+        float theta = MathUtils.PI2 * u;
+        float phi = MathUtils.acos(v + v - 1f);
+        filling.setFromSpherical(theta, phi);
+        // scale the translation to match change, add it with original
+        filling.scl(change).add(original);
+        // if the modified color is in-gamut, return it
+        if(inGamut(filling.x, (filling.y * 0.5f) + 0.5f, (filling.z * 0.5f) + 0.5f))
+            return filling;
+        return null;
+    }
+
+    private static float cube(final float x) {
+        return x * x * x;
+    }
+
+    public static int toRGBA8888(final Vector3 oklab)
+    {
+        final float L = reverseLight(oklab.x);
+        final float A = oklab.y;
+        final float B = oklab.z;
+        final float l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+        final float m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+        final float s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+        final int r = (int)(reverseGamma(Math.min(Math.max(+4.0767245293f * l - 3.3072168827f * m + 0.2307590544f * s, 0f), 1f)) * 255.999f);
+        final int g = (int)(reverseGamma(Math.min(Math.max(-1.2681437731f * l + 2.6093323231f * m - 0.3411344290f * s, 0f), 1f)) * 255.999f);
+        final int b = (int)(reverseGamma(Math.min(Math.max(-0.0041119885f * l - 0.7034763098f * m + 1.7068625689f * s, 0f), 1f)) * 255.999f);
+        return r << 24 | g << 16 | b << 8 | 0xFF;
+    }
+
 }
