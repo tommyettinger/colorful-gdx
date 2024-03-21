@@ -1154,7 +1154,7 @@ public class ColorTools {
 		A = ((int) (A * 255) - 127f) / 255f;
 		B = ((int) (B * 255) - 127f) / 255f;
 		final float g = GAMUT_DATA[((int) (L * 255) & 0xFF) << 8 | (int)(256f * TrigTools.atan2Turns(B, A))];
-		return g * g * 0x1p-18 + 0x1p-14 >= (A * A + B * B);
+		return L >= 0f && L <= 1f && g * g * 0x1p-18 + 0x1p-14 >= (A * A + B * B);
 
 		////This was the old code for this inGamut(), which was subtly different from the other inGamut() when called
 		/// on a packed float. The packed floats can go ever-so-slightly towards or away from the edge.
