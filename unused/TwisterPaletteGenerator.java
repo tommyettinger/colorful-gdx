@@ -22,15 +22,12 @@ import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.IntSet;
-import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.FourWheelRandom;
 import com.github.tommyettinger.colorful.internal.StringKit;
-import com.github.tommyettinger.gand.Path;
 import com.github.tommyettinger.gand.TwistedLineI3;
 import com.github.tommyettinger.gand.ds.ObjectDeque;
 import com.github.tommyettinger.gand.ds.ObjectOrderedSet;
 import com.github.tommyettinger.gand.points.PointI3;
-import com.github.tommyettinger.gand.points.PointMaker;
 
 import static com.github.tommyettinger.gand.points.PointMaker.pt;
 

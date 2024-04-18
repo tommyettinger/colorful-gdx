@@ -173,8 +173,8 @@ public class GamutWriter extends ApplicationAdapter {
     /**
          * Returns true if the given Oklab values are valid to convert losslessly back to RGBA.
          * @param L lightness channel, as a double from 0 to 1
-         * @param A green-to-red chromatic channel, as a double from 0 to 1
-         * @param B blue-to-yellow chromatic channel, as a double from 0 to 1
+         * @param A green-to-red chromatic channel, as a double from -1 to 1
+         * @param B blue-to-yellow chromatic channel, as a double from -1 to 1
          * @return true if the given Oklab channels can be converted back and forth to RGBA
          */
     public static boolean inGamut(double L, double A, double B)
