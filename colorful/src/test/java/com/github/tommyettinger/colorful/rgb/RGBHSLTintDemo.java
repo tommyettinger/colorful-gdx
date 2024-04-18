@@ -32,8 +32,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.tommyettinger.colorful.Shaders;
 
 import static com.badlogic.gdx.Gdx.input;
+import static com.github.tommyettinger.colorful.rgb.RGBHSLBatch.TWEAK_ATTRIBUTE;
 
 public class RGBHSLTintDemo extends ApplicationAdapter {
     //public static final int backgroundColor = Color.rgba8888(Color.DARK_GRAY);
@@ -47,7 +49,7 @@ public class RGBHSLTintDemo extends ApplicationAdapter {
     protected Texture screenTexture;
 
     private long lastProcessedTime = 0L;
-    private float red = 1f, green = 1f, blue = 1f, hue = 0f, sat = 0.5f, light = 0.5f, roughness = 0f;
+    private float red = 1f, green = 1f, blue = 1f, hue = 0f, sat = 0.5f, light = 0.5f, potency = 0f;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -96,7 +98,72 @@ public class RGBHSLTintDemo extends ApplicationAdapter {
     @Override
     public void create() {
         batch = new SpriteBatch();
-        colorfulBatch = new RGBHSLBatch();
+        colorfulBatch = new RGBHSLBatch(1000, new ShaderProgram(
+                "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+                        + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+                        + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+                        + "attribute vec4 " + TWEAK_ATTRIBUTE + ";\n"
+                        + "uniform mat4 u_projTrans;\n"
+                        + "varying vec4 v_color;\n"
+                        + "varying vec4 v_tweak;\n"
+                        + "varying vec2 v_texCoords;\n"
+                        + "\n"
+                        + "void main()\n"
+                        + "{\n"
+                        + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+                        + "   v_color.a = v_color.a * (255.0/254.0);\n"
+                        + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
+                        + "   v_tweak.a = v_tweak.a * (255.0/254.0);\n"
+                        + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+                        + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+                        + "}\n",
+                "#ifdef GL_ES\n" +
+                        "#define LOWP lowp\n" +
+                        "precision mediump float;\n" +
+                        "#else\n" +
+                        "#define LOWP\n" +
+                        "#endif\n" +
+                        "varying vec2 v_texCoords;\n" +
+                        "varying LOWP vec4 v_color;\n" +
+                        "varying LOWP vec4 v_tweak;\n" +
+                        "uniform sampler2D u_texture;\n" +
+                        "const float eps = 1.0e-10;\n" +
+                        "\n" +
+                        "vec4 rgb2hsl(vec4 c)\n" +
+                        "{\n" +
+                        "    const vec4 J = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n" +
+                        "    vec4 p = mix(vec4(c.bg, J.wz), vec4(c.gb, J.xy), step(c.b, c.g));\n" +
+                        "    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));\n" +
+                        "    float d = q.x - min(q.w, q.y);\n" +
+                        "    float l = q.x * (1.0 - 0.5 * d / (q.x + eps));\n" +
+                        "    return vec4(abs(q.z + (q.w - q.y) / (6.0 * d + eps)), (q.x - l) / (min(l, 1.0 - l) + eps), l, c.a);\n" +
+                        "}\n" +
+                        "            \n" +
+                        "vec4 hsl2rgb(vec4 c)\n" +
+                        "{\n" +
+                        "    const vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n" +
+                        "    vec3 p = abs(fract(c.x + K.xyz) * 6.0 - K.www);\n" +
+                        "    float v = (c.z + c.y * min(c.z, 1.0 - c.z));\n" +
+                        "    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n" +
+                        "}\n" +
+                        "                \n" +
+                        "void main()\n" +
+                        "{\n" +
+                        "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                        "  tgt = rgb2hsl(tgt); // convert to HSL\n" +
+                        "  \n" +
+                        "  tgt.x = fract(tgt.x+v_tweak.x); // tweak Hue\n" +
+                        "  tgt.y *= (v_tweak.y*2.0); // tweak Saturation\n" +
+                        "  tgt.z += (v_tweak.z-0.5) * 2.0; // tweak Lightness\n" +
+                        "  \n" +
+                        "  vec4 color = hsl2rgb(clamp(tgt, 0.0, 1.0)); // convert back to RGB \n" +
+                        "  vec4 color_tinted = color*v_color; // multiply with batch tint color\n" +
+                        "  color = mix(color, color_tinted, v_tweak.w); // mixed with tinted color based on tweak Tint\n" +
+                        "  color.rgb = mix(vec3(dot(color.rgb, vec3(0.3333))), color.rgb,  (v_tweak.y*2.0));  // remove colors based on tweak.saturation\n" +
+                        "  \n" +
+                        "  gl_FragColor = color;\n" +
+                        "}"
+        ));
 
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
@@ -120,7 +187,7 @@ public class RGBHSLTintDemo extends ApplicationAdapter {
         colorfulBatch.setProjectionMatrix(screenView.getCamera().combined);
         if (screenTexture != null) {
             colorfulBatch.setColor(red, green, blue, 1f);
-            colorfulBatch.setTweak(hue, sat, light, roughness);
+            colorfulBatch.setTweak(hue, sat, light, potency);
             colorfulBatch.begin();
             colorfulBatch.draw(screenTexture, 0, 0);
             colorfulBatch.end();
@@ -140,7 +207,7 @@ public class RGBHSLTintDemo extends ApplicationAdapter {
 
     public void handleInput() {
         if (input.isKeyPressed(Input.Keys.V)) // view
-            System.out.println("R=" + red + ",G=" + green + ",B=" + blue + ",C=" + roughness);
+            System.out.println("R=" + red + ",G=" + green + ",B=" + blue + ",C=" + potency);
         else if (input.isKeyPressed(Input.Keys.M))
             load("samples/Mona_Lisa.jpg");
         else if (input.isKeyPressed(Input.Keys.N)) //Sierra Nevada
@@ -165,13 +232,13 @@ public class RGBHSLTintDemo extends ApplicationAdapter {
             else if (input.isKeyPressed(Input.Keys.B)) //blue
                 blue = MathUtils.clamp(blue + (UIUtils.shift() ? -0x3p-7f : 0x3p-7f), 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.H)) //hue
-                hue = MathUtils.clamp(hue + (UIUtils.shift() ? -0x3p-7f : 0x3p-7f), 0f, 1f);
+                hue = (hue += (UIUtils.shift() ? -0x3p-7f : 0x3p-7f) - MathUtils.floor(hue));
             else if (input.isKeyPressed(Input.Keys.S)) //green
                 sat = MathUtils.clamp(sat + (UIUtils.shift() ? -0x3p-7f : 0x3p-7f), 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.L)) //blue
                 light = MathUtils.clamp(light + (UIUtils.shift() ? -0x3p-7f : 0x3p-7f), 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.O)) //rOughness
-                roughness = MathUtils.clamp(roughness + (UIUtils.shift() ? -0x3p-7f : 0x3p-7f), 0f, 1f);
+                potency = MathUtils.clamp(potency + (UIUtils.shift() ? -0x3p-7f : 0x3p-7f), 0f, 1f);
             else if (input.isKeyPressed(Input.Keys.Z)) // zero changes
             {
                 red = 1f;
@@ -180,7 +247,7 @@ public class RGBHSLTintDemo extends ApplicationAdapter {
                 hue = 0f;
                 sat = 0.5f;
                 light = 0.5f;
-                roughness = 0f;
+                potency = 0f;
             }
         }
     }
