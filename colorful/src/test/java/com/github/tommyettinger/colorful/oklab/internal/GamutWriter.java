@@ -201,11 +201,11 @@ public class GamutWriter extends ApplicationAdapter {
 //        L = (L - 0.993) / (1.0 + L * 0.75) + 0.993; // old
 //        L = reverseLight(L * (255.0/256.0));
 
-        L = reverseLight(L);
-
         //unused:
         //forwardLight() for double
 //        L = (L - 1.004) / (1.0 - L * 0.4285714) + 1.004;
+
+        L = reverseLight(L);
 
         double l = (L + +0.3963377774 * A + +0.2158037573 * B);
         l *= l * l;
@@ -221,13 +221,13 @@ public class GamutWriter extends ApplicationAdapter {
 //        final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
 //        return (b >= -0x1p-8 && b <= 0x101p-8);
 
-        double dr = Math.sqrt(+4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s)*255f;
+        double dr = Math.sqrt(+4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s)*255.0;
         final int r = (int)dr;
         if(Double.isNaN(dr) || r < 0 || r > 255) return false;
-        double dg = Math.sqrt(-1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s)*255f;
+        double dg = Math.sqrt(-1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s)*255.0;
         final int g = (int)dg;
         if(Double.isNaN(dg) || g < 0 || g > 255) return false;
-        double db = Math.sqrt(-0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s)*255f;
+        double db = Math.sqrt(-0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s)*255.0;
         final int b = (int)db;
         return (!Double.isNaN(db) && b >= 0 && b <= 255);
 

@@ -156,9 +156,6 @@ public class BasicCheckTest {
     {
         L = reverseLight(L);
 
-        A -= 0x1.fdfdfep-2;
-        B -= 0x1.fdfdfep-2;
-
         double l = (L + +0.3963377774 * A + +0.2158037573 * B);
         l *= l * l;
         double m = (L + -0.1055613458 * A + -0.0638541728 * B);
@@ -166,20 +163,13 @@ public class BasicCheckTest {
         double s = (L + -0.0894841775 * A + -1.2914855480 * B);
         s *= s * s;
 
-//        final double r = +4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s;
-//        if(r < -0x1p-8 || r > 0x101p-8) return false;
-//        final double g = -1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s;
-//        if(g < -0x1p-8 || g > 0x101p-8) return false;
-//        final double b = -0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s;
-//        return (b >= -0x1p-8 && b <= 0x101p-8);
-
-        double dr = Math.sqrt((+4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s)*255.999f);
+        double dr = Math.sqrt(+4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s)*255.0;
         final int r = (int)dr;
         if(Double.isNaN(dr) || r < 0 || r > 255) return false;
-        double dg = Math.sqrt((-1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s)*255.999f);
+        double dg = Math.sqrt(-1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s)*255.0;
         final int g = (int)dg;
         if(Double.isNaN(dg) || g < 0 || g > 255) return false;
-        double db = Math.sqrt((-0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s)*255.999f);
+        double db = Math.sqrt(-0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s)*255.0;
         final int b = (int)db;
         return (!Double.isNaN(db) && b >= 0 && b <= 255);
     }
