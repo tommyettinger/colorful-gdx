@@ -18,6 +18,7 @@ package com.github.tommyettinger.colorful.oklab;
 
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.IntArray;
+import com.badlogic.gdx.utils.IntSet;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.TrigTools;
 import com.github.tommyettinger.colorful.internal.StringKit;
@@ -89,13 +90,13 @@ Better later palette:
 0xE9C46AFF, 0x2A10B9FF, 0xB47280FF, 0x760D75FF, 0x24AB43FF, 0x0C584FFF, 0x7FB2D4FF, 0x6256CAFF,
 0xC3387BFF, 0x6B8147FF, 0xD3D9C8FF, 0x3C3146FF, 0xA982CEFF, 0x780EBCFF, 0xBBA41BFF, 0x845547FF,
 0xF7A7C7FF, 0xBF49C6FF, 0x67E889FF, 0x4F9397FF, 0x353B88FF, 0xD3742FFF, 0x8D1D44FF, 0xA5BB8BFF,
-0x111212FF, 0x7A6791FF, 0xDF3738FF, 0x1DA1E6FF, 0xF9DE6FFF, 0x2C3CD2FF, 0x55360CFF, 0xC78B8BFF,
-0x8C3388FF, 0x2AC549FF, 0x16725DFF, 0x89CDE2FF, 0x081D48FF, 0x6E72DDFF, 0xDA5589FF, 0x789B50FF,
-0xE0F4D2FF, 0x4D4A57FF, 0xB89DDDFF, 0x8B3AD2FF, 0xCBBE1BFF, 0x976E52FF, 0x5A1A4DFF, 0xD366D7FF,
-0x58AEA4FF, 0x40569CFF, 0xE78E34FF, 0xA63B50FF, 0xB2D594FF, 0x222A22FF, 0x8A81A0FF, 0x5B238FFF,
-0xF7553FFF, 0x1CBCF6FF, 0x2E5BE8FF, 0x694F14FF, 0xD8A596FF, 0xA14F99FF, 0x2FE04EFF, 0x1E8D69FF,
-0x93E8EEFF, 0x0E385EFF, 0x798EEFFF, 0x5C1AD9FF, 0x711E1AFF, 0xF07095FF, 0x85B557FF, 0x5C6365FF,
-0xC7B7EBFF, 0x2C054DFF, 0x9C59E5FF, 0xFC2091FF, 0xDAD818FF, 0xA9885BFF, 0x70365EFF, 0xE682E6FF,
+0x7A6791FF, 0xDF3738FF, 0x1DA1E6FF, 0xF9DE6FFF, 0x2C3CD2FF, 0x55360CFF, 0xC78B8BFF, 0x8C3388FF,
+0x2AC549FF, 0x16725DFF, 0x89CDE2FF, 0x081D48FF, 0x6E72DDFF, 0xDA5589FF, 0x789B50FF, 0xE0F4D2FF,
+0x4D4A57FF, 0xB89DDDFF, 0x8B3AD2FF, 0xCBBE1BFF, 0x976E52FF, 0x5A1A4DFF, 0xD366D7FF, 0x58AEA4FF,
+0x40569CFF, 0xE78E34FF, 0xA63B50FF, 0xB2D594FF, 0x222A22FF, 0x8A81A0FF, 0x5B238FFF, 0xF7553FFF,
+0x1CBCF6FF, 0x2E5BE8FF, 0x694F14FF, 0xD8A596FF, 0xA14F99FF, 0x2FE04EFF, 0x1E8D69FF, 0x93E8EEFF,
+0x0E385EFF, 0x798EEFFF, 0x5C1AD9FF, 0x711E1AFF, 0xF07095FF, 0x85B557FF, 0x5C6365FF, 0xC7B7EBFF,
+0x2C054DFF, 0x9C59E5FF, 0xFC2091FF, 0xDAD818FF, 0xA9885BFF, 0x70365EFF, 0xE682E6FF, 0x60C8B0FF,
 }
  */
 public class CuddlyPaletteGenerator {
@@ -107,7 +108,8 @@ public class CuddlyPaletteGenerator {
 
     private static void addL(int rgba8888){
         float oklab = ColorTools.oklab((rgba8888 >>> 8 & 255) / 255f, 0.5f, 0.5f, 1f);
-        rgba.add(ColorTools.toRGBA8888(oklab));
+        int rgb = ColorTools.toRGBA8888(oklab);
+        rgba.add(rgb);
         labs.add(oklab);
     }
     private static void add(){
@@ -134,18 +136,26 @@ public class CuddlyPaletteGenerator {
         s *= s * s;
 
         double dr = Math.sqrt(+4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s)*255.0;
-        final int r = (int)dr;
+        int r = (int)dr;
         if(Double.isNaN(dr) || r < 0 || r > 255) return;
         double dg = Math.sqrt(-1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s)*255.0;
-        final int g = (int)dg;
+        int g = (int)dg;
         if(Double.isNaN(dg) || g < 0 || g > 255) return;
         double db = Math.sqrt(-0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s)*255.0;
-        final int b = (int)db;
+        int b = (int)db;
         if(Double.isNaN(db) || b < 0 || b > 255) return;
 
-        float c = ColorTools.oklab((float) L0, (float) (A0*0.5+0.5), (float) (B0*0.5+0.5), 1f);
         int rgb = r << 24 | g << 16 | b << 8 | 0xFF;
+        for (int i = 0; i < rgba.size; i++) {
+            int e = rgba.get(i);
+            int er = e >>> 24;
+            int eg = e >>> 16 & 255;
+            int eb = e >>> 8  & 255;
+            if(Math.abs(r - er) + Math.abs(g - eg) + Math.abs(b - eb) <= 6) return;
+
+        }
         rgba.add(rgb);
+        float c = ColorTools.oklab((float) L0, (float) (A0*0.5+0.5), (float) (B0*0.5+0.5), 1f);
         labs.add(c);
         System.out.printf("L=%f,A=%f,B=%f,RGBA=0x%08X with ACTUAL L=%f, A=%f, B=%f, RGBA=0x%08X\n",
                 ColorTools.channelL(c), ColorTools.channelA(c), ColorTools.channelB(c), ColorTools.toRGBA8888(c), L0, A0+0.5, B0+0.5, rgb);
