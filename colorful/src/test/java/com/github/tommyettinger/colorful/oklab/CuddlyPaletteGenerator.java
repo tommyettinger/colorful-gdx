@@ -19,12 +19,8 @@ package com.github.tommyettinger.colorful.oklab;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Files;
 import com.badlogic.gdx.utils.*;
-import com.github.tommyettinger.colorful.TrigTools;
-import com.github.tommyettinger.colorful.internal.StringKit;
 
 import java.lang.StringBuilder;
-
-import static com.github.tommyettinger.colorful.oklab.Gamut.GAMUT_DATA;
 
 // example output
 /*
@@ -114,22 +110,13 @@ Better later palette:
 public class CuddlyPaletteGenerator {
     private static final int limit = 16;
     private static final IntArray rgba = new IntArray(limit);
-    private static final FloatArray labs = new FloatArray(limit);
     private static int idx = 1;
     private static long LL = 0xD1B54A32D192ED03L, AA = 0xABC98388FB8FAC03L, BB = 0x8CB92BA72F3D8DD7L;
 
-    private static void addLF(float lightness){
-        float oklab = ColorTools.oklab(lightness, 0.5f, 0.5f, 1f);
-        int rgb = ColorTools.toRGBA8888(oklab);
+    private static void addGray(float lightness){
+        float oklab = oklab(lightness, 0.5f, 0.5f, 1f);
+        int rgb = toRGBA8888(oklab);
         rgba.add(rgb);
-        labs.add(oklab);
-    }
-
-    private static void addL(int rgba8888){
-        float oklab = ColorTools.oklab((rgba8888 >>> 8 & 255) / 255f, 0.5f, 0.5f, 1f);
-        int rgb = ColorTools.toRGBA8888(oklab);
-        rgba.add(rgb);
-        labs.add(oklab);
     }
     private static void add(){
         ++idx;
@@ -138,12 +125,9 @@ public class CuddlyPaletteGenerator {
         AA += 0xABC98388FB8FAC03L;
         BB += 0x8CB92BA72F3D8DD7L;
 
-        double L0 = (LL >>> 11) * 0x1p-53;
-        double A0 = (AA >>> 11) * 0x1p-53 - 0.5;
-        double B0 = (BB >>> 11) * 0x1p-53 - 0.5;
-        double L = reverseLight(L0);
-        double A = A0;
-        double B = B0;
+        double L = reverseLight((LL >>> 11) * 0x1p-53);
+        double A = (AA >>> 11) * 0x1p-53 - 0.5;
+        double B = (BB >>> 11) * 0x1p-53 - 0.5;
 
         double l = (L + +0.3963377774 * A + +0.2158037573 * B);
         l *= l * l;
@@ -172,37 +156,17 @@ public class CuddlyPaletteGenerator {
 
         }
         rgba.add(rgb);
-        float c = ColorTools.oklab((float) L0, (float) (A0*0.5+0.5), (float) (B0*0.5+0.5), 1f);
-        labs.add(c);
-//        System.out.printf("L=%f,A=%f,B=%f,RGBA=0x%08X with ACTUAL L=%f, A=%f, B=%f, RGBA=0x%08X\n",
-//                ColorTools.channelL(c), ColorTools.channelA(c), ColorTools.channelB(c), ColorTools.toRGBA8888(c), L0, A0+0.5, B0+0.5, rgb);
-
     }
     public static void main(String[] args) {
-//        System.out.printf("%08X, %1.4f, %08X\n", 0xFF0000FF, ColorTools.chroma(ColorTools.fromRGBA8888(0xFF0000FF)), ColorTools.toRGBA8888(ColorTools.maximizeSaturation(ColorTools.fromRGBA8888(0xFF0000FF))));
-//        System.out.printf("%08X, %1.4f, %08X\n", 0x00FF00FF, ColorTools.chroma(ColorTools.fromRGBA8888(0x00FF00FF)), ColorTools.toRGBA8888(ColorTools.maximizeSaturation(ColorTools.fromRGBA8888(0x00FF00FF))));
-//        System.out.printf("%08X, %1.4f, %08X\n", 0x0000FFFF, ColorTools.chroma(ColorTools.fromRGBA8888(0x0000FFFF)), ColorTools.toRGBA8888(ColorTools.maximizeSaturation(ColorTools.fromRGBA8888(0x0000FFFF))));
-//        System.out.printf("%08X, %1.4f, %08X\n", 0xFFFF00FF, ColorTools.chroma(ColorTools.fromRGBA8888(0xFFFF00FF)), ColorTools.toRGBA8888(ColorTools.maximizeSaturation(ColorTools.fromRGBA8888(0xFFFF00FF))));
-//        System.out.printf("%08X, %1.4f, %08X\n", 0x00FFFFFF, ColorTools.chroma(ColorTools.fromRGBA8888(0x00FFFFFF)), ColorTools.toRGBA8888(ColorTools.maximizeSaturation(ColorTools.fromRGBA8888(0x00FFFFFF))));
-//        System.out.printf("%08X, %1.4f, %08X\n", 0xFF00FFFF, ColorTools.chroma(ColorTools.fromRGBA8888(0xFF00FFFF)), ColorTools.toRGBA8888(ColorTools.maximizeSaturation(ColorTools.fromRGBA8888(0xFF00FFFF))));
-
         rgba.add(0);
-//        add(0x010101FF);
-//        add(0xFEFEFEFF);
-//        add(0x777777FF);
-//        add(0x555555FF);
-//        add(0xAAAAAAFF);
-//        add(0x333333FF);
-//        add(0xE0E0E0FF);
-//        add(0xC8C8C8FF);
 
-        addLF(0f);
-        addLF(1f);
+        addGray(0f);
+        addGray(1f);
 
         float grayLimit = (float)Math.ceil(Math.sqrt(limit)) - 1;
 
         for (int i = 1; i < grayLimit; i++) {
-            addLF(i / grayLimit);
+            addGray(i / grayLimit);
         }
 
         while (rgba.size < limit) {
@@ -211,7 +175,7 @@ public class CuddlyPaletteGenerator {
         System.out.println(idx + " attempts.");
         StringBuilder sb = new StringBuilder(12 * rgba.size + 35).append("{\n");
         for (int i = 0; i < rgba.size; i++) {
-            StringKit.appendHex(sb.append("0x"), rgba.get(i)).append(", ");
+            appendHex(sb.append("0x"), rgba.get(i)).append(", ");
             if(7 == (i & 7)) sb.append('\n');
         }
         sb.append('}');
@@ -221,6 +185,31 @@ public class CuddlyPaletteGenerator {
         Gdx.files.local("cuddly-" + (limit-1) + ".txt").writeString(sb.toString(), false, "UTF-8");
 
     }
+
+    public static float oklab(float l, float a, float b, float alpha) {
+        return NumberUtils.intBitsToFloat(((int) (alpha * 255) << 24 & 0xFE000000) | ((int) (b * 255) << 16 & 0xFF0000)
+                | ((int) (a * 255) << 8 & 0xFF00) | ((int) (l * 255) & 0xFF));
+    }
+    private static double cube(final double x) {
+        return x * x * x;
+    }
+
+    public static int toRGBA8888(final float packed)
+    {
+        final int decoded = NumberUtils.floatToRawIntBits(packed);
+        final double L = reverseLight((decoded & 0xff) / 255f);
+        final double A = ((decoded >>> 8 & 0xff) - 127f) / 127f;
+        final double B = ((decoded >>> 16 & 255) - 127f) / 127f;
+        final double l = cube(L + 0.3963377774f * A + 0.2158037573f * B);
+        final double m = cube(L - 0.1055613458f * A - 0.0638541728f * B);
+        final double s = cube(L - 0.0894841775f * A - 1.2914855480f * B);
+        final int r = (int)(Math.sqrt(Math.min(Math.max(+4.0767245293 * l - 3.3072168827 * m + 0.2307590544 * s, 0.0), 1.0)) * 255.999999);
+        final int g = (int)(Math.sqrt(Math.min(Math.max(-1.2681437731 * l + 2.6093323231 * m - 0.3411344290 * s, 0.0), 1.0)) * 255.999999);
+        final int b = (int)(Math.sqrt(Math.min(Math.max(-0.0041119885 * l - 0.7034763098 * m + 1.7068625689 * s, 0.0), 1.0)) * 255.999999);
+        return r << 24 | g << 16 | b << 8 | (decoded & 0xfe000000) >>> 24 | decoded >>> 31;
+    }
+
+
     public static double reverseLight(double L) {
         return Math.pow(L, 2.0/3.0);
     }
@@ -253,4 +242,19 @@ public class CuddlyPaletteGenerator {
         final int b = (int)db;
         return (!Double.isNaN(db) && b >= 0 && b <= 255);
     }
+
+    /**
+     * Constant storing the 16 hexadecimal digits, as char values, in order.
+     */
+    private static final char[] hexDigits = {
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+    };
+
+    private static StringBuilder appendHex(StringBuilder builder, int number){
+        for (int i = 28; i >= 0; i -= 4) {
+            builder.append(hexDigits[(number >> i & 15)]);
+        }
+        return builder;
+    }
+
 }
