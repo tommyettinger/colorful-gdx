@@ -27,6 +27,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -34,6 +35,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import static com.badlogic.gdx.Gdx.input;
+import com.github.tommyettinger.colorful.rgb.Palette;
 
 public class OklabNamedDemo extends ApplicationAdapter {
     public static final int SCREEN_WIDTH = 808;
@@ -98,6 +100,9 @@ public class OklabNamedDemo extends ApplicationAdapter {
         font = new BitmapFont(Gdx.files.internal("font.fnt"));
         font.setColor(1f, 0.5f, 0.5f, 1f);
         batch = new ColorfulBatch(1000);
+        ShaderProgram shader = new ShaderProgram(ColorfulBatch.vertexShaderOklabWithRGBATint, ColorfulBatch.fragmentShader);
+        if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
+        batch.setShader(shader);
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

@@ -153,95 +153,117 @@ public class ColorfulBatch implements Batch {
     /**
      * Makes a new instance of the default ShaderProgram used for this ColorfulBatch, without any {@code #version}
      * specified in the shader source. This expects an extra attribute (relative to a normal SpriteBatch) that is used
-     * for the tweak. You may want to set the code to prepend before you call this, as with:
+     * for the tweak. The default ShaderProgram is built from {@link #vertexShader} and {@link #fragmentShader}; you can
+     * make edited copies of these Strings and use them to make your own ShaderProgram.
+     * <br>
+     * You may want to set the code to prepend before you call this, as with:
      * {@code ShaderProgram.prependVertexCode = "#version 110\n";
      * ShaderProgram.prependFragmentCode = "#version 110\n";}
      * The actual version can be different, and may need to be different for compatibility with some hardware.
      * @return a new instance of the default shader used by ColorfulBatch for GL2 when no shader is specified
      */
     public static ShaderProgram createDefaultShader () {
-        String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
-                + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
-                + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
-                + "attribute vec4 " + TWEAK_ATTRIBUTE + ";\n"
-                + "uniform mat4 u_projTrans;\n"
-                + "varying vec4 v_color;\n"
-                + "varying vec4 v_tweak;\n"
-                + "varying vec2 v_texCoords;\n"
-                + "\n"
-                + "void main()\n"
-                + "{\n"
-                + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
-                + "   v_color.w = v_color.w * (255.0/254.0);\n"
-                + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
-                + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
-                + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
-                + "}\n";
-        String fragmentShader =
-                "#ifdef GL_ES\n" +
-                        "#define LOWP lowp\n" +
-                        "precision mediump float;\n" +
-                        "#else\n" +
-                        "#define LOWP \n" +
-                        "#endif\n" +
-                        "varying vec2 v_texCoords;\n" +
-                        "varying LOWP vec4 v_color;\n" +
-                        "varying LOWP vec4 v_tweak;\n" +
-                        "uniform sampler2D u_texture;\n" +
-                        "const vec3 forward = vec3(1.0 / 3.0);\n" +
-                        "float toOklab(float L) {\n" +
-                        "  return pow(L, 1.5);\n" +
-                        "}\n" +
-                        "float fromOklab(float L) {\n" +
-                        "  return pow(L, 0.666666);\n" +
-                        "}\n" +
-//                        "float toOklab(float L) {\n" +
-//                        "        const float shape = 0.64516133, turning = 0.95;\n" +
-//                        "        float d = turning - L;\n" +
-//                        "        float r = mix(\n" +
-//                        "          ((1. - turning) * (L - 1.)) / (1. - (L + shape * d)) + 1.,\n" +
-//                        "          (turning * L) / (1.0e-20 + (L + shape * d)),\n" +
-//                        "          step(0.0, d));\n" +
-//                        "        return r * r;\n" +
-//                        "}\n" +
-//                        "float fromOklab(float L) {\n" +
-//                        "        const float shape = 1.55, turning = 0.95;\n" +
-//                        "        L = sqrt(L);\n" +
-//                        "        float d = turning - L;\n" +
-//                        "        return mix(\n" +
-//                        "          ((1. - turning) * (L - 1.)) / (1. - (L + shape * d)) + 1.,\n" +
-//                        "          (turning * L) / (1.0e-20 + (L + shape * d)),\n" +
-//                        "          step(0.0, d));\n" +
-//                        "}\n" +
-//                        "float toOklab(float L) {\n" +
-//                        "  return (L - 1.0) / (1.0 - L * 0.4285714) + 1.0;\n" +
-//                        "}\n" +
-//                        "float fromOklab(float L) {\n" +
-//                        "  return (L - 1.0) / (1.0 + L * 0.75) + 1.0;\n" +
-//                        "}\n" +
-                        "void main()\n" +
-                        "{\n" +
-                        "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
-                        "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +
-                        "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +
-                        "             * (tgt.rgb * tgt.rgb), forward);\n" +
-                        "  lab.x = (toOklab(lab.x) - 0.5) * 2.0;\n" +
-                        "  float contrast = (v_tweak.w * (1.5 * 255.0 / 254.0) - 0.75);\n" +
-                        "  lab.xyz = lab.xyz / (contrast * abs(lab.xyz) + (1.0 - contrast));\n" +
-                        "  lab.x = fromOklab(clamp(lab.x * v_tweak.x + v_color.x, 0.0, 1.0));\n" +
-                        "  lab.yz = clamp((lab.yz * v_tweak.yz + v_color.yz - 0.5) * 2.0, -1.0, 1.0);\n" +
-                        "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +
-                        "  gl_FragColor = vec4(sqrt(clamp(" +
-                        "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +
-                        "                 (lab * lab * lab)," +
-                        "                 0.0, 1.0)), v_color.a * tgt.a);\n" +
-                        "}";
-
-
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
         if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
         return shader;
     }
+
+    /**
+     * The default shader's vertex part.
+     */
+    public static final String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" +
+            "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" +
+            "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" +
+            "attribute vec4 " + TWEAK_ATTRIBUTE + ";\n" +
+            "uniform mat4 u_projTrans;\n" +
+            "varying vec4 v_color;\n" +
+            "varying vec4 v_tweak;\n" +
+            "varying vec2 v_texCoords;\n" +
+            "\n" +
+            "void main()\n" +
+            "{\n" +
+            "  v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" +
+            "  v_color.w = v_color.w * (255.0/254.0);\n" +
+            "  v_tweak = " + TWEAK_ATTRIBUTE + ";\n" +
+            "  v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" +
+            "  gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" +
+            "}\n";
+    /**
+     * The default shader's fragment part.
+     */
+    public static final String fragmentShader =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "varying LOWP vec4 v_tweak;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "const vec3 forward = vec3(1.0 / 3.0);\n" +
+                    "float toOklab(float L) {\n" +
+                    "  return pow(L, 1.5);\n" +
+                    "}\n" +
+                    "float fromOklab(float L) {\n" +
+                    "  return pow(L, 0.666666);\n" +
+                    "}\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *" +
+                    "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +
+                    "             * (tgt.rgb * tgt.rgb), forward);\n" +
+                    "  lab.x = toOklab(lab.x);\n" +
+                    "  // At this point, lab has the value of the RGBA pixel in the texture at v_texCoords, converted to Oklab color space.\n" +
+                    "  // You can do the same for v_color and even v_tweak if they come in as RGBA values.\n" +
+                    "  lab.x = (lab.x - 0.5) * 2.0;\n" +
+                    "  float contrast = (v_tweak.w * (1.5 * 255.0 / 254.0) - 0.75);\n" +
+                    "  lab.xyz = lab.xyz / (contrast * abs(lab.xyz) + (1.0 - contrast));\n" +
+                    "  lab.x = fromOklab(clamp(lab.x * v_tweak.x + v_color.x, 0.0, 1.0));\n" +
+                    "  lab.yz = clamp((lab.yz * v_tweak.yz + v_color.yz - 0.5) * 2.0, -1.0, 1.0);\n" +
+                    "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +
+                    "  gl_FragColor = vec4(sqrt(clamp(" +
+                    "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n" +
+                    "                 (lab * lab * lab)," +
+                    "                 0.0, 1.0)), v_color.a * tgt.a);\n" +
+                    "}";
+
+    /**
+     * A special-purpose vertex shader meant for use only here in the Oklab ColorfulBatch, this can be used to create a
+     * ShaderProgram and passed into the constructor or {@link #setShader(ShaderProgram)}. Using this vertex shader lets
+     * you specify the batch color (or the tint) as a "normal" RGBA color, while using Oklab for the tweak. The fragment
+     * shader doesn't need to be modified here, so you can use {@link #fragmentShader} as normal.
+     */
+    public static final String vertexShaderOklabWithRGBATint =
+            "attribute vec4 a_position;\n" +
+                    "attribute vec4 a_color;\n" +
+                    "attribute vec2 a_texCoord0;\n" +
+                    "attribute vec4 a_tweak;\n" +
+                    "uniform mat4 u_projTrans;\n" +
+                    "varying vec4 v_color;\n" +
+                    "varying vec4 v_tweak;\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "\n" +
+                    "vec3 rgbToLab(vec3 start) {\n" +
+                    "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *\n" +
+                    "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n" +
+                    "             * (start.rgb * start.rgb), vec3(1.0/3.0));\n" +
+                    "  lab.x = pow(lab.x, 1.5);\n" +
+                    "  lab.yz = lab.yz * 0.5 + 0.5;\n" +
+                    "  return lab;\n" +
+                    "}\n" +
+                    "\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "  v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" +
+                    "  v_color.w = v_color.w * (255.0/254.0);\n" +
+                    "  v_color.rgb = rgbToLab(v_color.rgb);\n" +
+                    "  v_tweak = " + TWEAK_ATTRIBUTE + ";\n" +
+                    "  v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" +
+                    "  gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" +
+                    "}";
 
     @Override
     public void begin () {

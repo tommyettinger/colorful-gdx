@@ -597,32 +597,6 @@ void main()
                     "                 0.0, 1.0)), v_color.a * tgt.a);\n" +
                     "}";
 
-
-//                    "float toOklab(float L) {\n" +
-//                    "        const float shape = 0.64516133, turning = 0.95;\n" +
-//                    "        float d = turning - L;\n" +
-//                    "        float r = mix(\n" +
-//                    "          ((1. - turning) * (L - 1.)) / (1. - (L + shape * d)) + 1.,\n" +
-//                    "          (turning * L) / (1.0e-20 + (L + shape * d)),\n" +
-//                    "          step(0.0, d));\n" +
-//                    "        return r * r;\n" +
-//                    "}\n" +
-//                    "float fromOklab(float L) {\n" +
-//                    "        const float shape = 1.55, turning = 0.95;\n" +
-//                    "        L = sqrt(L);\n" +
-//                    "        float d = turning - L;\n" +
-//                    "        return mix(\n" +
-//                    "          ((1. - turning) * (L - 1.)) / (1. - (L + shape * d)) + 1.,\n" +
-//                    "          (turning * L) / (1.0e-20 + (L + shape * d)),\n" +
-//                    "          step(0.0, d));\n" +
-//                    "}\n" +
-//                    "float toOklab(float L) {\n" +
-//                    "  return (L - 1.0) / (1.0 - L * 0.4285714) + 1.0;\n" +
-//                    "}\n" +
-//                    "float fromOklab(float L) {\n" +
-//                    "  return (L - 1.0) / (1.0 + L * 0.75) + 1.0;\n" +
-//                    "}\n" +
-
     /**
      * A vertex shader that does the bulk of processing HSI-format batch colors and converting them to a format
      * {@link #fragmentShaderHSI} can use. Since HSI is only a cylindrical/spherical adaptation of IPT, with identical
