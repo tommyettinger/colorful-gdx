@@ -219,8 +219,10 @@ public class ColorfulBatch implements Batch {
                     "  // At this point, lab has the value of the RGBA pixel in the texture at v_texCoords, converted to Oklab color space.\n" +
                     "  // You can do the same for v_color and even v_tweak if they come in as RGBA values.\n" +
                     "  lab.x = (lab.x - 0.5) * 2.0;\n" +
-                    "  float contrast = (v_tweak.w * (1.5 * 255.0 / 254.0) - 0.75);\n" +
-                    "  lab.xyz = lab.xyz / (contrast * abs(lab.xyz) + (1.0 - contrast));\n" +
+//                    "  float contrast = (v_tweak.w * (1.5 * 255.0 / 254.0) - 0.75);\n" +
+//                    "  lab.xyz = lab.xyz / (contrast * abs(lab.xyz) + (1.0 - contrast));\n" +
+                    "  float contrast = exp(v_tweak.w * (-2.0 * 255.0 / 254.0) + 1.0);\n" +
+                    "  lab.x = pow(abs(lab.x), contrast) * sign(lab.x);\n" +
                     "  lab.x = fromOklab(clamp(lab.x * v_tweak.x + v_color.x, 0.0, 1.0));\n" +
                     "  lab.yz = clamp((lab.yz * v_tweak.yz + v_color.yz - 0.5) * 2.0, -1.0, 1.0);\n" +
                     "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n" +

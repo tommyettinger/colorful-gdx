@@ -101,8 +101,8 @@ public class OklabColorfulBatchDemo extends ApplicationAdapter {
 //        load("samples/Painting_by_Henri_Biva.jpg");
 //        load("samples/Among_the_Sierra_Nevada_by_Albert_Bierstadt.jpg");
 //        load("samples/Mona_Lisa.jpg");
-//        load("samples/Color_Guard.png");
-        load("samples/Grashers_Logo.png");
+        load("samples/Color_Guard.png");
+//        load("samples/Grashers_Logo.png");
 //        load("C:/d/Art/translucent-bubble.png");
     }
 
