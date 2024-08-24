@@ -24,15 +24,17 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.tommyettinger.colorful.Shaders;
+
+import java.nio.ByteBuffer;
 
 import static com.badlogic.gdx.Gdx.input;
 
@@ -43,8 +45,11 @@ public class OklabColorfulBatchDemo extends ApplicationAdapter {
     public static final int SCREEN_WIDTH = 808;
     public static final int SCREEN_HEIGHT = 600;
     protected ColorfulBatch batch;
+    protected SpriteBatch basicBatch;
     protected Viewport screenView;
     protected Texture screenTexture;
+    protected FrameBuffer fb;
+    protected boolean flipper = false;
 
     private long lastProcessedTime = 0L;
     private float L = 0.5f, A = 0.5f, B = 0.5f, opacity = 1f, LM = 0.5f, AM = 0.5f, BM = 0.5f, CM = 0.5f;
@@ -92,6 +97,8 @@ public class OklabColorfulBatchDemo extends ApplicationAdapter {
     @Override
     public void create() {
         batch = new ColorfulBatch();
+        basicBatch = new SpriteBatch();
+        fb = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), false, false);
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
         screenView.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -100,8 +107,8 @@ public class OklabColorfulBatchDemo extends ApplicationAdapter {
         // if you don't have these files on this absolute path, that's fine, and they will be ignored
 //        load("samples/Painting_by_Henri_Biva.jpg");
 //        load("samples/Among_the_Sierra_Nevada_by_Albert_Bierstadt.jpg");
-//        load("samples/Mona_Lisa.jpg");
-        load("samples/Color_Guard.png");
+        load("samples/Mona_Lisa.jpg");
+//        load("samples/Color_Guard.png");
 //        load("samples/Grashers_Logo.png");
 //        load("C:/d/Art/translucent-bubble.png");
     }
@@ -109,17 +116,28 @@ public class OklabColorfulBatchDemo extends ApplicationAdapter {
 
     @Override
     public void render() {
+        flipper = (System.currentTimeMillis() & 0x100) == 0;
         Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        handleInput();
-        batch.setProjectionMatrix(screenView.getCamera().combined);
-        if (screenTexture != null) {
-            batch.setTweakedColor(L, A, B, opacity, LM, AM, BM, CM);
-            batch.begin();
-            batch.draw(screenTexture, 0, 0);
-            batch.end();
+        if(flipper) {
+            batch.setProjectionMatrix(screenView.getCamera().combined);
+            if (screenTexture != null) {
+                batch.setTweakedColor(L, A, B, opacity, LM, AM, BM, CM);
+                batch.begin();
+                batch.draw(screenTexture, 0, 0);
+                batch.end();
+            }
         }
+        else {
+            basicBatch.setProjectionMatrix(screenView.getCamera().combined);
+            if (screenTexture != null) {
+                basicBatch.begin();
+                basicBatch.draw(screenTexture, 0, 0);
+                basicBatch.end();
+            }
 
+        }
+        handleInput();
     }
 
     @Override
@@ -127,6 +145,44 @@ public class OklabColorfulBatchDemo extends ApplicationAdapter {
         screenView.update(width, height);
         screenView.getCamera().position.set(width * 0.5f, height * 0.5f, 0f);
         screenView.getCamera().update();
+    }
+
+    public void exactCheck() {
+        Pixmap pix =
+                ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+        fb.begin();
+        Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if (flipper) {
+            basicBatch.setProjectionMatrix(screenView.getCamera().combined);
+            if (screenTexture != null) {
+                basicBatch.begin();
+                basicBatch.draw(screenTexture, 0, 0);
+                basicBatch.end();
+            }
+        }
+        else {
+            batch.setProjectionMatrix(screenView.getCamera().combined);
+            if (screenTexture != null) {
+                batch.setTweakedColor(L, A, B, opacity, LM, AM, BM, CM);
+                batch.begin();
+                batch.draw(screenTexture, 0, 0);
+                batch.end();
+            }
+        }
+        Pixmap other =
+                ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+        fb.end();
+        ByteBuffer pp = pix.getPixels(), op = other.getPixels();
+        for (int y = 0; y < 10; y++) {
+            for (int x = 0; x < 10; x++) {
+                int pi = pp.getInt();
+                int oi = op.getInt();
+                System.out.printf("%08X/%08X, ", pi, oi);
+            }
+            System.out.println();
+        }
+        other.dispose();
     }
 
     public void handleInput() {
@@ -144,6 +200,8 @@ public class OklabColorfulBatchDemo extends ApplicationAdapter {
             load(Gdx.files.internal("samples/Grashers_Logo.png").exists() ? "samples/Grashers_Logo.png" : "samples/Spaceships.png");
         else if (input.isKeyPressed(Input.Keys.Q) || input.isKeyPressed(Input.Keys.ESCAPE)) //quit
             Gdx.app.exit();
+        else if (input.isKeyPressed(Input.Keys.X)) //exact
+            exactCheck();
         else {
             // only process once every 150 ms, or just over 6 times a second, at most
             if (TimeUtils.timeSinceMillis(lastProcessedTime) < 150)
