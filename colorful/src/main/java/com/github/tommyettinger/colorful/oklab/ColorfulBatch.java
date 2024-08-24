@@ -75,7 +75,7 @@ public class ColorfulBatch implements Batch {
     private boolean ownsShader;
 
     protected float color = Palette.GRAY;
-    private final Color tempColor = new Color(0.5137255f, 0.49803922f, 0.49803922f, 1f); // LAB from Palette.GRAY
+    private final Color tempColor = new Color(0.5019608f, 0.49803922f, 0.49803922f, 1f); // LAB from Palette.GRAY
 
     /**
      * A constant packed float that can be assigned to this ColorfulBatch's tweak with {@link #setTweak(float)} to make

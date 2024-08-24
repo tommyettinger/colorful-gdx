@@ -50,6 +50,7 @@ public class OklabColorfulBatchDemo extends ApplicationAdapter {
     protected Texture screenTexture;
     protected FrameBuffer fb;
     protected boolean flipper = false;
+    protected boolean paused = true;
 
     private long lastProcessedTime = 0L;
     private float L = 0.5f, A = 0.5f, B = 0.5f, opacity = 1f, LM = 0.5f, AM = 0.5f, BM = 0.5f, CM = 0.5f;
@@ -116,7 +117,8 @@ public class OklabColorfulBatchDemo extends ApplicationAdapter {
 
     @Override
     public void render() {
-        flipper = (System.currentTimeMillis() & 0x100) == 0;
+        if(!paused)
+            flipper = (System.currentTimeMillis() & 0x100) == 0;
         Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if(flipper) {
@@ -202,6 +204,8 @@ public class OklabColorfulBatchDemo extends ApplicationAdapter {
             Gdx.app.exit();
         else if (input.isKeyPressed(Input.Keys.X)) //exact
             exactCheck();
+        else if (input.isKeyPressed(Input.Keys.SPACE)) //pause
+            paused = !paused;
         else {
             // only process once every 150 ms, or just over 6 times a second, at most
             if (TimeUtils.timeSinceMillis(lastProcessedTime) < 150)
