@@ -51,7 +51,7 @@ public class GrayscaleComparisonDemo extends ApplicationAdapter {
     private float g = 1f;
     private float b = 1f;
 
-    private ShaderProgram[] shaders = new ShaderProgram[4];
+    private final ShaderProgram[] shaders = new ShaderProgram[5];
     private int shaderIndex = 0;
 
     public static void main(String[] arg) {
@@ -140,6 +140,30 @@ public class GrayscaleComparisonDemo extends ApplicationAdapter {
             System.out.println("Shader failed to compile: " + weighted.getLog());
             weighted = null;
         }
+        // suggested by both answers at:
+        // https://stackoverflow.com/questions/31729326/glsl-grayscale-shader-removes-transparency
+        ShaderProgram bt601 = new ShaderProgram(Shaders.vertexShader,
+                "#ifdef GL_ES\n" +
+                        "#define LOWP lowp\n" +
+                        "precision mediump float;\n" +
+                        "#else\n" +
+                        "#define LOWP \n" +
+                        "#endif\n" +
+                        "varying LOWP vec4 v_color;\n" +
+                        "varying vec2 v_texCoords;\n" +
+                        "uniform sampler2D u_texture;\n" +
+                        "void main()\n" +
+                        "{\n" +
+                        "  vec4 color = v_color * texture2D(u_texture, v_texCoords);\n" +
+                        "//dot() multiplies each pair of components and adds them all up.\n" +
+                        "  float grayValue = dot(color.rgb, vec3(0.299, 0.587, 0.114));\n" +
+                        "  color.rgb = vec3(grayValue);\n" +
+                        "  gl_FragColor = color;\n" +
+                        "}");
+        if(!bt601.isCompiled()){
+            System.out.println("Shader failed to compile: " + bt601.getLog());
+            bt601 = null;
+        }
         ShaderProgram bt709 = new ShaderProgram(Shaders.vertexShader,
                 "#ifdef GL_ES\n" +
                 "#define LOWP lowp\n" +
@@ -185,8 +209,9 @@ public class GrayscaleComparisonDemo extends ApplicationAdapter {
         }
         shaders[0] = naive;
         shaders[1] = weighted;
-        shaders[2] = bt709;
-        shaders[3] = bt2020;
+        shaders[2] = bt601;
+        shaders[3] = bt709;
+        shaders[4] = bt2020;
         grayBatch = new SpriteBatch(100, shaders[shaderIndex]);
         screenView = new ScreenViewport();
         screenView.getCamera().position.set(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0);
