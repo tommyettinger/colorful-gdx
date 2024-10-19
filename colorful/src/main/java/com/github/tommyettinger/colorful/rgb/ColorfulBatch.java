@@ -134,6 +134,10 @@ public class ColorfulBatch implements Batch {
      */
     protected boolean ownsShader;
 
+    /**
+     * A packed float color added to the base color of a drawn pixel (which is typically from a Texture) after the tweak
+     * has been multiplied with that base color.
+     */
     protected float color = Palette.GRAY;
     /**
      * Internal; not intended for external usage and undocumented.
@@ -142,10 +146,16 @@ public class ColorfulBatch implements Batch {
 
     /**
      * A constant packed float that can be assigned to this ColorfulBatch's tweak with {@link #setTweak(float)} to make
-     * all of the tweak adjustments virtually imperceptible. When this is set as the tweak, it won't change the
+     * all the tweak adjustments virtually imperceptible. When this is set as the tweak, it won't change the
      * lightness multiplier or lightness contrast, and it won't change either chromatic value multiplier.
      */
     public static final float TWEAK_RESET = ColorTools.rgb(0.5f, 0.5f, 0.5f, 0.5f);
+    /**
+     * A packed float color multiplied with 2.0 and the base color of a drawn pixel (which is typically from a Texture).
+     * This can be created with {@link ColorTools#rgb(float, float, float, float)} like any other packed float color,
+     * but the rgba channels instead refer to multiplicative r, g, and b, and contrast, with 0.5 having nearly no change
+     * and 0.0 or 1.0 having extreme changes.
+     */
     protected float tweak = TWEAK_RESET;
 
     /** Number of render calls since the last {@link #begin()}. **/
