@@ -35,6 +35,15 @@ dependencies {
     testImplementation "junit:junit:4.13.2"
 }
 
+import com.vanniktech.maven.publish.JavaLibrary
+import com.vanniktech.maven.publish.JavadocJar
+
+mavenPublishing {
+    configure(new JavaLibrary(new JavadocJar.Javadoc(), true))
+}
+
+mavenPlainJavadocJar.archiveBaseName.set(project.name)
+
 jar {
     archiveBaseName.set(project.name)
     manifest {

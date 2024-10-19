@@ -23,6 +23,15 @@ if(JavaVersion.current().isJava9Compatible()) {
     }
 }
 
+import com.vanniktech.maven.publish.JavaLibrary
+import com.vanniktech.maven.publish.JavadocJar
+
+mavenPublishing {
+    configure(new JavaLibrary(new JavadocJar.Javadoc(), true))
+}
+
+mavenPlainJavadocJar.archiveBaseName.set(project.name)
+
 dependencies {
     api "com.github.tommyettinger:funderby:$funderbyVersion"
     api "com.github.tommyettinger:digital:$digitalVersion"
