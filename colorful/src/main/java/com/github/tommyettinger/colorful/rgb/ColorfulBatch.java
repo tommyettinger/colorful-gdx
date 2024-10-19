@@ -47,34 +47,98 @@ import java.nio.Buffer;
  * Created by Tommy Ettinger on 12/14/2019.
  */
 public class ColorfulBatch implements Batch {
+    /**
+     * How many floats are used for one "sprite" (meaning a TextureRegion).
+     */
     public static final int SPRITE_SIZE = 24;
+    /**
+     * The name of the attribute used for the tweak color in GLSL shaders.
+     */
     public static final String TWEAK_ATTRIBUTE = "a_tweak";
 
-    private Mesh mesh;
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected final Mesh mesh;
 
-    private final float[] vertices;
-    private int idx = 0;
-    private Texture lastTexture = null;
-    private float invTexWidth = 0, invTexHeight = 0;
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected final float[] vertices;
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected int idx = 0;
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected Texture lastTexture = null;
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected float invTexWidth = 0;
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected float invTexHeight = 0;
 
-    private boolean drawing = false;
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected boolean drawing = false;
 
-    private final Matrix4 transformMatrix = new Matrix4();
-    private final Matrix4 projectionMatrix = new Matrix4();
-    private final Matrix4 combinedMatrix = new Matrix4();
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected final Matrix4 transformMatrix = new Matrix4();
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected final Matrix4 projectionMatrix = new Matrix4();
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected final Matrix4 combinedMatrix = new Matrix4();
 
-    private boolean blendingDisabled = false;
-    private int blendSrcFunc = GL20.GL_SRC_ALPHA;
-    private int blendDstFunc = GL20.GL_ONE_MINUS_SRC_ALPHA;
-    private int blendSrcFuncAlpha = GL20.GL_SRC_ALPHA;
-    private int blendDstFuncAlpha = GL20.GL_ONE_MINUS_SRC_ALPHA;
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected boolean blendingDisabled = false;
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected int blendSrcFunc = GL20.GL_SRC_ALPHA;
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected int blendDstFunc = GL20.GL_ONE_MINUS_SRC_ALPHA;
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected int blendSrcFuncAlpha = GL20.GL_SRC_ALPHA;
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected int blendDstFuncAlpha = GL20.GL_ONE_MINUS_SRC_ALPHA;
 
-    private final ShaderProgram shader;
-    private ShaderProgram customShader = null;
-    private boolean ownsShader;
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected final ShaderProgram shader;
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected ShaderProgram customShader = null;
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected boolean ownsShader;
 
     protected float color = Palette.GRAY;
-    private final Color tempColor = new Color(0.5f, 0.5f, 0.5f, 1f);
+    /**
+     * Internal; not intended for external usage and undocumented.
+     */
+    protected final Color tempColor = new Color(0.5f, 0.5f, 0.5f, 1f);
 
     /**
      * A constant packed float that can be assigned to this ColorfulBatch's tweak with {@link #setTweak(float)} to make
@@ -147,6 +211,12 @@ public class ColorfulBatch implements Batch {
             ownsShader = true;
         } else
             shader = defaultShader;
+
+        // Pre bind the mesh to force the upload of indices data.
+        if (vertexDataType != Mesh.VertexDataType.VertexArray) {
+            mesh.bind(shader);
+            mesh.unbind(shader);
+        }
     }
 
     /**
@@ -1235,9 +1305,9 @@ public class ColorfulBatch implements Batch {
         lastTexture.bind();
         Mesh mesh = this.mesh;
         mesh.setVertices(vertices, 0, idx);
-        ((Buffer)mesh.getIndicesBuffer()).position(0);
-        ((Buffer)mesh.getIndicesBuffer()).limit(count);
-
+        Buffer indicesBuffer = (Buffer)mesh.getIndicesBuffer(true);
+        indicesBuffer.position(0);
+        indicesBuffer.limit(count);
         if (blendingDisabled) {
             Gdx.gl.glDisable(GL20.GL_BLEND);
         } else {
@@ -1349,6 +1419,8 @@ public class ColorfulBatch implements Batch {
 
     @Override
     public void setShader (ShaderProgram shader) {
+        if (shader == customShader) // avoid unnecessary flushing in case we are drawing
+            return;
         if (drawing) {
             flush();
         }
