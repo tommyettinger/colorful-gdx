@@ -41,7 +41,7 @@ public class TextureArrayColorfulBatch implements Batch {
     private final float[] vertices;
 
     public final int spriteVertexSize = 6;//Size of a ColorfulSprite
-    public final int spriteFloatSize = spriteVertexSize * 4;//Sprite.SPRITE_SIZE;
+    public final int spriteFloatSize = spriteVertexSize * 4 + 4;//Sprite.SPRITE_SIZE;
     /**
      * The name of the attribute used for the tweak color in GLSL shaders.
      */
@@ -168,7 +168,7 @@ public class TextureArrayColorfulBatch implements Batch {
         usedTextures = new Texture[maxTextureUnits];
         usedTexturesLFU = new int[maxTextureUnits];
 
-        // This contains the numbers 0 ... maxTextureUnits - 1. We send these to the shader as an uniform.
+        // This contains the numbers 0 ... maxTextureUnits - 1. We send these to the shader as a uniform.
         textureUnitIndicesBuffer = BufferUtils.newIntBuffer(maxTextureUnits);
         for (int i = 0; i < maxTextureUnits; i++) {
             textureUnitIndicesBuffer.put(i);
@@ -187,7 +187,7 @@ public class TextureArrayColorfulBatch implements Batch {
 
         projectionMatrix.setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        vertices = new float[size * (spriteFloatSize + 8)];
+        vertices = new float[size * spriteFloatSize];
 
         int len = size * 6;
         short[] indices = new short[len];
@@ -1293,7 +1293,7 @@ public class TextureArrayColorfulBatch implements Batch {
     /** Flushes if the vertices array cannot hold an additional sprite ((spriteVertexSize + 1) * 4 vertices) anymore. */
     private void flushIfFull () {
         // original Sprite attribute size plus two extra floats per sprite vertex
-        if (vertices.length - idx < spriteFloatSize + 8) {
+        if (vertices.length - idx < spriteFloatSize) {
             flush();
         }
     }
@@ -1305,9 +1305,9 @@ public class TextureArrayColorfulBatch implements Batch {
         renderCalls++;
         totalRenderCalls++;
 
-        int spritesInBatch = idx / (spriteFloatSize + 8);
+        int spritesInBatch = idx / spriteFloatSize;
         if (spritesInBatch > maxSpritesInBatch) maxSpritesInBatch = spritesInBatch;
-        int count = spritesInBatch * 7;
+        int count = spritesInBatch * 6;
 
         // Bind the textures
         for (int i = 0; i < currentTextureLFUSize; i++) {
