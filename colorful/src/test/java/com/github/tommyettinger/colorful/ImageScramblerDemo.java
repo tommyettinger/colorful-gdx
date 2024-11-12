@@ -56,7 +56,7 @@ public class ImageScramblerDemo extends ApplicationAdapter {
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         config.setIdleFPS(10);
         config.useVsync(true);
-        config.useOpenGL3(true, 4, 2);
+        config.setOpenGLEmulation(Lwjgl3ApplicationConfiguration.GLEmulation.GL30, 4, 2);
         config.setTransparentFramebuffer(true);
         final ImageScramblerDemo app = new ImageScramblerDemo();
         config.setWindowListener(new Lwjgl3WindowAdapter() {
