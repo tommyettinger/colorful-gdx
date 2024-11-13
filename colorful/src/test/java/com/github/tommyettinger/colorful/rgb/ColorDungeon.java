@@ -20,7 +20,6 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -75,8 +74,6 @@ public class ColorDungeon extends ApplicationAdapter {
         //// useful to know if something's wrong in a shader.
         //// you should remove or comment out the next line for a release.
 //		configuration.enableGLDebugOutput(true, System.out);
-        ShaderProgram.prependVertexCode = "#version 110\n";
-        ShaderProgram.prependFragmentCode = "#version 110\n";
         // these are constants in the main game class; they should match your
         // initial viewport size in pixels before it gets resized to fullscreen.
         configuration.setWindowedMode(shownWidth * cellWidth, shownHeight * cellHeight);
@@ -99,7 +96,7 @@ public class ColorDungeon extends ApplicationAdapter {
 
     private enum Phase {WAIT, PLAYER_ANIM, MONSTER_ANIM}
 
-    private ColorfulBatch batch;
+    private TextureArrayColorfulBatch batch;
     private Phase phase = Phase.WAIT;
 
     // random number generator; this one is more efficient on GWT, but less-so on desktop.
@@ -370,7 +367,7 @@ public class ColorDungeon extends ApplicationAdapter {
     public void create() {
         Gdx.app.setLogLevel(Application.LOG_INFO);
         // We need access to a batch to render most things.
-        batch = new ColorfulBatch();
+        batch = new TextureArrayColorfulBatch();
 
         rng = new ChopRandom(seed);
 

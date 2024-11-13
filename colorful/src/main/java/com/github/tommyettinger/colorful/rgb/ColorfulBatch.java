@@ -59,12 +59,12 @@ public class ColorfulBatch implements Batch {
     /**
      * Internal; not intended for external usage and undocumented.
      */
-    protected final Mesh mesh;
+    protected Mesh mesh;
 
     /**
      * Internal; not intended for external usage and undocumented.
      */
-    protected final float[] vertices;
+    protected float[] vertices;
     /**
      * Internal; not intended for external usage and undocumented.
      */
@@ -124,7 +124,7 @@ public class ColorfulBatch implements Batch {
     /**
      * Internal; not intended for external usage and undocumented.
      */
-    protected final ShaderProgram shader;
+    protected ShaderProgram shader;
     /**
      * Internal; not intended for external usage and undocumented.
      */
@@ -158,35 +158,50 @@ public class ColorfulBatch implements Batch {
      */
     protected float tweak = TWEAK_RESET;
 
-    /** Number of render calls since the last {@link #begin()}. **/
+    /**
+     * Number of render calls since the last {@link #begin()}.
+     **/
     public int renderCalls = 0;
 
-    /** Number of rendering calls, ever. Will not be reset unless set manually. **/
+    /**
+     * Number of rendering calls, ever. Will not be reset unless set manually.
+     **/
     public int totalRenderCalls = 0;
 
-    /** The maximum number of sprites rendered in one batch so far. **/
+    /**
+     * The maximum number of sprites rendered in one batch so far.
+     **/
     public int maxSpritesInBatch = 0;
 
-    /** Constructs a new ColorfulBatch with a size of 1000, one buffer, and the default shader.
-     * @see #ColorfulBatch(int, ShaderProgram) */
+    /**
+     * Constructs a new ColorfulBatch with a size of 1000, one buffer, and the default shader.
+     *
+     * @see #ColorfulBatch(int, ShaderProgram)
+     */
     public ColorfulBatch() {
         this(1000, null);
     }
 
-    /** Constructs a ColorfulBatch with one buffer and the default shader.
-     * @see #ColorfulBatch(int, ShaderProgram)  */
+    /**
+     * Constructs a ColorfulBatch with one buffer and the default shader.
+     *
+     * @see #ColorfulBatch(int, ShaderProgram)
+     */
     public ColorfulBatch(int size) {
         this(size, null);
     }
 
-    /** Constructs a new ColorfulBatch. Sets the projection matrix to an orthographic projection with y-axis point upwards, x-axis
+    /**
+     * Constructs a new ColorfulBatch. Sets the projection matrix to an orthographic projection with y-axis point upwards, x-axis
      * point to the right and the origin being in the bottom left corner of the screen. The projection will be pixel perfect with
      * respect to the current screen resolution.
      * <p>
      * The defaultShader specifies the shader to use. Note that the names for uniforms for this default shader are different than
      * the ones expect for shaders set with {@link #setShader(ShaderProgram)}. See {@link #createDefaultShader()}.
-     * @param size The max number of sprites in a single batch. Max of 16383.
-     * @param defaultShader The default shader to use. This is not owned by the ColorfulBatch and must be disposed separately. */
+     *
+     * @param size          The max number of sprites in a single batch. Max of 16383.
+     * @param defaultShader The default shader to use. This is not owned by the ColorfulBatch and must be disposed separately.
+     */
     public ColorfulBatch(int size, ShaderProgram defaultShader) {
         // 65535 is max vertex index, so 65535 / 4 vertices per sprite = 16383 sprites max.
         if (size > 16383) throw new IllegalArgumentException("Can't have more than 16383 sprites per batch: " + size);
@@ -208,10 +223,10 @@ public class ColorfulBatch implements Batch {
         short j = 0;
         for (int i = 0; i < len; i += 6, j += 4) {
             indices[i] = j;
-            indices[i + 1] = (short)(j + 1);
-            indices[i + 2] = (short)(j + 2);
-            indices[i + 3] = (short)(j + 2);
-            indices[i + 4] = (short)(j + 3);
+            indices[i + 1] = (short) (j + 1);
+            indices[i + 2] = (short) (j + 2);
+            indices[i + 3] = (short) (j + 2);
+            indices[i + 4] = (short) (j + 3);
             indices[i + 5] = j;
         }
         mesh.setIndices(indices);
@@ -236,9 +251,10 @@ public class ColorfulBatch implements Batch {
      * {@code ShaderProgram.prependVertexCode = "#version 110\n";
      * ShaderProgram.prependFragmentCode = "#version 110\n";}
      * The actual version can be different, and may need to be different for compatibility with some hardware.
+     *
      * @return a new instance of the default shader used by ColorfulBatch for GL2 when no shader is specified
      */
-    public static ShaderProgram createDefaultShader () {
+    public static ShaderProgram createDefaultShader() {
         String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
                 + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
                 + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
@@ -291,7 +307,7 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public void begin () {
+    public void begin() {
         if (drawing) throw new IllegalStateException("ColorfulBatch.end must be called before begin.");
         renderCalls = 0;
 
@@ -306,7 +322,7 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public void end () {
+    public void end() {
         if (!drawing) throw new IllegalStateException("ColorfulBatch.begin must be called before end.");
         if (idx > 0) flush();
         lastTexture = null;
@@ -318,7 +334,7 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public void setColor (Color tint) {
+    public void setColor(Color tint) {
         color = tint.toFloatBits();
     }
 
@@ -326,18 +342,19 @@ public class ColorfulBatch implements Batch {
      * Sets the color to the result of {@link ColorTools#rgb(float, float, float, float)} on the same arguments.
      * For the RGB parameters, 0.5f is a neutral value (causing no change), while for alpha, 1.0f is a neutral
      * value. For RGB, higher values will add to the corresponding channel, while lower values will subtract from it.
-     * @see ColorTools#rgb(float, float, float, float)
-     * @param red additive red channel, from 0 to 1; 0.5 is neutral
+     *
+     * @param red   additive red channel, from 0 to 1; 0.5 is neutral
      * @param green additive green channel, from 0 to 1; 0.5 is neutral
-     * @param blue additive blue channel, from 0 to 1; 0.5 is neutral
+     * @param blue  additive blue channel, from 0 to 1; 0.5 is neutral
      * @param alpha multiplicative opacity, from 0 to 1; 1.0 is neutral
+     * @see ColorTools#rgb(float, float, float, float)
      */
     @Override
-    public void setColor (float red, float green, float blue, float alpha) {
+    public void setColor(float red, float green, float blue, float alpha) {
         color = ColorTools.rgb(red, green, blue, alpha);
     }
 
-    public void setColor (final float color) {
+    public void setColor(final float color) {
         setPackedColor(color);
     }
 
@@ -349,11 +366,12 @@ public class ColorfulBatch implements Batch {
      * Sets the color with the given RGB and A parameters from 0 to 255.
      * For the RGB parameters, 127 is a neutral value (causing no change), while for alpha, 255 is a neutral
      * value. For RGB, higher values will add to the corresponding channel, while lower values will subtract from it.
-     * @see ColorTools#rgb(float, float, float, float)
-     * @param red additive red channel; ranges from 0 to 255, and 127 is neutral
+     *
+     * @param red   additive red channel; ranges from 0 to 255, and 127 is neutral
      * @param green additive green channel; ranges from 0 to 255, and 127 is neutral
-     * @param blue additive blue channel; ranges from 0 to 255, and 127 is neutral
+     * @param blue  additive blue channel; ranges from 0 to 255, and 127 is neutral
      * @param alpha multiplicative opacity; ranges from 0 to 255 (254 is equivalent, since the lowest bit is discarded)
+     * @see ColorTools#rgb(float, float, float, float)
      */
     public void setIntColor(int red, int green, int blue, int alpha) {
         color = NumberUtils.intBitsToFloat((alpha << 24 & 0xFE000000)
@@ -361,12 +379,12 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public void setPackedColor (final float color) {
+    public void setPackedColor(final float color) {
         this.color = color;
     }
 
     @Override
-    public Color getColor () {
+    public Color getColor() {
         final int intBits = NumberUtils.floatToRawIntBits(color);
         Color color = tempColor;
         color.r = (intBits & 0xff) / 255f;
@@ -377,7 +395,7 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public float getPackedColor () {
+    public float getPackedColor() {
         return color;
     }
 
@@ -386,24 +404,27 @@ public class ColorfulBatch implements Batch {
      * minimal effect on the image; using {@code (0.5f, 0.5f, 0.5f, 0.5f)} will effectively remove the tweak. You can
      * also use {@link #setTweak(float)} with {@link #TWEAK_RESET}, which is very slightly more efficient, to remove the
      * tweak or set it to a neutral value.
-     * @param red multiplicative red channel, from 0 to 1; 0.5 is neutral
-     * @param green multiplicative green channel, from 0 to 1; 0.5 is neutral
-     * @param blue multiplicative blue channel, from 0 to 1; 0.5 is neutral
+     *
+     * @param red      multiplicative red channel, from 0 to 1; 0.5 is neutral
+     * @param green    multiplicative green channel, from 0 to 1; 0.5 is neutral
+     * @param blue     multiplicative blue channel, from 0 to 1; 0.5 is neutral
      * @param contrast affects how lightness changes, from 0 (low contrast, cloudy look) to 1 (high contrast, sharpened look); 0.5 is neutral
      */
-    public void setTweak (float red, float green, float blue, float contrast) {
+    public void setTweak(float red, float green, float blue, float contrast) {
         tweak = ColorTools.rgb(red, green, blue, contrast);
     }
+
     /**
      * Sets the tweak using a single packed RGB float.
-     * @see #setTweak(float, float, float, float)
+     *
      * @param tweak a packed RGB float, with contrast instead of alpha
+     * @see #setTweak(float, float, float, float)
      */
-    public void setTweak (final float tweak) {
+    public void setTweak(final float tweak) {
         this.tweak = tweak;
     }
-    
-    public float getTweak () {
+
+    public float getTweak() {
         return tweak;
     }
 
@@ -414,6 +435,7 @@ public class ColorfulBatch implements Batch {
      * effect with green and blue multipliers of 0x20 (closer to 0, so most green and blue in the final color, if any,
      * will come from the additive color), and slightly reduces contrast (with contrast and the ignored bit as 0x6E,
      * which is less than the halfway point).
+     *
      * @param tweak the tweak to use as an integer, with red in the most significant bits and contrast in least
      */
     public void setIntTweak(final int tweak) {
@@ -423,9 +445,10 @@ public class ColorfulBatch implements Batch {
     /**
      * Sets the multiplicative and contrast parts of the shader's color changes. 127 is a neutral value that should have
      * minimal effect on the image; using {@code (127, 127, 127, 127)} will effectively remove the tweak.
-     * @param red multiplicative red channel, from 0 to 255; 127 is neutral
-     * @param green multiplicative green channel, from 0 to 255; 127 is neutral
-     * @param blue multiplicative blue channel, from 0 to 255; 127 is neutral
+     *
+     * @param red      multiplicative red channel, from 0 to 255; 127 is neutral
+     * @param green    multiplicative green channel, from 0 to 255; 127 is neutral
+     * @param blue     multiplicative blue channel, from 0 to 255; 127 is neutral
      * @param contrast affects how lightness changes, from 0 (low contrast, cloudy look) to 255 (high contrast, sharpened look); 127 is neutral
      */
     public void setIntTweak(int red, int green, int blue, int contrast) {
@@ -436,6 +459,7 @@ public class ColorfulBatch implements Batch {
     /**
      * A convenience method that sets both the color (with {@link #setColor(float)}) and the tweak (with
      * {@link #setTweak(float)}) at the same time.
+     *
      * @param color the additive components and alpha, as a packed float
      * @param tweak the multiplicative components and contrast, as a packed float
      */
@@ -443,30 +467,32 @@ public class ColorfulBatch implements Batch {
         setColor(color);
         setTweak(tweak);
     }
+
     /**
      * A convenience method that sets both the color (with {@link #setColor(float, float, float, float)}) and the tweak
      * (with {@link #setTweak(float, float, float, float)}) at the same time.
-     * @param redAdd additive red channel, from 0 to 1; 0.5 is neutral
+     *
+     * @param redAdd   additive red channel, from 0 to 1; 0.5 is neutral
      * @param greenAdd additive green channel, from 0 to 1; 0.5 is neutral
-     * @param blueAdd additive blue channel, from 0 to 1; 0.5 is neutral
+     * @param blueAdd  additive blue channel, from 0 to 1; 0.5 is neutral
      * @param alphaMul multiplicative alpha channel, from 0 to 1; 1.0 is neutral
-     * @param redMul multiplicative red channel, from 0 to 1; 0.5 is neutral
+     * @param redMul   multiplicative red channel, from 0 to 1; 0.5 is neutral
      * @param greenMul multiplicative green channel, from 0 to 1; 0.5 is neutral
-     * @param blueMul multiplicative blue channel, from 0 to 1; 0.5 is neutral
+     * @param blueMul  multiplicative blue channel, from 0 to 1; 0.5 is neutral
      * @param contrast affects how lightness changes, from 0 (low contrast, cloudy look) to 1 (high contrast, sharpened look); 0.5 is neutral
      */
-    public void setTweakedColor (final float redAdd, final float greenAdd,
-                                 final float blueAdd, final float alphaMul,
-                                 final float redMul, final float greenMul,
-                                 final float blueMul, final float contrast) {
+    public void setTweakedColor(final float redAdd, final float greenAdd,
+                                final float blueAdd, final float alphaMul,
+                                final float redMul, final float greenMul,
+                                final float blueMul, final float contrast) {
         setColor(redAdd, greenAdd, blueAdd, alphaMul);
         setTweak(redMul, greenMul, blueMul, contrast);
     }
 
 
     @Override
-    public void draw (Texture texture, float x, float y, float originX, float originY, float width, float height, float scaleX,
-                      float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY) {
+    public void draw(Texture texture, float x, float y, float originX, float originY, float width, float height, float scaleX,
+                     float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY) {
         if (!drawing) throw new IllegalStateException("ColorfulBatch.begin must be called before draw.");
 
         float[] vertices = this.vertices;
@@ -601,8 +627,8 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public void draw (Texture texture, float x, float y, float width, float height, int srcX, int srcY, int srcWidth,
-                      int srcHeight, boolean flipX, boolean flipY) {
+    public void draw(Texture texture, float x, float y, float width, float height, int srcX, int srcY, int srcWidth,
+                     int srcHeight, boolean flipX, boolean flipY) {
         if (!drawing) throw new IllegalStateException("ColorfulBatch.begin must be called before draw.");
 
         float[] vertices = this.vertices;
@@ -665,7 +691,7 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public void draw (Texture texture, float x, float y, int srcX, int srcY, int srcWidth, int srcHeight) {
+    public void draw(Texture texture, float x, float y, int srcX, int srcY, int srcWidth, int srcHeight) {
         if (!drawing) throw new IllegalStateException("ColorfulBatch.begin must be called before draw.");
 
         float[] vertices = this.vertices;
@@ -716,7 +742,7 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public void draw (Texture texture, float x, float y, float width, float height, float u, float v, float u2, float v2) {
+    public void draw(Texture texture, float x, float y, float width, float height, float u, float v, float u2, float v2) {
         if (!drawing) throw new IllegalStateException("ColorfulBatch.begin must be called before draw.");
 
         float[] vertices = this.vertices;
@@ -763,12 +789,12 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public void draw (Texture texture, float x, float y) {
+    public void draw(Texture texture, float x, float y) {
         draw(texture, x, y, texture.getWidth(), texture.getHeight());
     }
 
     @Override
-    public void draw (Texture texture, float x, float y, float width, float height) {
+    public void draw(Texture texture, float x, float y, float width, float height) {
         if (!drawing) throw new IllegalStateException("ColorfulBatch.begin must be called before draw.");
 
         float[] vertices = this.vertices;
@@ -822,13 +848,14 @@ public class ColorfulBatch implements Batch {
      * This is very different from the other overloads in this class; it assumes the float array it is given is in the
      * format libGDX uses to give to SpriteBatch, that is, in groups of 20 floats per sprite. ColorfulBatch uses 24
      * floats per sprite, to add tweak per color, so this does some conversion.
-     * @param texture the Texture being drawn from; usually an atlas or some parent Texture with lots of TextureRegions
+     *
+     * @param texture        the Texture being drawn from; usually an atlas or some parent Texture with lots of TextureRegions
      * @param spriteVertices not the same format as {@link #vertices} in this class; should have a length that's a multiple of 20
-     * @param offset where to start drawing vertices from {@code spriteVertices}
-     * @param count how many vertices to draw from {@code spriteVertices} (20 vertices is one sprite)
+     * @param offset         where to start drawing vertices from {@code spriteVertices}
+     * @param count          how many vertices to draw from {@code spriteVertices} (20 vertices is one sprite)
      */
     @Override
-    public void draw (Texture texture, float[] spriteVertices, int offset, int count) {
+    public void draw(Texture texture, float[] spriteVertices, int offset, int count) {
         if (!drawing) throw new IllegalStateException("ColorfulBatch.begin must be called before draw.");
 
         count = (count / 5) * 6;
@@ -883,12 +910,13 @@ public class ColorfulBatch implements Batch {
      * Meant for code that uses ColorfulBatch specifically and can set an extra float (for the color tweak) per vertex,
      * this is just like {@link #draw(Texture, float[], int, int)} when used in other Batch implementations, but expects
      * {@code spriteVertices} to have a length that is a multiple of 24 instead of 20.
-     * @param texture the Texture being drawn from; usually an atlas or some parent Texture with lots of TextureRegions
+     *
+     * @param texture        the Texture being drawn from; usually an atlas or some parent Texture with lots of TextureRegions
      * @param spriteVertices vertices formatted as this class uses them; length should be a multiple of 24
-     * @param offset where to start drawing vertices from {@code spriteVertices}
-     * @param count how many vertices to draw from {@code spriteVertices} (24 vertices is one sprite)
+     * @param offset         where to start drawing vertices from {@code spriteVertices}
+     * @param count          how many vertices to draw from {@code spriteVertices} (24 vertices is one sprite)
      */
-    public void drawExactly (Texture texture, float[] spriteVertices, int offset, int count) {
+    public void drawExactly(Texture texture, float[] spriteVertices, int offset, int count) {
         if (!drawing) throw new IllegalStateException("ColorfulBatch.begin must be called before draw.");
 
         int verticesLength = vertices.length;
@@ -918,12 +946,12 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public void draw (TextureRegion region, float x, float y) {
+    public void draw(TextureRegion region, float x, float y) {
         draw(region, x, y, region.getRegionWidth(), region.getRegionHeight());
     }
 
     @Override
-    public void draw (TextureRegion region, float x, float y, float width, float height) {
+    public void draw(TextureRegion region, float x, float y, float width, float height) {
         if (!drawing) throw new IllegalStateException("ColorfulBatch.begin must be called before draw.");
 
         float[] vertices = this.vertices;
@@ -975,8 +1003,8 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public void draw (TextureRegion region, float x, float y, float originX, float originY, float width, float height,
-                      float scaleX, float scaleY, float rotation) {
+    public void draw(TextureRegion region, float x, float y, float originX, float originY, float width, float height,
+                     float scaleX, float scaleY, float rotation) {
         if (!drawing) throw new IllegalStateException("ColorfulBatch.begin must be called before draw.");
 
         float[] vertices = this.vertices;
@@ -1100,8 +1128,8 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public void draw (TextureRegion region, float x, float y, float originX, float originY, float width, float height,
-                      float scaleX, float scaleY, float rotation, boolean clockwise) {
+    public void draw(TextureRegion region, float x, float y, float originX, float originY, float width, float height,
+                     float scaleX, float scaleY, float rotation, boolean clockwise) {
         if (!drawing) throw new IllegalStateException("ColorfulBatch.begin must be called before draw.");
 
         float[] vertices = this.vertices;
@@ -1241,7 +1269,7 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public void draw (TextureRegion region, float width, float height, Affine2 transform) {
+    public void draw(TextureRegion region, float width, float height, Affine2 transform) {
         if (!drawing) throw new IllegalStateException("ColorfulBatch.begin must be called before draw.");
 
         float[] vertices = this.vertices;
@@ -1303,7 +1331,7 @@ public class ColorfulBatch implements Batch {
 
     @SuppressWarnings("RedundantCast") // These casts are absolutely not redundant! Java 9 changed Buffer ABI.
     @Override
-    public void flush () {
+    public void flush() {
         if (idx == 0) return;
 
         renderCalls++;
@@ -1315,14 +1343,15 @@ public class ColorfulBatch implements Batch {
         lastTexture.bind();
         Mesh mesh = this.mesh;
         mesh.setVertices(vertices, 0, idx);
-        Buffer indicesBuffer = (Buffer)mesh.getIndicesBuffer(true);
+        Buffer indicesBuffer = (Buffer) mesh.getIndicesBuffer(true);
         indicesBuffer.position(0);
         indicesBuffer.limit(count);
         if (blendingDisabled) {
             Gdx.gl.glDisable(GL20.GL_BLEND);
         } else {
             Gdx.gl.glEnable(GL20.GL_BLEND);
-            if (blendSrcFunc != -1) Gdx.gl.glBlendFuncSeparate(blendSrcFunc, blendDstFunc, blendSrcFuncAlpha, blendDstFuncAlpha);
+            if (blendSrcFunc != -1)
+                Gdx.gl.glBlendFuncSeparate(blendSrcFunc, blendDstFunc, blendSrcFuncAlpha, blendDstFuncAlpha);
         }
 
         mesh.render(customShader != null ? customShader : shader, GL20.GL_TRIANGLES, 0, count);
@@ -1331,27 +1360,28 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public void disableBlending () {
+    public void disableBlending() {
         if (blendingDisabled) return;
         flush();
         blendingDisabled = true;
     }
 
     @Override
-    public void enableBlending () {
+    public void enableBlending() {
         if (!blendingDisabled) return;
         flush();
         blendingDisabled = false;
     }
 
     @Override
-    public void setBlendFunction (int srcFunc, int dstFunc) {
+    public void setBlendFunction(int srcFunc, int dstFunc) {
         setBlendFunctionSeparate(srcFunc, dstFunc, srcFunc, dstFunc);
     }
 
     @Override
     public void setBlendFunctionSeparate(int srcFuncColor, int dstFuncColor, int srcFuncAlpha, int dstFuncAlpha) {
-        if (blendSrcFunc == srcFuncColor && blendDstFunc == dstFuncColor && blendSrcFuncAlpha == srcFuncAlpha && blendDstFuncAlpha == dstFuncAlpha) return;
+        if (blendSrcFunc == srcFuncColor && blendDstFunc == dstFuncColor && blendSrcFuncAlpha == srcFuncAlpha && blendDstFuncAlpha == dstFuncAlpha)
+            return;
         flush();
         blendSrcFunc = srcFuncColor;
         blendDstFunc = dstFuncColor;
@@ -1360,12 +1390,12 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public int getBlendSrcFunc () {
+    public int getBlendSrcFunc() {
         return blendSrcFunc;
     }
 
     @Override
-    public int getBlendDstFunc () {
+    public int getBlendDstFunc() {
         return blendDstFunc;
     }
 
@@ -1380,36 +1410,36 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public void dispose () {
+    public void dispose() {
         mesh.dispose();
         if (ownsShader && shader != null) shader.dispose();
     }
 
     @Override
-    public Matrix4 getProjectionMatrix () {
+    public Matrix4 getProjectionMatrix() {
         return projectionMatrix;
     }
 
     @Override
-    public Matrix4 getTransformMatrix () {
+    public Matrix4 getTransformMatrix() {
         return transformMatrix;
     }
 
     @Override
-    public void setProjectionMatrix (Matrix4 projection) {
+    public void setProjectionMatrix(Matrix4 projection) {
         if (drawing) flush();
         projectionMatrix.set(projection);
         if (drawing) setupMatrices();
     }
 
     @Override
-    public void setTransformMatrix (Matrix4 transform) {
+    public void setTransformMatrix(Matrix4 transform) {
         if (drawing) flush();
         transformMatrix.set(transform);
         if (drawing) setupMatrices();
     }
 
-    protected void setupMatrices () {
+    protected void setupMatrices() {
         combinedMatrix.set(projectionMatrix).mul(transformMatrix);
         if (customShader != null) {
             customShader.setUniformMatrix("u_projTrans", combinedMatrix);
@@ -1420,7 +1450,7 @@ public class ColorfulBatch implements Batch {
         }
     }
 
-    protected void switchTexture (Texture texture) {
+    protected void switchTexture(Texture texture) {
         flush();
         lastTexture = texture;
         invTexWidth = 1.0f / texture.getWidth();
@@ -1428,7 +1458,7 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public void setShader (ShaderProgram shader) {
+    public void setShader(ShaderProgram shader) {
         if (shader == customShader) // avoid unnecessary flushing in case we are drawing
             return;
         if (drawing) {
@@ -1445,7 +1475,7 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public ShaderProgram getShader () {
+    public ShaderProgram getShader() {
         if (customShader == null) {
             return shader;
         }
@@ -1453,13 +1483,14 @@ public class ColorfulBatch implements Batch {
     }
 
     @Override
-    public boolean isBlendingEnabled () {
+    public boolean isBlendingEnabled() {
         return !blendingDisabled;
     }
 
-    public boolean isDrawing () {
+    public boolean isDrawing() {
         return drawing;
     }
+
     public static final int X1 = 0;
     public static final int Y1 = 1;
     public static final int C1 = 2;

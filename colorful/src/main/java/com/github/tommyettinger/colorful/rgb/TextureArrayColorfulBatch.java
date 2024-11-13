@@ -33,12 +33,8 @@ import com.badlogic.gdx.utils.NumberUtils;
  * @author mzechner (Original SpriteBatch)
  * @author Nathan Sweet (Original SpriteBatch)
  * @author VaTTeRGeR (TextureArray Extension) */
-public class TextureArrayColorfulBatch implements Batch {
+public class TextureArrayColorfulBatch extends ColorfulBatch {
     private int idx = 0;
-
-    private final Mesh mesh;
-
-    private final float[] vertices;
 
     public final int spriteVertexSize = 6;//Size of a ColorfulSprite
     public final int spriteFloatSize = spriteVertexSize * 4 + 4;//Sprite.SPRITE_SIZE;
@@ -60,36 +56,7 @@ public class TextureArrayColorfulBatch implements Batch {
     /** Gets sent to the fragment shader as a uniform "uniform sampler2d[X] u_textures" */
     private final IntBuffer textureUnitIndicesBuffer;
 
-    private float invTexWidth = 0, invTexHeight = 0;
-
-    private boolean drawing = false;
-
-    private final Matrix4 transformMatrix = new Matrix4();
-    private final Matrix4 projectionMatrix = new Matrix4();
-    private final Matrix4 combinedMatrix = new Matrix4();
-
-    private boolean blendingDisabled = false;
-    private int blendSrcFunc = GL20.GL_SRC_ALPHA;
-    private int blendDstFunc = GL20.GL_ONE_MINUS_SRC_ALPHA;
-    private int blendSrcFuncAlpha = GL20.GL_SRC_ALPHA;
-    private int blendDstFuncAlpha = GL20.GL_ONE_MINUS_SRC_ALPHA;
-
-    private ShaderProgram shader = null;
-    private ShaderProgram customShader = null;
-
     private static String shaderErrorLog = null;
-
-    private final boolean ownsShader;
-
-    /**
-     * A packed float color added to the base color of a drawn pixel (which is typically from a Texture) after the tweak
-     * has been multiplied with that base color.
-     */
-    protected float color = Palette.GRAY;
-    /**
-     * Internal; not intended for external usage and undocumented.
-     */
-    protected final Color tempColor = new Color(0.5f, 0.5f, 0.5f, 1f);
 
     /**
      * A constant packed float that can be assigned to this ColorfulBatch's tweak with {@link #setTweak(float)} to make
@@ -97,28 +64,12 @@ public class TextureArrayColorfulBatch implements Batch {
      * lightness multiplier or lightness contrast, and it won't change either chromatic value multiplier.
      */
     public static final float TWEAK_RESET = ColorTools.rgb(0.5f, 0.5f, 0.5f, 0.5f);
-    /**
-     * A packed float color multiplied with 2.0 and the base color of a drawn pixel (which is typically from a Texture).
-     * This can be created with {@link ColorTools#rgb(float, float, float, float)} like any other packed float color,
-     * but the rgba channels instead refer to multiplicative r, g, and b, and contrast, with 0.5 having nearly no change
-     * and 0.0 or 1.0 having extreme changes.
-     */
-    protected float tweak = TWEAK_RESET;
-
-    /** Number of render calls since the last {@link #begin()}. **/
-    public int renderCalls = 0;
-
-    /** Number of rendering calls, ever. Will not be reset unless set manually. **/
-    public int totalRenderCalls = 0;
-
-    /** The maximum number of sprites rendered in one batch so far. **/
-    public int maxSpritesInBatch = 0;
 
     /** The current number of textures in the LFU cache. Gets reset when calling {@link #begin()} **/
-    private int currentTextureLFUSize = 0;
+    protected int currentTextureLFUSize = 0;
 
     /** The current number of texture swaps in the LFU cache. Gets reset when calling {@link #begin()} **/
-    private int currentTextureLFUSwaps = 0;
+    protected int currentTextureLFUSwaps = 0;
 
     /** Constructs a new TextureArrayColorfulBatch with a size of 1000, one buffer, and the default shader.
      * @see TextureArrayColorfulBatch#TextureArrayColorfulBatch(int, ShaderProgram) */
@@ -904,6 +855,60 @@ public class TextureArrayColorfulBatch implements Batch {
             count -= copyCount;
         }
     }
+
+    /**
+     * Meant for code that uses ColorfulBatch specifically and can set an extra float (for the color tweak) per vertex,
+     * this is just like {@link #draw(Texture, float[], int, int)} when used in other Batch implementations, but expects
+     * {@code spriteVertices} to have a length that is a multiple of 24 instead of 20.
+     * @param texture the Texture being drawn from; usually an atlas or some parent Texture with lots of TextureRegions
+     * @param spriteVertices vertices formatted as this class uses them; length should be a multiple of 24
+     * @param offset where to start drawing vertices from {@code spriteVertices}
+     * @param count how many vertices to draw from {@code spriteVertices} (24 vertices is one sprite)
+     */
+    public void drawExactly (Texture texture, float[] spriteVertices, int offset, int count) {
+        if (!drawing) throw new IllegalStateException("ColorfulBatch.begin must be called before draw.");
+
+        count = (count / 6) * 7;
+        int verticesLength = vertices.length;
+        int remainingVertices = verticesLength;
+
+        flushIfFull();
+
+        // Assigns a texture unit to this texture, flushing if none is available
+        final float ti = activateTexture(texture);
+
+        int copyCount = Math.min(remainingVertices, count);
+
+        for (int s = offset, v = idx, i = 0; i < copyCount; i += 7) {
+            vertices[v++] = spriteVertices[s++];
+            vertices[v++] = spriteVertices[s++];
+            vertices[v++] = spriteVertices[s++];
+            vertices[v++] = spriteVertices[s++];
+            vertices[v++] = spriteVertices[s++];
+            vertices[v++] = spriteVertices[s++];
+            vertices[v++] = ti;
+        }
+        idx += copyCount;
+        count -= copyCount;
+        while (count > 0) {
+            offset += (copyCount / 7) * 6;
+            flush();
+            copyCount = Math.min(verticesLength, count);
+
+            for (int s = offset, v = 0, i = 0; i < copyCount; i += 7) {
+                vertices[v++] = spriteVertices[s++];
+                vertices[v++] = spriteVertices[s++];
+                vertices[v++] = spriteVertices[s++];
+                vertices[v++] = spriteVertices[s++];
+                vertices[v++] = spriteVertices[s++];
+                vertices[v++] = spriteVertices[s++];
+                vertices[v++] = ti;
+            }
+            idx += copyCount;
+            count -= copyCount;
+        }
+    }
+
 
     @Override
     public void draw (TextureRegion region, float x, float y) {
