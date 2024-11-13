@@ -404,13 +404,16 @@ public class ColorfulSprite extends TextureRegion {
 	}
 
 	/** Sets the alpha portion of the color used to tint this sprite. */
-	public void setAlpha (float a) {
-		final float color = FloatColors.setAlpha(getColor(), a);
-		final float[] vertices = this.vertices;
-		vertices[C1] = color;
-		vertices[C2] = color;
-		vertices[C3] = color;
-		vertices[C4] = color;
+	public void setAlpha (float alpha) {
+        float color = vertices[C1];
+        if (ColorTools.alpha(color) != alpha) {
+            color = FloatColors.setAlpha(color, alpha);
+            final float[] vertices = this.vertices;
+            vertices[C1] = color;
+            vertices[C2] = color;
+            vertices[C3] = color;
+            vertices[C4] = color;
+        }
 	}
 
 	/** @see #setColor(float) */
@@ -442,6 +445,22 @@ public class ColorfulSprite extends TextureRegion {
 		vertices[C2] = packedColor;
 		vertices[C3] = packedColor;
 		vertices[C4] = packedColor;
+	}
+
+	/** Returns the color of this sprite. If the returned instance is manipulated, {@link #setColor(float)} must be called
+	 * afterward.
+	 * @return a packed float color that stores luma addend, warmth addend, mildness addend, and alpha multiplier
+	 */
+	public float getColor () {
+		return vertices[C1];
+	}
+
+	/**
+	 * Returns the multiplicative color tweaks used by this sprite, as a packed float with the same format as a color.
+	 * @return a packed float that stores luma multiplier, warmth multiplier, mildness multiplier, and contrast
+	 */
+	public float getColorTweak () {
+		return vertices[T1];
 	}
 
 	/** Sets the origin in relation to the sprite's position for scaling and rotation. */
@@ -689,22 +708,6 @@ public class ColorfulSprite extends TextureRegion {
 	/** Y scale of the sprite, independent of size set by {@link #setSize(float, float)} */
 	public float getScaleY () {
 		return scaleY;
-	}
-
-	/** Returns the color of this sprite. If the returned instance is manipulated, {@link #setColor(float)} must be called
-	 * afterward.
-	 * @return a packed float color that stores luma addend, warmth addend, mildness addend, and alpha multiplier
-	 */
-	public float getColor () {
-		return vertices[C1];
-	}
-
-	/**
-	 * Returns the multiplicative color tweaks used by this sprite, as a packed float with the same format as a color.
-	 * @return a packed float that stores luma multiplier, warmth multiplier, mildness multiplier, and contrast
-	 */
-	public float getColorTweak () {
-		return vertices[T1];
 	}
 
 	public void setRegion (float u, float v, float u2, float v2) {

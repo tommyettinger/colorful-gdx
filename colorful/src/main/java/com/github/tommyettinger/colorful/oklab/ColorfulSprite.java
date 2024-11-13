@@ -56,8 +56,6 @@ public class ColorfulSprite extends TextureRegion {
 	private float scaleX = 1, scaleY = 1;
 	private boolean dirty = true;
 	private Rectangle bounds;
-	private float color = Palette.GRAY;
-	private float tweak = TWEAK_RESET;
 
 	/** Creates an uninitialized sprite. The sprite will need a texture region and bounds set before it can be drawn. */
 	public ColorfulSprite() {
@@ -336,15 +334,11 @@ public class ColorfulSprite extends TextureRegion {
 	 * @param color the packed float color used to add to the L/A/B channels of the current sprite, as well as the multiplier for alpha
 	 */
 	public void setColor (final float color) {
-		if(color != this.color || (color == 0f && this.color == 0f
-				&& NumberUtils.floatToIntBits(color) != NumberUtils.floatToIntBits(this.color))) {
-			float[] vertices = this.vertices;
-			this.color = color;
-			vertices[C1] = color;
-			vertices[C2] = color;
-			vertices[C3] = color;
-			vertices[C4] = color;
-		}
+		float[] vertices = this.vertices;
+		vertices[C1] = color;
+		vertices[C2] = color;
+		vertices[C3] = color;
+		vertices[C4] = color;
 	}
 
 	/** Sets the color used to tint this sprite and the tweak that affects how that color will be treated.
@@ -357,22 +351,14 @@ public class ColorfulSprite extends TextureRegion {
 	 */
 	public void setTweakedColor (final float color, final float tweak) {
 		float[] vertices = this.vertices;
-		if(color != this.color || (color == 0f && this.color == 0f
-				&& NumberUtils.floatToIntBits(color) != NumberUtils.floatToIntBits(this.color))) {
-			this.color = color;
-			vertices[C1] = color;
-			vertices[C2] = color;
-			vertices[C3] = color;
-			vertices[C4] = color;
-		}
-		if(tweak != this.tweak || (tweak == 0f && this.tweak == 0f
-				&& NumberUtils.floatToIntBits(tweak) != NumberUtils.floatToIntBits(this.tweak))) {
-			this.tweak = tweak;
-			vertices[T1] = tweak;
-			vertices[T2] = tweak;
-			vertices[T3] = tweak;
-			vertices[T4] = tweak;
-		}
+		vertices[C1] = color;
+		vertices[C2] = color;
+		vertices[C3] = color;
+		vertices[C4] = color;
+		vertices[T1] = tweak;
+		vertices[T2] = tweak;
+		vertices[T3] = tweak;
+		vertices[T4] = tweak;
 	}
 
 	/** Sets the color used to tint this sprite and the tweak that affects how that color will be treated.
@@ -393,22 +379,14 @@ public class ColorfulSprite extends TextureRegion {
 		final float color = ColorTools.oklab(addL, addA, addB, mulAlpha),
 				tweak = ColorTools.oklab(mulL, mulA, mulB, contrast);
 		float[] vertices = this.vertices;
-		if(color != this.color || (color == 0f && this.color == 0f
-				&& NumberUtils.floatToIntBits(color) != NumberUtils.floatToIntBits(this.color))) {
-			this.color = color;
-			vertices[C1] = color;
-			vertices[C2] = color;
-			vertices[C3] = color;
-			vertices[C4] = color;
-		}
-		if(tweak != this.tweak || (tweak == 0f && this.tweak == 0f
-				&& NumberUtils.floatToIntBits(tweak) != NumberUtils.floatToIntBits(this.tweak))) {
-			this.tweak = tweak;
-			vertices[T1] = tweak;
-			vertices[T2] = tweak;
-			vertices[T3] = tweak;
-			vertices[T4] = tweak;
-		}
+		vertices[C1] = color;
+		vertices[C2] = color;
+		vertices[C3] = color;
+		vertices[C4] = color;
+		vertices[T1] = tweak;
+		vertices[T2] = tweak;
+		vertices[T3] = tweak;
+		vertices[T4] = tweak;
 	}
 
 	/** Sets the tweak that affects how the rendered color will be treated.
@@ -418,15 +396,11 @@ public class ColorfulSprite extends TextureRegion {
 	 * @param tweak the packed float used to multiply the L/A/B channels, as well as the setting for contrast
 	 */
 	public void setTweak (final float tweak) {
-		if(tweak != this.tweak || (tweak == 0f && this.tweak == 0f
-				&& NumberUtils.floatToIntBits(tweak) != NumberUtils.floatToIntBits(this.tweak))) {
-			float[] vertices = this.vertices;
-			this.tweak = tweak;
-			vertices[T1] = tweak;
-			vertices[T2] = tweak;
-			vertices[T3] = tweak;
-			vertices[T4] = tweak;
-		}
+		float[] vertices = this.vertices;
+		vertices[T1] = tweak;
+		vertices[T2] = tweak;
+		vertices[T3] = tweak;
+		vertices[T4] = tweak;
 	}
 
 	/**
@@ -440,8 +414,9 @@ public class ColorfulSprite extends TextureRegion {
 
 	/** Sets the alpha portion of the color used to tint this sprite. */
 	public void setAlpha (float alpha) {
+		float color = vertices[C1];
 		if(ColorTools.alpha(color) != alpha) {
-			color = FloatColors.setAlpha(getColor(), alpha);
+			color = FloatColors.setAlpha(color, alpha);
 			final float[] vertices = this.vertices;
 			vertices[C1] = color;
 			vertices[C2] = color;
@@ -454,28 +429,20 @@ public class ColorfulSprite extends TextureRegion {
 	public void setColor (float L, float A, float B, float alpha) {
 		final float color = ColorTools.oklab(L, A, B, alpha);
 		final float[] vertices = this.vertices;
-		if(color != this.color || (color == 0f && this.color == 0f
-				&& NumberUtils.floatToIntBits(color) != NumberUtils.floatToIntBits(this.color))) {
-			this.color = color;
-			vertices[C1] = color;
-			vertices[C2] = color;
-			vertices[C3] = color;
-			vertices[C4] = color;
-		}
+		vertices[C1] = color;
+		vertices[C2] = color;
+		vertices[C3] = color;
+		vertices[C4] = color;
 	}
 
 	/** @see #setTweak(float) */
 	public void setTweak (float L, float A, float B, float contrast) {
 		final float tweak = ColorTools.oklab(L, A, B, contrast);
 		final float[] vertices = this.vertices;
-		if(tweak != this.tweak || (tweak == 0f && this.tweak == 0f
-				&& NumberUtils.floatToIntBits(tweak) != NumberUtils.floatToIntBits(this.tweak))) {
-			this.tweak = tweak;
-			vertices[T1] = tweak;
-			vertices[T2] = tweak;
-			vertices[T3] = tweak;
-			vertices[T4] = tweak;
-		}
+		vertices[T1] = tweak;
+		vertices[T2] = tweak;
+		vertices[T3] = tweak;
+		vertices[T4] = tweak;
 	}
 
 	/** Delegates to {@link #setColor(float)}.
@@ -483,6 +450,22 @@ public class ColorfulSprite extends TextureRegion {
 	 */
 	public void setPackedColor (float packedColor) {
 		setColor(packedColor);
+	}
+
+	/** Returns the color of this sprite. If the returned instance is manipulated, {@link #setColor(float)} must be called
+	 * afterward.
+	 * @return a packed float color used to add to the L/A/B channels of the current sprite, as well as the multiplier for alpha
+	 */
+	public float getColor () {
+		return vertices[C1];
+	}
+
+	/**
+	 * Returns the multiplicative color tweaks used by this sprite, as a packed float with the same format as a color.
+	 * @return a packed float used to multiply the L/A/B channels, as well as the setting for contrast
+	 */
+	public float getColorTweak () {
+		return vertices[T1];
 	}
 
 	/** Sets the origin in relation to the sprite's position for scaling and rotation. */
@@ -730,22 +713,6 @@ public class ColorfulSprite extends TextureRegion {
 	/** Y scale of the sprite, independent of size set by {@link #setSize(float, float)} */
 	public float getScaleY () {
 		return scaleY;
-	}
-
-	/** Returns the color of this sprite. If the returned instance is manipulated, {@link #setColor(float)} must be called
-	 * afterward.
-	 * @return a packed float color used to add to the L/A/B channels of the current sprite, as well as the multiplier for alpha
-	 */
-	public float getColor () {
-		return color;
-	}
-
-	/**
-	 * Returns the multiplicative color tweaks used by this sprite, as a packed float with the same format as a color.
-	 * @return a packed float used to multiply the L/A/B channels, as well as the setting for contrast
-	 */
-	public float getColorTweak () {
-		return tweak;
 	}
 
 	public void setRegion (float u, float v, float u2, float v2) {

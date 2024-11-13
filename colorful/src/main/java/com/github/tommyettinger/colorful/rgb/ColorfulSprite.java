@@ -460,10 +460,10 @@ public class ColorfulSprite extends TextureRegion {
     /**
      * Sets the alpha portion of the color used to tint this sprite.
      */
-    public void setAlpha(float a) {
+    public void setAlpha(float alpha) {
         float color = vertices[C1];
-        if (ColorTools.alpha(color) != a) {
-            color = FloatColors.setAlpha(color, a);
+        if (ColorTools.alpha(color) != alpha) {
+            color = FloatColors.setAlpha(color, alpha);
             final float[] vertices = this.vertices;
             vertices[C1] = color;
             vertices[C2] = color;
