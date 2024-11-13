@@ -36,6 +36,7 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.colorful.DawnlikeData;
+import com.github.tommyettinger.colorful.rgb.squid.AnimatedGlidingSprite;
 import com.github.tommyettinger.digital.MathTools;
 import com.github.tommyettinger.ds.IntObjectMap;
 import com.github.tommyettinger.ds.ObjectDeque;
@@ -46,7 +47,6 @@ import com.github.yellowstonegames.core.FullPaletteRgb;
 import com.github.yellowstonegames.grid.*;
 import com.github.yellowstonegames.path.DijkstraMap;
 import com.github.yellowstonegames.place.DungeonProcessor;
-import com.github.yellowstonegames.smooth.AnimatedGlidingSprite;
 import com.github.yellowstonegames.smooth.CoordGlider;
 import com.github.yellowstonegames.smooth.Director;
 import com.github.yellowstonegames.smooth.VectorSequenceGlider;
@@ -714,13 +714,12 @@ public class ColorDungeon extends ApplicationAdapter {
             for (int j = 0; j < placeHeight; j++) {
                 if (lightLevels[i][j] > 0.01) {
                     if ((monster = monsters.get(Coord.get(i, j))) != null) {
-                        monster = monster.animate(time);
-                        monster.setPackedColor(DescriptiveColorRgb.toFloat(DescriptiveColorRgb.darken(vision.getForegroundColor(i, j, change), 0.5f)));
+                        monster.animate(time).setPackedColor(DescriptiveColorRgb.toFloat(DescriptiveColorRgb.darken(vision.getForegroundColor(i, j, change), 0.5f)));
                         monster.draw(batch);
                     }
                 } else if (vision.justHidden.contains(i, j) && (monster = monsters.get(Coord.get(i, j))) != null) {
-                    monster = monster.animate(time);
-                    monster.setPackedColor(DescriptiveColorRgb.toFloat(DescriptiveColorRgb.darken(vision.getForegroundColor(i, j, change), 0.5f)));                    monster.draw(batch);
+                    monster.animate(time).setPackedColor(DescriptiveColorRgb.toFloat(DescriptiveColorRgb.darken(vision.getForegroundColor(i, j, change), 0.5f)));
+                    monster.draw(batch);
                 }
             }
         }
