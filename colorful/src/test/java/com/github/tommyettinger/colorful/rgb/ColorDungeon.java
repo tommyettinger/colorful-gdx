@@ -325,7 +325,7 @@ public class ColorDungeon extends ApplicationAdapter {
         playerDirector = new Director<>(AnimatedGlidingSprite::getLocation, ObjectList.with(playerSprite), 150);
 
         vision.restart(linePlaceMap, player, 8);
-        vision.lighting.addLight(player, new Radiance(8, DescriptiveColorRgb.darken(FullPaletteRgb.COSMIC_LATTE, 0.5f), 0.3f, 0f));
+        vision.lighting.addLight(player, new Radiance(8, DescriptiveColorRgb.darken(FullPaletteRgb.COSMIC_LATTE, 0.25f), 0.3f, 0f));
         floors.remove(player);
         int numMonsters = 100;
         monsters = new CoordObjectOrderedMap<>(numMonsters);

@@ -48,8 +48,10 @@ public class ColorfulSprite extends TextureRegion {
 	private float scaleX = 1, scaleY = 1;
 	private boolean dirty = true;
 	private Rectangle bounds;
-	private float color = Palette.GRAY;
-	private float tweak = TWEAK_RESET;
+	// this is NaN to ensure setColor() always initially sets the colors in vertices. NaN is never equal to floats.
+	private float color = Float.NaN;
+	// this is NaN to ensure setTweak() always initially sets the colors in vertices. NaN is never equal to floats.
+	private float tweak = Float.NaN;
 
 	/** Creates an uninitialized sprite. The sprite will need a texture region and bounds set before it can be drawn. */
 	public ColorfulSprite() {
