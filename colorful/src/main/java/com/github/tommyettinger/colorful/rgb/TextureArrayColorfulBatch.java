@@ -17,7 +17,6 @@ import com.badlogic.gdx.math.Affine2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.BufferUtils;
-import com.badlogic.gdx.utils.NumberUtils;
 
 /** Draws batched quads using indices.
  * <p>
@@ -34,29 +33,43 @@ import com.badlogic.gdx.utils.NumberUtils;
  * @author Nathan Sweet (Original SpriteBatch)
  * @author VaTTeRGeR (TextureArray Extension) */
 public class TextureArrayColorfulBatch extends ColorfulBatch {
-    private int idx = 0;
 
-    public final int spriteVertexSize = 6;//Size of a ColorfulSprite
-    public final int spriteFloatSize = spriteVertexSize * 4 + 4;//Sprite.SPRITE_SIZE;
+    public final int spriteVertexSize = 6; // Size of a ColorfulSprite in bytes
+    public final int spriteFloatSize = spriteVertexSize * 4 + 4; // How many bytes per ColorfulSprite here
     /**
      * The name of the attribute used for the tweak color in GLSL shaders.
      */
     public static final String TWEAK_ATTRIBUTE = "a_tweak";
     public static final String TEXTURE_INDEX_ATTRIBUTE = "a_texture_index";
 
-    /** The maximum number of available texture units for the fragment shader */
-    private static int maxTextureUnits = -1;
+    /**
+     * The maximum number of available texture units for the fragment shader.
+     * Set internally by {@link #getMaxTextureUnits()}.
+     */
+    protected static int maxTextureUnits = -1;
 
-    /** Textures in use (index: Texture Unit, value: Texture) */
-    private final Texture[] usedTextures;
+    /**
+     * Textures in use (index: Texture Unit, value: Texture).
+     * This is managed internally, and should only be used by this class or carefully by subclasses.
+     */
+    protected final Texture[] usedTextures;
 
-    /** LFU Array (index: Texture Unit Index - value: Access frequency) */
-    private final int[] usedTexturesLFU;
+    /**
+     * LFU Array (index: Texture Unit Index - value: Access frequency).
+     * This is managed internally, and should only be used by this class or carefully by subclasses.
+     */
+    protected final int[] usedTexturesLFU;
 
-    /** Gets sent to the fragment shader as a uniform "uniform sampler2d[X] u_textures" */
-    private final IntBuffer textureUnitIndicesBuffer;
+    /**
+     * Gets sent to the fragment shader as a uniform "uniform sampler2d[X] u_textures" .
+     * This is managed internally, and should only be used by this class or carefully by subclasses.
+     */
+    protected final IntBuffer textureUnitIndicesBuffer;
 
-    private static String shaderErrorLog = null;
+    /**
+     * Used to capture the log of any errors during shader compilation.
+     */
+    protected static String shaderErrorLog = null;
 
     /**
      * A constant packed float that can be assigned to this ColorfulBatch's tweak with {@link #setTweak(float)} to make
@@ -93,7 +106,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
      * @param defaultShader The default shader to use. This is not owned by the TextureArrayColorfulBatch and must be disposed
      *           separately.
      * @throws IllegalStateException Thrown if the device does not support texture arrays. Make sure to implement a Fallback to
-     *            {@link SpriteBatch} in case Texture Arrays are not supported on a clients device.
+     *            {@link SpriteBatch} in case Texture Arrays are not supported on a client's device.
      * @see #createDefaultShader(int)
      * @see #getMaxTextureUnits() */
     public TextureArrayColorfulBatch(int size, ShaderProgram defaultShader) throws IllegalStateException {
@@ -159,16 +172,14 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
      * Returns a new instance of the default shader used by TextureArrayColorfulBatch for GL2 when no shader is
      * specified. Does not have any {@code #version}
      * specified in the shader source. This expects an extra attribute (relative to a normal SpriteBatch) that is used
-     * for the tweak. You may want to set the code to prepend before you call this, as with:
-     * {@code ShaderProgram.prependVertexCode = "#version 110\n";
-     * ShaderProgram.prependFragmentCode = "#version 110\n";}
-     * The actual version can be different, and may need to be different for compatibility with some hardware.
+     * for the tweak, and handles its own extra attribute internally for the current texture index.
+     * You should not use {@link ShaderProgram#prependVertexCode} or {@link ShaderProgram#prependFragmentCode} with
+     * this shader; this sets the GLSL version of the shader code automatically to 100 or 150, as appropriate.
      * @see #getMaxTextureUnits()
      * @param maxTextureUnits look this up once with {@link #getMaxTextureUnits()} for the current hardware
      * @return the default ShaderProgram for this Batch
      */
     public static ShaderProgram createDefaultShader (int maxTextureUnits) {
-        // The texture index is just passed to the fragment shader, maybe there's a more elegant way.
         String vertexShader =   "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
                               + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
                               + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
@@ -192,7 +203,6 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
                               + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
                               + "}\n";
 
-        // The texture is simply selected from an array of textures
         String fragmentShader =   "#ifdef GL_ES\n"
                                 + "#define LOWP lowp\n"
                                 + "precision mediump float;\n"
@@ -202,8 +212,10 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
                                 + "varying LOWP vec4 v_color;\n"
                                 + "varying LOWP vec4 v_tweak;\n"
                                 + "varying vec2 v_texCoords;\n"
+                // Added for texture array support
                                 + "varying float v_texture_index;\n"
                                 + "uniform sampler2D u_textures[" + maxTextureUnits + "];\n"
+                // End
                                 + "vec3 barronSpline(vec3 x, float shape) {\n"
                                 + "        const float turning = 0.5;\n"
                                 + "        vec3 d = turning - x;\n"
@@ -214,8 +226,9 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
                                 + "}\n"
                                 + "void main()\n"//
                                 + "{\n"
-                                + "  int index = int(v_texture_index);"
-                                + "  vec4 tgt = texture2D(u_textures[index], v_texCoords);\n"
+                // Changed for texture array support
+                                + "  vec4 tgt = texture2D(u_textures[int(v_texture_index)], v_texCoords);\n"
+                // End
                                 + "  tgt.rgb = barronSpline(clamp(tgt.rgb * v_tweak.rgb * 2.0 + v_color.rgb, 0.0, 1.0), v_tweak.a * 1.5 + 0.25);\n"
                                 + "  tgt.a *= v_color.a;\n"
                                 + "  gl_FragColor = tgt;\n"
@@ -284,163 +297,6 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
         } else {
             shader.end();
         }
-    }
-
-    @Override
-    public void dispose () {
-
-        mesh.dispose();
-
-        if (ownsShader && shader != null) {
-            shader.dispose();
-        }
-    }
-
-
-    @Override
-    public void setColor (Color tint) {
-        color = tint.toFloatBits();
-    }
-
-    /**
-     * Sets the color to the result of {@link ColorTools#rgb(float, float, float, float)} on the same arguments.
-     * For the RGB parameters, 0.5f is a neutral value (causing no change), while for alpha, 1.0f is a neutral
-     * value. For RGB, higher values will add to the corresponding channel, while lower values will subtract from it.
-     * @see ColorTools#rgb(float, float, float, float)
-     * @param red additive red channel, from 0 to 1; 0.5 is neutral
-     * @param green additive green channel, from 0 to 1; 0.5 is neutral
-     * @param blue additive blue channel, from 0 to 1; 0.5 is neutral
-     * @param alpha multiplicative opacity, from 0 to 1; 1.0 is neutral
-     */
-    @Override
-    public void setColor (float red, float green, float blue, float alpha) {
-        color = ColorTools.rgb(red, green, blue, alpha);
-    }
-
-    public void setColor (final float color) {
-        setPackedColor(color);
-    }
-
-    public void setIntColor(final int color) {
-        this.color = NumberUtils.intBitsToFloat(Integer.reverseBytes(color & -2));
-    }
-
-    /**
-     * Sets the color with the given RGB and A parameters from 0 to 255.
-     * For the RGB parameters, 127 is a neutral value (causing no change), while for alpha, 255 is a neutral
-     * value. For RGB, higher values will add to the corresponding channel, while lower values will subtract from it.
-     * @see ColorTools#rgb(float, float, float, float)
-     * @param red additive red channel; ranges from 0 to 255, and 127 is neutral
-     * @param green additive green channel; ranges from 0 to 255, and 127 is neutral
-     * @param blue additive blue channel; ranges from 0 to 255, and 127 is neutral
-     * @param alpha multiplicative opacity; ranges from 0 to 255 (254 is equivalent, since the lowest bit is discarded)
-     */
-    public void setIntColor(int red, int green, int blue, int alpha) {
-        color = NumberUtils.intBitsToFloat((alpha << 24 & 0xFE000000)
-                | (blue << 16 & 0xFF0000) | (green << 8 & 0xFF00) | (red & 0xFF));
-    }
-
-    @Override
-    public void setPackedColor (final float color) {
-        this.color = color;
-    }
-
-    @Override
-    public Color getColor () {
-        final int intBits = NumberUtils.floatToRawIntBits(color);
-        Color color = tempColor;
-        color.r = (intBits & 0xff) / 255f;
-        color.g = ((intBits >>> 8) & 0xff) / 255f;
-        color.b = ((intBits >>> 16) & 0xff) / 255f;
-        color.a = (intBits >>> 25) / 127f;
-        return color;
-    }
-
-    @Override
-    public float getPackedColor () {
-        return color;
-    }
-
-    /**
-     * Sets the multiplicative and contrast parts of the shader's color changes. 0.5 is a neutral value that should have
-     * minimal effect on the image; using {@code (0.5f, 0.5f, 0.5f, 0.5f)} will effectively remove the tweak. You can
-     * also use {@link #setTweak(float)} with {@link #TWEAK_RESET}, which is very slightly more efficient, to remove the
-     * tweak or set it to a neutral value.
-     * @param red multiplicative red channel, from 0 to 1; 0.5 is neutral
-     * @param green multiplicative green channel, from 0 to 1; 0.5 is neutral
-     * @param blue multiplicative blue channel, from 0 to 1; 0.5 is neutral
-     * @param contrast affects how lightness changes, from 0 (low contrast, cloudy look) to 1 (high contrast, sharpened look); 0.5 is neutral
-     */
-    public void setTweak (float red, float green, float blue, float contrast) {
-        tweak = ColorTools.rgb(red, green, blue, contrast);
-    }
-    /**
-     * Sets the tweak using a single packed RGB float.
-     * @see #setTweak(float, float, float, float)
-     * @param tweak a packed RGB float, with contrast instead of alpha
-     */
-    public void setTweak (final float tweak) {
-        this.tweak = tweak;
-    }
-
-    public float getTweak () {
-        return tweak;
-    }
-
-    /**
-     * Takes the tweak as an int in the format: red (8 bits), green (8 bits), blue (8 bits), contrast (7 bits),
-     * (1 ignored bit at the end). An example would be 0xC820206E, which significantly emphasizes red (with red 0xC8,
-     * a little over 3/4 of the max and higher than the neutral value of 0x80), significantly reduces green and blue
-     * effect with green and blue multipliers of 0x20 (closer to 0, so most green and blue in the final color, if any,
-     * will come from the additive color), and slightly reduces contrast (with contrast and the ignored bit as 0x6E,
-     * which is less than the halfway point).
-     * @param tweak the tweak to use as an integer, with red in the most significant bits and contrast in least
-     */
-    public void setIntTweak(final int tweak) {
-        this.tweak = NumberUtils.intBitsToFloat(Integer.reverseBytes(tweak & -2));
-    }
-
-    /**
-     * Sets the multiplicative and contrast parts of the shader's color changes. 127 is a neutral value that should have
-     * minimal effect on the image; using {@code (127, 127, 127, 127)} will effectively remove the tweak.
-     * @param red multiplicative red channel, from 0 to 255; 127 is neutral
-     * @param green multiplicative green channel, from 0 to 255; 127 is neutral
-     * @param blue multiplicative blue channel, from 0 to 255; 127 is neutral
-     * @param contrast affects how lightness changes, from 0 (low contrast, cloudy look) to 255 (high contrast, sharpened look); 127 is neutral
-     */
-    public void setIntTweak(int red, int green, int blue, int contrast) {
-        tweak = NumberUtils.intBitsToFloat((contrast << 24 & 0xFE000000)
-                | (blue << 16 & 0xFF0000) | (green << 8 & 0xFF00) | (red & 0xFF));
-    }
-
-    /**
-     * A convenience method that sets both the color (with {@link #setColor(float)}) and the tweak (with
-     * {@link #setTweak(float)}) at the same time.
-     * @param color the additive components and alpha, as a packed float
-     * @param tweak the multiplicative components and contrast, as a packed float
-     */
-    public void setTweakedColor(final float color, final float tweak) {
-        setColor(color);
-        setTweak(tweak);
-    }
-    /**
-     * A convenience method that sets both the color (with {@link #setColor(float, float, float, float)}) and the tweak
-     * (with {@link #setTweak(float, float, float, float)}) at the same time.
-     * @param redAdd additive red channel, from 0 to 1; 0.5 is neutral
-     * @param greenAdd additive green channel, from 0 to 1; 0.5 is neutral
-     * @param blueAdd additive blue channel, from 0 to 1; 0.5 is neutral
-     * @param alphaMul multiplicative alpha channel, from 0 to 1; 1.0 is neutral
-     * @param redMul multiplicative red channel, from 0 to 1; 0.5 is neutral
-     * @param greenMul multiplicative green channel, from 0 to 1; 0.5 is neutral
-     * @param blueMul multiplicative blue channel, from 0 to 1; 0.5 is neutral
-     * @param contrast affects how lightness changes, from 0 (low contrast, cloudy look) to 1 (high contrast, sharpened look); 0.5 is neutral
-     */
-    public void setTweakedColor (final float redAdd, final float greenAdd,
-                                 final float blueAdd, final float alphaMul,
-                                 final float redMul, final float greenMul,
-                                 final float blueMul, final float contrast) {
-        setColor(redAdd, greenAdd, blueAdd, alphaMul);
-        setTweak(redMul, greenMul, blueMul, contrast);
     }
 
     @Override
@@ -1296,7 +1152,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     /** Flushes if the vertices array cannot hold an additional sprite ((spriteVertexSize + 1) * 4 vertices) anymore. */
-    private void flushIfFull () {
+    protected void flushIfFull () {
         // original Sprite attribute size plus two extra floats per sprite vertex
         if (vertices.length - idx < spriteFloatSize) {
             flush();
@@ -1349,7 +1205,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     /** Assigns Texture units and manages the LFU cache.
      * @param texture The texture that shall be loaded into the cache, if it is not already loaded.
      * @return The texture slot that has been allocated to the selected texture */
-    private int activateTexture (Texture texture) {
+    protected int activateTexture (Texture texture) {
         invTexWidth = 1.0f / texture.getWidth();
         invTexHeight = 1.0f / texture.getHeight();
 
@@ -1475,46 +1331,6 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     @Override
-    public int getBlendSrcFunc () {
-        return blendSrcFunc;
-    }
-
-    @Override
-    public int getBlendDstFunc () {
-        return blendDstFunc;
-    }
-
-    @Override
-    public int getBlendSrcFuncAlpha () {
-        return blendSrcFuncAlpha;
-    }
-
-    @Override
-    public int getBlendDstFuncAlpha () {
-        return blendDstFuncAlpha;
-    }
-
-    @Override
-    public boolean isBlendingEnabled () {
-        return !blendingDisabled;
-    }
-
-    @Override
-    public boolean isDrawing () {
-        return drawing;
-    }
-
-    @Override
-    public Matrix4 getProjectionMatrix () {
-        return projectionMatrix;
-    }
-
-    @Override
-    public Matrix4 getTransformMatrix () {
-        return transformMatrix;
-    }
-
-    @Override
     public void setProjectionMatrix (Matrix4 projection) {
         if (drawing) flush();
 
@@ -1543,7 +1359,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
         }
     }
 
-    /** Queries the number of supported textures in a texture array by trying the create the default shader.<br>
+    /** Queries the number of supported textures in a texture array by trying to create the default shader.<br>
      * The first call of this method is very expensive, after that it simply returns a cached value.
      * @return the number of supported textures in a texture array or zero if this feature is unsupported on this device.
      * @see #setShader(ShaderProgram shader) */
