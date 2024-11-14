@@ -1,8 +1,4 @@
-package com.github.tommyettinger.colorful.rgb;
-
-import java.nio.Buffer;
-import java.nio.IntBuffer;
-import java.util.Arrays;
+package com.github.tommyettinger.colorful.oklab;
 
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
@@ -18,6 +14,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.BufferUtils;
 
+import java.nio.Buffer;
+import java.nio.IntBuffer;
+import java.util.Arrays;
+
 /**
  * Draws batched quads using indices. Like {@link ColorfulBatch}, this adds another attribute to store an
  * extra color's worth of channels, but also has optimizations when rendering from multiple Textures. This
@@ -27,14 +27,14 @@ import com.badlogic.gdx.utils.BufferUtils;
  * {@link #end()}. An example would be if your Atlas is spread over multiple Textures or if you draw with individual
  * Textures. This version is compatible with OpenGL ES 2.0.
  *
- * @see Batch
- * @see SpriteBatch
- * @see ColorfulBatch
- *
  * @author mzechner (Original SpriteBatch)
  * @author Nathan Sweet (Original SpriteBatch)
  * @author VaTTeRGeR (TextureArray Extension)
+ * @see Batch
+ * @see SpriteBatch
+ * @see ColorfulBatch
  */
+
 public class TextureArrayColorfulBatch extends ColorfulBatch {
 
     public final int spriteVertexSize = 6; // Size of a ColorfulSprite in bytes
@@ -79,39 +79,52 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
      * all the tweak adjustments virtually imperceptible. When this is set as the tweak, it won't change the
      * lightness multiplier or lightness contrast, and it won't change either chromatic value multiplier.
      */
-    public static final float TWEAK_RESET = ColorTools.rgb(0.5f, 0.5f, 0.5f, 0.5f);
+    public static final float TWEAK_RESET = ColorTools.oklab(0.5f, 0.5f, 0.5f, 0.5f);
 
-    /** The current number of textures in the LFU cache. Gets reset when calling {@link #begin()} **/
+    /**
+     * The current number of textures in the LFU cache. Gets reset when calling {@link #begin()}
+     **/
     protected int currentTextureLFUSize = 0;
 
-    /** The current number of texture swaps in the LFU cache. Gets reset when calling {@link #begin()} **/
+    /**
+     * The current number of texture swaps in the LFU cache. Gets reset when calling {@link #begin()}
+     **/
     protected int currentTextureLFUSwaps = 0;
 
-    /** Constructs a new TextureArrayColorfulBatch with a size of 1000, one buffer, and the default shader.
-     * @see TextureArrayColorfulBatch#TextureArrayColorfulBatch(int, ShaderProgram) */
+    /**
+     * Constructs a new TextureArrayColorfulBatch with a size of 1000, one buffer, and the default shader.
+     *
+     * @see TextureArrayColorfulBatch#TextureArrayColorfulBatch(int, ShaderProgram)
+     */
     public TextureArrayColorfulBatch() {
         this(1000);
     }
 
-    /** Constructs a TextureArrayColorfulBatch with one buffer and the default shader.
-     * @see TextureArrayColorfulBatch#TextureArrayColorfulBatch(int, ShaderProgram) */
+    /**
+     * Constructs a TextureArrayColorfulBatch with one buffer and the default shader.
+     *
+     * @see TextureArrayColorfulBatch#TextureArrayColorfulBatch(int, ShaderProgram)
+     */
     public TextureArrayColorfulBatch(int size) {
         this(size, null);
     }
 
-    /** Constructs a new TextureArrayColorfulBatch. Sets the projection matrix to an orthographic projection with y-axis point
+    /**
+     * Constructs a new TextureArrayColorfulBatch. Sets the projection matrix to an orthographic projection with y-axis point
      * upwards, x-axis point to the right and the origin being in the bottom left corner of the screen. The projection will be
      * pixel perfect with respect to the current screen resolution.
      * <p>
      * The defaultShader specifies the shader to use. Note that the names for uniforms for this default shader are different than
      * the ones expect for shaders set with {@link #setShader(ShaderProgram)}.
-     * @param size The max number of sprites in a single batch. Max of 8191.
+     *
+     * @param size          The max number of sprites in a single batch. Max of 8191.
      * @param defaultShader The default shader to use. This is not owned by the TextureArrayColorfulBatch and must be disposed
-     *           separately.
+     *                      separately.
      * @throws IllegalStateException Thrown if the device does not support texture arrays. Make sure to implement a Fallback to
-     *            {@link SpriteBatch} in case Texture Arrays are not supported on a client's device.
+     *                               {@link SpriteBatch} in case Texture Arrays are not supported on a client's device.
      * @see #createDefaultShader(int)
-     * @see #getMaxTextureUnits() */
+     * @see #getMaxTextureUnits()
+     */
     public TextureArrayColorfulBatch(int size, ShaderProgram defaultShader) throws IllegalStateException {
         // 32767 is max vertex index, so 32767 / 4 vertices per sprite = 8191 sprites max.
         if (size > 8191) throw new IllegalArgumentException("Can't have more than 8191 sprites per batch: " + size);
@@ -161,10 +174,10 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
         short j = 0;
         for (int i = 0; i < len; i += 6, j += 4) {
             indices[i] = j;
-            indices[i + 1] = (short)(j + 1);
-            indices[i + 2] = (short)(j + 2);
-            indices[i + 3] = (short)(j + 2);
-            indices[i + 4] = (short)(j + 3);
+            indices[i + 1] = (short) (j + 1);
+            indices[i + 2] = (short) (j + 2);
+            indices[i + 3] = (short) (j + 2);
+            indices[i + 4] = (short) (j + 3);
             indices[i + 5] = j;
         }
 
@@ -178,64 +191,75 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
      * for the tweak, and handles its own extra attribute internally for the current texture index.
      * You should not use {@link ShaderProgram#prependVertexCode} or {@link ShaderProgram#prependFragmentCode} with
      * this shader; this sets the GLSL version of the shader code automatically to 100 or 150, as appropriate.
-     * @see #getMaxTextureUnits()
+     *
      * @param maxTextureUnits look this up once with {@link #getMaxTextureUnits()} for the current hardware
      * @return the default ShaderProgram for this Batch
+     * @see #getMaxTextureUnits()
      */
-    public static ShaderProgram createDefaultShader (int maxTextureUnits) {
-        String vertexShader =   "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
-                              + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
-                              + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
-                              + "attribute float " + TEXTURE_INDEX_ATTRIBUTE + ";\n"
-                              + "attribute vec4 " + TWEAK_ATTRIBUTE + ";\n"
-                              + "uniform mat4 u_projTrans;\n"
-                              + "varying vec4 v_color;\n"
-                              + "varying vec4 v_tweak;\n"
-                              + "varying vec2 v_texCoords;\n"
-                              + "varying float v_texture_index;\n"
-                              + "\n"
-                              + "void main()\n"
-                              + "{\n"
-                              + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
-                              + "   v_color.rgb = v_color.rgb - 0.5;\n"
-                              + "   v_color.a = v_color.a * (255.0/254.0);\n"
-                              + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
-                              + "   v_tweak.a = v_tweak.a * (255.0/254.0);\n"
-                              + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
-                              + "   v_texture_index = " + TEXTURE_INDEX_ATTRIBUTE + ";\n"
-                              + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
-                              + "}\n";
+    public static ShaderProgram createDefaultShader(int maxTextureUnits) {
+        String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+                + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+                + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+                + "attribute float " + TEXTURE_INDEX_ATTRIBUTE + ";\n"
+                + "attribute vec4 " + TWEAK_ATTRIBUTE + ";\n"
+                + "uniform mat4 u_projTrans;\n"
+                + "varying vec4 v_color;\n"
+                + "varying vec4 v_tweak;\n"
+                + "varying vec2 v_texCoords;\n"
+                + "varying float v_texture_index;\n"
+                + "\n"
+                + "void main()\n"
+                + "{\n"
+                + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+                + "   v_color.a = v_color.a * (255.0/254.0);\n"
+                + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
+                + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+                + "   v_texture_index = " + TEXTURE_INDEX_ATTRIBUTE + ";\n"
+                + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+                + "}\n";
 
-        String fragmentShader =   "#ifdef GL_ES\n"
-                                + "#define LOWP lowp\n"
-                                + "precision mediump float;\n"
-                                + "#else\n"
-                                + "#define LOWP\n"
-                                + "#endif\n"
-                                + "varying LOWP vec4 v_color;\n"
-                                + "varying LOWP vec4 v_tweak;\n"
-                                + "varying vec2 v_texCoords;\n"
+        String fragmentShader = "#ifdef GL_ES\n"
+                + "#define LOWP lowp\n"
+                + "precision mediump float;\n"
+                + "#else\n"
+                + "#define LOWP\n"
+                + "#endif\n"
+                + "varying LOWP vec4 v_color;\n"
+                + "varying LOWP vec4 v_tweak;\n"
+                + "varying vec2 v_texCoords;\n"
                 // Added for texture array support
-                                + "varying float v_texture_index;\n"
-                                + "uniform sampler2D u_textures[" + maxTextureUnits + "];\n"
+                + "varying float v_texture_index;\n"
+                + "uniform sampler2D u_textures[" + maxTextureUnits + "];\n"
                 // End
-                                + "vec3 barronSpline(vec3 x, float shape) {\n"
-                                + "        const float turning = 0.5;\n"
-                                + "        vec3 d = turning - x;\n"
-                                + "        return mix(\n"
-                                + "          ((1. - turning) * (x - 1.)) / (1. - (x + shape * d)) + 1.,\n"
-                                + "          (turning * x) / (1.0e-20 + (x + shape * d)),\n"
-                                + "          step(0.0, d));\n"
-                                + "}\n"
-                                + "void main()\n"//
-                                + "{\n"
+                + "const vec3 forward = vec3(1.0 / 3.0);\n"
+                + "float toOklab(float L) {\n"
+                + "  return pow(L, 1.5);\n"
+                + "}\n"
+                + "float fromOklab(float L) {\n"
+                + "  return pow(L, 0.666666);\n"
+                + "}\n"
+                + "void main()\n"//
+                + "{\n"
                 // Changed for texture array support
-                                + "  vec4 tgt = texture2D(u_textures[int(v_texture_index)], v_texCoords);\n"
+                + "  vec4 tgt = texture2D(u_textures[int(v_texture_index)], v_texCoords);\n"
                 // End
-                                + "  tgt.rgb = barronSpline(clamp(tgt.rgb * v_tweak.rgb * 2.0 + v_color.rgb, 0.0, 1.0), v_tweak.a * 1.5 + 0.25);\n"
-                                + "  tgt.a *= v_color.a;\n"
-                                + "  gl_FragColor = tgt;\n"
-                                + "}";
+                + "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *"
+                + "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n"
+                + "             * (tgt.rgb * tgt.rgb), forward);\n"
+                + "  lab.x = toOklab(lab.x);\n"
+                + "  // At this point, lab has the value of the RGBA pixel in the texture at v_texCoords, converted to Oklab color space.\n"
+                + "  // You can do the same for v_color and even v_tweak if they come in as RGBA values.\n"
+                + "  lab.x = (lab.x - 0.5) * 2.0;\n"
+                + "  float contrast = exp(v_tweak.w * (-2.0 * 255.0 / 254.0) + 1.0);\n"
+                + "  lab.x = pow(abs(lab.x), contrast) * sign(lab.x);\n"
+                + "  lab.x = fromOklab(clamp(lab.x * v_tweak.x + v_color.x, 0.0, 1.0));\n"
+                + "  lab.yz = clamp((lab.yz * v_tweak.yz + v_color.yz - 0.5) * 2.0, -1.0, 1.0);\n"
+                + "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n"
+                + "  gl_FragColor = vec4(sqrt(clamp("
+                + "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n"
+                + "                 (lab * lab * lab),"
+                + "                 0.0, 1.0)), v_color.a * tgt.a);\n"
+                + "}";
 
         final ApplicationType appType = Gdx.app.getType();
 
@@ -254,8 +278,46 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
         return shader;
     }
 
+    /**
+     * A special-purpose vertex shader meant for use only here in the Oklab ColorfulBatch, this can be used to create a
+     * ShaderProgram and passed into the constructor or {@link #setShader(ShaderProgram)}. Using this vertex shader lets
+     * you specify the batch color (or the tint) as a "normal" RGBA color, while using Oklab for the tweak. The fragment
+     * shader doesn't need to be modified here, so you can use {@link #fragmentShader} as normal.
+     */
+    public static final String vertexShaderOklabWithRGBATint =
+            "attribute vec4 a_position;\n"
+                    + "attribute vec4 a_color;\n"
+                    + "attribute vec2 a_texCoord0;\n"
+                    + "attribute float " + TEXTURE_INDEX_ATTRIBUTE + ";\n"
+                    + "attribute vec4 " + TWEAK_ATTRIBUTE + ";\n"
+                    + "uniform mat4 u_projTrans;\n"
+                    + "varying vec4 v_color;\n"
+                    + "varying vec4 v_tweak;\n"
+                    + "varying vec2 v_texCoords;\n"
+                    + "varying float v_texture_index;\n"
+                    + "\n"
+                    + "vec3 rgbToLab(vec3 start) {\n"
+                    + "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *\n"
+                    + "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n"
+                    + "             * (start.rgb * start.rgb), vec3(1.0/3.0));\n"
+                    + "  lab.x = pow(lab.x, 1.5);\n"
+                    + "  lab.yz = lab.yz * 0.5 + 0.5;\n"
+                    + "  return lab;\n"
+                    + "}\n"
+                    + "\n"
+                    + "void main()\n"
+                    + "{\n"
+                    + "  v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+                    + "  v_color.w = v_color.w * (255.0/254.0);\n"
+                    + "  v_color.rgb = rgbToLab(v_color.rgb);\n"
+                    + "  v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
+                    + "  v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+                    + "   v_texture_index = " + TEXTURE_INDEX_ATTRIBUTE + ";\n"
+                    + "  gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+                    + "}";
+
     @Override
-    public void begin () {
+    public void begin() {
         if (drawing) throw new IllegalStateException("TextureArrayColorfulBatch.end must be called before begin.");
 
         renderCalls = 0;
@@ -280,7 +342,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     @Override
-    public void end () {
+    public void end() {
         if (!drawing) throw new IllegalStateException("TextureArrayColorfulBatch.begin must be called before end.");
 
         if (idx > 0) flush();
@@ -303,8 +365,8 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     @Override
-    public void draw (Texture texture, float x, float y, float originX, float originY, float width, float height, float scaleX,
-                      float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY) {
+    public void draw(Texture texture, float x, float y, float originX, float originY, float width, float height, float scaleX,
+                     float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY) {
         if (!drawing) throw new IllegalStateException("TextureArrayColorfulBatch.begin must be called before draw.");
 
         float[] vertices = this.vertices;
@@ -440,8 +502,8 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     @Override
-    public void draw (Texture texture, float x, float y, float width, float height, int srcX, int srcY, int srcWidth,
-                      int srcHeight, boolean flipX, boolean flipY) {
+    public void draw(Texture texture, float x, float y, float width, float height, int srcX, int srcY, int srcWidth,
+                     int srcHeight, boolean flipX, boolean flipY) {
 
         if (!drawing) throw new IllegalStateException("TextureArrayColorfulBatch.begin must be called before draw.");
 
@@ -506,7 +568,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     @Override
-    public void draw (Texture texture, float x, float y, int srcX, int srcY, int srcWidth, int srcHeight) {
+    public void draw(Texture texture, float x, float y, int srcX, int srcY, int srcWidth, int srcHeight) {
         if (!drawing) throw new IllegalStateException("TextureArrayColorfulBatch.begin must be called before draw.");
 
         float[] vertices = this.vertices;
@@ -558,7 +620,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     @Override
-    public void draw (Texture texture, float x, float y, float width, float height, float u, float v, float u2, float v2) {
+    public void draw(Texture texture, float x, float y, float width, float height, float u, float v, float u2, float v2) {
         if (!drawing) throw new IllegalStateException("TextureArrayColorfulBatch.begin must be called before draw.");
 
         float[] vertices = this.vertices;
@@ -606,12 +668,12 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     @Override
-    public void draw (Texture texture, float x, float y) {
+    public void draw(Texture texture, float x, float y) {
         draw(texture, x, y, texture.getWidth(), texture.getHeight());
     }
 
     @Override
-    public void draw (Texture texture, float x, float y, float width, float height) {
+    public void draw(Texture texture, float x, float y, float width, float height) {
 
         if (!drawing) throw new IllegalStateException("TextureArrayColorfulBatch.begin must be called before draw.");
 
@@ -664,7 +726,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     @Override
-    public void draw (Texture texture, float[] spriteVertices, int offset, int count) {
+    public void draw(Texture texture, float[] spriteVertices, int offset, int count) {
         if (!drawing)
             throw new IllegalStateException("TextureArrayColorfulBatch.begin must be called before draw.");
 
@@ -719,12 +781,13 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
      * Meant for code that uses ColorfulBatch specifically and can set an extra float (for the color tweak) per vertex,
      * this is just like {@link #draw(Texture, float[], int, int)} when used in other Batch implementations, but expects
      * {@code spriteVertices} to have a length that is a multiple of 24 instead of 20.
-     * @param texture the Texture being drawn from; usually an atlas or some parent Texture with lots of TextureRegions
+     *
+     * @param texture        the Texture being drawn from; usually an atlas or some parent Texture with lots of TextureRegions
      * @param spriteVertices vertices formatted as this class uses them; length should be a multiple of 24
-     * @param offset where to start drawing vertices from {@code spriteVertices}
-     * @param count how many vertices to draw from {@code spriteVertices} (24 vertices is one sprite)
+     * @param offset         where to start drawing vertices from {@code spriteVertices}
+     * @param count          how many vertices to draw from {@code spriteVertices} (24 vertices is one sprite)
      */
-    public void drawExactly (Texture texture, float[] spriteVertices, int offset, int count) {
+    public void drawExactly(Texture texture, float[] spriteVertices, int offset, int count) {
         if (!drawing) throw new IllegalStateException("ColorfulBatch.begin must be called before draw.");
 
         count = (count / 6) * 7;
@@ -770,12 +833,12 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
 
 
     @Override
-    public void draw (TextureRegion region, float x, float y) {
+    public void draw(TextureRegion region, float x, float y) {
         draw(region, x, y, region.getRegionWidth(), region.getRegionHeight());
     }
 
     @Override
-    public void draw (TextureRegion region, float x, float y, float width, float height) {
+    public void draw(TextureRegion region, float x, float y, float width, float height) {
         if (!drawing) throw new IllegalStateException("TextureArrayColorfulBatch.begin must be called before draw.");
 
         float[] vertices = this.vertices;
@@ -827,8 +890,8 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     @Override
-    public void draw (TextureRegion region, float x, float y, float originX, float originY, float width, float height,
-                      float scaleX, float scaleY, float rotation) {
+    public void draw(TextureRegion region, float x, float y, float originX, float originY, float width, float height,
+                     float scaleX, float scaleY, float rotation) {
 
         if (!drawing) throw new IllegalStateException("TextureArrayColorfulBatch.begin must be called before draw.");
 
@@ -953,8 +1016,8 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     @Override
-    public void draw (TextureRegion region, float x, float y, float originX, float originY, float width, float height,
-                      float scaleX, float scaleY, float rotation, boolean clockwise) {
+    public void draw(TextureRegion region, float x, float y, float originX, float originY, float width, float height,
+                     float scaleX, float scaleY, float rotation, boolean clockwise) {
 
         if (!drawing) throw new IllegalStateException("TextureArrayColorfulBatch.begin must be called before draw.");
 
@@ -1095,7 +1158,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     @Override
-    public void draw (TextureRegion region, float width, float height, Affine2 transform) {
+    public void draw(TextureRegion region, float width, float height, Affine2 transform) {
         if (!drawing) throw new IllegalStateException("TextureArrayColorfulBatch.begin must be called before draw.");
 
         float[] vertices = this.vertices;
@@ -1154,8 +1217,10 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
         vertices[idx++] = ti;
     }
 
-    /** Flushes if the vertices array cannot hold an additional sprite ((spriteVertexSize + 1) * 4 vertices) anymore. */
-    protected void flushIfFull () {
+    /**
+     * Flushes if the vertices array cannot hold an additional sprite ((spriteVertexSize + 1) * 4 vertices) anymore.
+     */
+    protected void flushIfFull() {
         // original Sprite attribute size plus two extra floats per sprite vertex
         if (vertices.length - idx < spriteFloatSize) {
             flush();
@@ -1163,7 +1228,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     @Override
-    public void flush () {
+    public void flush() {
         if (idx == 0) return;
 
         renderCalls++;
@@ -1193,7 +1258,8 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
             Gdx.gl.glDisable(GL20.GL_BLEND);
         } else {
             Gdx.gl.glEnable(GL20.GL_BLEND);
-            if (blendSrcFunc != -1) Gdx.gl.glBlendFuncSeparate(blendSrcFunc, blendDstFunc, blendSrcFuncAlpha, blendDstFuncAlpha);
+            if (blendSrcFunc != -1)
+                Gdx.gl.glBlendFuncSeparate(blendSrcFunc, blendDstFunc, blendSrcFuncAlpha, blendDstFuncAlpha);
         }
 
         if (customShader != null) {
@@ -1205,10 +1271,13 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
         idx = 0;
     }
 
-    /** Assigns Texture units and manages the LFU cache.
+    /**
+     * Assigns Texture units and manages the LFU cache.
+     *
      * @param texture The texture that shall be loaded into the cache, if it is not already loaded.
-     * @return The texture slot that has been allocated to the selected texture */
-    protected int activateTexture (Texture texture) {
+     * @return The texture slot that has been allocated to the selected texture
+     */
+    protected int activateTexture(Texture texture) {
         invTexWidth = 1.0f / texture.getWidth();
         invTexHeight = 1.0f / texture.getHeight();
 
@@ -1279,24 +1348,30 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
         return slot;
     }
 
-    /** @return The number of texture swaps the LFU cache performed since calling {@link #begin()}. */
-    public int getTextureLFUSwaps () {
+    /**
+     * @return The number of texture swaps the LFU cache performed since calling {@link #begin()}.
+     */
+    public int getTextureLFUSwaps() {
         return currentTextureLFUSwaps;
     }
 
-    /** @return The current number of textures in the LFU cache. Gets reset when calling {@link #begin()}. */
-    public int getTextureLFUSize () {
+    /**
+     * @return The current number of textures in the LFU cache. Gets reset when calling {@link #begin()}.
+     */
+    public int getTextureLFUSize() {
         return currentTextureLFUSize;
     }
 
-    /** @return The maximum number of textures that the LFU cache can hold. This limit is imposed by the driver.
-     * @see #getMaxTextureUnits() */
-    public int getTextureLFUCapacity () {
+    /**
+     * @return The maximum number of textures that the LFU cache can hold. This limit is imposed by the driver.
+     * @see #getMaxTextureUnits()
+     */
+    public int getTextureLFUCapacity() {
         return getMaxTextureUnits();
     }
 
     @Override
-    public void disableBlending () {
+    public void disableBlending() {
         if (blendingDisabled) return;
 
         flush();
@@ -1305,7 +1380,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     @Override
-    public void enableBlending () {
+    public void enableBlending() {
         if (!blendingDisabled) return;
 
         flush();
@@ -1314,14 +1389,14 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     @Override
-    public void setBlendFunction (int srcFunc, int dstFunc) {
+    public void setBlendFunction(int srcFunc, int dstFunc) {
         setBlendFunctionSeparate(srcFunc, dstFunc, srcFunc, dstFunc);
     }
 
     @Override
-    public void setBlendFunctionSeparate (int srcFuncColor, int dstFuncColor, int srcFuncAlpha, int dstFuncAlpha) {
+    public void setBlendFunctionSeparate(int srcFuncColor, int dstFuncColor, int srcFuncAlpha, int dstFuncAlpha) {
         if (blendSrcFunc == srcFuncColor && blendDstFunc == dstFuncColor && blendSrcFuncAlpha == srcFuncAlpha
-            && blendDstFuncAlpha == dstFuncAlpha) {
+                && blendDstFuncAlpha == dstFuncAlpha) {
             return;
         }
 
@@ -1334,7 +1409,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     @Override
-    public void setProjectionMatrix (Matrix4 projection) {
+    public void setProjectionMatrix(Matrix4 projection) {
         if (drawing) flush();
 
         projectionMatrix.set(projection);
@@ -1343,7 +1418,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     @Override
-    public void setTransformMatrix (Matrix4 transform) {
+    public void setTransformMatrix(Matrix4 transform) {
         if (drawing) flush();
 
         transformMatrix.set(transform);
@@ -1351,7 +1426,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
         if (drawing) setupMatrices();
     }
 
-    public void setupMatrices () {
+    public void setupMatrices() {
         combinedMatrix.set(projectionMatrix).mul(transformMatrix);
         if (customShader != null) {
             customShader.setUniformMatrix("u_projTrans", combinedMatrix);
@@ -1362,11 +1437,14 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
         }
     }
 
-    /** Queries the number of supported textures in a texture array by trying to create the default shader.<br>
+    /**
+     * Queries the number of supported textures in a texture array by trying to create the default shader.<br>
      * The first call of this method is very expensive, after that it simply returns a cached value.
+     *
      * @return the number of supported textures in a texture array or zero if this feature is unsupported on this device.
-     * @see #setShader(ShaderProgram shader) */
-    public static int getMaxTextureUnits () {
+     * @see #setShader(ShaderProgram shader)
+     */
+    public static int getMaxTextureUnits() {
         if (maxTextureUnits == -1) {
             // Query the number of available texture units and decide on a safe number of texture units to use
             IntBuffer texUnitsQueryBuffer = BufferUtils.newIntBuffer(32);
@@ -1393,7 +1471,8 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
         return maxTextureUnits;
     }
 
-    /** Sets the shader to be used in a GLES 2.0 environment. Vertex position attribute is called "a_position", the texture
+    /**
+     * Sets the shader to be used in a GLES 2.0 environment. Vertex position attribute is called "a_position", the texture
      * coordinates attribute is called "a_texCoord0", the color attribute is called "a_color", texture unit index is called
      * "a_texture_index", this needs to be converted to int with int(...) in the fragment shader. See
      * {@link ShaderProgram#POSITION_ATTRIBUTE}, {@link ShaderProgram#COLOR_ATTRIBUTE} and {@link ShaderProgram#TEXCOORD_ATTRIBUTE}
@@ -1405,11 +1484,13 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
      * <p>
      * This method will flush the batch before setting the new shader, you can call it in between {@link #begin()} and
      * {@link #end()}.
+     *
      * @param shader the {@link ShaderProgram} or null to use the default shader.
      * @see #createDefaultShader(int)
-     * @see #getMaxTextureUnits() */
+     * @see #getMaxTextureUnits()
+     */
     @Override
-    public void setShader (ShaderProgram shader) {
+    public void setShader(ShaderProgram shader) {
         if (drawing) {
             flush();
 
@@ -1434,7 +1515,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     @Override
-    public ShaderProgram getShader () {
+    public ShaderProgram getShader() {
         if (customShader != null) return customShader;
         return shader;
     }

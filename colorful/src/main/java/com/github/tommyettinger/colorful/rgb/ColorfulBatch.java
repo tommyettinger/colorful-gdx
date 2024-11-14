@@ -29,7 +29,7 @@ import com.badlogic.gdx.utils.NumberUtils;
 import java.nio.Buffer;
 
 /**
- * A substitute for {@link com.badlogic.gdx.graphics.g2d.SpriteBatch} that adds an additional attribute to store an
+ * A substitute for {@link com.badlogic.gdx.graphics.g2d.SpriteBatch} that adds another attribute to store an
  * extra color's worth of channels, used to modify the RGB channels of a color by multiplication (called the "tweak")
  * while the primary color affects the color additively (just called the color, often drawn from {@link Palette} or
  * generated with {@link ColorTools}). This ColorfulBatch uses the RGB color space, like SpriteBatch, but the batch
