@@ -35,6 +35,7 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.colorful.DawnlikeData;
+import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.rgb.squid.AnimatedGlidingSprite;
 import com.github.tommyettinger.digital.MathTools;
 import com.github.tommyettinger.ds.IntObjectMap;
@@ -318,7 +319,8 @@ public class ColorDungeon extends ApplicationAdapter {
         playerSprite = new AnimatedGlidingSprite(new Animation<>(DURATION,
                 atlas.findRegions(rng.randomElement(DawnlikeData.possibleCharacters)), Animation.PlayMode.LOOP), player);
         playerSprite.setSize(1f, 1f);
-        playerSprite.setPackedColor(SimplePalette.GRAY);
+        playerSprite.setColor(Palette.GRAY);
+        playerSprite.setTweak(0.75f, 0.75f, 0.75f, 0.5f);
         playerDirector = new Director<>(AnimatedGlidingSprite::getLocation, ObjectList.with(playerSprite), 150);
 
         vision.restart(linePlaceMap, player, 8);
@@ -334,9 +336,12 @@ public class ColorDungeon extends ApplicationAdapter {
                     new AnimatedGlidingSprite(new Animation<>(DURATION,
                             atlas.findRegions(enemy), Animation.PlayMode.LOOP), monPos);
             monster.setSize(1f, 1f);
+            int monColor = FullPaletteRgb.COLOR_WHEEL_PALETTE_MID[rng.nextInt(FullPaletteRgb.COLOR_WHEEL_PALETTE_MID.length)];
+            monster.setColor(ColorTools.fromRGBA8888(DescriptiveColorRgb.darken(monColor, 0.25f)));
+            monster.setTweak(0.8f, 0.25f, 0.8f, 0.5f);
             monsters.put(monPos, monster);
             vision.lighting.addLight(monPos, new Radiance(rng.nextFloat(3f) + 2f,
-                    FullPaletteRgb.COLOR_WHEEL_PALETTE_MID[rng.nextInt(FullPaletteRgb.COLOR_WHEEL_PALETTE_MID.length)], 0.5f, 0f));
+                    monColor, 0.5f, 0f));
         }
 //        monsterDirector = new Director<>((e) -> e.getValue().getLocation(), monsters, 125);
         monsterDirector = new Director<>(c -> monsters.get(c).getLocation(), monsters.order(), 150);
@@ -711,11 +716,11 @@ public class ColorDungeon extends ApplicationAdapter {
             for (int j = 0; j < placeHeight; j++) {
                 if (lightLevels[i][j] > 0.01) {
                     if ((monster = monsters.get(Coord.get(i, j))) != null) {
-                        monster.animate(time).setPackedColor(DescriptiveColorRgb.toFloat(DescriptiveColorRgb.darken(vision.getForegroundColor(i, j, change), 0.5f)));
+                        monster.animate(time).setColor(DescriptiveColorRgb.toFloat(DescriptiveColorRgb.darken(vision.getForegroundColor(i, j, change), 0.5f)));
                         monster.draw(batch);
                     }
                 } else if (vision.justHidden.contains(i, j) && (monster = monsters.get(Coord.get(i, j))) != null) {
-                    monster.animate(time).setPackedColor(DescriptiveColorRgb.toFloat(DescriptiveColorRgb.darken(vision.getForegroundColor(i, j, change), 0.5f)));
+                    monster.animate(time).setColor(DescriptiveColorRgb.toFloat(DescriptiveColorRgb.darken(vision.getForegroundColor(i, j, change), 0.5f)));
                     monster.draw(batch);
                 }
             }
