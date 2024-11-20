@@ -23,7 +23,6 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -35,7 +34,6 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.colorful.DawnlikeData;
-import com.github.tommyettinger.colorful.FloatColors;
 import com.github.tommyettinger.colorful.rgb.squid.AnimatedGlidingSprite;
 import com.github.tommyettinger.digital.MathTools;
 import com.github.tommyettinger.ds.IntObjectMap;
@@ -319,12 +317,18 @@ public class ColorDungeon extends ApplicationAdapter {
         playerSprite = new AnimatedGlidingSprite(new Animation<>(DURATION,
                 atlas.findRegions(rng.randomElement(DawnlikeData.possibleCharacters)), Animation.PlayMode.LOOP), player);
         playerSprite.setSize(1f, 1f);
-        playerSprite.setColor(Palette.GRAY);
-        playerSprite.setTweak(0.75f, 0.75f, 0.75f, 0.5f);
+        playerSprite.setTweakedColor(0.5f, 0.5f, 0.5f, 1f, 0.95f, 0.95f, 0.95f, 0.65f);
         playerDirector = new Director<>(AnimatedGlidingSprite::getLocation, ObjectList.with(playerSprite), 150);
 
         vision.restart(linePlaceMap, player, 8);
-        vision.lighting.addLight(player, new Radiance(8, DescriptiveColorRgb.darken(FullPaletteRgb.COSMIC_LATTE, 0.25f), 0.3f, 0f));
+        // Here, we need to modify part of VisionFramework that initially thinks the neutral color (which produces no
+        // change when tinting) is RGBA white, when it really should be RGBA 50% gray in our case.
+        vision.lighting = new LightingManagerRgb(vision.lighting.resistances, vision.lighting.backgroundColor, vision.lighting.radiusStrategy, vision.lighting.viewerRange, vision.lighting.symmetry) {
+            public int getNeutralColor() {
+                return DescriptiveColorRgb.GRAY;
+            }
+        };
+        vision.lighting.addLight(player, new Radiance(8, FullPaletteRgb.COSMIC_LATTE, 0.3f, 0f));
         floors.remove(player);
         int numMonsters = 100;
         monsters = new CoordObjectOrderedMap<>(numMonsters);
@@ -337,8 +341,9 @@ public class ColorDungeon extends ApplicationAdapter {
                             atlas.findRegions(enemy), Animation.PlayMode.LOOP), monPos);
             monster.setSize(1f, 1f);
             int monColor = FullPaletteRgb.COLOR_WHEEL_PALETTE_MID[rng.nextInt(FullPaletteRgb.COLOR_WHEEL_PALETTE_MID.length)];
-            monster.setColor(ColorTools.fromRGBA8888(DescriptiveColorRgb.darken(monColor, 0.25f)));
-            monster.setTweak(0.8f, 0.25f, 0.8f, 0.5f);
+            monster.setColor(ColorTools.fromRGBA8888(monColor));
+            monster.setTweak(0.85f, 0.85f, 0.85f, 0.6f);
+//            System.out.println(enemy + ": color 0x" + DigitTools.hex(ColorTools.toRGBA8888(monster.getColor())));
             monsters.put(monPos, monster);
             vision.lighting.addLight(monPos, new Radiance(rng.nextFloat(3f) + 2f,
                     monColor, 0.5f, 0f));
@@ -701,7 +706,7 @@ public class ColorDungeon extends ApplicationAdapter {
                 char glyph = vision.prunedPlaceMap[x][y];
                 if (vision.seen.contains(x, y)) {
                     // cells that were seen more than one frame ago, and aren't visible now, appear as a gray memory.
-                    batch.setPackedColor(DescriptiveColorRgb.toFloat(DescriptiveColorRgb.darken(vision.backgroundColors[x][y], 0.5f)));
+                    batch.setPackedColor(DescriptiveColorRgb.toFloat(vision.backgroundColors[x][y]));
                     if (glyph == '/' || glyph == '+' || glyph == '1' || glyph == '2') // doors expect a floor drawn beneath them
                         batch.draw(charMapping.getOrDefault('.', solid), x, y, 1f, 1f);
                     batch.draw(charMapping.getOrDefault(glyph, solid), x, y, 1f, 1f);
@@ -716,11 +721,11 @@ public class ColorDungeon extends ApplicationAdapter {
             for (int j = 0; j < placeHeight; j++) {
                 if (lightLevels[i][j] > 0.01) {
                     if ((monster = monsters.get(Coord.get(i, j))) != null) {
-                        monster.animate(time).setColor(DescriptiveColorRgb.toFloat(DescriptiveColorRgb.darken(vision.getForegroundColor(i, j, change), 0.5f)));
+                        monster.animate(time);//.setColor(DescriptiveColorRgb.toFloat(DescriptiveColorRgb.darken(vision.getForegroundColor(i, j, change), 0.5f)));
                         monster.draw(batch);
                     }
                 } else if (vision.justHidden.contains(i, j) && (monster = monsters.get(Coord.get(i, j))) != null) {
-                    monster.animate(time).setColor(DescriptiveColorRgb.toFloat(DescriptiveColorRgb.darken(vision.getForegroundColor(i, j, change), 0.5f)));
+                    monster.animate(time);//.setColor(DescriptiveColorRgb.toFloat(DescriptiveColorRgb.darken(vision.getForegroundColor(i, j, change), 0.5f)));
                     monster.draw(batch);
                 }
             }

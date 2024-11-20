@@ -186,8 +186,8 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
         String vertexShader =   "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
                               + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
                               + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
-                              + "attribute float " + TEXTURE_INDEX_ATTRIBUTE + ";\n"
                               + "attribute vec4 " + TWEAK_ATTRIBUTE + ";\n"
+                              + "attribute float " + TEXTURE_INDEX_ATTRIBUTE + ";\n"
                               + "uniform mat4 u_projTrans;\n"
                               + "varying vec4 v_color;\n"
                               + "varying vec4 v_tweak;\n"
@@ -200,6 +200,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
                               + "   v_color.rgb = v_color.rgb - 0.5;\n"
                               + "   v_color.a = v_color.a * (255.0/254.0);\n"
                               + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
+                              + "   v_tweak.rgb = v_tweak.rgb * 2.0;\n"
                               + "   v_tweak.a = v_tweak.a * (255.0/254.0);\n"
                               + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
                               + "   v_texture_index = " + TEXTURE_INDEX_ATTRIBUTE + ";\n"
@@ -232,7 +233,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
                 // Changed for texture array support
                                 + "  vec4 tgt = texture2D(u_textures[int(v_texture_index)], v_texCoords);\n"
                 // End
-                                + "  tgt.rgb = barronSpline(clamp(tgt.rgb * v_tweak.rgb * 2.0 + v_color.rgb, 0.0, 1.0), v_tweak.a * 1.5 + 0.25);\n"
+                                + "  tgt.rgb = barronSpline(clamp((tgt.rgb - 0.5) * v_tweak.rgb + 0.5 + v_color.rgb, 0.0, 1.0), v_tweak.a * 1.5 + 0.25);\n"
                                 + "  tgt.a *= v_color.a;\n"
                                 + "  gl_FragColor = tgt;\n"
                                 + "}";
