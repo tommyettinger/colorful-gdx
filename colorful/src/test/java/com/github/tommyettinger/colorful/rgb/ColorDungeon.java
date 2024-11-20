@@ -328,6 +328,8 @@ public class ColorDungeon extends ApplicationAdapter {
                 return DescriptiveColorRgb.GRAY;
             }
         };
+        // This seems to be needed if vision.lighting was changed externally.
+        vision.finishChanges();
         vision.lighting.addLight(player, new Radiance(8, FullPaletteRgb.COSMIC_LATTE, 0.3f, 0f));
         floors.remove(player);
         int numMonsters = 100;
@@ -721,11 +723,11 @@ public class ColorDungeon extends ApplicationAdapter {
             for (int j = 0; j < placeHeight; j++) {
                 if (lightLevels[i][j] > 0.01) {
                     if ((monster = monsters.get(Coord.get(i, j))) != null) {
-                        monster.animate(time);//.setColor(DescriptiveColorRgb.toFloat(DescriptiveColorRgb.darken(vision.getForegroundColor(i, j, change), 0.5f)));
+                        monster.animate(time);//.setColor(DescriptiveColorRgb.toFloat(vision.getForegroundColor(i, j, change)));
                         monster.draw(batch);
                     }
                 } else if (vision.justHidden.contains(i, j) && (monster = monsters.get(Coord.get(i, j))) != null) {
-                    monster.animate(time);//.setColor(DescriptiveColorRgb.toFloat(DescriptiveColorRgb.darken(vision.getForegroundColor(i, j, change), 0.5f)));
+                    monster.animate(time);//.setColor(DescriptiveColorRgb.toFloat(vision.getForegroundColor(i, j, change)));
                     monster.draw(batch);
                 }
             }
