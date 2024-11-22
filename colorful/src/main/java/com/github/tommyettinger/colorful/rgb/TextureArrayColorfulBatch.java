@@ -109,8 +109,8 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
      * @param defaultShader The default shader to use. This is not owned by the TextureArrayColorfulBatch and must be disposed
      *           separately.
      * @throws IllegalStateException Thrown if the device does not support texture arrays. Make sure to implement a Fallback to
-     *            {@link SpriteBatch} in case Texture Arrays are not supported on a client's device.
-     * @see #createDefaultShader(int)
+     *            {@link ColorfulBatch} in case Texture Arrays are not supported on a client's device.
+     * @see #createDefaultShader(int, String, String)
      * @see #getMaxTextureUnits() */
     public TextureArrayColorfulBatch(int size, ShaderProgram defaultShader) throws IllegalStateException {
         // 32767 is max vertex index, so 32767 / 4 vertices per sprite = 8191 sprites max.
@@ -124,7 +124,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
         }
 
         if (defaultShader == null) {
-            shader = createDefaultShader(maxTextureUnits);
+            shader = createDefaultShader(maxTextureUnits, vertexShader, fragmentShader);
             ownsShader = true;
 
         } else {
@@ -173,80 +173,35 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
 
     /**
      * Returns a new instance of the default shader used by TextureArrayColorfulBatch for GL2 when no shader is
-     * specified. Does not have any {@code #version}
-     * specified in the shader source. This expects an extra attribute (relative to a normal SpriteBatch) that is used
+     * specified. Does not have any {@code #version} specified in the shader source.
+     * This expects an extra attribute (relative to a normal SpriteBatch) that is used
      * for the tweak, and handles its own extra attribute internally for the current texture index.
-     * You should not use {@link ShaderProgram#prependVertexCode} or {@link ShaderProgram#prependFragmentCode} with
-     * this shader; this sets the GLSL version of the shader code automatically to 100 or 150, as appropriate.
+     * If the fragment shader contains the String <code>@maxTextureUnits@</code>, that will be replaced by the value of
+     * the parameter {@code maxTextureUnits}, and this should be done at runtime by this class.
+     * This ignores {@link ShaderProgram#prependVertexCode} and {@link ShaderProgram#prependFragmentCode}. Instead, it
+     * sets the GLSL version of the shader code automatically to 100 or 150, as appropriate.
      * @see #getMaxTextureUnits()
      * @param maxTextureUnits look this up once with {@link #getMaxTextureUnits()} for the current hardware
+     * @param vertex typically {@link #vertexShader}, but can also be user-defined
+     * @param fragment typically {@link #fragmentShader}, but can also be {@link #fragmentShaderAlternateTintCenter} or user-defined
      * @return the default ShaderProgram for this Batch
      */
-    public static ShaderProgram createDefaultShader (int maxTextureUnits) {
-        String vertexShader =   "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
-                              + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
-                              + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
-                              + "attribute vec4 " + TWEAK_ATTRIBUTE + ";\n"
-                              + "attribute float " + TEXTURE_INDEX_ATTRIBUTE + ";\n"
-                              + "uniform mat4 u_projTrans;\n"
-                              + "varying vec4 v_color;\n"
-                              + "varying vec4 v_tweak;\n"
-                              + "varying vec2 v_texCoords;\n"
-                              + "varying float v_texture_index;\n"
-                              + "\n"
-                              + "void main()\n"
-                              + "{\n"
-                              + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
-                              + "   v_color.rgb = v_color.rgb - 0.5;\n"
-                              + "   v_color.a = v_color.a * (255.0/254.0);\n"
-                              + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
-                              + "   v_tweak.rgb = v_tweak.rgb * 2.0;\n"
-                              + "   v_tweak.a = v_tweak.a * (255.0/254.0);\n"
-                              + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
-                              + "   v_texture_index = " + TEXTURE_INDEX_ATTRIBUTE + ";\n"
-                              + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
-                              + "}\n";
-
-        String fragmentShader =   "#ifdef GL_ES\n"
-                                + "#define LOWP lowp\n"
-                                + "precision mediump float;\n"
-                                + "#else\n"
-                                + "#define LOWP\n"
-                                + "#endif\n"
-                                + "varying LOWP vec4 v_color;\n"
-                                + "varying LOWP vec4 v_tweak;\n"
-                                + "varying vec2 v_texCoords;\n"
-                // Added for texture array support
-                                + "varying float v_texture_index;\n"
-                                + "uniform sampler2D u_textures[" + maxTextureUnits + "];\n"
-                // End
-                                + "vec3 barronSpline(vec3 x, float shape) {\n"
-                                + "        const float turning = 0.5;\n"
-                                + "        vec3 d = turning - x;\n"
-                                + "        return mix(\n"
-                                + "          ((1. - turning) * (x - 1.)) / (1. - (x + shape * d)) + 1.,\n"
-                                + "          (turning * x) / (1.0e-20 + (x + shape * d)),\n"
-                                + "          step(0.0, d));\n"
-                                + "}\n"
-                                + "void main()\n"//
-                                + "{\n"
-                // Changed for texture array support
-                                + "  vec4 tgt = texture2D(u_textures[int(v_texture_index)], v_texCoords);\n"
-                // End
-                                + "  tgt.rgb = barronSpline(clamp((tgt.rgb - 0.5) * v_tweak.rgb + 0.5 + v_color.rgb, 0.0, 1.0), v_tweak.a * 1.5 + 0.25);\n"
-                                + "  tgt.a *= v_color.a;\n"
-                                + "  gl_FragColor = tgt;\n"
-                                + "}";
-
+    public static ShaderProgram createDefaultShader (int maxTextureUnits, String vertex, String fragment) {
         final ApplicationType appType = Gdx.app.getType();
-
+        String prependVertex = ShaderProgram.prependVertexCode;
+        String prependFragment = ShaderProgram.prependFragmentCode;
+        ShaderProgram.prependVertexCode = "";
+        ShaderProgram.prependFragmentCode = "";
+        String fragmentShader;
         if (appType == ApplicationType.Android || appType == ApplicationType.iOS || appType == ApplicationType.WebGL) {
-            fragmentShader = "#version 100\n" + fragmentShader;
+            fragmentShader = "#version 100\n" + fragment.replace("@maxTextureUnits@", String.valueOf(maxTextureUnits));
         } else {
-            fragmentShader = "#version 150\n" + fragmentShader;
+            fragmentShader = "#version 150\n" + fragment.replace("@maxTextureUnits@", String.valueOf(maxTextureUnits));
         }
 
-        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
+        ShaderProgram shader = new ShaderProgram(vertex, fragmentShader);
+        ShaderProgram.prependVertexCode = prependVertex;
+        ShaderProgram.prependFragmentCode = prependFragment;
 
         if (!shader.isCompiled()) {
             throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
@@ -254,7 +209,122 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
 
         return shader;
     }
-
+    /**
+     * The default shader's vertex part.
+     * <br>
+     * This is meant to be used with {@link #fragmentShader} or {@link #fragmentShaderAlternateTintCenter}.
+     */
+    public static final String vertexShader =
+            "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+                    + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+                    + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+                    + "attribute vec4 " + TWEAK_ATTRIBUTE + ";\n"
+                    + "attribute float " + TEXTURE_INDEX_ATTRIBUTE + ";\n"
+                    + "uniform mat4 u_projTrans;\n"
+                    + "varying vec4 v_color;\n"
+                    + "varying vec4 v_tweak;\n"
+                    + "varying vec2 v_texCoords;\n"
+                    + "varying float v_texture_index;\n"
+                    + "\n"
+                    + "void main()\n"
+                    + "{\n"
+                    + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+                    + "   v_color.rgb = v_color.rgb - 0.5;\n"
+                    + "   v_color.a = v_color.a * (255.0/254.0);\n"
+                    + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
+                    + "   v_tweak.rgb = v_tweak.rgb;\n"
+                    + "   v_tweak.a = v_tweak.a * (255.0/254.0);\n"
+                    + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+                    + "   v_texture_index = " + TEXTURE_INDEX_ATTRIBUTE + ";\n"
+                    + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+                    + "}\n";
+    /**
+     * The default shader's fragment part.
+     * <br>
+     * This must have the String <code>@maxTextureUnits@</code> replaced with the value of {@link #maxTextureUnits} at
+     * runtime.
+     * <br>
+     * This is meant to be used with {@link #vertexShader} and passed to {@link #TextureArrayColorfulBatch(int, ShaderProgram)}
+     */
+    public static final String fragmentShader =
+            "#ifdef GL_ES\n"
+                    + "#define LOWP lowp\n"
+                    + "precision mediump float;\n"
+                    + "#else\n"
+                    + "#define LOWP\n"
+                    + "#endif\n"
+                    + "varying LOWP vec4 v_color;\n"
+                    + "varying LOWP vec4 v_tweak;\n"
+                    + "varying vec2 v_texCoords;\n"
+                    // Added for texture array support
+                    + "varying float v_texture_index;\n"
+                    + "uniform sampler2D u_textures[@maxTextureUnits@];\n"
+                    // End
+                    + "vec3 barronSpline(vec3 x, float shape) {\n"
+                    + "        const float turning = 0.5;\n"
+                    + "        vec3 d = turning - x;\n"
+                    + "        return mix(\n"
+                    + "          ((1. - turning) * (x - 1.)) / (1. - (x + shape * d)) + 1.,\n"
+                    + "          (turning * x) / (1.0e-20 + (x + shape * d)),\n"
+                    + "          step(0.0, d));\n"
+                    + "}\n"
+                    + "void main()\n"//
+                    + "{\n"
+                    // Changed for texture array support
+                    + "  vec4 tgt = texture2D(u_textures[int(v_texture_index)], v_texCoords);\n"
+                    // End
+                    + "  tgt.rgb = barronSpline(clamp(tgt.rgb * v_tweak.rgb * 2.0 + v_color.rgb, 0.0, 1.0), v_tweak.a * 1.5 + 0.25);\n"
+                    + "  tgt.a *= v_color.a;\n"
+                    + "  gl_FragColor = tgt;\n"
+                    + "}";
+    /**
+     * A special-purpose fragment shader meant for use only here in the RGB TextureArrayColorfulBatch, this can be used
+     * to create a ShaderProgram and passed into the constructor or {@link #setShader(ShaderProgram)}.
+     * Using this vertex shader changes what RGB channel value is considered the "center" as the tweak applies to it.
+     * With this shader, 2x tint is multiplied with (each RGB channel of the rendered pixel minus 0.5), then color
+     * changes to RGB are added in and 0.5 is added back to re-center the changes. The important difference here is that
+     * a tweak of all 0.0 for RGB will make the additive color be used exactly for every pixel of a sprite using that
+     * tweak. Using the original {@link #fragmentShader} would be similar, but would be centered on black, and the
+     * added color uniform could only take a channel up to 0.5, and no higher. A side effect is that tweak values above
+     * 0.5 will increase high values in their channel, but also decrease low values. This is something like increasing
+     * contrast per-RGB-channel.
+     * <br>
+     * This must have the String <code>@maxTextureUnits@</code> replaced with the value of {@link #maxTextureUnits} at
+     * runtime.
+     * <br>
+     * The vertex shader doesn't need to be modified here, so you can use {@link #vertexShader} as normal.
+     */
+    public static final String fragmentShaderAlternateTintCenter =
+            "#ifdef GL_ES\n"
+                    + "#define LOWP lowp\n"
+                    + "precision mediump float;\n"
+                    + "#else\n"
+                    + "#define LOWP\n"
+                    + "#endif\n"
+                    + "varying LOWP vec4 v_color;\n"
+                    + "varying LOWP vec4 v_tweak;\n"
+                    + "varying vec2 v_texCoords;\n"
+                    // Added for texture array support
+                    + "varying float v_texture_index;\n"
+                    + "uniform sampler2D u_textures[@maxTextureUnits@];\n"
+                    // End
+                    + "vec3 barronSpline(vec3 x, float shape) {\n"
+                    + "        const float turning = 0.5;\n"
+                    + "        vec3 d = turning - x;\n"
+                    + "        return mix(\n"
+                    + "          ((1. - turning) * (x - 1.)) / (1. - (x + shape * d)) + 1.,\n"
+                    + "          (turning * x) / (1.0e-20 + (x + shape * d)),\n"
+                    + "          step(0.0, d));\n"
+                    + "}\n"
+                    + "void main()\n"//
+                    + "{\n"
+                    // Changed for texture array support
+                    + "  vec4 tgt = texture2D(u_textures[int(v_texture_index)], v_texCoords);\n"
+                    // End
+                    + "  tgt.rgb = barronSpline(clamp((tgt.rgb - 0.5) * (v_tweak.rgb * 2.0) + v_color.rgb + 0.5, 0.0, 1.0), v_tweak.a * 1.5 + 0.25);\n"
+                    + "  tgt.a *= v_color.a;\n"
+                    + "  gl_FragColor = tgt;\n"
+                    + "}";
     @Override
     public void begin () {
         if (drawing) throw new IllegalStateException("TextureArrayColorfulBatch.end must be called before begin.");
@@ -1381,7 +1451,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
             // Will try to find the maximum amount of texture units supported.
             while (maxTextureUnitsLocal > 0) {
                 try {
-                    ShaderProgram tempProg = createDefaultShader(maxTextureUnitsLocal);
+                    ShaderProgram tempProg = createDefaultShader(maxTextureUnitsLocal, vertexShader, fragmentShader);
                     tempProg.dispose();
                     break;
                 } catch (Exception e) {
@@ -1400,14 +1470,14 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
      * {@link ShaderProgram#POSITION_ATTRIBUTE}, {@link ShaderProgram#COLOR_ATTRIBUTE} and {@link ShaderProgram#TEXCOORD_ATTRIBUTE}
      * which gets "0" appended to indicate the use of the first texture unit. The combined transform and projection matrix is
      * uploaded via a mat4 uniform called "u_projTrans". The texture sampler array is passed via a uniform called "u_textures", see
-     * {@link TextureArrayColorfulBatch#createDefaultShader(int)} for reference.
+     * {@link TextureArrayColorfulBatch#createDefaultShader(int, String, String)} for reference.
      * <p>
      * Call this method with a null argument to use the default shader.
      * <p>
      * This method will flush the batch before setting the new shader, you can call it in between {@link #begin()} and
      * {@link #end()}.
      * @param shader the {@link ShaderProgram} or null to use the default shader.
-     * @see #createDefaultShader(int)
+     * @see #createDefaultShader(int, String, String)
      * @see #getMaxTextureUnits() */
     @Override
     public void setShader (ShaderProgram shader) {
