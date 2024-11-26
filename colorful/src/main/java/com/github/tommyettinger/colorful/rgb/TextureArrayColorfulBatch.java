@@ -17,7 +17,6 @@ import com.badlogic.gdx.math.Affine2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.BufferUtils;
-import com.badlogic.gdx.utils.IdentityMap;
 
 /**
  * Draws batched quads using indices. Like {@link ColorfulBatch}, this adds another attribute to store an
@@ -87,8 +86,6 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
 
     /** The current number of texture swaps in the LFU cache. Gets reset when calling {@link #begin()} **/
     protected int currentTextureLFUSwaps = 0;
-
-    public final IdentityMap<Texture, Integer> textureIDs = new IdentityMap<>(32);
 
     /** Constructs a new TextureArrayColorfulBatch with a size of 1000, one buffer, and the default shader.
      * @see TextureArrayColorfulBatch#TextureArrayColorfulBatch(int, ShaderProgram) */
@@ -331,7 +328,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     @Override
     public void begin () {
         if (drawing) throw new IllegalStateException("TextureArrayColorfulBatch.end must be called before begin.");
-        textureIDs.clear();
+
         renderCalls = 0;
 
         currentTextureLFUSize = 0;
@@ -1296,8 +1293,6 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
             if (textureHandle == usedTextures[i].getTextureObjectHandle()) {
                 // Increase the access counter.
                 usedTexturesLFU[i]++;
-
-                textureIDs.put(texture, i);
                 return i;
             }
         }
@@ -1309,8 +1304,6 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
             usedTextures[currentTextureLFUSize] = texture;
             // Increase the access counter.
             usedTexturesLFU[currentTextureLFUSize]++;
-
-            textureIDs.put(texture, currentTextureLFUSize);
             return currentTextureLFUSize++;
         }
 
@@ -1354,7 +1347,6 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
         // For statistics
         currentTextureLFUSwaps++;
 
-        textureIDs.put(texture, slot);
         return slot;
     }
 
