@@ -32,7 +32,7 @@ import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.tommyettinger.colorful.DawnlikeData;
+import com.github.tommyettinger.colorful.DawnlikeDataPartial;
 import com.github.tommyettinger.colorful.rgb.squid.AnimatedGlidingSprite;
 import com.github.tommyettinger.digital.MathTools;
 import com.github.tommyettinger.ds.IntObjectMap;
@@ -311,7 +311,7 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
         //if you gave a seed to the RNG constructor, then the cell this chooses will be reliable for testing. If you
         //don't seed the RNG, any valid cell should be possible.
         player = floors.singleRandom(rng);
-        String playerName = rng.randomElement(DawnlikeData.possibleCharacters);
+        String playerName = rng.randomElement(DawnlikeDataPartial.possibleCharacters);
         playerSprite = new AnimatedGlidingSprite(new Animation<>(DURATION,
                 Array.with(
                         new TextureRegion(new Texture("dawnlike/partial/" + playerName + "_0.png")),
@@ -338,7 +338,7 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
         for (int i = 0; i < numMonsters; i++) {
             Coord monPos = floors.singleRandom(rng);
             floors.remove(monPos);
-            String enemy = rng.randomElement(DawnlikeData.possibleEnemies);
+            String enemy = rng.randomElement(DawnlikeDataPartial.possibleEnemies);
             AnimatedGlidingSprite monster =
                     new AnimatedGlidingSprite(new Animation<>(DURATION,
                             Array.with(
@@ -959,7 +959,7 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
             Gdx.app.log("(PERFORMANCE)", "LFU Capacity: " + batch.getTextureLFUCapacity());
             Gdx.app.log("(PERFORMANCE)", "LFU Size: " + batch.getTextureLFUSize());
             Gdx.app.log("(PERFORMANCE)", "LFU Swaps: " + batch.getTextureLFUSwaps());
-            Gdx.app.log("(PERFORMANCE)", "Total Textures rendered since begin(): " + batch.textureIDs.size);
+//            Gdx.app.log("(PERFORMANCE)", "Total Textures rendered since begin(): " + batch.textureIDs.size);
         }
         batch.end();
         guiViewport.apply(false);
