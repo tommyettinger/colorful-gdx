@@ -124,7 +124,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
         }
 
         if (defaultShader == null) {
-            shader = createDefaultShader(maxTextureUnits, vertexShader, fragmentShader);
+            shader = createDefaultShader(maxTextureUnits);
             ownsShader = true;
 
         } else {
@@ -173,6 +173,19 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
 
     /**
      * Returns a new instance of the default shader used by TextureArrayColorfulBatch for GL2 when no shader is
+     * specified. This overload always uses {@link #vertexShader} and {@link #fragmentShader} to make its ShaderProgram.
+     * This ignores {@link ShaderProgram#prependVertexCode} and {@link ShaderProgram#prependFragmentCode}. Instead, it
+     * sets the GLSL version of the shader code automatically to 100 or 150, as appropriate.
+     * @see #getMaxTextureUnits()
+     * @param maxTextureUnits look this up once with {@link #getMaxTextureUnits()} for the current hardware
+     * @return the default ShaderProgram for this Batch
+     */
+    public static ShaderProgram createDefaultShader (int maxTextureUnits){
+        return createDefaultShader(maxTextureUnits, vertexShader, fragmentShader);
+    }
+
+    /**
+     * Returns a new instance of the default shader used by TextureArrayColorfulBatch for GL2 when no shader is
      * specified. Does not have any {@code #version} specified in the shader source.
      * This expects an extra attribute (relative to a normal SpriteBatch) that is used
      * for the tweak, and handles its own extra attribute internally for the current texture index.
@@ -209,6 +222,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
 
         return shader;
     }
+
     /**
      * The default shader's vertex part.
      * <br>
@@ -242,7 +256,8 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
      * The default shader's fragment part.
      * <br>
      * This must have the String <code>@maxTextureUnits@</code> replaced with the value of {@link #maxTextureUnits} at
-     * runtime.
+     * runtime. This is done by {@link #createDefaultShader(int, String, String)}, but not if you create a
+     * {@link ShaderProgram} yourself.
      * <br>
      * This is meant to be used with {@link #vertexShader} and passed to {@link #TextureArrayColorfulBatch(int, ShaderProgram)}
      */
@@ -290,7 +305,8 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
      * contrast per-RGB-channel.
      * <br>
      * This must have the String <code>@maxTextureUnits@</code> replaced with the value of {@link #maxTextureUnits} at
-     * runtime.
+     * runtime. This is done by {@link #createDefaultShader(int, String, String)}, but not if you create a
+     * {@link ShaderProgram} yourself.
      * <br>
      * The vertex shader doesn't need to be modified here, so you can use {@link #vertexShader} as normal.
      */

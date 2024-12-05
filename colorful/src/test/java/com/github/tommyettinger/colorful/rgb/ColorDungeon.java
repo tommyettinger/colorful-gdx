@@ -96,7 +96,8 @@ public class ColorDungeon extends ApplicationAdapter {
 
     private enum Phase {WAIT, PLAYER_ANIM, MONSTER_ANIM}
 
-    private TextureArrayColorfulBatch batch;
+    private ColorfulBatch batch;
+//    private TextureArrayColorfulBatch batch;
     private Phase phase = Phase.WAIT;
 
     // random number generator; this one is more efficient on GWT, but less-so on desktop.
@@ -397,7 +398,9 @@ public class ColorDungeon extends ApplicationAdapter {
     @Override
     public void create() {
         Gdx.app.setLogLevel(Application.LOG_INFO);
-        // We need access to a batch to render most things.
+
+        // Switch between ColorfulBatch and the newer subclass, TextureArrayColorfulBatch, here.
+//        batch = new ColorfulBatch();
         batch = new TextureArrayColorfulBatch();
 
         rng = new ChopRandom(seed);

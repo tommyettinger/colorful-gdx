@@ -27,14 +27,14 @@ import java.util.Arrays;
  * {@link #end()}. An example would be if your Atlas is spread over multiple Textures or if you draw with individual
  * Textures. This version is compatible with OpenGL ES 2.0.
  *
- * @author mzechner (Original SpriteBatch)
- * @author Nathan Sweet (Original SpriteBatch)
- * @author VaTTeRGeR (TextureArray Extension)
  * @see Batch
  * @see SpriteBatch
  * @see ColorfulBatch
+ *
+ * @author mzechner (Original SpriteBatch)
+ * @author Nathan Sweet (Original SpriteBatch)
+ * @author VaTTeRGeR (TextureArray Extension)
  */
-
 public class TextureArrayColorfulBatch extends ColorfulBatch {
 
     public final int spriteVertexSize = 6; // Size of a ColorfulSprite in bytes
@@ -109,22 +109,19 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
         this(size, null);
     }
 
-    /**
-     * Constructs a new TextureArrayColorfulBatch. Sets the projection matrix to an orthographic projection with y-axis point
+    /** Constructs a new TextureArrayColorfulBatch. Sets the projection matrix to an orthographic projection with y-axis point
      * upwards, x-axis point to the right and the origin being in the bottom left corner of the screen. The projection will be
      * pixel perfect with respect to the current screen resolution.
      * <p>
      * The defaultShader specifies the shader to use. Note that the names for uniforms for this default shader are different than
      * the ones expect for shaders set with {@link #setShader(ShaderProgram)}.
-     *
-     * @param size          The max number of sprites in a single batch. Max of 8191.
+     * @param size The max number of sprites in a single batch. Max of 8191.
      * @param defaultShader The default shader to use. This is not owned by the TextureArrayColorfulBatch and must be disposed
-     *                      separately.
+     *           separately.
      * @throws IllegalStateException Thrown if the device does not support texture arrays. Make sure to implement a Fallback to
-     *                               {@link SpriteBatch} in case Texture Arrays are not supported on a client's device.
-     * @see #createDefaultShader(int)
-     * @see #getMaxTextureUnits()
-     */
+     *            {@link ColorfulBatch} in case Texture Arrays are not supported on a client's device.
+     * @see #createDefaultShader(int, String, String)
+     * @see #getMaxTextureUnits() */
     public TextureArrayColorfulBatch(int size, ShaderProgram defaultShader) throws IllegalStateException {
         // 32767 is max vertex index, so 32767 / 4 vertices per sprite = 8191 sprites max.
         if (size > 8191) throw new IllegalArgumentException("Can't have more than 8191 sprites per batch: " + size);
@@ -174,10 +171,10 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
         short j = 0;
         for (int i = 0; i < len; i += 6, j += 4) {
             indices[i] = j;
-            indices[i + 1] = (short) (j + 1);
-            indices[i + 2] = (short) (j + 2);
-            indices[i + 3] = (short) (j + 2);
-            indices[i + 4] = (short) (j + 3);
+            indices[i + 1] = (short)(j + 1);
+            indices[i + 2] = (short)(j + 2);
+            indices[i + 3] = (short)(j + 2);
+            indices[i + 4] = (short)(j + 3);
             indices[i + 5] = j;
         }
 
@@ -186,90 +183,48 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
 
     /**
      * Returns a new instance of the default shader used by TextureArrayColorfulBatch for GL2 when no shader is
-     * specified. Does not have any {@code #version}
-     * specified in the shader source. This expects an extra attribute (relative to a normal SpriteBatch) that is used
-     * for the tweak, and handles its own extra attribute internally for the current texture index.
-     * You should not use {@link ShaderProgram#prependVertexCode} or {@link ShaderProgram#prependFragmentCode} with
-     * this shader; this sets the GLSL version of the shader code automatically to 100 or 150, as appropriate.
-     *
+     * specified. This overload always uses {@link #vertexShader} and {@link #fragmentShader} to make its ShaderProgram.
+     * This ignores {@link ShaderProgram#prependVertexCode} and {@link ShaderProgram#prependFragmentCode}. Instead, it
+     * sets the GLSL version of the shader code automatically to 100 or 150, as appropriate.
+     * @see #getMaxTextureUnits()
      * @param maxTextureUnits look this up once with {@link #getMaxTextureUnits()} for the current hardware
      * @return the default ShaderProgram for this Batch
-     * @see #getMaxTextureUnits()
      */
-    public static ShaderProgram createDefaultShader(int maxTextureUnits) {
-        String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
-                + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
-                + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
-                + "attribute float " + TEXTURE_INDEX_ATTRIBUTE + ";\n"
-                + "attribute vec4 " + TWEAK_ATTRIBUTE + ";\n"
-                + "uniform mat4 u_projTrans;\n"
-                + "varying vec4 v_color;\n"
-                + "varying vec4 v_tweak;\n"
-                + "varying vec2 v_texCoords;\n"
-                + "varying float v_texture_index;\n"
-                + "\n"
-                + "void main()\n"
-                + "{\n"
-                + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
-                + "   v_color.a = v_color.a * (255.0/254.0);\n"
-                + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
-                + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
-                + "   v_texture_index = " + TEXTURE_INDEX_ATTRIBUTE + ";\n"
-                + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
-                + "}\n";
+    public static ShaderProgram createDefaultShader (int maxTextureUnits){
+        return createDefaultShader(maxTextureUnits, vertexShader, fragmentShader);
+    }
 
-        String fragmentShader = "#ifdef GL_ES\n"
-                + "#define LOWP lowp\n"
-                + "precision mediump float;\n"
-                + "#else\n"
-                + "#define LOWP\n"
-                + "#endif\n"
-                + "varying LOWP vec4 v_color;\n"
-                + "varying LOWP vec4 v_tweak;\n"
-                + "varying vec2 v_texCoords;\n"
-                // Added for texture array support
-                + "varying float v_texture_index;\n"
-                + "uniform sampler2D u_textures[" + maxTextureUnits + "];\n"
-                // End
-                + "const vec3 forward = vec3(1.0 / 3.0);\n"
-                + "float toOklab(float L) {\n"
-                + "  return pow(L, 1.5);\n"
-                + "}\n"
-                + "float fromOklab(float L) {\n"
-                + "  return pow(L, 0.666666);\n"
-                + "}\n"
-                + "void main()\n"//
-                + "{\n"
-                // Changed for texture array support
-                + "  vec4 tgt = texture2D(u_textures[int(v_texture_index)], v_texCoords);\n"
-                // End
-                + "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *"
-                + "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n"
-                + "             * (tgt.rgb * tgt.rgb), forward);\n"
-                + "  lab.x = toOklab(lab.x);\n"
-                + "  // At this point, lab has the value of the RGBA pixel in the texture at v_texCoords, converted to Oklab color space.\n"
-                + "  // You can do the same for v_color and even v_tweak if they come in as RGBA values.\n"
-                + "  lab.x = (lab.x - 0.5) * 2.0;\n"
-                + "  float contrast = exp(v_tweak.w * (-2.0 * 255.0 / 254.0) + 1.0);\n"
-                + "  lab.x = pow(abs(lab.x), contrast) * sign(lab.x);\n"
-                + "  lab.x = fromOklab(clamp(lab.x * v_tweak.x + v_color.x, 0.0, 1.0));\n"
-                + "  lab.yz = clamp((lab.yz * v_tweak.yz + v_color.yz - 0.5) * 2.0, -1.0, 1.0);\n"
-                + "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n"
-                + "  gl_FragColor = vec4(sqrt(clamp("
-                + "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n"
-                + "                 (lab * lab * lab),"
-                + "                 0.0, 1.0)), v_color.a * tgt.a);\n"
-                + "}";
-
+    /**
+     * Returns a new instance of the default shader used by TextureArrayColorfulBatch for GL2 when no shader is
+     * specified. Does not have any {@code #version} specified in the shader source.
+     * This expects an extra attribute (relative to a normal SpriteBatch) that is used
+     * for the tweak, and handles its own extra attribute internally for the current texture index.
+     * If the fragment shader contains the String <code>@maxTextureUnits@</code>, that will be replaced by the value of
+     * the parameter {@code maxTextureUnits}, and this should be done at runtime by this class.
+     * This ignores {@link ShaderProgram#prependVertexCode} and {@link ShaderProgram#prependFragmentCode}. Instead, it
+     * sets the GLSL version of the shader code automatically to 100 or 150, as appropriate.
+     * @see #getMaxTextureUnits()
+     * @param maxTextureUnits look this up once with {@link #getMaxTextureUnits()} for the current hardware
+     * @param vertex typically {@link #vertexShader}, but can also be {@link #vertexShaderOklabWithRGBATint} or user-defined
+     * @param fragment typically {@link #fragmentShader}, but can also be user-defined
+     * @return the default ShaderProgram for this Batch
+     */
+    public static ShaderProgram createDefaultShader (int maxTextureUnits, String vertex, String fragment) {
         final ApplicationType appType = Gdx.app.getType();
-
+        String prependVertex = ShaderProgram.prependVertexCode;
+        String prependFragment = ShaderProgram.prependFragmentCode;
+        ShaderProgram.prependVertexCode = "";
+        ShaderProgram.prependFragmentCode = "";
+        String fragmentShader;
         if (appType == ApplicationType.Android || appType == ApplicationType.iOS || appType == ApplicationType.WebGL) {
-            fragmentShader = "#version 100\n" + fragmentShader;
+            fragmentShader = "#version 100\n" + fragment.replace("@maxTextureUnits@", String.valueOf(maxTextureUnits));
         } else {
-            fragmentShader = "#version 150\n" + fragmentShader;
+            fragmentShader = "#version 150\n" + fragment.replace("@maxTextureUnits@", String.valueOf(maxTextureUnits));
         }
 
-        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
+        ShaderProgram shader = new ShaderProgram(vertex, fragmentShader);
+        ShaderProgram.prependVertexCode = prependVertex;
+        ShaderProgram.prependFragmentCode = prependFragment;
 
         if (!shader.isCompiled()) {
             throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
@@ -277,6 +232,85 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
 
         return shader;
     }
+
+    /**
+     * The default shader's vertex part.
+     * <br>
+     * This is meant to be used with {@link #fragmentShader}.
+     */
+    public static final String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+            + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+            + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+            + "attribute float " + TEXTURE_INDEX_ATTRIBUTE + ";\n"
+            + "attribute vec4 " + TWEAK_ATTRIBUTE + ";\n"
+            + "uniform mat4 u_projTrans;\n"
+            + "varying vec4 v_color;\n"
+            + "varying vec4 v_tweak;\n"
+            + "varying vec2 v_texCoords;\n"
+            + "varying float v_texture_index;\n"
+            + "\n"
+            + "void main()\n"
+            + "{\n"
+            + "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+            + "   v_color.a = v_color.a * (255.0/254.0);\n"
+            + "   v_tweak = " + TWEAK_ATTRIBUTE + ";\n"
+            + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+            + "   v_texture_index = " + TEXTURE_INDEX_ATTRIBUTE + ";\n"
+            + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
+            + "}\n";
+
+    /**
+     * The default shader's fragment part.
+     * <br>
+     * This must have the String <code>@maxTextureUnits@</code> replaced with the value of {@link #maxTextureUnits} at
+     * runtime. This is done by {@link #createDefaultShader(int, String, String)}, but not if you create a
+     * {@link ShaderProgram} yourself.
+     * <br>
+     * This is meant to be used with {@link #vertexShader} or {@link #vertexShaderOklabWithRGBATint}
+     * and passed to {@link #TextureArrayColorfulBatch(int, ShaderProgram)}
+     */
+    public static final String fragmentShader = "#ifdef GL_ES\n"
+            + "#define LOWP lowp\n"
+            + "precision mediump float;\n"
+            + "#else\n"
+            + "#define LOWP\n"
+            + "#endif\n"
+            + "varying LOWP vec4 v_color;\n"
+            + "varying LOWP vec4 v_tweak;\n"
+            + "varying vec2 v_texCoords;\n"
+            // Added for texture array support
+            + "varying float v_texture_index;\n"
+            + "uniform sampler2D u_textures[@maxTextureUnits@];\n"
+            // End
+            + "const vec3 forward = vec3(1.0 / 3.0);\n"
+            + "float toOklab(float L) {\n"
+            + "  return pow(L, 1.5);\n"
+            + "}\n"
+            + "float fromOklab(float L) {\n"
+            + "  return pow(L, 0.666666);\n"
+            + "}\n"
+            + "void main()\n"//
+            + "{\n"
+            // Changed for texture array support
+            + "  vec4 tgt = texture2D(u_textures[int(v_texture_index)], v_texCoords);\n"
+            // End
+            + "  vec3 lab = mat3(+0.2104542553, +1.9779984951, +0.0259040371, +0.7936177850, -2.4285922050, +0.7827717662, -0.0040720468, +0.4505937099, -0.8086757660) *"
+            + "             pow(mat3(0.4121656120, 0.2118591070, 0.0883097947, 0.5362752080, 0.6807189584, 0.2818474174, 0.0514575653, 0.1074065790, 0.6302613616) \n"
+            + "             * (tgt.rgb * tgt.rgb), forward);\n"
+            + "  lab.x = toOklab(lab.x);\n"
+            + "  // At this point, lab has the value of the RGBA pixel in the texture at v_texCoords, converted to Oklab color space.\n"
+            + "  // You can do the same for v_color and even v_tweak if they come in as RGBA values.\n"
+            + "  lab.x = (lab.x - 0.5) * 2.0;\n"
+            + "  float contrast = exp(v_tweak.w * (-2.0 * 255.0 / 254.0) + 1.0);\n"
+            + "  lab.x = pow(abs(lab.x), contrast) * sign(lab.x);\n"
+            + "  lab.x = fromOklab(clamp(lab.x * v_tweak.x + v_color.x, 0.0, 1.0));\n"
+            + "  lab.yz = clamp((lab.yz * v_tweak.yz + v_color.yz - 0.5) * 2.0, -1.0, 1.0);\n"
+            + "  lab = mat3(1.0, 1.0, 1.0, +0.3963377774, -0.1055613458, -0.0894841775, +0.2158037573, -0.0638541728, -1.2914855480) * lab;\n"
+            + "  gl_FragColor = vec4(sqrt(clamp("
+            + "                 mat3(+4.0767245293, -1.2681437731, -0.0041119885, -3.3072168827, +2.6093323231, -0.7034763098, +0.2307590544, -0.3411344290, +1.7068625689) *\n"
+            + "                 (lab * lab * lab),"
+            + "                 0.0, 1.0)), v_color.a * tgt.a);\n"
+            + "}";
 
     /**
      * A special-purpose vertex shader meant for use only here in the Oklab ColorfulBatch, this can be used to create a
