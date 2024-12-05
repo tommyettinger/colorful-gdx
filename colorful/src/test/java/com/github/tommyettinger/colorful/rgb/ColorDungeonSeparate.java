@@ -23,7 +23,6 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.math.MathUtils;
@@ -127,8 +126,12 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
     private final Coord[] playerArray = new Coord[1];
 
     private final Vector2 pos = new Vector2();
-//    private final Vector2 mouseDirection = new Vector2(1, 0);
 
+    private final NoiseWrapper noise0 = new NoiseWrapper(new FoamNoise(12345), 0.2f, NoiseWrapper.FBM, 1);
+    private final NoiseWrapper noise1 = new NoiseWrapper(new FoamNoise(1234567), 0.11f, NoiseWrapper.FBM, 1);
+    private final NoiseWrapper noise2 = new NoiseWrapper(new FoamNoise(123456789), 0.04f, NoiseWrapper.FBM, 1);
+
+    private int[][] adjustmentMap;
     /**
      * In number of cells
      */
@@ -281,6 +284,16 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
         //water to the dungeon. In that case, linePlaceMap will have different contents than barePlaceMap, next.)
         //getBarePlaceGrid() provides the simplest view of the generated dungeon -- '#' for walls, '.' for floors.
         barePlaceMap = dungeonGen.getBarePlaceGrid();
+
+        adjustmentMap = new int[placeWidth][placeHeight];
+
+        for (int x = 0; x < adjustmentMap.length; x++) {
+            for (int y = 0; y < adjustmentMap[x].length; y++) {
+                if(barePlaceMap[x][y] == '#'){
+                    adjustmentMap[x][y] = (noise0.getNoise(x, y) < 0 ? 256 : 0) | (noise1.getNoise(x, y) < 0 ? 512 : 0) | (noise2.getNoise(x, y) < 0 ? 1024 : 0);
+                }
+            }
+        }
 
         // here, we need to get a random floor cell to place the player upon, without the possibility of putting him
         // inside a wall. There are a few ways to do this in SquidSquad. The most straightforward way is to randomly
@@ -808,7 +821,8 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
                     if (glyph == '/' || glyph == '+' || glyph == '1' || glyph == '2') // doors expect a floor drawn beneath them
                         batch.draw(charMapping.getOrDefault('.', solid), x, y, 1f, 1f);
                     if(Character.UnicodeBlock.of(glyph).equals(Character.UnicodeBlock.BOX_DRAWING))
-                        glyph += (IntPointHash.hash32(x, y, now) & 7) << 8;
+                        glyph += adjustmentMap[x][y];
+//                        glyph += (IntPointHash.hash32(x, y, now) & 7) << 8;
                     batch.draw(charMapping.getOrDefault(glyph, solid), x, y, 1f, 1f);
                     // visual debugging; show all cells that were just taken out of view
 //                    if(vision.justHidden.contains(x, y)) batch.draw(charMapping.getOrDefault('s', solid), x, y, 1f, 1f);
@@ -983,7 +997,6 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-//        font = generateFreetypeFont(height * 3 / shownHeight);
         mainViewport.update(width, height, false);
         guiViewport.update(width, height, false);
     }
