@@ -23,6 +23,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -130,7 +131,15 @@ public class ColorDungeon extends ApplicationAdapter {
     private final Coord[] playerArray = new Coord[1];
 
     private final Vector2 pos = new Vector2();
-//    private final Vector2 mouseDirection = new Vector2(1, 0);
+
+    private final NoiseWrapper noise0 = new NoiseWrapper(new FoamNoise(12345), 0.2f, NoiseWrapper.FBM, 1);
+    private final NoiseWrapper noise1 = new NoiseWrapper(new FoamNoise(1234567), 0.11f, NoiseWrapper.FBM, 1);
+    private final NoiseWrapper noise2 = new NoiseWrapper(new FoamNoise(123456789), 0.04f, NoiseWrapper.FBM, 1);
+
+    /**
+     * Used to change the appearance of a wall, if there is one in a particular space.
+     */
+    private int[][] adjustmentMap;
 
     /**
      * In number of cells
@@ -285,6 +294,16 @@ public class ColorDungeon extends ApplicationAdapter {
         //getBarePlaceGrid() provides the simplest view of the generated dungeon -- '#' for walls, '.' for floors.
         barePlaceMap = dungeonGen.getBarePlaceGrid();
 
+        adjustmentMap = new int[placeWidth][placeHeight];
+
+        for (int x = 0; x < adjustmentMap.length; x++) {
+            for (int y = 0; y < adjustmentMap[x].length; y++) {
+                if(barePlaceMap[x][y] == '#'){
+                    adjustmentMap[x][y] = (noise0.getNoise(x, y) < 0 ? 256 : 0) | (noise1.getNoise(x, y) < 0 ? 512 : 0) | (noise2.getNoise(x, y) < 0 ? 1024 : 0);
+                }
+            }
+        }
+
         // here, we need to get a random floor cell to place the player upon, without the possibility of putting him
         // inside a wall. There are a few ways to do this in SquidSquad. The most straightforward way is to randomly
         // choose x and y positions until a floor is found, but particularly on dungeons with few floor cells, this can
@@ -437,6 +456,105 @@ public class ColorDungeon extends ApplicationAdapter {
         charMapping.put('┘', atlas.findRegion("lit brick wall left up"));
         charMapping.put('┐', atlas.findRegion("lit brick wall left down"));
         charMapping.put(' ', atlas.findRegion("lit brick wall up down"));
+
+        charMapping.put('#' + 256, (atlas.findRegion("lit deep wall center")));
+        charMapping.put('┌' + 256, (atlas.findRegion("lit deep wall right down")));
+        charMapping.put('└' + 256, (atlas.findRegion("lit deep wall right up")));
+        charMapping.put('┴' + 256, (atlas.findRegion("lit deep wall left right up")));
+        charMapping.put('┬' + 256, (atlas.findRegion("lit deep wall left right down")));
+        charMapping.put('─' + 256, (atlas.findRegion("lit deep wall left right")));
+        charMapping.put('│' + 256, (atlas.findRegion("lit deep wall up down")));
+        charMapping.put('├' + 256, (atlas.findRegion("lit deep wall right up down")));
+        charMapping.put('┼' + 256, (atlas.findRegion("lit deep wall left right up down")));
+        charMapping.put('┤' + 256, (atlas.findRegion("lit deep wall left up down")));
+        charMapping.put('┘' + 256, (atlas.findRegion("lit deep wall left up")));
+        charMapping.put('┐' + 256, (atlas.findRegion("lit deep wall left down")));
+        charMapping.put(' ' + 256, (atlas.findRegion("lit deep wall up down")));
+
+        charMapping.put('#' + 512, (atlas.findRegion("lit fort wall center")));
+        charMapping.put('┌' + 512, (atlas.findRegion("lit fort wall right down")));
+        charMapping.put('└' + 512, (atlas.findRegion("lit fort wall right up")));
+        charMapping.put('┴' + 512, (atlas.findRegion("lit fort wall left right up")));
+        charMapping.put('┬' + 512, (atlas.findRegion("lit fort wall left right down")));
+        charMapping.put('─' + 512, (atlas.findRegion("lit fort wall left right")));
+        charMapping.put('│' + 512, (atlas.findRegion("lit fort wall up down")));
+        charMapping.put('├' + 512, (atlas.findRegion("lit fort wall right up down")));
+        charMapping.put('┼' + 512, (atlas.findRegion("lit fort wall left right up down")));
+        charMapping.put('┤' + 512, (atlas.findRegion("lit fort wall left up down")));
+        charMapping.put('┘' + 512, (atlas.findRegion("lit fort wall left up")));
+        charMapping.put('┐' + 512, (atlas.findRegion("lit fort wall left down")));
+        charMapping.put(' ' + 512, (atlas.findRegion("lit fort wall up down")));
+
+        charMapping.put('#' + 768, (atlas.findRegion("lit mine wall center")));
+        charMapping.put('┌' + 768, (atlas.findRegion("lit mine wall right down")));
+        charMapping.put('└' + 768, (atlas.findRegion("lit mine wall right up")));
+        charMapping.put('┴' + 768, (atlas.findRegion("lit mine wall left right up")));
+        charMapping.put('┬' + 768, (atlas.findRegion("lit mine wall left right down")));
+        charMapping.put('─' + 768, (atlas.findRegion("lit mine wall left right")));
+        charMapping.put('│' + 768, (atlas.findRegion("lit mine wall up down")));
+        charMapping.put('├' + 768, (atlas.findRegion("lit mine wall right up down")));
+        charMapping.put('┼' + 768, (atlas.findRegion("lit mine wall left right up down")));
+        charMapping.put('┤' + 768, (atlas.findRegion("lit mine wall left up down")));
+        charMapping.put('┘' + 768, (atlas.findRegion("lit mine wall left up")));
+        charMapping.put('┐' + 768, (atlas.findRegion("lit mine wall left down")));
+        charMapping.put(' ' + 768, (atlas.findRegion("lit mine wall up down")));
+
+        charMapping.put('#' + 1024, (atlas.findRegion("lit acid wall center")));
+        charMapping.put('┌' + 1024, (atlas.findRegion("lit acid wall right down")));
+        charMapping.put('└' + 1024, (atlas.findRegion("lit acid wall right up")));
+        charMapping.put('┴' + 1024, (atlas.findRegion("lit acid wall left right up")));
+        charMapping.put('┬' + 1024, (atlas.findRegion("lit acid wall left right down")));
+        charMapping.put('─' + 1024, (atlas.findRegion("lit acid wall left right")));
+        charMapping.put('│' + 1024, (atlas.findRegion("lit acid wall up down")));
+        charMapping.put('├' + 1024, (atlas.findRegion("lit acid wall right up down")));
+        charMapping.put('┼' + 1024, (atlas.findRegion("lit acid wall left right up down")));
+        charMapping.put('┤' + 1024, (atlas.findRegion("lit acid wall left up down")));
+        charMapping.put('┘' + 1024, (atlas.findRegion("lit acid wall left up")));
+        charMapping.put('┐' + 1024, (atlas.findRegion("lit acid wall left down")));
+        charMapping.put(' ' + 1024, (atlas.findRegion("lit acid wall up down")));
+
+        charMapping.put('#' + 1024 + 256, (atlas.findRegion("lit blue wall center")));
+        charMapping.put('┌' + 1024 + 256, (atlas.findRegion("lit blue wall right down")));
+        charMapping.put('└' + 1024 + 256, (atlas.findRegion("lit blue wall right up")));
+        charMapping.put('┴' + 1024 + 256, (atlas.findRegion("lit blue wall left right up")));
+        charMapping.put('┬' + 1024 + 256, (atlas.findRegion("lit blue wall left right down")));
+        charMapping.put('─' + 1024 + 256, (atlas.findRegion("lit blue wall left right")));
+        charMapping.put('│' + 1024 + 256, (atlas.findRegion("lit blue wall up down")));
+        charMapping.put('├' + 1024 + 256, (atlas.findRegion("lit blue wall right up down")));
+        charMapping.put('┼' + 1024 + 256, (atlas.findRegion("lit blue wall left right up down")));
+        charMapping.put('┤' + 1024 + 256, (atlas.findRegion("lit blue wall left up down")));
+        charMapping.put('┘' + 1024 + 256, (atlas.findRegion("lit blue wall left up")));
+        charMapping.put('┐' + 1024 + 256, (atlas.findRegion("lit blue wall left down")));
+        charMapping.put(' ' + 1024 + 256, (atlas.findRegion("lit blue wall up down")));
+
+        charMapping.put('#' + 1024 + 512, (atlas.findRegion("lit heat wall center")));
+        charMapping.put('┌' + 1024 + 512, (atlas.findRegion("lit heat wall right down")));
+        charMapping.put('└' + 1024 + 512, (atlas.findRegion("lit heat wall right up")));
+        charMapping.put('┴' + 1024 + 512, (atlas.findRegion("lit heat wall left right up")));
+        charMapping.put('┬' + 1024 + 512, (atlas.findRegion("lit heat wall left right down")));
+        charMapping.put('─' + 1024 + 512, (atlas.findRegion("lit heat wall left right")));
+        charMapping.put('│' + 1024 + 512, (atlas.findRegion("lit heat wall up down")));
+        charMapping.put('├' + 1024 + 512, (atlas.findRegion("lit heat wall right up down")));
+        charMapping.put('┼' + 1024 + 512, (atlas.findRegion("lit heat wall left right up down")));
+        charMapping.put('┤' + 1024 + 512, (atlas.findRegion("lit heat wall left up down")));
+        charMapping.put('┘' + 1024 + 512, (atlas.findRegion("lit heat wall left up")));
+        charMapping.put('┐' + 1024 + 512, (atlas.findRegion("lit heat wall left down")));
+        charMapping.put(' ' + 1024 + 512, (atlas.findRegion("lit heat wall up down")));
+
+        charMapping.put('#' + 1024 + 768, (atlas.findRegion("lit ice wall center")));
+        charMapping.put('┌' + 1024 + 768, (atlas.findRegion("lit ice wall right down")));
+        charMapping.put('└' + 1024 + 768, (atlas.findRegion("lit ice wall right up")));
+        charMapping.put('┴' + 1024 + 768, (atlas.findRegion("lit ice wall left right up")));
+        charMapping.put('┬' + 1024 + 768, (atlas.findRegion("lit ice wall left right down")));
+        charMapping.put('─' + 1024 + 768, (atlas.findRegion("lit ice wall left right")));
+        charMapping.put('│' + 1024 + 768, (atlas.findRegion("lit ice wall up down")));
+        charMapping.put('├' + 1024 + 768, (atlas.findRegion("lit ice wall right up down")));
+        charMapping.put('┼' + 1024 + 768, (atlas.findRegion("lit ice wall left right up down")));
+        charMapping.put('┤' + 1024 + 768, (atlas.findRegion("lit ice wall left up down")));
+        charMapping.put('┘' + 1024 + 768, (atlas.findRegion("lit ice wall left up")));
+        charMapping.put('┐' + 1024 + 768, (atlas.findRegion("lit ice wall left down")));
+        charMapping.put(' ' + 1024 + 768, (atlas.findRegion("lit ice wall up down")));
+
         charMapping.put('1', atlas.findRegion("red liquid drizzle"));
         charMapping.put('2', atlas.findRegion("red liquid spatter"));
         charMapping.put('s', atlas.findRegion("little shine", 1));
@@ -710,6 +828,8 @@ public class ColorDungeon extends ApplicationAdapter {
                     batch.setPackedColor(DescriptiveColorRgb.toFloat(vision.backgroundColors[x][y]));
                     if (glyph == '/' || glyph == '+' || glyph == '1' || glyph == '2') // doors expect a floor drawn beneath them
                         batch.draw(charMapping.getOrDefault('.', solid), x, y, 1f, 1f);
+                    if(glyph >= 0x2500 && glyph <= 0x257F)
+                        glyph += adjustmentMap[x][y];
                     batch.draw(charMapping.getOrDefault(glyph, solid), x, y, 1f, 1f);
                     // visual debugging; show all cells that were just taken out of view
 //                    if(vision.justHidden.contains(x, y)) batch.draw(charMapping.getOrDefault('s', solid), x, y, 1f, 1f);

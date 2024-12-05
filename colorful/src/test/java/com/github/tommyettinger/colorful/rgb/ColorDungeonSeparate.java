@@ -131,6 +131,9 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
     private final NoiseWrapper noise1 = new NoiseWrapper(new FoamNoise(1234567), 0.11f, NoiseWrapper.FBM, 1);
     private final NoiseWrapper noise2 = new NoiseWrapper(new FoamNoise(123456789), 0.04f, NoiseWrapper.FBM, 1);
 
+    /**
+     * Used to change the appearance of a wall, if there is one in a particular space.
+     */
     private int[][] adjustmentMap;
     /**
      * In number of cells
@@ -544,7 +547,6 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
         charMapping.put('┐' + 1024 + 768, new TextureRegion(new Texture("dawnlike/partial/lit ice wall left down.png")));
         charMapping.put(' ' + 1024 + 768, new TextureRegion(new Texture("dawnlike/partial/lit ice wall up down.png")));
 
-
         charMapping.put('1', new TextureRegion(new Texture("dawnlike/partial/red liquid drizzle.png")));
         charMapping.put('2', new TextureRegion(new Texture("dawnlike/partial/red liquid spatter.png")));
         charMapping.put('s', new TextureRegion(new Texture("dawnlike/partial/little shine.png")));
@@ -820,9 +822,8 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
                     batch.setPackedColor(DescriptiveColorRgb.toFloat(vision.backgroundColors[x][y]));
                     if (glyph == '/' || glyph == '+' || glyph == '1' || glyph == '2') // doors expect a floor drawn beneath them
                         batch.draw(charMapping.getOrDefault('.', solid), x, y, 1f, 1f);
-                    if(Character.UnicodeBlock.of(glyph).equals(Character.UnicodeBlock.BOX_DRAWING))
+                    if(glyph >= 0x2500 && glyph <= 0x257F)
                         glyph += adjustmentMap[x][y];
-//                        glyph += (IntPointHash.hash32(x, y, now) & 7) << 8;
                     batch.draw(charMapping.getOrDefault(glyph, solid), x, y, 1f, 1f);
                     // visual debugging; show all cells that were just taken out of view
 //                    if(vision.justHidden.contains(x, y)) batch.draw(charMapping.getOrDefault('s', solid), x, y, 1f, 1f);
