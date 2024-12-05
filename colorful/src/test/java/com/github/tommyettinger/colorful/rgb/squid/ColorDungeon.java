@@ -14,25 +14,30 @@
  * limitations under the License.
  */
 
-package com.github.tommyettinger.colorful.rgb;
+package com.github.tommyettinger.colorful.rgb.squid;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.tommyettinger.colorful.DawnlikeDataPartial;
-import com.github.tommyettinger.colorful.rgb.squid.AnimatedGlidingSprite;
+import com.github.tommyettinger.colorful.DawnlikeData;
+import com.github.tommyettinger.colorful.rgb.ColorTools;
+import com.github.tommyettinger.colorful.rgb.ColorfulBatch;
+import com.github.tommyettinger.colorful.rgb.SimplePalette;
+import com.github.tommyettinger.colorful.rgb.TextureArrayColorfulBatch;
 import com.github.tommyettinger.digital.MathTools;
 import com.github.tommyettinger.ds.IntObjectMap;
 import com.github.tommyettinger.ds.ObjectDeque;
@@ -51,7 +56,7 @@ import com.github.yellowstonegames.text.Language;
 import static com.badlogic.gdx.Gdx.input;
 import static com.badlogic.gdx.Input.Keys.*;
 
-public class ColorDungeonSeparate extends ApplicationAdapter {
+public class ColorDungeon extends ApplicationAdapter {
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
@@ -85,7 +90,7 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
                 seed = System.currentTimeMillis();
             }
         }
-        new Lwjgl3Application(new ColorDungeonSeparate(seed), configuration);
+        new Lwjgl3Application(new ColorDungeon(seed), configuration);
     }
 
     private static final float DURATION = 0.375f;
@@ -93,7 +98,8 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
 
     private enum Phase {WAIT, PLAYER_ANIM, MONSTER_ANIM}
 
-    private TextureArrayColorfulBatch batch;
+    private ColorfulBatch batch;
+//    private TextureArrayColorfulBatch batch;
     private Phase phase = Phase.WAIT;
 
     // random number generator; this one is more efficient on GWT, but less-so on desktop.
@@ -101,8 +107,10 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
 
     public long seed;
 
+    // Stores all images we use here efficiently, as well as the font image
+    private TextureAtlas atlas;
     // This maps chars, such as '#', to specific images, such as a pillar.
-    private IntObjectMap<TextureRegion> charMapping;
+    private IntObjectMap<TextureAtlas.AtlasRegion> charMapping;
 
     /**
      * The dungeon map using only {@code '#'} for walls and {@code '.'} for floors.
@@ -135,6 +143,7 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
      * Used to change the appearance of a wall, if there is one in a particular space.
      */
     private int[][] adjustmentMap;
+
     /**
      * In number of cells
      */
@@ -181,7 +190,7 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
     private ObjectDeque<Coord> awaitedMoves;
     private ObjectDeque<Coord> nextMovePositions;
     private String lang;
-    private TextureRegion solid;
+    private TextureAtlas.AtlasRegion solid;
     private int health = 9;
 
     /**
@@ -196,11 +205,11 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
 
     private GLProfiler glProfiler;
 
-    public ColorDungeonSeparate() {
+    public ColorDungeon() {
         this(1L);
     }
 
-    public ColorDungeonSeparate(long seed) {
+    public ColorDungeon(long seed) {
         this.seed = seed;
     }
 
@@ -327,12 +336,8 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
         //if you gave a seed to the RNG constructor, then the cell this chooses will be reliable for testing. If you
         //don't seed the RNG, any valid cell should be possible.
         player = floors.singleRandom(rng);
-        String playerName = rng.randomElement(DawnlikeDataPartial.possibleCharacters);
         playerSprite = new AnimatedGlidingSprite(new Animation<>(DURATION,
-                Array.with(
-                        new TextureRegion(new Texture("dawnlike/partial/" + playerName + "_0.png")),
-                        new TextureRegion(new Texture("dawnlike/partial/" + playerName + "_1.png"))
-                ), Animation.PlayMode.LOOP), player);
+                atlas.findRegions(rng.randomElement(DawnlikeData.possibleCharacters)), Animation.PlayMode.LOOP), player);
         playerSprite.setSize(1f, 1f);
         playerSprite.setTweakedColor(0.5f, 0.5f, 0.5f, 1f, 0.95f, 0.95f, 0.95f, 0.65f);
         playerDirector = new Director<>(AnimatedGlidingSprite::getLocation, ObjectList.with(playerSprite), 150);
@@ -354,13 +359,10 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
         for (int i = 0; i < numMonsters; i++) {
             Coord monPos = floors.singleRandom(rng);
             floors.remove(monPos);
-            String enemy = rng.randomElement(DawnlikeDataPartial.possibleEnemies);
+            String enemy = rng.randomElement(DawnlikeData.possibleEnemies);
             AnimatedGlidingSprite monster =
                     new AnimatedGlidingSprite(new Animation<>(DURATION,
-                            Array.with(
-                                    new TextureRegion(new Texture("dawnlike/partial/" + enemy + "_0.png")),
-                                    new TextureRegion(new Texture("dawnlike/partial/" + enemy + "_1.png"))
-                                    ), Animation.PlayMode.LOOP), monPos);
+                            atlas.findRegions(enemy), Animation.PlayMode.LOOP), monPos);
             monster.setSize(1f, 1f);
             int monColor = FullPaletteRgb.COLOR_WHEEL_PALETTE_MID[rng.nextInt(FullPaletteRgb.COLOR_WHEEL_PALETTE_MID.length)];
             monster.setColor(ColorTools.fromRGBA8888(monColor));
@@ -398,9 +400,11 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
     @Override
     public void create() {
         Gdx.app.setLogLevel(Application.LOG_INFO);
-        // We need access to a batch to render most things.
+
+        // Switch between ColorfulBatch and the newer subclass, TextureArrayColorfulBatch, here.
+//        batch = new ColorfulBatch();
         batch = new TextureArrayColorfulBatch();
-        System.out.println(TextureArrayColorfulBatch.getMaxTextureUnits());
+
         rng = new ChopRandom(seed);
 
         guiViewport = new ScreenViewport();
@@ -417,7 +421,8 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
         nextMovePositions = new ObjectDeque<>(200);
 
         // Stores all images we use here efficiently, as well as the font image
-        font = new BitmapFont(Gdx.files.internal("dawnlike/font.fnt"), new TextureRegion(new Texture("dawnlike/partial/font.png")));
+        atlas = new TextureAtlas(Gdx.files.internal("dawnlike/Dawnlike.atlas"), Gdx.files.internal("dawnlike"));
+        font = new BitmapFont(Gdx.files.internal("dawnlike/font.fnt"), atlas.findRegion("font"));
 //        font = new BitmapFont(Gdx.files.internal("dawnlike/PlainAndSimplePlus.fnt"), atlas.findRegion("PlainAndSimplePlus"));
         font.getData().markupEnabled = true;
         font.setUseIntegerPositions(false);
@@ -425,131 +430,139 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
 //        font = generateFreetypeFont(48);
         vision.rememberedColor = RGB_MEMORY;
 
-        solid = new TextureRegion(new Texture("dawnlike/partial/pixel.png"));
+//        Pixmap pCursor = new Pixmap(cellWidth, cellHeight, Pixmap.Format.RGBA8888);
+//        Pixmap pAtlas = new Pixmap(Gdx.files.classpath("dawnlike/Dawnlike.png"));
+//        String[] cursorNames = {"broadsword", "dwarvish spear", "javelin", "vulgar polearm", "pole cleaver", "quarterstaff"};
+//        TextureAtlas.AtlasRegion pointer = atlas.findRegion(cursorNames[(int) (TimeUtils.millis() & 0xFFFFF) % cursorNames.length]);
+//        pCursor.drawPixmap(pAtlas, pointer.getRegionX(), pointer.getRegionY(), 16, 16, 0, 0, cellWidth, cellHeight);
+//        Gdx.graphics.setCursor(Gdx.graphics.newCursor(pCursor, 1, 1));
+//        pAtlas.dispose();
+//        pCursor.dispose();
+
+        solid = atlas.findRegion("pixel");
         charMapping = new IntObjectMap<>(64);
 
-        charMapping.put('.', new TextureRegion(new Texture("dawnlike/partial/day tile floor c.png")));
-        charMapping.put(',', new TextureRegion(new Texture("dawnlike/partial/brick clear pool center.png")));
-        charMapping.put('~', new TextureRegion(new Texture("dawnlike/partial/brick murky pool center.png")));
-        charMapping.put('"', new TextureRegion(new Texture("dawnlike/partial/dusk grass floor c.png")));
-        charMapping.put('+', new TextureRegion(new Texture("dawnlike/partial/closed wooden door front.png")));
-        charMapping.put('/', new TextureRegion(new Texture("dawnlike/partial/open wooden door side.png")));
+        charMapping.put('.', atlas.findRegion("day tile floor c"));
+        charMapping.put(',', atlas.findRegion("brick clear pool center"));
+        charMapping.put('~', atlas.findRegion("brick murky pool center"));
+        charMapping.put('"', atlas.findRegion("dusk grass floor c"));
+        charMapping.put('#', atlas.findRegion("lit brick wall center"));
+        charMapping.put('+', atlas.findRegion("closed wooden door front"));
+        charMapping.put('/', atlas.findRegion("open wooden door side"));
+        charMapping.put('┌', atlas.findRegion("lit brick wall right down"));
+        charMapping.put('└', atlas.findRegion("lit brick wall right up"));
+        charMapping.put('┴', atlas.findRegion("lit brick wall left right up"));
+        charMapping.put('┬', atlas.findRegion("lit brick wall left right down"));
+        charMapping.put('─', atlas.findRegion("lit brick wall left right"));
+        charMapping.put('│', atlas.findRegion("lit brick wall up down"));
+        charMapping.put('├', atlas.findRegion("lit brick wall right up down"));
+        charMapping.put('┼', atlas.findRegion("lit brick wall left right up down"));
+        charMapping.put('┤', atlas.findRegion("lit brick wall left up down"));
+        charMapping.put('┘', atlas.findRegion("lit brick wall left up"));
+        charMapping.put('┐', atlas.findRegion("lit brick wall left down"));
+        charMapping.put(' ', atlas.findRegion("lit brick wall up down"));
 
-        charMapping.put('#', new TextureRegion(new Texture("dawnlike/partial/lit brick wall center.png")));
-        charMapping.put('┌', new TextureRegion(new Texture("dawnlike/partial/lit brick wall right down.png")));
-        charMapping.put('└', new TextureRegion(new Texture("dawnlike/partial/lit brick wall right up.png")));
-        charMapping.put('┴', new TextureRegion(new Texture("dawnlike/partial/lit brick wall left right up.png")));
-        charMapping.put('┬', new TextureRegion(new Texture("dawnlike/partial/lit brick wall left right down.png")));
-        charMapping.put('─', new TextureRegion(new Texture("dawnlike/partial/lit brick wall left right.png")));
-        charMapping.put('│', new TextureRegion(new Texture("dawnlike/partial/lit brick wall up down.png")));
-        charMapping.put('├', new TextureRegion(new Texture("dawnlike/partial/lit brick wall right up down.png")));
-        charMapping.put('┼', new TextureRegion(new Texture("dawnlike/partial/lit brick wall left right up down.png")));
-        charMapping.put('┤', new TextureRegion(new Texture("dawnlike/partial/lit brick wall left up down.png")));
-        charMapping.put('┘', new TextureRegion(new Texture("dawnlike/partial/lit brick wall left up.png")));
-        charMapping.put('┐', new TextureRegion(new Texture("dawnlike/partial/lit brick wall left down.png")));
-        charMapping.put(' ', new TextureRegion(new Texture("dawnlike/partial/lit brick wall up down.png")));
+        charMapping.put('#' + 256, (atlas.findRegion("lit deep wall center")));
+        charMapping.put('┌' + 256, (atlas.findRegion("lit deep wall right down")));
+        charMapping.put('└' + 256, (atlas.findRegion("lit deep wall right up")));
+        charMapping.put('┴' + 256, (atlas.findRegion("lit deep wall left right up")));
+        charMapping.put('┬' + 256, (atlas.findRegion("lit deep wall left right down")));
+        charMapping.put('─' + 256, (atlas.findRegion("lit deep wall left right")));
+        charMapping.put('│' + 256, (atlas.findRegion("lit deep wall up down")));
+        charMapping.put('├' + 256, (atlas.findRegion("lit deep wall right up down")));
+        charMapping.put('┼' + 256, (atlas.findRegion("lit deep wall left right up down")));
+        charMapping.put('┤' + 256, (atlas.findRegion("lit deep wall left up down")));
+        charMapping.put('┘' + 256, (atlas.findRegion("lit deep wall left up")));
+        charMapping.put('┐' + 256, (atlas.findRegion("lit deep wall left down")));
+        charMapping.put(' ' + 256, (atlas.findRegion("lit deep wall up down")));
 
-        charMapping.put('#' + 256, new TextureRegion(new Texture("dawnlike/partial/lit deep wall center.png")));
-        charMapping.put('┌' + 256, new TextureRegion(new Texture("dawnlike/partial/lit deep wall right down.png")));
-        charMapping.put('└' + 256, new TextureRegion(new Texture("dawnlike/partial/lit deep wall right up.png")));
-        charMapping.put('┴' + 256, new TextureRegion(new Texture("dawnlike/partial/lit deep wall left right up.png")));
-        charMapping.put('┬' + 256, new TextureRegion(new Texture("dawnlike/partial/lit deep wall left right down.png")));
-        charMapping.put('─' + 256, new TextureRegion(new Texture("dawnlike/partial/lit deep wall left right.png")));
-        charMapping.put('│' + 256, new TextureRegion(new Texture("dawnlike/partial/lit deep wall up down.png")));
-        charMapping.put('├' + 256, new TextureRegion(new Texture("dawnlike/partial/lit deep wall right up down.png")));
-        charMapping.put('┼' + 256, new TextureRegion(new Texture("dawnlike/partial/lit deep wall left right up down.png")));
-        charMapping.put('┤' + 256, new TextureRegion(new Texture("dawnlike/partial/lit deep wall left up down.png")));
-        charMapping.put('┘' + 256, new TextureRegion(new Texture("dawnlike/partial/lit deep wall left up.png")));
-        charMapping.put('┐' + 256, new TextureRegion(new Texture("dawnlike/partial/lit deep wall left down.png")));
-        charMapping.put(' ' + 256, new TextureRegion(new Texture("dawnlike/partial/lit deep wall up down.png")));
+        charMapping.put('#' + 512, (atlas.findRegion("lit fort wall center")));
+        charMapping.put('┌' + 512, (atlas.findRegion("lit fort wall right down")));
+        charMapping.put('└' + 512, (atlas.findRegion("lit fort wall right up")));
+        charMapping.put('┴' + 512, (atlas.findRegion("lit fort wall left right up")));
+        charMapping.put('┬' + 512, (atlas.findRegion("lit fort wall left right down")));
+        charMapping.put('─' + 512, (atlas.findRegion("lit fort wall left right")));
+        charMapping.put('│' + 512, (atlas.findRegion("lit fort wall up down")));
+        charMapping.put('├' + 512, (atlas.findRegion("lit fort wall right up down")));
+        charMapping.put('┼' + 512, (atlas.findRegion("lit fort wall left right up down")));
+        charMapping.put('┤' + 512, (atlas.findRegion("lit fort wall left up down")));
+        charMapping.put('┘' + 512, (atlas.findRegion("lit fort wall left up")));
+        charMapping.put('┐' + 512, (atlas.findRegion("lit fort wall left down")));
+        charMapping.put(' ' + 512, (atlas.findRegion("lit fort wall up down")));
 
-        charMapping.put('#' + 512, new TextureRegion(new Texture("dawnlike/partial/lit fort wall center.png")));
-        charMapping.put('┌' + 512, new TextureRegion(new Texture("dawnlike/partial/lit fort wall right down.png")));
-        charMapping.put('└' + 512, new TextureRegion(new Texture("dawnlike/partial/lit fort wall right up.png")));
-        charMapping.put('┴' + 512, new TextureRegion(new Texture("dawnlike/partial/lit fort wall left right up.png")));
-        charMapping.put('┬' + 512, new TextureRegion(new Texture("dawnlike/partial/lit fort wall left right down.png")));
-        charMapping.put('─' + 512, new TextureRegion(new Texture("dawnlike/partial/lit fort wall left right.png")));
-        charMapping.put('│' + 512, new TextureRegion(new Texture("dawnlike/partial/lit fort wall up down.png")));
-        charMapping.put('├' + 512, new TextureRegion(new Texture("dawnlike/partial/lit fort wall right up down.png")));
-        charMapping.put('┼' + 512, new TextureRegion(new Texture("dawnlike/partial/lit fort wall left right up down.png")));
-        charMapping.put('┤' + 512, new TextureRegion(new Texture("dawnlike/partial/lit fort wall left up down.png")));
-        charMapping.put('┘' + 512, new TextureRegion(new Texture("dawnlike/partial/lit fort wall left up.png")));
-        charMapping.put('┐' + 512, new TextureRegion(new Texture("dawnlike/partial/lit fort wall left down.png")));
-        charMapping.put(' ' + 512, new TextureRegion(new Texture("dawnlike/partial/lit fort wall up down.png")));
+        charMapping.put('#' + 768, (atlas.findRegion("lit mine wall center")));
+        charMapping.put('┌' + 768, (atlas.findRegion("lit mine wall right down")));
+        charMapping.put('└' + 768, (atlas.findRegion("lit mine wall right up")));
+        charMapping.put('┴' + 768, (atlas.findRegion("lit mine wall left right up")));
+        charMapping.put('┬' + 768, (atlas.findRegion("lit mine wall left right down")));
+        charMapping.put('─' + 768, (atlas.findRegion("lit mine wall left right")));
+        charMapping.put('│' + 768, (atlas.findRegion("lit mine wall up down")));
+        charMapping.put('├' + 768, (atlas.findRegion("lit mine wall right up down")));
+        charMapping.put('┼' + 768, (atlas.findRegion("lit mine wall left right up down")));
+        charMapping.put('┤' + 768, (atlas.findRegion("lit mine wall left up down")));
+        charMapping.put('┘' + 768, (atlas.findRegion("lit mine wall left up")));
+        charMapping.put('┐' + 768, (atlas.findRegion("lit mine wall left down")));
+        charMapping.put(' ' + 768, (atlas.findRegion("lit mine wall up down")));
 
-        charMapping.put('#' + 768, new TextureRegion(new Texture("dawnlike/partial/lit mine wall center.png")));
-        charMapping.put('┌' + 768, new TextureRegion(new Texture("dawnlike/partial/lit mine wall right down.png")));
-        charMapping.put('└' + 768, new TextureRegion(new Texture("dawnlike/partial/lit mine wall right up.png")));
-        charMapping.put('┴' + 768, new TextureRegion(new Texture("dawnlike/partial/lit mine wall left right up.png")));
-        charMapping.put('┬' + 768, new TextureRegion(new Texture("dawnlike/partial/lit mine wall left right down.png")));
-        charMapping.put('─' + 768, new TextureRegion(new Texture("dawnlike/partial/lit mine wall left right.png")));
-        charMapping.put('│' + 768, new TextureRegion(new Texture("dawnlike/partial/lit mine wall up down.png")));
-        charMapping.put('├' + 768, new TextureRegion(new Texture("dawnlike/partial/lit mine wall right up down.png")));
-        charMapping.put('┼' + 768, new TextureRegion(new Texture("dawnlike/partial/lit mine wall left right up down.png")));
-        charMapping.put('┤' + 768, new TextureRegion(new Texture("dawnlike/partial/lit mine wall left up down.png")));
-        charMapping.put('┘' + 768, new TextureRegion(new Texture("dawnlike/partial/lit mine wall left up.png")));
-        charMapping.put('┐' + 768, new TextureRegion(new Texture("dawnlike/partial/lit mine wall left down.png")));
-        charMapping.put(' ' + 768, new TextureRegion(new Texture("dawnlike/partial/lit mine wall up down.png")));
+        charMapping.put('#' + 1024, (atlas.findRegion("lit acid wall center")));
+        charMapping.put('┌' + 1024, (atlas.findRegion("lit acid wall right down")));
+        charMapping.put('└' + 1024, (atlas.findRegion("lit acid wall right up")));
+        charMapping.put('┴' + 1024, (atlas.findRegion("lit acid wall left right up")));
+        charMapping.put('┬' + 1024, (atlas.findRegion("lit acid wall left right down")));
+        charMapping.put('─' + 1024, (atlas.findRegion("lit acid wall left right")));
+        charMapping.put('│' + 1024, (atlas.findRegion("lit acid wall up down")));
+        charMapping.put('├' + 1024, (atlas.findRegion("lit acid wall right up down")));
+        charMapping.put('┼' + 1024, (atlas.findRegion("lit acid wall left right up down")));
+        charMapping.put('┤' + 1024, (atlas.findRegion("lit acid wall left up down")));
+        charMapping.put('┘' + 1024, (atlas.findRegion("lit acid wall left up")));
+        charMapping.put('┐' + 1024, (atlas.findRegion("lit acid wall left down")));
+        charMapping.put(' ' + 1024, (atlas.findRegion("lit acid wall up down")));
 
-        charMapping.put('#' + 1024, new TextureRegion(new Texture("dawnlike/partial/lit acid wall center.png")));
-        charMapping.put('┌' + 1024, new TextureRegion(new Texture("dawnlike/partial/lit acid wall right down.png")));
-        charMapping.put('└' + 1024, new TextureRegion(new Texture("dawnlike/partial/lit acid wall right up.png")));
-        charMapping.put('┴' + 1024, new TextureRegion(new Texture("dawnlike/partial/lit acid wall left right up.png")));
-        charMapping.put('┬' + 1024, new TextureRegion(new Texture("dawnlike/partial/lit acid wall left right down.png")));
-        charMapping.put('─' + 1024, new TextureRegion(new Texture("dawnlike/partial/lit acid wall left right.png")));
-        charMapping.put('│' + 1024, new TextureRegion(new Texture("dawnlike/partial/lit acid wall up down.png")));
-        charMapping.put('├' + 1024, new TextureRegion(new Texture("dawnlike/partial/lit acid wall right up down.png")));
-        charMapping.put('┼' + 1024, new TextureRegion(new Texture("dawnlike/partial/lit acid wall left right up down.png")));
-        charMapping.put('┤' + 1024, new TextureRegion(new Texture("dawnlike/partial/lit acid wall left up down.png")));
-        charMapping.put('┘' + 1024, new TextureRegion(new Texture("dawnlike/partial/lit acid wall left up.png")));
-        charMapping.put('┐' + 1024, new TextureRegion(new Texture("dawnlike/partial/lit acid wall left down.png")));
-        charMapping.put(' ' + 1024, new TextureRegion(new Texture("dawnlike/partial/lit acid wall up down.png")));
+        charMapping.put('#' + 1024 + 256, (atlas.findRegion("lit blue wall center")));
+        charMapping.put('┌' + 1024 + 256, (atlas.findRegion("lit blue wall right down")));
+        charMapping.put('└' + 1024 + 256, (atlas.findRegion("lit blue wall right up")));
+        charMapping.put('┴' + 1024 + 256, (atlas.findRegion("lit blue wall left right up")));
+        charMapping.put('┬' + 1024 + 256, (atlas.findRegion("lit blue wall left right down")));
+        charMapping.put('─' + 1024 + 256, (atlas.findRegion("lit blue wall left right")));
+        charMapping.put('│' + 1024 + 256, (atlas.findRegion("lit blue wall up down")));
+        charMapping.put('├' + 1024 + 256, (atlas.findRegion("lit blue wall right up down")));
+        charMapping.put('┼' + 1024 + 256, (atlas.findRegion("lit blue wall left right up down")));
+        charMapping.put('┤' + 1024 + 256, (atlas.findRegion("lit blue wall left up down")));
+        charMapping.put('┘' + 1024 + 256, (atlas.findRegion("lit blue wall left up")));
+        charMapping.put('┐' + 1024 + 256, (atlas.findRegion("lit blue wall left down")));
+        charMapping.put(' ' + 1024 + 256, (atlas.findRegion("lit blue wall up down")));
 
-        charMapping.put('#' + 1024 + 256, new TextureRegion(new Texture("dawnlike/partial/lit blue wall center.png")));
-        charMapping.put('┌' + 1024 + 256, new TextureRegion(new Texture("dawnlike/partial/lit blue wall right down.png")));
-        charMapping.put('└' + 1024 + 256, new TextureRegion(new Texture("dawnlike/partial/lit blue wall right up.png")));
-        charMapping.put('┴' + 1024 + 256, new TextureRegion(new Texture("dawnlike/partial/lit blue wall left right up.png")));
-        charMapping.put('┬' + 1024 + 256, new TextureRegion(new Texture("dawnlike/partial/lit blue wall left right down.png")));
-        charMapping.put('─' + 1024 + 256, new TextureRegion(new Texture("dawnlike/partial/lit blue wall left right.png")));
-        charMapping.put('│' + 1024 + 256, new TextureRegion(new Texture("dawnlike/partial/lit blue wall up down.png")));
-        charMapping.put('├' + 1024 + 256, new TextureRegion(new Texture("dawnlike/partial/lit blue wall right up down.png")));
-        charMapping.put('┼' + 1024 + 256, new TextureRegion(new Texture("dawnlike/partial/lit blue wall left right up down.png")));
-        charMapping.put('┤' + 1024 + 256, new TextureRegion(new Texture("dawnlike/partial/lit blue wall left up down.png")));
-        charMapping.put('┘' + 1024 + 256, new TextureRegion(new Texture("dawnlike/partial/lit blue wall left up.png")));
-        charMapping.put('┐' + 1024 + 256, new TextureRegion(new Texture("dawnlike/partial/lit blue wall left down.png")));
-        charMapping.put(' ' + 1024 + 256, new TextureRegion(new Texture("dawnlike/partial/lit blue wall up down.png")));
+        charMapping.put('#' + 1024 + 512, (atlas.findRegion("lit heat wall center")));
+        charMapping.put('┌' + 1024 + 512, (atlas.findRegion("lit heat wall right down")));
+        charMapping.put('└' + 1024 + 512, (atlas.findRegion("lit heat wall right up")));
+        charMapping.put('┴' + 1024 + 512, (atlas.findRegion("lit heat wall left right up")));
+        charMapping.put('┬' + 1024 + 512, (atlas.findRegion("lit heat wall left right down")));
+        charMapping.put('─' + 1024 + 512, (atlas.findRegion("lit heat wall left right")));
+        charMapping.put('│' + 1024 + 512, (atlas.findRegion("lit heat wall up down")));
+        charMapping.put('├' + 1024 + 512, (atlas.findRegion("lit heat wall right up down")));
+        charMapping.put('┼' + 1024 + 512, (atlas.findRegion("lit heat wall left right up down")));
+        charMapping.put('┤' + 1024 + 512, (atlas.findRegion("lit heat wall left up down")));
+        charMapping.put('┘' + 1024 + 512, (atlas.findRegion("lit heat wall left up")));
+        charMapping.put('┐' + 1024 + 512, (atlas.findRegion("lit heat wall left down")));
+        charMapping.put(' ' + 1024 + 512, (atlas.findRegion("lit heat wall up down")));
 
-        charMapping.put('#' + 1024 + 512, new TextureRegion(new Texture("dawnlike/partial/lit heat wall center.png")));
-        charMapping.put('┌' + 1024 + 512, new TextureRegion(new Texture("dawnlike/partial/lit heat wall right down.png")));
-        charMapping.put('└' + 1024 + 512, new TextureRegion(new Texture("dawnlike/partial/lit heat wall right up.png")));
-        charMapping.put('┴' + 1024 + 512, new TextureRegion(new Texture("dawnlike/partial/lit heat wall left right up.png")));
-        charMapping.put('┬' + 1024 + 512, new TextureRegion(new Texture("dawnlike/partial/lit heat wall left right down.png")));
-        charMapping.put('─' + 1024 + 512, new TextureRegion(new Texture("dawnlike/partial/lit heat wall left right.png")));
-        charMapping.put('│' + 1024 + 512, new TextureRegion(new Texture("dawnlike/partial/lit heat wall up down.png")));
-        charMapping.put('├' + 1024 + 512, new TextureRegion(new Texture("dawnlike/partial/lit heat wall right up down.png")));
-        charMapping.put('┼' + 1024 + 512, new TextureRegion(new Texture("dawnlike/partial/lit heat wall left right up down.png")));
-        charMapping.put('┤' + 1024 + 512, new TextureRegion(new Texture("dawnlike/partial/lit heat wall left up down.png")));
-        charMapping.put('┘' + 1024 + 512, new TextureRegion(new Texture("dawnlike/partial/lit heat wall left up.png")));
-        charMapping.put('┐' + 1024 + 512, new TextureRegion(new Texture("dawnlike/partial/lit heat wall left down.png")));
-        charMapping.put(' ' + 1024 + 512, new TextureRegion(new Texture("dawnlike/partial/lit heat wall up down.png")));
+        charMapping.put('#' + 1024 + 768, (atlas.findRegion("lit ice wall center")));
+        charMapping.put('┌' + 1024 + 768, (atlas.findRegion("lit ice wall right down")));
+        charMapping.put('└' + 1024 + 768, (atlas.findRegion("lit ice wall right up")));
+        charMapping.put('┴' + 1024 + 768, (atlas.findRegion("lit ice wall left right up")));
+        charMapping.put('┬' + 1024 + 768, (atlas.findRegion("lit ice wall left right down")));
+        charMapping.put('─' + 1024 + 768, (atlas.findRegion("lit ice wall left right")));
+        charMapping.put('│' + 1024 + 768, (atlas.findRegion("lit ice wall up down")));
+        charMapping.put('├' + 1024 + 768, (atlas.findRegion("lit ice wall right up down")));
+        charMapping.put('┼' + 1024 + 768, (atlas.findRegion("lit ice wall left right up down")));
+        charMapping.put('┤' + 1024 + 768, (atlas.findRegion("lit ice wall left up down")));
+        charMapping.put('┘' + 1024 + 768, (atlas.findRegion("lit ice wall left up")));
+        charMapping.put('┐' + 1024 + 768, (atlas.findRegion("lit ice wall left down")));
+        charMapping.put(' ' + 1024 + 768, (atlas.findRegion("lit ice wall up down")));
 
-        charMapping.put('#' + 1024 + 768, new TextureRegion(new Texture("dawnlike/partial/lit ice wall center.png")));
-        charMapping.put('┌' + 1024 + 768, new TextureRegion(new Texture("dawnlike/partial/lit ice wall right down.png")));
-        charMapping.put('└' + 1024 + 768, new TextureRegion(new Texture("dawnlike/partial/lit ice wall right up.png")));
-        charMapping.put('┴' + 1024 + 768, new TextureRegion(new Texture("dawnlike/partial/lit ice wall left right up.png")));
-        charMapping.put('┬' + 1024 + 768, new TextureRegion(new Texture("dawnlike/partial/lit ice wall left right down.png")));
-        charMapping.put('─' + 1024 + 768, new TextureRegion(new Texture("dawnlike/partial/lit ice wall left right.png")));
-        charMapping.put('│' + 1024 + 768, new TextureRegion(new Texture("dawnlike/partial/lit ice wall up down.png")));
-        charMapping.put('├' + 1024 + 768, new TextureRegion(new Texture("dawnlike/partial/lit ice wall right up down.png")));
-        charMapping.put('┼' + 1024 + 768, new TextureRegion(new Texture("dawnlike/partial/lit ice wall left right up down.png")));
-        charMapping.put('┤' + 1024 + 768, new TextureRegion(new Texture("dawnlike/partial/lit ice wall left up down.png")));
-        charMapping.put('┘' + 1024 + 768, new TextureRegion(new Texture("dawnlike/partial/lit ice wall left up.png")));
-        charMapping.put('┐' + 1024 + 768, new TextureRegion(new Texture("dawnlike/partial/lit ice wall left down.png")));
-        charMapping.put(' ' + 1024 + 768, new TextureRegion(new Texture("dawnlike/partial/lit ice wall up down.png")));
-
-        charMapping.put('1', new TextureRegion(new Texture("dawnlike/partial/red liquid drizzle.png")));
-        charMapping.put('2', new TextureRegion(new Texture("dawnlike/partial/red liquid spatter.png")));
-        charMapping.put('s', new TextureRegion(new Texture("dawnlike/partial/little shine.png")));
+        charMapping.put('1', atlas.findRegion("red liquid drizzle"));
+        charMapping.put('2', atlas.findRegion("red liquid spatter"));
+        charMapping.put('s', atlas.findRegion("little shine", 1));
 
         //Coord is the type we use as a general 2D point, usually in a dungeon.
         //Because we know dungeons won't be incredibly huge, Coord performs best for x and y values less than 256, but
@@ -590,7 +603,6 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
                             Gdx.app.log("(PERFORMANCE)", "Draw Calls: " + glProfiler.getDrawCalls());
                             Gdx.app.log("(PERFORMANCE)", "Texture Bindings: " + glProfiler.getTextureBindings());
                             Gdx.app.log("(PERFORMANCE)", "Shader Switches: " + glProfiler.getShaderSwitches());
-
                             glProfiler.reset();
                         }
                         break;
@@ -802,7 +814,6 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
         float change = (float) Math.min(Math.max(TimeUtils.timeSinceMillis(lastMove) * 4.0, 0.0), 1000.0);
         vision.update(change);
         final float time = TimeUtils.timeSinceMillis(startTime) * 0.001f;
-        final int now = (int) (System.currentTimeMillis() >>> 7);
 
         int rainbow = DescriptiveColorRgb.hsl2rgb(MathTools.fract(time * 0.5f), 1f, 0.55f, 1f);
 
@@ -970,12 +981,6 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
             handleHeldKeys();
         }
         putMap();
-        if(glProfiler != null && glProfiler.isEnabled()){
-            Gdx.app.log("(PERFORMANCE)", "LFU Capacity: " + batch.getTextureLFUCapacity());
-            Gdx.app.log("(PERFORMANCE)", "LFU Size: " + batch.getTextureLFUSize());
-            Gdx.app.log("(PERFORMANCE)", "LFU Swaps: " + batch.getTextureLFUSwaps());
-//            Gdx.app.log("(PERFORMANCE)", "Total Textures rendered since begin(): " + batch.textureIDs.size);
-        }
         batch.end();
         guiViewport.apply(false);
         batch.setProjectionMatrix(guiViewport.getCamera().combined);
@@ -998,6 +1003,7 @@ public class ColorDungeonSeparate extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
+//        font = generateFreetypeFont(height * 3 / shownHeight);
         mainViewport.update(width, height, false);
         guiViewport.update(width, height, false);
     }
