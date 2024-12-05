@@ -31,7 +31,6 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.colorful.DawnlikeData;
-import com.github.tommyettinger.colorful.oklab.ColorTools;
 import com.github.tommyettinger.colorful.oklab.ColorfulBatch;
 import com.github.tommyettinger.colorful.oklab.SimplePalette;
 import com.github.tommyettinger.colorful.oklab.TextureArrayColorfulBatch;
@@ -336,7 +335,7 @@ public class ColorDungeon extends ApplicationAdapter {
         playerSprite = new AnimatedGlidingSprite(new Animation<>(DURATION,
                 atlas.findRegions(rng.randomElement(DawnlikeData.possibleCharacters)), Animation.PlayMode.LOOP), player);
         playerSprite.setSize(1f, 1f);
-        playerSprite.setTweakedColor(0.5f, 0.5f, 0.5f, 1f, 0.95f, 0.75f, 0.75f, 0.65f);
+        playerSprite.setTweakedColor(0.5f, 0.5f, 0.5f, 1f, 0.5f, 0.75f, 0.75f, 0.5f);
         playerDirector = new Director<>(AnimatedGlidingSprite::getLocation, ObjectList.with(playerSprite), 150);
 
         vision.restart(linePlaceMap, player, 8);
@@ -362,8 +361,8 @@ public class ColorDungeon extends ApplicationAdapter {
                             atlas.findRegions(enemy), Animation.PlayMode.LOOP), monPos);
             monster.setSize(1f, 1f);
             int monColor = FullPalette.COLOR_WHEEL_PALETTE_MID[rng.nextInt(FullPalette.COLOR_WHEEL_PALETTE_MID.length)];
-            monster.setColor(NumberUtils.intBitsToFloat(Integer.reverseBytes(monColor & -2)));
-            monster.setTweak(0.45f, 0.4f, 0.4f, 0.4f);
+            monster.setColor(NumberUtils.intBitsToFloat((monColor & 0xFEFFFFFF)));
+            monster.setTweak(0.45f, 0.4f, 0.4f, 0.5f);
 //            System.out.println(enemy + ": color 0x" + DigitTools.hex(ColorTools.toRGBA8888(monster.getColor())));
             monsters.put(monPos, monster);
             vision.lighting.addLight(monPos, new Radiance(rng.nextFloat(3f) + 2f,
@@ -396,6 +395,7 @@ public class ColorDungeon extends ApplicationAdapter {
 
     @Override
     public void create() {
+        SimplePalette.editKnownColors();
         Gdx.app.setLogLevel(Application.LOG_INFO);
 
         // Switch between ColorfulBatch and the newer subclass, TextureArrayColorfulBatch, here.
@@ -818,8 +818,8 @@ public class ColorDungeon extends ApplicationAdapter {
                 char glyph = vision.prunedPlaceMap[x][y];
                 if (vision.seen.contains(x, y)) {
                     // cells that were seen more than one frame ago, and aren't visible now, appear as a gray memory.
-                    batch.setIntColor(vision.backgroundColors[x][y]);
-                    batch.setTweak(0.4f, 0.4f, 0.4f, 0.4f);
+                    batch.setColor(NumberUtils.intBitsToFloat(vision.backgroundColors[x][y] & 0xFEFFFFFF));
+                    batch.setTweak(0.5f, 0.5f, 0.5f, 0.5f);
                     if (glyph == '/' || glyph == '+' || glyph == '1' || glyph == '2') // doors expect a floor drawn beneath them
                         batch.draw(charMapping.getOrDefault('.', solid), x, y, 1f, 1f);
                     if(glyph >= 0x2500 && glyph <= 0x257F)
