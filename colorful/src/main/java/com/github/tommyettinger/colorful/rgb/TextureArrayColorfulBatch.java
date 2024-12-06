@@ -224,6 +224,25 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     }
 
     /**
+     * Creates a ShaderProgram that can be passed to {@link #TextureArrayColorfulBatch(int, ShaderProgram)}; it will
+     * accept RGBA colors in {@link #setColor(float, float, float, float)}, but
+     * {@link #setTweak(float, float, float, float)} will treat its inputs as luma, chroma A, chroma B, and contrast,
+     * as Oklab handles them. This can be more useful than an RGBA tweak because this allows you to make images
+     * grayscale (by setting chroma A and chroma B to 0.0) or hyper-saturated (by setting those same two to values above
+     * 0.5), and you can also colorize an image by making it grayscale and then adding a non-gray color with
+     * {@link #setColor(Color)}. Changing the tweak's luma can act similarly to changing the contrast. Changing just one
+     * of chroma A or B can have interesting effects, especially if you want to simulate red-green color-blindness
+     * (protanopia) by setting chroma A to 0, or another kind of color-blindness (tritanopia) by setting chroma B to 0.
+     *
+     * @return a new ShaderProgram that takes an RGBA tint color and an Oklab tweak
+     */
+    public static ShaderProgram createShaderWithOklabTweak() {
+        return TextureArrayColorfulBatch.createDefaultShader(TextureArrayColorfulBatch.getMaxTextureUnits(),
+                com.github.tommyettinger.colorful.oklab.TextureArrayColorfulBatch.vertexShaderOklabWithRGBATint,
+                com.github.tommyettinger.colorful.oklab.TextureArrayColorfulBatch.fragmentShader);
+    }
+
+    /**
      * The default shader's vertex part.
      * <br>
      * This is meant to be used with {@link #fragmentShader} or {@link #fragmentShaderAlternateTintCenter}.

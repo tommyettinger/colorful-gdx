@@ -403,7 +403,7 @@ public class ColorDungeonMixedSpace extends ApplicationAdapter {
 
         // Switch between ColorfulBatch and the newer subclass, TextureArrayColorfulBatch, here.
 //        batch = new ColorfulBatch();
-        batch = new TextureArrayColorfulBatch(1024, TextureArrayColorfulBatch.createDefaultShader(TextureArrayColorfulBatch.getMaxTextureUnits(), com.github.tommyettinger.colorful.oklab.TextureArrayColorfulBatch.vertexShaderOklabWithRGBATint, com.github.tommyettinger.colorful.oklab.TextureArrayColorfulBatch.fragmentShader));
+        batch = new TextureArrayColorfulBatch(1024, TextureArrayColorfulBatch.createShaderWithOklabTweak());
 
         rng = new ChopRandom(seed);
 
@@ -847,18 +847,17 @@ public class ColorDungeonMixedSpace extends ApplicationAdapter {
             for (int j = 0; j < placeHeight; j++) {
                 if (lightLevels[i][j] > 0.01) {
                     if ((monster = monsters.get(Coord.get(i, j))) != null) {
-                        monster.animate(time);//.setColor(DescriptiveColorRgb.toFloat(vision.getForegroundColor(i, j, change)));
+                        monster.animate(time).setColor(DescriptiveColorRgb.toFloat(vision.getForegroundColor(i, j, change)));
                         monster.draw(batch);
                     }
                 } else if (vision.justHidden.contains(i, j) && (monster = monsters.get(Coord.get(i, j))) != null) {
-                    monster.animate(time);//.setColor(DescriptiveColorRgb.toFloat(vision.getForegroundColor(i, j, change)));
+                    monster.animate(time).setColor(DescriptiveColorRgb.toFloat(vision.getForegroundColor(i, j, change)));
                     monster.draw(batch);
                 }
             }
         }
         batch.setPackedColor(SimplePalette.GRAY);
         playerSprite.animate(time).draw(batch);
-//        Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }
 
     /**

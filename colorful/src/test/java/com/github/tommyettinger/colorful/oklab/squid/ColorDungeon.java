@@ -836,11 +836,11 @@ public class ColorDungeon extends ApplicationAdapter {
             for (int j = 0; j < placeHeight; j++) {
                 if (lightLevels[i][j] > 0.01) {
                     if ((monster = monsters.get(Coord.get(i, j))) != null) {
-                        monster.animate(time);//.setColor(DescriptiveColorRgb.toFloat(vision.getForegroundColor(i, j, change)));
+                        monster.animate(time).setColor(NumberUtils.intBitsToFloat(0xFEFFFFFF & vision.getForegroundColor(i, j, change)));
                         monster.draw(batch);
                     }
                 } else if (vision.justHidden.contains(i, j) && (monster = monsters.get(Coord.get(i, j))) != null) {
-                    monster.animate(time);//.setColor(DescriptiveColorRgb.toFloat(vision.getForegroundColor(i, j, change)));
+                    monster.animate(time).setColor(NumberUtils.intBitsToFloat(0xFEFFFFFF & vision.getForegroundColor(i, j, change)));
                     monster.draw(batch);
                 }
             }
