@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.tommyettinger.colorful.oklab.squid;
+package com.github.tommyettinger.colorful.rgb.squid;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
@@ -26,21 +26,25 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.colorful.DawnlikeData;
-import com.github.tommyettinger.colorful.oklab.ColorfulBatch;
-import com.github.tommyettinger.colorful.oklab.SimplePalette;
-import com.github.tommyettinger.colorful.oklab.TextureArrayColorfulBatch;
+import com.github.tommyettinger.colorful.rgb.ColorTools;
+import com.github.tommyettinger.colorful.rgb.ColorfulBatch;
+import com.github.tommyettinger.colorful.rgb.SimplePalette;
+import com.github.tommyettinger.colorful.rgb.TextureArrayColorfulBatch;
 import com.github.tommyettinger.digital.MathTools;
 import com.github.tommyettinger.ds.IntObjectMap;
 import com.github.tommyettinger.ds.ObjectDeque;
 import com.github.tommyettinger.ds.ObjectList;
 import com.github.tommyettinger.random.ChopRandom;
-import com.github.yellowstonegames.core.DescriptiveColor;
-import com.github.yellowstonegames.core.FullPalette;
+import com.github.yellowstonegames.core.DescriptiveColorRgb;
+import com.github.yellowstonegames.core.FullPaletteRgb;
 import com.github.yellowstonegames.grid.*;
 import com.github.yellowstonegames.path.DijkstraMap;
 import com.github.yellowstonegames.place.DungeonProcessor;
@@ -52,7 +56,7 @@ import com.github.yellowstonegames.text.Language;
 import static com.badlogic.gdx.Gdx.input;
 import static com.badlogic.gdx.Input.Keys.*;
 
-public class ColorDungeon extends ApplicationAdapter {
+public class ColorDungeonMixedSpace extends ApplicationAdapter {
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
@@ -86,7 +90,7 @@ public class ColorDungeon extends ApplicationAdapter {
                 seed = System.currentTimeMillis();
             }
         }
-        new Lwjgl3Application(new ColorDungeon(seed), configuration);
+        new Lwjgl3Application(new ColorDungeonMixedSpace(seed), configuration);
     }
 
     private static final float DURATION = 0.375f;
@@ -121,7 +125,7 @@ public class ColorDungeon extends ApplicationAdapter {
     /**
      * Handles field of view calculations as they change when the player moves around; also, lighting with colors.
      */
-    private final VisionFramework vision = new VisionFramework();
+    private final VisionFrameworkRgb vision = new VisionFrameworkRgb();
     /**
      * The 2D position of the player (the moving character who the FOV centers upon).
      */
@@ -192,20 +196,20 @@ public class ColorDungeon extends ApplicationAdapter {
     /**
      * Used to tint the player for a round when they suffer damage. Very dark red, slightly dull.
      */
-    private static final float OKLAB_BLOOD = SimplePalette.parseDescription("darkest brick");
+    private static final int RGB_BLOOD = DescriptiveColorRgb.describeRgb("darkest brick");
     /**
      * Used as the color for remembered cells that can't be currently seen. Slightly-yellow-brown,
      * with about 30% lightness; fully opaque.
      */
-    private static final int OKLAB_MEMORY = DescriptiveColor.oklabByHCL(0.24f, 0.05f, 0.3f, 1f);
+    private static final int RGB_MEMORY = 0x605420FF;
 
     private GLProfiler glProfiler;
 
-    public ColorDungeon() {
+    public ColorDungeonMixedSpace() {
         this(1L);
     }
 
-    public ColorDungeon(long seed) {
+    public ColorDungeonMixedSpace(long seed) {
         this.seed = seed;
     }
 
@@ -335,20 +339,20 @@ public class ColorDungeon extends ApplicationAdapter {
         playerSprite = new AnimatedGlidingSprite(new Animation<>(DURATION,
                 atlas.findRegions(rng.randomElement(DawnlikeData.possibleCharacters)), Animation.PlayMode.LOOP), player);
         playerSprite.setSize(1f, 1f);
-        playerSprite.setTweakedColor(0.5f, 0.5f, 0.5f, 1f, 0.75f, 0.75f, 0.75f, 0.75f);
+        playerSprite.setTweakedColor(0.5f, 0.5f, 0.5f, 1f, 0.5f, 0.65f, 0.65f, 0.65f);
         playerDirector = new Director<>(AnimatedGlidingSprite::getLocation, ObjectList.with(playerSprite), 150);
 
         vision.restart(linePlaceMap, player, 8);
         // Here, we need to modify part of VisionFramework that initially thinks the neutral color (which produces no
         // change when tinting) is RGBA white, when it really should be RGBA 50% gray in our case.
-        vision.lighting = new LightingManager(vision.lighting.resistances, vision.lighting.backgroundColor, vision.lighting.radiusStrategy, vision.lighting.viewerRange, vision.lighting.symmetry) {
+        vision.lighting = new LightingManagerRgb(vision.lighting.resistances, vision.lighting.backgroundColor, vision.lighting.radiusStrategy, vision.lighting.viewerRange, vision.lighting.symmetry) {
             public int getNeutralColor() {
-                return DescriptiveColor.GRAY;
+                return DescriptiveColorRgb.GRAY;
             }
         };
         // This seems to be needed if vision.lighting was changed externally.
         vision.finishChanges();
-        vision.lighting.addLight(player, new Radiance(8, FullPalette.COSMIC_LATTE, 0.3f, 0f));
+        vision.lighting.addLight(player, new Radiance(8, FullPaletteRgb.COSMIC_LATTE, 0.3f, 0f));
         floors.remove(player);
         int numMonsters = 100;
         monsters = new CoordObjectOrderedMap<>(numMonsters);
@@ -360,9 +364,9 @@ public class ColorDungeon extends ApplicationAdapter {
                     new AnimatedGlidingSprite(new Animation<>(DURATION,
                             atlas.findRegions(enemy), Animation.PlayMode.LOOP), monPos);
             monster.setSize(1f, 1f);
-            int monColor = FullPalette.COLOR_WHEEL_PALETTE_MID[rng.nextInt(FullPalette.COLOR_WHEEL_PALETTE_MID.length)];
-            monster.setColor(NumberUtils.intBitsToFloat((monColor & 0xFEFFFFFF)));
-            monster.setTweak(0.45f, 0.55f, 0.55f, 0.65f);
+            int monColor = FullPaletteRgb.COLOR_WHEEL_PALETTE_MID[rng.nextInt(FullPaletteRgb.COLOR_WHEEL_PALETTE_MID.length)];
+            monster.setColor(ColorTools.fromRGBA8888(monColor));
+            monster.setTweak(0.55f, 0.55f, 0.55f, 0.6f);
 //            System.out.println(enemy + ": color 0x" + DigitTools.hex(ColorTools.toRGBA8888(monster.getColor())));
             monsters.put(monPos, monster);
             vision.lighting.addLight(monPos, new Radiance(rng.nextFloat(3f) + 2f,
@@ -395,12 +399,11 @@ public class ColorDungeon extends ApplicationAdapter {
 
     @Override
     public void create() {
-        SimplePalette.editKnownColors();
         Gdx.app.setLogLevel(Application.LOG_INFO);
 
         // Switch between ColorfulBatch and the newer subclass, TextureArrayColorfulBatch, here.
 //        batch = new ColorfulBatch();
-        batch = new TextureArrayColorfulBatch();
+        batch = new TextureArrayColorfulBatch(1024, TextureArrayColorfulBatch.createDefaultShader(TextureArrayColorfulBatch.getMaxTextureUnits(), com.github.tommyettinger.colorful.oklab.TextureArrayColorfulBatch.vertexShaderOklabWithRGBATint, com.github.tommyettinger.colorful.oklab.TextureArrayColorfulBatch.fragmentShader));
 
         rng = new ChopRandom(seed);
 
@@ -425,7 +428,16 @@ public class ColorDungeon extends ApplicationAdapter {
         font.setUseIntegerPositions(false);
         font.getData().setScale(3);
 //        font = generateFreetypeFont(48);
-        vision.rememberedColor = OKLAB_MEMORY;
+        vision.rememberedColor = RGB_MEMORY;
+
+//        Pixmap pCursor = new Pixmap(cellWidth, cellHeight, Pixmap.Format.RGBA8888);
+//        Pixmap pAtlas = new Pixmap(Gdx.files.classpath("dawnlike/Dawnlike.png"));
+//        String[] cursorNames = {"broadsword", "dwarvish spear", "javelin", "vulgar polearm", "pole cleaver", "quarterstaff"};
+//        TextureAtlas.AtlasRegion pointer = atlas.findRegion(cursorNames[(int) (TimeUtils.millis() & 0xFFFFF) % cursorNames.length]);
+//        pCursor.drawPixmap(pAtlas, pointer.getRegionX(), pointer.getRegionY(), 16, 16, 0, 0, cellWidth, cellHeight);
+//        Gdx.graphics.setCursor(Gdx.graphics.newCursor(pCursor, 1, 1));
+//        pAtlas.dispose();
+//        pCursor.dispose();
 
         solid = atlas.findRegion("pixel");
         charMapping = new IntObjectMap<>(64);
@@ -769,7 +781,7 @@ public class ColorDungeon extends ApplicationAdapter {
                     if (tmp == null) continue;
                     // if we would move into the player, instead damage the player and animate a bump motion.
                     if (tmp.x == player.x && tmp.y == player.y) {
-                        playerSprite.setColor(OKLAB_BLOOD);
+                        playerSprite.setPackedColor(DescriptiveColorRgb.toFloat(RGB_BLOOD));
                         health--;
                         VectorSequenceGlider small = VectorSequenceGlider.BUMPS.getOrDefault(pos.toGoTo(player), null);
                         if (small != null) {
@@ -803,7 +815,7 @@ public class ColorDungeon extends ApplicationAdapter {
         vision.update(change);
         final float time = TimeUtils.timeSinceMillis(startTime) * 0.001f;
 
-        int rainbow = DescriptiveColor.oklabByHSL(MathTools.fract(time * 0.5f), 1f, 0.55f, 1f);
+        int rainbow = DescriptiveColorRgb.hsl2rgb(MathTools.fract(time * 0.5f), 1f, 0.55f, 1f);
 
         for (int i = 0; i < toCursor.size(); i++) {
             Coord curr = toCursor.get(i);
@@ -812,14 +824,13 @@ public class ColorDungeon extends ApplicationAdapter {
         }
 
         float[][] lightLevels = vision.lighting.fovResult;
-
+        batch.setTweak(0.45f, 0.4f, 0.4f, 0.4f);
         for (int x = 0; x < placeWidth; x++) {
             for (int y = 0; y < placeHeight; y++) {
                 char glyph = vision.prunedPlaceMap[x][y];
                 if (vision.seen.contains(x, y)) {
                     // cells that were seen more than one frame ago, and aren't visible now, appear as a gray memory.
-                    batch.setColor(NumberUtils.intBitsToFloat(vision.backgroundColors[x][y] & 0xFEFFFFFF));
-                    batch.setTweak(0.4f, 0.4f, 0.4f, 0.4f);
+                    batch.setPackedColor(DescriptiveColorRgb.toFloat(vision.backgroundColors[x][y]));
                     if (glyph == '/' || glyph == '+' || glyph == '1' || glyph == '2') // doors expect a floor drawn beneath them
                         batch.draw(charMapping.getOrDefault('.', solid), x, y, 1f, 1f);
                     if(glyph >= 0x2500 && glyph <= 0x257F)
@@ -845,7 +856,7 @@ public class ColorDungeon extends ApplicationAdapter {
                 }
             }
         }
-        batch.setColor(SimplePalette.GRAY);
+        batch.setPackedColor(SimplePalette.GRAY);
         playerSprite.animate(time).draw(batch);
 //        Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }
