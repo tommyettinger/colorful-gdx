@@ -61,6 +61,21 @@ least get a bit closer to a leafy background. Because libGDX's `Sprite` class de
 color and its tweak, but otherwise can be treated like a Sprite. You can still use a `Sprite` with a `ColorfulBatch`,
 you just can't set its tweak, so it uses the default (multiplying by 1 for all channels).
 
+Starting in colorful-gdx 0.9.0, there's an optional subclass of `ColorfulBatch` called `TextureArrayColorfulBatch`; it
+is present for the rgb and oklab packages. `TextureArrayColorfulBatch` uses some proposed optimizations for SpriteBatch
+that so far haven't made their way into libGDX; these optimizations allow rendering from many different `Texture`
+instances at almost the speed of rendering from one `Texture` with `SpriteBatch`. This can be very useful for larger
+games that need more than one 4096x4096 atlas texture for any reason. Usage of a `TextureArrayColorfulBatch` is exactly
+the same as a `ColorfulBatch`, though there are a few extra options when constructing one. You can give a String vertex
+and fragment shader to `createDefaultShader()`, and some options for other shaders are present in each Batch class.
+In particular, the rgb Batch has `createShaderWithOklabTweak()`, which creates a `ShaderProgram` you can give to the
+constructor. This special shader allows using "normal" RGBA colors, which are easier to display and reason about most of
+the time, but the tweak and features associated with it from the oklab Batch, using a tweak with L, A, B, and contrast.
+There's a similar option in the oklab Batch, where you can use the vertex shader String `vertexShaderOklabWithRGBATint`
+with whatever Oklab fragment shader you need to be able to do the same thing as `createShaderWithOklabTweak()`, but in
+the oklab package. If you're using the rgb or oklab ColorfulBatch, it should be easy to drop in a
+`TextureArrayColorfulBatch` and see if it works for you.
+
 If you don't want to use `ColorfulBatch`, then `Shaders` provides `ShaderProgram` generators and GLSL code for shaders
 that handle various color spaces. There are convenient functions that produce ShaderPrograms, like `makeRGBAShader()`
 and `makeGammaRGBAShader()`, from the GLSL sources `fragmentShaderRGBA` and `fragmentShaderGammaRGBA`, respectively.
@@ -200,6 +215,7 @@ and from RGBA, correct, and it should be now.
 
 The `com.github.tommyettinger.colorful.oklab` package has parallels to all the classes in the `ipt_hq` package, which
 includes those in `ycwcm` and `ipt` as well. Its `SimplePalette` is particularly adept at smoothly changing colors.
+It has a `TextureArrayColorfulBatch` like the rgb package, as mentioned earlier.
 
 ### CIELAB
 
@@ -417,7 +433,7 @@ If you don't use Gradle, here's the Maven dependency (GWT dependencies should be
 </dependency>
 ```
 
-The dependency (and GWT inherit) on Juniper won't be needed starting in the next version (0.8.6 or higher).
+The dependency (and GWT inherit) on Juniper won't be needed starting in the next version (0.9.0 or higher).
 
 If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/).
 

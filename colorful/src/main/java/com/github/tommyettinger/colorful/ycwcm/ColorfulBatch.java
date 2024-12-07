@@ -252,6 +252,11 @@ public class ColorfulBatch implements Batch {
         setPackedColor(color);
     }
 
+    /**
+     * Expects an int color in the format (lightness, 8 bits), (chroma warm, 8 bits), (chroma mild, 8 bits), (alpha,
+     * 7 bits), (ignored, 1 bit).
+     * @param color an int color with alpha in the least significant byte and lightness in the most significant
+     */
     public void setIntColor(final int color) {
         this.color = NumberUtils.intBitsToFloat(Integer.reverseBytes(color & -2));
     }
