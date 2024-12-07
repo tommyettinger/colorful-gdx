@@ -328,7 +328,7 @@
 <span class="source-line-no">315</span><span id="line-315"></span>
 <span class="source-line-no">316</span><span id="line-316">                return NumberUtils.intBitsToFloat(</span>
 <span class="source-line-no">317</span><span id="line-317">                                      Math.min(Math.max((int)(forwardLight</span>
-<span class="source-line-no">318</span><span id="line-318">                                                                                  (0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s) * 255.999f         ), 0), 255)</span>
+<span class="source-line-no">318</span><span id="line-318">                                                                                  (0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s) * 255.999f       ), 0), 255)</span>
 <span class="source-line-no">319</span><span id="line-319">                                                | Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 127.5f + 127.5f), 0), 255) &lt;&lt; 8</span>
 <span class="source-line-no">320</span><span id="line-320">                                                | Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s) * 127.5f + 127.5f), 0), 255) &lt;&lt; 16</span>
 <span class="source-line-no">321</span><span id="line-321">                                                | (rgba &amp; 0xFE) &lt;&lt; 24);</span>
@@ -349,7 +349,7 @@
 <span class="source-line-no">336</span><span id="line-336">                final float s = cbrtPositive(0.0883097947f * r + 0.2818474174f * g + 0.6302613616f * b);</span>
 <span class="source-line-no">337</span><span id="line-337">                return NumberUtils.intBitsToFloat(</span>
 <span class="source-line-no">338</span><span id="line-338">                                          Math.min(Math.max((int)(forwardLight</span>
-<span class="source-line-no">339</span><span id="line-339">                                                                                  (0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s) * 255.999f         ), 0), 255)</span>
+<span class="source-line-no">339</span><span id="line-339">                                                                                  (0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s) * 255.999f       ), 0), 255)</span>
 <span class="source-line-no">340</span><span id="line-340">                                                | Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 127.5f + 127.5f), 0), 255) &lt;&lt; 8</span>
 <span class="source-line-no">341</span><span id="line-341">                                                | Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s) * 127.5f + 127.5f), 0), 255) &lt;&lt; 16</span>
 <span class="source-line-no">342</span><span id="line-342">                                                | (abgr &amp; 0xFE000000));</span>
@@ -379,10 +379,10 @@
 <span class="source-line-no">366</span><span id="line-366">                final float s = cbrtPositive(0.0883097947f * r + 0.2818474174f * g + 0.6302613616f * b);</span>
 <span class="source-line-no">367</span><span id="line-367">                return NumberUtils.intBitsToFloat(</span>
 <span class="source-line-no">368</span><span id="line-368">                                          Math.min(Math.max((int)(forwardLight</span>
-<span class="source-line-no">369</span><span id="line-369">                                                                                  (0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s) * 255.999f         ), 0), 255)</span>
+<span class="source-line-no">369</span><span id="line-369">                                                                                  (0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s) * 255.999f       ), 0), 255)</span>
 <span class="source-line-no">370</span><span id="line-370">                                                | Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 127.5f + 127.5f), 0), 255) &lt;&lt; 8</span>
 <span class="source-line-no">371</span><span id="line-371">                                                | Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s) * 127.5f + 127.5f), 0), 255) &lt;&lt; 16</span>
-<span class="source-line-no">372</span><span id="line-372">                                                | ((int)(color.a * 255f) &lt;&lt; 24 &amp; 0xFE000000));</span>
+<span class="source-line-no">372</span><span id="line-372">                                                | ((int)(color.a * 255) &lt;&lt; 24 &amp; 0xFE000000));</span>
 <span class="source-line-no">373</span><span id="line-373">        }</span>
 <span class="source-line-no">374</span><span id="line-374"></span>
 <span class="source-line-no">375</span><span id="line-375">        /**</span>
@@ -402,10 +402,10 @@
 <span class="source-line-no">389</span><span id="line-389">                final float s = cbrtPositive(0.0883097947f * r + 0.2818474174f * g + 0.6302613616f * b);</span>
 <span class="source-line-no">390</span><span id="line-390">                return NumberUtils.intBitsToFloat(</span>
 <span class="source-line-no">391</span><span id="line-391">                                          Math.min(Math.max((int)(forwardLight</span>
-<span class="source-line-no">392</span><span id="line-392">                                                                                  (0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s) * 255.999f         ), 0), 255)</span>
+<span class="source-line-no">392</span><span id="line-392">                                                                                  (0.2104542553f * l + 0.7936177850f * m - 0.0040720468f * s) * 255.999f       ), 0), 255)</span>
 <span class="source-line-no">393</span><span id="line-393">                                                | Math.min(Math.max((int)((1.9779984951f * l - 2.4285922050f * m + 0.4505937099f * s) * 127.5f + 127.5f), 0), 255) &lt;&lt; 8</span>
 <span class="source-line-no">394</span><span id="line-394">                                                | Math.min(Math.max((int)((0.0259040371f * l + 0.7827717662f * m - 0.8086757660f * s) * 127.5f + 127.5f), 0), 255) &lt;&lt; 16</span>
-<span class="source-line-no">395</span><span id="line-395">                                                | ((int)(a * 255f) &lt;&lt; 24 &amp; 0xFE000000));</span>
+<span class="source-line-no">395</span><span id="line-395">                                                | ((int)(a * 255) &lt;&lt; 24 &amp; 0xFE000000));</span>
 <span class="source-line-no">396</span><span id="line-396">        }</span>
 <span class="source-line-no">397</span><span id="line-397"></span>
 <span class="source-line-no">398</span><span id="line-398">        /**</span>
@@ -1167,7 +1167,7 @@
 <span class="source-line-no">1154</span><span id="line-1154">                A = ((int) (A * 255) - 127f) / 255f;</span>
 <span class="source-line-no">1155</span><span id="line-1155">                B = ((int) (B * 255) - 127f) / 255f;</span>
 <span class="source-line-no">1156</span><span id="line-1156">                final float g = GAMUT_DATA[((int) (L * 255) &amp; 0xFF) &lt;&lt; 8 | (int)(256f * TrigTools.atan2Turns(B, A))];</span>
-<span class="source-line-no">1157</span><span id="line-1157">                return g * g * 0x1p-18 + 0x1p-14 &gt;= (A * A + B * B);</span>
+<span class="source-line-no">1157</span><span id="line-1157">                return L &gt;= 0f &amp;&amp; L &lt;= 1f &amp;&amp; g * g * 0x1p-18 + 0x1p-14 &gt;= (A * A + B * B);</span>
 <span class="source-line-no">1158</span><span id="line-1158"></span>
 <span class="source-line-no">1159</span><span id="line-1159">                ////This was the old code for this inGamut(), which was subtly different from the other inGamut() when called</span>
 <span class="source-line-no">1160</span><span id="line-1160">                /// on a packed float. The packed floats can go ever-so-slightly towards or away from the edge.</span>

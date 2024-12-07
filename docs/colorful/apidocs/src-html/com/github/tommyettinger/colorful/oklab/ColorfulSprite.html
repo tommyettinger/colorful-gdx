@@ -38,792 +38,896 @@
 <span class="source-line-no">025</span><span id="line-25"></span>
 <span class="source-line-no">026</span><span id="line-26">import static com.github.tommyettinger.colorful.oklab.ColorfulBatch.*;</span>
 <span class="source-line-no">027</span><span id="line-27"></span>
-<span class="source-line-no">028</span><span id="line-28">/** Holds the geometry, color, and texture information for drawing 2D sprites using {@link ColorfulBatch}. A ColorfulSprite has a position and a</span>
-<span class="source-line-no">029</span><span id="line-29"> * size given as width and height. The position is relative to the origin of the coordinate system specified via</span>
-<span class="source-line-no">030</span><span id="line-30"> * {@link ColorfulBatch#begin()} and the respective matrices. A ColorfulSprite is always rectangular and its position (x, y) are located in the</span>
-<span class="source-line-no">031</span><span id="line-31"> * bottom left corner of that rectangle. A ColorfulSprite also has an origin around which rotations and scaling are performed (that is,</span>
-<span class="source-line-no">032</span><span id="line-32"> * the origin is not modified by rotation and scaling). The origin is given relative to the bottom left corner of the ColorfulSprite, its</span>
-<span class="source-line-no">033</span><span id="line-33"> * position.</span>
-<span class="source-line-no">034</span><span id="line-34"> * @author mzechner</span>
-<span class="source-line-no">035</span><span id="line-35"> * @author Nathan Sweet </span>
-<span class="source-line-no">036</span><span id="line-36"> * @author Tommy Ettinger</span>
-<span class="source-line-no">037</span><span id="line-37"> */</span>
-<span class="source-line-no">038</span><span id="line-38">public class ColorfulSprite extends TextureRegion {</span>
-<span class="source-line-no">039</span><span id="line-39">        public static final int VERTEX_SIZE = 2 + 1 + 2 + 1;</span>
-<span class="source-line-no">040</span><span id="line-40">        public static final int SPRITE_SIZE = 4 * VERTEX_SIZE;</span>
-<span class="source-line-no">041</span><span id="line-41"></span>
-<span class="source-line-no">042</span><span id="line-42">        private final float[] vertices = new float[SPRITE_SIZE];</span>
-<span class="source-line-no">043</span><span id="line-43">        private float x, y;</span>
-<span class="source-line-no">044</span><span id="line-44">        private float width, height;</span>
-<span class="source-line-no">045</span><span id="line-45">        private float originX, originY;</span>
-<span class="source-line-no">046</span><span id="line-46">        private float rotation;</span>
-<span class="source-line-no">047</span><span id="line-47">        private float scaleX = 1, scaleY = 1;</span>
-<span class="source-line-no">048</span><span id="line-48">        private boolean dirty = true;</span>
-<span class="source-line-no">049</span><span id="line-49">        private Rectangle bounds;</span>
-<span class="source-line-no">050</span><span id="line-50"></span>
-<span class="source-line-no">051</span><span id="line-51">        /** Creates an uninitialized sprite. The sprite will need a texture region and bounds set before it can be drawn. */</span>
-<span class="source-line-no">052</span><span id="line-52">        public ColorfulSprite() {</span>
-<span class="source-line-no">053</span><span id="line-53">                setTweakedColor(Palette.GRAY, TWEAK_RESET);</span>
-<span class="source-line-no">054</span><span id="line-54">        }</span>
-<span class="source-line-no">055</span><span id="line-55"></span>
-<span class="source-line-no">056</span><span id="line-56">        /** Creates a sprite with width, height, and texture region equal to the size of the texture. </span>
-<span class="source-line-no">057</span><span id="line-57">         * @param texture A Texture that will be used in full for this ColorfulSprite.</span>
-<span class="source-line-no">058</span><span id="line-58">         */</span>
-<span class="source-line-no">059</span><span id="line-59">        public ColorfulSprite(Texture texture) {</span>
-<span class="source-line-no">060</span><span id="line-60">                this(texture, 0, 0, texture.getWidth(), texture.getHeight());</span>
-<span class="source-line-no">061</span><span id="line-61">        }</span>
-<span class="source-line-no">062</span><span id="line-62"></span>
-<span class="source-line-no">063</span><span id="line-63">        /** Creates a sprite with width, height, and texture region equal to the specified size. The texture region's upper left corner</span>
-<span class="source-line-no">064</span><span id="line-64">         * will be 0,0.</span>
-<span class="source-line-no">065</span><span id="line-65">         * @param texture A Texture that will have some of its area used for this ColorfulSprite, starting at 0,0 in the upper left.</span>
-<span class="source-line-no">066</span><span id="line-66">         * @param srcWidth The width of the texture region. May be negative to flip the sprite when drawn.</span>
-<span class="source-line-no">067</span><span id="line-67">         * @param srcHeight The height of the texture region. May be negative to flip the sprite when drawn. */</span>
-<span class="source-line-no">068</span><span id="line-68">        public ColorfulSprite(Texture texture, int srcWidth, int srcHeight) {</span>
-<span class="source-line-no">069</span><span id="line-69">                this(texture, 0, 0, srcWidth, srcHeight);</span>
-<span class="source-line-no">070</span><span id="line-70">        }</span>
-<span class="source-line-no">071</span><span id="line-71"></span>
-<span class="source-line-no">072</span><span id="line-72">        /** Creates a sprite with width, height, and texture region equal to the specified size.</span>
-<span class="source-line-no">073</span><span id="line-73">         * @param texture A Texture that will have some of its area used for this ColorfulSprite, starting at srcX,srcY in the upper left.</span>
-<span class="source-line-no">074</span><span id="line-74">         * @param srcX The x-coordinate for the upper left corner of the region to use.</span>
-<span class="source-line-no">075</span><span id="line-75">         * @param srcY The y-coordinate for the upper left corner of the region to use.</span>
-<span class="source-line-no">076</span><span id="line-76">         * @param srcWidth The width of the texture region. May be negative to flip the sprite when drawn.</span>
-<span class="source-line-no">077</span><span id="line-77">         * @param srcHeight The height of the texture region. May be negative to flip the sprite when drawn. */</span>
-<span class="source-line-no">078</span><span id="line-78">        public ColorfulSprite(Texture texture, int srcX, int srcY, int srcWidth, int srcHeight) {</span>
-<span class="source-line-no">079</span><span id="line-79">                if (texture == null) throw new IllegalArgumentException("texture cannot be null.");</span>
-<span class="source-line-no">080</span><span id="line-80">                setTexture(texture);</span>
-<span class="source-line-no">081</span><span id="line-81">                setRegion(srcX, srcY, srcWidth, srcHeight);</span>
-<span class="source-line-no">082</span><span id="line-82">                setTweakedColor(Palette.GRAY, TWEAK_RESET);</span>
-<span class="source-line-no">083</span><span id="line-83">                setSize(Math.abs(srcWidth), Math.abs(srcHeight));</span>
-<span class="source-line-no">084</span><span id="line-84">                setOrigin(width * 0.5f, height * 0.5f);</span>
-<span class="source-line-no">085</span><span id="line-85">        }</span>
-<span class="source-line-no">086</span><span id="line-86"></span>
-<span class="source-line-no">087</span><span id="line-87">        /** Creates a sprite based on a specific TextureRegion, the new sprite's region is a copy of the parameter region - altering one</span>
-<span class="source-line-no">088</span><span id="line-88">         * does not affect the other</span>
-<span class="source-line-no">089</span><span id="line-89">         * @param region A TextureRegion that will have relevant data copied into this ColorfulSprite.</span>
-<span class="source-line-no">090</span><span id="line-90">         */</span>
-<span class="source-line-no">091</span><span id="line-91">        public ColorfulSprite(TextureRegion region) {</span>
-<span class="source-line-no">092</span><span id="line-92">                setRegion(region);</span>
-<span class="source-line-no">093</span><span id="line-93">                setTweakedColor(Palette.GRAY, TWEAK_RESET);</span>
-<span class="source-line-no">094</span><span id="line-94">                setSize(region.getRegionWidth(), region.getRegionHeight());</span>
-<span class="source-line-no">095</span><span id="line-95">                setOrigin(width * 0.5f, height * 0.5f);</span>
-<span class="source-line-no">096</span><span id="line-96">        }</span>
-<span class="source-line-no">097</span><span id="line-97"></span>
-<span class="source-line-no">098</span><span id="line-98">        /** Creates a sprite with width, height, and texture region equal to the specified size, relative to specified sprite's texture</span>
-<span class="source-line-no">099</span><span id="line-99">         * region.</span>
-<span class="source-line-no">100</span><span id="line-100">         * @param region A TextureRegion that this will use for its Texture and as a basis for the relative coordinates in that Texture.</span>
-<span class="source-line-no">101</span><span id="line-101">         * @param srcX Number of pixels to add to the texture coordinates of {@code region} on the x-axis.</span>
-<span class="source-line-no">102</span><span id="line-102">         * @param srcY Number of pixels to add to the texture coordinates of {@code region} on the y-axis. </span>
-<span class="source-line-no">103</span><span id="line-103">         * @param srcWidth The width of the texture region. May be negative to flip the sprite when drawn.</span>
-<span class="source-line-no">104</span><span id="line-104">         * @param srcHeight The height of the texture region. May be negative to flip the sprite when drawn. */</span>
-<span class="source-line-no">105</span><span id="line-105">        public ColorfulSprite(TextureRegion region, int srcX, int srcY, int srcWidth, int srcHeight) {</span>
-<span class="source-line-no">106</span><span id="line-106">                setRegion(region, srcX, srcY, srcWidth, srcHeight);</span>
-<span class="source-line-no">107</span><span id="line-107">                setTweakedColor(Palette.GRAY, TWEAK_RESET);</span>
-<span class="source-line-no">108</span><span id="line-108">                setSize(Math.abs(srcWidth), Math.abs(srcHeight));</span>
-<span class="source-line-no">109</span><span id="line-109">                setOrigin(width * 0.5f, height * 0.5f);</span>
-<span class="source-line-no">110</span><span id="line-110">        }</span>
+<span class="source-line-no">028</span><span id="line-28">/**</span>
+<span class="source-line-no">029</span><span id="line-29"> * Holds the geometry, color, and texture information for drawing 2D sprites using {@link ColorfulBatch}. A ColorfulSprite has a position and a</span>
+<span class="source-line-no">030</span><span id="line-30"> * size given as width and height. The position is relative to the origin of the coordinate system specified via</span>
+<span class="source-line-no">031</span><span id="line-31"> * {@link ColorfulBatch#begin()} and the respective matrices. A ColorfulSprite is always rectangular and its position (x, y) are located in the</span>
+<span class="source-line-no">032</span><span id="line-32"> * bottom left corner of that rectangle. A ColorfulSprite also has an origin around which rotations and scaling are performed (that is,</span>
+<span class="source-line-no">033</span><span id="line-33"> * the origin is not modified by rotation and scaling). The origin is given relative to the bottom left corner of the ColorfulSprite, its</span>
+<span class="source-line-no">034</span><span id="line-34"> * position.</span>
+<span class="source-line-no">035</span><span id="line-35"> *</span>
+<span class="source-line-no">036</span><span id="line-36"> * @author mzechner</span>
+<span class="source-line-no">037</span><span id="line-37"> * @author Nathan Sweet</span>
+<span class="source-line-no">038</span><span id="line-38"> * @author Tommy Ettinger</span>
+<span class="source-line-no">039</span><span id="line-39"> */</span>
+<span class="source-line-no">040</span><span id="line-40">public class ColorfulSprite extends TextureRegion {</span>
+<span class="source-line-no">041</span><span id="line-41">    public static final int VERTEX_SIZE = 2 + 1 + 2 + 1;</span>
+<span class="source-line-no">042</span><span id="line-42">    public static final int SPRITE_SIZE = 4 * VERTEX_SIZE;</span>
+<span class="source-line-no">043</span><span id="line-43"></span>
+<span class="source-line-no">044</span><span id="line-44">    private final float[] vertices = new float[SPRITE_SIZE];</span>
+<span class="source-line-no">045</span><span id="line-45">    private float x, y;</span>
+<span class="source-line-no">046</span><span id="line-46">    private float width, height;</span>
+<span class="source-line-no">047</span><span id="line-47">    private float originX, originY;</span>
+<span class="source-line-no">048</span><span id="line-48">    private float rotation;</span>
+<span class="source-line-no">049</span><span id="line-49">    private float scaleX = 1, scaleY = 1;</span>
+<span class="source-line-no">050</span><span id="line-50">    private boolean dirty = true;</span>
+<span class="source-line-no">051</span><span id="line-51">    private Rectangle bounds;</span>
+<span class="source-line-no">052</span><span id="line-52"></span>
+<span class="source-line-no">053</span><span id="line-53">    /**</span>
+<span class="source-line-no">054</span><span id="line-54">     * Creates an uninitialized sprite. The sprite will need a texture region and bounds set before it can be drawn.</span>
+<span class="source-line-no">055</span><span id="line-55">     */</span>
+<span class="source-line-no">056</span><span id="line-56">    public ColorfulSprite() {</span>
+<span class="source-line-no">057</span><span id="line-57">        setTweakedColor(Palette.GRAY, TWEAK_RESET);</span>
+<span class="source-line-no">058</span><span id="line-58">    }</span>
+<span class="source-line-no">059</span><span id="line-59"></span>
+<span class="source-line-no">060</span><span id="line-60">    /**</span>
+<span class="source-line-no">061</span><span id="line-61">     * Creates a sprite with width, height, and texture region equal to the size of the texture.</span>
+<span class="source-line-no">062</span><span id="line-62">     *</span>
+<span class="source-line-no">063</span><span id="line-63">     * @param texture A Texture that will be used in full for this ColorfulSprite.</span>
+<span class="source-line-no">064</span><span id="line-64">     */</span>
+<span class="source-line-no">065</span><span id="line-65">    public ColorfulSprite(Texture texture) {</span>
+<span class="source-line-no">066</span><span id="line-66">        this(texture, 0, 0, texture.getWidth(), texture.getHeight());</span>
+<span class="source-line-no">067</span><span id="line-67">    }</span>
+<span class="source-line-no">068</span><span id="line-68"></span>
+<span class="source-line-no">069</span><span id="line-69">    /**</span>
+<span class="source-line-no">070</span><span id="line-70">     * Creates a sprite with width, height, and texture region equal to the specified size. The texture region's upper left corner</span>
+<span class="source-line-no">071</span><span id="line-71">     * will be 0,0.</span>
+<span class="source-line-no">072</span><span id="line-72">     *</span>
+<span class="source-line-no">073</span><span id="line-73">     * @param texture   A Texture that will have some of its area used for this ColorfulSprite, starting at 0,0 in the upper left.</span>
+<span class="source-line-no">074</span><span id="line-74">     * @param srcWidth  The width of the texture region. May be negative to flip the sprite when drawn.</span>
+<span class="source-line-no">075</span><span id="line-75">     * @param srcHeight The height of the texture region. May be negative to flip the sprite when drawn.</span>
+<span class="source-line-no">076</span><span id="line-76">     */</span>
+<span class="source-line-no">077</span><span id="line-77">    public ColorfulSprite(Texture texture, int srcWidth, int srcHeight) {</span>
+<span class="source-line-no">078</span><span id="line-78">        this(texture, 0, 0, srcWidth, srcHeight);</span>
+<span class="source-line-no">079</span><span id="line-79">    }</span>
+<span class="source-line-no">080</span><span id="line-80"></span>
+<span class="source-line-no">081</span><span id="line-81">    /**</span>
+<span class="source-line-no">082</span><span id="line-82">     * Creates a sprite with width, height, and texture region equal to the specified size.</span>
+<span class="source-line-no">083</span><span id="line-83">     *</span>
+<span class="source-line-no">084</span><span id="line-84">     * @param texture   A Texture that will have some of its area used for this ColorfulSprite, starting at srcX,srcY in the upper left.</span>
+<span class="source-line-no">085</span><span id="line-85">     * @param srcX      The x-coordinate for the upper left corner of the region to use.</span>
+<span class="source-line-no">086</span><span id="line-86">     * @param srcY      The y-coordinate for the upper left corner of the region to use.</span>
+<span class="source-line-no">087</span><span id="line-87">     * @param srcWidth  The width of the texture region. May be negative to flip the sprite when drawn.</span>
+<span class="source-line-no">088</span><span id="line-88">     * @param srcHeight The height of the texture region. May be negative to flip the sprite when drawn.</span>
+<span class="source-line-no">089</span><span id="line-89">     */</span>
+<span class="source-line-no">090</span><span id="line-90">    public ColorfulSprite(Texture texture, int srcX, int srcY, int srcWidth, int srcHeight) {</span>
+<span class="source-line-no">091</span><span id="line-91">        if (texture == null) throw new IllegalArgumentException("texture cannot be null.");</span>
+<span class="source-line-no">092</span><span id="line-92">        setTexture(texture);</span>
+<span class="source-line-no">093</span><span id="line-93">        setRegion(srcX, srcY, srcWidth, srcHeight);</span>
+<span class="source-line-no">094</span><span id="line-94">        setTweakedColor(Palette.GRAY, TWEAK_RESET);</span>
+<span class="source-line-no">095</span><span id="line-95">        setSize(Math.abs(srcWidth), Math.abs(srcHeight));</span>
+<span class="source-line-no">096</span><span id="line-96">        setOrigin(width * 0.5f, height * 0.5f);</span>
+<span class="source-line-no">097</span><span id="line-97">    }</span>
+<span class="source-line-no">098</span><span id="line-98"></span>
+<span class="source-line-no">099</span><span id="line-99">    /**</span>
+<span class="source-line-no">100</span><span id="line-100">     * Creates a sprite based on a specific TextureRegion, the new sprite's region is a copy of the parameter region - altering one</span>
+<span class="source-line-no">101</span><span id="line-101">     * does not affect the other</span>
+<span class="source-line-no">102</span><span id="line-102">     *</span>
+<span class="source-line-no">103</span><span id="line-103">     * @param region A TextureRegion that will have relevant data copied into this ColorfulSprite.</span>
+<span class="source-line-no">104</span><span id="line-104">     */</span>
+<span class="source-line-no">105</span><span id="line-105">    public ColorfulSprite(TextureRegion region) {</span>
+<span class="source-line-no">106</span><span id="line-106">        setRegion(region);</span>
+<span class="source-line-no">107</span><span id="line-107">        setTweakedColor(Palette.GRAY, TWEAK_RESET);</span>
+<span class="source-line-no">108</span><span id="line-108">        setSize(region.getRegionWidth(), region.getRegionHeight());</span>
+<span class="source-line-no">109</span><span id="line-109">        setOrigin(width * 0.5f, height * 0.5f);</span>
+<span class="source-line-no">110</span><span id="line-110">    }</span>
 <span class="source-line-no">111</span><span id="line-111"></span>
-<span class="source-line-no">112</span><span id="line-112">        /** Creates a colorfulSprite that is a copy in every way of the specified colorfulSprite. </span>
-<span class="source-line-no">113</span><span id="line-113">         * @param colorfulSprite A ColorfulSprite that will be copied exactly.</span>
-<span class="source-line-no">114</span><span id="line-114">         */</span>
-<span class="source-line-no">115</span><span id="line-115">        public ColorfulSprite(ColorfulSprite colorfulSprite) {</span>
-<span class="source-line-no">116</span><span id="line-116">                set(colorfulSprite);</span>
-<span class="source-line-no">117</span><span id="line-117">        }</span>
-<span class="source-line-no">118</span><span id="line-118"></span>
-<span class="source-line-no">119</span><span id="line-119">        /** Make this colorfulSprite a copy in every way of the specified colorfulSprite</span>
-<span class="source-line-no">120</span><span id="line-120">         * @param colorfulSprite A ColorfulSprite that will be copied exactly.</span>
-<span class="source-line-no">121</span><span id="line-121">         */</span>
-<span class="source-line-no">122</span><span id="line-122">        public void set (ColorfulSprite colorfulSprite) {</span>
-<span class="source-line-no">123</span><span id="line-123">                if (colorfulSprite == null) throw new IllegalArgumentException("colorfulSprite cannot be null.");</span>
-<span class="source-line-no">124</span><span id="line-124">                System.arraycopy(colorfulSprite.vertices, 0, vertices, 0, SPRITE_SIZE);</span>
-<span class="source-line-no">125</span><span id="line-125">                setRegion(colorfulSprite);</span>
-<span class="source-line-no">126</span><span id="line-126">                x = colorfulSprite.x;</span>
-<span class="source-line-no">127</span><span id="line-127">                y = colorfulSprite.y;</span>
-<span class="source-line-no">128</span><span id="line-128">                width = colorfulSprite.width;</span>
-<span class="source-line-no">129</span><span id="line-129">                height = colorfulSprite.height;</span>
-<span class="source-line-no">130</span><span id="line-130">                setRegionWidth(colorfulSprite.getRegionWidth());</span>
-<span class="source-line-no">131</span><span id="line-131">                setRegionHeight(colorfulSprite.getRegionHeight());</span>
-<span class="source-line-no">132</span><span id="line-132">                originX = colorfulSprite.originX;</span>
-<span class="source-line-no">133</span><span id="line-133">                originY = colorfulSprite.originY;</span>
-<span class="source-line-no">134</span><span id="line-134">                rotation = colorfulSprite.rotation;</span>
-<span class="source-line-no">135</span><span id="line-135">                scaleX = colorfulSprite.scaleX;</span>
-<span class="source-line-no">136</span><span id="line-136">                scaleY = colorfulSprite.scaleY;</span>
-<span class="source-line-no">137</span><span id="line-137">                setTweakedColor(colorfulSprite.vertices[C1], colorfulSprite.vertices[T1]);</span>
-<span class="source-line-no">138</span><span id="line-138">                if(colorfulSprite.bounds != null)</span>
-<span class="source-line-no">139</span><span id="line-139">                        bounds = new Rectangle(colorfulSprite.bounds);</span>
-<span class="source-line-no">140</span><span id="line-140">                dirty = colorfulSprite.dirty;</span>
-<span class="source-line-no">141</span><span id="line-141">        }</span>
-<span class="source-line-no">142</span><span id="line-142"></span>
-<span class="source-line-no">143</span><span id="line-143">        /** Sets the position and size of the sprite when drawn, before scaling and rotation are applied. If origin, rotation, or scale</span>
-<span class="source-line-no">144</span><span id="line-144">         * are changed, it is slightly more efficient to set the bounds after those operations. </span>
-<span class="source-line-no">145</span><span id="line-145">         * @param x The x-position of the ColorfulSprite in world space.</span>
-<span class="source-line-no">146</span><span id="line-146">         * @param y The y-position of the ColorfulSprite in world space.</span>
-<span class="source-line-no">147</span><span id="line-147">         * @param width The width to display the ColorfulSprite with. </span>
-<span class="source-line-no">148</span><span id="line-148">         * @param height The height to display the ColorfulSprite with.</span>
-<span class="source-line-no">149</span><span id="line-149">         */</span>
-<span class="source-line-no">150</span><span id="line-150">        public void setBounds (float x, float y, float width, float height) {</span>
-<span class="source-line-no">151</span><span id="line-151">                this.x = x;</span>
-<span class="source-line-no">152</span><span id="line-152">                this.y = y;</span>
-<span class="source-line-no">153</span><span id="line-153">                this.width = width;</span>
-<span class="source-line-no">154</span><span id="line-154">                this.height = height;</span>
-<span class="source-line-no">155</span><span id="line-155"></span>
-<span class="source-line-no">156</span><span id="line-156">                if (dirty) return;</span>
-<span class="source-line-no">157</span><span id="line-157"></span>
-<span class="source-line-no">158</span><span id="line-158">                float x2 = x + width;</span>
-<span class="source-line-no">159</span><span id="line-159">                float y2 = y + height;</span>
-<span class="source-line-no">160</span><span id="line-160">                float[] vertices = this.vertices;</span>
-<span class="source-line-no">161</span><span id="line-161">                vertices[X1] = x;</span>
-<span class="source-line-no">162</span><span id="line-162">                vertices[Y1] = y;</span>
+<span class="source-line-no">112</span><span id="line-112">    /**</span>
+<span class="source-line-no">113</span><span id="line-113">     * Creates a sprite with width, height, and texture region equal to the specified size, relative to specified sprite's texture</span>
+<span class="source-line-no">114</span><span id="line-114">     * region.</span>
+<span class="source-line-no">115</span><span id="line-115">     *</span>
+<span class="source-line-no">116</span><span id="line-116">     * @param region    A TextureRegion that this will use for its Texture and as a basis for the relative coordinates in that Texture.</span>
+<span class="source-line-no">117</span><span id="line-117">     * @param srcX      Number of pixels to add to the texture coordinates of {@code region} on the x-axis.</span>
+<span class="source-line-no">118</span><span id="line-118">     * @param srcY      Number of pixels to add to the texture coordinates of {@code region} on the y-axis.</span>
+<span class="source-line-no">119</span><span id="line-119">     * @param srcWidth  The width of the texture region. May be negative to flip the sprite when drawn.</span>
+<span class="source-line-no">120</span><span id="line-120">     * @param srcHeight The height of the texture region. May be negative to flip the sprite when drawn.</span>
+<span class="source-line-no">121</span><span id="line-121">     */</span>
+<span class="source-line-no">122</span><span id="line-122">    public ColorfulSprite(TextureRegion region, int srcX, int srcY, int srcWidth, int srcHeight) {</span>
+<span class="source-line-no">123</span><span id="line-123">        setRegion(region, srcX, srcY, srcWidth, srcHeight);</span>
+<span class="source-line-no">124</span><span id="line-124">        setTweakedColor(Palette.GRAY, TWEAK_RESET);</span>
+<span class="source-line-no">125</span><span id="line-125">        setSize(Math.abs(srcWidth), Math.abs(srcHeight));</span>
+<span class="source-line-no">126</span><span id="line-126">        setOrigin(width * 0.5f, height * 0.5f);</span>
+<span class="source-line-no">127</span><span id="line-127">    }</span>
+<span class="source-line-no">128</span><span id="line-128"></span>
+<span class="source-line-no">129</span><span id="line-129">    /**</span>
+<span class="source-line-no">130</span><span id="line-130">     * Creates a colorfulSprite that is a copy in every way of the specified colorfulSprite.</span>
+<span class="source-line-no">131</span><span id="line-131">     *</span>
+<span class="source-line-no">132</span><span id="line-132">     * @param colorfulSprite A ColorfulSprite that will be copied exactly.</span>
+<span class="source-line-no">133</span><span id="line-133">     */</span>
+<span class="source-line-no">134</span><span id="line-134">    public ColorfulSprite(ColorfulSprite colorfulSprite) {</span>
+<span class="source-line-no">135</span><span id="line-135">        set(colorfulSprite);</span>
+<span class="source-line-no">136</span><span id="line-136">    }</span>
+<span class="source-line-no">137</span><span id="line-137"></span>
+<span class="source-line-no">138</span><span id="line-138">    /**</span>
+<span class="source-line-no">139</span><span id="line-139">     * Make this colorfulSprite a copy in every way of the specified colorfulSprite</span>
+<span class="source-line-no">140</span><span id="line-140">     *</span>
+<span class="source-line-no">141</span><span id="line-141">     * @param colorfulSprite A ColorfulSprite that will be copied exactly.</span>
+<span class="source-line-no">142</span><span id="line-142">     */</span>
+<span class="source-line-no">143</span><span id="line-143">    public void set(ColorfulSprite colorfulSprite) {</span>
+<span class="source-line-no">144</span><span id="line-144">        if (colorfulSprite == null) throw new IllegalArgumentException("colorfulSprite cannot be null.");</span>
+<span class="source-line-no">145</span><span id="line-145">        System.arraycopy(colorfulSprite.vertices, 0, vertices, 0, SPRITE_SIZE);</span>
+<span class="source-line-no">146</span><span id="line-146">        setRegion(colorfulSprite);</span>
+<span class="source-line-no">147</span><span id="line-147">        x = colorfulSprite.x;</span>
+<span class="source-line-no">148</span><span id="line-148">        y = colorfulSprite.y;</span>
+<span class="source-line-no">149</span><span id="line-149">        width = colorfulSprite.width;</span>
+<span class="source-line-no">150</span><span id="line-150">        height = colorfulSprite.height;</span>
+<span class="source-line-no">151</span><span id="line-151">        setRegionWidth(colorfulSprite.getRegionWidth());</span>
+<span class="source-line-no">152</span><span id="line-152">        setRegionHeight(colorfulSprite.getRegionHeight());</span>
+<span class="source-line-no">153</span><span id="line-153">        originX = colorfulSprite.originX;</span>
+<span class="source-line-no">154</span><span id="line-154">        originY = colorfulSprite.originY;</span>
+<span class="source-line-no">155</span><span id="line-155">        rotation = colorfulSprite.rotation;</span>
+<span class="source-line-no">156</span><span id="line-156">        scaleX = colorfulSprite.scaleX;</span>
+<span class="source-line-no">157</span><span id="line-157">        scaleY = colorfulSprite.scaleY;</span>
+<span class="source-line-no">158</span><span id="line-158">        setTweakedColor(colorfulSprite.vertices[C1], colorfulSprite.vertices[T1]);</span>
+<span class="source-line-no">159</span><span id="line-159">        if (colorfulSprite.bounds != null)</span>
+<span class="source-line-no">160</span><span id="line-160">            bounds = new Rectangle(colorfulSprite.bounds);</span>
+<span class="source-line-no">161</span><span id="line-161">        dirty = colorfulSprite.dirty;</span>
+<span class="source-line-no">162</span><span id="line-162">    }</span>
 <span class="source-line-no">163</span><span id="line-163"></span>
-<span class="source-line-no">164</span><span id="line-164">                vertices[X2] = x;</span>
-<span class="source-line-no">165</span><span id="line-165">                vertices[Y2] = y2;</span>
-<span class="source-line-no">166</span><span id="line-166"></span>
-<span class="source-line-no">167</span><span id="line-167">                vertices[X3] = x2;</span>
-<span class="source-line-no">168</span><span id="line-168">                vertices[Y3] = y2;</span>
-<span class="source-line-no">169</span><span id="line-169"></span>
-<span class="source-line-no">170</span><span id="line-170">                vertices[X4] = x2;</span>
-<span class="source-line-no">171</span><span id="line-171">                vertices[Y4] = y;</span>
-<span class="source-line-no">172</span><span id="line-172"></span>
-<span class="source-line-no">173</span><span id="line-173">                if (rotation != 0 || scaleX != 1 || scaleY != 1) dirty = true;</span>
-<span class="source-line-no">174</span><span id="line-174">        }</span>
-<span class="source-line-no">175</span><span id="line-175"></span>
-<span class="source-line-no">176</span><span id="line-176">        /** Sets the size of the sprite when drawn, before scaling and rotation are applied. If origin, rotation, or scale are changed,</span>
-<span class="source-line-no">177</span><span id="line-177">         * it is slightly more efficient to set the size after those operations. If both position and size are to be changed, it is</span>
-<span class="source-line-no">178</span><span id="line-178">         * better to use {@link #setBounds(float, float, float, float)}.</span>
-<span class="source-line-no">179</span><span id="line-179">         * @param width The width to display the ColorfulSprite with. </span>
-<span class="source-line-no">180</span><span id="line-180">         * @param height The height to display the ColorfulSprite with.</span>
-<span class="source-line-no">181</span><span id="line-181">         */</span>
-<span class="source-line-no">182</span><span id="line-182">        public void setSize (float width, float height) {</span>
-<span class="source-line-no">183</span><span id="line-183">                this.width = width;</span>
-<span class="source-line-no">184</span><span id="line-184">                this.height = height;</span>
-<span class="source-line-no">185</span><span id="line-185"></span>
-<span class="source-line-no">186</span><span id="line-186">                if (dirty) return;</span>
-<span class="source-line-no">187</span><span id="line-187"></span>
-<span class="source-line-no">188</span><span id="line-188">                float x2 = x + width;</span>
-<span class="source-line-no">189</span><span id="line-189">                float y2 = y + height;</span>
-<span class="source-line-no">190</span><span id="line-190">                float[] vertices = this.vertices;</span>
-<span class="source-line-no">191</span><span id="line-191">                vertices[X1] = x;</span>
-<span class="source-line-no">192</span><span id="line-192">                vertices[Y1] = y;</span>
-<span class="source-line-no">193</span><span id="line-193"></span>
-<span class="source-line-no">194</span><span id="line-194">                vertices[X2] = x;</span>
-<span class="source-line-no">195</span><span id="line-195">                vertices[Y2] = y2;</span>
-<span class="source-line-no">196</span><span id="line-196"></span>
-<span class="source-line-no">197</span><span id="line-197">                vertices[X3] = x2;</span>
-<span class="source-line-no">198</span><span id="line-198">                vertices[Y3] = y2;</span>
-<span class="source-line-no">199</span><span id="line-199"></span>
-<span class="source-line-no">200</span><span id="line-200">                vertices[X4] = x2;</span>
-<span class="source-line-no">201</span><span id="line-201">                vertices[Y4] = y;</span>
-<span class="source-line-no">202</span><span id="line-202"></span>
-<span class="source-line-no">203</span><span id="line-203">                if (rotation != 0 || scaleX != 1 || scaleY != 1) dirty = true;</span>
-<span class="source-line-no">204</span><span id="line-204">        }</span>
-<span class="source-line-no">205</span><span id="line-205"></span>
-<span class="source-line-no">206</span><span id="line-206">        /** Sets the position where the sprite will be drawn. If origin, rotation, or scale are changed, it is slightly more efficient</span>
-<span class="source-line-no">207</span><span id="line-207">         * to set the position after those operations. If both position and size are to be changed, it is better to use</span>
-<span class="source-line-no">208</span><span id="line-208">         * {@link #setBounds(float, float, float, float)}. </span>
-<span class="source-line-no">209</span><span id="line-209">         * @param x The x-position of the ColorfulSprite in world space.</span>
-<span class="source-line-no">210</span><span id="line-210">         * @param y The y-position of the ColorfulSprite in world space.</span>
-<span class="source-line-no">211</span><span id="line-211">         */</span>
-<span class="source-line-no">212</span><span id="line-212">        public void setPosition (float x, float y) {</span>
-<span class="source-line-no">213</span><span id="line-213">                translate(x - this.x, y - this.y);</span>
-<span class="source-line-no">214</span><span id="line-214">        }</span>
-<span class="source-line-no">215</span><span id="line-215"></span>
-<span class="source-line-no">216</span><span id="line-216">        /** Sets the position where the sprite will be drawn, relative to its current origin. </span>
-<span class="source-line-no">217</span><span id="line-217">         * @param x The adjustment to make to the x-position, relative to the current origin. </span>
-<span class="source-line-no">218</span><span id="line-218">         * @param y The adjustment to make to the y-position, relative to the current origin. </span>
-<span class="source-line-no">219</span><span id="line-219">         */</span>
-<span class="source-line-no">220</span><span id="line-220">        public void setOriginBasedPosition (float x, float y) {</span>
-<span class="source-line-no">221</span><span id="line-221">                setPosition(x - this.originX, y - this.originY);</span>
-<span class="source-line-no">222</span><span id="line-222">        }</span>
-<span class="source-line-no">223</span><span id="line-223"></span>
-<span class="source-line-no">224</span><span id="line-224">        /** Sets the x position where the sprite will be drawn. If origin, rotation, or scale are changed, it is slightly more efficient</span>
-<span class="source-line-no">225</span><span id="line-225">         * to set the position after those operations. If both position and size are to be changed, it is better to use</span>
-<span class="source-line-no">226</span><span id="line-226">         * {@link #setBounds(float, float, float, float)}.</span>
-<span class="source-line-no">227</span><span id="line-227">         * @param x The x-position of the ColorfulSprite in world space.</span>
-<span class="source-line-no">228</span><span id="line-228">         */</span>
-<span class="source-line-no">229</span><span id="line-229">        public void setX (float x) {</span>
-<span class="source-line-no">230</span><span id="line-230">                translateX(x - this.x);</span>
-<span class="source-line-no">231</span><span id="line-231">        }</span>
-<span class="source-line-no">232</span><span id="line-232"></span>
-<span class="source-line-no">233</span><span id="line-233">        /** Sets the y position where the sprite will be drawn. If origin, rotation, or scale are changed, it is slightly more efficient</span>
-<span class="source-line-no">234</span><span id="line-234">         * to set the position after those operations. If both position and size are to be changed, it is better to use</span>
-<span class="source-line-no">235</span><span id="line-235">         * {@link #setBounds(float, float, float, float)}.</span>
-<span class="source-line-no">236</span><span id="line-236">         * @param y The y-position of the ColorfulSprite in world space.</span>
-<span class="source-line-no">237</span><span id="line-237">         */</span>
-<span class="source-line-no">238</span><span id="line-238">        public void setY (float y) {</span>
-<span class="source-line-no">239</span><span id="line-239">                translateY(y - this.y);</span>
-<span class="source-line-no">240</span><span id="line-240">        }</span>
-<span class="source-line-no">241</span><span id="line-241">        </span>
-<span class="source-line-no">242</span><span id="line-242">        /** Sets the x position so that it is centered on the given x parameter.</span>
-<span class="source-line-no">243</span><span id="line-243">         * @param x The x-position of the center of the ColorfulSprite in world space.</span>
-<span class="source-line-no">244</span><span id="line-244">         */</span>
-<span class="source-line-no">245</span><span id="line-245">        public void setCenterX (float x) {</span>
-<span class="source-line-no">246</span><span id="line-246">                setX(x - width * 0.5f);</span>
-<span class="source-line-no">247</span><span id="line-247">        }</span>
-<span class="source-line-no">248</span><span id="line-248"></span>
-<span class="source-line-no">249</span><span id="line-249">        /** Sets the y position so that it is centered on the given y parameter.</span>
-<span class="source-line-no">250</span><span id="line-250">         * @param y The y-position of the center of the ColorfulSprite in world space.</span>
-<span class="source-line-no">251</span><span id="line-251">         */</span>
-<span class="source-line-no">252</span><span id="line-252">        public void setCenterY (float y) {</span>
-<span class="source-line-no">253</span><span id="line-253">                setY(y - height * 0.5f);</span>
-<span class="source-line-no">254</span><span id="line-254">        }</span>
-<span class="source-line-no">255</span><span id="line-255"></span>
-<span class="source-line-no">256</span><span id="line-256">        /** Sets the position so that the sprite is centered on (x, y).</span>
-<span class="source-line-no">257</span><span id="line-257">         * @param x The x-position of the center of the ColorfulSprite in world space.</span>
-<span class="source-line-no">258</span><span id="line-258">         * @param y The y-position of the center of the ColorfulSprite in world space.</span>
-<span class="source-line-no">259</span><span id="line-259">         */</span>
-<span class="source-line-no">260</span><span id="line-260">        public void setCenter (float x, float y) {</span>
-<span class="source-line-no">261</span><span id="line-261">                setCenterX(x);</span>
-<span class="source-line-no">262</span><span id="line-262">                setCenterY(y);</span>
-<span class="source-line-no">263</span><span id="line-263">        }</span>
-<span class="source-line-no">264</span><span id="line-264"></span>
-<span class="source-line-no">265</span><span id="line-265">        /** Sets the x position relative to the current position where the sprite will be drawn. If origin, rotation, or scale are</span>
-<span class="source-line-no">266</span><span id="line-266">         * changed, it is slightly more efficient to translate after those operations.</span>
-<span class="source-line-no">267</span><span id="line-267">         * @param xAmount How much to move the ColorfulSprite on the x-axis, in world space.</span>
-<span class="source-line-no">268</span><span id="line-268">         */</span>
-<span class="source-line-no">269</span><span id="line-269">        public void translateX (float xAmount) {</span>
-<span class="source-line-no">270</span><span id="line-270">                this.x += xAmount;</span>
-<span class="source-line-no">271</span><span id="line-271"></span>
-<span class="source-line-no">272</span><span id="line-272">                if (dirty) return;</span>
-<span class="source-line-no">273</span><span id="line-273"></span>
-<span class="source-line-no">274</span><span id="line-274">                float[] vertices = this.vertices;</span>
-<span class="source-line-no">275</span><span id="line-275">                vertices[X1] += xAmount;</span>
-<span class="source-line-no">276</span><span id="line-276">                vertices[X2] += xAmount;</span>
-<span class="source-line-no">277</span><span id="line-277">                vertices[X3] += xAmount;</span>
-<span class="source-line-no">278</span><span id="line-278">                vertices[X4] += xAmount;</span>
-<span class="source-line-no">279</span><span id="line-279">        }</span>
-<span class="source-line-no">280</span><span id="line-280"></span>
-<span class="source-line-no">281</span><span id="line-281">        /** Sets the y position relative to the current position where the sprite will be drawn. If origin, rotation, or scale are</span>
-<span class="source-line-no">282</span><span id="line-282">         * changed, it is slightly more efficient to translate after those operations. </span>
-<span class="source-line-no">283</span><span id="line-283">         * @param yAmount How much to move the ColorfulSprite on the y-axis, in world space.</span>
-<span class="source-line-no">284</span><span id="line-284">         */</span>
-<span class="source-line-no">285</span><span id="line-285">        public void translateY (float yAmount) {</span>
-<span class="source-line-no">286</span><span id="line-286">                y += yAmount;</span>
-<span class="source-line-no">287</span><span id="line-287"></span>
-<span class="source-line-no">288</span><span id="line-288">                if (dirty) return;</span>
-<span class="source-line-no">289</span><span id="line-289"></span>
-<span class="source-line-no">290</span><span id="line-290">                float[] vertices = this.vertices;</span>
-<span class="source-line-no">291</span><span id="line-291">                vertices[Y1] += yAmount;</span>
-<span class="source-line-no">292</span><span id="line-292">                vertices[Y2] += yAmount;</span>
-<span class="source-line-no">293</span><span id="line-293">                vertices[Y3] += yAmount;</span>
-<span class="source-line-no">294</span><span id="line-294">                vertices[Y4] += yAmount;</span>
-<span class="source-line-no">295</span><span id="line-295">        }</span>
-<span class="source-line-no">296</span><span id="line-296"></span>
-<span class="source-line-no">297</span><span id="line-297">        /** Sets the position relative to the current position where the sprite will be drawn. If origin, rotation, or scale are</span>
-<span class="source-line-no">298</span><span id="line-298">         * changed, it is slightly more efficient to translate after those operations.</span>
-<span class="source-line-no">299</span><span id="line-299">         * @param xAmount How much to move the ColorfulSprite on the x-axis, in world space.</span>
-<span class="source-line-no">300</span><span id="line-300">         * @param yAmount How much to move the ColorfulSprite on the y-axis, in world space.</span>
-<span class="source-line-no">301</span><span id="line-301">         */</span>
-<span class="source-line-no">302</span><span id="line-302">        public void translate (float xAmount, float yAmount) {</span>
-<span class="source-line-no">303</span><span id="line-303">                x += xAmount;</span>
-<span class="source-line-no">304</span><span id="line-304">                y += yAmount;</span>
-<span class="source-line-no">305</span><span id="line-305"></span>
-<span class="source-line-no">306</span><span id="line-306">                if (dirty) return;</span>
-<span class="source-line-no">307</span><span id="line-307"></span>
-<span class="source-line-no">308</span><span id="line-308">                float[] vertices = this.vertices;</span>
-<span class="source-line-no">309</span><span id="line-309">                vertices[X1] += xAmount;</span>
-<span class="source-line-no">310</span><span id="line-310">                vertices[Y1] += yAmount;</span>
-<span class="source-line-no">311</span><span id="line-311"></span>
-<span class="source-line-no">312</span><span id="line-312">                vertices[X2] += xAmount;</span>
-<span class="source-line-no">313</span><span id="line-313">                vertices[Y2] += yAmount;</span>
+<span class="source-line-no">164</span><span id="line-164">    /**</span>
+<span class="source-line-no">165</span><span id="line-165">     * Sets the position and size of the sprite when drawn, before scaling and rotation are applied. If origin, rotation, or scale</span>
+<span class="source-line-no">166</span><span id="line-166">     * are changed, it is slightly more efficient to set the bounds after those operations.</span>
+<span class="source-line-no">167</span><span id="line-167">     *</span>
+<span class="source-line-no">168</span><span id="line-168">     * @param x      The x-position of the ColorfulSprite in world space.</span>
+<span class="source-line-no">169</span><span id="line-169">     * @param y      The y-position of the ColorfulSprite in world space.</span>
+<span class="source-line-no">170</span><span id="line-170">     * @param width  The width to display the ColorfulSprite with.</span>
+<span class="source-line-no">171</span><span id="line-171">     * @param height The height to display the ColorfulSprite with.</span>
+<span class="source-line-no">172</span><span id="line-172">     */</span>
+<span class="source-line-no">173</span><span id="line-173">    public void setBounds(float x, float y, float width, float height) {</span>
+<span class="source-line-no">174</span><span id="line-174">        this.x = x;</span>
+<span class="source-line-no">175</span><span id="line-175">        this.y = y;</span>
+<span class="source-line-no">176</span><span id="line-176">        this.width = width;</span>
+<span class="source-line-no">177</span><span id="line-177">        this.height = height;</span>
+<span class="source-line-no">178</span><span id="line-178"></span>
+<span class="source-line-no">179</span><span id="line-179">        if (dirty) return;</span>
+<span class="source-line-no">180</span><span id="line-180"></span>
+<span class="source-line-no">181</span><span id="line-181">        float x2 = x + width;</span>
+<span class="source-line-no">182</span><span id="line-182">        float y2 = y + height;</span>
+<span class="source-line-no">183</span><span id="line-183">        float[] vertices = this.vertices;</span>
+<span class="source-line-no">184</span><span id="line-184">        vertices[X1] = x;</span>
+<span class="source-line-no">185</span><span id="line-185">        vertices[Y1] = y;</span>
+<span class="source-line-no">186</span><span id="line-186"></span>
+<span class="source-line-no">187</span><span id="line-187">        vertices[X2] = x;</span>
+<span class="source-line-no">188</span><span id="line-188">        vertices[Y2] = y2;</span>
+<span class="source-line-no">189</span><span id="line-189"></span>
+<span class="source-line-no">190</span><span id="line-190">        vertices[X3] = x2;</span>
+<span class="source-line-no">191</span><span id="line-191">        vertices[Y3] = y2;</span>
+<span class="source-line-no">192</span><span id="line-192"></span>
+<span class="source-line-no">193</span><span id="line-193">        vertices[X4] = x2;</span>
+<span class="source-line-no">194</span><span id="line-194">        vertices[Y4] = y;</span>
+<span class="source-line-no">195</span><span id="line-195"></span>
+<span class="source-line-no">196</span><span id="line-196">        if (rotation != 0 || scaleX != 1 || scaleY != 1) dirty = true;</span>
+<span class="source-line-no">197</span><span id="line-197">    }</span>
+<span class="source-line-no">198</span><span id="line-198"></span>
+<span class="source-line-no">199</span><span id="line-199">    /**</span>
+<span class="source-line-no">200</span><span id="line-200">     * Sets the size of the sprite when drawn, before scaling and rotation are applied. If origin, rotation, or scale are changed,</span>
+<span class="source-line-no">201</span><span id="line-201">     * it is slightly more efficient to set the size after those operations. If both position and size are to be changed, it is</span>
+<span class="source-line-no">202</span><span id="line-202">     * better to use {@link #setBounds(float, float, float, float)}.</span>
+<span class="source-line-no">203</span><span id="line-203">     *</span>
+<span class="source-line-no">204</span><span id="line-204">     * @param width  The width to display the ColorfulSprite with.</span>
+<span class="source-line-no">205</span><span id="line-205">     * @param height The height to display the ColorfulSprite with.</span>
+<span class="source-line-no">206</span><span id="line-206">     */</span>
+<span class="source-line-no">207</span><span id="line-207">    public void setSize(float width, float height) {</span>
+<span class="source-line-no">208</span><span id="line-208">        this.width = width;</span>
+<span class="source-line-no">209</span><span id="line-209">        this.height = height;</span>
+<span class="source-line-no">210</span><span id="line-210"></span>
+<span class="source-line-no">211</span><span id="line-211">        if (dirty) return;</span>
+<span class="source-line-no">212</span><span id="line-212"></span>
+<span class="source-line-no">213</span><span id="line-213">        float x2 = x + width;</span>
+<span class="source-line-no">214</span><span id="line-214">        float y2 = y + height;</span>
+<span class="source-line-no">215</span><span id="line-215">        float[] vertices = this.vertices;</span>
+<span class="source-line-no">216</span><span id="line-216">        vertices[X1] = x;</span>
+<span class="source-line-no">217</span><span id="line-217">        vertices[Y1] = y;</span>
+<span class="source-line-no">218</span><span id="line-218"></span>
+<span class="source-line-no">219</span><span id="line-219">        vertices[X2] = x;</span>
+<span class="source-line-no">220</span><span id="line-220">        vertices[Y2] = y2;</span>
+<span class="source-line-no">221</span><span id="line-221"></span>
+<span class="source-line-no">222</span><span id="line-222">        vertices[X3] = x2;</span>
+<span class="source-line-no">223</span><span id="line-223">        vertices[Y3] = y2;</span>
+<span class="source-line-no">224</span><span id="line-224"></span>
+<span class="source-line-no">225</span><span id="line-225">        vertices[X4] = x2;</span>
+<span class="source-line-no">226</span><span id="line-226">        vertices[Y4] = y;</span>
+<span class="source-line-no">227</span><span id="line-227"></span>
+<span class="source-line-no">228</span><span id="line-228">        if (rotation != 0 || scaleX != 1 || scaleY != 1) dirty = true;</span>
+<span class="source-line-no">229</span><span id="line-229">    }</span>
+<span class="source-line-no">230</span><span id="line-230"></span>
+<span class="source-line-no">231</span><span id="line-231">    /**</span>
+<span class="source-line-no">232</span><span id="line-232">     * Sets the position where the sprite will be drawn. If origin, rotation, or scale are changed, it is slightly more efficient</span>
+<span class="source-line-no">233</span><span id="line-233">     * to set the position after those operations. If both position and size are to be changed, it is better to use</span>
+<span class="source-line-no">234</span><span id="line-234">     * {@link #setBounds(float, float, float, float)}.</span>
+<span class="source-line-no">235</span><span id="line-235">     *</span>
+<span class="source-line-no">236</span><span id="line-236">     * @param x The x-position of the ColorfulSprite in world space.</span>
+<span class="source-line-no">237</span><span id="line-237">     * @param y The y-position of the ColorfulSprite in world space.</span>
+<span class="source-line-no">238</span><span id="line-238">     */</span>
+<span class="source-line-no">239</span><span id="line-239">    public void setPosition(float x, float y) {</span>
+<span class="source-line-no">240</span><span id="line-240">        translate(x - this.x, y - this.y);</span>
+<span class="source-line-no">241</span><span id="line-241">    }</span>
+<span class="source-line-no">242</span><span id="line-242"></span>
+<span class="source-line-no">243</span><span id="line-243">    /**</span>
+<span class="source-line-no">244</span><span id="line-244">     * Sets the position where the sprite will be drawn, relative to its current origin.</span>
+<span class="source-line-no">245</span><span id="line-245">     *</span>
+<span class="source-line-no">246</span><span id="line-246">     * @param x The adjustment to make to the x-position, relative to the current origin.</span>
+<span class="source-line-no">247</span><span id="line-247">     * @param y The adjustment to make to the y-position, relative to the current origin.</span>
+<span class="source-line-no">248</span><span id="line-248">     */</span>
+<span class="source-line-no">249</span><span id="line-249">    public void setOriginBasedPosition(float x, float y) {</span>
+<span class="source-line-no">250</span><span id="line-250">        setPosition(x - this.originX, y - this.originY);</span>
+<span class="source-line-no">251</span><span id="line-251">    }</span>
+<span class="source-line-no">252</span><span id="line-252"></span>
+<span class="source-line-no">253</span><span id="line-253">    /**</span>
+<span class="source-line-no">254</span><span id="line-254">     * Sets the x position where the sprite will be drawn. If origin, rotation, or scale are changed, it is slightly more efficient</span>
+<span class="source-line-no">255</span><span id="line-255">     * to set the position after those operations. If both position and size are to be changed, it is better to use</span>
+<span class="source-line-no">256</span><span id="line-256">     * {@link #setBounds(float, float, float, float)}.</span>
+<span class="source-line-no">257</span><span id="line-257">     *</span>
+<span class="source-line-no">258</span><span id="line-258">     * @param x The x-position of the ColorfulSprite in world space.</span>
+<span class="source-line-no">259</span><span id="line-259">     */</span>
+<span class="source-line-no">260</span><span id="line-260">    public void setX(float x) {</span>
+<span class="source-line-no">261</span><span id="line-261">        translateX(x - this.x);</span>
+<span class="source-line-no">262</span><span id="line-262">    }</span>
+<span class="source-line-no">263</span><span id="line-263"></span>
+<span class="source-line-no">264</span><span id="line-264">    /**</span>
+<span class="source-line-no">265</span><span id="line-265">     * Sets the y position where the sprite will be drawn. If origin, rotation, or scale are changed, it is slightly more efficient</span>
+<span class="source-line-no">266</span><span id="line-266">     * to set the position after those operations. If both position and size are to be changed, it is better to use</span>
+<span class="source-line-no">267</span><span id="line-267">     * {@link #setBounds(float, float, float, float)}.</span>
+<span class="source-line-no">268</span><span id="line-268">     *</span>
+<span class="source-line-no">269</span><span id="line-269">     * @param y The y-position of the ColorfulSprite in world space.</span>
+<span class="source-line-no">270</span><span id="line-270">     */</span>
+<span class="source-line-no">271</span><span id="line-271">    public void setY(float y) {</span>
+<span class="source-line-no">272</span><span id="line-272">        translateY(y - this.y);</span>
+<span class="source-line-no">273</span><span id="line-273">    }</span>
+<span class="source-line-no">274</span><span id="line-274"></span>
+<span class="source-line-no">275</span><span id="line-275">    /**</span>
+<span class="source-line-no">276</span><span id="line-276">     * Sets the x position so that it is centered on the given x parameter.</span>
+<span class="source-line-no">277</span><span id="line-277">     *</span>
+<span class="source-line-no">278</span><span id="line-278">     * @param x The x-position of the center of the ColorfulSprite in world space.</span>
+<span class="source-line-no">279</span><span id="line-279">     */</span>
+<span class="source-line-no">280</span><span id="line-280">    public void setCenterX(float x) {</span>
+<span class="source-line-no">281</span><span id="line-281">        setX(x - width * 0.5f);</span>
+<span class="source-line-no">282</span><span id="line-282">    }</span>
+<span class="source-line-no">283</span><span id="line-283"></span>
+<span class="source-line-no">284</span><span id="line-284">    /**</span>
+<span class="source-line-no">285</span><span id="line-285">     * Sets the y position so that it is centered on the given y parameter.</span>
+<span class="source-line-no">286</span><span id="line-286">     *</span>
+<span class="source-line-no">287</span><span id="line-287">     * @param y The y-position of the center of the ColorfulSprite in world space.</span>
+<span class="source-line-no">288</span><span id="line-288">     */</span>
+<span class="source-line-no">289</span><span id="line-289">    public void setCenterY(float y) {</span>
+<span class="source-line-no">290</span><span id="line-290">        setY(y - height * 0.5f);</span>
+<span class="source-line-no">291</span><span id="line-291">    }</span>
+<span class="source-line-no">292</span><span id="line-292"></span>
+<span class="source-line-no">293</span><span id="line-293">    /**</span>
+<span class="source-line-no">294</span><span id="line-294">     * Sets the position so that the sprite is centered on (x, y).</span>
+<span class="source-line-no">295</span><span id="line-295">     *</span>
+<span class="source-line-no">296</span><span id="line-296">     * @param x The x-position of the center of the ColorfulSprite in world space.</span>
+<span class="source-line-no">297</span><span id="line-297">     * @param y The y-position of the center of the ColorfulSprite in world space.</span>
+<span class="source-line-no">298</span><span id="line-298">     */</span>
+<span class="source-line-no">299</span><span id="line-299">    public void setCenter(float x, float y) {</span>
+<span class="source-line-no">300</span><span id="line-300">        setCenterX(x);</span>
+<span class="source-line-no">301</span><span id="line-301">        setCenterY(y);</span>
+<span class="source-line-no">302</span><span id="line-302">    }</span>
+<span class="source-line-no">303</span><span id="line-303"></span>
+<span class="source-line-no">304</span><span id="line-304">    /**</span>
+<span class="source-line-no">305</span><span id="line-305">     * Sets the x position relative to the current position where the sprite will be drawn. If origin, rotation, or scale are</span>
+<span class="source-line-no">306</span><span id="line-306">     * changed, it is slightly more efficient to translate after those operations.</span>
+<span class="source-line-no">307</span><span id="line-307">     *</span>
+<span class="source-line-no">308</span><span id="line-308">     * @param xAmount How much to move the ColorfulSprite on the x-axis, in world space.</span>
+<span class="source-line-no">309</span><span id="line-309">     */</span>
+<span class="source-line-no">310</span><span id="line-310">    public void translateX(float xAmount) {</span>
+<span class="source-line-no">311</span><span id="line-311">        this.x += xAmount;</span>
+<span class="source-line-no">312</span><span id="line-312"></span>
+<span class="source-line-no">313</span><span id="line-313">        if (dirty) return;</span>
 <span class="source-line-no">314</span><span id="line-314"></span>
-<span class="source-line-no">315</span><span id="line-315">                vertices[X3] += xAmount;</span>
-<span class="source-line-no">316</span><span id="line-316">                vertices[Y3] += yAmount;</span>
-<span class="source-line-no">317</span><span id="line-317"></span>
-<span class="source-line-no">318</span><span id="line-318">                vertices[X4] += xAmount;</span>
-<span class="source-line-no">319</span><span id="line-319">                vertices[Y4] += yAmount;</span>
-<span class="source-line-no">320</span><span id="line-320">        }</span>
+<span class="source-line-no">315</span><span id="line-315">        float[] vertices = this.vertices;</span>
+<span class="source-line-no">316</span><span id="line-316">        vertices[X1] += xAmount;</span>
+<span class="source-line-no">317</span><span id="line-317">        vertices[X2] += xAmount;</span>
+<span class="source-line-no">318</span><span id="line-318">        vertices[X3] += xAmount;</span>
+<span class="source-line-no">319</span><span id="line-319">        vertices[X4] += xAmount;</span>
+<span class="source-line-no">320</span><span id="line-320">    }</span>
 <span class="source-line-no">321</span><span id="line-321"></span>
-<span class="source-line-no">322</span><span id="line-322">        /** Sets the color used to tint this sprite. Default is {@link Palette#GRAY}, which makes no changes to the color.</span>
-<span class="source-line-no">323</span><span id="line-323">         * Use {@link ColorTools#oklab(float, float, float, float)} or a predefined color from {@link Palette} if you</span>
-<span class="source-line-no">324</span><span id="line-324">         * don't have a color currently.</span>
-<span class="source-line-no">325</span><span id="line-325">         * @param color the packed float color used to add to the L/A/B channels of the current sprite, as well as the multiplier for alpha</span>
-<span class="source-line-no">326</span><span id="line-326">         */</span>
-<span class="source-line-no">327</span><span id="line-327">        public void setColor (final float color) {</span>
-<span class="source-line-no">328</span><span id="line-328">                float[] vertices = this.vertices;</span>
-<span class="source-line-no">329</span><span id="line-329">                vertices[C1] = color;</span>
-<span class="source-line-no">330</span><span id="line-330">                vertices[C2] = color;</span>
-<span class="source-line-no">331</span><span id="line-331">                vertices[C3] = color;</span>
-<span class="source-line-no">332</span><span id="line-332">                vertices[C4] = color;</span>
-<span class="source-line-no">333</span><span id="line-333">        }</span>
-<span class="source-line-no">334</span><span id="line-334"></span>
-<span class="source-line-no">335</span><span id="line-335">        /** Sets the color used to tint this sprite and the tweak that affects how that color will be treated.</span>
-<span class="source-line-no">336</span><span id="line-336">         * Default color is {@link Palette#GRAY}, which makes no changes to the color, and default tweak is</span>
-<span class="source-line-no">337</span><span id="line-337">         * {@link ColorfulBatch#TWEAK_RESET}, which resets any changes to the tweak back to a neutral state. You can easily</span>
-<span class="source-line-no">338</span><span id="line-338">         * get a tweak value with {@link ColorTools#oklab(float, float, float, float)}, just using the last parameter</span>
-<span class="source-line-no">339</span><span id="line-339">         * to represent contrast.</span>
-<span class="source-line-no">340</span><span id="line-340">         * @param color the packed float color used to add to the L/A/B channels of the current sprite, as well as the multiplier for alpha</span>
-<span class="source-line-no">341</span><span id="line-341">         * @param tweak the packed float used to multiply the L/A/B channels, as well as the setting for contrast</span>
-<span class="source-line-no">342</span><span id="line-342">         */</span>
-<span class="source-line-no">343</span><span id="line-343">        public void setTweakedColor (final float color, final float tweak) {</span>
-<span class="source-line-no">344</span><span id="line-344">                float[] vertices = this.vertices;</span>
-<span class="source-line-no">345</span><span id="line-345">                vertices[C1] = color;</span>
-<span class="source-line-no">346</span><span id="line-346">                vertices[C2] = color;</span>
-<span class="source-line-no">347</span><span id="line-347">                vertices[C3] = color;</span>
-<span class="source-line-no">348</span><span id="line-348">                vertices[C4] = color;</span>
-<span class="source-line-no">349</span><span id="line-349">                vertices[T1] = tweak;</span>
-<span class="source-line-no">350</span><span id="line-350">                vertices[T2] = tweak;</span>
-<span class="source-line-no">351</span><span id="line-351">                vertices[T3] = tweak;</span>
-<span class="source-line-no">352</span><span id="line-352">                vertices[T4] = tweak;</span>
-<span class="source-line-no">353</span><span id="line-353">        }</span>
-<span class="source-line-no">354</span><span id="line-354"></span>
-<span class="source-line-no">355</span><span id="line-355">        /** Sets the color used to tint this sprite and the tweak that affects how that color will be treated.</span>
-<span class="source-line-no">356</span><span id="line-356">         * Default color is {@link Palette#GRAY}, which makes no changes to the color, and default tweak is</span>
-<span class="source-line-no">357</span><span id="line-357">         * {@link ColorfulBatch#TWEAK_RESET}, which resets any changes to the tweak back to a neutral state. You can easily</span>
-<span class="source-line-no">358</span><span id="line-358">         * get a tweak value with {@link ColorTools#oklab(float, float, float, float)}, just using the last parameter</span>
-<span class="source-line-no">359</span><span id="line-359">         * to represent contrast.</span>
-<span class="source-line-no">360</span><span id="line-360">         * @param addL how much lightness to add; darkest is 0f, neutral is 0.5f, lightest is 1f</span>
-<span class="source-line-no">361</span><span id="line-361">         * @param addA how much to add on the cyan/red axis; more cyan is 0f, neutral is 0.5f, more red is 1f</span>
-<span class="source-line-no">362</span><span id="line-362">         * @param addB how much to add on the blue/yellow axis; more blue is 0f, neutral is 0.5f, more yellow is 1f</span>
-<span class="source-line-no">363</span><span id="line-363">         * @param mulAlpha how much to multiply alpha by; fully transparent is 0f, neutral is 1f</span>
-<span class="source-line-no">364</span><span id="line-364">         * @param mulL how much source lightness should be multiplied by; darkest is 0f, neutral is 0.5f, lightest is 1f</span>
-<span class="source-line-no">365</span><span id="line-365">         * @param mulA how much the source's cyan/red axis should be multiplied by; no cyan/red is 0f, neutral is 0.5f, max cyan/red is 1f</span>
-<span class="source-line-no">366</span><span id="line-366">         * @param mulB how much the source's blue/yellow axis should be multiplied by; no blue/yellow is 0f, neutral is 0.5f, max blue/yellow is 1f</span>
-<span class="source-line-no">367</span><span id="line-367">         * @param contrast how to affect the curvature of lightness in the source; 0f makes lightness very even, 0.5f doesn't change lightness, and 1f makes light colors lighter and dark colors darker</span>
-<span class="source-line-no">368</span><span id="line-368">         */</span>
-<span class="source-line-no">369</span><span id="line-369">        public void setTweakedColor (float addL, float addA, float addB, float mulAlpha, float mulL, float mulA, float mulB, float contrast) {</span>
-<span class="source-line-no">370</span><span id="line-370">                final float color = ColorTools.oklab(addL, addA, addB, mulAlpha),</span>
-<span class="source-line-no">371</span><span id="line-371">                                tweak = ColorTools.oklab(mulL, mulA, mulB, contrast);</span>
-<span class="source-line-no">372</span><span id="line-372">                float[] vertices = this.vertices;</span>
-<span class="source-line-no">373</span><span id="line-373">                vertices[C1] = color;</span>
-<span class="source-line-no">374</span><span id="line-374">                vertices[C2] = color;</span>
-<span class="source-line-no">375</span><span id="line-375">                vertices[C3] = color;</span>
-<span class="source-line-no">376</span><span id="line-376">                vertices[C4] = color;</span>
-<span class="source-line-no">377</span><span id="line-377">                vertices[T1] = tweak;</span>
-<span class="source-line-no">378</span><span id="line-378">                vertices[T2] = tweak;</span>
-<span class="source-line-no">379</span><span id="line-379">                vertices[T3] = tweak;</span>
-<span class="source-line-no">380</span><span id="line-380">                vertices[T4] = tweak;</span>
-<span class="source-line-no">381</span><span id="line-381">        }</span>
-<span class="source-line-no">382</span><span id="line-382"></span>
-<span class="source-line-no">383</span><span id="line-383">        /** Sets the tweak that affects how the rendered color will be treated.</span>
-<span class="source-line-no">384</span><span id="line-384">         * Default tweak is {@link ColorfulBatch#TWEAK_RESET}, which resets any changes to the tweak back to a neutral</span>
-<span class="source-line-no">385</span><span id="line-385">         * state. You can easily get a tweak value with {@link ColorTools#oklab(float, float, float, float)}, just</span>
-<span class="source-line-no">386</span><span id="line-386">         * using the last parameter to represent contrast.</span>
-<span class="source-line-no">387</span><span id="line-387">         * @param tweak the packed float used to multiply the L/A/B channels, as well as the setting for contrast</span>
-<span class="source-line-no">388</span><span id="line-388">         */</span>
-<span class="source-line-no">389</span><span id="line-389">        public void setTweak (final float tweak) {</span>
-<span class="source-line-no">390</span><span id="line-390">                float[] vertices = this.vertices;</span>
-<span class="source-line-no">391</span><span id="line-391">                vertices[T1] = tweak;</span>
-<span class="source-line-no">392</span><span id="line-392">                vertices[T2] = tweak;</span>
-<span class="source-line-no">393</span><span id="line-393">                vertices[T3] = tweak;</span>
-<span class="source-line-no">394</span><span id="line-394">                vertices[T4] = tweak;</span>
-<span class="source-line-no">395</span><span id="line-395">        }</span>
-<span class="source-line-no">396</span><span id="line-396"></span>
-<span class="source-line-no">397</span><span id="line-397">        /**</span>
-<span class="source-line-no">398</span><span id="line-398">         * Given an RGBA8888 Color from libGDX, this converts that to an Oklab color as a packed float and sets the color of</span>
-<span class="source-line-no">399</span><span id="line-399">         * the sprite using that.</span>
-<span class="source-line-no">400</span><span id="line-400">         * @param color a libGDX RGBA8888 Color</span>
-<span class="source-line-no">401</span><span id="line-401">         */</span>
-<span class="source-line-no">402</span><span id="line-402">        public void setColor (Color color) {</span>
-<span class="source-line-no">403</span><span id="line-403">                setColor(ColorTools.fromColor(color));</span>
-<span class="source-line-no">404</span><span id="line-404">        }</span>
-<span class="source-line-no">405</span><span id="line-405"></span>
-<span class="source-line-no">406</span><span id="line-406">        /** Sets the alpha portion of the color used to tint this sprite. */</span>
-<span class="source-line-no">407</span><span id="line-407">        public void setAlpha (float a) {</span>
-<span class="source-line-no">408</span><span id="line-408">                final float color = FloatColors.setAlpha(getColor(), a);</span>
-<span class="source-line-no">409</span><span id="line-409">                final float[] vertices = this.vertices;</span>
-<span class="source-line-no">410</span><span id="line-410">                vertices[C1] = color;</span>
-<span class="source-line-no">411</span><span id="line-411">                vertices[C2] = color;</span>
-<span class="source-line-no">412</span><span id="line-412">                vertices[C3] = color;</span>
-<span class="source-line-no">413</span><span id="line-413">                vertices[C4] = color;</span>
-<span class="source-line-no">414</span><span id="line-414">        }</span>
-<span class="source-line-no">415</span><span id="line-415"></span>
-<span class="source-line-no">416</span><span id="line-416">        /** @see #setColor(float) */</span>
-<span class="source-line-no">417</span><span id="line-417">        public void setColor (float L, float A, float B, float alpha) {</span>
-<span class="source-line-no">418</span><span id="line-418">                final float color = ColorTools.oklab(L, A, B, alpha);</span>
-<span class="source-line-no">419</span><span id="line-419">                final float[] vertices = this.vertices;</span>
-<span class="source-line-no">420</span><span id="line-420">                vertices[C1] = color;</span>
-<span class="source-line-no">421</span><span id="line-421">                vertices[C2] = color;</span>
-<span class="source-line-no">422</span><span id="line-422">                vertices[C3] = color;</span>
-<span class="source-line-no">423</span><span id="line-423">                vertices[C4] = color;</span>
-<span class="source-line-no">424</span><span id="line-424">        }</span>
-<span class="source-line-no">425</span><span id="line-425"></span>
-<span class="source-line-no">426</span><span id="line-426">        /** @see #setTweak(float) */</span>
-<span class="source-line-no">427</span><span id="line-427">        public void setTweak (float L, float A, float B, float contrast) {</span>
-<span class="source-line-no">428</span><span id="line-428">                final float tweak = ColorTools.oklab(L, A, B, contrast);</span>
-<span class="source-line-no">429</span><span id="line-429">                final float[] vertices = this.vertices;</span>
-<span class="source-line-no">430</span><span id="line-430">                vertices[C1] = tweak;</span>
-<span class="source-line-no">431</span><span id="line-431">                vertices[C2] = tweak;</span>
-<span class="source-line-no">432</span><span id="line-432">                vertices[C3] = tweak;</span>
-<span class="source-line-no">433</span><span id="line-433">                vertices[C4] = tweak;</span>
-<span class="source-line-no">434</span><span id="line-434">        }</span>
-<span class="source-line-no">435</span><span id="line-435"></span>
-<span class="source-line-no">436</span><span id="line-436">        /** Exactly the same as {@link #setColor(float)}.</span>
-<span class="source-line-no">437</span><span id="line-437">         * @see #setColor(float) </span>
-<span class="source-line-no">438</span><span id="line-438">         */</span>
-<span class="source-line-no">439</span><span id="line-439">        public void setPackedColor (float packedColor) {</span>
-<span class="source-line-no">440</span><span id="line-440">                float[] vertices = this.vertices;</span>
-<span class="source-line-no">441</span><span id="line-441">                vertices[C1] = packedColor;</span>
-<span class="source-line-no">442</span><span id="line-442">                vertices[C2] = packedColor;</span>
-<span class="source-line-no">443</span><span id="line-443">                vertices[C3] = packedColor;</span>
-<span class="source-line-no">444</span><span id="line-444">                vertices[C4] = packedColor;</span>
-<span class="source-line-no">445</span><span id="line-445">        }</span>
-<span class="source-line-no">446</span><span id="line-446"></span>
-<span class="source-line-no">447</span><span id="line-447">        /** Sets the origin in relation to the sprite's position for scaling and rotation. */</span>
-<span class="source-line-no">448</span><span id="line-448">        public void setOrigin (float originX, float originY) {</span>
-<span class="source-line-no">449</span><span id="line-449">                this.originX = originX;</span>
-<span class="source-line-no">450</span><span id="line-450">                this.originY = originY;</span>
-<span class="source-line-no">451</span><span id="line-451">                dirty = true;</span>
-<span class="source-line-no">452</span><span id="line-452">        }</span>
-<span class="source-line-no">453</span><span id="line-453"></span>
-<span class="source-line-no">454</span><span id="line-454">        /** Place origin in the center of the sprite */</span>
-<span class="source-line-no">455</span><span id="line-455">        public void setOriginCenter() {</span>
-<span class="source-line-no">456</span><span id="line-456">                this.originX = width * 0.5f;</span>
-<span class="source-line-no">457</span><span id="line-457">                this.originY = height * 0.5f;</span>
-<span class="source-line-no">458</span><span id="line-458">                dirty = true;</span>
-<span class="source-line-no">459</span><span id="line-459">        }</span>
-<span class="source-line-no">460</span><span id="line-460"></span>
-<span class="source-line-no">461</span><span id="line-461">        /** Sets the rotation of the sprite in degrees. Rotation is centered on the origin set in {@link #setOrigin(float, float)} */</span>
-<span class="source-line-no">462</span><span id="line-462">        public void setRotation (float degrees) {</span>
-<span class="source-line-no">463</span><span id="line-463">                this.rotation = degrees;</span>
-<span class="source-line-no">464</span><span id="line-464">                dirty = true;</span>
-<span class="source-line-no">465</span><span id="line-465">        }</span>
-<span class="source-line-no">466</span><span id="line-466"></span>
-<span class="source-line-no">467</span><span id="line-467">        /** @return the rotation of the sprite in degrees */</span>
-<span class="source-line-no">468</span><span id="line-468">        public float getRotation () {</span>
-<span class="source-line-no">469</span><span id="line-469">                return rotation;</span>
-<span class="source-line-no">470</span><span id="line-470">        }</span>
-<span class="source-line-no">471</span><span id="line-471"></span>
-<span class="source-line-no">472</span><span id="line-472">        /** Sets the sprite's rotation in degrees relative to the current rotation. Rotation is centered on the origin set in</span>
-<span class="source-line-no">473</span><span id="line-473">         * {@link #setOrigin(float, float)} */</span>
-<span class="source-line-no">474</span><span id="line-474">        public void rotate (float degrees) {</span>
-<span class="source-line-no">475</span><span id="line-475">                if (degrees == 0) return;</span>
-<span class="source-line-no">476</span><span id="line-476">                rotation += degrees;</span>
-<span class="source-line-no">477</span><span id="line-477">                dirty = true;</span>
-<span class="source-line-no">478</span><span id="line-478">        }</span>
-<span class="source-line-no">479</span><span id="line-479"></span>
-<span class="source-line-no">480</span><span id="line-480">        /** Rotates this sprite 90 degrees in-place by rotating the texture coordinates. This rotation is unaffected by</span>
-<span class="source-line-no">481</span><span id="line-481">         * {@link #setRotation(float)} and {@link #rotate(float)}. */</span>
-<span class="source-line-no">482</span><span id="line-482">        public void rotate90 (boolean clockwise) {</span>
-<span class="source-line-no">483</span><span id="line-483">                float[] vertices = this.vertices;</span>
-<span class="source-line-no">484</span><span id="line-484"></span>
-<span class="source-line-no">485</span><span id="line-485">                if (clockwise) {</span>
-<span class="source-line-no">486</span><span id="line-486">                        float temp = vertices[V1];</span>
-<span class="source-line-no">487</span><span id="line-487">                        vertices[V1] = vertices[V4];</span>
-<span class="source-line-no">488</span><span id="line-488">                        vertices[V4] = vertices[V3];</span>
-<span class="source-line-no">489</span><span id="line-489">                        vertices[V3] = vertices[V2];</span>
-<span class="source-line-no">490</span><span id="line-490">                        vertices[V2] = temp;</span>
-<span class="source-line-no">491</span><span id="line-491"></span>
-<span class="source-line-no">492</span><span id="line-492">                        temp = vertices[U1];</span>
-<span class="source-line-no">493</span><span id="line-493">                        vertices[U1] = vertices[U4];</span>
-<span class="source-line-no">494</span><span id="line-494">                        vertices[U4] = vertices[U3];</span>
-<span class="source-line-no">495</span><span id="line-495">                        vertices[U3] = vertices[U2];</span>
-<span class="source-line-no">496</span><span id="line-496">                        vertices[U2] = temp;</span>
-<span class="source-line-no">497</span><span id="line-497">                } else {</span>
-<span class="source-line-no">498</span><span id="line-498">                        float temp = vertices[V1];</span>
-<span class="source-line-no">499</span><span id="line-499">                        vertices[V1] = vertices[V2];</span>
-<span class="source-line-no">500</span><span id="line-500">                        vertices[V2] = vertices[V3];</span>
-<span class="source-line-no">501</span><span id="line-501">                        vertices[V3] = vertices[V4];</span>
-<span class="source-line-no">502</span><span id="line-502">                        vertices[V4] = temp;</span>
-<span class="source-line-no">503</span><span id="line-503"></span>
-<span class="source-line-no">504</span><span id="line-504">                        temp = vertices[U1];</span>
-<span class="source-line-no">505</span><span id="line-505">                        vertices[U1] = vertices[U2];</span>
-<span class="source-line-no">506</span><span id="line-506">                        vertices[U2] = vertices[U3];</span>
-<span class="source-line-no">507</span><span id="line-507">                        vertices[U3] = vertices[U4];</span>
-<span class="source-line-no">508</span><span id="line-508">                        vertices[U4] = temp;</span>
-<span class="source-line-no">509</span><span id="line-509">                }</span>
-<span class="source-line-no">510</span><span id="line-510">        }</span>
-<span class="source-line-no">511</span><span id="line-511"></span>
-<span class="source-line-no">512</span><span id="line-512">        /** Sets the sprite's scale for both X and Y uniformly. The sprite scales out from the origin. This will not affect the values</span>
-<span class="source-line-no">513</span><span id="line-513">         * returned by {@link #getWidth()} and {@link #getHeight()} */</span>
-<span class="source-line-no">514</span><span id="line-514">        public void setScale (float scaleXY) {</span>
-<span class="source-line-no">515</span><span id="line-515">                this.scaleX = scaleXY;</span>
-<span class="source-line-no">516</span><span id="line-516">                this.scaleY = scaleXY;</span>
-<span class="source-line-no">517</span><span id="line-517">                dirty = true;</span>
-<span class="source-line-no">518</span><span id="line-518">        }</span>
-<span class="source-line-no">519</span><span id="line-519"></span>
-<span class="source-line-no">520</span><span id="line-520">        /** Sets the sprite's scale for both X and Y. The sprite scales out from the origin. This will not affect the values returned by</span>
-<span class="source-line-no">521</span><span id="line-521">         * {@link #getWidth()} and {@link #getHeight()} */</span>
-<span class="source-line-no">522</span><span id="line-522">        public void setScale (float scaleX, float scaleY) {</span>
-<span class="source-line-no">523</span><span id="line-523">                this.scaleX = scaleX;</span>
-<span class="source-line-no">524</span><span id="line-524">                this.scaleY = scaleY;</span>
-<span class="source-line-no">525</span><span id="line-525">                dirty = true;</span>
-<span class="source-line-no">526</span><span id="line-526">        }</span>
-<span class="source-line-no">527</span><span id="line-527"></span>
-<span class="source-line-no">528</span><span id="line-528">        /** Sets the sprite's scale relative to the current scale. for example: original scale 2 → sprite.scale(4) → final scale 6.</span>
-<span class="source-line-no">529</span><span id="line-529">         * The sprite scales out from the origin. This will not affect the values returned by {@link #getWidth()} and</span>
-<span class="source-line-no">530</span><span id="line-530">         * {@link #getHeight()} */</span>
-<span class="source-line-no">531</span><span id="line-531">        public void scale (float amount) {</span>
-<span class="source-line-no">532</span><span id="line-532">                this.scaleX += amount;</span>
-<span class="source-line-no">533</span><span id="line-533">                this.scaleY += amount;</span>
-<span class="source-line-no">534</span><span id="line-534">                dirty = true;</span>
-<span class="source-line-no">535</span><span id="line-535">        }</span>
-<span class="source-line-no">536</span><span id="line-536"></span>
-<span class="source-line-no">537</span><span id="line-537">        /** Returns the packed vertices, colors, and texture coordinates for this sprite. */</span>
-<span class="source-line-no">538</span><span id="line-538">        public float[] getVertices () {</span>
-<span class="source-line-no">539</span><span id="line-539">                if (dirty) {</span>
-<span class="source-line-no">540</span><span id="line-540">                        dirty = false;</span>
-<span class="source-line-no">541</span><span id="line-541"></span>
-<span class="source-line-no">542</span><span id="line-542">                        float[] vertices = this.vertices;</span>
-<span class="source-line-no">543</span><span id="line-543">                        float localX = -originX;</span>
-<span class="source-line-no">544</span><span id="line-544">                        float localY = -originY;</span>
-<span class="source-line-no">545</span><span id="line-545">                        float localX2 = localX + width;</span>
-<span class="source-line-no">546</span><span id="line-546">                        float localY2 = localY + height;</span>
-<span class="source-line-no">547</span><span id="line-547">                        float worldOriginX = this.x - localX;</span>
-<span class="source-line-no">548</span><span id="line-548">                        float worldOriginY = this.y - localY;</span>
-<span class="source-line-no">549</span><span id="line-549">                        if (scaleX != 1 || scaleY != 1) {</span>
-<span class="source-line-no">550</span><span id="line-550">                                localX *= scaleX;</span>
-<span class="source-line-no">551</span><span id="line-551">                                localY *= scaleY;</span>
-<span class="source-line-no">552</span><span id="line-552">                                localX2 *= scaleX;</span>
-<span class="source-line-no">553</span><span id="line-553">                                localY2 *= scaleY;</span>
-<span class="source-line-no">554</span><span id="line-554">                        }</span>
-<span class="source-line-no">555</span><span id="line-555">                        if (rotation != 0) {</span>
-<span class="source-line-no">556</span><span id="line-556">                                final float cos = MathUtils.cosDeg(rotation);</span>
-<span class="source-line-no">557</span><span id="line-557">                                final float sin = MathUtils.sinDeg(rotation);</span>
-<span class="source-line-no">558</span><span id="line-558">                                final float localXCos = localX * cos;</span>
-<span class="source-line-no">559</span><span id="line-559">                                final float localXSin = localX * sin;</span>
-<span class="source-line-no">560</span><span id="line-560">                                final float localYCos = localY * cos;</span>
-<span class="source-line-no">561</span><span id="line-561">                                final float localYSin = localY * sin;</span>
-<span class="source-line-no">562</span><span id="line-562">                                final float localX2Cos = localX2 * cos;</span>
-<span class="source-line-no">563</span><span id="line-563">                                final float localX2Sin = localX2 * sin;</span>
-<span class="source-line-no">564</span><span id="line-564">                                final float localY2Cos = localY2 * cos;</span>
-<span class="source-line-no">565</span><span id="line-565">                                final float localY2Sin = localY2 * sin;</span>
-<span class="source-line-no">566</span><span id="line-566"></span>
-<span class="source-line-no">567</span><span id="line-567">                                final float x1 = localXCos - localYSin + worldOriginX;</span>
-<span class="source-line-no">568</span><span id="line-568">                                final float y1 = localYCos + localXSin + worldOriginY;</span>
-<span class="source-line-no">569</span><span id="line-569">                                vertices[X1] = x1;</span>
-<span class="source-line-no">570</span><span id="line-570">                                vertices[Y1] = y1;</span>
-<span class="source-line-no">571</span><span id="line-571"></span>
-<span class="source-line-no">572</span><span id="line-572">                                final float x2 = localXCos - localY2Sin + worldOriginX;</span>
-<span class="source-line-no">573</span><span id="line-573">                                final float y2 = localY2Cos + localXSin + worldOriginY;</span>
-<span class="source-line-no">574</span><span id="line-574">                                vertices[X2] = x2;</span>
-<span class="source-line-no">575</span><span id="line-575">                                vertices[Y2] = y2;</span>
+<span class="source-line-no">322</span><span id="line-322">    /**</span>
+<span class="source-line-no">323</span><span id="line-323">     * Sets the y position relative to the current position where the sprite will be drawn. If origin, rotation, or scale are</span>
+<span class="source-line-no">324</span><span id="line-324">     * changed, it is slightly more efficient to translate after those operations.</span>
+<span class="source-line-no">325</span><span id="line-325">     *</span>
+<span class="source-line-no">326</span><span id="line-326">     * @param yAmount How much to move the ColorfulSprite on the y-axis, in world space.</span>
+<span class="source-line-no">327</span><span id="line-327">     */</span>
+<span class="source-line-no">328</span><span id="line-328">    public void translateY(float yAmount) {</span>
+<span class="source-line-no">329</span><span id="line-329">        y += yAmount;</span>
+<span class="source-line-no">330</span><span id="line-330"></span>
+<span class="source-line-no">331</span><span id="line-331">        if (dirty) return;</span>
+<span class="source-line-no">332</span><span id="line-332"></span>
+<span class="source-line-no">333</span><span id="line-333">        float[] vertices = this.vertices;</span>
+<span class="source-line-no">334</span><span id="line-334">        vertices[Y1] += yAmount;</span>
+<span class="source-line-no">335</span><span id="line-335">        vertices[Y2] += yAmount;</span>
+<span class="source-line-no">336</span><span id="line-336">        vertices[Y3] += yAmount;</span>
+<span class="source-line-no">337</span><span id="line-337">        vertices[Y4] += yAmount;</span>
+<span class="source-line-no">338</span><span id="line-338">    }</span>
+<span class="source-line-no">339</span><span id="line-339"></span>
+<span class="source-line-no">340</span><span id="line-340">    /**</span>
+<span class="source-line-no">341</span><span id="line-341">     * Sets the position relative to the current position where the sprite will be drawn. If origin, rotation, or scale are</span>
+<span class="source-line-no">342</span><span id="line-342">     * changed, it is slightly more efficient to translate after those operations.</span>
+<span class="source-line-no">343</span><span id="line-343">     *</span>
+<span class="source-line-no">344</span><span id="line-344">     * @param xAmount How much to move the ColorfulSprite on the x-axis, in world space.</span>
+<span class="source-line-no">345</span><span id="line-345">     * @param yAmount How much to move the ColorfulSprite on the y-axis, in world space.</span>
+<span class="source-line-no">346</span><span id="line-346">     */</span>
+<span class="source-line-no">347</span><span id="line-347">    public void translate(float xAmount, float yAmount) {</span>
+<span class="source-line-no">348</span><span id="line-348">        x += xAmount;</span>
+<span class="source-line-no">349</span><span id="line-349">        y += yAmount;</span>
+<span class="source-line-no">350</span><span id="line-350"></span>
+<span class="source-line-no">351</span><span id="line-351">        if (dirty) return;</span>
+<span class="source-line-no">352</span><span id="line-352"></span>
+<span class="source-line-no">353</span><span id="line-353">        float[] vertices = this.vertices;</span>
+<span class="source-line-no">354</span><span id="line-354">        vertices[X1] += xAmount;</span>
+<span class="source-line-no">355</span><span id="line-355">        vertices[Y1] += yAmount;</span>
+<span class="source-line-no">356</span><span id="line-356"></span>
+<span class="source-line-no">357</span><span id="line-357">        vertices[X2] += xAmount;</span>
+<span class="source-line-no">358</span><span id="line-358">        vertices[Y2] += yAmount;</span>
+<span class="source-line-no">359</span><span id="line-359"></span>
+<span class="source-line-no">360</span><span id="line-360">        vertices[X3] += xAmount;</span>
+<span class="source-line-no">361</span><span id="line-361">        vertices[Y3] += yAmount;</span>
+<span class="source-line-no">362</span><span id="line-362"></span>
+<span class="source-line-no">363</span><span id="line-363">        vertices[X4] += xAmount;</span>
+<span class="source-line-no">364</span><span id="line-364">        vertices[Y4] += yAmount;</span>
+<span class="source-line-no">365</span><span id="line-365">    }</span>
+<span class="source-line-no">366</span><span id="line-366"></span>
+<span class="source-line-no">367</span><span id="line-367">    /**</span>
+<span class="source-line-no">368</span><span id="line-368">     * Sets the color used to tint this sprite. Default is {@link Palette#GRAY}, which makes no changes to the color.</span>
+<span class="source-line-no">369</span><span id="line-369">     * Use {@link ColorTools#oklab(float, float, float, float)} or a predefined color from {@link Palette} if you</span>
+<span class="source-line-no">370</span><span id="line-370">     * don't have a color currently.</span>
+<span class="source-line-no">371</span><span id="line-371">     *</span>
+<span class="source-line-no">372</span><span id="line-372">     * @param color the packed float color used to add to the L/A/B channels of the current sprite, as well as the multiplier for alpha</span>
+<span class="source-line-no">373</span><span id="line-373">     */</span>
+<span class="source-line-no">374</span><span id="line-374">    public void setColor(final float color) {</span>
+<span class="source-line-no">375</span><span id="line-375">        float[] vertices = this.vertices;</span>
+<span class="source-line-no">376</span><span id="line-376">        vertices[C1] = color;</span>
+<span class="source-line-no">377</span><span id="line-377">        vertices[C2] = color;</span>
+<span class="source-line-no">378</span><span id="line-378">        vertices[C3] = color;</span>
+<span class="source-line-no">379</span><span id="line-379">        vertices[C4] = color;</span>
+<span class="source-line-no">380</span><span id="line-380">    }</span>
+<span class="source-line-no">381</span><span id="line-381"></span>
+<span class="source-line-no">382</span><span id="line-382">    /**</span>
+<span class="source-line-no">383</span><span id="line-383">     * Sets the color used to tint this sprite and the tweak that affects how that color will be treated.</span>
+<span class="source-line-no">384</span><span id="line-384">     * Default color is {@link Palette#GRAY}, which makes no changes to the color, and default tweak is</span>
+<span class="source-line-no">385</span><span id="line-385">     * {@link ColorfulBatch#TWEAK_RESET}, which resets any changes to the tweak back to a neutral state. You can easily</span>
+<span class="source-line-no">386</span><span id="line-386">     * get a tweak value with {@link ColorTools#oklab(float, float, float, float)}, just using the last parameter</span>
+<span class="source-line-no">387</span><span id="line-387">     * to represent contrast.</span>
+<span class="source-line-no">388</span><span id="line-388">     *</span>
+<span class="source-line-no">389</span><span id="line-389">     * @param color the packed float color used to add to the L/A/B channels of the current sprite, as well as the multiplier for alpha</span>
+<span class="source-line-no">390</span><span id="line-390">     * @param tweak the packed float used to multiply the L/A/B channels, as well as the setting for contrast</span>
+<span class="source-line-no">391</span><span id="line-391">     */</span>
+<span class="source-line-no">392</span><span id="line-392">    public void setTweakedColor(final float color, final float tweak) {</span>
+<span class="source-line-no">393</span><span id="line-393">        float[] vertices = this.vertices;</span>
+<span class="source-line-no">394</span><span id="line-394">        vertices[C1] = color;</span>
+<span class="source-line-no">395</span><span id="line-395">        vertices[C2] = color;</span>
+<span class="source-line-no">396</span><span id="line-396">        vertices[C3] = color;</span>
+<span class="source-line-no">397</span><span id="line-397">        vertices[C4] = color;</span>
+<span class="source-line-no">398</span><span id="line-398">        vertices[T1] = tweak;</span>
+<span class="source-line-no">399</span><span id="line-399">        vertices[T2] = tweak;</span>
+<span class="source-line-no">400</span><span id="line-400">        vertices[T3] = tweak;</span>
+<span class="source-line-no">401</span><span id="line-401">        vertices[T4] = tweak;</span>
+<span class="source-line-no">402</span><span id="line-402">    }</span>
+<span class="source-line-no">403</span><span id="line-403"></span>
+<span class="source-line-no">404</span><span id="line-404">    /**</span>
+<span class="source-line-no">405</span><span id="line-405">     * Sets the color used to tint this sprite and the tweak that affects how that color will be treated.</span>
+<span class="source-line-no">406</span><span id="line-406">     * Default color is {@link Palette#GRAY}, which makes no changes to the color, and default tweak is</span>
+<span class="source-line-no">407</span><span id="line-407">     * {@link ColorfulBatch#TWEAK_RESET}, which resets any changes to the tweak back to a neutral state. You can easily</span>
+<span class="source-line-no">408</span><span id="line-408">     * get a tweak value with {@link ColorTools#oklab(float, float, float, float)}, just using the last parameter</span>
+<span class="source-line-no">409</span><span id="line-409">     * to represent contrast.</span>
+<span class="source-line-no">410</span><span id="line-410">     *</span>
+<span class="source-line-no">411</span><span id="line-411">     * @param addL     how much lightness to add; darkest is 0f, neutral is 0.5f, lightest is 1f</span>
+<span class="source-line-no">412</span><span id="line-412">     * @param addA     how much to add on the cyan/red axis; more cyan is 0f, neutral is 0.5f, more red is 1f</span>
+<span class="source-line-no">413</span><span id="line-413">     * @param addB     how much to add on the blue/yellow axis; more blue is 0f, neutral is 0.5f, more yellow is 1f</span>
+<span class="source-line-no">414</span><span id="line-414">     * @param mulAlpha how much to multiply alpha by; fully transparent is 0f, neutral is 1f</span>
+<span class="source-line-no">415</span><span id="line-415">     * @param mulL     how much source lightness should be multiplied by; darkest is 0f, neutral is 0.5f, lightest is 1f</span>
+<span class="source-line-no">416</span><span id="line-416">     * @param mulA     how much the source's cyan/red axis should be multiplied by; no cyan/red is 0f, neutral is 0.5f, max cyan/red is 1f</span>
+<span class="source-line-no">417</span><span id="line-417">     * @param mulB     how much the source's blue/yellow axis should be multiplied by; no blue/yellow is 0f, neutral is 0.5f, max blue/yellow is 1f</span>
+<span class="source-line-no">418</span><span id="line-418">     * @param contrast how to affect the curvature of lightness in the source; 0f makes lightness very even, 0.5f doesn't change lightness, and 1f makes light colors lighter and dark colors darker</span>
+<span class="source-line-no">419</span><span id="line-419">     */</span>
+<span class="source-line-no">420</span><span id="line-420">    public void setTweakedColor(float addL, float addA, float addB, float mulAlpha, float mulL, float mulA, float mulB, float contrast) {</span>
+<span class="source-line-no">421</span><span id="line-421">        final float color = ColorTools.oklab(addL, addA, addB, mulAlpha),</span>
+<span class="source-line-no">422</span><span id="line-422">                tweak = ColorTools.oklab(mulL, mulA, mulB, contrast);</span>
+<span class="source-line-no">423</span><span id="line-423">        float[] vertices = this.vertices;</span>
+<span class="source-line-no">424</span><span id="line-424">        vertices[C1] = color;</span>
+<span class="source-line-no">425</span><span id="line-425">        vertices[C2] = color;</span>
+<span class="source-line-no">426</span><span id="line-426">        vertices[C3] = color;</span>
+<span class="source-line-no">427</span><span id="line-427">        vertices[C4] = color;</span>
+<span class="source-line-no">428</span><span id="line-428">        vertices[T1] = tweak;</span>
+<span class="source-line-no">429</span><span id="line-429">        vertices[T2] = tweak;</span>
+<span class="source-line-no">430</span><span id="line-430">        vertices[T3] = tweak;</span>
+<span class="source-line-no">431</span><span id="line-431">        vertices[T4] = tweak;</span>
+<span class="source-line-no">432</span><span id="line-432">    }</span>
+<span class="source-line-no">433</span><span id="line-433"></span>
+<span class="source-line-no">434</span><span id="line-434">    /**</span>
+<span class="source-line-no">435</span><span id="line-435">     * Sets the tweak that affects how the rendered color will be treated.</span>
+<span class="source-line-no">436</span><span id="line-436">     * Default tweak is {@link ColorfulBatch#TWEAK_RESET}, which resets any changes to the tweak back to a neutral</span>
+<span class="source-line-no">437</span><span id="line-437">     * state. You can easily get a tweak value with {@link ColorTools#oklab(float, float, float, float)}, just</span>
+<span class="source-line-no">438</span><span id="line-438">     * using the last parameter to represent contrast.</span>
+<span class="source-line-no">439</span><span id="line-439">     *</span>
+<span class="source-line-no">440</span><span id="line-440">     * @param tweak the packed float used to multiply the L/A/B channels, as well as the setting for contrast</span>
+<span class="source-line-no">441</span><span id="line-441">     */</span>
+<span class="source-line-no">442</span><span id="line-442">    public void setTweak(final float tweak) {</span>
+<span class="source-line-no">443</span><span id="line-443">        float[] vertices = this.vertices;</span>
+<span class="source-line-no">444</span><span id="line-444">        vertices[T1] = tweak;</span>
+<span class="source-line-no">445</span><span id="line-445">        vertices[T2] = tweak;</span>
+<span class="source-line-no">446</span><span id="line-446">        vertices[T3] = tweak;</span>
+<span class="source-line-no">447</span><span id="line-447">        vertices[T4] = tweak;</span>
+<span class="source-line-no">448</span><span id="line-448">    }</span>
+<span class="source-line-no">449</span><span id="line-449"></span>
+<span class="source-line-no">450</span><span id="line-450">    /**</span>
+<span class="source-line-no">451</span><span id="line-451">     * Given an RGBA8888 Color from libGDX, this converts that to an Oklab color as a packed float and sets the color of</span>
+<span class="source-line-no">452</span><span id="line-452">     * the sprite using that.</span>
+<span class="source-line-no">453</span><span id="line-453">     *</span>
+<span class="source-line-no">454</span><span id="line-454">     * @param color a libGDX RGBA8888 Color</span>
+<span class="source-line-no">455</span><span id="line-455">     */</span>
+<span class="source-line-no">456</span><span id="line-456">    public void setColor(Color color) {</span>
+<span class="source-line-no">457</span><span id="line-457">        setColor(ColorTools.fromColor(color));</span>
+<span class="source-line-no">458</span><span id="line-458">    }</span>
+<span class="source-line-no">459</span><span id="line-459"></span>
+<span class="source-line-no">460</span><span id="line-460">    /**</span>
+<span class="source-line-no">461</span><span id="line-461">     * Sets the alpha portion of the color used to tint this sprite.</span>
+<span class="source-line-no">462</span><span id="line-462">     */</span>
+<span class="source-line-no">463</span><span id="line-463">    public void setAlpha(float alpha) {</span>
+<span class="source-line-no">464</span><span id="line-464">        float color = vertices[C1];</span>
+<span class="source-line-no">465</span><span id="line-465">        if (ColorTools.alpha(color) != alpha) {</span>
+<span class="source-line-no">466</span><span id="line-466">            color = FloatColors.setAlpha(color, alpha);</span>
+<span class="source-line-no">467</span><span id="line-467">            final float[] vertices = this.vertices;</span>
+<span class="source-line-no">468</span><span id="line-468">            vertices[C1] = color;</span>
+<span class="source-line-no">469</span><span id="line-469">            vertices[C2] = color;</span>
+<span class="source-line-no">470</span><span id="line-470">            vertices[C3] = color;</span>
+<span class="source-line-no">471</span><span id="line-471">            vertices[C4] = color;</span>
+<span class="source-line-no">472</span><span id="line-472">        }</span>
+<span class="source-line-no">473</span><span id="line-473">    }</span>
+<span class="source-line-no">474</span><span id="line-474"></span>
+<span class="source-line-no">475</span><span id="line-475">    /**</span>
+<span class="source-line-no">476</span><span id="line-476">     * @see #setColor(float)</span>
+<span class="source-line-no">477</span><span id="line-477">     */</span>
+<span class="source-line-no">478</span><span id="line-478">    public void setColor(float L, float A, float B, float alpha) {</span>
+<span class="source-line-no">479</span><span id="line-479">        final float color = ColorTools.oklab(L, A, B, alpha);</span>
+<span class="source-line-no">480</span><span id="line-480">        final float[] vertices = this.vertices;</span>
+<span class="source-line-no">481</span><span id="line-481">        vertices[C1] = color;</span>
+<span class="source-line-no">482</span><span id="line-482">        vertices[C2] = color;</span>
+<span class="source-line-no">483</span><span id="line-483">        vertices[C3] = color;</span>
+<span class="source-line-no">484</span><span id="line-484">        vertices[C4] = color;</span>
+<span class="source-line-no">485</span><span id="line-485">    }</span>
+<span class="source-line-no">486</span><span id="line-486"></span>
+<span class="source-line-no">487</span><span id="line-487">    /**</span>
+<span class="source-line-no">488</span><span id="line-488">     * @see #setTweak(float)</span>
+<span class="source-line-no">489</span><span id="line-489">     */</span>
+<span class="source-line-no">490</span><span id="line-490">    public void setTweak(float L, float A, float B, float contrast) {</span>
+<span class="source-line-no">491</span><span id="line-491">        final float tweak = ColorTools.oklab(L, A, B, contrast);</span>
+<span class="source-line-no">492</span><span id="line-492">        final float[] vertices = this.vertices;</span>
+<span class="source-line-no">493</span><span id="line-493">        vertices[T1] = tweak;</span>
+<span class="source-line-no">494</span><span id="line-494">        vertices[T2] = tweak;</span>
+<span class="source-line-no">495</span><span id="line-495">        vertices[T3] = tweak;</span>
+<span class="source-line-no">496</span><span id="line-496">        vertices[T4] = tweak;</span>
+<span class="source-line-no">497</span><span id="line-497">    }</span>
+<span class="source-line-no">498</span><span id="line-498"></span>
+<span class="source-line-no">499</span><span id="line-499">    /**</span>
+<span class="source-line-no">500</span><span id="line-500">     * Delegates to {@link #setColor(float)}.</span>
+<span class="source-line-no">501</span><span id="line-501">     *</span>
+<span class="source-line-no">502</span><span id="line-502">     * @see #setColor(float)</span>
+<span class="source-line-no">503</span><span id="line-503">     */</span>
+<span class="source-line-no">504</span><span id="line-504">    public void setPackedColor(float packedColor) {</span>
+<span class="source-line-no">505</span><span id="line-505">        setColor(packedColor);</span>
+<span class="source-line-no">506</span><span id="line-506">    }</span>
+<span class="source-line-no">507</span><span id="line-507"></span>
+<span class="source-line-no">508</span><span id="line-508">    /**</span>
+<span class="source-line-no">509</span><span id="line-509">     * Returns the color of this sprite. If the returned instance is manipulated, {@link #setColor(float)} must be called</span>
+<span class="source-line-no">510</span><span id="line-510">     * afterward.</span>
+<span class="source-line-no">511</span><span id="line-511">     *</span>
+<span class="source-line-no">512</span><span id="line-512">     * @return a packed float color used to add to the L/A/B channels of the current sprite, as well as the multiplier for alpha</span>
+<span class="source-line-no">513</span><span id="line-513">     */</span>
+<span class="source-line-no">514</span><span id="line-514">    public float getColor() {</span>
+<span class="source-line-no">515</span><span id="line-515">        return vertices[C1];</span>
+<span class="source-line-no">516</span><span id="line-516">    }</span>
+<span class="source-line-no">517</span><span id="line-517"></span>
+<span class="source-line-no">518</span><span id="line-518">    /**</span>
+<span class="source-line-no">519</span><span id="line-519">     * Returns the multiplicative color tweaks used by this sprite, as a packed float with the same format as a color.</span>
+<span class="source-line-no">520</span><span id="line-520">     *</span>
+<span class="source-line-no">521</span><span id="line-521">     * @return a packed float used to multiply the L/A/B channels, as well as the setting for contrast</span>
+<span class="source-line-no">522</span><span id="line-522">     */</span>
+<span class="source-line-no">523</span><span id="line-523">    public float getColorTweak() {</span>
+<span class="source-line-no">524</span><span id="line-524">        return vertices[T1];</span>
+<span class="source-line-no">525</span><span id="line-525">    }</span>
+<span class="source-line-no">526</span><span id="line-526"></span>
+<span class="source-line-no">527</span><span id="line-527">    /**</span>
+<span class="source-line-no">528</span><span id="line-528">     * Sets the origin in relation to the sprite's position for scaling and rotation.</span>
+<span class="source-line-no">529</span><span id="line-529">     */</span>
+<span class="source-line-no">530</span><span id="line-530">    public void setOrigin(float originX, float originY) {</span>
+<span class="source-line-no">531</span><span id="line-531">        this.originX = originX;</span>
+<span class="source-line-no">532</span><span id="line-532">        this.originY = originY;</span>
+<span class="source-line-no">533</span><span id="line-533">        dirty = true;</span>
+<span class="source-line-no">534</span><span id="line-534">    }</span>
+<span class="source-line-no">535</span><span id="line-535"></span>
+<span class="source-line-no">536</span><span id="line-536">    /**</span>
+<span class="source-line-no">537</span><span id="line-537">     * Place origin in the center of the sprite</span>
+<span class="source-line-no">538</span><span id="line-538">     */</span>
+<span class="source-line-no">539</span><span id="line-539">    public void setOriginCenter() {</span>
+<span class="source-line-no">540</span><span id="line-540">        this.originX = width * 0.5f;</span>
+<span class="source-line-no">541</span><span id="line-541">        this.originY = height * 0.5f;</span>
+<span class="source-line-no">542</span><span id="line-542">        dirty = true;</span>
+<span class="source-line-no">543</span><span id="line-543">    }</span>
+<span class="source-line-no">544</span><span id="line-544"></span>
+<span class="source-line-no">545</span><span id="line-545">    /**</span>
+<span class="source-line-no">546</span><span id="line-546">     * Sets the rotation of the sprite in degrees. Rotation is centered on the origin set in {@link #setOrigin(float, float)}</span>
+<span class="source-line-no">547</span><span id="line-547">     */</span>
+<span class="source-line-no">548</span><span id="line-548">    public void setRotation(float degrees) {</span>
+<span class="source-line-no">549</span><span id="line-549">        this.rotation = degrees;</span>
+<span class="source-line-no">550</span><span id="line-550">        dirty = true;</span>
+<span class="source-line-no">551</span><span id="line-551">    }</span>
+<span class="source-line-no">552</span><span id="line-552"></span>
+<span class="source-line-no">553</span><span id="line-553">    /**</span>
+<span class="source-line-no">554</span><span id="line-554">     * @return the rotation of the sprite in degrees</span>
+<span class="source-line-no">555</span><span id="line-555">     */</span>
+<span class="source-line-no">556</span><span id="line-556">    public float getRotation() {</span>
+<span class="source-line-no">557</span><span id="line-557">        return rotation;</span>
+<span class="source-line-no">558</span><span id="line-558">    }</span>
+<span class="source-line-no">559</span><span id="line-559"></span>
+<span class="source-line-no">560</span><span id="line-560">    /**</span>
+<span class="source-line-no">561</span><span id="line-561">     * Sets the sprite's rotation in degrees relative to the current rotation. Rotation is centered on the origin set in</span>
+<span class="source-line-no">562</span><span id="line-562">     * {@link #setOrigin(float, float)}</span>
+<span class="source-line-no">563</span><span id="line-563">     */</span>
+<span class="source-line-no">564</span><span id="line-564">    public void rotate(float degrees) {</span>
+<span class="source-line-no">565</span><span id="line-565">        if (degrees == 0) return;</span>
+<span class="source-line-no">566</span><span id="line-566">        rotation += degrees;</span>
+<span class="source-line-no">567</span><span id="line-567">        dirty = true;</span>
+<span class="source-line-no">568</span><span id="line-568">    }</span>
+<span class="source-line-no">569</span><span id="line-569"></span>
+<span class="source-line-no">570</span><span id="line-570">    /**</span>
+<span class="source-line-no">571</span><span id="line-571">     * Rotates this sprite 90 degrees in-place by rotating the texture coordinates. This rotation is unaffected by</span>
+<span class="source-line-no">572</span><span id="line-572">     * {@link #setRotation(float)} and {@link #rotate(float)}.</span>
+<span class="source-line-no">573</span><span id="line-573">     */</span>
+<span class="source-line-no">574</span><span id="line-574">    public void rotate90(boolean clockwise) {</span>
+<span class="source-line-no">575</span><span id="line-575">        float[] vertices = this.vertices;</span>
 <span class="source-line-no">576</span><span id="line-576"></span>
-<span class="source-line-no">577</span><span id="line-577">                                final float x3 = localX2Cos - localY2Sin + worldOriginX;</span>
-<span class="source-line-no">578</span><span id="line-578">                                final float y3 = localY2Cos + localX2Sin + worldOriginY;</span>
-<span class="source-line-no">579</span><span id="line-579">                                vertices[X3] = x3;</span>
-<span class="source-line-no">580</span><span id="line-580">                                vertices[Y3] = y3;</span>
-<span class="source-line-no">581</span><span id="line-581"></span>
-<span class="source-line-no">582</span><span id="line-582">                                vertices[X4] = x1 + (x3 - x2);</span>
-<span class="source-line-no">583</span><span id="line-583">                                vertices[Y4] = y3 - (y2 - y1);</span>
-<span class="source-line-no">584</span><span id="line-584">                        } else {</span>
-<span class="source-line-no">585</span><span id="line-585">                                final float x1 = localX + worldOriginX;</span>
-<span class="source-line-no">586</span><span id="line-586">                                final float y1 = localY + worldOriginY;</span>
-<span class="source-line-no">587</span><span id="line-587">                                final float x2 = localX2 + worldOriginX;</span>
-<span class="source-line-no">588</span><span id="line-588">                                final float y2 = localY2 + worldOriginY;</span>
-<span class="source-line-no">589</span><span id="line-589"></span>
-<span class="source-line-no">590</span><span id="line-590">                                vertices[X1] = x1;</span>
-<span class="source-line-no">591</span><span id="line-591">                                vertices[Y1] = y1;</span>
-<span class="source-line-no">592</span><span id="line-592"></span>
-<span class="source-line-no">593</span><span id="line-593">                                vertices[X2] = x1;</span>
-<span class="source-line-no">594</span><span id="line-594">                                vertices[Y2] = y2;</span>
+<span class="source-line-no">577</span><span id="line-577">        if (clockwise) {</span>
+<span class="source-line-no">578</span><span id="line-578">            float temp = vertices[V1];</span>
+<span class="source-line-no">579</span><span id="line-579">            vertices[V1] = vertices[V4];</span>
+<span class="source-line-no">580</span><span id="line-580">            vertices[V4] = vertices[V3];</span>
+<span class="source-line-no">581</span><span id="line-581">            vertices[V3] = vertices[V2];</span>
+<span class="source-line-no">582</span><span id="line-582">            vertices[V2] = temp;</span>
+<span class="source-line-no">583</span><span id="line-583"></span>
+<span class="source-line-no">584</span><span id="line-584">            temp = vertices[U1];</span>
+<span class="source-line-no">585</span><span id="line-585">            vertices[U1] = vertices[U4];</span>
+<span class="source-line-no">586</span><span id="line-586">            vertices[U4] = vertices[U3];</span>
+<span class="source-line-no">587</span><span id="line-587">            vertices[U3] = vertices[U2];</span>
+<span class="source-line-no">588</span><span id="line-588">            vertices[U2] = temp;</span>
+<span class="source-line-no">589</span><span id="line-589">        } else {</span>
+<span class="source-line-no">590</span><span id="line-590">            float temp = vertices[V1];</span>
+<span class="source-line-no">591</span><span id="line-591">            vertices[V1] = vertices[V2];</span>
+<span class="source-line-no">592</span><span id="line-592">            vertices[V2] = vertices[V3];</span>
+<span class="source-line-no">593</span><span id="line-593">            vertices[V3] = vertices[V4];</span>
+<span class="source-line-no">594</span><span id="line-594">            vertices[V4] = temp;</span>
 <span class="source-line-no">595</span><span id="line-595"></span>
-<span class="source-line-no">596</span><span id="line-596">                                vertices[X3] = x2;</span>
-<span class="source-line-no">597</span><span id="line-597">                                vertices[Y3] = y2;</span>
-<span class="source-line-no">598</span><span id="line-598"></span>
-<span class="source-line-no">599</span><span id="line-599">                                vertices[X4] = x2;</span>
-<span class="source-line-no">600</span><span id="line-600">                                vertices[Y4] = y1;</span>
-<span class="source-line-no">601</span><span id="line-601">                        }</span>
-<span class="source-line-no">602</span><span id="line-602">                }</span>
-<span class="source-line-no">603</span><span id="line-603">                return vertices;</span>
-<span class="source-line-no">604</span><span id="line-604">        }</span>
-<span class="source-line-no">605</span><span id="line-605"></span>
-<span class="source-line-no">606</span><span id="line-606">        /** Returns the bounding axis aligned {@link Rectangle} that bounds this sprite. The rectangles x and y coordinates describe its</span>
-<span class="source-line-no">607</span><span id="line-607">         * bottom left corner. If you change the position or size of the sprite, you have to fetch the triangle again for it to be</span>
-<span class="source-line-no">608</span><span id="line-608">         * recomputed.</span>
-<span class="source-line-no">609</span><span id="line-609">         * </span>
-<span class="source-line-no">610</span><span id="line-610">         * @return the bounding Rectangle */</span>
-<span class="source-line-no">611</span><span id="line-611">        public Rectangle getBoundingRectangle () {</span>
-<span class="source-line-no">612</span><span id="line-612">                final float[] vertices = getVertices();</span>
+<span class="source-line-no">596</span><span id="line-596">            temp = vertices[U1];</span>
+<span class="source-line-no">597</span><span id="line-597">            vertices[U1] = vertices[U2];</span>
+<span class="source-line-no">598</span><span id="line-598">            vertices[U2] = vertices[U3];</span>
+<span class="source-line-no">599</span><span id="line-599">            vertices[U3] = vertices[U4];</span>
+<span class="source-line-no">600</span><span id="line-600">            vertices[U4] = temp;</span>
+<span class="source-line-no">601</span><span id="line-601">        }</span>
+<span class="source-line-no">602</span><span id="line-602">    }</span>
+<span class="source-line-no">603</span><span id="line-603"></span>
+<span class="source-line-no">604</span><span id="line-604">    /**</span>
+<span class="source-line-no">605</span><span id="line-605">     * Sets the sprite's scale for both X and Y uniformly. The sprite scales out from the origin. This will not affect the values</span>
+<span class="source-line-no">606</span><span id="line-606">     * returned by {@link #getWidth()} and {@link #getHeight()}</span>
+<span class="source-line-no">607</span><span id="line-607">     */</span>
+<span class="source-line-no">608</span><span id="line-608">    public void setScale(float scaleXY) {</span>
+<span class="source-line-no">609</span><span id="line-609">        this.scaleX = scaleXY;</span>
+<span class="source-line-no">610</span><span id="line-610">        this.scaleY = scaleXY;</span>
+<span class="source-line-no">611</span><span id="line-611">        dirty = true;</span>
+<span class="source-line-no">612</span><span id="line-612">    }</span>
 <span class="source-line-no">613</span><span id="line-613"></span>
-<span class="source-line-no">614</span><span id="line-614">                float minx = vertices[X1];</span>
-<span class="source-line-no">615</span><span id="line-615">                float miny = vertices[Y1];</span>
-<span class="source-line-no">616</span><span id="line-616">                float maxx = vertices[X1];</span>
-<span class="source-line-no">617</span><span id="line-617">                float maxy = vertices[Y1];</span>
-<span class="source-line-no">618</span><span id="line-618"></span>
-<span class="source-line-no">619</span><span id="line-619">                minx = Math.min(minx, vertices[X2]);</span>
-<span class="source-line-no">620</span><span id="line-620">                minx = Math.min(minx, vertices[X3]);</span>
-<span class="source-line-no">621</span><span id="line-621">                minx = Math.min(minx, vertices[X4]);</span>
-<span class="source-line-no">622</span><span id="line-622"></span>
-<span class="source-line-no">623</span><span id="line-623">                maxx = Math.max(maxx, vertices[X2]);</span>
-<span class="source-line-no">624</span><span id="line-624">                maxx = Math.max(maxx, vertices[X3]);</span>
-<span class="source-line-no">625</span><span id="line-625">                maxx = Math.max(maxx, vertices[X4]);</span>
-<span class="source-line-no">626</span><span id="line-626"></span>
-<span class="source-line-no">627</span><span id="line-627">                miny = Math.min(miny, vertices[Y2]);</span>
-<span class="source-line-no">628</span><span id="line-628">                miny = Math.min(miny, vertices[Y3]);</span>
-<span class="source-line-no">629</span><span id="line-629">                miny = Math.min(miny, vertices[Y4]);</span>
-<span class="source-line-no">630</span><span id="line-630"></span>
-<span class="source-line-no">631</span><span id="line-631">                maxy = Math.max(maxy, vertices[Y2]);</span>
-<span class="source-line-no">632</span><span id="line-632">                maxy = Math.max(maxy, vertices[Y3]);</span>
-<span class="source-line-no">633</span><span id="line-633">                maxy = Math.max(maxy, vertices[Y4]);</span>
+<span class="source-line-no">614</span><span id="line-614">    /**</span>
+<span class="source-line-no">615</span><span id="line-615">     * Sets the sprite's scale for both X and Y. The sprite scales out from the origin. This will not affect the values returned by</span>
+<span class="source-line-no">616</span><span id="line-616">     * {@link #getWidth()} and {@link #getHeight()}</span>
+<span class="source-line-no">617</span><span id="line-617">     */</span>
+<span class="source-line-no">618</span><span id="line-618">    public void setScale(float scaleX, float scaleY) {</span>
+<span class="source-line-no">619</span><span id="line-619">        this.scaleX = scaleX;</span>
+<span class="source-line-no">620</span><span id="line-620">        this.scaleY = scaleY;</span>
+<span class="source-line-no">621</span><span id="line-621">        dirty = true;</span>
+<span class="source-line-no">622</span><span id="line-622">    }</span>
+<span class="source-line-no">623</span><span id="line-623"></span>
+<span class="source-line-no">624</span><span id="line-624">    /**</span>
+<span class="source-line-no">625</span><span id="line-625">     * Sets the sprite's scale relative to the current scale. for example: original scale 2 → sprite.scale(4) → final scale 6.</span>
+<span class="source-line-no">626</span><span id="line-626">     * The sprite scales out from the origin. This will not affect the values returned by {@link #getWidth()} and</span>
+<span class="source-line-no">627</span><span id="line-627">     * {@link #getHeight()}</span>
+<span class="source-line-no">628</span><span id="line-628">     */</span>
+<span class="source-line-no">629</span><span id="line-629">    public void scale(float amount) {</span>
+<span class="source-line-no">630</span><span id="line-630">        this.scaleX += amount;</span>
+<span class="source-line-no">631</span><span id="line-631">        this.scaleY += amount;</span>
+<span class="source-line-no">632</span><span id="line-632">        dirty = true;</span>
+<span class="source-line-no">633</span><span id="line-633">    }</span>
 <span class="source-line-no">634</span><span id="line-634"></span>
-<span class="source-line-no">635</span><span id="line-635">                if (bounds == null) bounds = new Rectangle();</span>
-<span class="source-line-no">636</span><span id="line-636">                bounds.x = minx;</span>
-<span class="source-line-no">637</span><span id="line-637">                bounds.y = miny;</span>
-<span class="source-line-no">638</span><span id="line-638">                bounds.width = maxx - minx;</span>
-<span class="source-line-no">639</span><span id="line-639">                bounds.height = maxy - miny;</span>
-<span class="source-line-no">640</span><span id="line-640">                return bounds;</span>
-<span class="source-line-no">641</span><span id="line-641">        }</span>
-<span class="source-line-no">642</span><span id="line-642"></span>
-<span class="source-line-no">643</span><span id="line-643">        public void draw (ColorfulBatch batch) {</span>
-<span class="source-line-no">644</span><span id="line-644">                batch.drawExactly(getTexture(), getVertices(), 0, SPRITE_SIZE);</span>
-<span class="source-line-no">645</span><span id="line-645">        }</span>
-<span class="source-line-no">646</span><span id="line-646"></span>
-<span class="source-line-no">647</span><span id="line-647">        public void draw (ColorfulBatch batch, float alphaModulation) {</span>
-<span class="source-line-no">648</span><span id="line-648">                final float oldAlpha = ColorTools.alpha(getColor());</span>
-<span class="source-line-no">649</span><span id="line-649">                setAlpha(oldAlpha * alphaModulation);</span>
-<span class="source-line-no">650</span><span id="line-650">                draw(batch);</span>
-<span class="source-line-no">651</span><span id="line-651">                setAlpha(oldAlpha);</span>
-<span class="source-line-no">652</span><span id="line-652">        }</span>
-<span class="source-line-no">653</span><span id="line-653">        </span>
-<span class="source-line-no">654</span><span id="line-654">        public float getX () {</span>
-<span class="source-line-no">655</span><span id="line-655">                return x;</span>
-<span class="source-line-no">656</span><span id="line-656">        }</span>
-<span class="source-line-no">657</span><span id="line-657"></span>
-<span class="source-line-no">658</span><span id="line-658">        public float getY () {</span>
-<span class="source-line-no">659</span><span id="line-659">                return y;</span>
-<span class="source-line-no">660</span><span id="line-660">        }</span>
-<span class="source-line-no">661</span><span id="line-661"></span>
-<span class="source-line-no">662</span><span id="line-662">        /** @return the width of the sprite, not accounting for scale. */</span>
-<span class="source-line-no">663</span><span id="line-663">        public float getWidth () {</span>
-<span class="source-line-no">664</span><span id="line-664">                return width;</span>
-<span class="source-line-no">665</span><span id="line-665">        }</span>
+<span class="source-line-no">635</span><span id="line-635">    /**</span>
+<span class="source-line-no">636</span><span id="line-636">     * Returns the packed vertices, colors, and texture coordinates for this sprite.</span>
+<span class="source-line-no">637</span><span id="line-637">     */</span>
+<span class="source-line-no">638</span><span id="line-638">    public float[] getVertices() {</span>
+<span class="source-line-no">639</span><span id="line-639">        if (dirty) {</span>
+<span class="source-line-no">640</span><span id="line-640">            dirty = false;</span>
+<span class="source-line-no">641</span><span id="line-641"></span>
+<span class="source-line-no">642</span><span id="line-642">            float[] vertices = this.vertices;</span>
+<span class="source-line-no">643</span><span id="line-643">            float localX = -originX;</span>
+<span class="source-line-no">644</span><span id="line-644">            float localY = -originY;</span>
+<span class="source-line-no">645</span><span id="line-645">            float localX2 = localX + width;</span>
+<span class="source-line-no">646</span><span id="line-646">            float localY2 = localY + height;</span>
+<span class="source-line-no">647</span><span id="line-647">            float worldOriginX = this.x - localX;</span>
+<span class="source-line-no">648</span><span id="line-648">            float worldOriginY = this.y - localY;</span>
+<span class="source-line-no">649</span><span id="line-649">            if (scaleX != 1 || scaleY != 1) {</span>
+<span class="source-line-no">650</span><span id="line-650">                localX *= scaleX;</span>
+<span class="source-line-no">651</span><span id="line-651">                localY *= scaleY;</span>
+<span class="source-line-no">652</span><span id="line-652">                localX2 *= scaleX;</span>
+<span class="source-line-no">653</span><span id="line-653">                localY2 *= scaleY;</span>
+<span class="source-line-no">654</span><span id="line-654">            }</span>
+<span class="source-line-no">655</span><span id="line-655">            if (rotation != 0) {</span>
+<span class="source-line-no">656</span><span id="line-656">                final float cos = MathUtils.cosDeg(rotation);</span>
+<span class="source-line-no">657</span><span id="line-657">                final float sin = MathUtils.sinDeg(rotation);</span>
+<span class="source-line-no">658</span><span id="line-658">                final float localXCos = localX * cos;</span>
+<span class="source-line-no">659</span><span id="line-659">                final float localXSin = localX * sin;</span>
+<span class="source-line-no">660</span><span id="line-660">                final float localYCos = localY * cos;</span>
+<span class="source-line-no">661</span><span id="line-661">                final float localYSin = localY * sin;</span>
+<span class="source-line-no">662</span><span id="line-662">                final float localX2Cos = localX2 * cos;</span>
+<span class="source-line-no">663</span><span id="line-663">                final float localX2Sin = localX2 * sin;</span>
+<span class="source-line-no">664</span><span id="line-664">                final float localY2Cos = localY2 * cos;</span>
+<span class="source-line-no">665</span><span id="line-665">                final float localY2Sin = localY2 * sin;</span>
 <span class="source-line-no">666</span><span id="line-666"></span>
-<span class="source-line-no">667</span><span id="line-667">        /** @return the height of the sprite, not accounting for scale. */</span>
-<span class="source-line-no">668</span><span id="line-668">        public float getHeight () {</span>
-<span class="source-line-no">669</span><span id="line-669">                return height;</span>
-<span class="source-line-no">670</span><span id="line-670">        }</span>
+<span class="source-line-no">667</span><span id="line-667">                final float x1 = localXCos - localYSin + worldOriginX;</span>
+<span class="source-line-no">668</span><span id="line-668">                final float y1 = localYCos + localXSin + worldOriginY;</span>
+<span class="source-line-no">669</span><span id="line-669">                vertices[X1] = x1;</span>
+<span class="source-line-no">670</span><span id="line-670">                vertices[Y1] = y1;</span>
 <span class="source-line-no">671</span><span id="line-671"></span>
-<span class="source-line-no">672</span><span id="line-672">        /** The origin influences {@link #setPosition(float, float)}, {@link #setRotation(float)} and the expansion direction of scaling</span>
-<span class="source-line-no">673</span><span id="line-673">         * {@link #setScale(float, float)} */</span>
-<span class="source-line-no">674</span><span id="line-674">        public float getOriginX () {</span>
-<span class="source-line-no">675</span><span id="line-675">                return originX;</span>
-<span class="source-line-no">676</span><span id="line-676">        }</span>
-<span class="source-line-no">677</span><span id="line-677"></span>
-<span class="source-line-no">678</span><span id="line-678">        /** The origin influences {@link #setPosition(float, float)}, {@link #setRotation(float)} and the expansion direction of scaling</span>
-<span class="source-line-no">679</span><span id="line-679">         * {@link #setScale(float, float)} */</span>
-<span class="source-line-no">680</span><span id="line-680">        public float getOriginY () {</span>
-<span class="source-line-no">681</span><span id="line-681">                return originY;</span>
-<span class="source-line-no">682</span><span id="line-682">        }</span>
-<span class="source-line-no">683</span><span id="line-683"></span>
-<span class="source-line-no">684</span><span id="line-684">        /** X scale of the sprite, independent of size set by {@link #setSize(float, float)} */</span>
-<span class="source-line-no">685</span><span id="line-685">        public float getScaleX () {</span>
-<span class="source-line-no">686</span><span id="line-686">                return scaleX;</span>
-<span class="source-line-no">687</span><span id="line-687">        }</span>
-<span class="source-line-no">688</span><span id="line-688"></span>
-<span class="source-line-no">689</span><span id="line-689">        /** Y scale of the sprite, independent of size set by {@link #setSize(float, float)} */</span>
-<span class="source-line-no">690</span><span id="line-690">        public float getScaleY () {</span>
-<span class="source-line-no">691</span><span id="line-691">                return scaleY;</span>
-<span class="source-line-no">692</span><span id="line-692">        }</span>
-<span class="source-line-no">693</span><span id="line-693"></span>
-<span class="source-line-no">694</span><span id="line-694">        /** Returns the color of this sprite. If the returned instance is manipulated, {@link #setColor(float)} must be called</span>
-<span class="source-line-no">695</span><span id="line-695">         * afterward.</span>
-<span class="source-line-no">696</span><span id="line-696">         * @return a packed float color used to add to the L/A/B channels of the current sprite, as well as the multiplier for alpha</span>
-<span class="source-line-no">697</span><span id="line-697">         */</span>
-<span class="source-line-no">698</span><span id="line-698">        public float getColor () {</span>
-<span class="source-line-no">699</span><span id="line-699">                return vertices[C1];</span>
-<span class="source-line-no">700</span><span id="line-700">        }</span>
-<span class="source-line-no">701</span><span id="line-701"></span>
-<span class="source-line-no">702</span><span id="line-702">        /**</span>
-<span class="source-line-no">703</span><span id="line-703">         * Returns the multiplicative color tweaks used by this sprite, as a packed float with the same format as a color.</span>
-<span class="source-line-no">704</span><span id="line-704">         * @return a packed float used to multiply the L/A/B channels, as well as the setting for contrast</span>
-<span class="source-line-no">705</span><span id="line-705">         */</span>
-<span class="source-line-no">706</span><span id="line-706">        public float getColorTweak () {</span>
-<span class="source-line-no">707</span><span id="line-707">                return vertices[T1];</span>
-<span class="source-line-no">708</span><span id="line-708">        }</span>
-<span class="source-line-no">709</span><span id="line-709"></span>
-<span class="source-line-no">710</span><span id="line-710">        public void setRegion (float u, float v, float u2, float v2) {</span>
-<span class="source-line-no">711</span><span id="line-711">                super.setRegion(u, v, u2, v2);</span>
-<span class="source-line-no">712</span><span id="line-712"></span>
-<span class="source-line-no">713</span><span id="line-713">                float[] vertices = this.vertices;</span>
-<span class="source-line-no">714</span><span id="line-714">                vertices[U1] = u;</span>
-<span class="source-line-no">715</span><span id="line-715">                vertices[V1] = v2;</span>
-<span class="source-line-no">716</span><span id="line-716"></span>
-<span class="source-line-no">717</span><span id="line-717">                vertices[U2] = u;</span>
-<span class="source-line-no">718</span><span id="line-718">                vertices[V2] = v;</span>
-<span class="source-line-no">719</span><span id="line-719"></span>
-<span class="source-line-no">720</span><span id="line-720">                vertices[U3] = u2;</span>
-<span class="source-line-no">721</span><span id="line-721">                vertices[V3] = v;</span>
-<span class="source-line-no">722</span><span id="line-722"></span>
-<span class="source-line-no">723</span><span id="line-723">                vertices[U4] = u2;</span>
-<span class="source-line-no">724</span><span id="line-724">                vertices[V4] = v2;</span>
-<span class="source-line-no">725</span><span id="line-725">        }</span>
-<span class="source-line-no">726</span><span id="line-726"></span>
-<span class="source-line-no">727</span><span id="line-727">        public void setU (float u) {</span>
-<span class="source-line-no">728</span><span id="line-728">                super.setU(u);</span>
-<span class="source-line-no">729</span><span id="line-729">                vertices[U1] = u;</span>
-<span class="source-line-no">730</span><span id="line-730">                vertices[U2] = u;</span>
-<span class="source-line-no">731</span><span id="line-731">        }</span>
+<span class="source-line-no">672</span><span id="line-672">                final float x2 = localXCos - localY2Sin + worldOriginX;</span>
+<span class="source-line-no">673</span><span id="line-673">                final float y2 = localY2Cos + localXSin + worldOriginY;</span>
+<span class="source-line-no">674</span><span id="line-674">                vertices[X2] = x2;</span>
+<span class="source-line-no">675</span><span id="line-675">                vertices[Y2] = y2;</span>
+<span class="source-line-no">676</span><span id="line-676"></span>
+<span class="source-line-no">677</span><span id="line-677">                final float x3 = localX2Cos - localY2Sin + worldOriginX;</span>
+<span class="source-line-no">678</span><span id="line-678">                final float y3 = localY2Cos + localX2Sin + worldOriginY;</span>
+<span class="source-line-no">679</span><span id="line-679">                vertices[X3] = x3;</span>
+<span class="source-line-no">680</span><span id="line-680">                vertices[Y3] = y3;</span>
+<span class="source-line-no">681</span><span id="line-681"></span>
+<span class="source-line-no">682</span><span id="line-682">                vertices[X4] = x1 + (x3 - x2);</span>
+<span class="source-line-no">683</span><span id="line-683">                vertices[Y4] = y3 - (y2 - y1);</span>
+<span class="source-line-no">684</span><span id="line-684">            } else {</span>
+<span class="source-line-no">685</span><span id="line-685">                final float x1 = localX + worldOriginX;</span>
+<span class="source-line-no">686</span><span id="line-686">                final float y1 = localY + worldOriginY;</span>
+<span class="source-line-no">687</span><span id="line-687">                final float x2 = localX2 + worldOriginX;</span>
+<span class="source-line-no">688</span><span id="line-688">                final float y2 = localY2 + worldOriginY;</span>
+<span class="source-line-no">689</span><span id="line-689"></span>
+<span class="source-line-no">690</span><span id="line-690">                vertices[X1] = x1;</span>
+<span class="source-line-no">691</span><span id="line-691">                vertices[Y1] = y1;</span>
+<span class="source-line-no">692</span><span id="line-692"></span>
+<span class="source-line-no">693</span><span id="line-693">                vertices[X2] = x1;</span>
+<span class="source-line-no">694</span><span id="line-694">                vertices[Y2] = y2;</span>
+<span class="source-line-no">695</span><span id="line-695"></span>
+<span class="source-line-no">696</span><span id="line-696">                vertices[X3] = x2;</span>
+<span class="source-line-no">697</span><span id="line-697">                vertices[Y3] = y2;</span>
+<span class="source-line-no">698</span><span id="line-698"></span>
+<span class="source-line-no">699</span><span id="line-699">                vertices[X4] = x2;</span>
+<span class="source-line-no">700</span><span id="line-700">                vertices[Y4] = y1;</span>
+<span class="source-line-no">701</span><span id="line-701">            }</span>
+<span class="source-line-no">702</span><span id="line-702">        }</span>
+<span class="source-line-no">703</span><span id="line-703">        return vertices;</span>
+<span class="source-line-no">704</span><span id="line-704">    }</span>
+<span class="source-line-no">705</span><span id="line-705"></span>
+<span class="source-line-no">706</span><span id="line-706">    /**</span>
+<span class="source-line-no">707</span><span id="line-707">     * Returns the bounding axis aligned {@link Rectangle} that bounds this sprite. The rectangles x and y coordinates describe its</span>
+<span class="source-line-no">708</span><span id="line-708">     * bottom left corner. If you change the position or size of the sprite, you have to fetch the triangle again for it to be</span>
+<span class="source-line-no">709</span><span id="line-709">     * recomputed.</span>
+<span class="source-line-no">710</span><span id="line-710">     *</span>
+<span class="source-line-no">711</span><span id="line-711">     * @return the bounding Rectangle</span>
+<span class="source-line-no">712</span><span id="line-712">     */</span>
+<span class="source-line-no">713</span><span id="line-713">    public Rectangle getBoundingRectangle() {</span>
+<span class="source-line-no">714</span><span id="line-714">        final float[] vertices = getVertices();</span>
+<span class="source-line-no">715</span><span id="line-715"></span>
+<span class="source-line-no">716</span><span id="line-716">        float minx = vertices[X1];</span>
+<span class="source-line-no">717</span><span id="line-717">        float miny = vertices[Y1];</span>
+<span class="source-line-no">718</span><span id="line-718">        float maxx = vertices[X1];</span>
+<span class="source-line-no">719</span><span id="line-719">        float maxy = vertices[Y1];</span>
+<span class="source-line-no">720</span><span id="line-720"></span>
+<span class="source-line-no">721</span><span id="line-721">        minx = Math.min(minx, vertices[X2]);</span>
+<span class="source-line-no">722</span><span id="line-722">        minx = Math.min(minx, vertices[X3]);</span>
+<span class="source-line-no">723</span><span id="line-723">        minx = Math.min(minx, vertices[X4]);</span>
+<span class="source-line-no">724</span><span id="line-724"></span>
+<span class="source-line-no">725</span><span id="line-725">        maxx = Math.max(maxx, vertices[X2]);</span>
+<span class="source-line-no">726</span><span id="line-726">        maxx = Math.max(maxx, vertices[X3]);</span>
+<span class="source-line-no">727</span><span id="line-727">        maxx = Math.max(maxx, vertices[X4]);</span>
+<span class="source-line-no">728</span><span id="line-728"></span>
+<span class="source-line-no">729</span><span id="line-729">        miny = Math.min(miny, vertices[Y2]);</span>
+<span class="source-line-no">730</span><span id="line-730">        miny = Math.min(miny, vertices[Y3]);</span>
+<span class="source-line-no">731</span><span id="line-731">        miny = Math.min(miny, vertices[Y4]);</span>
 <span class="source-line-no">732</span><span id="line-732"></span>
-<span class="source-line-no">733</span><span id="line-733">        public void setV (float v) {</span>
-<span class="source-line-no">734</span><span id="line-734">                super.setV(v);</span>
-<span class="source-line-no">735</span><span id="line-735">                vertices[V2] = v;</span>
-<span class="source-line-no">736</span><span id="line-736">                vertices[V3] = v;</span>
-<span class="source-line-no">737</span><span id="line-737">        }</span>
-<span class="source-line-no">738</span><span id="line-738"></span>
-<span class="source-line-no">739</span><span id="line-739">        public void setU2 (float u2) {</span>
-<span class="source-line-no">740</span><span id="line-740">                super.setU2(u2);</span>
-<span class="source-line-no">741</span><span id="line-741">                vertices[U3] = u2;</span>
-<span class="source-line-no">742</span><span id="line-742">                vertices[U4] = u2;</span>
-<span class="source-line-no">743</span><span id="line-743">        }</span>
+<span class="source-line-no">733</span><span id="line-733">        maxy = Math.max(maxy, vertices[Y2]);</span>
+<span class="source-line-no">734</span><span id="line-734">        maxy = Math.max(maxy, vertices[Y3]);</span>
+<span class="source-line-no">735</span><span id="line-735">        maxy = Math.max(maxy, vertices[Y4]);</span>
+<span class="source-line-no">736</span><span id="line-736"></span>
+<span class="source-line-no">737</span><span id="line-737">        if (bounds == null) bounds = new Rectangle();</span>
+<span class="source-line-no">738</span><span id="line-738">        bounds.x = minx;</span>
+<span class="source-line-no">739</span><span id="line-739">        bounds.y = miny;</span>
+<span class="source-line-no">740</span><span id="line-740">        bounds.width = maxx - minx;</span>
+<span class="source-line-no">741</span><span id="line-741">        bounds.height = maxy - miny;</span>
+<span class="source-line-no">742</span><span id="line-742">        return bounds;</span>
+<span class="source-line-no">743</span><span id="line-743">    }</span>
 <span class="source-line-no">744</span><span id="line-744"></span>
-<span class="source-line-no">745</span><span id="line-745">        public void setV2 (float v2) {</span>
-<span class="source-line-no">746</span><span id="line-746">                super.setV2(v2);</span>
-<span class="source-line-no">747</span><span id="line-747">                vertices[V1] = v2;</span>
-<span class="source-line-no">748</span><span id="line-748">                vertices[V4] = v2;</span>
-<span class="source-line-no">749</span><span id="line-749">        }</span>
-<span class="source-line-no">750</span><span id="line-750"></span>
-<span class="source-line-no">751</span><span id="line-751">        /** Set the sprite's flip state regardless of current condition</span>
-<span class="source-line-no">752</span><span id="line-752">         * @param x the desired horizontal flip state</span>
-<span class="source-line-no">753</span><span id="line-753">         * @param y the desired vertical flip state */</span>
-<span class="source-line-no">754</span><span id="line-754">        public void setFlip (boolean x, boolean y) {</span>
-<span class="source-line-no">755</span><span id="line-755">                boolean performX = false;</span>
-<span class="source-line-no">756</span><span id="line-756">                boolean performY = false;</span>
-<span class="source-line-no">757</span><span id="line-757">                if (isFlipX() != x) {</span>
-<span class="source-line-no">758</span><span id="line-758">                        performX = true;</span>
-<span class="source-line-no">759</span><span id="line-759">                }</span>
-<span class="source-line-no">760</span><span id="line-760">                if (isFlipY() != y) {</span>
-<span class="source-line-no">761</span><span id="line-761">                        performY = true;</span>
-<span class="source-line-no">762</span><span id="line-762">                }</span>
-<span class="source-line-no">763</span><span id="line-763">                flip(performX, performY);</span>
-<span class="source-line-no">764</span><span id="line-764">        }</span>
-<span class="source-line-no">765</span><span id="line-765"></span>
-<span class="source-line-no">766</span><span id="line-766">        /** boolean parameters x,y are not setting a state, but performing a flip</span>
-<span class="source-line-no">767</span><span id="line-767">         * @param x perform horizontal flip</span>
-<span class="source-line-no">768</span><span id="line-768">         * @param y perform vertical flip */</span>
-<span class="source-line-no">769</span><span id="line-769">        public void flip (boolean x, boolean y) {</span>
-<span class="source-line-no">770</span><span id="line-770">                super.flip(x, y);</span>
-<span class="source-line-no">771</span><span id="line-771">                float[] vertices = this.vertices;</span>
-<span class="source-line-no">772</span><span id="line-772">                if (x) {</span>
-<span class="source-line-no">773</span><span id="line-773">                        float temp = vertices[U1];</span>
-<span class="source-line-no">774</span><span id="line-774">                        vertices[U1] = vertices[U3];</span>
-<span class="source-line-no">775</span><span id="line-775">                        vertices[U3] = temp;</span>
-<span class="source-line-no">776</span><span id="line-776">                        temp = vertices[U2];</span>
-<span class="source-line-no">777</span><span id="line-777">                        vertices[U2] = vertices[U4];</span>
-<span class="source-line-no">778</span><span id="line-778">                        vertices[U4] = temp;</span>
-<span class="source-line-no">779</span><span id="line-779">                }</span>
-<span class="source-line-no">780</span><span id="line-780">                if (y) {</span>
-<span class="source-line-no">781</span><span id="line-781">                        float temp = vertices[V1];</span>
-<span class="source-line-no">782</span><span id="line-782">                        vertices[V1] = vertices[V3];</span>
-<span class="source-line-no">783</span><span id="line-783">                        vertices[V3] = temp;</span>
-<span class="source-line-no">784</span><span id="line-784">                        temp = vertices[V2];</span>
-<span class="source-line-no">785</span><span id="line-785">                        vertices[V2] = vertices[V4];</span>
-<span class="source-line-no">786</span><span id="line-786">                        vertices[V4] = temp;</span>
-<span class="source-line-no">787</span><span id="line-787">                }</span>
-<span class="source-line-no">788</span><span id="line-788">        }</span>
-<span class="source-line-no">789</span><span id="line-789"></span>
-<span class="source-line-no">790</span><span id="line-790">        public void scroll (float xAmount, float yAmount) {</span>
-<span class="source-line-no">791</span><span id="line-791">                float[] vertices = this.vertices;</span>
-<span class="source-line-no">792</span><span id="line-792">                if (xAmount != 0) {</span>
-<span class="source-line-no">793</span><span id="line-793">                        float u = (vertices[U1] + xAmount) % 1;</span>
-<span class="source-line-no">794</span><span id="line-794">                        float u2 = u + width / getTexture().getWidth();</span>
-<span class="source-line-no">795</span><span id="line-795">                        setU(u);</span>
-<span class="source-line-no">796</span><span id="line-796">                        setU2(u2);</span>
-<span class="source-line-no">797</span><span id="line-797">                        vertices[U1] = u;</span>
-<span class="source-line-no">798</span><span id="line-798">                        vertices[U2] = u;</span>
-<span class="source-line-no">799</span><span id="line-799">                        vertices[U3] = u2;</span>
-<span class="source-line-no">800</span><span id="line-800">                        vertices[U4] = u2;</span>
-<span class="source-line-no">801</span><span id="line-801">                }</span>
-<span class="source-line-no">802</span><span id="line-802">                if (yAmount != 0) {</span>
-<span class="source-line-no">803</span><span id="line-803">                        float v = (vertices[V2] + yAmount) % 1;</span>
-<span class="source-line-no">804</span><span id="line-804">                        float v2 = v + height / getTexture().getHeight();</span>
-<span class="source-line-no">805</span><span id="line-805">                        setV(v);</span>
-<span class="source-line-no">806</span><span id="line-806">                        setV2(v2);</span>
-<span class="source-line-no">807</span><span id="line-807">                        vertices[V1] = v2;</span>
-<span class="source-line-no">808</span><span id="line-808">                        vertices[V2] = v;</span>
-<span class="source-line-no">809</span><span id="line-809">                        vertices[V3] = v;</span>
-<span class="source-line-no">810</span><span id="line-810">                        vertices[V4] = v2;</span>
-<span class="source-line-no">811</span><span id="line-811">                }</span>
-<span class="source-line-no">812</span><span id="line-812">        }</span>
-<span class="source-line-no">813</span><span id="line-813">}</span>
+<span class="source-line-no">745</span><span id="line-745">    public void draw(ColorfulBatch batch) {</span>
+<span class="source-line-no">746</span><span id="line-746">        batch.drawExactly(getTexture(), getVertices(), 0, SPRITE_SIZE);</span>
+<span class="source-line-no">747</span><span id="line-747">    }</span>
+<span class="source-line-no">748</span><span id="line-748"></span>
+<span class="source-line-no">749</span><span id="line-749">    public void draw(ColorfulBatch batch, float alphaModulation) {</span>
+<span class="source-line-no">750</span><span id="line-750">        final float oldAlpha = ColorTools.alpha(getColor());</span>
+<span class="source-line-no">751</span><span id="line-751">        setAlpha(oldAlpha * alphaModulation);</span>
+<span class="source-line-no">752</span><span id="line-752">        draw(batch);</span>
+<span class="source-line-no">753</span><span id="line-753">        setAlpha(oldAlpha);</span>
+<span class="source-line-no">754</span><span id="line-754">    }</span>
+<span class="source-line-no">755</span><span id="line-755"></span>
+<span class="source-line-no">756</span><span id="line-756">    public float getX() {</span>
+<span class="source-line-no">757</span><span id="line-757">        return x;</span>
+<span class="source-line-no">758</span><span id="line-758">    }</span>
+<span class="source-line-no">759</span><span id="line-759"></span>
+<span class="source-line-no">760</span><span id="line-760">    public float getY() {</span>
+<span class="source-line-no">761</span><span id="line-761">        return y;</span>
+<span class="source-line-no">762</span><span id="line-762">    }</span>
+<span class="source-line-no">763</span><span id="line-763"></span>
+<span class="source-line-no">764</span><span id="line-764">    /**</span>
+<span class="source-line-no">765</span><span id="line-765">     * @return the width of the sprite, not accounting for scale.</span>
+<span class="source-line-no">766</span><span id="line-766">     */</span>
+<span class="source-line-no">767</span><span id="line-767">    public float getWidth() {</span>
+<span class="source-line-no">768</span><span id="line-768">        return width;</span>
+<span class="source-line-no">769</span><span id="line-769">    }</span>
+<span class="source-line-no">770</span><span id="line-770"></span>
+<span class="source-line-no">771</span><span id="line-771">    /**</span>
+<span class="source-line-no">772</span><span id="line-772">     * @return the height of the sprite, not accounting for scale.</span>
+<span class="source-line-no">773</span><span id="line-773">     */</span>
+<span class="source-line-no">774</span><span id="line-774">    public float getHeight() {</span>
+<span class="source-line-no">775</span><span id="line-775">        return height;</span>
+<span class="source-line-no">776</span><span id="line-776">    }</span>
+<span class="source-line-no">777</span><span id="line-777"></span>
+<span class="source-line-no">778</span><span id="line-778">    /**</span>
+<span class="source-line-no">779</span><span id="line-779">     * The origin influences {@link #setPosition(float, float)}, {@link #setRotation(float)} and the expansion direction of scaling</span>
+<span class="source-line-no">780</span><span id="line-780">     * {@link #setScale(float, float)}</span>
+<span class="source-line-no">781</span><span id="line-781">     */</span>
+<span class="source-line-no">782</span><span id="line-782">    public float getOriginX() {</span>
+<span class="source-line-no">783</span><span id="line-783">        return originX;</span>
+<span class="source-line-no">784</span><span id="line-784">    }</span>
+<span class="source-line-no">785</span><span id="line-785"></span>
+<span class="source-line-no">786</span><span id="line-786">    /**</span>
+<span class="source-line-no">787</span><span id="line-787">     * The origin influences {@link #setPosition(float, float)}, {@link #setRotation(float)} and the expansion direction of scaling</span>
+<span class="source-line-no">788</span><span id="line-788">     * {@link #setScale(float, float)}</span>
+<span class="source-line-no">789</span><span id="line-789">     */</span>
+<span class="source-line-no">790</span><span id="line-790">    public float getOriginY() {</span>
+<span class="source-line-no">791</span><span id="line-791">        return originY;</span>
+<span class="source-line-no">792</span><span id="line-792">    }</span>
+<span class="source-line-no">793</span><span id="line-793"></span>
+<span class="source-line-no">794</span><span id="line-794">    /**</span>
+<span class="source-line-no">795</span><span id="line-795">     * X scale of the sprite, independent of size set by {@link #setSize(float, float)}</span>
+<span class="source-line-no">796</span><span id="line-796">     */</span>
+<span class="source-line-no">797</span><span id="line-797">    public float getScaleX() {</span>
+<span class="source-line-no">798</span><span id="line-798">        return scaleX;</span>
+<span class="source-line-no">799</span><span id="line-799">    }</span>
+<span class="source-line-no">800</span><span id="line-800"></span>
+<span class="source-line-no">801</span><span id="line-801">    /**</span>
+<span class="source-line-no">802</span><span id="line-802">     * Y scale of the sprite, independent of size set by {@link #setSize(float, float)}</span>
+<span class="source-line-no">803</span><span id="line-803">     */</span>
+<span class="source-line-no">804</span><span id="line-804">    public float getScaleY() {</span>
+<span class="source-line-no">805</span><span id="line-805">        return scaleY;</span>
+<span class="source-line-no">806</span><span id="line-806">    }</span>
+<span class="source-line-no">807</span><span id="line-807"></span>
+<span class="source-line-no">808</span><span id="line-808">    public void setRegion(float u, float v, float u2, float v2) {</span>
+<span class="source-line-no">809</span><span id="line-809">        super.setRegion(u, v, u2, v2);</span>
+<span class="source-line-no">810</span><span id="line-810"></span>
+<span class="source-line-no">811</span><span id="line-811">        float[] vertices = this.vertices;</span>
+<span class="source-line-no">812</span><span id="line-812">        vertices[U1] = u;</span>
+<span class="source-line-no">813</span><span id="line-813">        vertices[V1] = v2;</span>
+<span class="source-line-no">814</span><span id="line-814"></span>
+<span class="source-line-no">815</span><span id="line-815">        vertices[U2] = u;</span>
+<span class="source-line-no">816</span><span id="line-816">        vertices[V2] = v;</span>
+<span class="source-line-no">817</span><span id="line-817"></span>
+<span class="source-line-no">818</span><span id="line-818">        vertices[U3] = u2;</span>
+<span class="source-line-no">819</span><span id="line-819">        vertices[V3] = v;</span>
+<span class="source-line-no">820</span><span id="line-820"></span>
+<span class="source-line-no">821</span><span id="line-821">        vertices[U4] = u2;</span>
+<span class="source-line-no">822</span><span id="line-822">        vertices[V4] = v2;</span>
+<span class="source-line-no">823</span><span id="line-823">    }</span>
+<span class="source-line-no">824</span><span id="line-824"></span>
+<span class="source-line-no">825</span><span id="line-825">    public void setU(float u) {</span>
+<span class="source-line-no">826</span><span id="line-826">        super.setU(u);</span>
+<span class="source-line-no">827</span><span id="line-827">        vertices[U1] = u;</span>
+<span class="source-line-no">828</span><span id="line-828">        vertices[U2] = u;</span>
+<span class="source-line-no">829</span><span id="line-829">    }</span>
+<span class="source-line-no">830</span><span id="line-830"></span>
+<span class="source-line-no">831</span><span id="line-831">    public void setV(float v) {</span>
+<span class="source-line-no">832</span><span id="line-832">        super.setV(v);</span>
+<span class="source-line-no">833</span><span id="line-833">        vertices[V2] = v;</span>
+<span class="source-line-no">834</span><span id="line-834">        vertices[V3] = v;</span>
+<span class="source-line-no">835</span><span id="line-835">    }</span>
+<span class="source-line-no">836</span><span id="line-836"></span>
+<span class="source-line-no">837</span><span id="line-837">    public void setU2(float u2) {</span>
+<span class="source-line-no">838</span><span id="line-838">        super.setU2(u2);</span>
+<span class="source-line-no">839</span><span id="line-839">        vertices[U3] = u2;</span>
+<span class="source-line-no">840</span><span id="line-840">        vertices[U4] = u2;</span>
+<span class="source-line-no">841</span><span id="line-841">    }</span>
+<span class="source-line-no">842</span><span id="line-842"></span>
+<span class="source-line-no">843</span><span id="line-843">    public void setV2(float v2) {</span>
+<span class="source-line-no">844</span><span id="line-844">        super.setV2(v2);</span>
+<span class="source-line-no">845</span><span id="line-845">        vertices[V1] = v2;</span>
+<span class="source-line-no">846</span><span id="line-846">        vertices[V4] = v2;</span>
+<span class="source-line-no">847</span><span id="line-847">    }</span>
+<span class="source-line-no">848</span><span id="line-848"></span>
+<span class="source-line-no">849</span><span id="line-849">    /**</span>
+<span class="source-line-no">850</span><span id="line-850">     * Set the sprite's flip state regardless of current condition</span>
+<span class="source-line-no">851</span><span id="line-851">     *</span>
+<span class="source-line-no">852</span><span id="line-852">     * @param x the desired horizontal flip state</span>
+<span class="source-line-no">853</span><span id="line-853">     * @param y the desired vertical flip state</span>
+<span class="source-line-no">854</span><span id="line-854">     */</span>
+<span class="source-line-no">855</span><span id="line-855">    public void setFlip(boolean x, boolean y) {</span>
+<span class="source-line-no">856</span><span id="line-856">        boolean performX = false;</span>
+<span class="source-line-no">857</span><span id="line-857">        boolean performY = false;</span>
+<span class="source-line-no">858</span><span id="line-858">        if (isFlipX() != x) {</span>
+<span class="source-line-no">859</span><span id="line-859">            performX = true;</span>
+<span class="source-line-no">860</span><span id="line-860">        }</span>
+<span class="source-line-no">861</span><span id="line-861">        if (isFlipY() != y) {</span>
+<span class="source-line-no">862</span><span id="line-862">            performY = true;</span>
+<span class="source-line-no">863</span><span id="line-863">        }</span>
+<span class="source-line-no">864</span><span id="line-864">        flip(performX, performY);</span>
+<span class="source-line-no">865</span><span id="line-865">    }</span>
+<span class="source-line-no">866</span><span id="line-866"></span>
+<span class="source-line-no">867</span><span id="line-867">    /**</span>
+<span class="source-line-no">868</span><span id="line-868">     * boolean parameters x,y are not setting a state, but performing a flip</span>
+<span class="source-line-no">869</span><span id="line-869">     *</span>
+<span class="source-line-no">870</span><span id="line-870">     * @param x perform horizontal flip</span>
+<span class="source-line-no">871</span><span id="line-871">     * @param y perform vertical flip</span>
+<span class="source-line-no">872</span><span id="line-872">     */</span>
+<span class="source-line-no">873</span><span id="line-873">    public void flip(boolean x, boolean y) {</span>
+<span class="source-line-no">874</span><span id="line-874">        super.flip(x, y);</span>
+<span class="source-line-no">875</span><span id="line-875">        float[] vertices = this.vertices;</span>
+<span class="source-line-no">876</span><span id="line-876">        if (x) {</span>
+<span class="source-line-no">877</span><span id="line-877">            float temp = vertices[U1];</span>
+<span class="source-line-no">878</span><span id="line-878">            vertices[U1] = vertices[U3];</span>
+<span class="source-line-no">879</span><span id="line-879">            vertices[U3] = temp;</span>
+<span class="source-line-no">880</span><span id="line-880">            temp = vertices[U2];</span>
+<span class="source-line-no">881</span><span id="line-881">            vertices[U2] = vertices[U4];</span>
+<span class="source-line-no">882</span><span id="line-882">            vertices[U4] = temp;</span>
+<span class="source-line-no">883</span><span id="line-883">        }</span>
+<span class="source-line-no">884</span><span id="line-884">        if (y) {</span>
+<span class="source-line-no">885</span><span id="line-885">            float temp = vertices[V1];</span>
+<span class="source-line-no">886</span><span id="line-886">            vertices[V1] = vertices[V3];</span>
+<span class="source-line-no">887</span><span id="line-887">            vertices[V3] = temp;</span>
+<span class="source-line-no">888</span><span id="line-888">            temp = vertices[V2];</span>
+<span class="source-line-no">889</span><span id="line-889">            vertices[V2] = vertices[V4];</span>
+<span class="source-line-no">890</span><span id="line-890">            vertices[V4] = temp;</span>
+<span class="source-line-no">891</span><span id="line-891">        }</span>
+<span class="source-line-no">892</span><span id="line-892">    }</span>
+<span class="source-line-no">893</span><span id="line-893"></span>
+<span class="source-line-no">894</span><span id="line-894">    public void scroll(float xAmount, float yAmount) {</span>
+<span class="source-line-no">895</span><span id="line-895">        float[] vertices = this.vertices;</span>
+<span class="source-line-no">896</span><span id="line-896">        if (xAmount != 0) {</span>
+<span class="source-line-no">897</span><span id="line-897">            float u = (vertices[U1] + xAmount) % 1;</span>
+<span class="source-line-no">898</span><span id="line-898">            float u2 = u + width / getTexture().getWidth();</span>
+<span class="source-line-no">899</span><span id="line-899">            setU(u);</span>
+<span class="source-line-no">900</span><span id="line-900">            setU2(u2);</span>
+<span class="source-line-no">901</span><span id="line-901">            vertices[U1] = u;</span>
+<span class="source-line-no">902</span><span id="line-902">            vertices[U2] = u;</span>
+<span class="source-line-no">903</span><span id="line-903">            vertices[U3] = u2;</span>
+<span class="source-line-no">904</span><span id="line-904">            vertices[U4] = u2;</span>
+<span class="source-line-no">905</span><span id="line-905">        }</span>
+<span class="source-line-no">906</span><span id="line-906">        if (yAmount != 0) {</span>
+<span class="source-line-no">907</span><span id="line-907">            float v = (vertices[V2] + yAmount) % 1;</span>
+<span class="source-line-no">908</span><span id="line-908">            float v2 = v + height / getTexture().getHeight();</span>
+<span class="source-line-no">909</span><span id="line-909">            setV(v);</span>
+<span class="source-line-no">910</span><span id="line-910">            setV2(v2);</span>
+<span class="source-line-no">911</span><span id="line-911">            vertices[V1] = v2;</span>
+<span class="source-line-no">912</span><span id="line-912">            vertices[V2] = v;</span>
+<span class="source-line-no">913</span><span id="line-913">            vertices[V3] = v;</span>
+<span class="source-line-no">914</span><span id="line-914">            vertices[V4] = v2;</span>
+<span class="source-line-no">915</span><span id="line-915">        }</span>
+<span class="source-line-no">916</span><span id="line-916">    }</span>
+<span class="source-line-no">917</span><span id="line-917">}</span>
 
 
 
