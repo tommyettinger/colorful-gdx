@@ -26,11 +26,13 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.colorful.DawnlikeData;
+import com.github.tommyettinger.colorful.oklab.ColorTools;
 import com.github.tommyettinger.colorful.oklab.ColorfulBatch;
 import com.github.tommyettinger.colorful.oklab.SimplePalette;
 import com.github.tommyettinger.colorful.oklab.TextureArrayColorfulBatch;
@@ -818,7 +820,7 @@ public class ColorDungeon extends ApplicationAdapter {
                 char glyph = vision.prunedPlaceMap[x][y];
                 if (vision.seen.contains(x, y)) {
                     // cells that were seen more than one frame ago, and aren't visible now, appear as a gray memory.
-                    batch.setColor(NumberUtils.intBitsToFloat(vision.backgroundColors[x][y] & 0xFEFFFFFF));
+                    batch.setColor(ColorTools.darken(NumberUtils.intBitsToFloat(vision.backgroundColors[x][y] & 0xFEFFFFFF), 0.5f));
                     batch.setTweak(0.4f, 0.4f, 0.4f, 0.4f);
                     if (glyph == '/' || glyph == '+' || glyph == '1' || glyph == '2') // doors expect a floor drawn beneath them
                         batch.draw(charMapping.getOrDefault('.', solid), x, y, 1f, 1f);
@@ -836,16 +838,22 @@ public class ColorDungeon extends ApplicationAdapter {
             for (int j = 0; j < placeHeight; j++) {
                 if (lightLevels[i][j] > 0.01) {
                     if ((monster = monsters.get(Coord.get(i, j))) != null) {
-                        monster.animate(time).setColor(NumberUtils.intBitsToFloat(0xFEFFFFFF & vision.getForegroundColor(i, j, change)));
+                        monster.animate(time).setColor(ColorTools.darken(NumberUtils.intBitsToFloat(0xFEFFFFFF & vision.getForegroundColor(i, j, change)), 0.5f));
                         monster.draw(batch);
                     }
                 } else if (vision.justHidden.contains(i, j) && (monster = monsters.get(Coord.get(i, j))) != null) {
-                    monster.animate(time).setColor(NumberUtils.intBitsToFloat(0xFEFFFFFF & vision.getForegroundColor(i, j, change)));
+                    monster.animate(time).setColor(ColorTools.darken(NumberUtils.intBitsToFloat(0xFEFFFFFF & vision.getForegroundColor(i, j, change)), 0.5f));
                     monster.draw(batch);
                 }
             }
         }
         batch.setColor(SimplePalette.GRAY);
+//        Image img = new Image(charMapping.get('2'));
+//        img.setScale(1f/16f);
+//        img.setOrigin(0.5f, 0.5f);
+//        img.setPosition(playerSprite.getX(), playerSprite.getY());
+//        img.setRotation(time * 36);
+//        img.draw(batch, 1f);
         playerSprite.animate(time).draw(batch);
 //        Gdx.graphics.setTitle(Gdx.graphics.getFramesPerSecond() + " FPS");
     }

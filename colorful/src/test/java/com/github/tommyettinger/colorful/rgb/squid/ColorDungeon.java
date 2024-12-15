@@ -830,7 +830,7 @@ public class ColorDungeon extends ApplicationAdapter {
                 char glyph = vision.prunedPlaceMap[x][y];
                 if (vision.seen.contains(x, y)) {
                     // cells that were seen more than one frame ago, and aren't visible now, appear as a gray memory.
-                    batch.setPackedColor(DescriptiveColorRgb.toFloat(vision.backgroundColors[x][y]));
+                    batch.setPackedColor(ColorTools.darken(DescriptiveColorRgb.toFloat(vision.backgroundColors[x][y]), 0.5f));
                     if (glyph == '/' || glyph == '+' || glyph == '1' || glyph == '2') // doors expect a floor drawn beneath them
                         batch.draw(charMapping.getOrDefault('.', solid), x, y, 1f, 1f);
                     if(glyph >= 0x2500 && glyph <= 0x257F)
@@ -847,11 +847,11 @@ public class ColorDungeon extends ApplicationAdapter {
             for (int j = 0; j < placeHeight; j++) {
                 if (lightLevels[i][j] > 0.01) {
                     if ((monster = monsters.get(Coord.get(i, j))) != null) {
-                        monster.animate(time).setColor(DescriptiveColorRgb.toFloat(vision.getForegroundColor(i, j, change)));
+                        monster.animate(time).setColor(ColorTools.darken(DescriptiveColorRgb.toFloat(vision.getForegroundColor(i, j, change)), 0.5f));
                         monster.draw(batch);
                     }
                 } else if (vision.justHidden.contains(i, j) && (monster = monsters.get(Coord.get(i, j))) != null) {
-                    monster.animate(time).setColor(DescriptiveColorRgb.toFloat(vision.getForegroundColor(i, j, change)));
+                    monster.animate(time).setColor(ColorTools.darken(DescriptiveColorRgb.toFloat(vision.getForegroundColor(i, j, change)), 0.5f));
                     monster.draw(batch);
                 }
             }
