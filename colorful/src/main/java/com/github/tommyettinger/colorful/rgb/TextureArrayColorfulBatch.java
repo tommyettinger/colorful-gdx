@@ -120,7 +120,7 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
 
         if (maxTextureUnits == 0) {
             throw new IllegalStateException(
-                    "Texture Arrays are not supported on this device:" + System.lineSeparator() + shaderErrorLog);
+                    "Texture Arrays are not supported on this device:\n" + shaderErrorLog);
         }
 
         if (defaultShader == null) {
