@@ -26,11 +26,11 @@ import com.github.tommyettinger.digital.MathTools;
 // example output
 /*
 {
-0x00000000, 0x000000FF, 0x5E585AFF, 0x4E2A39FF, 0xC78DBCFF, 0xE027EFFF, 0x6C0058FF, 0xC0002DFF,
-0xFF60A6FF, 0xE3B6A8FF, 0x76613BFF, 0x61754FFF, 0xE5D5A9FF, 0xFEB457FF, 0x857711FF, 0x00A953FF,
-0x67EF00FF, 0x8BE7BFFF, 0x47827BFF, 0x45636BFF, 0xA0D4D6FF, 0x28E4CDFF, 0x008790FF, 0x00679CFF,
-0x00B3EAFF, 0x6FA0D2FF, 0x18368AFF, 0x2A2445FF, 0x2D0FB1FF, 0x510082FF, 0x461F44FF, 0xAA6FC6FF,
-0x8942FFFF, 0x4F86F8FF, 0x8491B7FF, 0xA5A5A5FF, 0xFFFFFFFF,
+0x00000000, 0x000000FF, 0x5A5A5AFF, 0x50303EFF, 0xCC91C0FF, 0xE925FBFF, 0x730D5DFF, 0xC0001FFF,
+0xFF5DABFF, 0xE4B1A5FF, 0x725D37FF, 0x5D6C4EFF, 0xE0D0A4FF, 0xFFAC49FF, 0x7C7304FF, 0x009F52FF,
+0x6FE400FF, 0x80E2B3FF, 0x477974FF, 0x465D67FF, 0x98D2CCFF, 0x29DFC2FF, 0x14808BFF, 0x0066A1FF,
+0x00B3EAFF, 0x73A5D7FF, 0x22388EFF, 0x2F294BFF, 0x3411BDFF, 0x5E0090FF, 0x4D254BFF, 0xAE78CEFF,
+0x8F52FFFF, 0x4C8DFFFF, 0x8B98BFFF, 0xA5A5A5FF, 0xFFFFFFFF,
 }
  */
 
@@ -44,10 +44,10 @@ public class DaiisyPaletteGenerator {
 
     public static int autoAdjust(float hue, float sat, float lit) {
         return ColorTools.toRGBA8888(ColorTools.oklabByHSL(
-                (float) ((Math.sqrt(MathTools.fract(hue + (0.5f - lit) * 0.25f) + 0.050625) - 0.225) * 1.25),
+                (float) ((Math.sqrt(MathTools.fract(hue + (0.5f - lit) * 0.3f) + 0.050625) - 0.225) * 1.25),
 //                hue + 0.008f,
-                sat + (0.5f - lit) * 0.25f,
-                Interpolations.smooth.apply(lit + TrigTools.sinTurns(hue) * 0.11f), 1f));
+                sat,
+                Interpolations.smooth.apply(lit + TrigTools.sinTurns(hue) * 0.09f), 1f));
     }
     /*
 jshell> //hue 0,1: -0.080, 1,1: +0.080, 0,2: -0.125, 1,2: 0.000
