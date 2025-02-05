@@ -26,11 +26,11 @@ import com.github.tommyettinger.digital.MathTools;
 // example output
 /*
 {
-0x00000000, 0x000000FF, 0x555555FF, 0x533B58FF, 0xA481B4FF, 0x9C44FFFF, 0x5E02A7FF, 0xC70085FF,
-0xFF36B9FF, 0xE3A0A7FF, 0xB7515DFF, 0xA07765FF, 0xDAC7BFFF, 0xFF9C86FF, 0xFF240FFF, 0xD08400FF,
-0xFFAF2BFF, 0xD2CA7AFF, 0x8C8A4EFF, 0x617756FF, 0xA1C797FF, 0xA7CD00FF, 0x779000FF, 0x008159FF,
-0x00B47DFF, 0x599997FF, 0x325250FF, 0x29363CFF, 0x004F5CFF, 0x003A87FF, 0x352C72FF, 0x726DC3FF,
-0x0063E8FF, 0x008EA2FF, 0x69838EFF, 0xAAAAAAFF, 0xFFFFFFFF,
+0x00000000, 0x000000FF, 0x5A5A5AFF, 0x372431FF, 0xBA7FA7FF, 0xC000D9FF, 0x470052FF, 0xBB004CFF,
+0xFF668BFF, 0xEEC2BAFF, 0xB05841FF, 0x9B846CFF, 0xF3E6DBFF, 0xFFC6A0FF, 0xE36300FF, 0xC4A700FF,
+0xFFDE20FF, 0xC9F68EFF, 0x819A56FF, 0x577362FF, 0xB2E3C3FF, 0x4DFF46FF, 0x0AAD00FF, 0x00706AFF,
+0x00BDAFFF, 0x5998A8FF, 0x1C363EFF, 0x11171CFF, 0x002F44FF, 0x1C0066FF, 0x221430FF, 0x8852BFFF,
+0x4708FFFF, 0x0080B6FF, 0x627A95FF, 0xA5A5A5FF, 0xFFFFFFFF,
 }
  */
 
@@ -43,9 +43,9 @@ public class DaiisyPaletteGenerator {
     private static final IntArray rgba = new IntArray(limit);
 
     public static int autoAdjust(float hue, float sat, float lit) {
-        return ColorTools.toRGBA8888(ColorTools.oklabByHSL(hue - 0.038f,
+        return ColorTools.toRGBA8888(ColorTools.oklabByHSL(hue + 0.02f,
                 Interpolations.smooth.apply(sat),
-                lit + TrigTools.sinTurns(hue) * 0.17f, 1f));
+                Interpolations.smooth.apply(lit + TrigTools.sinTurns(hue) * 0.19f), 1f));
     }
     /*
 jshell> //hue 0,1: -0.080, 1,1: +0.080, 0,2: -0.125, 1,2: 0.000
@@ -55,12 +55,12 @@ jshell> //lightness 0,1: 0.12f, 1,1: 0.10f, 0,2: 0.08f, 1,2: 0.06f
     public static void main(String[] args) {
         rgba.add(0);
         rgba.add(autoAdjust(0f, 0f, 0f));
-        rgba.add(autoAdjust(0f, 0f, 0.333f));
+        rgba.add(autoAdjust(0f, 0f, 0.4f));
 
         rgba.add(autoAdjust(0.000f - 0.080f, 0.353f, 0.475f - 0.12f));
         rgba.add(autoAdjust(0.000f - 0.080f, 0.353f, 0.525f + 0.12f));
-        rgba.add(autoAdjust(0.000f - 0.125f, 0.894f, 0.525f + 0.08f));
-        rgba.add(autoAdjust(0.000f - 0.125f, 0.894f, 0.475f - 0.08f));
+        rgba.add(autoAdjust(0.000f - 0.125f, 0.913f, 0.525f + 0.08f));
+        rgba.add(autoAdjust(0.000f - 0.125f, 0.913f, 0.475f - 0.08f));
         rgba.add(autoAdjust(0.000f + 0.000f, 1.000f, 0.475f - 0.06f));
         rgba.add(autoAdjust(0.000f + 0.000f, 1.000f, 0.525f + 0.06f));
         rgba.add(autoAdjust(0.000f + 0.080f, 0.523f, 0.525f + 0.10f));
@@ -68,8 +68,8 @@ jshell> //lightness 0,1: 0.12f, 1,1: 0.10f, 0,2: 0.08f, 1,2: 0.06f
 
         rgba.add(autoAdjust(0.250f - 0.080f, 0.353f, 0.475f - 0.12f));
         rgba.add(autoAdjust(0.250f - 0.080f, 0.353f, 0.525f + 0.12f));
-        rgba.add(autoAdjust(0.250f - 0.125f, 0.894f, 0.525f + 0.08f));
-        rgba.add(autoAdjust(0.250f - 0.125f, 0.894f, 0.475f - 0.08f));
+        rgba.add(autoAdjust(0.250f - 0.125f, 0.913f, 0.525f + 0.08f));
+        rgba.add(autoAdjust(0.250f - 0.125f, 0.913f, 0.475f - 0.08f));
         rgba.add(autoAdjust(0.250f + 0.000f, 1.000f, 0.475f - 0.06f));
         rgba.add(autoAdjust(0.250f + 0.000f, 1.000f, 0.525f + 0.06f));
         rgba.add(autoAdjust(0.250f + 0.080f, 0.523f, 0.525f + 0.10f));
@@ -77,23 +77,23 @@ jshell> //lightness 0,1: 0.12f, 1,1: 0.10f, 0,2: 0.08f, 1,2: 0.06f
 
         rgba.add(autoAdjust(0.500f - 0.080f, 0.353f, 0.475f - 0.12f));
         rgba.add(autoAdjust(0.500f - 0.080f, 0.353f, 0.525f + 0.12f));
-        rgba.add(autoAdjust(0.500f - 0.125f, 0.894f, 0.525f + 0.08f));
-        rgba.add(autoAdjust(0.500f - 0.125f, 0.894f, 0.475f - 0.08f));
+        rgba.add(autoAdjust(0.500f - 0.125f, 0.913f, 0.525f + 0.08f));
+        rgba.add(autoAdjust(0.500f - 0.125f, 0.913f, 0.475f - 0.08f));
         rgba.add(autoAdjust(0.500f + 0.000f, 1.000f, 0.475f - 0.06f));
         rgba.add(autoAdjust(0.500f + 0.000f, 1.000f, 0.525f + 0.06f));
         rgba.add(autoAdjust(0.500f + 0.080f, 0.523f, 0.525f + 0.10f));
         rgba.add(autoAdjust(0.500f + 0.080f, 0.523f, 0.475f - 0.10f));
 
         rgba.add(autoAdjust(0.750f - 0.080f, 0.353f, 0.475f - 0.12f));
-        rgba.add(autoAdjust(0.750f - 0.125f, 0.894f, 0.475f - 0.08f));
+        rgba.add(autoAdjust(0.750f - 0.125f, 0.913f, 0.475f - 0.08f));
         rgba.add(autoAdjust(0.750f + 0.000f, 1.000f, 0.475f - 0.06f));
         rgba.add(autoAdjust(0.750f + 0.080f, 0.523f, 0.475f - 0.10f));
         rgba.add(autoAdjust(0.750f + 0.080f, 0.523f, 0.525f + 0.10f));
         rgba.add(autoAdjust(0.750f + 0.000f, 1.000f, 0.525f + 0.06f));
-        rgba.add(autoAdjust(0.750f - 0.125f, 0.894f, 0.525f + 0.08f));
+        rgba.add(autoAdjust(0.750f - 0.125f, 0.913f, 0.525f + 0.08f));
         rgba.add(autoAdjust(0.750f - 0.080f, 0.353f, 0.525f + 0.12f));
 
-        rgba.add(autoAdjust(0f, 0f, 0.666f));
+        rgba.add(autoAdjust(0f, 0f, 0.6f));
         rgba.add(autoAdjust(0f, 0f, 1f));
         StringBuilder sb = new StringBuilder(12 * rgba.size + 256).append("{\n");
         for (int i = 0; i < rgba.size; i++) {
