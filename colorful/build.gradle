@@ -9,7 +9,7 @@ javadoc.options.source("17")
 ((StandardJavadocDocletOptions)javadoc.options).linkSource(true)
 ((StandardJavadocDocletOptions)javadoc.options).noTimestamp(true)
 ((StandardJavadocDocletOptions)javadoc.options).use(true)
-((StandardJavadocDocletOptions)javadoc.options).bottom("Copyright &#169; Tommy Ettinger 2020-2023. All rights reserved. Are you a copyright lawyer? If so, I want you to think, are you actually helping people, or just wasting their time? Maybe do some pro bono work for a cause that matters?")
+((StandardJavadocDocletOptions)javadoc.options).bottom("Copyright &#169; Tommy Ettinger 2020-2025. All rights reserved. Are you a copyright lawyer? If so, I want you to think, are you actually helping people, or just wasting their time? Maybe do some pro bono work for a cause that matters?")
 
 compileJava {
     sourceCompatibility = 7
