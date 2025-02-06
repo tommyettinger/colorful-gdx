@@ -25,15 +25,15 @@ import com.github.tommyettinger.digital.MathTools;
 // example output
 /*
 {
-0x00000000, 0x000000FF, 0x5A5A5AFF, 0xAA6294FF, 0xD5A0CEFF, 0xE740FEFF, 0xBE16B7FF, 0xFF0084FF,
-0xFF62ADFF, 0xEBB9B3FF, 0xD48858FF, 0xB2AE7CFF, 0xEBD8BBFF, 0xFEB267FF, 0xCF9820FF, 0x00D200FF,
-0x75E600FF, 0x83ECB5FF, 0x68BDA6FF, 0x76A9B0FF, 0x9DE0D8FF, 0x16E6C7FF, 0x22BBB5FF, 0x0094D1FF,
-0x00B5EDFF, 0x77B0DCFF, 0x487DC1FF, 0x6469A9FF, 0x3560F9FF, 0x8500FBFF, 0x944BA8FF, 0xB684D4FF,
-0x8C55FFFF, 0x5695FBFF, 0x9AA6C8FF, 0x854C6DFF, 0x422431FF, 0x6A0C54FF, 0xA11494FF, 0xEF0064FF,
-0xBD001DFF, 0x635635FF, 0xA97B4CFF, 0x909569FF, 0x4C6042FF, 0x736D10FF, 0xB18A17FF, 0x00C13FFF,
-0x009C56FF, 0x3E6F6AFF, 0x5EA294FF, 0x628A92FF, 0x3A5059FF, 0x007A84FF, 0x0EA6A7FF, 0x0084C1FF,
-0x00649EFF, 0x222F7FFF, 0x3964ABFF, 0x4C4A91FF, 0x323EF8FF, 0x7700D5FF, 0x7A397FFF, 0x421F3EFF,
-0x590089FF, 0x310AB1FF, 0x261F3CFF, 0xA5A5A5FF, 0xFFFFFFFF,
+0x00000000, 0x000000FF, 0x333333FF, 0x666666FF, 0xAA6294FF, 0xD5A0CEFF, 0xE740FEFF, 0xBE16B7FF,
+0xFF0084FF, 0xFF62ADFF, 0xEBB9B3FF, 0xD48858FF, 0xB2AE7CFF, 0xEBD8BBFF, 0xFEB267FF, 0xCF9820FF,
+0x00D200FF, 0x75E600FF, 0x83ECB5FF, 0x68BDA6FF, 0x76A9B0FF, 0x9DE0D8FF, 0x16E6C7FF, 0x22BBB5FF,
+0x0094D1FF, 0x00B5EDFF, 0x77B0DCFF, 0x487DC1FF, 0x6469A9FF, 0x3560F9FF, 0x8500FBFF, 0x944BA8FF,
+0xB684D4FF, 0x8C55FFFF, 0x5695FBFF, 0x9AA6C8FF, 0x854C6DFF, 0x422431FF, 0x6A0C54FF, 0xA11494FF,
+0xEF0064FF, 0xBD001DFF, 0x635635FF, 0xA97B4CFF, 0x909569FF, 0x4C6042FF, 0x736D10FF, 0xB18A17FF,
+0x00C13FFF, 0x009C56FF, 0x3E6F6AFF, 0x5EA294FF, 0x628A92FF, 0x3A5059FF, 0x007A84FF, 0x0EA6A7FF,
+0x0084C1FF, 0x00649EFF, 0x222F7FFF, 0x3964ABFF, 0x4C4A91FF, 0x323EF8FF, 0x7700D5FF, 0x7A397FFF,
+0x421F3EFF, 0x590089FF, 0x310AB1FF, 0x261F3CFF, 0x999999FF, 0xCCCCCCFF, 0xFFFFFFFF,
 }
  */
 
@@ -60,8 +60,10 @@ jshell> //lightness 0,1: 0.12f, 1,1: 0.10f, 0,2: 0.08f, 1,2: 0.06f
      */
     public static void main(String[] args) {
         rgba.add(0);
-        rgba.add(autoAdjust(0f, 0f, 0f));
-        rgba.add(autoAdjust(0f, 0f, 0.4f));
+
+        rgba.add(ColorTools.toRGBA8888(ColorTools.oklab(0.0f, 0.5f, 0.5f, 1f)));
+        rgba.add(ColorTools.toRGBA8888(ColorTools.oklab(0.2f, 0.5f, 0.5f, 1f)));
+        rgba.add(ColorTools.toRGBA8888(ColorTools.oklab(0.4f, 0.5f, 0.5f, 1f)));
 
         rgba.add(autoAdjust(0.000f - 0.080f, 0.353f, 0.5000f + (0.12f * 0.90f - 0.12f * 0.60f)));
         rgba.add(autoAdjust(0.000f - 0.080f, 0.353f, 0.5000f + (0.12f * 0.90f + 0.12f * 0.60f)));
@@ -136,8 +138,10 @@ jshell> //lightness 0,1: 0.12f, 1,1: 0.10f, 0,2: 0.08f, 1,2: 0.06f
         rgba.add(autoAdjust(0.750f - 0.125f, 0.913f, 0.5000f - (0.08f * 0.90f + 0.08f * 0.60f)));
         rgba.add(autoAdjust(0.750f - 0.080f, 0.353f, 0.5000f - (0.12f * 0.90f + 0.12f * 0.60f)));
 
-        rgba.add(autoAdjust(0f, 0f, 0.6f));
-        rgba.add(autoAdjust(0f, 0f, 1f));
+        rgba.add(ColorTools.toRGBA8888(ColorTools.oklab(0.6f, 0.5f, 0.5f, 1f)));
+        rgba.add(ColorTools.toRGBA8888(ColorTools.oklab(0.8f, 0.5f, 0.5f, 1f)));
+        rgba.add(ColorTools.toRGBA8888(ColorTools.oklab(1f, 0.5f, 0.5f, 1f)));
+
         StringBuilder sb = new StringBuilder(12 * rgba.size + 256).append("{\n");
         for (int i = 0; i < rgba.size; i++) {
             StringKit.appendHex(sb.append("0x"), rgba.get(i)).append(", ");
