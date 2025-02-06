@@ -375,9 +375,9 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
         Gdx.gl.glDepthMask(false);
 
         if (customShader != null) {
-            customShader.begin();
+            customShader.bind();
         } else {
-            shader.begin();
+            shader.bind();
         }
 
         setupMatrices();
@@ -399,12 +399,6 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
 
         if (isBlendingEnabled()) {
             gl.glDisable(GL20.GL_BLEND);
-        }
-
-        if (customShader != null) {
-            customShader.end();
-        } else {
-            shader.end();
         }
     }
 
@@ -1518,21 +1512,15 @@ public class TextureArrayColorfulBatch extends ColorfulBatch {
     public void setShader (ShaderProgram shader) {
         if (drawing) {
             flush();
-
-            if (customShader != null) {
-                customShader.end();
-            } else {
-                this.shader.end();
-            }
         }
 
         customShader = shader;
 
         if (drawing) {
             if (customShader != null) {
-                customShader.begin();
+                customShader.bind();
             } else {
-                this.shader.begin();
+                this.shader.bind();
             }
 
             setupMatrices();

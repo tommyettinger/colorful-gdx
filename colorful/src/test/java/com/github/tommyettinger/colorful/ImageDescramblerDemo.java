@@ -165,7 +165,7 @@ public class ImageDescramblerDemo extends ApplicationAdapter {
                 Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), false, false);
         fb.begin();
         render();
-        Pixmap pm = ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+        Pixmap pm = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
         PixmapIO.writePNG(Gdx.files.local("Descrambled.png"), pm, 7, true);
         fb.end(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
         pm.dispose();

@@ -151,7 +151,7 @@ public class OklabColorfulBatchDemo extends ApplicationAdapter {
 
     public void exactCheck() {
         Pixmap pix =
-                ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+                Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
         fb.begin();
         Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -173,7 +173,7 @@ public class OklabColorfulBatchDemo extends ApplicationAdapter {
             }
         }
         Pixmap other =
-                ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+                Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
         fb.end();
         ByteBuffer pp = pix.getPixels(), op = other.getPixels();
         for (int y = 0; y < 10; y++) {

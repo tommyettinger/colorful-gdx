@@ -94,7 +94,7 @@ public class OklabByHCLWheelDemo extends ApplicationAdapter {
 
                 renderInternal();
                 // this gets a screenshot of the current window and adds it to the Array of Pixmap.
-                pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+                pixmaps.add(Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
             }
 
 

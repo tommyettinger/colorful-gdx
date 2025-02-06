@@ -308,7 +308,7 @@ public class ColorSolidDemo extends ApplicationAdapter {
         recording = true;
         for (int i = 0; i < 256; i++) {
             render();
-            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+            pixmaps.add(Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         }
 //        gif.palette = new PaletteReducer(pixmaps);
         gif.write(Gdx.files.local("ColorSolids.gif"), pixmaps, 30);

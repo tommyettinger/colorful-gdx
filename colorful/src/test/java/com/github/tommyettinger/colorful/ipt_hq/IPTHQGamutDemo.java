@@ -114,7 +114,7 @@ public class IPTHQGamutDemo extends ApplicationAdapter {
             layer = i / (frameCount - 1f);
             renderInternal();
             // this gets a screenshot of the current window and adds it to the Array of Pixmap.
-            pixmaps.add(ScreenUtils.getFrameBufferPixmap(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+            pixmaps.add(Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         }
 
 //// AnimatedGif is from anim8; this code uses the predefined Haltonic palette, which has 255 colors
