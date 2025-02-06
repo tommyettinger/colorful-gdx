@@ -43,7 +43,7 @@ public class HSLWheelDemo extends ApplicationAdapter {
     private SpriteBatch batch;
     private Viewport screenView;
     private BitmapFont font;
-    private Texture blank;
+    private Texture blankRed;
     private long lastProcessedTime = 0L, startTime;
     private float layer = 0.5f;
     private ShaderProgram shader, otherShader;
@@ -64,8 +64,9 @@ public class HSLWheelDemo extends ApplicationAdapter {
     public void create() {
         startTime = TimeUtils.millis();
         Pixmap b = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        b.drawPixel(0, 0, 0x7F7F81FF);
-        blank = new Texture(b);
+        b.drawPixel(0, 0, 0xFF0000FF);
+        blankRed = new Texture(b);
+        b.dispose();
         font = new BitmapFont(Gdx.files.internal("font.fnt"));
         font.setColor(1f, 0.5f, 0.5f, 1f);
         shader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSL);
@@ -96,7 +97,7 @@ public class HSLWheelDemo extends ApplicationAdapter {
         batch.setProjectionMatrix(screenView.getCamera().combined);
         batch.setColor(0f, 0f, 0.5f, 1f);
         batch.begin();
-        batch.draw(blank, 0, 0, 512, 512);
+        batch.draw(blankRed, 0, 0, 512, 512);
         final float
                 maxDist = 254f * TrigTools.sinTurns(layer * 0.5f) + 1f,
                 iMax = 1f / maxDist;
@@ -104,10 +105,11 @@ public class HSLWheelDemo extends ApplicationAdapter {
             final int circ = dist * 16;
             final float ic = 1f / circ;
             for (int t = 0; t < circ; t++) {
-                final float angle = t * ic, x = TrigTools.cosTurns(angle), y = TrigTools.sinTurns(angle);
+                final float angle = t * ic;
+                final float x = TrigTools.cosTurns(angle), y = TrigTools.sinTurns(angle);
                 final float sat = dist * iMax;// * (0.5f - Math.abs(layer - 0.5f)) * 2f;
                 batch.setColor(angle, sat, layer, 1f);
-                batch.draw(blank, 255.5f + x * dist, 255.5f + y * dist, 1f, 1f);
+                batch.draw(blankRed, 255.5f + x * dist, 255.5f + y * dist, 1f, 1f);
             }
         }
         batch.end();
