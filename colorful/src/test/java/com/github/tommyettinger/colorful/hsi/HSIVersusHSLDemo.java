@@ -45,7 +45,7 @@ public class HSIVersusHSLDemo extends ApplicationAdapter {
     public static final int SCREEN_HEIGHT = 256;
     private SpriteBatch batch;
     private Viewport screenView;
-    private Texture blank;
+    private Texture blank, blankRed;
     private long startTime;
     private float layer = 0.5f;
     private ShaderProgram hsiShader, hslShader;
@@ -67,6 +67,9 @@ public class HSIVersusHSLDemo extends ApplicationAdapter {
         Pixmap b = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         b.drawPixel(0, 0, 0x808080FF);
         blank = new Texture(b);
+        b.drawPixel(0, 0, 0xFF0000FF);
+        blankRed = new Texture(b);
+        b.dispose();
         batch = new SpriteBatch();
         String vertexShader = batch.getShader().getVertexShaderSource();
         String fragmentShader =
@@ -171,7 +174,7 @@ public class HSIVersusHSLDemo extends ApplicationAdapter {
                 final float angle = t * ic, x = TrigTools.cosTurns(angle), y = TrigTools.sinTurns(angle);
                 final float sat = dist * iMax;// * (0.5f - Math.abs(layer - 0.5f)) * 2f;
                 batch.setColor(angle, sat, layer, 1f);
-                batch.draw(blank, 127.25f + 256f + x * dist, 127.25f + y * dist, 1f, 1f);
+                batch.draw(blankRed, 127.25f + 256f + x * dist, 127.25f + y * dist, 1f, 1f);
             }
         }
         batch.end();

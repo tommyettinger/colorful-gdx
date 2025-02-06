@@ -864,7 +864,8 @@ void main()
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                     "   vec4 hsl = rgb2hsl(tgt);\n" +
                     "   hsl.x = fract(v_color.x + hsl.x);\n" +
-                    "   hsl.yz = hsl.yz * v_color.yz;\n" +
+                    "   hsl.y = hsl.y * v_color.y;\n" +
+                    "   hsl.z = hsl.z * v_color.z * 2.0;\n" +
                     "   gl_FragColor = hsl2rgb(hsl);\n" +
                     "}";
 
