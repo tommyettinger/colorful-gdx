@@ -31,6 +31,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.tommyettinger.digital.MathTools;
 
 import static com.badlogic.gdx.Gdx.input;
 
@@ -45,7 +46,7 @@ public class HSLWheelDemo extends ApplicationAdapter {
     private BitmapFont font;
     private Texture blankRed;
     private long lastProcessedTime = 0L, startTime;
-    private float layer = 0.5f;
+    private float layer = 0.5f, shape = 1.25f, turning = 0.4f, exponent = 1.6f;
     private ShaderProgram shader, otherShader;
 
     public static void main(String[] arg) {
@@ -108,7 +109,7 @@ public class HSLWheelDemo extends ApplicationAdapter {
                 final float angle = t * ic;
                 final float x = TrigTools.cosTurns(angle), y = TrigTools.sinTurns(angle);
                 final float sat = dist * iMax;// * (0.5f - Math.abs(layer - 0.5f)) * 2f;
-                batch.setColor(angle, sat, layer, 1f);
+                batch.setColor(MathTools.barronSpline((float) Math.pow(angle, exponent), shape, turning), sat, layer, 1f);
                 batch.draw(blankRed, 255.5f + x * dist, 255.5f + y * dist, 1f, 1f);
             }
         }
@@ -125,19 +126,29 @@ public class HSLWheelDemo extends ApplicationAdapter {
     public void handleInput() {
         if (input.isKeyPressed(Input.Keys.Q) || input.isKeyPressed(Input.Keys.ESCAPE)) //quit
             Gdx.app.exit();
-        else if (TimeUtils.timeSinceMillis(lastProcessedTime) > 150) {
+        else if (input.isKeyJustPressed(Input.Keys.P)) //print
+            System.out.println("shape: " + shape + ", turning: " + turning + ", exponent: " + exponent);
+        else {
+            // only process once every 80 ms, or just about 12 times a second, at most
+            if (TimeUtils.timeSinceMillis(lastProcessedTime) < 80)
+                return;
             lastProcessedTime = TimeUtils.millis();
-            if (input.isKeyPressed(Input.Keys.RIGHT) || input.isKeyPressed(Input.Keys.UP)) {
-                layer = MathUtils.clamp(layer + 0x1p-7f, 0f, 1f);
-            } else if (input.isKeyPressed(Input.Keys.LEFT) || input.isKeyPressed(Input.Keys.DOWN)) {
-                layer = MathUtils.clamp(layer - 0x1p-7f, 0f, 1f);
-            } else if (input.isKeyPressed(Input.Keys.R)) // random
-            {
+            if (input.isKeyPressed(Input.Keys.RIGHT)) //saturation increase
+                turning = MathUtils.clamp(turning + 0.025f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.LEFT)) //saturation decrease
+                turning = MathUtils.clamp(turning - 0.025f, 0f, 1f);
+            else if (input.isKeyPressed(Input.Keys.UP)) //lighten
+                shape = MathUtils.clamp(shape + 0.025f, 0f, 10f);
+            else if (input.isKeyPressed(Input.Keys.DOWN)) //darken
+                shape = MathUtils.clamp(shape - 0.025f, 0f, 10f);
+            else if (input.isKeyPressed(Input.Keys.RIGHT_BRACKET)) //lighten
+                exponent = MathUtils.clamp(exponent + 0.025f, 0.025f, 10f);
+            else if (input.isKeyPressed(Input.Keys.LEFT_BRACKET)) //darken
+                exponent = MathUtils.clamp(exponent - 0.025f, 0.025f, 10f);
+            else if (input.isKeyPressed(Input.Keys.R)) // random
                 layer = MathUtils.random();
-            } else if (input.isKeyPressed(Input.Keys.S)) // shader
-            {
-                batch.setShader(batch.getShader() == shader ? otherShader : shader); 
-            }
+            else if (input.isKeyPressed(Input.Keys.S)) // shader
+                batch.setShader(batch.getShader() == shader ? otherShader : shader);
         }
     }
 }
