@@ -95,7 +95,35 @@ public class FloatColors {
         float g = h + (2f/3f); g -= (int)g; g = l - c * Math.max(Math.min(Math.min(g - 0.25f, 0.75f - g), 1f/12f), -1f/12f);
         float b = h + (1f/3f); b -= (int)b; b = l - c * Math.max(Math.min(Math.min(b - 0.25f, 0.75f - b), 1f/12f), -1f/12f);
         return (int)(r) << 24 | (int)(g) << 16 | (int)(b) << 8 | (int)(a * 255.999f);
+    }
 
+    /**
+     * Converts the four RGBA components, each in the 0.0 to 1.0 range, to an int in "HSLA format" (hue, saturation,
+     * lightness, alpha), which isn't one of the regular formats this supports but can be useful for conversions.
+     * <br>
+     * <a href="https://stackoverflow.com/a/64090995">From this StackOverflow answer by Kamil Kiełczewski</a>
+     * @param r red, from 0.0 to 1.0
+     * @param g green, from 0.0 to 1.0
+     * @param b blue, from 0.0 to 1.0
+     * @param a alpha, from 0.0 to 1.0
+     * @return an "HSLA-format" int
+     */
+    public static int rgb2hslInt(float r, float g, float b, float a) {
+/*
+  let max=Math.max(r,g,b), min=Math.min(r,g,b), delta=max-min, f=(1-Math.abs(max+min-1));
+  let h= delta && ((max==r) ? (g-b)/delta : ((max==g) ? 2+(b-r)/delta : 4+(r-g)/delta));
+  return [60*(h<0?h+6:h), f ? delta/f : 0, (max+min)/2];
+ */
+        float max = Math.max(Math.max(r, g), b), min = Math.min(Math.min(r, g), b);
+        float delta = max - min;
+        if(MathUtils.isZero(delta))
+            return (int)(max * 255.999f) << 8 | (int)(a * 255.999f);
+        float iDelta = 0.16666667f / delta;
+        float hue = 6f + ((max == r) ? (g - b) * iDelta : (max == g) ? (1f/3f) + (b - r) * iDelta : (2f/3f) + (r - g) * iDelta);
+        return (int)((hue - (int)(hue)) * 255.999f) << 24
+                | (int)(delta / (1f - Math.abs(max + min - 1f)) * 255.999f) << 16
+                | (int)((max + min) * 127.999f) << 8
+                | (int)(a * 255.999f);
     }
     /**
      * Converts the four HSLA components, each in the 0.0 to 1.0 range, to RGBA and assigns them into changing.

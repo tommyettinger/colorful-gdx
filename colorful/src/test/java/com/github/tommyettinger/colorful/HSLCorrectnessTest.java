@@ -21,6 +21,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.github.tommyettinger.colorful.rgb.ColorTools;
+import com.github.tommyettinger.digital.MathTools;
 import org.junit.Test;
 
 public class HSLCorrectnessTest {
@@ -129,9 +130,9 @@ public class HSLCorrectnessTest {
      */
     @Test
     public void testRgb2hslRogue() {
-        float hAbs = 0f, hRel = 0f, hMax = 0f;
-        float sAbs = 0f, sRel = 0f, sMax = 0f;
-        float lAbs = 0f, lRel = 0f, lMax = 0f;
+        float hAbs = 0f, hMax = 0f;
+        float sAbs = 0f, sMax = 0f;
+        float lAbs = 0f, lMax = 0f;
         for (int c : colors) {
             float[] target = map.get(c);
             float abgr = ColorTools.fromRGBA8888(c);
@@ -140,16 +141,20 @@ public class HSLCorrectnessTest {
             float sat = ColorTools.green(hsla);
             float lit = ColorTools.blue(hsla);
             float err;
-            err = hue - target[0]; hMax = Math.max(Math.abs(err), hMax); hRel += err; hAbs += Math.abs(err);
+            err = hue - target[0]; hMax = Math.max(Math.abs(err), hMax); hAbs += Math.abs(err);
             System.out.printf("0x%08X: %7.3f %4.3f %4.3f with hue error %5.4f\n", c, hue, sat, lit, err);
-            err = sat - target[1]; sMax = Math.max(Math.abs(err), sMax); sRel += err; sAbs += Math.abs(err);
-            err = lit - target[2]; lMax = Math.max(Math.abs(err), lMax); lRel += err; lAbs += Math.abs(err);
+            err = sat - target[1]; sMax = Math.max(Math.abs(err), sMax); sAbs += Math.abs(err);
+            err = lit - target[2]; lMax = Math.max(Math.abs(err), lMax); lAbs += Math.abs(err);
         }
 
+        double hRel = Math.sqrt(hAbs * hAbs / colors.length);
+        double sRel = Math.sqrt(sAbs * sAbs / colors.length);
+        double lRel = Math.sqrt(lAbs * lAbs / colors.length);
+
         System.out.println("rgb2hslRogue :");
-        System.out.printf("Hue: Relative error %8.6f, absolute error %8.6f, max error %8.6f\n", hRel, hAbs, hMax);
-        System.out.printf("Sat: Relative error %8.6f, absolute error %8.6f, max error %8.6f\n", sRel, sAbs, sMax);
-        System.out.printf("Lit: Relative error %8.6f, absolute error %8.6f, max error %8.6f\n", lRel, lAbs, lMax);
+        System.out.printf("Hue: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", hRel, hAbs, hMax);
+        System.out.printf("Sat: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", sRel, sAbs, sMax);
+        System.out.printf("Lit: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", lRel, lAbs, lMax);
     }
 
     /**
@@ -157,9 +162,9 @@ public class HSLCorrectnessTest {
      */
     @Test
     public void testRgb2hsl() {
-        float hAbs = 0f, hRel = 0f, hMax = 0f;
-        float sAbs = 0f, sRel = 0f, sMax = 0f;
-        float lAbs = 0f, lRel = 0f, lMax = 0f;
+        float hAbs = 0f, hMax = 0f;
+        float sAbs = 0f, sMax = 0f;
+        float lAbs = 0f, lMax = 0f;
         for (int c : colors) {
             float[] target = map.get(c);
             float abgr = ColorTools.fromRGBA8888(c);
@@ -168,16 +173,54 @@ public class HSLCorrectnessTest {
             float sat = ColorTools.green(hsla);
             float lit = ColorTools.blue(hsla);
             float err;
-            err = hue - target[0]; hMax = Math.max(Math.abs(err), hMax); hRel += err; hAbs += Math.abs(err);
+            err = hue - target[0]; hMax = Math.max(Math.abs(err), hMax); hAbs += Math.abs(err);
             System.out.printf("0x%08X: %7.3f %4.3f %4.3f with hue error %5.4f\n", c, hue, sat, lit, err);
-            err = sat - target[1]; sMax = Math.max(Math.abs(err), sMax); sRel += err; sAbs += Math.abs(err);
-            err = lit - target[2]; lMax = Math.max(Math.abs(err), lMax); lRel += err; lAbs += Math.abs(err);
+            err = sat - target[1]; sMax = Math.max(Math.abs(err), sMax); sAbs += Math.abs(err);
+            err = lit - target[2]; lMax = Math.max(Math.abs(err), lMax); lAbs += Math.abs(err);
         }
 
+        double hRel = Math.sqrt(hAbs * hAbs / colors.length);
+        double sRel = Math.sqrt(sAbs * sAbs / colors.length);
+        double lRel = Math.sqrt(lAbs * lAbs / colors.length);
+
         System.out.println("rgb2hsl :");
-        System.out.printf("Hue: Relative error %8.6f, absolute error %8.6f, max error %8.6f\n", hRel, hAbs, hMax);
-        System.out.printf("Sat: Relative error %8.6f, absolute error %8.6f, max error %8.6f\n", sRel, sAbs, sMax);
-        System.out.printf("Lit: Relative error %8.6f, absolute error %8.6f, max error %8.6f\n", lRel, lAbs, lMax);
+        System.out.printf("Hue: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", hRel, hAbs, hMax);
+        System.out.printf("Sat: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", sRel, sAbs, sMax);
+        System.out.printf("Lit: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", lRel, lAbs, lMax);
+    }
+
+    /**
+     * Cross-reference with <a href="https://en.wikipedia.org/wiki/HSL_and_HSV#Examples">Wikipedia - HSL and HSV</a>.
+     */
+    @Test
+    public void testRgb2hslInt() {
+        float hAbs = 0f, hMax = 0f;
+        float sAbs = 0f, sMax = 0f;
+        float lAbs = 0f, lMax = 0f;
+        for (int c : colors) {
+            float tr = (c>>>24&255) / 255f;
+            float tg = (c>>>16&255) / 255f;
+            float tb = (c>>> 8&255) / 255f;
+            float[] target = map.get(c);
+            int hsla = FloatColors.rgb2hslInt(tr, tg, tb, 1f);
+            float hue = MathTools.fract((hsla>>>24&255) / 255f) * 360f;
+            float sat = (hsla>>>16&255) / 255f;
+            float lit = (hsla>>> 8&255) / 255f;
+            float err;
+            System.out.printf("0x%08X: %4.3f %4.3f %4.3f, should be %4.3f %4.3f %4.3f\n", c, hue, sat, lit, target[0], target[1], target[2]);
+            err = hue - target[0]; hMax = Math.max(Math.abs(err), hMax); hAbs += Math.abs(err);
+            err = sat - target[1]; sMax = Math.max(Math.abs(err), sMax); sAbs += Math.abs(err);
+            err = lit - target[2]; lMax = Math.max(Math.abs(err), lMax); lAbs += Math.abs(err);
+        }
+
+        double hRel = Math.sqrt(hAbs * hAbs / colors.length);
+        double sRel = Math.sqrt(sAbs * sAbs / colors.length);
+        double lRel = Math.sqrt(lAbs * lAbs / colors.length);
+
+        System.out.println("rgb2hslInt :");
+        System.out.printf("Hue: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", hRel, hAbs, hMax);
+        System.out.printf("Sat: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", sRel, sAbs, sMax);
+        System.out.printf("Lit: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", lRel, lAbs, lMax);
     }
 
     /**
@@ -188,9 +231,6 @@ public class HSLCorrectnessTest {
         float rAbs = 0f, rMax = 0f;
         float gAbs = 0f, gMax = 0f;
         float bAbs = 0f, bMax = 0f;
-        double rRel = 0.0;
-        double gRel = 0.0;
-        double bRel = 0.0;
 
         for (int c : colors) {
             float tr = (c>>>24&255) / 255f;
@@ -208,9 +248,9 @@ public class HSLCorrectnessTest {
             err = b - tb; bMax = Math.max(Math.abs(err), bMax); bAbs += Math.abs(err);
         }
 
-        rRel = Math.sqrt(rAbs * rAbs / colors.length);
-        gRel = Math.sqrt(gAbs * gAbs / colors.length);
-        bRel = Math.sqrt(bAbs * bAbs / colors.length);
+        double rRel = Math.sqrt(rAbs * rAbs / colors.length);
+        double gRel = Math.sqrt(gAbs * gAbs / colors.length);
+        double bRel = Math.sqrt(bAbs * bAbs / colors.length);
 
         System.out.println("hsl2rgb :");
         System.out.printf("r: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", rRel, rAbs, rMax);
