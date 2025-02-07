@@ -64,6 +64,39 @@ public class FloatColors {
                         | (int)(v * MathUtils.lerp(1f, x, d))
         );
     }
+
+    /**
+     * Converts a packed float in HSLA format (hue, saturation, lightness, alpha) to a packed float in RGBA format.
+     * @param hsla an HSLA-format packed float
+     * @return an RGBA-format packed float
+     */
+    public static int hsl2rgbInt(final int hsla) {
+        return hsl2rgbInt((hsla >>> 24 & 0xFF) * (1f / 255f), (hsla >>> 16 & 0xFF) * (1f / 255f), (hsla >>> 16 & 0xFF) * (1f / 255f), (hsla >>> 1 & 0x7F) * (1f / 127f));
+    }
+
+    /**
+     * Converts the four HSLA components, each in the 0.0 to 1.0 range, to an int in RGBA8888 format.
+     * <a href="https://stackoverflow.com/a/64090995">From this StackOverflow answer by Kamil Kiełczewski</a>
+     * @param h hue, from 0.0 to 1.0
+     * @param s saturation, from 0.0 to 1.0
+     * @param l lightness, from 0.0 to 1.0
+     * @param a alpha, from 0.0 to 1.0
+     * @return an RGBA8888-format int
+     */
+    public static int hsl2rgbInt(float h, float s, float l, float a) {
+/*
+   let a=s*Math.min(l,1-l);
+   let f= (n,k=(n+h/30)%12) => l - a*Math.max(Math.min(k-3,9-k,1),-1);
+   return [f(0),f(8),f(4)];}
+ */
+        float c = s * Math.min(l, 1f-l) * 3071.999f; // 12 * 256, minus epsilon
+        l *= 255.999f;
+        float r = h;                        r = l - c * Math.max(Math.min(Math.min(r - 0.25f, 0.75f - r), 1f/12f), -1f/12f);
+        float g = h + (2f/3f); g -= (int)g; g = l - c * Math.max(Math.min(Math.min(g - 0.25f, 0.75f - g), 1f/12f), -1f/12f);
+        float b = h + (1f/3f); b -= (int)b; b = l - c * Math.max(Math.min(Math.min(b - 0.25f, 0.75f - b), 1f/12f), -1f/12f);
+        return (int)(r) << 24 | (int)(g) << 16 | (int)(b) << 8 | (int)(a * 255.999f);
+
+    }
     /**
      * Converts the four HSLA components, each in the 0.0 to 1.0 range, to RGBA and assigns them into changing.
      * @param changing a non-null Color that will be modified

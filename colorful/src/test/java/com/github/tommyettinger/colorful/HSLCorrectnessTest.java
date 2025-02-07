@@ -217,4 +217,42 @@ public class HSLCorrectnessTest {
         System.out.printf("g: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", gRel, gAbs, gMax);
         System.out.printf("b: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", bRel, bAbs, bMax);
     }
+
+    /**
+     * Cross-reference with <a href="https://en.wikipedia.org/wiki/HSL_and_HSV#Examples">Wikipedia - HSL and HSV</a>.
+     */
+    @Test
+    public void testHsl2rgbInt() {
+        float rAbs = 0f, rMax = 0f;
+        float gAbs = 0f, gMax = 0f;
+        float bAbs = 0f, bMax = 0f;
+        double rRel = 0.0;
+        double gRel = 0.0;
+        double bRel = 0.0;
+
+        for (int c : colors) {
+            float tr = (c>>>24&255) / 255f;
+            float tg = (c>>>16&255) / 255f;
+            float tb = (c>>> 8&255) / 255f;
+            float[] target = map.get(c);
+            int rgba = FloatColors.hsl2rgbInt(target[0] / 360f, target[1], target[2], 1f);
+            float r = (rgba>>>24&255) / 255f;
+            float g = (rgba>>>16&255) / 255f;
+            float b = (rgba>>> 8&255) / 255f;
+            float err;
+            System.out.printf("0x%08X: %4.3f %4.3f %4.3f, should be %4.3f %4.3f %4.3f\n", c, r, g, b, tr, tg, tb);
+            err = r - tr; rMax = Math.max(Math.abs(err), rMax); rAbs += Math.abs(err);
+            err = g - tg; gMax = Math.max(Math.abs(err), gMax); gAbs += Math.abs(err);
+            err = b - tb; bMax = Math.max(Math.abs(err), bMax); bAbs += Math.abs(err);
+        }
+
+        rRel = Math.sqrt(rAbs * rAbs / colors.length);
+        gRel = Math.sqrt(gAbs * gAbs / colors.length);
+        bRel = Math.sqrt(bAbs * bAbs / colors.length);
+
+        System.out.println("hsl2rgbInt :");
+        System.out.printf("r: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", rRel, rAbs, rMax);
+        System.out.printf("g: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", gRel, gAbs, gMax);
+        System.out.printf("b: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", bRel, bAbs, bMax);
+    }
 }
