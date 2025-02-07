@@ -46,7 +46,7 @@ public class HSLWheelDemo extends ApplicationAdapter {
     private BitmapFont font;
     private Texture blankRed;
     private long lastProcessedTime = 0L, startTime;
-    private float layer = 0.5f, shape = 1.25f, turning = 0.4f, exponent = 1.6f;
+    private float layer = 0.5f, shape = 1f, turning = 0.5f, exponent = 1.7f;
     private ShaderProgram shader, otherShader;
 
     public static void main(String[] arg) {

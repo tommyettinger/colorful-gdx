@@ -24,6 +24,17 @@ import com.github.tommyettinger.digital.MathTools;
 
 // example output
 /*
+{
+0x00000000, 0x000000FF, 0x333333FF, 0x110909FF, 0x693B4FFF, 0xB60BB5FF, 0x50052DFF, 0x7B0500FF,
+0xD10100FF, 0x933020FF, 0x2B1309FF, 0x110E09FF, 0x694E3BFF, 0xB6330BFF, 0x502105FF, 0x7B6100FF,
+0xD18500FF, 0x8C9320FF, 0x1E2B09FF, 0x091109FF, 0x4E693BFF, 0x8AB60BFF, 0x285005FF, 0x007B18FF,
+0x08D100FF, 0x209364FF, 0x092A2BFF, 0x090A11FF, 0x053D50FF, 0x11007BFF, 0x2B0924FF, 0x6A2093FF,
+0x0023D1FF, 0x0BB6A1FF, 0x3B5A69FF, 0x666666FF, 0x999999FF, 0xBD95C3FF, 0xEFEDF5FF, 0xB8AEF9FF,
+0xA848F3FF, 0xFF2D53FF, 0xFF83C6FF, 0xF5D3D6FF, 0xDE706BFF, 0xC39E95FF, 0xF5EEEDFF, 0xF9B1AEFF,
+0xF35D48FF, 0xFF962DFF, 0xFFB283FF, 0xF5E5D3FF, 0xDEC46BFF, 0xBBC395FF, 0xF5F3EDFF, 0xF9E9AEFF,
+0xF1F348FF, 0x65FF2DFF, 0xBEFF83FF, 0xDAF5D3FF, 0x6BDE7FFF, 0x95C3B8FF, 0x48F3A2FF, 0x2D8FFFFF,
+0x776BDEFF, 0xD3E1F5FF, 0x83E1FFFF, 0xAEF9BDFF, 0xEDF5EFFF, 0xCCCCCCFF, 0xFFFFFFFF,
+}
  */
 
 /**
@@ -36,7 +47,8 @@ public class StaccaPaletteGenerator {
 
     public static int autoAdjust(float hue, float sat, float lit) {
         return ColorTools.toRGBA8888(FloatColors.hsl2rgb(
-                MathTools.barronSpline((float) Math.pow(MathTools.fract(hue + (0.5f - lit) * 0.3f), 1.6f), 1.25f, 0.4f),
+                (float) Math.pow(MathTools.fract(hue + (0.5f - lit) * 0.3f), 1.7f),
+//                MathTools.barronSpline((float) Math.pow(MathTools.fract(hue + (0.5f - lit) * 0.3f), 1.6f), 1.25f, 0.4f),
 //                (float) ((Math.sqrt(MathTools.fract(hue + (0.5f - lit) * 0.3f) + 0.050625) - 0.225) * 1.25),
 //                hue + 0.008f,
                 sat,
