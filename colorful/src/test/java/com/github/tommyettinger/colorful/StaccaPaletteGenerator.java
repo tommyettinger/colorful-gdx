@@ -27,9 +27,8 @@ import com.github.tommyettinger.digital.MathTools;
  */
 
 /**
- * The shape of this linear palette looks <a href="https://imgur.com/DsPrUDR">like this</a>, but with the thick central
- * section stretched to double height. It uses 8 tiny 3D Hilbert
- * curves, each 2x2x2, arranged around a central column that extends further up and down.
+ * The shape of this linear palette looks <a href="https://i.imgur.com/dkhGFi0.png">like this</a>.
+ * It uses 8 tiny 3D Hilbert curves, each 2x2x2, arranged around a central column that extends further up and down.
  */
 public class StaccaPaletteGenerator {
     private static final int limit = 71;
@@ -53,82 +52,79 @@ jshell> //lightness 0,1: 0.12f, 1,1: 0.10f, 0,2: 0.08f, 1,2: 0.06f
 
         rgba.add(ColorTools.toRGBA8888(FloatColors.hsl2rgb(0f, 0f, 0.0f, 1f)));
         rgba.add(ColorTools.toRGBA8888(FloatColors.hsl2rgb(0f, 0f, 0.2f, 1f)));
+
+        rgba.add(autoAdjust(0.000f - 0.080f, 00.28f, 0.5000f - (0.12f * 2.00f + 0.12f)));
+        rgba.add(autoAdjust(0.000f - 0.080f, 00.28f, 0.5000f - (0.12f * 2.00f - 0.12f)));
+        rgba.add(autoAdjust(0.000f - 0.125f, 00.88f, 0.5000f - (0.08f * 2.00f - 0.08f)));
+        rgba.add(autoAdjust(0.000f - 0.125f, 00.88f, 0.5000f - (0.08f * 2.00f + 0.08f)));
+        rgba.add(autoAdjust(0.000f + 0.000f, 01.00f, 0.5000f - (0.06f * 2.00f + 0.06f)));
+        rgba.add(autoAdjust(0.000f + 0.000f, 01.00f, 0.5000f - (0.06f * 2.00f - 0.06f)));
+        rgba.add(autoAdjust(0.000f + 0.080f, 00.64f, 0.5000f - (0.10f * 2.00f - 0.10f)));
+        rgba.add(autoAdjust(0.000f + 0.080f, 00.64f, 0.5000f - (0.10f * 2.00f + 0.10f)));
+
+        rgba.add(autoAdjust(0.250f - 0.080f, 00.28f, 0.5000f - (0.12f * 2.00f + 0.12f)));
+        rgba.add(autoAdjust(0.250f - 0.080f, 00.28f, 0.5000f - (0.12f * 2.00f - 0.12f)));
+        rgba.add(autoAdjust(0.250f - 0.125f, 00.88f, 0.5000f - (0.08f * 2.00f - 0.08f)));
+        rgba.add(autoAdjust(0.250f - 0.125f, 00.88f, 0.5000f - (0.08f * 2.00f + 0.08f)));
+        rgba.add(autoAdjust(0.250f + 0.000f, 01.00f, 0.5000f - (0.06f * 2.00f + 0.06f)));
+        rgba.add(autoAdjust(0.250f + 0.000f, 01.00f, 0.5000f - (0.06f * 2.00f - 0.06f)));
+        rgba.add(autoAdjust(0.250f + 0.080f, 00.64f, 0.5000f - (0.10f * 2.00f - 0.10f)));
+        rgba.add(autoAdjust(0.250f + 0.080f, 00.64f, 0.5000f - (0.10f * 2.00f + 0.10f)));
+
+        rgba.add(autoAdjust(0.500f - 0.080f, 00.28f, 0.5000f - (0.12f * 2.00f + 0.12f)));
+        rgba.add(autoAdjust(0.500f - 0.080f, 00.28f, 0.5000f - (0.12f * 2.00f - 0.12f)));
+        rgba.add(autoAdjust(0.500f - 0.125f, 00.88f, 0.5000f - (0.08f * 2.00f - 0.08f)));
+        rgba.add(autoAdjust(0.500f - 0.125f, 00.88f, 0.5000f - (0.08f * 2.00f + 0.08f)));
+        rgba.add(autoAdjust(0.500f + 0.000f, 01.00f, 0.5000f - (0.06f * 2.00f + 0.06f)));
+        rgba.add(autoAdjust(0.500f + 0.000f, 01.00f, 0.5000f - (0.06f * 2.00f - 0.06f)));
+        rgba.add(autoAdjust(0.500f + 0.080f, 00.64f, 0.5000f - (0.10f * 2.00f - 0.10f)));
+        rgba.add(autoAdjust(0.500f + 0.080f, 00.64f, 0.5000f - (0.10f * 2.00f + 0.10f)));
+
+        rgba.add(autoAdjust(0.750f - 0.080f, 00.28f, 0.5000f - (0.12f * 2.00f + 0.12f)));
+        rgba.add(autoAdjust(0.750f - 0.125f, 00.88f, 0.5000f - (0.08f * 2.00f + 0.08f)));
+        rgba.add(autoAdjust(0.750f + 0.000f, 01.00f, 0.5000f - (0.06f * 2.00f + 0.06f)));
+        rgba.add(autoAdjust(0.750f + 0.080f, 00.64f, 0.5000f - (0.10f * 2.00f + 0.10f)));
+        rgba.add(autoAdjust(0.750f + 0.080f, 00.64f, 0.5000f - (0.10f * 2.00f - 0.10f)));
+        rgba.add(autoAdjust(0.750f + 0.000f, 01.00f, 0.5000f - (0.06f * 2.00f - 0.06f)));
+        rgba.add(autoAdjust(0.750f - 0.125f, 00.88f, 0.5000f - (0.08f * 2.00f - 0.08f)));
+        rgba.add(autoAdjust(0.750f - 0.080f, 00.28f, 0.5000f - (0.12f * 2.00f - 0.12f)));
+
         rgba.add(ColorTools.toRGBA8888(FloatColors.hsl2rgb(0f, 0f, 0.4f, 1f)));
-
-        rgba.add(autoAdjust(0.000f - 0.080f, 0.353f, 0.5000f + (0.12f * 0.90f - 0.12f * 0.60f)));
-        rgba.add(autoAdjust(0.000f - 0.080f, 0.353f, 0.5000f + (0.12f * 0.90f + 0.12f * 0.60f)));
-        rgba.add(autoAdjust(0.000f - 0.125f, 0.913f, 0.5000f + (0.08f * 0.90f + 0.08f * 0.60f)));
-        rgba.add(autoAdjust(0.000f - 0.125f, 0.913f, 0.5000f + (0.08f * 0.90f - 0.08f * 0.60f)));
-        rgba.add(autoAdjust(0.000f + 0.000f, 1.000f, 0.5000f + (0.06f * 0.90f - 0.06f * 0.60f)));
-        rgba.add(autoAdjust(0.000f + 0.000f, 1.000f, 0.5000f + (0.06f * 0.90f + 0.06f * 0.60f)));
-        rgba.add(autoAdjust(0.000f + 0.080f, 0.523f, 0.5000f + (0.10f * 0.90f + 0.10f * 0.60f)));
-        rgba.add(autoAdjust(0.000f + 0.080f, 0.523f, 0.5000f + (0.10f * 0.90f - 0.10f * 0.60f)));
-
-        rgba.add(autoAdjust(0.250f - 0.080f, 0.353f, 0.5000f + (0.12f * 0.90f - 0.12f * 0.60f)));
-        rgba.add(autoAdjust(0.250f - 0.080f, 0.353f, 0.5000f + (0.12f * 0.90f + 0.12f * 0.60f)));
-        rgba.add(autoAdjust(0.250f - 0.125f, 0.913f, 0.5000f + (0.08f * 0.90f + 0.08f * 0.60f)));
-        rgba.add(autoAdjust(0.250f - 0.125f, 0.913f, 0.5000f + (0.08f * 0.90f - 0.08f * 0.60f)));
-        rgba.add(autoAdjust(0.250f + 0.000f, 1.000f, 0.5000f + (0.06f * 0.90f - 0.06f * 0.60f)));
-        rgba.add(autoAdjust(0.250f + 0.000f, 1.000f, 0.5000f + (0.06f * 0.90f + 0.06f * 0.60f)));
-        rgba.add(autoAdjust(0.250f + 0.080f, 0.523f, 0.5000f + (0.10f * 0.90f + 0.10f * 0.60f)));
-        rgba.add(autoAdjust(0.250f + 0.080f, 0.523f, 0.5000f + (0.10f * 0.90f - 0.10f * 0.60f)));
-
-        rgba.add(autoAdjust(0.500f - 0.080f, 0.353f, 0.5000f + (0.12f * 0.90f - 0.12f * 0.60f)));
-        rgba.add(autoAdjust(0.500f - 0.080f, 0.353f, 0.5000f + (0.12f * 0.90f + 0.12f * 0.60f)));
-        rgba.add(autoAdjust(0.500f - 0.125f, 0.913f, 0.5000f + (0.08f * 0.90f + 0.08f * 0.60f)));
-        rgba.add(autoAdjust(0.500f - 0.125f, 0.913f, 0.5000f + (0.08f * 0.90f - 0.08f * 0.60f)));
-        rgba.add(autoAdjust(0.500f + 0.000f, 1.000f, 0.5000f + (0.06f * 0.90f - 0.06f * 0.60f)));
-        rgba.add(autoAdjust(0.500f + 0.000f, 1.000f, 0.5000f + (0.06f * 0.90f + 0.06f * 0.60f)));
-        rgba.add(autoAdjust(0.500f + 0.080f, 0.523f, 0.5000f + (0.10f * 0.90f + 0.10f * 0.60f)));
-        rgba.add(autoAdjust(0.500f + 0.080f, 0.523f, 0.5000f + (0.10f * 0.90f - 0.10f * 0.60f)));
-
-        rgba.add(autoAdjust(0.750f - 0.080f, 0.353f, 0.5000f + (0.12f * 0.90f - 0.12f * 0.60f)));
-        rgba.add(autoAdjust(0.750f - 0.125f, 0.913f, 0.5000f + (0.08f * 0.90f - 0.08f * 0.60f)));
-        rgba.add(autoAdjust(0.750f + 0.000f, 1.000f, 0.5000f + (0.06f * 0.90f - 0.06f * 0.60f)));
-        rgba.add(autoAdjust(0.750f + 0.080f, 0.523f, 0.5000f + (0.10f * 0.90f - 0.10f * 0.60f)));
-        rgba.add(autoAdjust(0.750f + 0.080f, 0.523f, 0.5000f + (0.10f * 0.90f + 0.10f * 0.60f)));
-        rgba.add(autoAdjust(0.750f + 0.000f, 1.000f, 0.5000f + (0.06f * 0.90f + 0.06f * 0.60f)));
-        rgba.add(autoAdjust(0.750f - 0.125f, 0.913f, 0.5000f + (0.08f * 0.90f + 0.08f * 0.60f)));
-        rgba.add(autoAdjust(0.750f - 0.080f, 0.353f, 0.5000f + (0.12f * 0.90f + 0.12f * 0.60f)));
-
-
-        rgba.add(autoAdjust(0.000f - 0.080f, 0.353f, 0.5000f - (0.12f * 0.90f - 0.12f * 0.60f)));
-        rgba.add(autoAdjust(0.000f - 0.080f, 0.353f, 0.5000f - (0.12f * 0.90f + 0.12f * 0.60f)));
-        rgba.add(autoAdjust(0.000f - 0.125f, 0.913f, 0.5000f - (0.08f * 0.90f + 0.08f * 0.60f)));
-        rgba.add(autoAdjust(0.000f - 0.125f, 0.913f, 0.5000f - (0.08f * 0.90f - 0.08f * 0.60f)));
-        rgba.add(autoAdjust(0.000f + 0.000f, 1.000f, 0.5000f - (0.06f * 0.90f - 0.06f * 0.60f)));
-        rgba.add(autoAdjust(0.000f + 0.000f, 1.000f, 0.5000f - (0.06f * 0.90f + 0.06f * 0.60f)));
-        rgba.add(autoAdjust(0.000f + 0.080f, 0.523f, 0.5000f - (0.10f * 0.90f + 0.10f * 0.60f)));
-        rgba.add(autoAdjust(0.000f + 0.080f, 0.523f, 0.5000f - (0.10f * 0.90f - 0.10f * 0.60f)));
-
-        rgba.add(autoAdjust(0.250f - 0.080f, 0.353f, 0.5000f - (0.12f * 0.90f - 0.12f * 0.60f)));
-        rgba.add(autoAdjust(0.250f - 0.080f, 0.353f, 0.5000f - (0.12f * 0.90f + 0.12f * 0.60f)));
-        rgba.add(autoAdjust(0.250f - 0.125f, 0.913f, 0.5000f - (0.08f * 0.90f + 0.08f * 0.60f)));
-        rgba.add(autoAdjust(0.250f - 0.125f, 0.913f, 0.5000f - (0.08f * 0.90f - 0.08f * 0.60f)));
-        rgba.add(autoAdjust(0.250f + 0.000f, 1.000f, 0.5000f - (0.06f * 0.90f - 0.06f * 0.60f)));
-        rgba.add(autoAdjust(0.250f + 0.000f, 1.000f, 0.5000f - (0.06f * 0.90f + 0.06f * 0.60f)));
-        rgba.add(autoAdjust(0.250f + 0.080f, 0.523f, 0.5000f - (0.10f * 0.90f + 0.10f * 0.60f)));
-        rgba.add(autoAdjust(0.250f + 0.080f, 0.523f, 0.5000f - (0.10f * 0.90f - 0.10f * 0.60f)));
-
-        rgba.add(autoAdjust(0.500f - 0.080f, 0.353f, 0.5000f - (0.12f * 0.90f - 0.12f * 0.60f)));
-        rgba.add(autoAdjust(0.500f - 0.080f, 0.353f, 0.5000f - (0.12f * 0.90f + 0.12f * 0.60f)));
-        rgba.add(autoAdjust(0.500f - 0.125f, 0.913f, 0.5000f - (0.08f * 0.90f + 0.08f * 0.60f)));
-        rgba.add(autoAdjust(0.500f - 0.125f, 0.913f, 0.5000f - (0.08f * 0.90f - 0.08f * 0.60f)));
-        rgba.add(autoAdjust(0.500f + 0.000f, 1.000f, 0.5000f - (0.06f * 0.90f - 0.06f * 0.60f)));
-        rgba.add(autoAdjust(0.500f + 0.000f, 1.000f, 0.5000f - (0.06f * 0.90f + 0.06f * 0.60f)));
-        rgba.add(autoAdjust(0.500f + 0.080f, 0.523f, 0.5000f - (0.10f * 0.90f + 0.10f * 0.60f)));
-        rgba.add(autoAdjust(0.500f + 0.080f, 0.523f, 0.5000f - (0.10f * 0.90f - 0.10f * 0.60f)));
-
-        rgba.add(autoAdjust(0.750f - 0.080f, 0.353f, 0.5000f - (0.12f * 0.90f - 0.12f * 0.60f)));
-        rgba.add(autoAdjust(0.750f - 0.125f, 0.913f, 0.5000f - (0.08f * 0.90f - 0.08f * 0.60f)));
-        rgba.add(autoAdjust(0.750f + 0.000f, 1.000f, 0.5000f - (0.06f * 0.90f - 0.06f * 0.60f)));
-        rgba.add(autoAdjust(0.750f + 0.080f, 0.523f, 0.5000f - (0.10f * 0.90f - 0.10f * 0.60f)));
-        rgba.add(autoAdjust(0.750f + 0.080f, 0.523f, 0.5000f - (0.10f * 0.90f + 0.10f * 0.60f)));
-        rgba.add(autoAdjust(0.750f + 0.000f, 1.000f, 0.5000f - (0.06f * 0.90f + 0.06f * 0.60f)));
-        rgba.add(autoAdjust(0.750f - 0.125f, 0.913f, 0.5000f - (0.08f * 0.90f + 0.08f * 0.60f)));
-        rgba.add(autoAdjust(0.750f - 0.080f, 0.353f, 0.5000f - (0.12f * 0.90f + 0.12f * 0.60f)));
-
         rgba.add(ColorTools.toRGBA8888(FloatColors.hsl2rgb(0f, 0f, 0.6f, 1f)));
+
+        rgba.add(autoAdjust(0.000f - 0.080f, 00.28f, 0.5000f + (0.12f * 2.00f - 0.12f)));
+        rgba.add(autoAdjust(0.000f - 0.080f, 00.28f, 0.5000f + (0.12f * 2.00f + 0.12f)));
+        rgba.add(autoAdjust(0.000f - 0.125f, 00.88f, 0.5000f + (0.08f * 2.00f + 0.08f)));
+        rgba.add(autoAdjust(0.000f - 0.125f, 00.88f, 0.5000f + (0.08f * 2.00f - 0.08f)));
+        rgba.add(autoAdjust(0.000f + 0.000f, 01.00f, 0.5000f + (0.06f * 2.00f - 0.06f)));
+        rgba.add(autoAdjust(0.000f + 0.000f, 01.00f, 0.5000f + (0.06f * 2.00f + 0.06f)));
+        rgba.add(autoAdjust(0.000f + 0.080f, 00.64f, 0.5000f + (0.10f * 2.00f + 0.10f)));
+        rgba.add(autoAdjust(0.000f + 0.080f, 00.64f, 0.5000f + (0.10f * 2.00f - 0.10f)));
+        rgba.add(autoAdjust(0.250f - 0.080f, 00.28f, 0.5000f + (0.12f * 2.00f - 0.12f)));
+        rgba.add(autoAdjust(0.250f - 0.080f, 00.28f, 0.5000f + (0.12f * 2.00f + 0.12f)));
+        rgba.add(autoAdjust(0.250f - 0.125f, 00.88f, 0.5000f + (0.08f * 2.00f + 0.08f)));
+        rgba.add(autoAdjust(0.250f - 0.125f, 00.88f, 0.5000f + (0.08f * 2.00f - 0.08f)));
+        rgba.add(autoAdjust(0.250f + 0.000f, 01.00f, 0.5000f + (0.06f * 2.00f - 0.06f)));
+        rgba.add(autoAdjust(0.250f + 0.000f, 01.00f, 0.5000f + (0.06f * 2.00f + 0.06f)));
+        rgba.add(autoAdjust(0.250f + 0.080f, 00.64f, 0.5000f + (0.10f * 2.00f + 0.10f)));
+        rgba.add(autoAdjust(0.250f + 0.080f, 00.64f, 0.5000f + (0.10f * 2.00f - 0.10f)));
+        rgba.add(autoAdjust(0.500f - 0.080f, 00.28f, 0.5000f + (0.12f * 2.00f - 0.12f)));
+        rgba.add(autoAdjust(0.500f - 0.080f, 00.28f, 0.5000f + (0.12f * 2.00f + 0.12f)));
+        rgba.add(autoAdjust(0.500f - 0.125f, 00.88f, 0.5000f + (0.08f * 2.00f + 0.08f)));
+        rgba.add(autoAdjust(0.500f - 0.125f, 00.88f, 0.5000f + (0.08f * 2.00f - 0.08f)));
+        rgba.add(autoAdjust(0.500f + 0.000f, 01.00f, 0.5000f + (0.06f * 2.00f - 0.06f)));
+        rgba.add(autoAdjust(0.500f + 0.000f, 01.00f, 0.5000f + (0.06f * 2.00f + 0.06f)));
+        rgba.add(autoAdjust(0.500f + 0.080f, 00.64f, 0.5000f + (0.10f * 2.00f + 0.10f)));
+        rgba.add(autoAdjust(0.500f + 0.080f, 00.64f, 0.5000f + (0.10f * 2.00f - 0.10f)));
+        rgba.add(autoAdjust(0.750f - 0.080f, 00.28f, 0.5000f + (0.12f * 2.00f - 0.12f)));
+        rgba.add(autoAdjust(0.750f - 0.125f, 00.88f, 0.5000f + (0.08f * 2.00f - 0.08f)));
+        rgba.add(autoAdjust(0.750f + 0.000f, 01.00f, 0.5000f + (0.06f * 2.00f - 0.06f)));
+        rgba.add(autoAdjust(0.750f + 0.080f, 00.64f, 0.5000f + (0.10f * 2.00f - 0.10f)));
+        rgba.add(autoAdjust(0.750f + 0.080f, 00.64f, 0.5000f + (0.10f * 2.00f + 0.10f)));
+        rgba.add(autoAdjust(0.750f + 0.000f, 01.00f, 0.5000f + (0.06f * 2.00f + 0.06f)));
+        rgba.add(autoAdjust(0.750f - 0.125f, 00.88f, 0.5000f + (0.08f * 2.00f + 0.08f)));
+        rgba.add(autoAdjust(0.750f - 0.080f, 00.28f, 0.5000f + (0.12f * 2.00f + 0.12f)));
+
         rgba.add(ColorTools.toRGBA8888(FloatColors.hsl2rgb(0f, 0f, 0.8f, 1f)));
         rgba.add(ColorTools.toRGBA8888(FloatColors.hsl2rgb(0f, 0f, 1.0f, 1f)));
 
