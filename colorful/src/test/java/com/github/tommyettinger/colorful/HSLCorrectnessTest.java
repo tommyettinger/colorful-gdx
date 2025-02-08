@@ -127,6 +127,12 @@ public class HSLCorrectnessTest {
 
     /**
      * Cross-reference with <a href="https://en.wikipedia.org/wiki/HSL_and_HSV#Examples">Wikipedia - HSL and HSV</a>.
+     * <br>
+     * <pre>
+     * Hue: RMS error 2.399417, absolute error 10.458816, max error 1.499996
+     * Sat: RMS error 0.011646, absolute error 0.050765, max error 0.010608
+     * Lit: RMS error 0.003986, absolute error 0.017372, max error 0.002451
+     * </pre>
      */
     @Test
     public void testRgb2hslRogue() {
@@ -141,8 +147,8 @@ public class HSLCorrectnessTest {
             float sat = ColorTools.green(hsla);
             float lit = ColorTools.blue(hsla);
             float err;
+            System.out.printf("0x%08X: %4.3f %4.3f %4.3f, should be %4.3f %4.3f %4.3f\n", c, hue, sat, lit, target[0], target[1], target[2]);
             err = hue - target[0]; hMax = Math.max(Math.abs(err), hMax); hAbs += Math.abs(err);
-            System.out.printf("0x%08X: %7.3f %4.3f %4.3f with hue error %5.4f\n", c, hue, sat, lit, err);
             err = sat - target[1]; sMax = Math.max(Math.abs(err), sMax); sAbs += Math.abs(err);
             err = lit - target[2]; lMax = Math.max(Math.abs(err), lMax); lAbs += Math.abs(err);
         }
@@ -159,6 +165,12 @@ public class HSLCorrectnessTest {
 
     /**
      * Cross-reference with <a href="https://en.wikipedia.org/wiki/HSL_and_HSV#Examples">Wikipedia - HSL and HSV</a>.
+     * <br>
+     * <pre>
+     * Hue: RMS error 2.399417, absolute error 10.458816, max error 1.499996
+     * Sat: RMS error 0.009847, absolute error 0.042922, max error 0.010608
+     * Lit: RMS error 0.003986, absolute error 0.017372, max error 0.002451
+     * </pre>
      */
     @Test
     public void testRgb2hsl() {
@@ -173,8 +185,8 @@ public class HSLCorrectnessTest {
             float sat = ColorTools.green(hsla);
             float lit = ColorTools.blue(hsla);
             float err;
+            System.out.printf("0x%08X: %4.3f %4.3f %4.3f, should be %4.3f %4.3f %4.3f\n", c, hue, sat, lit, target[0], target[1], target[2]);
             err = hue - target[0]; hMax = Math.max(Math.abs(err), hMax); hAbs += Math.abs(err);
-            System.out.printf("0x%08X: %7.3f %4.3f %4.3f with hue error %5.4f\n", c, hue, sat, lit, err);
             err = sat - target[1]; sMax = Math.max(Math.abs(err), sMax); sAbs += Math.abs(err);
             err = lit - target[2]; lMax = Math.max(Math.abs(err), lMax); lAbs += Math.abs(err);
         }
@@ -191,6 +203,12 @@ public class HSLCorrectnessTest {
 
     /**
      * Cross-reference with <a href="https://en.wikipedia.org/wiki/HSL_and_HSV#Examples">Wikipedia - HSL and HSV</a>.
+     * <br>
+     * <pre>
+     * Hue: RMS error 1.300907, absolute error 5.670521, max error 1.094097
+     * Sat: RMS error 0.006338, absolute error 0.027627, max error 0.006686
+     * Lit: RMS error 0.003986, absolute error 0.017372, max error 0.002451
+     * </pre>
      */
     @Test
     public void testRgb2hslInt() {
@@ -225,6 +243,12 @@ public class HSLCorrectnessTest {
 
     /**
      * Cross-reference with <a href="https://en.wikipedia.org/wiki/HSL_and_HSV#Examples">Wikipedia - HSL and HSV</a>.
+     * <br>
+     * <pre>
+     * r: RMS error 0.007197, absolute error 0.031373, max error 0.003922
+     * g: RMS error 0.008997, absolute error 0.039216, max error 0.003922
+     * b: RMS error 0.006298, absolute error 0.027451, max error 0.003922
+     * </pre>
      */
     @Test
     public void testHsl2rgb() {
@@ -260,6 +284,12 @@ public class HSLCorrectnessTest {
 
     /**
      * Cross-reference with <a href="https://en.wikipedia.org/wiki/HSL_and_HSV#Examples">Wikipedia - HSL and HSV</a>.
+     * <br>
+     * <pre>
+     * r: RMS error 0.006298, absolute error 0.027451, max error 0.003922
+     * g: RMS error 0.008097, absolute error 0.035294, max error 0.003922
+     * b: RMS error 0.001799, absolute error 0.007843, max error 0.003922
+     * </pre>
      */
     @Test
     public void testHsl2rgbInt() {

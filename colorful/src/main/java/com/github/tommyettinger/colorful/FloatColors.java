@@ -122,7 +122,7 @@ public class FloatColors {
         float hue = 6f + ((max == r) ? (g - b) * iDelta : (max == g) ? (1f/3f) + (b - r) * iDelta : (2f/3f) + (r - g) * iDelta);
         return (int)((hue - (int)(hue)) * 255.999f) << 24
                 | (int)(delta / (1f - Math.abs(max + min - 1f)) * 255.999f) << 16
-                | (int)((max + min) * 127.999f) << 8
+                | (int)((max + min) * 127.25f + 0.5f) << 8
                 | (int)(a * 255.999f);
     }
     /**
