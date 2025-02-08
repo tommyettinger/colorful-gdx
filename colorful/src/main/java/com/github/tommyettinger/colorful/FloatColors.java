@@ -91,6 +91,7 @@ public class FloatColors {
         float b = h + (1f/3f); b -= (int)b; b = l - c * Math.max(Math.min(Math.min(b - 0.25f, 0.75f - b), 1f/12f), -1f/12f);
         return (int)(r) << 24 | (int)(g) << 16 | (int)(b) << 8 | (int)(a * 255.999f);
     }
+
     /**
      * Converts an int in RGBA8888 format to an int in "HSLA format" (hue, saturation, lightness, alpha),
      * which isn't one of the regular formats this supports but can be useful for conversions.
@@ -114,16 +115,57 @@ public class FloatColors {
      */
     public static int rgb2hslInt(float r, float g, float b, float a) {
         float max = Math.max(Math.max(r, g), b), min = Math.min(Math.min(r, g), b);
-        float delta = max - min;
-        if(Math.abs(delta) < (1f / 256f))
+        float chroma = max - min;
+        if(chroma < (1f / 256f))
             return (int)(max * 255.999f) << 8 | (int)(a * 255.999f);
-        float iDelta = 0.16666667f / delta;
-        float hue = 6f + ((max == r) ? (g - b) * iDelta : (max == g) ? (1f/3f) + (b - r) * iDelta : (2f/3f) + (r - g) * iDelta);
+        float iDelta = 0.16666667f / chroma;
+        float hue = 1f + ((max == r) ? (g - b) * iDelta : (max == g) ? (1f/3f) + (b - r) * iDelta : (2f/3f) + (r - g) * iDelta);
         return (int)((hue - (int)(hue)) * 255.999f) << 24
-                | (int)(delta / (1f - Math.abs(max + min - 1f)) * 255.999f) << 16
+                | (int)(chroma / (1f - Math.abs(max + min - 1f)) * 255.999f) << 16
                 | (int)((max + min) * 127.25f + 0.5f) << 8
                 | (int)(a * 255.999f);
     }
+
+    /**
+     * Converts an int in RGBA8888 format to an int in "HCLA format" (hue, chroma, lightness, alpha),
+     * which isn't one of the regular formats this supports but can be useful for conversions.
+     * Here, chroma is similar and related to saturation, but isn't scaled to fit in the 0.0 to 1.0 range for all
+     * lightness values; instead, 0.5 lightness permits chroma up to 1.0, and as lightness approaches 0.0 or 1.0, chroma
+     * has its maximum value shrink down to 0.
+     * @param rgba an RGBA8888-format int
+     * @return an "HCLA-format" int
+     */
+    public static int rgb2hclInt(final int rgba) {
+        return rgb2hclInt((rgba >>> 24) * (1f / 255f), (rgba >>> 16 & 0xFF) * (1f / 255f), (rgba >>> 16 & 0xFF) * (1f / 255f), (rgba & 0xFE) * (1f / 254f));
+    }
+
+    /**
+     * Converts the four RGBA components, each in the 0.0 to 1.0 range, to an int in "HSLA format" (hue, chroma,
+     * lightness, alpha), which isn't one of the regular formats this supports but can be useful for conversions.
+     * Here, chroma is similar and related to saturation, but isn't scaled to fit in the 0.0 to 1.0 range for all
+     * lightness values; instead, 0.5 lightness permits chroma up to 1.0, and as lightness approaches 0.0 or 1.0, chroma
+     * has its maximum value shrink down to 0.
+     * <br>
+     * <a href="https://stackoverflow.com/a/64090995">From this StackOverflow answer by Kamil Kiełczewski</a>
+     * @param r red, from 0.0 to 1.0
+     * @param g green, from 0.0 to 1.0
+     * @param b blue, from 0.0 to 1.0
+     * @param a alpha, from 0.0 to 1.0
+     * @return an "HCLA-format" int
+     */
+    public static int rgb2hclInt(float r, float g, float b, float a) {
+        float max = Math.max(Math.max(r, g), b), min = Math.min(Math.min(r, g), b);
+        float chroma = max - min;
+        if(chroma < (1f / 256f))
+            return (int)(max * 255.999f) << 8 | (int)(a * 255.999f);
+        float iDelta = 0.16666667f / chroma;
+        float hue = 1f + ((max == r) ? (g - b) * iDelta : (max == g) ? (1f/3f) + (b - r) * iDelta : (2f/3f) + (r - g) * iDelta);
+        return (int)((hue - (int)(hue)) * 255.999f) << 24
+                | (int)(chroma * 255.999f) << 16
+                | (int)((max + min) * 127.25f + 0.5f) << 8
+                | (int)(a * 255.999f);
+    }
+
     /**
      * Converts the four HSLA components, each in the 0.0 to 1.0 range, to RGBA and assigns them into changing.
      * @param changing a non-null Color that will be modified
