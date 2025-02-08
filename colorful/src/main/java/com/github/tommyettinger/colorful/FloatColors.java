@@ -66,12 +66,12 @@ public class FloatColors {
     }
 
     /**
-     * Converts a packed float in HSLA format (hue, saturation, lightness, alpha) to a packed float in RGBA format.
-     * @param hsla an HSLA-format packed float
-     * @return an RGBA-format packed float
+     * Converts an int in HSLA format (hue, saturation, lightness, alpha) to an int in RGBA8888 format.
+     * @param hsla an HSLA-format int
+     * @return an RGBA8888-format int
      */
     public static int hsl2rgbInt(final int hsla) {
-        return hsl2rgbInt((hsla >>> 24 & 0xFF) * (1f / 255f), (hsla >>> 16 & 0xFF) * (1f / 255f), (hsla >>> 16 & 0xFF) * (1f / 255f), (hsla >>> 1 & 0x7F) * (1f / 127f));
+        return hsl2rgbInt((hsla >>> 24 & 0xFF) * (1f / 255f), (hsla >>> 16 & 0xFF) * (1f / 255f), (hsla >>> 16 & 0xFF) * (1f / 255f), (hsla & 0xFE) * (1f / 254f));
     }
 
     /**
@@ -95,6 +95,15 @@ public class FloatColors {
         float g = h + (2f/3f); g -= (int)g; g = l - c * Math.max(Math.min(Math.min(g - 0.25f, 0.75f - g), 1f/12f), -1f/12f);
         float b = h + (1f/3f); b -= (int)b; b = l - c * Math.max(Math.min(Math.min(b - 0.25f, 0.75f - b), 1f/12f), -1f/12f);
         return (int)(r) << 24 | (int)(g) << 16 | (int)(b) << 8 | (int)(a * 255.999f);
+    }
+    /**
+     * Converts an int in RGBA8888 format to an int in "HSLA format" (hue, saturation, lightness, alpha),
+     * which isn't one of the regular formats this supports but can be useful for conversions.
+     * @param rgba an RGBA8888-format int
+     * @return an "HSLA-format" int
+     */
+    public static int rgb2hslInt(final int rgba) {
+        return rgb2hslInt((rgba >>> 24 & 0xFF) * (1f / 255f), (rgba >>> 16 & 0xFF) * (1f / 255f), (rgba >>> 16 & 0xFF) * (1f / 255f), (rgba & 0xFE) * (1f / 254f));
     }
 
     /**
