@@ -35,7 +35,7 @@ public class FloatColors {
      */
     public static float hsl2rgb(final float hsla) {
         final int decoded = NumberUtils.floatToRawIntBits(hsla);
-        return hsl2rgb((decoded & 0xFF) / 255f, (decoded >>> 8 & 0xFF) / 255f, (decoded >>> 16 & 0xFF) / 255f, (decoded >>> 24 & 0xFE) / 255f);
+        return hsl2rgb((decoded & 0xFF) / 255f, (decoded >>> 8 & 0xFF) / 255f, (decoded >>> 16 & 0xFF) / 255f, (decoded >>> 25) / 127f);
     }
 
     /**
@@ -71,7 +71,7 @@ public class FloatColors {
      * @return an RGBA8888-format int
      */
     public static int hsl2rgbInt(final int hsla) {
-        return hsl2rgbInt((hsla >>> 24 & 0xFF) * (1f / 255f), (hsla >>> 16 & 0xFF) * (1f / 255f), (hsla >>> 16 & 0xFF) * (1f / 255f), (hsla & 0xFE) * (1f / 254f));
+        return hsl2rgbInt((hsla >>> 24) * (1f / 255f), (hsla >>> 16 & 0xFF) * (1f / 255f), (hsla >>> 16 & 0xFF) * (1f / 255f), (hsla & 0xFE) * (1f / 254f));
     }
 
     /**
@@ -84,12 +84,7 @@ public class FloatColors {
      * @return an RGBA8888-format int
      */
     public static int hsl2rgbInt(float h, float s, float l, float a) {
-/*
-   let a=s*Math.min(l,1-l);
-   let f= (n,k=(n+h/30)%12) => l - a*Math.max(Math.min(k-3,9-k,1),-1);
-   return [f(0),f(8),f(4)];}
- */
-        float c = s * Math.min(l, 1f-l) * 3071.999f; // 12 * 256, minus epsilon
+        float c = s * Math.min(l, 1f-l) * 3071.999f; /* 12 * 256, minus epsilon */
         l *= 255.999f;
         float r = h;                        r = l - c * Math.max(Math.min(Math.min(r - 0.25f, 0.75f - r), 1f/12f), -1f/12f);
         float g = h + (2f/3f); g -= (int)g; g = l - c * Math.max(Math.min(Math.min(g - 0.25f, 0.75f - g), 1f/12f), -1f/12f);
@@ -103,7 +98,7 @@ public class FloatColors {
      * @return an "HSLA-format" int
      */
     public static int rgb2hslInt(final int rgba) {
-        return rgb2hslInt((rgba >>> 24 & 0xFF) * (1f / 255f), (rgba >>> 16 & 0xFF) * (1f / 255f), (rgba >>> 16 & 0xFF) * (1f / 255f), (rgba & 0xFE) * (1f / 254f));
+        return rgb2hslInt((rgba >>> 24) * (1f / 255f), (rgba >>> 16 & 0xFF) * (1f / 255f), (rgba >>> 16 & 0xFF) * (1f / 255f), (rgba & 0xFE) * (1f / 254f));
     }
 
     /**
@@ -118,14 +113,9 @@ public class FloatColors {
      * @return an "HSLA-format" int
      */
     public static int rgb2hslInt(float r, float g, float b, float a) {
-/*
-  let max=Math.max(r,g,b), min=Math.min(r,g,b), delta=max-min, f=(1-Math.abs(max+min-1));
-  let h= delta && ((max==r) ? (g-b)/delta : ((max==g) ? 2+(b-r)/delta : 4+(r-g)/delta));
-  return [60*(h<0?h+6:h), f ? delta/f : 0, (max+min)/2];
- */
         float max = Math.max(Math.max(r, g), b), min = Math.min(Math.min(r, g), b);
         float delta = max - min;
-        if(MathUtils.isZero(delta))
+        if(Math.abs(delta) < (1f / 256f))
             return (int)(max * 255.999f) << 8 | (int)(a * 255.999f);
         float iDelta = 0.16666667f / delta;
         float hue = 6f + ((max == r) ? (g - b) * iDelta : (max == g) ? (1f/3f) + (b - r) * iDelta : (2f/3f) + (r - g) * iDelta);
@@ -165,7 +155,7 @@ public class FloatColors {
      */
     public static float rgb2hsl(final float rgba) {
         final int decoded = NumberUtils.floatToRawIntBits(rgba);
-        return rgb2hsl((decoded & 0xFF) / 255f, (decoded >>> 8 & 0xFF) / 255f, (decoded >>> 16 & 0xFF) / 255f, (decoded >>> 24 & 0xFE) / 255f);
+        return rgb2hsl((decoded & 0xFF) / 255f, (decoded >>> 8 & 0xFF) / 255f, (decoded >>> 16 & 0xFF) / 255f, (decoded >>> 25) / 127f);
     }
 
     /**
@@ -253,12 +243,12 @@ public class FloatColors {
      */
     public static float lerpFloatColors(final float start, final float end, float change) {
         final int s = NumberUtils.floatToRawIntBits(start), e = NumberUtils.floatToRawIntBits(end),
-                ys = (s & 0xFF), cws = (s >>> 8) & 0xFF, cms = (s >>> 16) & 0xFF, as = s >>> 24 & 0xFE,
-                ye = (e & 0xFF), cwe = (e >>> 8) & 0xFF, cme = (e >>> 16) & 0xFF, ae = e >>> 24 & 0xFE;
+                ys = (s & 0xFF), cws = (s >>> 8) & 0xFF, cms = (s >>> 16) & 0xFF, as = s >>> 25,
+                ye = (e & 0xFF), cwe = (e >>> 8) & 0xFF, cme = (e >>> 16) & 0xFF, ae = e >>> 25;
         return NumberUtils.intBitsToFloat(((int) (ys + change * (ye - ys)) & 0xFF)
                 | (((int) (cws + change * (cwe - cws)) & 0xFF) << 8)
                 | (((int) (cms + change * (cme - cms)) & 0xFF) << 16)
-                | (((int) (as + change * (ae - as)) & 0xFE) << 24));
+                | (((int) (as + change * (ae - as)) & 0x7F) << 25));
     }
 
     /**
