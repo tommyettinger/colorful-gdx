@@ -325,4 +325,44 @@ public class HSLCorrectnessTest {
         System.out.printf("g: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", gRel, gAbs, gMax);
         System.out.printf("b: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", bRel, bAbs, bMax);
     }
+
+    /**
+     * Cross-reference with <a href="https://en.wikipedia.org/wiki/HSL_and_HSV#Examples">Wikipedia - HSL and HSV</a>.
+     */
+    @Test
+    public void testHcl2rgbInt() {
+        double rAbs = 0.0, rMax = 0.0;
+        double gAbs = 0.0, gMax = 0.0;
+        double bAbs = 0.0, bMax = 0.0;
+        double rRel = 0.0;
+        double gRel = 0.0;
+        double bRel = 0.0;
+
+        for (int c : colors) {
+            int tr = (c>>>24&255);
+            int tg = (c>>>16&255);
+            int tb = (c>>> 8&255);
+            int max = Math.max(tr, Math.max(tg, tb));
+            int min = Math.min(tr, Math.min(tg, tb));
+            float[] target = map.get(c);
+            int rgba = FloatColors.hcl2rgbInt(target[0] / 360f, (max - min) / 255f, target[2], 1f);
+            int r = (rgba>>>24&255);
+            int g = (rgba>>>16&255);
+            int b = (rgba>>> 8&255);
+            double err;
+            System.out.printf("0x%08X: 0x%02X 0x%02X 0x%02X, should be 0x%02X 0x%02X 0x%02X\n", c, r, g, b, tr, tg, tb);
+            err = r - tr; rMax = Math.max(Math.abs(err), rMax); rAbs += Math.abs(err);
+            err = g - tg; gMax = Math.max(Math.abs(err), gMax); gAbs += Math.abs(err);
+            err = b - tb; bMax = Math.max(Math.abs(err), bMax); bAbs += Math.abs(err);
+        }
+
+        rRel = Math.sqrt(rAbs * rAbs / colors.length);
+        gRel = Math.sqrt(gAbs * gAbs / colors.length);
+        bRel = Math.sqrt(bAbs * bAbs / colors.length);
+
+        System.out.println("hsl2rgbInt :");
+        System.out.printf("r: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", rRel, rAbs, rMax);
+        System.out.printf("g: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", gRel, gAbs, gMax);
+        System.out.printf("b: RMS error %8.6f, absolute error %8.6f, max error %8.6f\n", bRel, bAbs, bMax);
+    }
 }
