@@ -54,7 +54,8 @@ public class OklabChangingTintDemo extends ApplicationAdapter {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("Tint Demo");
         config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
-        config.setIdleFPS(10);
+        config.setIdleFPS(2);
+        config.setForegroundFPS(30);
         config.useVsync(true);
 
         final OklabChangingTintDemo app = new OklabChangingTintDemo();
