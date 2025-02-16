@@ -51,7 +51,8 @@ public class RGBDemo extends ApplicationAdapter {
     private ShaderProgram shader;
     private ShaderProgram altShader;
     private ShaderProgram shaderChoice;
-    private float red = 0.5f, green = 0.5f, blue = 0.5f, opacity = 1f;
+    private float red = 1f, green = 1f, blue = 1f, opacity = 1f;
+//    private float red = 0.5f, green = 0.5f, blue = 0.5f, opacity = 1f;
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -97,10 +98,12 @@ public class RGBDemo extends ApplicationAdapter {
 
     @Override
     public void create() {
-        batch = new SpriteBatch(1000, Shaders.makeRGBAShader());
+        batch = new SpriteBatch(100);
+//        batch = new SpriteBatch(1000, Shaders.makeRGBAShader());
         defaultShader = SpriteBatch.createDefaultShader();
         shader = batch.getShader();
-        altShader = Shaders.makeMultiplyRGBAShader();//new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderConfigurableContrast);
+        altShader = new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderHSLARoundTrip);//new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderConfigurableContrast);
+//        altShader = Shaders.makeMultiplyRGBAShader();//new ShaderProgram(Shaders.vertexShader, Shaders.fragmentShaderConfigurableContrast);
         if(!altShader.isCompiled())
             throw new GdxRuntimeException("Couldn't compile shader: " + altShader.getLog());
         shaderChoice = shader;
@@ -157,6 +160,8 @@ public class RGBDemo extends ApplicationAdapter {
             load("samples/Grayscale_Spaceships.png");
         else if (input.isKeyPressed(Input.Keys.A)) // higher-color atlas
             load("samples/Spaceships.png");
+        else if (input.isKeyPressed(Input.Keys.W)) // wrap test
+            load("samples/WrapTest.png");
         else if (input.isKeyPressed(Input.Keys.Q) || input.isKeyPressed(Input.Keys.ESCAPE)) //quit
             Gdx.app.exit();
         else {

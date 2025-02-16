@@ -1,0 +1,4 @@
+Made by https://admurin.itch.io/ - Admurin
+Licensed under CC-BY 4.0
+
+Also, to use this, each block moves 6 pixels on y for every 12 pixels it moves on x (one block), and up or down 13 px on y for elevation changes.

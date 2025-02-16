@@ -221,7 +221,7 @@ void main()
                     "        vec3 d = turning - x;\n" +
                     "        return mix(\n" +
                     "          ((1. - turning) * (x - 1.)) / (1. - (x + shape * d)) + 1.,\n" +
-                    "          (turning * x) / (1.0e-20 + (x + shape * d)),\n" +
+                    "          (turning * x) / (1.0e-3 + (x + shape * d)),\n" +
                     "          step(0.0, d));\n" +
                     "}\n" +
                     "void main()\n" +
@@ -669,7 +669,7 @@ void main()
      * EXPERIMENTAL. Meant more for reading and editing than serious usage.
      */
     public static final String partialCodeHSL =
-                    "const float eps = 1.0e-10;\n" +
+                    "const float eps = 1.0e-3;\n" +
                     "vec4 rgb2hsl(vec4 c)\n" +
                     "{\n" +
                     "    const vec4 J = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n" +
@@ -719,7 +719,7 @@ void main()
      * EXPERIMENTAL. Meant more for reading and editing than serious usage.
      */
     public static final String partialCodeHSLStretched =
-            "const float eps = 1.0e-10;\n" +
+            "const float eps = 1.0e-3;\n" +
                     //// maybe not blue enough?
 //                    //Call this to go from the official HSL hue distribution (where blue is opposite yellow) to a
 //                    //different distribution that matches primary colors in painting (where purple is opposite yellow).
@@ -1015,24 +1015,7 @@ void main()
                     "varying vec2 v_texCoords;\n" +
                     "varying LOWP vec4 v_color;\n" +
                     "uniform sampler2D u_texture;\n" +
-                    "const float eps = 1.0e-10;\n" +
-                    "vec4 rgb2hsl(vec4 c)\n" +
-                    "{\n" +
-                    "    const vec4 J = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n" +
-                    "    vec4 p = mix(vec4(c.bg, J.wz), vec4(c.gb, J.xy), step(c.b, c.g));\n" +
-                    "    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));\n" +
-                    "    float d = q.x - min(q.w, q.y);\n" +
-                    "    float l = q.x * (1.0 - 0.5 * d / (q.x + eps));\n" +
-                    "    return vec4(abs(q.z + (q.w - q.y) / (6.0 * d + eps)), (q.x - l) / (min(l, 1.0 - l) + eps), l, c.a);\n" +
-                    "}\n" +
-                    "\n" +
-                    "vec4 hsl2rgb(vec4 c)\n" +
-                    "{\n" +
-                    "    const vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n" +
-                    "    vec3 p = abs(fract(c.x + K.xyz) * 6.0 - K.www);\n" +
-                    "    float v = (c.z + c.y * min(c.z, 1.0 - c.z));\n" +
-                    "    return vec4(v * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), 2.0 * (1.0 - c.z / (v + eps))), c.w);\n" +
-                    "}\n" +
+                    partialCodeHSL +
                     "\n" +
                     "void main()\n" +
                     "{\n" +
@@ -1041,6 +1024,31 @@ void main()
                     "   hsl.x = fract(v_color.x + hsl.x);\n" +
                     "   hsl.yz = hsl.yz * v_color.yz;\n" +
                     "   gl_FragColor = hsl2rgb(hsl);\n" +
+                    "}";
+    public static final String fragmentShaderHSLARoundTrip =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    partialCodeHSL +
+                    "\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
+                    "   tgt = hsl2rgb(rgb2hsl(tgt));\n" +
+                    "   tgt = hsl2rgb(rgb2hsl(tgt));\n" +
+                    "   tgt = hsl2rgb(rgb2hsl(tgt));\n" +
+                    "   tgt = hsl2rgb(rgb2hsl(tgt));\n" +
+                    "   tgt = hsl2rgb(rgb2hsl(tgt));\n" +
+                    "   tgt = hsl2rgb(rgb2hsl(tgt));\n" +
+                    "   tgt = hsl2rgb(rgb2hsl(tgt));\n" +
+                    "   tgt = hsl2rgb(rgb2hsl(tgt));\n" +
+                    "   gl_FragColor = tgt * v_color;\n" +
                     "}";
     /**
      * Generally a lower-quality hue rotation than {@link #fragmentShaderHSLC}; this is here as a work in progress.
@@ -1579,7 +1587,7 @@ void main()
                     "        float d = turning - L;\n" +
                     "        float r = mix(\n" +
                     "          ((1. - turning) * (L - 1.)) / (1. - (L + shape * d)) + 1.,\n" +
-                    "          (turning * L) / (1.0e-20 + (L + shape * d)),\n" +
+                    "          (turning * L) / (1.0e-3 + (L + shape * d)),\n" +
                     "          step(0.0, d));\n" +
                     "        return r * r;\n" +
                     "}\n" +
@@ -1589,7 +1597,7 @@ void main()
                     "        float d = turning - L;\n" +
                     "        return mix(\n" +
                     "          ((1. - turning) * (L - 1.)) / (1. - (L + shape * d)) + 1.,\n" +
-                    "          (turning * L) / (1.0e-20 + (L + shape * d)),\n" +
+                    "          (turning * L) / (1.0e-3 + (L + shape * d)),\n" +
                     "          step(0.0, d));\n" +
                     "}\n" +
 //                    "float toOklab(float L) {\n" +
@@ -1898,7 +1906,7 @@ void main()
                     "        float d = turning - L;\n" +
                     "        return mix(\n" +
                     "          ((1. - turning) * (L - 1.)) / (1. - (L + shape * d)) + 1.,\n" +
-                    "          (turning * L) / (1.0e-20 + (L + shape * d)),\n" +
+                    "          (turning * L) / (1.0e-3 + (L + shape * d)),\n" +
                     "          step(0.0, d));\n" +
                     "}\n" +
                     "float reverseLight(float L) {\n" +
@@ -1906,7 +1914,7 @@ void main()
                     "        float d = turning - L;\n" +
                     "        return mix(\n" +
                     "          ((1. - turning) * (L - 1.)) / (1. - (L + shape * d)) + 1.,\n" +
-                    "          (turning * L) / (1.0e-20 + (L + shape * d)),\n" +
+                    "          (turning * L) / (1.0e-3 + (L + shape * d)),\n" +
                     "          step(0.0, d));\n" +
                     "}\n" +
                     "vec3 luv2rgb(vec3 c)\n" +
