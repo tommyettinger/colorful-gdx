@@ -79,9 +79,9 @@ public class HSIGamutDemo extends ApplicationAdapter {
                         "varying vec2 v_texCoords;\n" +
                         "varying LOWP vec4 v_color;\n" +
                         "uniform sampler2D u_texture;\n" +
-                        "const vec3 yellow  = vec3( 0.16155326f,0.020876605f,-0.26078433f );\n" +
-                        "const vec3 magenta = vec3(-0.16136102f,0.122068435f,-0.070396f   );\n" +
-                        "const vec3 cyan    = vec3( 0.16420607f,0.3481738f,   0.104959644f);\n" +
+                        "const vec3 yellow  = vec3( 0.16155326,0.020876605,-0.26078433 );\n" +
+                        "const vec3 magenta = vec3(-0.16136102,0.122068435,-0.070396   );\n" +
+                        "const vec3 cyan    = vec3( 0.16420607,0.3481738,   0.104959644);\n" +
                         "void main()\n" +
                         "{\n" +
                         "    vec4 tgt = texture2D( u_texture, v_texCoords );\n" +

@@ -150,7 +150,7 @@ void main()
                     "void main()\n" +
                     "{\n" +
                     "    vec4 color = texture2D( u_texture, v_texCoords );\n" +
-                    "    color.rgb = clamp((color.rgb - 0.5f) * contrast + 0.5f, 0.0, 1.0);\n" +
+                    "    color.rgb = clamp((color.rgb - 0.5) * contrast + 0.5, 0.0, 1.0);\n" +
                     "    gl_FragColor = color;\n" +
                     "}";
     /**
@@ -434,7 +434,7 @@ void main()
      */
     public static SpriteBatch makeYCwCmBatch(final float contrast)
     {
-        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShaderHigherContrast.replace("   1.375   ", Float.toString(Math.min(Math.max(contrast, 0.01f), 10f))));
+        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShaderHigherContrast.replace("   1.375   ", Float.toString(Math.min(Math.max(contrast, 0.01f), 10.0f))));
         if(!shader.isCompiled())
             throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
         return new SpriteBatch(1000, shader);

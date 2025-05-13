@@ -201,7 +201,7 @@ public class ColorfulBatch implements Batch {
                         "{\n" +
                         "  vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                         "  vec3 ipt = mat3(0.40000, 4.45500, 0.80560, 0.40000, -4.8510, 0.35720, 0.20000, 0.39600, -1.1628) *" +
-                        "             pow(mat3(0.313921f, 0.151693f, 0.017753f, 0.639468f, 0.748209f, 0.109468f, 0.0465970f, 0.1000044f, 0.8729690f) \n" +
+                        "             pow(mat3(0.313921, 0.151693, 0.017753, 0.639468, 0.748209, 0.109468, 0.0465970, 0.1000044, 0.8729690) \n" +
                         "             * (tgt.rgb * tgt.rgb), forward);\n" +
                         "  ipt.x = clamp(pow(ipt.x, v_tweak.a) * v_lightFix * v_tweak.r + v_color.r - 0.55, 0.0, 1.0);\n" +
                         "  ipt.yz = clamp((ipt.yz * v_tweak.gb + v_color.gb - 0.5) * 2.0, -1.0, 1.0);\n" +
