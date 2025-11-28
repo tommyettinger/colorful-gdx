@@ -25,8 +25,8 @@ configure(subprojects) {
 
 def projectName = 'colorful-parent'
 
-version "$VERSION_NAME"
-group 'com.github.tommyettinger'
+version = "$VERSION_NAME"
+group = 'com.github.tommyettinger'
 
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
