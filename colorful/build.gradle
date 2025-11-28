@@ -5,17 +5,16 @@ eclipse.project.name = project.name
 sourceSets.test.resources.srcDirs = [ file('src/test/resources').path ]
 
 javadoc.destinationDir = file('../docs/colorful/apidocs')
-javadoc.options.source("17")
 ((StandardJavadocDocletOptions)javadoc.options).linkSource(true)
 ((StandardJavadocDocletOptions)javadoc.options).noTimestamp(true)
 ((StandardJavadocDocletOptions)javadoc.options).use(true)
-((StandardJavadocDocletOptions)javadoc.options).bottom("Copyright &#169; Tommy Ettinger 2020-2025. All rights reserved. Are you a copyright lawyer? If so, I want you to think, are you actually helping people, or just wasting their time? Maybe do some pro bono work for a cause that matters?")
+((StandardJavadocDocletOptions)javadoc.options).bottom("Copyright &#169; Tommy Ettinger 2020-2025. All rights reserved.")
 
 compileJava {
-    sourceCompatibility = 7
-    targetCompatibility = 7
+    sourceCompatibility = 8
+    targetCompatibility = 8
     if (JavaVersion.current().isJava9Compatible()) {
-        options.release.set(7)
+        options.release.set(8)
     }
 }
 
@@ -30,12 +29,12 @@ compileTestJava {
 dependencies {
     api "com.badlogicgames.gdx:gdx:$gdxVersion"
 
-    testImplementation "com.github.yellowstonegames.squidsquad:squidcore:$squidSquadVersion"
-    testImplementation "com.github.yellowstonegames.squidsquad:squidgrid:$squidSquadVersion"
-    testImplementation "com.github.yellowstonegames.squidsquad:squidplace:$squidSquadVersion"
-    testImplementation "com.github.yellowstonegames.squidsquad:squidpath:$squidSquadVersion"
-    testImplementation "com.github.yellowstonegames.squidsquad:squidtext:$squidSquadVersion"
-    testImplementation "com.github.yellowstonegames.squidsquad:squidsmooth:$squidSquadVersion"
+    testImplementation "com.squidpony:squidcore:$squidSquadVersion"
+    testImplementation "com.squidpony:squidgrid:$squidSquadVersion"
+    testImplementation "com.squidpony:squidplace:$squidSquadVersion"
+    testImplementation "com.squidpony:squidpath:$squidSquadVersion"
+    testImplementation "com.squidpony:squidtext:$squidSquadVersion"
+    testImplementation "com.squidpony:squidsmooth:$squidSquadVersion"
 
     testImplementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
     testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
@@ -50,7 +49,7 @@ mavenPublishing {
     configure(new JavaLibrary(new JavadocJar.Javadoc(), true))
 }
 
-mavenPlainJavadocJar.archiveBaseName.set(project.name)
+plainJavadocJar.archiveBaseName.set(project.name)
 
 jar {
     archiveBaseName.set(project.name)
