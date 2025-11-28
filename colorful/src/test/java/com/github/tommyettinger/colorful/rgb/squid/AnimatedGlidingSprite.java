@@ -24,8 +24,6 @@ import com.github.yellowstonegames.grid.Coord;
 
 import com.github.yellowstonegames.smooth.CoordGlider;
 import com.github.yellowstonegames.smooth.VectorSequenceGlider;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Extends {@link Sprite}, but uses an {@link Animation} of {@link TextureRegion} for its visuals and a
@@ -42,9 +40,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 public class AnimatedGlidingSprite extends ColorfulSprite {
     public Animation<? extends TextureRegion> animation;
-    @NonNull
     public CoordGlider location;
-    @NonNull
     public VectorSequenceGlider smallMotion;
     /**
      * A VectorSequenceGlider that is empty (has no motions) and belongs to this AnimatedGlidingSprite.
@@ -52,7 +48,6 @@ public class AnimatedGlidingSprite extends ColorfulSprite {
      * It is here so {@link #smallMotion} can be easily set to an empty sequence.
      * You can also use {@code setSmallMotion(null)} to stop any small motion.
      */
-    @NonNull
     public final VectorSequenceGlider ownEmptyMotion = VectorSequenceGlider.EMPTY.copy();
 
     private AnimatedGlidingSprite()
@@ -112,21 +107,19 @@ public class AnimatedGlidingSprite extends ColorfulSprite {
         this.animation = animation;
     }
 
-    @NonNull
     public CoordGlider getLocation() {
         return location;
     }
 
-    public void setLocation(@NonNull CoordGlider location) {
+    public void setLocation(CoordGlider location) {
         this.location = location;
     }
 
-    @NonNull
     public VectorSequenceGlider getSmallMotion() {
         return smallMotion;
     }
 
-    public void setSmallMotion(@Nullable VectorSequenceGlider smallMotion) {
+    public void setSmallMotion(VectorSequenceGlider smallMotion) {
         if(smallMotion == null) this.smallMotion = ownEmptyMotion;
         else this.smallMotion = smallMotion;
     }
