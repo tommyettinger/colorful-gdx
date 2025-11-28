@@ -1033,7 +1033,7 @@ public class ColorTools {
 	 * from 0 to 255 with: {@code (L << 8 | H)} or the simpler equivalent {@code (L * 256 + H)}. These assume L and H
 	 * have been limited to the 0 to 255 range already. This does not bounds-check index. Because hue is not typically
 	 * measured between 0 and 255, getting that value is a bit different; you can use
-	 * {@link TrigTools#atan2Turns(float, float)} (with an Oklab color's B for y, then its A for x) and multiply it by 256
+	 * {@link TrigTools#atan2TurnsFinite(float, float)} (with an Oklab color's B for y, then its A for x) and multiply it by 256
 	 * to get H.
 	 * <br>
 	 * The distance this returns is a byte between 0 and 84 (both inclusive), as the Euclidean distance from the center
@@ -1065,7 +1065,7 @@ public class ColorTools {
 		final int decoded = BitConversion.floatToRawIntBits(packed);
 		final float A = ((decoded >>> 8 & 0xff) - 127f) / 255f;
 		final float B = ((decoded >>> 16 & 0xff) - 127f) / 255f;
-		final float g = GAMUT_DATA[(decoded & 0xff) << 8 | (int)(256f * TrigTools.atan2Turns(B, A))];
+		final float g = GAMUT_DATA[(decoded & 0xff) << 8 | (int)(256f * TrigTools.atan2TurnsFinite(B, A))];
 		return g * g * 0x1p-18 + 0x1p-14 >= (A * A + B * B);
 	}
 
@@ -1080,14 +1080,14 @@ public class ColorTools {
 	{
 		A = ((int) (A * 255) - 127f) / 255f;
 		B = ((int) (B * 255) - 127f) / 255f;
-		final float g = GAMUT_DATA[((int) (L * 255) & 0xFF) << 8 | (int)(256f * TrigTools.atan2Turns(B, A))];
+		final float g = GAMUT_DATA[((int) (L * 255) & 0xFF) << 8 | (int)(256f * TrigTools.atan2TurnsFinite(B, A))];
 		return g * g * 0x1p-18 + 0x1p-14 >= (A * A + B * B);
 
 		////This was the old code for this inGamut(), which was subtly different from the other inGamut() when called
 		/// on a packed float. The packed floats can go ever-so-slightly towards or away from the edge.
 //		A = (A - 0.5f);
 //		B = (B - 0.5f);
-//		final byte g = GAMUT_DATA[((int)(L * 255.999f) << 8) | (int)(256f * TrigTools.atan2Turns(B, A))];
+//		final byte g = GAMUT_DATA[((int)(L * 255.999f) << 8) | (int)(256f * TrigTools.atan2TurnsFinite(B, A))];
 //		return g * g * 0x1p-16 >= (A * A + B * B);
 
 	}
@@ -1104,7 +1104,7 @@ public class ColorTools {
 		final int decoded = BitConversion.floatToRawIntBits(packed);
 		final float A = ((decoded >>> 8 & 0xff) - 127f);
 		final float B = ((decoded >>> 16 & 255) - 127f);
-		final float hue = TrigTools.atan2Turns(B, A);
+		final float hue = TrigTools.atan2TurnsFinite(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
 		final float dist = GAMUT_DATA[idx] * 0.5f;
 		return BitConversion.intBitsToFloat(
@@ -1130,7 +1130,7 @@ public class ColorTools {
 		A = Math.min(Math.max(A, 0f), 1f) - 0.5f;
 		B = Math.min(Math.max(B, 0f), 1f) - 0.5f;
 		alpha = Math.min(Math.max(alpha, 0f), 1f);
-		final float hue = TrigTools.atan2Turns(B, A);
+		final float hue = TrigTools.atan2TurnsFinite(B, A);
 		final int idx = (int) (L * 255f) << 8 | (int) (256f * hue);
 		final float dist = GAMUT_DATA[idx] * 0.5f;
 		return BitConversion.intBitsToFloat(
@@ -1152,7 +1152,7 @@ public class ColorTools {
 		final int decoded = BitConversion.floatToRawIntBits(packed);
 		final float A = ((decoded >>> 8 & 0xff) - 127f);
 		final float B = ((decoded >>> 16 & 255) - 127f);
-		return TrigTools.atan2Turns(B, A);
+		return TrigTools.atan2TurnsFinite(B, A);
 	}
 
 	/**
@@ -1168,7 +1168,7 @@ public class ColorTools {
 		final int decoded = BitConversion.floatToRawIntBits(packed);
 		final float A = ((decoded >>> 8 & 0xff) - 127f);
 		final float B = ((decoded >>> 16 & 255) - 127f);
-		final float hue = TrigTools.atan2Turns(B, A);
+		final float hue = TrigTools.atan2TurnsFinite(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
 		final float dist = GAMUT_DATA[idx];
 		return dist <= 2.5f ? 0f : (float) Math.sqrt(A * A + B * B) * 2f / (dist);
@@ -1269,7 +1269,7 @@ public class ColorTools {
 		final int decoded = BitConversion.floatToRawIntBits(packed);
 		final float A = ((decoded >>> 8 & 0xff) - 127f);
 		final float B = ((decoded >>> 16 & 255) - 127f);
-		final float hue = TrigTools.atan2Turns(B, A);
+		final float hue = TrigTools.atan2TurnsFinite(B, A);
 		final int idx = (decoded & 0xff) << 8 | (int) (256f * hue);
 		final float dist = GAMUT_DATA[idx] * 0.5f;
 		if (dist * dist >= (A * A + B * B))
@@ -1311,7 +1311,7 @@ public class ColorTools {
 		alpha = Math.min(Math.max(alpha, 0f), 1f);
 		final float A2 = ((int) (A * 255) - 127f) / 255f;
 		final float B2 = ((int) (B * 255) - 127f) / 255f;
-		final float hue = TrigTools.atan2Turns(B2, A2);
+		final float hue = TrigTools.atan2TurnsFinite(B2, A2);
 		final int idx = (int) (L * 255f) << 8 | (int)(256f * hue);
 		final float dist = GAMUT_DATA[idx] * 0.5f;
 		if(dist * dist * 0x1p-16f >= (A2 * A2 + B2 * B2))
@@ -1371,7 +1371,7 @@ public class ColorTools {
 		A = Math.min(Math.max(A * mulA + addA * 2f, -1f), 1f) * 0.5f;
 		B = Math.min(Math.max(B * mulB + addB * 2f, -1f), 1f) * 0.5f;
 		alpha = Math.min(Math.max(alpha * mulAlpha + addAlpha, 0f), 1f);
-		final float hue = TrigTools.atan2Turns(B, A);
+		final float hue = TrigTools.atan2TurnsFinite(B, A);
 		final int idx = (int) (L * 255f) << 8 | (int)(256f * hue);
 		final float dist = GAMUT_DATA[idx] * 0.5f;
 		if(dist * dist * 0x1p-16f >= (A * A + B * B))
@@ -1399,7 +1399,7 @@ public class ColorTools {
 
 		A = Math.min(Math.max(A * mul, -1f), 1f) * 0.5f;
 		B = Math.min(Math.max(B * mul, -1f), 1f) * 0.5f;
-		final float hue = TrigTools.atan2Turns(B, A);
+		final float hue = TrigTools.atan2TurnsFinite(B, A);
 		final int idx = (int) (L * 255f) << 8 | (int)(256f * hue);
 		final float dist = GAMUT_DATA[idx] * 0.5f;
 		if(dist * dist * 0x1p-16f >= (A * A + B * B))

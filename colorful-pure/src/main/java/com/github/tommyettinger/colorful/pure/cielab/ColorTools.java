@@ -436,7 +436,7 @@ public class ColorTools {
     public static float maximizeSaturation(final float packed) {
         final int decoded = BitConversion.floatToRawIntBits(packed);
         final float lightness = (decoded & 255) / 255f;
-        final float h = TrigTools.atan2Turns(((decoded >>> 16 & 0xff) - 127.5f), ((decoded >>> 8 & 0xff) - 127.5f));
+        final float h = TrigTools.atan2TurnsFinite(((decoded >>> 16 & 0xff) - 127.5f), ((decoded >>> 8 & 0xff) - 127.5f));
         final float L = (1f/1.16f)*(lightness + 0.16f);
         final float A = TrigTools.cosTurns(h) * 1.26365817f * 0.2f;
         final float B = TrigTools.sinTurns(h) * 1.26365817f * 0.5f;
@@ -473,7 +473,7 @@ public class ColorTools {
         A = Math.min(Math.max(A, 0f), 1f);
         B = Math.min(Math.max(B, 0f), 1f);
         alpha = Math.min(Math.max(alpha, 0f), 1f);
-        final float h = TrigTools.atan2Turns(B - 0.5f, A - 0.5f);
+        final float h = TrigTools.atan2TurnsFinite(B - 0.5f, A - 0.5f);
         final float L0 = (1f/1.16f)*(L + 0.16f);
         final float A0 = TrigTools.cosTurns(h) * 1.26365817f;
         final float B0 = TrigTools.sinTurns(h) * 1.26365817f;
@@ -506,7 +506,7 @@ public class ColorTools {
         final int decoded = BitConversion.floatToRawIntBits(packed);
         final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (0.2f / 127.5f);
         final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
-        return TrigTools.atan2Turns(B, A);
+        return TrigTools.atan2TurnsFinite(B, A);
     }
 
     /**
@@ -522,7 +522,7 @@ public class ColorTools {
         final float L = (1f/1.16f)*(((decoded & 0xff) / 255f) + 0.16f);
         final float A = ((decoded >>> 8 & 0xff) - 127.5f) *  (0.2f / 127.5f);
         final float B = ((decoded >>> 16 & 0xff) - 127.5f) * (0.5f / 127.5f);
-        final float h = TrigTools.atan2Turns(B, A);
+        final float h = TrigTools.atan2TurnsFinite(B, A);
         final float L0 = (1f/1.16f)*(L + 0.16f);
         final float A0 = TrigTools.cosTurns(h) * 1.26365817f;
         final float B0 = TrigTools.sinTurns(h) * 1.26365817f;

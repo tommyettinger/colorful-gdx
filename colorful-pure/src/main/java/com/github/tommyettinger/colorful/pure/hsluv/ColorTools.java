@@ -322,7 +322,7 @@ public class ColorTools {
 
         // Luv to Lch
         float C = (float)Math.sqrt(U * U + V * V);
-        h = TrigTools.atan2Turns(V, U);
+        h = TrigTools.atan2TurnsFinite(V, U);
 
         // Lch to HSLuv
         if (L > 0.99999f) {
@@ -371,7 +371,7 @@ public class ColorTools {
 
         // Luv to Lch
         float C = (float)Math.sqrt(U * U + V * V);
-        h = TrigTools.atan2Turns(V, U);
+        h = TrigTools.atan2TurnsFinite(V, U);
 
         // Lch to HSLuv
         if (L > 0.99999f) {
@@ -421,7 +421,7 @@ public class ColorTools {
 
         // Luv to Lch
         float C = (float)Math.sqrt(U * U + V * V);
-        h = TrigTools.atan2Turns(V, U);
+        h = TrigTools.atan2TurnsFinite(V, U);
 
 
         // Lch to HSLuv
@@ -1674,7 +1674,7 @@ public class ColorTools {
         V = (Vs + change * (Ve - Vs));
 
         // Luv to Lch
-        H = TrigTools.atan2Turns(V, U);
+        H = TrigTools.atan2TurnsFinite(V, U);
 
 
         // Lch to HSLuv
