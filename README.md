@@ -3,6 +3,23 @@
 # colorful-gdx
 A libGDX mechanism to manipulate colors in powerful ways
 
+## tl;dr
+
+If you know you want to use this library already, you probably want the libGDX-based version. To depend on that, add
+this to your `core/build.gradle` file's `dependencies` section (if there are two, this means the later one):
+
+```groovy
+implementation 'com.github.tommyettinger:colorful:0.9.0'
+```
+
+If you use GWT, scroll down to the more in-depth section at the bottom; you almost certainly **don't need**
+colorful-pure.
+
+If you're making a new project, colorful is available as a checkbox in gdx-liftoff's third-party extensions. You can
+just search for `colorful` to find it.
+
+## What is it?
+
 Colorful is a small library that mostly offers some predefined shaders and code for handling colors differently from the
 normal way. Why would you want this? There are several shortcomings of the default SpriteBatch shader's color handling,
 specifically how it handles color tinting with `setColor(float, float, float, float)`:
@@ -208,10 +225,8 @@ The exact variety of Oklab isn't 100% faithful to the linked blog post by Ottoss
 [a later blog post](https://bottosson.github.io/posts/colorpicker/#intermission---a-new-lightness-estimate-for-oklab),
 Oklab as it was originally detailed has far too many colors that are nearly-black, and too few that are close to white.
 Ottosson devised a high-quality conversion from the dark-color-heavy scale to a more-uniform scale, but computing it
-involves quite a bit of code per-pixel, so I used a modified ["Barron spline"](https://arxiv.org/abs/2010.09714) that
-also gets 50% gray to 0.5 L. This is where it should be; L would be at 0.63 before applying the spline. Various other
-changes have applied across versions to Oklab to get its gamut, or the range of valid colors that can be converted to
-and from RGBA, correct, and it should be now.
+involves quite a bit of code per-pixel, and it turned out using it's very close to just raising the lightness to the
+2/3 power (or 3/2 in the other direction), which has some fast and easy approximations available that we use. 
 
 The `com.github.tommyettinger.colorful.oklab` package has parallels to all the classes in the `ipt_hq` package, which
 includes those in `ycwcm` and `ipt` as well. Its `SimplePalette` is particularly adept at smoothly changing colors.
@@ -226,13 +241,13 @@ However, we only store the full gamut information for Oklab (it's stored in a gi
 while CIELAB needs to calculate the approximate gamut for each color as requested. The full gamut is large, and I didn't
 want to store it multiple times for two similar color spaces, so CIELAB is just generally slower at gamut-related code,
 and less precise. CIELAB is slower at most operations by at least a little bit, relative to Oklab. It does handle some
-gradients more accurately, but most less accurately, so every use case may encounter trade-offs. A notable flaw of the
-implementation here is that grayscale colors "tilt" out of the central line along A=0.5, B=0.5, and around black or very
-dark colors, there isn't any color in-gamut with A=0.5 and B=0.5.
+gradients more accurately, but most gradients less accurately, so every use case may encounter trade-offs. A notable
+flaw of the implementation here is that grayscale colors "tilt" out of the central line along A=0.5, B=0.5, and around
+black or very dark colors, there isn't any color in-gamut with A=0.5 and B=0.5.
 
 The `com.github.tommyettinger.colorful.cielab` package has parallels to all the classes in the `ipt_hq` package, which
 includes those in `ycwcm`, `ipt`, and `oklab` as well. Its `SimplePalette` is just-okay, though it tends to change the
-hue of colors when it lightens or darkens them. As you can see from the description demo (see next), CIELAB has all
+hue of colors when it lightens or darkens them. As you can see from the description demo (later), CIELAB has all
 kinds of trouble with blue and similar colors.
 
 ### HSLuv
@@ -249,9 +264,10 @@ dull/desaturated), multiply lightness (which occurs before lightness is added), 
 color spaces).
 
 Like Oklab, HSLuv uses a modified lightness value so it should match the expectations of RGB very closely. It also uses
-a Barron spline, though a different one from Oklab. Unlike Oklab, HSLuv does not need a large precalculated Gamut file,
-because its gamut can be calculated with several relatively-simple formulas. I have to give thanks to the community
-around HSLuv, such as [Nathan Sweet's HSLuv code](https://github.com/EsotericSoftware/hsl/blob/main/src/com/esotericsoftware/hsluv/Hsl.java)
+a Barron spline, though a different one from Oklab's old one. Unlike Oklab, HSLuv does not need a large precalculated
+Gamut file, because its gamut can be calculated with several relatively-simple formulas. I have to give thanks to the
+community around HSLuv, such as
+[Nathan Sweet's HSLuv code](https://github.com/EsotericSoftware/hsl/blob/main/src/com/esotericsoftware/hsluv/Hsl.java)
 and [Alex Boronine's earlier code](https://github.com/hsluv/hsluv-java); I wouldn't have taken a second look at HSLuv if
 not for Nathan Sweet's more-efficient conversion code.
 
@@ -261,7 +277,7 @@ includes those in `ycwcm`, `ipt`, and `oklab` as well. Its `SimplePalette` is no
 ### Describing Colors
 
 The `rgb`, `ipt_hq`, `oklab`, `hsluv`, and `cielab` packages have the same classes present for other color spaces, like
-those in `ipt`, plus an extra palette, `SimplePalette`, with a key extra feature. You can use the
+those in `ipt` and `ycwcm`, plus an extra palette, `SimplePalette`, with a key extra feature. You can use the
 `SimplePalette.parseDescription(String)`
 method to describe a color with a combination of one or more (clearly-named) color names and optionally with adjectives
 like "light", "dull", "darker", or "richest". The predefined colors in SimplePalette for IPT_HQ can be previewed in
@@ -278,11 +294,11 @@ color has when mixing more than one. For example, in versions 0.8.4 and earlier,
 to describe a mix that has 3/2 as much emphasis applied to red as applied to blue. Starting in version 0.8.5, there's
 the quicker syntax `red 3 blue 2` or even `red 1.5 blue`, which all mean the same thing as `red red red blue blue`.
 
-You can use [this small libGDX web app](https://tommyettinger.github.io/colorful-gdx/description/) to experiment with
-different descriptions and what they produce. Use the `[` and `]` keys to change modes; there are RGB, Oklab, IPT_HQ,
-CIELAB, comparison, and gradient modes. The comparison mode may be the most useful; it has 4 bars that change color
-using different color spaces and their SimplePalette transformations. The gradient mode is new, and lets you preview
-Oklab gradients between two described colors.
+You can use [this small libGDX web app](https://tommyettinger.github.io/colorful-gdx/description/), the "description
+demo," to experiment with different descriptions and what they produce. Use the `[` and `]` keys to change modes; there
+are RGB, Oklab, IPT_HQ, CIELAB, comparison, and gradient modes. The comparison mode may be the most useful; it has 4
+bars that change color using different color spaces and their SimplePalette transformations. The gradient mode is new,
+and lets you preview Oklab gradients between two described colors.
 
 ### HSLC
 
@@ -300,16 +316,16 @@ will have stark lightness differences, while when contrast is low, most lightnes
 
 ### colorful vs. colorful-pure
 
-Starting with version 0.4.0, there are two similar, but not identical, sub-projects in this repo: colorful, which will
+Starting with version 0.4.0, there are two similar, but not identical, subprojects in this repo: colorful, which will
 probably be used more frequently, and colorful-pure, which is more specialized. You want colorful if you already depend
 on libGDX (currently on version 1.9.13 or higher); it has the useful `ColorfulBatch` and `ColorfulSprite` classes, and
 can convert to and from libGDX `Color` objects. If you have a server project, or some other kind of project that doesn't
 have a dependency on libGDX, then you might want colorful-pure instead. Instead of libGDX, colorful-pure depends on
-[jdkgdxds](https://github.com/tommyettinger/jdkgdxds) for its primitive-backed data structures, and needs Java 8 or
-higher (colorful needs Java 7 or higher). Both colorful and colorful-pure produce compatible packed float colors when
-they use the same color space, and even though their `Palette` classes use different data structures, the colors in
-those palettes are the same. The descriptive color system in `SimplePalette` for the `rgb`, `ipt_hq`, `oklab`, and
-`cielab` packages may be especially useful in colorful-pure.
+[jdkgdxds](https://github.com/tommyettinger/jdkgdxds) for its primitive-backed data structures, and uses
+[digital](https://github.com/tommyettinger/digital) for math. Both colorful and colorful-pure produce compatible packed
+float colors when they use the same color space, and even though their `Palette` classes use different data structures,
+the colors in those palettes are the same. The descriptive color system in `SimplePalette` for the `rgb`, `ipt_hq`,
+`oklab`, and `cielab` packages may be especially useful in colorful-pure.
 
 ## Samples
 
@@ -436,3 +452,6 @@ historical dependencies.
 
 If you don't use Gradle or Maven, [there are jars here](https://github.com/tommyettinger/colorful-gdx/releases/).
 
+## License
+
+[Apache License, 2.0](LICENSE).
