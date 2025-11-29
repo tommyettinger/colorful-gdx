@@ -9,7 +9,7 @@ If you know you want to use this library already, you probably want the libGDX-b
 this to your `core/build.gradle` file's `dependencies` section (if there are two, this means the later one):
 
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.9.0'
+implementation 'com.github.tommyettinger:colorful:0.10.0'
 ```
 
 If you use GWT, scroll down to the more in-depth section at the bottom; you almost certainly **don't need**
@@ -318,7 +318,7 @@ will have stark lightness differences, while when contrast is low, most lightnes
 
 Starting with version 0.4.0, there are two similar, but not identical, subprojects in this repo: colorful, which will
 probably be used more frequently, and colorful-pure, which is more specialized. You want colorful if you already depend
-on libGDX (currently on version 1.9.13 or higher); it has the useful `ColorfulBatch` and `ColorfulSprite` classes, and
+on libGDX (currently on version 1.13.1 or higher); it has the useful `ColorfulBatch` and `ColorfulSprite` classes, and
 can convert to and from libGDX `Color` objects. If you have a server project, or some other kind of project that doesn't
 have a dependency on libGDX, then you might want colorful-pure instead. Instead of libGDX, colorful-pure depends on
 [jdkgdxds](https://github.com/tommyettinger/jdkgdxds) for its primitive-backed data structures, and uses
@@ -389,16 +389,16 @@ has been fixed since 0.6.0 , and shouldn't affect code using the current version
 
 Using the Maven Central dependency is recommended, and Gradle and Maven can both depend on this library using that repository.
 
-To depend on colorful, which is the main way to use the library and uses libGDX, use:
+To depend on colorful, which is the main way to use the library and uses libGDX 1.13.1 or higher, use:
 
 Gradle dependency (`implementation` should be changed to `api` if any other dependencies use `api`):
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.9.0'
+implementation 'com.github.tommyettinger:colorful:0.10.0'
 ```
 
 Gradle dependency in the HTML project, if present:
 ```groovy
-implementation 'com.github.tommyettinger:colorful:0.9.0:sources'
+implementation 'com.github.tommyettinger:colorful:0.10.0:sources'
 ```
 
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
@@ -411,23 +411,26 @@ If you don't use Gradle, here's the Maven dependency:
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful</artifactId>
-  <version>0.9.0</version>
+  <version>0.10.0</version>
 </dependency>
 ```
+
+There are some breaking changes in libGDX 1.14.0, but none affect this library; it can be used with libGDX 1.13.1 or
+1.14.0 without changes.
 
 Using colorful-pure is similar; note that **Most Client-Side Applications Do Not Need These Following Steps**.
 
 Gradle dependency (`implementation` should be changed to `api` if any other dependencies use `api`):
 ```groovy
-implementation 'com.github.tommyettinger:colorful-pure:0.9.0'
+implementation 'com.github.tommyettinger:colorful-pure:0.10.0'
 ```
 
 Gradle dependency in the HTML project, if present:
 ```groovy
 implementation 'com.github.tommyettinger:funderby:0.1.2:sources'
-implementation 'com.github.tommyettinger:digital:0.5.4:sources'
-implementation 'com.github.tommyettinger:jdkgdxds:1.7.0:sources'
-implementation 'com.github.tommyettinger:colorful-pure:0.9.0:sources'
+implementation 'com.github.tommyettinger:digital:0.9.7:sources'
+implementation 'com.github.tommyettinger:jdkgdxds:1.13.1:sources'
+implementation 'com.github.tommyettinger:colorful-pure:0.10.0:sources'
 ```
 
 And also for GWT, in your application's `.gwt.xml` file (usually `GdxDefinition.gwt.xml`)
@@ -443,7 +446,7 @@ If you don't use Gradle, here's the Maven dependency (GWT dependencies should be
 <dependency>
   <groupId>com.github.tommyettinger</groupId>
   <artifactId>colorful-pure</artifactId>
-  <version>0.9.0</version>
+  <version>0.10.0</version>
 </dependency>
 ```
 

@@ -28,6 +28,7 @@ compileTestJava {
 
 dependencies {
     api "com.badlogicgames.gdx:gdx:$gdxVersion"
+    testImplementation "com.badlogicgames.gdx:gdx:1.14.0"
 
     testImplementation "com.squidpony:squidcore:$squidSquadVersion"
     testImplementation "com.squidpony:squidgrid:$squidSquadVersion"
@@ -36,8 +37,8 @@ dependencies {
     testImplementation "com.squidpony:squidtext:$squidSquadVersion"
     testImplementation "com.squidpony:squidsmooth:$squidSquadVersion"
 
-    testImplementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
-    testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    testImplementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:1.14.0"
+    testImplementation "com.badlogicgames.gdx:gdx-platform:1.14.0:natives-desktop"
     testImplementation "com.github.tommyettinger:anim8-gdx:$anim8Version"
     testImplementation "junit:junit:4.13.2"
 }
