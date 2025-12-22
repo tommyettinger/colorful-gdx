@@ -4,11 +4,6 @@ buildscript {
 		mavenCentral()
 		google()
 		gradlePluginPortal()
-		maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-	}
-	dependencies {
-		classpath "org.docstr:gwt-gradle-plugin:$gwtPluginVersion"
-		classpath 'com.guardsquare:proguard-gradle:7.3.2'
 	}
 }
 
@@ -19,7 +14,7 @@ allprojects {
 
 configure(subprojects) {
 	apply plugin: 'java-library'
-	sourceCompatibility = 11.0
+	java.sourceCompatibility = 11
 	compileJava {
 		options.incremental = true
 	}
@@ -31,7 +26,6 @@ subprojects {
 	repositories {
 		mavenCentral()
 		gradlePluginPortal()
-		maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 		maven { url 'https://jitpack.io' }
 	}
 }

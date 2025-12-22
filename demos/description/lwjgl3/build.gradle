@@ -1,11 +1,23 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		google()
+		gradlePluginPortal()
+	}
+	dependencies {
+		classpath 'com.guardsquare:proguard-gradle:7.5.0'
+	}
+}
+
 apply plugin: 'application'
 
 import proguard.gradle.ProGuardTask
 
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
-mainClassName = 'com.github.tommyettinger.lwjgl3.Lwjgl3Launcher'
+application.mainClass = 'com.github.tommyettinger.lwjgl3.Lwjgl3Launcher'
 eclipse.project.name = appName + '-lwjgl3'
-sourceCompatibility = 11.0
+java.sourceCompatibility = 11
 
 dependencies {
 	implementation project(':core')
@@ -14,6 +26,8 @@ dependencies {
 }
 
 import org.gradle.internal.os.OperatingSystem
+
+def jarName = "${appName}-${version}.jar"
 
 run {
 	workingDir = rootProject.file('assets').path
@@ -27,9 +41,9 @@ run {
 
 jar {
 // sets the name of the .jar file this produces to the name of the game or app.
-	archiveFileName.set("${appName}-${version}.jar")
+	archiveFileName.set(jarName)
 // the duplicatesStrategy will matter starting in Gradle 7.0; this setting works.
-	duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 	dependsOn configurations.runtimeClasspath
 	from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
 // these "exclude" lines remove some unnecessary duplicate files in the output JAR.
@@ -39,7 +53,7 @@ jar {
 	}
 // setting the manifest makes the JAR runnable.
 	manifest {
-		attributes 'Main-Class': project.mainClassName
+		attributes 'Main-Class': application.mainClass
 	}
 // this last step may help on some OSes that need extra instruction to make runnable JARs.
 	doLast {
@@ -47,19 +61,22 @@ jar {
 	}
 }
 
-
-task proguard(type: ProGuardTask) {
+tasks.register('proguard', ProGuardTask) {
+	inputs.file(project.layout.buildDirectory.asFile.get().absolutePath + "/libs/${jarName}")
 	outputs.upToDateWhen { false }
-	configuration 'proguard-rules.pro'
+	configuration('proguard-rules.pro')
 	//printmapping 'build/lib/out.map'
+	var buildDirectory = project.layout.buildDirectory.asFile.get().absolutePath
+
 	if (System.getProperty('java.version').startsWith('1.')) {
 		libraryjars "${System.getProperty('java.home')}/lib/rt.jar"
 	} else {
 		libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod", jarfilter: '!**.jar', filter: '!module-info.class'
 	}
-	injars (file("build/libs/${appName}-${version}.jar"))
+	injars(file("$buildDirectory/libs/${jarName}"))
 
-	outjars "build/libs/${appName}.jar"
+	outjars "$buildDirectory/libs/${appName}.jar"
 }
 
 proguard.dependsOn jar
+

@@ -13,7 +13,7 @@ buildscript {
 apply plugin: 'java-library'
 apply plugin: 'com.vanniktech.maven.publish'
 
-configure(subprojects) {
+configure(allprojects) {
     apply plugin: 'java-library'
     apply plugin: 'eclipse'
     apply plugin: 'idea'
@@ -56,4 +56,7 @@ if (JavaVersion.current().isJava8Compatible()) {
         }
     }
 }
+
+idea.module.excludeDirs += [file("docs/")]
+
 
