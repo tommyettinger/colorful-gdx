@@ -63,6 +63,13 @@ dependencies {
 //// The war/ folder shouldn't be committed to version control.
 clean.delete += [file("war")]
 
+// Uncomment the next line if you have changed outputPath and know that its contents
+// should be replaced by a new dist build. Some large JS files are not cleaned up by
+// default unless the outputPath is inside build/ (then the clean task removes them).
+// Do not uncomment the next line if you changed outputPath to a folder that has
+// any files that you want to keep!
+clean.delete += [file(outputPath)]
+
 //// The compileJava task is run at the start of any GWT build; we need to clean the output directory BEFORE
 //// anything can be built into that output directory, so the rest of the build can use it.
 tasks.named("compileJava"){
@@ -73,12 +80,6 @@ tasks.named("compileJava"){
 tasks.register('dist') {
 	dependsOn(["build"])
 	doLast {
-		// Uncomment the next line if you have changed outputPath and know that its contents
-		// should be replaced by a new dist build. Some large JS files are not cleaned up by
-		// default unless the outputPath is inside build/ (then the clean task removes them).
-		// Do not uncomment the next line if you changed outputPath to a folder that has
-		// any files that you want to keep!
-		//delete(file(outputPath))
 
 		file(outputPath).mkdirs()
 		copy {

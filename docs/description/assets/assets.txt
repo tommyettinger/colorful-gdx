@@ -1,7 +1,7 @@
 d:assets:assets:0:application/unknown:1
 t:font.fnt:font-2f8e2b7e6751be8820f15302a566cd82.fnt:19070:application/unknown:1
 t:uiskin.atlas:uiskin-4471667543a4cf9ad5a27dc77a050913.atlas:1116:application/unknown:1
-t:uiskin.json:uiskin-a6734544e995246cb7ea233bf1834d87.json:3328:application/unknown:1
+t:uiskin.json:uiskin-a6734544e995246cb7ea233bf1834d87.json:3328:application/json:1
 i:uiskin.png:uiskin-196fc081fc83b90487b564969708ea8f.png:5184:image/png:1
 t:com/badlogic/gdx/graphics/g3d/particles/particles.fragment.glsl:particles.fragment-b90524761fdf09b0a836056d590c30b8.glsl:820:application/unknown:1
 t:com/badlogic/gdx/graphics/g3d/particles/particles.vertex.glsl:particles.vertex-f25b8b2fae10b9bfa09bfdd484923148.glsl:2886:application/unknown:1
@@ -10,4 +10,4 @@ t:com/badlogic/gdx/graphics/g3d/shaders/default.vertex.glsl:default.vertex-28b7e
 t:com/badlogic/gdx/graphics/g3d/shaders/depth.fragment.glsl:depth.fragment-8341d5ce47fc398da575c9e294b6821b.glsl:869:application/unknown:1
 t:com/badlogic/gdx/graphics/g3d/shaders/depth.vertex.glsl:depth.vertex-98a450f1f747c05eedb7122779187316.glsl:2931:application/unknown:1
 t:com/badlogic/gdx/utils/lsans-15.fnt:lsans-15-5143ae9583bc43b1084f98062e054ae8.fnt:17711:application/unknown:1
-i:com/badlogic/gdx/utils/lsans-15.png:lsans-15-afe63790f9c73ea9a111fd9843835d21.png:14652:image/png:1
+i:com/badlogic/gdx/utils/lsans-15.png:lsans-15-8e00ff5b9dd15a3c18c1eb75f68c695a.png:10270:image/png:1
