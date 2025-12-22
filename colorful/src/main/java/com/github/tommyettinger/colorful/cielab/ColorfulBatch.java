@@ -1213,7 +1213,7 @@ public class ColorfulBatch implements Batch {
 
         float u = region.getU();
         float v = region.getV2();
-        float u2 = region.getV2();
+        float u2 = region.getU2();
         float v2 = region.getV();
 
         final float color = this.color;
