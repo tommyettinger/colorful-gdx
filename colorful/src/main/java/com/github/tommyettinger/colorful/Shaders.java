@@ -86,6 +86,34 @@ void main()
      */
 
     /**
+     * The simplest fragment shader libGDX can use, and the default in SpriteBatch. This tints a Texture's color by
+     * multiplying red, green, blue, and alpha by the batch color's red, green, blue, and alpha. That means it can't
+     * make a color brighter, because the batch color maxes out at 1.0 for any of those channels. It can make a color
+     * darker, and can make it any opaque part of a Texture black, or any part fully transparent.
+     * <br>
+     * You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}, or just using libGDX
+     * {@link com.badlogic.gdx.graphics.Color}.
+     * <br>
+     * Meant for use with {@link #vertexShader}.
+     */
+    public static final String fragmentShader =
+            "#ifdef GL_ES\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "  vec4 target = texture2D( u_texture, v_texCoords );\n" +
+                    "  gl_FragColor = target * v_color;\n" +
+                    "}";
+
+    /**
      * A simple shader that uses additive blending with "normal" RGBA colors (alpha is still multiplicative).
      * With the default SpriteBatch ShaderProgram, white is the neutral color, 50% gray darkens a color by about 50%,
      * and black darkens a color to black, but nothing can brighten a color. With this, 50% gray is the neutral color,
@@ -119,6 +147,53 @@ void main()
                     "{\n" +
                     "   vec4 tgt = texture2D( u_texture, v_texCoords );\n" +
                     "   gl_FragColor = clamp(vec4(tgt.rgb + (v_color.rgb - 0.5), v_color.a * tgt.a), 0.0, 1.0);\n" +
+                    "}";
+
+    /**
+     * A shader meant for upscaling and/or rotating pixel art. This needs the uniform u_textureResolution set to the
+     * size of the current Texture being rendered (such as a large atlas page, not an individual TextureRegion).
+     * On OpenGL ES platforms such as Android, iOS, and WebGL (including GWT and TeaVM), this needs the extension
+     * {@code GL_OES_standard_derivatives} queried before it can be used. This can be done with:
+     * <pre>
+     * <code>
+     * ShaderProgram myShader = new ShaderProgram(Shaders.vertexShader,
+     *     Gdx.app.getType() == Application.ApplicationType.Desktop
+     *         || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")
+     *             ? Shaders.fragmentShaderPixelArt
+     *             : Shaders.fragmentShader
+     * );
+     * </code>
+     * </pre>
+     * <br>
+     * The check {@code Gdx.app.getType() == Application.ApplicationType.Desktop || Gdx.graphics.supportsExtension("GL_OES_standard_derivatives")}
+     * should also be performed (or better, cached) before setting the uniform {@code u_textureResolution}, because
+     * {@link #fragmentShader} doesn't have that uniform.
+     * <br>
+     * The color attribute this uses is by default an RGBA color, and is multiplicative like SpriteBatch's default
+     * shader. You can generate RGB colors using any of various methods in the {@code rgb} package, such as
+     * {@link com.github.tommyettinger.colorful.rgb.ColorTools#rgb(float, float, float, float)}, or just using libGDX
+     * {@link com.badlogic.gdx.graphics.Color}.
+     * <br>
+     * Meant for use with {@link #vertexShader}.
+     */
+    public static final String fragmentShaderPixelArt =
+            "#ifdef GL_ES\n" +
+                    "#extension GL_OES_standard_derivatives : enable\n" +
+                    "#define LOWP lowp\n" +
+                    "precision mediump float;\n" +
+                    "#else\n" +
+                    "#define LOWP \n" +
+                    "#endif\n" +
+                    "varying vec2 v_texCoords;\n" +
+                    "varying LOWP vec4 v_color;\n" +
+                    "uniform sampler2D u_texture;\n" +
+                    "uniform vec2 u_textureResolution;\n" +
+                    "\n" +
+                    "void main() {\n" +
+                    "    vec2 uv = v_texCoords * u_textureResolution;\n" +
+                    "    vec2 seam = floor(uv+.5);\n" +
+                    "    uv = seam + clamp((uv-seam)/distance(dFdx(uv),dFdy(uv)), -.5, .5);\n" +
+                    "    gl_FragColor = texture2D(u_texture, uv/u_textureResolution) * v_color;\n" +
                     "}";
 
     /**
