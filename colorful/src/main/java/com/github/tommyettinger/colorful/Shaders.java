@@ -175,6 +175,9 @@ void main()
      * {@link com.badlogic.gdx.graphics.Color}.
      * <br>
      * Meant for use with {@link #vertexShader}.
+     * <br>
+     * This style of shader was probably rediscovered many times, but this particular one is from
+     * <a href="https://www.shadertoy.com/view/ltfXWS">this ShaderToy by Permutator</a>, CC0 licensed.
      */
     public static final String fragmentShaderPixelArt =
             "#ifdef GL_ES\n" +
@@ -189,12 +192,16 @@ void main()
                     "uniform sampler2D u_texture;\n" +
                     "uniform vec2 u_textureResolution;\n" +
                     "\n" +
+                    "vec2 v2len(vec2 a, vec2 b) {\n" +
+                    "    return sqrt(a*a+b*b);\n" +
+                    "}\n" +
+                    "\n" +
                     "void main() {\n" +
                     "    vec2 uv = v_texCoords * u_textureResolution;\n" +
                     "    vec2 seam = floor(uv+.5);\n" +
-                    "    uv = seam + clamp((uv-seam)/distance(dFdx(uv),dFdy(uv)), -.5, .5);\n" +
+                    "    uv = seam + clamp((uv-seam)/v2len(dFdx(uv),dFdy(uv)), -.5, .5);\n" +
                     "    gl_FragColor = texture2D(u_texture, uv/u_textureResolution) * v_color;\n" +
-                    "}";
+                    "}\n";
 
     /**
      * Adjusts RGBA colors so the RGB values are exaggerated towards or away from 0.0 or 1.0, depending on a uniform.
