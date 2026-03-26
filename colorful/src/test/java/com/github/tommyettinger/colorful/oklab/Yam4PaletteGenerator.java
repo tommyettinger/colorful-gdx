@@ -82,9 +82,9 @@ public class Yam4PaletteGenerator extends ApplicationAdapter {
                 0.390f,//oklabHue(JADE), // green
                 oklabHue(CYAN),
                 oklabHue(BLUE),
-                0.800f,//oklabHue(VIOLET),
+                0.825f,//oklabHue(VIOLET),
                 oklabHue(PURPLE),
-                0.975f,//oklabHue(MAGENTA),
+                0.955f,//oklabHue(MAGENTA),
         }, hueKeys;
         String[] hueNames = new String[]{
                 "red",
@@ -198,7 +198,12 @@ public class Yam4PaletteGenerator extends ApplicationAdapter {
                         pal.add(oklabByHCL(hue, outerC * satAdjust, outerL, 1f));
                     else
                         pal.add(oklabByHCL(hue, lerp(0.0125f, outerC, quart) * satAdjust, lerp(minL, maxL,
-                                barronSpline(0.2f + 0.75f * (cr / (crest * 2f)), 0.75f, 0.2f + 0.6f * (i * 0.6180339887498949f - floorPositive(i * 0.6180339887498949f)))), 1f));
+                                0.2f + 0.6f * (cr / (crest * 2f))
+//                                barronSpline(0.2f + 0.75f * (cr / (crest * 2f)), 0.9f,
+//                                        0.5f
+//                                        0.2f + 0.6f * (i * 0.6180339887498949f - floorPositive(i * 0.6180339887498949f))
+//                                )
+                        ), 1f));
                     names.add(levelNames[j] + nameKeys[i]);
                 }
             }
