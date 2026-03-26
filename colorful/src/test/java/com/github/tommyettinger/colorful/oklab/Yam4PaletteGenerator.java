@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 See AUTHORS file.
+ * Copyright (c) 2026 See AUTHORS file.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.FloatArray;
 import com.github.tommyettinger.colorful.TrigTools;
 import com.github.tommyettinger.colorful.internal.StringKit;
@@ -75,7 +74,7 @@ public class Yam4PaletteGenerator extends ApplicationAdapter {
     public void create(){
         float[] coreHues = new float[]{
                 oklabHue(RED),
-                0.119f,//oklabHue(BROWN),
+                0.121f,//oklabHue(BROWN),
                 oklabHue(ORANGE),
                 0.225f,//oklabHue(BRONZE),
                 oklabHue(YELLOW),
@@ -162,9 +161,14 @@ public class Yam4PaletteGenerator extends ApplicationAdapter {
                     break;
             }
             for (int i = 0; i < hueKeys.length; i++) {
-                float hue = hueKeys[i], quart = wave * 0.25f, fraction = i / (float)hueKeys.length,
-                        lightAdjust = 1f,//(fraction >= 0.48f && fraction < 0.58f ? 1f - TrigTools.sin_((fraction - 0.48f) * 5f) * 0.2f : 1.0f),
-                        satAdjust = (hue >= (0.08f) && hue < (0.16f) ? 1f - TrigTools.sinTurns((hue - 0.08f) * 0.5f / (0.16f - 0.08f)) * 0.4f : 1.0f) * (1f - (i & 1) * 0.1f);
+                int saw = (hueKeys.length == 36 ? i % 3 : 0);
+                float hue = hueKeys[i], quart = wave * 0.25f,
+                        lightAdjust = 1f + (saw & 1) * 0.1f - (saw & 2) * 0.075f,
+                        satAdjust = (
+                                (hue >= 0.08f && hue < 0.16f)
+                                ? 1f - TrigTools.sinTurns((hue - 0.08f) * 0.5f / (0.16f - 0.08f)) * 0.4f
+                                : 1.0f
+                        ) * (1f - ((hueKeys.length == 36) ? (saw & 1) * 0.15f + (saw & 2) * 0.05f: (i & 1) * 0.1f));
                 int chroma = 0, outerLight = 0;
                 for (int l = 0, gamut = (int) (hue * 256f); l < 256; l++, gamut += 256) {
                     if (chroma != (chroma = Math.max(chroma, ColorTools.getRawGamutValue(gamut))))
@@ -251,7 +255,7 @@ public class Yam4PaletteGenerator extends ApplicationAdapter {
             sb2.append('\t').append(names.get(i)).append('\n');
         }
         sb2.setLength(sb2.length() - 1);
-        Gdx.files.local("Yam3ColorData.txt").writeString(sb2.toString(), false, "UTF8");
+        Gdx.files.local("Yam4ColorData.txt").writeString(sb2.toString(), false, "UTF8");
 
         System.out.println(sb.append(sb2).append("\n}"));
 
