@@ -74,7 +74,7 @@ public class Yam4PaletteGenerator extends ApplicationAdapter {
     public void create(){
         float[] coreHues = new float[]{
                 oklabHue(RED),
-                0.121f,//oklabHue(BROWN),
+                0.125f,//oklabHue(BROWN),
                 0.165f,//oklabHue(ORANGE),
                 0.265f,//oklabHue(BRONZE), // saffron
                 oklabHue(YELLOW),
@@ -162,13 +162,13 @@ public class Yam4PaletteGenerator extends ApplicationAdapter {
             }
             for (int i = 0; i < hueKeys.length; i++) {
                 int saw = (hueKeys.length == 36 ? i % 3 : 0);
-                float hue = hueKeys[i], quart = wave * 0.25f,
-                        lightAdjust = 1f + (saw & 1) * 0.08f - (saw & 2) * 0.06f,
+                float hue = hueKeys[i], quart = (float) Math.pow(wave, 1.3f) / 6.07f,
+                        lightAdjust = 1f + (saw & 1) * 0.1f - (saw & 2) * 0.05f,
                         satAdjust = (
-                                (hue >= 0.08f && hue < 0.16f)
-                                ? 1f - TrigTools.sinTurns((hue - 0.08f) * 0.5f / (0.16f - 0.08f)) * 0.4f
+                                (hue >= 0.08f && hue < 0.17f)
+                                ? 1f - TrigTools.sinTurns((hue - 0.08f) * 0.5f / (0.17f - 0.08f)) * 0.4f
                                 : 1.0f
-                        ) * (1f - ((hueKeys.length == 36) ? (saw & 1) * 0.15f + (saw & 2) * 0.05f: (i & 1) * 0.1f));
+                        ) * (1f - ((hueKeys.length == 36) ? (saw & 1) * 0.1f + (saw & 2) * 0.05f: (i & 1) * 0.1f));
                 int chroma = 0, outerLight = 0;
                 for (int l = 0, gamut = (int) (hue * 256f); l < 256; l++, gamut += 256) {
                     if (chroma != (chroma = Math.max(chroma, ColorTools.getRawGamutValue(gamut))))
@@ -198,7 +198,7 @@ public class Yam4PaletteGenerator extends ApplicationAdapter {
                         pal.add(oklabByHCL(hue, outerC * satAdjust, outerL, 1f));
                     else
                         pal.add(oklabByHCL(hue, lerp(0.0125f, outerC, quart) * satAdjust, lerp(minL, maxL,
-                                0.2f + 0.6f * (cr / (crest * 2f))
+                                0.1f + 0.8f * (cr / (crest * 2f))
 //                                barronSpline(0.2f + 0.75f * (cr / (crest * 2f)), 0.9f,
 //                                        0.5f
 //                                        0.2f + 0.6f * (i * 0.6180339887498949f - floorPositive(i * 0.6180339887498949f))
