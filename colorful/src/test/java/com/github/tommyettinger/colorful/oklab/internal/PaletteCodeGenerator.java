@@ -45,10 +45,14 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 
 //    public static final String outputAdd = "Yam2Oklab";
 //    public static final String inputName = "Yam2ColorData.txt";
+//
+//    public static final String outputAdd = "Yam3Oklab";
+//    public static final String inputName = "Yam3ColorData.txt";
+//    public static final String prefix = "Yam3";
 
-    public static final String outputAdd = "Yam3Oklab";
-    public static final String inputName = "Yam3ColorData.txt";
-    public static final String prefix = "Yam3";
+    public static final String outputAdd = "Yam4Oklab";
+    public static final String inputName = "Yam4ColorData.txt";
+    public static final String prefix = "Yam4";
 
 //    public static final String outputAdd = "FullOklab";
 //    public static final String inputName = "ColorData.txt";
