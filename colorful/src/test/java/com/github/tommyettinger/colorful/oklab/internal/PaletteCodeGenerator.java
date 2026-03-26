@@ -72,6 +72,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
     public static final ObjectFloatMap<String> named = new ObjectFloatMap<>(1024);
 
     public static final boolean INT_PACK = false;
+    public static final boolean SORT = false;
 
     public static void tabSplit(String[] receiving, String source) {
         int dl = 1, idx = -1, idx2;
@@ -115,6 +116,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         StringBuilder sb = new StringBuilder(100000);
 //        .append("public static final ObjectFloatMap<String> NAMED = new ObjectFloatMap<String>(").append(lines.length).append(");\n")
 //                .append("public static final FloatArray LIST = new FloatArray(").append(lines.length).append(");\n");
+        StringBuilder hx = new StringBuilder(2048);
 
         for (int i = 0; i < lines.length; i++) {
             tabSplit(rec, lines[i]);
@@ -150,8 +152,13 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //                    + ", decoded hue=" + ColorTools.hue(c) + ", decoded saturation=" + ColorTools.saturation(c) + ", decoded lightness=" + ColorTools.lightness(c)
                     + ", decoded L=" + ColorTools.channelL(c) + ", decoded A=" + (ColorTools.channelA(c)*2f-1f) + ", decoded B=" + (ColorTools.channelB(c)*2f-1f)
             );
+            if(!SORT) hx.append(StringKit.hex(toRGBA8888(c)).substring(0, 6).toUpperCase()).append('\n');
         }
         Gdx.files.local("ColorOutput"+outputAdd+".txt").writeString(sb.toString(), false);
+        if(!SORT) {
+            hx.deleteCharAt(hx.length() - 1);
+            Gdx.files.local(inputName.replace(".txt", ".hex")).writeString(hx.toString(), false);
+        }
 
         String templateTable = "<tr>\n<td style='background-color: #FEDCBA;'></td>\n<td>Name</td>\n<td>0x`RGBA8888</td>\n<td>`LCHAN</td>\n<td>`ACHAN</td>\n<td>`BCHAN</td>\n<td>`ALPH</td>\n<td>`HUE</td>\n<td>`SAT</td>\n<td>`CHR</td>\n<td>`RRR</td>\n<td>`GGG</td>\n<td>`BBB</td>\n<td>`PACK</td>\n</tr>\n";
         final int size = named.size;
@@ -215,7 +222,6 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
         });
         System.out.println("\nnew int[]{");
         int column = 0;
-        StringBuilder hx = new StringBuilder(2048);
         sb.append("<!doctype html>\n<html>\n<body>\n<table>\n<tr>\n<th>Preview Section</th>\n<th>Color Name</th>\n<th>Hex Code</th>\n<th>L</th>\n<th>A</th>\n<th>B</th>\n<th>Alpha</th>\n<th>Hue</th>\n<th>Sat</th>\n<th>Chroma</th>\n<th>Red</th>\n<th>Green</th>\n<th>Blue</th>\n<th>Packed</th>\n</tr>\n");
         for(ObjectFloatMap.Entry<String> sc : PAL) {
             c = sc.value;
@@ -239,12 +245,13 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
             System.out.print("0x" + StringKit.hex(toRGBA8888(c)) + ", ");
             if((column = column + 1 & 7) == 0)
                 System.out.println();
-            hx.append(StringKit.hex(toRGBA8888(c)).substring(0, 6).toUpperCase()).append('\n');
+            if(SORT) hx.append(StringKit.hex(toRGBA8888(c)).substring(0, 6).toUpperCase()).append('\n');
         }
         System.out.println("}");
-
-        hx.deleteCharAt(hx.length() - 1);
-        Gdx.files.local(inputName.replace(".txt", ".hex")).writeString(hx.toString(), false);
+        if(SORT) {
+            hx.deleteCharAt(hx.length() - 1);
+            Gdx.files.local(inputName.replace(".txt", ".hex")).writeString(hx.toString(), false);
+        }
 
         sb.append("</table>\n</body>\n</html>");
         Gdx.files.local(INT_PACK ? prefix+"ColorTableHue.html" : "ColorTableHue"+outputAdd+".html").writeString(sb.toString(), false);
