@@ -75,11 +75,11 @@ public class Yam4PaletteGenerator extends ApplicationAdapter {
         float[] coreHues = new float[]{
                 oklabHue(RED),
                 0.121f,//oklabHue(BROWN),
-                oklabHue(ORANGE),
-                0.225f,//oklabHue(BRONZE),
+                0.165f,//oklabHue(ORANGE),
+                0.265f,//oklabHue(BRONZE), // saffron
                 oklabHue(YELLOW),
-                0.375f,//oklabHue(LIME),
-                0.450f,//oklabHue(JADE),
+                0.347f,//oklabHue(LIME),
+                0.390f,//oklabHue(JADE), // green
                 oklabHue(CYAN),
                 oklabHue(BLUE),
                 0.800f,//oklabHue(VIOLET),
@@ -163,7 +163,7 @@ public class Yam4PaletteGenerator extends ApplicationAdapter {
             for (int i = 0; i < hueKeys.length; i++) {
                 int saw = (hueKeys.length == 36 ? i % 3 : 0);
                 float hue = hueKeys[i], quart = wave * 0.25f,
-                        lightAdjust = 1f + (saw & 1) * 0.1f - (saw & 2) * 0.075f,
+                        lightAdjust = 1f + (saw & 1) * 0.08f - (saw & 2) * 0.06f,
                         satAdjust = (
                                 (hue >= 0.08f && hue < 0.16f)
                                 ? 1f - TrigTools.sinTurns((hue - 0.08f) * 0.5f / (0.16f - 0.08f)) * 0.4f
