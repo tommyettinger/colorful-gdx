@@ -28,33 +28,48 @@ import com.github.tommyettinger.colorful.internal.StringKit;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static com.badlogic.gdx.math.MathUtils.*;
+import static com.badlogic.gdx.math.MathUtils.floorPositive;
+import static com.badlogic.gdx.math.MathUtils.lerp;
 import static com.github.tommyettinger.anim8.OtherMath.barronSpline;
 import static com.github.tommyettinger.colorful.oklab.ColorTools.*;
 import static com.github.tommyettinger.colorful.oklab.SimplePalette.*;
 
-public class Yam3PaletteGenerator extends ApplicationAdapter {
+public class Yam4PaletteGenerator extends ApplicationAdapter {
 
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setTitle("Yam3 Palette Generator");
+        config.setTitle("Yam4 Palette Generator");
         config.setWindowedMode(320, 320);
         config.setIdleFPS(1);
         config.setResizable(false);
-        new Lwjgl3Application(new Yam3PaletteGenerator(), config);
+        new Lwjgl3Application(new Yam4PaletteGenerator(), config);
     }
 
-    /** Linearly interpolates between two angles in turns. Takes into account that angles wrap at 1.0 and always takes
+    /**
+     * Like the fract() function available in GLSL shaders, this gets the fractional part of the float
+     * input {@code t} by returning a result similar to {@code t - Math.floor(t)} . For
+     * negative inputs, this doesn't behave differently than for positive; both will always return a
+     * float that is <code>0 &lt;= t &lt; 1</code> .
+     *
+     * @param t a finite float that should be between about {@code -Math.pow(2, 23)} and {@code Math.pow(2, 23)}
+     * @return the fractional part of t, as a float <code>0 &lt;= result &lt; 1</code>
+     */
+    public static float fract(float t) {
+        t -= (int)t - 1;
+        return t - (int)t;
+    }
+
+    /**
+     * Linearly interpolates between two angles in turns. Takes into account that angles wrap at 1.0 and always takes
      * the direction with the smallest delta angle.
      *
      * @param fromTurns start angle in turns
-     * @param toTurns target angle in turns
-     * @param progress interpolation value in the range [0, 1]
-     * @return the interpolated angle in the range [0, 1) */
-    public static float lerpAngle_ (float fromTurns, float toTurns, float progress) {
-        float d = toTurns - fromTurns + 0.5f;
-        d = fromTurns + progress * (d - MathUtils.floor(d) - 0.5f);
-        return d - MathUtils.floor(d);
+     * @param toTurns   target angle in turns
+     * @param progress  interpolation value in the range [0, 1]
+     * @return the interpolated angle in the range [0, 1)
+     */
+    public static float lerpAngleTurns(float fromTurns, float toTurns, float progress){
+        return fract(fromTurns + (((toTurns - fromTurns) % 1f + 1.5f) % 1f - 0.5f) * progress);
     }
 
     public void create(){
@@ -62,15 +77,15 @@ public class Yam3PaletteGenerator extends ApplicationAdapter {
                 oklabHue(RED),
                 0.119f,//oklabHue(BROWN),
                 oklabHue(ORANGE),
-                oklabHue(BRONZE),
+                0.225f,//oklabHue(BRONZE),
                 oklabHue(YELLOW),
-                oklabHue(LIME),
-                oklabHue(JADE),
+                0.375f,//oklabHue(LIME),
+                0.450f,//oklabHue(JADE),
                 oklabHue(CYAN),
                 oklabHue(BLUE),
-                oklabHue(VIOLET),
+                0.800f,//oklabHue(VIOLET),
                 oklabHue(PURPLE),
-                oklabHue(MAGENTA),
+                0.975f,//oklabHue(MAGENTA),
         }, hueKeys;
         String[] hueNames = new String[]{
                 "red",
@@ -91,7 +106,7 @@ public class Yam3PaletteGenerator extends ApplicationAdapter {
         pal.add(TRANSPARENT);
         names.add("transparent");
         for (int i = 0; i < 15; i++) {
-            pal.add(oklabByHSL(0.1f, 0f, i / 14f, 1f));
+            pal.add(oklabByHSL(0f, 0f, i / 14f, 1f));
         }
         Collections.addAll(names, "pure black", "almost black", "lead black",
                 "black lead", "pure lead", "gray lead",
@@ -123,11 +138,11 @@ public class Yam3PaletteGenerator extends ApplicationAdapter {
                     nameKeys = new String[36];
                     levelNames = new String[]{"deep ", "true ", "bright "};
                     for (int i = 0, c = -1; i < 12; i++) {
-                        hueKeys[++c] = lerpAngle_(coreHues[i], coreHues[(i+1)%12], 0f);
+                        hueKeys[++c] = lerpAngleTurns(coreHues[i], coreHues[(i+1)%12], 0f);
                         nameKeys[c] = "pure " + hueNames[i];
-                        hueKeys[++c] = lerpAngle_(coreHues[i], coreHues[(i+1)%12], 1f/3f);
+                        hueKeys[++c] = lerpAngleTurns(coreHues[i], coreHues[(i+1)%12], 1f/3f);
                         nameKeys[c] = hueNames[(i+1)%12] + ' ' + hueNames[i];
-                        hueKeys[++c] = lerpAngle_(coreHues[i], coreHues[(i+1)%12], 2f/3f);
+                        hueKeys[++c] = lerpAngleTurns(coreHues[i], coreHues[(i+1)%12], 2f/3f);
                         nameKeys[c] = hueNames[i] + ' ' + hueNames[(i+1)%12];
                     }
                     break;
@@ -137,11 +152,11 @@ public class Yam3PaletteGenerator extends ApplicationAdapter {
                     nameKeys = new String[36];
                     levelNames = new String[]{"bold "};
                     for (int i = 0, c = -1; i < 12; i++) {
-                        hueKeys[++c] = lerpAngle_(coreHues[i], coreHues[(i+1)%12], 0f);
+                        hueKeys[++c] = lerpAngleTurns(coreHues[i], coreHues[(i+1)%12], 0f);
                         nameKeys[c] = "pure " + hueNames[i];
-                        hueKeys[++c] = lerpAngle_(coreHues[i], coreHues[(i+1)%12], 1f/3f);
+                        hueKeys[++c] = lerpAngleTurns(coreHues[i], coreHues[(i+1)%12], 1f/3f);
                         nameKeys[c] = hueNames[(i+1)%12] + ' ' + hueNames[i];
-                        hueKeys[++c] = lerpAngle_(coreHues[i], coreHues[(i+1)%12], 2f/3f);
+                        hueKeys[++c] = lerpAngleTurns(coreHues[i], coreHues[(i+1)%12], 2f/3f);
                         nameKeys[c] = hueNames[i] + ' ' + hueNames[(i+1)%12];
                     }
                     break;
