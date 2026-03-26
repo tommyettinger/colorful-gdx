@@ -162,7 +162,7 @@ public class Yam4PaletteGenerator extends ApplicationAdapter {
             }
             for (int i = 0; i < hueKeys.length; i++) {
                 int saw = (hueKeys.length == 36 ? i % 3 : 0);
-                float hue = hueKeys[i], quart = (float) Math.pow(wave, 1.3f) / 6.07f,
+                float hue = hueKeys[i], quart = (float) Math.pow(wave, 1.5f) / 8.5f + 0.058f,
                         lightAdjust = 1f + (saw & 1) * 0.1f - (saw & 2) * 0.05f,
                         satAdjust = (
                                 (hue >= 0.08f && hue < 0.17f)
