@@ -99,7 +99,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
     public void create() {
         float c;
         String templateFull = "\n/**\n" +
-                "* This color constant \"`Name\" has RGBA8888 code {@code `RRGGBBAA}, L `LCHAN, A `ACHAN, B `BCHAN," +
+                "* This color constant \"`Name\" has RGBA8888 code {@code `RRGGBBAA}, L `LCHAN, A `ACHAN, B `BCHAN,\n" +
                 "* alpha `ALPHA, red `RRR, green `GGG, blue `BBB, hue `HUE, saturation `SAT, and chroma `CHR.\n" +
                 "* `PACKTYPE {@code `PACKED}.\n" +
                 "* <pre>\n" +
