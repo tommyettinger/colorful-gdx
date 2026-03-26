@@ -1,19 +1,3 @@
-<!--
-  ~ Copyright (c) 2023 See AUTHORS file.
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~   http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
-
 <!doctype html>
 <html>
 <body>
@@ -29,33 +13,42 @@
 <th>Hue</th>
 <th>Sat</th>
 <th>Chroma</th>
+<th>Red</th>
+<th>Green</th>
+<th>Blue</th>
 <th>Packed</th>
 </tr>
 <tr>
-<td style='background-color: #141414;'></td>
+<td style='background-color: #121212;'></td>
 <td>almost black</td>
-<td>0x141414ff</td>
-<td>0.06666667</td>
+<td>0x121212ff</td>
+<td>0.07058824</td>
 <td>0.49803922</td>
 <td>0.49803922</td>
 <td>1.0</td>
 <td>0.0</td>
 <td>0.0</td>
 <td>0.0055242716</td>
-<td>-0x1.fefe22p125F</td>
+<td>0.070597656</td>
+<td>0.07059015</td>
+<td>0.07056262</td>
+<td>-0x1.fefe24p125F</td>
 </tr>
 <tr>
-<td style='background-color: #f2f2f2;'></td>
+<td style='background-color: #ededed;'></td>
 <td>almost white</td>
-<td>0xf2f2f2ff</td>
-<td>0.93333334</td>
+<td>0xedededff</td>
+<td>0.92941177</td>
 <td>0.49803922</td>
 <td>0.49803922</td>
 <td>1.0</td>
 <td>0.0</td>
 <td>0.0</td>
 <td>0.0055242716</td>
-<td>-0x1.feffdcp125F</td>
+<td>0.92953587</td>
+<td>0.92943704</td>
+<td>0.9290746</td>
+<td>-0x1.feffdap125F</td>
 </tr>
 <tr>
 <td style='background-color: #314474;'></td>
@@ -65,2030 +58,2498 @@
 <td>0.49411765</td>
 <td>0.45490196</td>
 <td>1.0</td>
-<td>0.735567</td>
+<td>0.735571</td>
 <td>0.29066738</td>
 <td>0.09060479</td>
+<td>0.19158068</td>
+<td>0.26817235</td>
+<td>0.45341927</td>
 <td>-0x1.e8fc8cp125F</td>
 </tr>
 <tr>
-<td style='background-color: #5b463e;'></td>
+<td style='background-color: #614c43;'></td>
 <td>black brown</td>
-<td>0x5b463eff</td>
-<td>0.29803923</td>
+<td>0x614c43ff</td>
+<td>0.31764707</td>
 <td>0.50980395</td>
 <td>0.50980395</td>
 <td>1.0</td>
-<td>0.125</td>
-<td>0.2424366</td>
+<td>0.124999985</td>
+<td>0.22933193</td>
 <td>0.027621359</td>
-<td>-0x1.050498p126F</td>
+<td>0.38004044</td>
+<td>0.29768613</td>
+<td>0.26244172</td>
+<td>-0x1.0504a2p126F</td>
 </tr>
 <tr>
-<td style='background-color: #3c5c5a;'></td>
+<td style='background-color: #40605e;'></td>
 <td>black cyan</td>
-<td>0x3c5c5aff</td>
-<td>0.3372549</td>
+<td>0x40605eff</td>
+<td>0.34901962</td>
 <td>0.47843137</td>
 <td>0.49411765</td>
 <td>1.0</td>
-<td>0.53142345</td>
+<td>0.5314165</td>
 <td>0.443393</td>
 <td>0.044538103</td>
-<td>-0x1.fcf4acp125F</td>
+<td>0.25013524</td>
+<td>0.37808233</td>
+<td>0.37019902</td>
+<td>-0x1.fcf4b2p125F</td>
 </tr>
 <tr>
-<td style='background-color: #38643c;'></td>
+<td style='background-color: #3d6a41;'></td>
 <td>black green</td>
-<td>0x38643cff</td>
-<td>0.34901962</td>
+<td>0x3d6a41ff</td>
+<td>0.3647059</td>
 <td>0.4627451</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.40640444</td>
-<td>0.52764165</td>
+<td>0.40641648</td>
+<td>0.5031002</td>
 <td>0.08575976</td>
-<td>-0x1.0aecb2p126F</td>
+<td>0.23983009</td>
+<td>0.41520917</td>
+<td>0.25510404</td>
+<td>-0x1.0aecbap126F</td>
 </tr>
 <tr>
 <td style='background-color: #363636;'></td>
 <td>black lead</td>
 <td>0x363636ff</td>
-<td>0.20784314</td>
+<td>0.21176471</td>
 <td>0.49803922</td>
 <td>0.49803922</td>
 <td>1.0</td>
 <td>0.0</td>
 <td>0.0</td>
 <td>0.0055242716</td>
-<td>-0x1.fefe6ap125F</td>
+<td>0.21179298</td>
+<td>0.21177045</td>
+<td>0.21168786</td>
+<td>-0x1.fefe6cp125F</td>
 </tr>
 <tr>
-<td style='background-color: #465735;'></td>
+<td style='background-color: #4a5c39;'></td>
 <td>black lime</td>
-<td>0x465735ff</td>
-<td>0.31764707</td>
+<td>0x4a5c39ff</td>
+<td>0.33333334</td>
 <td>0.47843137</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.36058098</td>
-<td>0.45942646</td>
+<td>0.36057103</td>
+<td>0.4463</td>
 <td>0.060766988</td>
-<td>-0x1.0af4a2p126F</td>
+<td>0.29199916</td>
+<td>0.3604476</td>
+<td>0.2241895</td>
+<td>-0x1.0af4aap126F</td>
 </tr>
 <tr>
-<td style='background-color: #684068;'></td>
+<td style='background-color: #6b426c;'></td>
 <td>black magenta</td>
-<td>0x684068ff</td>
-<td>0.31764707</td>
+<td>0x6b426cff</td>
+<td>0.3254902</td>
 <td>0.53333336</td>
 <td>0.4745098</td>
 <td>1.0</td>
-<td>0.90640444</td>
-<td>0.37953174</td>
+<td>0.9064165</td>
+<td>0.37298808</td>
 <td>0.0835974</td>
-<td>-0x1.f310a2p125F</td>
+<td>0.4197081</td>
+<td>0.26142806</td>
+<td>0.4220305</td>
+<td>-0x1.f310a6p125F</td>
 </tr>
 <tr>
-<td style='background-color: #62432e;'></td>
+<td style='background-color: #674732;'></td>
 <td>black orange</td>
-<td>0x62432eff</td>
-<td>0.29411766</td>
+<td>0x674732ff</td>
+<td>0.30980393</td>
 <td>0.5137255</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.15640444</td>
-<td>0.4973174</td>
+<td>0.15641648</td>
+<td>0.46523243</td>
 <td>0.050931267</td>
-<td>-0x1.0b0696p126F</td>
+<td>0.4025546</td>
+<td>0.2803529</td>
+<td>0.1979979</td>
+<td>-0x1.0b069ep126F</td>
 </tr>
 <tr>
-<td style='background-color: #543562;'></td>
+<td style='background-color: #593968;'></td>
 <td>black purple</td>
-<td>0x543562ff</td>
-<td>0.2627451</td>
+<td>0x593968ff</td>
+<td>0.28235295</td>
 <td>0.5294118</td>
 <td>0.46666667</td>
 <td>1.0</td>
 <td>0.875</td>
-<td>0.4269324</td>
+<td>0.40406102</td>
 <td>0.08856081</td>
-<td>-0x1.ef0e86p125F</td>
+<td>0.3500163</td>
+<td>0.22513701</td>
+<td>0.40725103</td>
+<td>-0x1.ef0e9p125F</td>
 </tr>
 <tr>
-<td style='background-color: #5d2f27;'></td>
+<td style='background-color: #603129;'></td>
 <td>black red</td>
-<td>0x5d2f27ff</td>
-<td>0.23921569</td>
+<td>0x603129ff</td>
+<td>0.2509804</td>
 <td>0.5294118</td>
 <td>0.5176471</td>
 <td>1.0</td>
-<td>0.088913955</td>
-<td>0.4492372</td>
+<td>0.088903844</td>
+<td>0.4387898</td>
 <td>0.068331465</td>
-<td>-0x1.090e7ap126F</td>
+<td>0.37697697</td>
+<td>0.19471823</td>
+<td>0.16208121</td>
+<td>-0x1.090e8p126F</td>
 </tr>
 <tr>
-<td style='background-color: #625238;'></td>
+<td style='background-color: #68573d;'></td>
 <td>black saffron</td>
-<td>0x625238ff</td>
-<td>0.3372549</td>
+<td>0x68573dff</td>
+<td>0.3529412</td>
 <td>0.5019608</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.22370392</td>
-<td>0.45057502</td>
+<td>0.22371578</td>
+<td>0.43448305</td>
 <td>0.04314594</td>
-<td>-0x1.0b00acp126F</td>
+<td>0.40788367</td>
+<td>0.3435563</td>
+<td>0.23865767</td>
+<td>-0x1.0b00b4p126F</td>
 </tr>
 <tr>
-<td style='background-color: #4e3d67;'></td>
+<td style='background-color: #51406b;'></td>
 <td>black violet</td>
-<td>0x4e3d67ff</td>
-<td>0.2784314</td>
+<td>0x51406bff</td>
+<td>0.2901961</td>
 <td>0.5176471</td>
 <td>0.46666667</td>
 <td>1.0</td>
-<td>0.8389139</td>
-<td>0.31979597</td>
+<td>0.83890384</td>
+<td>0.30432197</td>
 <td>0.07513822</td>
-<td>-0x1.ef088ep125F</td>
+<td>0.31864443</td>
+<td>0.25369304</td>
+<td>0.41853663</td>
+<td>-0x1.ef0894p125F</td>
 </tr>
 <tr>
-<td style='background-color: #5c5e33;'></td>
+<td style='background-color: #626438;'></td>
 <td>black yellow</td>
-<td>0x5c5e33ff</td>
-<td>0.36078432</td>
+<td>0x626438ff</td>
+<td>0.3764706</td>
 <td>0.4862745</td>
 <td>0.5294118</td>
 <td>1.0</td>
-<td>0.30708748</td>
-<td>0.5696002</td>
+<td>0.30710012</td>
+<td>0.551226</td>
 <td>0.064659946</td>
-<td>-0x1.0ef8b8p126F</td>
+<td>0.38379917</td>
+<td>0.39108333</td>
+<td>0.21932358</td>
+<td>-0x1.0ef8cp126F</td>
 </tr>
 <tr>
 <td style='background-color: #16d0ff;'></td>
 <td>bold blue cyan</td>
 <td>0x16d0ffff</td>
-<td>0.73333335</td>
+<td>0.7254902</td>
 <td>0.44313726</td>
 <td>0.4509804</td>
 <td>1.0</td>
-<td>0.6127901</td>
+<td>0.6127814</td>
 <td>0.9455943</td>
 <td>0.14956398</td>
-<td>-0x1.e6e376p125F</td>
+<td>0.089522496</td>
+<td>0.81364644</td>
+<td>1.0</td>
+<td>-0x1.e6e372p125F</td>
 </tr>
 <tr>
-<td style='background-color: #6c00ff;'></td>
+<td style='background-color: #6709fe;'></td>
 <td>bold blue violet</td>
-<td>0x6c00ffff</td>
-<td>0.38039216</td>
-<td>0.54901963</td>
+<td>0x6709feff</td>
+<td>0.36862746</td>
+<td>0.54509807</td>
 <td>0.36078432</td>
 <td>1.0</td>
-<td>0.8065884</td>
-<td>0.9825344</td>
-<td>0.2940345</td>
-<td>-0x1.b918c2p125F</td>
+<td>0.80256844</td>
+<td>0.96103895</td>
+<td>0.29153293</td>
+<td>0.40456513</td>
+<td>0.035924982</td>
+<td>0.99561656</td>
+<td>-0x1.b916bcp125F</td>
 </tr>
 <tr>
-<td style='background-color: #e37f49;'></td>
+<td style='background-color: #e37f4a;'></td>
 <td>bold brown orange</td>
-<td>0xe37f49ff</td>
-<td>0.61960787</td>
+<td>0xe37f4aff</td>
+<td>0.60784316</td>
 <td>0.5411765</td>
 <td>0.54901963</td>
 <td>1.0</td>
-<td>0.138223</td>
+<td>0.13823235</td>
 <td>0.6678191</td>
 <td>0.12753771</td>
-<td>-0x1.19153cp126F</td>
+<td>0.88943654</td>
+<td>0.4985273</td>
+<td>0.28945404</td>
+<td>-0x1.191536p126F</td>
 </tr>
 <tr>
-<td style='background-color: #e24a30;'></td>
+<td style='background-color: #de4d30;'></td>
 <td>bold brown red</td>
-<td>0xe24a30ff</td>
-<td>0.5176471</td>
-<td>0.5764706</td>
+<td>0xde4d30ff</td>
+<td>0.5019608</td>
+<td>0.57254905</td>
 <td>0.54901963</td>
 <td>1.0</td>
-<td>0.09174438</td>
-<td>0.7339607</td>
-<td>0.1809568</td>
-<td>-0x1.192708p126F</td>
+<td>0.09550095</td>
+<td>0.7426364</td>
+<td>0.17443058</td>
+<td>0.8695441</td>
+<td>0.30225837</td>
+<td>0.18803619</td>
+<td>-0x1.1925p126F</td>
 </tr>
 <tr>
-<td style='background-color: #119ff1;'></td>
+<td style='background-color: #129ff1;'></td>
 <td>bold cyan blue</td>
-<td>0x119ff1ff</td>
-<td>0.5921569</td>
+<td>0x129ff1ff</td>
+<td>0.5803922</td>
 <td>0.45882353</td>
 <td>0.43137255</td>
 <td>1.0</td>
-<td>0.665366</td>
+<td>0.66537344</td>
 <td>0.91735274</td>
 <td>0.15944009</td>
-<td>-0x1.dceb2ep125F</td>
+<td>0.07245364</td>
+<td>0.6241355</td>
+<td>0.9437182</td>
+<td>-0x1.dceb28p125F</td>
 </tr>
 <tr>
-<td style='background-color: #30f6a0;'></td>
+<td style='background-color: #33f8a1;'></td>
 <td>bold cyan green</td>
-<td>0x30f6a0ff</td>
-<td>0.80784315</td>
+<td>0x33f8a1ff</td>
+<td>0.8117647</td>
 <td>0.4117647</td>
 <td>0.5294118</td>
 <td>1.0</td>
-<td>0.4445043</td>
+<td>0.4444914</td>
 <td>0.86701477</td>
 <td>0.18528971</td>
-<td>-0x1.0ed39cp126F</td>
+<td>0.1996496</td>
+<td>0.97006166</td>
+<td>0.6318893</td>
+<td>-0x1.0ed39ep126F</td>
 </tr>
 <tr>
-<td style='background-color: #00fbd2;'></td>
+<td style='background-color: #00fcd3;'></td>
 <td>bold green cyan</td>
-<td>0x00fbd2ff</td>
-<td>0.827451</td>
+<td>0x00fcd3ff</td>
+<td>0.83137256</td>
 <td>0.41568628</td>
 <td>0.5019608</td>
 <td>1.0</td>
-<td>0.49243808</td>
+<td>0.49242693</td>
 <td>0.9556271</td>
 <td>0.16801417</td>
-<td>-0x1.00d5a6p126F</td>
+<td>0.0</td>
+<td>0.98474044</td>
+<td>0.8254478</td>
+<td>-0x1.00d5a8p126F</td>
 </tr>
 <tr>
-<td style='background-color: #7ffe16;'></td>
+<td style='background-color: #85ff00;'></td>
 <td>bold green lime</td>
-<td>0x7ffe16ff</td>
-<td>0.8392157</td>
+<td>0x85ff00ff</td>
+<td>0.84705883</td>
 <td>0.40784314</td>
-<td>0.5882353</td>
+<td>0.5921569</td>
 <td>1.0</td>
-<td>0.375</td>
-<td>0.97095263</td>
-<td>0.25417653</td>
-<td>-0x1.2cd1acp126F</td>
+<td>0.37161422</td>
+<td>0.9776923</td>
+<td>0.25964078</td>
+<td>0.5203765</td>
+<td>0.99838173</td>
+<td>0.0</td>
+<td>-0x1.2ed1bp126F</td>
 </tr>
 <tr>
-<td style='background-color: #61fa23;'></td>
+<td style='background-color: #64fe28;'></td>
 <td>bold lime green</td>
-<td>0x61fa23ff</td>
-<td>0.8156863</td>
+<td>0x64fe28ff</td>
+<td>0.827451</td>
 <td>0.4</td>
 <td>0.58431375</td>
 <td>1.0</td>
-<td>0.3851376</td>
+<td>0.38514507</td>
 <td>0.912374</td>
 <td>0.26057938</td>
-<td>-0x1.2acdap126F</td>
+<td>0.39197084</td>
+<td>0.99379694</td>
+<td>0.15926223</td>
+<td>-0x1.2acda6p126F</td>
 </tr>
 <tr>
-<td style='background-color: #e2f82e;'></td>
+<td style='background-color: #e3fa31;'></td>
 <td>bold lime yellow</td>
-<td>0xe2f82eff</td>
-<td>0.89411765</td>
+<td>0xe3fa31ff</td>
+<td>0.9098039</td>
 <td>0.45490196</td>
 <td>0.5882353</td>
 <td>1.0</td>
-<td>0.3209959</td>
+<td>0.3209999</td>
 <td>0.89456487</td>
 <td>0.1974106</td>
-<td>-0x1.2ce9c8p126F</td>
+<td>0.890597</td>
+<td>0.9766937</td>
+<td>0.19200431</td>
+<td>-0x1.2ce9dp126F</td>
 </tr>
 <tr>
-<td style='background-color: #cb2af8;'></td>
+<td style='background-color: #cb29f7;'></td>
 <td>bold magenta purple</td>
-<td>0xcb2af8ff</td>
-<td>0.5294118</td>
+<td>0xcb29f7ff</td>
+<td>0.5137255</td>
 <td>0.6039216</td>
 <td>0.40392157</td>
 <td>1.0</td>
-<td>0.88434434</td>
+<td>0.88435125</td>
 <td>0.8919699</td>
 <td>0.2819544</td>
-<td>-0x1.cf350ep125F</td>
+<td>0.79298437</td>
+<td>0.16244225</td>
+<td>0.96552974</td>
+<td>-0x1.cf3506p125F</td>
 </tr>
 <tr>
-<td style='background-color: #f82162;'></td>
+<td style='background-color: #f72061;'></td>
 <td>bold magenta red</td>
-<td>0xf82162ff</td>
-<td>0.52156866</td>
+<td>0xf72061ff</td>
+<td>0.5058824</td>
 <td>0.6156863</td>
 <td>0.5176471</td>
 <td>1.0</td>
-<td>0.02629608</td>
+<td>0.026284225</td>
 <td>0.907875</td>
 <td>0.23313475</td>
-<td>-0x1.093b0ap126F</td>
+<td>0.96537066</td>
+<td>0.12775865</td>
+<td>0.38095307</td>
+<td>-0x1.093b02p126F</td>
 </tr>
 <tr>
 <td style='background-color: #da7a4b;'></td>
 <td>bold orange brown</td>
 <td>0xda7a4bff</td>
-<td>0.59607846</td>
+<td>0.58431375</td>
 <td>0.5411765</td>
 <td>0.54509807</td>
 <td>1.0</td>
-<td>0.13191015</td>
+<td>0.13191544</td>
 <td>0.6142951</td>
 <td>0.121659465</td>
-<td>-0x1.17153p126F</td>
+<td>0.8546452</td>
+<td>0.477885</td>
+<td>0.29672205</td>
+<td>-0x1.17152ap126F</td>
 </tr>
 <tr>
-<td style='background-color: #fe970f;'></td>
+<td style='background-color: #fe9810;'></td>
 <td>bold orange saffron</td>
-<td>0xfe970fff</td>
-<td>0.7019608</td>
+<td>0xfe9810ff</td>
+<td>0.69411767</td>
 <td>0.5294118</td>
 <td>0.5764706</td>
 <td>1.0</td>
-<td>0.189452</td>
-<td>0.9573626</td>
+<td>0.18944053</td>
+<td>0.9365504</td>
 <td>0.1632233</td>
-<td>-0x1.270f66p126F</td>
+<td>0.9957731</td>
+<td>0.5951701</td>
+<td>0.06468667</td>
+<td>-0x1.270f62p126F</td>
 </tr>
 <tr>
-<td style='background-color: #0900ff;'></td>
+<td style='background-color: #0800ff;'></td>
 <td>bold pure blue</td>
-<td>0x0900ffff</td>
+<td>0x0800ffff</td>
 <td>0.30588236</td>
 <td>0.48235294</td>
 <td>0.34117648</td>
 <td>1.0</td>
-<td>0.73413044</td>
-<td>0.9925803</td>
+<td>0.73413724</td>
+<td>0.98047566</td>
 <td>0.31835338</td>
+<td>0.034525402</td>
+<td>0.0</td>
+<td>1.0</td>
 <td>-0x1.aef69cp125F</td>
 </tr>
 <tr>
-<td style='background-color: #cd7351;'></td>
+<td style='background-color: #d17654;'></td>
 <td>bold pure brown</td>
-<td>0xcd7351ff</td>
+<td>0xd17654ff</td>
 <td>0.5647059</td>
 <td>0.5411765</td>
 <td>0.5372549</td>
 <td>1.0</td>
-<td>0.11743266</td>
-<td>0.5405843</td>
+<td>0.11742691</td>
+<td>0.53093106</td>
 <td>0.11062346</td>
+<td>0.8177897</td>
+<td>0.46303216</td>
+<td>0.33181566</td>
 <td>-0x1.13152p126F</td>
 </tr>
 <tr>
-<td style='background-color: #22f7f8;'></td>
+<td style='background-color: #26f9fa;'></td>
 <td>bold pure cyan</td>
-<td>0x22f7f8ff</td>
-<td>0.8352941</td>
+<td>0x26f9faff</td>
+<td>0.84313726</td>
 <td>0.42745098</td>
 <td>0.47843137</td>
 <td>1.0</td>
-<td>0.5431152</td>
+<td>0.54312253</td>
 <td>0.9112947</td>
 <td>0.15078327</td>
-<td>-0x1.f4dbaap125F</td>
+<td>0.14961061</td>
+<td>0.973952</td>
+<td>0.9792822</td>
+<td>-0x1.f4dbaep125F</td>
 </tr>
 <tr>
-<td style='background-color: #00ff21;'></td>
+<td style='background-color: #00ff22;'></td>
 <td>bold pure green</td>
-<td>0x00ff21ff</td>
+<td>0x00ff22ff</td>
 <td>0.80784315</td>
 <td>0.38039216</td>
 <td>0.58431375</td>
 <td>1.0</td>
-<td>0.399282</td>
-<td>0.9920574</td>
+<td>0.3992949</td>
+<td>0.979004</td>
 <td>0.29153293</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.13362467</td>
 <td>-0x1.2ac39cp126F</td>
 </tr>
 <tr>
-<td style='background-color: #b0fa34;'></td>
+<td style='background-color: #b2fc36;'></td>
 <td>bold pure lime</td>
-<td>0xb0fa34ff</td>
-<td>0.8627451</td>
+<td>0xb2fc36ff</td>
+<td>0.8745098</td>
 <td>0.43137255</td>
 <td>0.58431375</td>
 <td>1.0</td>
-<td>0.35471845</td>
+<td>0.35470623</td>
 <td>0.882631</td>
 <td>0.21657681</td>
-<td>-0x1.2addb8p126F</td>
+<td>0.6967724</td>
+<td>0.9881656</td>
+<td>0.21434157</td>
+<td>-0x1.2addbep126F</td>
 </tr>
 <tr>
-<td style='background-color: #f62bf7;'></td>
+<td style='background-color: #f52af6;'></td>
 <td>bold pure magenta</td>
-<td>0xf62bf7ff</td>
-<td>0.59607846</td>
+<td>0xf52af6ff</td>
+<td>0.5803922</td>
 <td>0.62352943</td>
 <td>0.41960785</td>
 <td>1.0</td>
-<td>0.911086</td>
-<td>0.9092994</td>
+<td>0.91109616</td>
+<td>0.8984744</td>
 <td>0.29361907</td>
-<td>-0x1.d73f3p125F</td>
+<td>0.9593891</td>
+<td>0.166036</td>
+<td>0.9631133</td>
+<td>-0x1.d73f28p125F</td>
 </tr>
 <tr>
-<td style='background-color: #fa7b1c;'></td>
+<td style='background-color: #f97a1b;'></td>
 <td>bold pure orange</td>
-<td>0xfa7b1cff</td>
-<td>0.6392157</td>
+<td>0xf97a1bff</td>
+<td>0.62352943</td>
 <td>0.54901963</td>
 <td>0.5686275</td>
 <td>1.0</td>
-<td>0.15043804</td>
-<td>0.90626955</td>
+<td>0.15045097</td>
+<td>0.88814414</td>
 <td>0.16801417</td>
-<td>-0x1.231946p126F</td>
+<td>0.97334194</td>
+<td>0.47868094</td>
+<td>0.10668708</td>
+<td>-0x1.23193ep126F</td>
 </tr>
 <tr>
-<td style='background-color: #c300fe;'></td>
+<td style='background-color: #c400fe;'></td>
 <td>bold pure purple</td>
-<td>0xc300feff</td>
-<td>0.5019608</td>
+<td>0xc400feff</td>
+<td>0.49019608</td>
 <td>0.60784316</td>
 <td>0.39215687</td>
 <td>1.0</td>
-<td>0.8778911</td>
+<td>0.8778934</td>
 <td>0.9724325</td>
 <td>0.30383494</td>
-<td>-0x1.c937p125F</td>
+<td>0.7658322</td>
+<td>0.0</td>
+<td>0.99350595</td>
+<td>-0x1.c936fap125F</td>
 </tr>
 <tr>
 <td style='background-color: #ff0000;'></td>
 <td>bold pure red</td>
 <td>0xff0000ff</td>
-<td>0.50980395</td>
+<td>0.49411765</td>
 <td>0.6117647</td>
 <td>0.56078434</td>
 <td>1.0</td>
-<td>0.08024464</td>
+<td>0.0802405</td>
 <td>0.98868626</td>
 <td>0.25345513</td>
-<td>-0x1.1f3904p126F</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>-0x1.1f38fcp126F</td>
 </tr>
 <tr>
 <td style='background-color: #f6a319;'></td>
 <td>bold pure saffron</td>
 <td>0xf6a319ff</td>
-<td>0.7176471</td>
+<td>0.70980394</td>
 <td>0.5176471</td>
 <td>0.5764706</td>
 <td>1.0</td>
-<td>0.21101315</td>
+<td>0.21101043</td>
 <td>0.9162457</td>
 <td>0.15634763</td>
-<td>-0x1.27096ep126F</td>
+<td>0.96484447</td>
+<td>0.64018905</td>
+<td>0.10090439</td>
+<td>-0x1.27096ap126F</td>
 </tr>
 <tr>
-<td style='background-color: #8a22ef;'></td>
+<td style='background-color: #8921ee;'></td>
 <td>bold pure violet</td>
-<td>0x8a22efff</td>
-<td>0.41960785</td>
+<td>0x8921eeff</td>
+<td>0.40784314</td>
 <td>0.5686275</td>
 <td>0.38431373</td>
 <td>1.0</td>
-<td>0.83841944</td>
+<td>0.83840954</td>
 <td>0.8865479</td>
 <td>0.26796988</td>
-<td>-0x1.c522d6p125F</td>
+<td>0.53661466</td>
+<td>0.13249634</td>
+<td>0.93069494</td>
+<td>-0x1.c522dp125F</td>
 </tr>
 <tr>
-<td style='background-color: #fcfc00;'></td>
+<td style='background-color: #fdfe0b;'></td>
 <td>bold pure yellow</td>
-<td>0xfcfc00ff</td>
-<td>0.9254902</td>
+<td>0xfdfe0bff</td>
+<td>0.94509804</td>
 <td>0.4627451</td>
 <td>0.59607846</td>
 <td>1.0</td>
-<td>0.3049839</td>
+<td>0.30499688</td>
 <td>0.94895214</td>
 <td>0.20529193</td>
-<td>-0x1.30edd8p126F</td>
+<td>0.991993</td>
+<td>0.99240994</td>
+<td>0.04535171</td>
+<td>-0x1.30ede2p126F</td>
 </tr>
 <tr>
-<td style='background-color: #ea16fe;'></td>
+<td style='background-color: #ea17fe;'></td>
 <td>bold purple magenta</td>
-<td>0xea16feff</td>
-<td>0.5686275</td>
+<td>0xea17feff</td>
+<td>0.5568628</td>
 <td>0.62352943</td>
 <td>0.40784314</td>
 <td>1.0</td>
-<td>0.90080184</td>
-<td>0.96117365</td>
+<td>0.9008148</td>
+<td>0.94959325</td>
 <td>0.30703226</td>
-<td>-0x1.d13f22p125F</td>
+<td>0.91608685</td>
+<td>0.09162115</td>
+<td>0.99520576</td>
+<td>-0x1.d13f1cp125F</td>
 </tr>
 <tr>
 <td style='background-color: #a100ff;'></td>
 <td>bold purple violet</td>
 <td>0xa100ffff</td>
-<td>0.4509804</td>
+<td>0.4392157</td>
 <td>0.5882353</td>
 <td>0.3764706</td>
 <td>1.0</td>
-<td>0.8516046</td>
+<td>0.85159177</td>
 <td>0.9897569</td>
 <td>0.3024255</td>
-<td>-0x1.c12ce6p125F</td>
+<td>0.62947994</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>-0x1.c12cep125F</td>
 </tr>
 <tr>
 <td style='background-color: #da6340;'></td>
 <td>bold red brown</td>
 <td>0xda6340ff</td>
-<td>0.54901963</td>
+<td>0.5372549</td>
 <td>0.5568628</td>
 <td>0.54509807</td>
 <td>1.0</td>
-<td>0.107399724</td>
+<td>0.107388355</td>
 <td>0.6511652</td>
 <td>0.14458403</td>
-<td>-0x1.171d18p126F</td>
+<td>0.8548645</td>
+<td>0.38977724</td>
+<td>0.25215667</td>
+<td>-0x1.171d12p126F</td>
 </tr>
 <tr>
-<td style='background-color: #ff00a5;'></td>
+<td style='background-color: #ff00a6;'></td>
 <td>bold red magenta</td>
-<td>0xff00a5ff</td>
-<td>0.54901963</td>
+<td>0xff00a6ff</td>
+<td>0.5372549</td>
 <td>0.63529414</td>
 <td>0.47058824</td>
 <td>1.0</td>
-<td>0.96857655</td>
+<td>0.9685835</td>
 <td>0.9778942</td>
 <td>0.2758266</td>
-<td>-0x1.f14518p125F</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.64964795</td>
+<td>-0x1.f14512p125F</td>
 </tr>
 <tr>
-<td style='background-color: #fa8b17;'></td>
+<td style='background-color: #f98915;'></td>
 <td>bold saffron orange</td>
-<td>0xfa8b17ff</td>
-<td>0.67058825</td>
+<td>0xf98915ff</td>
+<td>0.654902</td>
 <td>0.5372549</td>
 <td>0.57254905</td>
 <td>1.0</td>
-<td>0.17289151</td>
+<td>0.17289294</td>
 <td>0.9136558</td>
 <td>0.16247371</td>
-<td>-0x1.251356p126F</td>
+<td>0.9734198</td>
+<td>0.53882426</td>
+<td>0.08366903</td>
+<td>-0x1.25134ep126F</td>
 </tr>
 <tr>
 <td style='background-color: #ffdb2e;'></td>
 <td>bold saffron yellow</td>
 <td>0xffdb2eff</td>
-<td>0.85490197</td>
+<td>0.85882354</td>
 <td>0.4862745</td>
 <td>0.58431375</td>
 <td>1.0</td>
-<td>0.2715826</td>
-<td>0.96537405</td>
+<td>0.2715699</td>
+<td>0.90626955</td>
 <td>0.17017984</td>
-<td>-0x1.2af9b4p126F</td>
+<td>0.99900407</td>
+<td>0.8585315</td>
+<td>0.18344419</td>
+<td>-0x1.2af9b6p126F</td>
 </tr>
 <tr>
-<td style='background-color: #401bf0;'></td>
+<td style='background-color: #3f19ee;'></td>
 <td>bold violet blue</td>
-<td>0x401bf0ff</td>
-<td>0.32941177</td>
+<td>0x3f19eeff</td>
+<td>0.32156864</td>
 <td>0.5137255</td>
 <td>0.36078432</td>
 <td>1.0</td>
-<td>0.7681207</td>
+<td>0.7681106</td>
 <td>0.9032777</td>
 <td>0.27868843</td>
-<td>-0x1.b906a8p125F</td>
+<td>0.24788053</td>
+<td>0.09916656</td>
+<td>0.93260795</td>
+<td>-0x1.b906a4p125F</td>
 </tr>
 <tr>
-<td style='background-color: #a324f1;'></td>
+<td style='background-color: #ab24f6;'></td>
 <td>bold violet purple</td>
-<td>0xa324f1ff</td>
-<td>0.45882353</td>
-<td>0.58431375</td>
+<td>0xab24f6ff</td>
+<td>0.4627451</td>
+<td>0.5882353</td>
 <td>0.39215687</td>
 <td>1.0</td>
-<td>0.8588265</td>
-<td>0.89302945</td>
-<td>0.2727111</td>
-<td>-0x1.c92aeap125F</td>
+<td>0.8622947</td>
+<td>0.8979315</td>
+<td>0.27759123</td>
+<td>0.66908854</td>
+<td>0.14337344</td>
+<td>0.9620044</td>
+<td>-0x1.c92cecp125F</td>
 </tr>
 <tr>
-<td style='background-color: #c5f700;'></td>
+<td style='background-color: #c5ff18;'></td>
 <td>bold yellow lime</td>
-<td>0xc5f700ff</td>
-<td>0.8666667</td>
-<td>0.4392157</td>
+<td>0xc5ff18ff</td>
+<td>0.9019608</td>
+<td>0.43529412</td>
 <td>0.5921569</td>
 <td>1.0</td>
-<td>0.33891395</td>
-<td>0.9593879</td>
-<td>0.21993263</td>
-<td>-0x1.2ee1bap126F</td>
+<td>0.34358352</td>
+<td>0.9614803</td>
+<td>0.22432896</td>
+<td>0.77341974</td>
+<td>1.0</td>
+<td>0.09739314</td>
+<td>-0x1.2edfccp126F</td>
 </tr>
 <tr>
-<td style='background-color: #ffb900;'></td>
+<td style='background-color: #fcbd00;'></td>
 <td>bold yellow saffron</td>
-<td>0xffb900ff</td>
+<td>0xfcbd00ff</td>
 <td>0.7764706</td>
-<td>0.5058824</td>
+<td>0.5019608</td>
 <td>0.58431375</td>
 <td>1.0</td>
-<td>0.235567</td>
-<td>0.96046615</td>
-<td>0.16837704</td>
-<td>-0x1.2b038cp126F</td>
+<td>0.24277067</td>
+<td>0.95750934</td>
+<td>0.16801417</td>
+<td>0.9863163</td>
+<td>0.7391388</td>
+<td>0.0</td>
+<td>-0x1.2b018cp126F</td>
 </tr>
 <tr>
-<td style='background-color: #4dcff1;'></td>
+<td style='background-color: #50d2f4;'></td>
 <td>bright blue cyan</td>
-<td>0x4dcff1ff</td>
-<td>0.7372549</td>
+<td>0x50d2f4ff</td>
+<td>0.7411765</td>
 <td>0.4509804</td>
 <td>0.4627451</td>
 <td>1.0</td>
-<td>0.6024291</td>
+<td>0.6024164</td>
 <td>0.7692308</td>
 <td>0.12265874</td>
-<td>-0x1.ece778p125F</td>
+<td>0.31336385</td>
+<td>0.82196045</td>
+<td>0.95680463</td>
+<td>-0x1.ece77ap125F</td>
 </tr>
 <tr>
-<td style='background-color: #7447f5;'></td>
+<td style='background-color: #7448f6;'></td>
 <td>bright blue violet</td>
-<td>0x7447f5ff</td>
-<td>0.44705883</td>
+<td>0x7448f6ff</td>
+<td>0.4392157</td>
 <td>0.5372549</td>
 <td>0.3882353</td>
 <td>1.0</td>
-<td>0.804581</td>
+<td>0.8045939</td>
 <td>0.90097386</td>
 <td>0.23470029</td>
-<td>-0x1.c712e4p125F</td>
+<td>0.4568022</td>
+<td>0.2838437</td>
+<td>0.9634171</td>
+<td>-0x1.c712ep125F</td>
 </tr>
 <tr>
-<td style='background-color: #d68c62;'></td>
+<td style='background-color: #d88d63;'></td>
 <td>bright brown orange</td>
-<td>0xd68c62ff</td>
-<td>0.63529414</td>
+<td>0xd88d63ff</td>
+<td>0.627451</td>
 <td>0.5294118</td>
 <td>0.5372549</td>
 <td>1.0</td>
-<td>0.14260027</td>
+<td>0.14261165</td>
 <td>0.522704</td>
 <td>0.0945603</td>
-<td>-0x1.130f44p126F</td>
+<td>0.84405553</td>
+<td>0.55265355</td>
+<td>0.3899325</td>
+<td>-0x1.130f4p126F</td>
 </tr>
 <tr>
-<td style='background-color: #d8654e;'></td>
+<td style='background-color: #d9674f;'></td>
 <td>bright brown red</td>
-<td>0xd8654eff</td>
-<td>0.5529412</td>
+<td>0xd9674fff</td>
+<td>0.54509807</td>
 <td>0.5568628</td>
 <td>0.5372549</td>
 <td>1.0</td>
-<td>0.09359558</td>
+<td>0.09358352</td>
 <td>0.6111104</td>
 <td>0.13542919</td>
-<td>-0x1.131d1ap126F</td>
+<td>0.85154957</td>
+<td>0.40253192</td>
+<td>0.31181282</td>
+<td>-0x1.131d16p126F</td>
 </tr>
 <tr>
-<td style='background-color: #56a8e8;'></td>
+<td style='background-color: #58aaea;'></td>
 <td>bright cyan blue</td>
-<td>0x56a8e8ff</td>
-<td>0.63529414</td>
+<td>0x58aaeaff</td>
+<td>0.6313726</td>
 <td>0.47058824</td>
 <td>0.44705883</td>
 <td>1.0</td>
-<td>0.67138404</td>
-<td>0.7030868</td>
+<td>0.6713868</td>
+<td>0.7202353</td>
 <td>0.120651916</td>
-<td>-0x1.e4f144p125F</td>
+<td>0.3446757</td>
+<td>0.6679076</td>
+<td>0.9164423</td>
+<td>-0x1.e4f142p125F</td>
 </tr>
 <tr>
-<td style='background-color: #64e9a8;'></td>
+<td style='background-color: #67ecab;'></td>
 <td>bright cyan green</td>
-<td>0x64e9a8ff</td>
-<td>0.7921569</td>
+<td>0x67ecabff</td>
+<td>0.8</td>
 <td>0.43137255</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.44601285</td>
+<td>0.44599992</td>
 <td>0.69337523</td>
 <td>0.143312</td>
-<td>-0x1.0add94p126F</td>
+<td>0.4039669</td>
+<td>0.92511386</td>
+<td>0.66797894</td>
+<td>-0x1.0add98p126F</td>
 </tr>
 <tr>
-<td style='background-color: #4feac8;'></td>
+<td style='background-color: #53eecc;'></td>
 <td>bright green cyan</td>
-<td>0x4feac8ff</td>
-<td>0.79607844</td>
+<td>0x53eeccff</td>
+<td>0.80784315</td>
 <td>0.43137255</td>
 <td>0.5019608</td>
 <td>1.0</td>
-<td>0.49065647</td>
-<td>0.7920645</td>
+<td>0.49064872</td>
+<td>0.77406305</td>
 <td>0.13677454</td>
-<td>-0x1.00dd96p126F</td>
+<td>0.32446462</td>
+<td>0.9334027</td>
+<td>0.79849243</td>
+<td>-0x1.00dd9cp126F</td>
 </tr>
 <tr>
-<td style='background-color: #99ec4a;'></td>
+<td style='background-color: #9ef24f;'></td>
 <td>bright green lime</td>
-<td>0x99ec4aff</td>
-<td>0.8117647</td>
+<td>0x9ef24fff</td>
+<td>0.83137256</td>
 <td>0.43137255</td>
 <td>0.57254905</td>
 <td>1.0</td>
-<td>0.36617374</td>
+<td>0.36616713</td>
 <td>0.7967218</td>
 <td>0.1989505</td>
-<td>-0x1.24dd9ep126F</td>
+<td>0.6183871</td>
+<td>0.94710183</td>
+<td>0.31040698</td>
+<td>-0x1.24dda8p126F</td>
 </tr>
 <tr>
-<td style='background-color: #7bec62;'></td>
+<td style='background-color: #7cee63;'></td>
 <td>bright lime green</td>
-<td>0x7bec62ff</td>
-<td>0.79607844</td>
+<td>0x7cee63ff</td>
+<td>0.8</td>
 <td>0.42352942</td>
 <td>0.56078434</td>
 <td>1.0</td>
-<td>0.38859904</td>
+<td>0.38860857</td>
 <td>0.6805338</td>
 <td>0.1946081</td>
-<td>-0x1.1ed996p126F</td>
+<td>0.48727936</td>
+<td>0.93156826</td>
+<td>0.3904304</td>
+<td>-0x1.1ed998p126F</td>
 </tr>
 <tr>
-<td style='background-color: #dae85e;'></td>
+<td style='background-color: #ddeb61;'></td>
 <td>bright lime yellow</td>
-<td>0xdae85eff</td>
-<td>0.85490197</td>
+<td>0xddeb61ff</td>
+<td>0.87058824</td>
 <td>0.46666667</td>
 <td>0.5686275</td>
 <td>1.0</td>
-<td>0.31655478</td>
-<td>0.72954506</td>
+<td>0.31656247</td>
+<td>0.7162806</td>
 <td>0.15199278</td>
-<td>-0x1.22efb4p126F</td>
+<td>0.8670918</td>
+<td>0.92085075</td>
+<td>0.3791537</td>
+<td>-0x1.22efbcp126F</td>
 </tr>
 <tr>
-<td style='background-color: #c855e6;'></td>
+<td style='background-color: #c957e7;'></td>
 <td>bright magenta purple</td>
-<td>0xc855e6ff</td>
-<td>0.5647059</td>
+<td>0xc957e7ff</td>
+<td>0.5568628</td>
 <td>0.5803922</td>
 <td>0.42745098</td>
 <td>1.0</td>
-<td>0.8872099</td>
-<td>0.7278588</td>
+<td>0.8872186</td>
+<td>0.73756355</td>
 <td>0.21572971</td>
-<td>-0x1.db292p125F</td>
+<td>0.78851074</td>
+<td>0.34074777</td>
+<td>0.90478283</td>
+<td>-0x1.db291cp125F</td>
 </tr>
 <tr>
-<td style='background-color: #e95075;'></td>
+<td style='background-color: #ea5176;'></td>
 <td>bright magenta red</td>
-<td>0xe95075ff</td>
-<td>0.5529412</td>
+<td>0xea5176ff</td>
+<td>0.54509807</td>
 <td>0.5882353</td>
 <td>0.50980395</td>
 <td>1.0</td>
-<td>0.02065512</td>
+<td>0.020642795</td>
 <td>0.7482202</td>
 <td>0.17686298</td>
-<td>-0x1.052d1ap126F</td>
+<td>0.91698766</td>
+<td>0.3185529</td>
+<td>0.46476316</td>
+<td>-0x1.052d16p126F</td>
 </tr>
 <tr>
-<td style='background-color: #d48665;'></td>
+<td style='background-color: #d58766;'></td>
 <td>bright orange brown</td>
-<td>0xd48665ff</td>
-<td>0.61960787</td>
+<td>0xd58766ff</td>
+<td>0.6117647</td>
 <td>0.53333336</td>
 <td>0.53333336</td>
 <td>1.0</td>
-<td>0.125</td>
-<td>0.5091169</td>
+<td>0.124999985</td>
+<td>0.51950705</td>
 <td>0.09391262</td>
-<td>-0x1.11113cp126F</td>
+<td>0.8348767</td>
+<td>0.52969307</td>
+<td>0.40015408</td>
+<td>-0x1.111138p126F</td>
 </tr>
 <tr>
-<td style='background-color: #f0a148;'></td>
+<td style='background-color: #f3a34a;'></td>
 <td>bright orange saffron</td>
-<td>0xf0a148ff</td>
+<td>0xf3a34aff</td>
 <td>0.70980394</td>
 <td>0.52156866</td>
 <td>0.56078434</td>
 <td>1.0</td>
-<td>0.19291253</td>
+<td>0.19289988</td>
 <td>0.759467</td>
 <td>0.12849128</td>
+<td>0.94975626</td>
+<td>0.64052707</td>
+<td>0.2908256</td>
 <td>-0x1.1f0b6ap126F</td>
 </tr>
 <tr>
-<td style='background-color: #1f4ff8;'></td>
+<td style='background-color: #1e4ef6;'></td>
 <td>bright pure blue</td>
-<td>0x1f4ff8ff</td>
-<td>0.4</td>
+<td>0x1e4ef6ff</td>
+<td>0.3882353</td>
 <td>0.4862745</td>
 <td>0.3764706</td>
 <td>1.0</td>
-<td>0.7346399</td>
-<td>0.9160242</td>
+<td>0.7346457</td>
+<td>0.90274847</td>
 <td>0.24760818</td>
-<td>-0x1.c0f8ccp125F</td>
+<td>0.118767954</td>
+<td>0.30628276</td>
+<td>0.9637966</td>
+<td>-0x1.c0f8c6p125F</td>
 </tr>
 <tr>
-<td style='background-color: #cc8769;'></td>
+<td style='background-color: #cc876a;'></td>
 <td>bright pure brown</td>
-<td>0xcc8769ff</td>
-<td>0.6117647</td>
+<td>0xcc876aff</td>
+<td>0.6</td>
 <td>0.5294118</td>
 <td>0.5294118</td>
 <td>1.0</td>
-<td>0.125</td>
+<td>0.124999985</td>
 <td>0.44367483</td>
 <td>0.082864076</td>
-<td>-0x1.0f0f38p126F</td>
+<td>0.79862636</td>
+<td>0.528968</td>
+<td>0.414408</td>
+<td>-0x1.0f0f32p126F</td>
 </tr>
 <tr>
-<td style='background-color: #63edee;'></td>
+<td style='background-color: #66f0f1;'></td>
 <td>bright pure cyan</td>
-<td>0x63edeeff</td>
-<td>0.8235294</td>
+<td>0x66f0f1ff</td>
+<td>0.8352941</td>
 <td>0.44313726</td>
 <td>0.48235294</td>
 <td>1.0</td>
-<td>0.54428434</td>
+<td>0.5442928</td>
 <td>0.728011</td>
 <td>0.11861114</td>
-<td>-0x1.f6e3a4p125F</td>
+<td>0.4003009</td>
+<td>0.93952465</td>
+<td>0.943437</td>
+<td>-0x1.f6e3aap125F</td>
 </tr>
 <tr>
-<td style='background-color: #52ed55;'></td>
+<td style='background-color: #56f058;'></td>
 <td>bright pure green</td>
-<td>0x52ed55ff</td>
-<td>0.7764706</td>
+<td>0x56f058ff</td>
+<td>0.78431374</td>
 <td>0.40784314</td>
 <td>0.5647059</td>
 <td>1.0</td>
-<td>0.39868373</td>
-<td>0.77299184</td>
+<td>0.39869657</td>
+<td>0.7626853</td>
 <td>0.22432896</td>
-<td>-0x1.20d18cp126F</td>
+<td>0.3361909</td>
+<td>0.9401424</td>
+<td>0.34466583</td>
+<td>-0x1.20d19p126F</td>
 </tr>
 <tr>
-<td style='background-color: #b2ea60;'></td>
+<td style='background-color: #b6ee64;'></td>
 <td>bright pure lime</td>
-<td>0xb2ea60ff</td>
-<td>0.827451</td>
+<td>0xb6ee64ff</td>
+<td>0.84313726</td>
 <td>0.44705883</td>
 <td>0.5647059</td>
 <td>1.0</td>
-<td>0.35391617</td>
+<td>0.35390377</td>
 <td>0.70167</td>
 <td>0.16655473</td>
-<td>-0x1.20e5a6p126F</td>
+<td>0.7114246</td>
+<td>0.93297756</td>
+<td>0.39233953</td>
+<td>-0x1.20e5aep126F</td>
 </tr>
 <tr>
-<td style='background-color: #e65be5;'></td>
+<td style='background-color: #e95de7;'></td>
 <td>bright pure magenta</td>
-<td>0xe65be5ff</td>
-<td>0.6156863</td>
+<td>0xe95de7ff</td>
+<td>0.6117647</td>
 <td>0.5921569</td>
 <td>0.4392157</td>
 <td>1.0</td>
-<td>0.911086</td>
-<td>0.72569084</td>
+<td>0.91109616</td>
+<td>0.7351154</td>
 <td>0.21993263</td>
-<td>-0x1.e12f3ap125F</td>
+<td>0.911888</td>
+<td>0.36569348</td>
+<td>0.9054395</td>
+<td>-0x1.e12f38p125F</td>
 </tr>
 <tr>
-<td style='background-color: #ec8a4a;'></td>
+<td style='background-color: #ee8c4c;'></td>
 <td>bright pure orange</td>
-<td>0xec8a4aff</td>
-<td>0.654902</td>
+<td>0xee8c4cff</td>
+<td>0.6509804</td>
 <td>0.5372549</td>
 <td>0.5529412</td>
 <td>1.0</td>
-<td>0.15127131</td>
-<td>0.7321128</td>
+<td>0.15128423</td>
+<td>0.7480283</td>
 <td>0.12896542</td>
-<td>-0x1.1b134ep126F</td>
+<td>0.93193644</td>
+<td>0.5483832</td>
+<td>0.29913303</td>
+<td>-0x1.1b134cp126F</td>
 </tr>
 <tr>
-<td style='background-color: #bd4cf4;'></td>
+<td style='background-color: #bf4df6;'></td>
 <td>bright pure purple</td>
-<td>0xbd4cf4ff</td>
-<td>0.54509807</td>
+<td>0xbf4df6ff</td>
+<td>0.5372549</td>
 <td>0.5803922</td>
 <td>0.4117647</td>
 <td>1.0</td>
-<td>0.87130225</td>
+<td>0.8712994</td>
 <td>0.8567271</td>
 <td>0.2378005</td>
-<td>-0x1.d32916p125F</td>
+<td>0.74718314</td>
+<td>0.3036299</td>
+<td>0.9615842</td>
+<td>-0x1.d32912p125F</td>
 </tr>
 <tr>
-<td style='background-color: #ee493c;'></td>
+<td style='background-color: #f04a3d;'></td>
 <td>bright pure red</td>
-<td>0xee493cff</td>
-<td>0.5372549</td>
+<td>0xf04a3dff</td>
+<td>0.5294118</td>
 <td>0.58431375</td>
 <td>0.54509807</td>
 <td>1.0</td>
-<td>0.07947698</td>
-<td>0.8083848</td>
+<td>0.0794735</td>
+<td>0.82163703</td>
 <td>0.19048727</td>
-<td>-0x1.172b12p126F</td>
+<td>0.93800914</td>
+<td>0.29072824</td>
+<td>0.24092549</td>
+<td>-0x1.172b0ep126F</td>
 </tr>
 <tr>
-<td style='background-color: #ecad56;'></td>
+<td style='background-color: #edae57;'></td>
 <td>bright pure saffron</td>
-<td>0xecad56ff</td>
-<td>0.73333335</td>
+<td>0xedae57ff</td>
+<td>0.7294118</td>
 <td>0.5137255</td>
 <td>0.5568628</td>
 <td>1.0</td>
-<td>0.20852949</td>
+<td>0.20852384</td>
 <td>0.68996334</td>
 <td>0.11653464</td>
-<td>-0x1.1d0776p126F</td>
+<td>0.92925805</td>
+<td>0.6806281</td>
+<td>0.34293398</td>
+<td>-0x1.1d0774p126F</td>
 </tr>
 <tr>
-<td style='background-color: #9452e4;'></td>
+<td style='background-color: #9654e7;'></td>
 <td>bright pure violet</td>
-<td>0x9452e4ff</td>
-<td>0.49019608</td>
+<td>0x9654e7ff</td>
+<td>0.4862745</td>
 <td>0.5529412</td>
 <td>0.4117647</td>
 <td>1.0</td>
-<td>0.84020853</td>
-<td>0.75584954</td>
+<td>0.84019774</td>
+<td>0.766965</td>
 <td>0.2049944</td>
-<td>-0x1.d31afap125F</td>
+<td>0.58902967</td>
+<td>0.33092964</td>
+<td>0.90387356</td>
+<td>-0x1.d31af8p125F</td>
 </tr>
 <tr>
-<td style='background-color: #ebeb4f;'></td>
+<td style='background-color: #ecec50;'></td>
 <td>bright pure yellow</td>
-<td>0xebeb4fff</td>
-<td>0.8745098</td>
+<td>0xecec50ff</td>
+<td>0.8862745</td>
 <td>0.47058824</td>
 <td>0.5764706</td>
 <td>1.0</td>
-<td>0.3035705</td>
+<td>0.30358344</td>
 <td>0.79960835</td>
 <td>0.1632233</td>
-<td>-0x1.26f1bep126F</td>
+<td>0.9250825</td>
+<td>0.92517936</td>
+<td>0.31621668</td>
+<td>-0x1.26f1c4p126F</td>
 </tr>
 <tr>
-<td style='background-color: #e050f5;'></td>
+<td style='background-color: #e151f6;'></td>
 <td>bright purple magenta</td>
-<td>0xe050f5ff</td>
-<td>0.6</td>
+<td>0xe151f6ff</td>
+<td>0.5921569</td>
 <td>0.59607846</td>
 <td>0.42352942</td>
 <td>1.0</td>
-<td>0.8965574</td>
+<td>0.8965699</td>
 <td>0.8602914</td>
 <td>0.24463232</td>
-<td>-0x1.d93132p125F</td>
+<td>0.88236386</td>
+<td>0.31929213</td>
+<td>0.9640516</td>
+<td>-0x1.d9312ep125F</td>
 </tr>
 <tr>
-<td style='background-color: #a14bf3;'></td>
+<td style='background-color: #a24bf3;'></td>
 <td>bright purple violet</td>
-<td>0xa14bf3ff</td>
-<td>0.5058824</td>
+<td>0xa24bf3ff</td>
+<td>0.49411765</td>
 <td>0.5647059</td>
 <td>0.40392157</td>
 <td>1.0</td>
-<td>0.8480996</td>
+<td>0.8480867</td>
 <td>0.85248935</td>
 <td>0.23076649</td>
-<td>-0x1.cf2102p125F</td>
+<td>0.63318735</td>
+<td>0.29627976</td>
+<td>0.95055884</td>
+<td>-0x1.cf20fcp125F</td>
 </tr>
 <tr>
-<td style='background-color: #d4755b;'></td>
+<td style='background-color: #d5765c;'></td>
 <td>bright red brown</td>
-<td>0xd4755bff</td>
-<td>0.5803922</td>
+<td>0xd5765cff</td>
+<td>0.57254905</td>
 <td>0.54509807</td>
 <td>0.53333336</td>
 <td>1.0</td>
-<td>0.102429084</td>
-<td>0.54545456</td>
+<td>0.102416374</td>
+<td>0.5555556</td>
 <td>0.11172148</td>
-<td>-0x1.111728p126F</td>
+<td>0.8350033</td>
+<td>0.46265268</td>
+<td>0.36287507</td>
+<td>-0x1.111724p126F</td>
 </tr>
 <tr>
-<td style='background-color: #f148a3;'></td>
+<td style='background-color: #f149aa;'></td>
 <td>bright red magenta</td>
-<td>0xf148a3ff</td>
-<td>0.57254905</td>
+<td>0xf149aaff</td>
+<td>0.5647059</td>
 <td>0.6039216</td>
-<td>0.47843137</td>
+<td>0.4745098</td>
 <td>1.0</td>
-<td>0.97084755</td>
-<td>0.80761945</td>
-<td>0.21144326</td>
-<td>-0x1.f53524p125F</td>
+<td>0.96519774</td>
+<td>0.8016995</td>
+<td>0.21316819</td>
+<td>0.94399476</td>
+<td>0.28691265</td>
+<td>0.6659135</td>
+<td>-0x1.f3352p125F</td>
 </tr>
 <tr>
-<td style='background-color: #e79850;'></td>
+<td style='background-color: #e99952;'></td>
 <td>bright saffron orange</td>
-<td>0xe79850ff</td>
-<td>0.6784314</td>
+<td>0xe99952ff</td>
+<td>0.6745098</td>
 <td>0.5254902</td>
 <td>0.5529412</td>
 <td>1.0</td>
-<td>0.17620972</td>
+<td>0.1762082</td>
 <td>0.68054247</td>
 <td>0.11705722</td>
-<td>-0x1.1b0d5ap126F</td>
+<td>0.91099584</td>
+<td>0.60059273</td>
+<td>0.3223078</td>
+<td>-0x1.1b0d58p126F</td>
 </tr>
 <tr>
-<td style='background-color: #ebd65f;'></td>
+<td style='background-color: #eed961;'></td>
 <td>bright saffron yellow</td>
-<td>0xebd65fff</td>
-<td>0.827451</td>
+<td>0xeed961ff</td>
+<td>0.8392157</td>
 <td>0.4862745</td>
 <td>0.5647059</td>
 <td>1.0</td>
-<td>0.27781066</td>
+<td>0.27779996</td>
 <td>0.704599</td>
 <td>0.13177444</td>
-<td>-0x1.20f9a6p126F</td>
+<td>0.9317355</td>
+<td>0.848792</td>
+<td>0.38184413</td>
+<td>-0x1.20f9acp126F</td>
 </tr>
 <tr>
-<td style='background-color: #5051e3;'></td>
+<td style='background-color: #5052e3;'></td>
 <td>bright violet blue</td>
-<td>0x5051e3ff</td>
-<td>0.41568628</td>
+<td>0x5052e3ff</td>
+<td>0.40784314</td>
 <td>0.50980395</td>
 <td>0.39607844</td>
 <td>1.0</td>
-<td>0.7682935</td>
-<td>0.7812688</td>
+<td>0.7682832</td>
+<td>0.7931062</td>
 <td>0.20795049</td>
-<td>-0x1.cb04d4p125F</td>
+<td>0.31381696</td>
+<td>0.32155576</td>
+<td>0.8889268</td>
+<td>-0x1.cb04dp125F</td>
 </tr>
 <tr>
-<td style='background-color: #ad57e7;'></td>
+<td style='background-color: #ab56eb;'></td>
 <td>bright violet purple</td>
-<td>0xad57e7ff</td>
-<td>0.53333336</td>
+<td>0xab56ebff</td>
+<td>0.5176471</td>
 <td>0.5647059</td>
-<td>0.41960785</td>
+<td>0.41568628</td>
 <td>1.0</td>
-<td>0.86213285</td>
-<td>0.7720238</td>
-<td>0.20558903</td>
-<td>-0x1.d7211p125F</td>
+<td>0.8583083</td>
+<td>0.7946621</td>
+<td>0.21173172</td>
+<td>0.6718588</td>
+<td>0.3359475</td>
+<td>0.92082334</td>
+<td>-0x1.d52108p125F</td>
 </tr>
 <tr>
-<td style='background-color: #c3ed53;'></td>
+<td style='background-color: #c7f156;'></td>
 <td>bright yellow lime</td>
-<td>0xc3ed53ff</td>
-<td>0.84705883</td>
+<td>0xc7f156ff</td>
+<td>0.8627451</td>
 <td>0.4509804</td>
 <td>0.57254905</td>
 <td>1.0</td>
-<td>0.33966506</td>
+<td>0.33965456</td>
 <td>0.7749036</td>
 <td>0.17443058</td>
-<td>-0x1.24e7bp126F</td>
+<td>0.7774517</td>
+<td>0.9428206</td>
+<td>0.3372395</td>
+<td>-0x1.24e7b8p126F</td>
 </tr>
 <tr>
-<td style='background-color: #f1bd46;'></td>
+<td style='background-color: #f2be47;'></td>
 <td>bright yellow saffron</td>
-<td>0xf1bd46ff</td>
+<td>0xf2be47ff</td>
 <td>0.77254903</td>
 <td>0.5019608</td>
 <td>0.5686275</td>
 <td>1.0</td>
-<td>0.24117598</td>
+<td>0.24116714</td>
 <td>0.78381544</td>
 <td>0.13677454</td>
+<td>0.9475419</td>
+<td>0.7445867</td>
+<td>0.28052586</td>
 <td>-0x1.23018ap126F</td>
 </tr>
 <tr>
-<td style='background-color: #22a8c9;'></td>
+<td style='background-color: #25abcb;'></td>
 <td>deep blue cyan</td>
-<td>0x22a8c9ff</td>
-<td>0.6</td>
+<td>0x25abcbff</td>
+<td>0.59607846</td>
 <td>0.4509804</td>
 <td>0.4627451</td>
 <td>1.0</td>
-<td>0.6024291</td>
+<td>0.6024164</td>
 <td>0.88235295</td>
 <td>0.12265874</td>
-<td>-0x1.ece732p125F</td>
+<td>0.14665867</td>
+<td>0.6692355</td>
+<td>0.7965325</td>
+<td>-0x1.ece73p125F</td>
 </tr>
 <tr>
-<td style='background-color: #5721c9;'></td>
+<td style='background-color: #5621c9;'></td>
 <td>deep blue violet</td>
-<td>0x5721c9ff</td>
-<td>0.31764707</td>
+<td>0x5621c9ff</td>
+<td>0.3137255</td>
 <td>0.5372549</td>
 <td>0.3882353</td>
 <td>1.0</td>
-<td>0.804581</td>
-<td>0.8618011</td>
+<td>0.8045939</td>
+<td>0.8494896</td>
 <td>0.23470029</td>
-<td>-0x1.c712a2p125F</td>
+<td>0.3398296</td>
+<td>0.12907572</td>
+<td>0.7859689</td>
+<td>-0x1.c712ap125F</td>
 </tr>
 <tr>
-<td style='background-color: #ae6a43;'></td>
+<td style='background-color: #af6b44;'></td>
 <td>deep brown orange</td>
-<td>0xae6a43ff</td>
-<td>0.49803922</td>
+<td>0xaf6b44ff</td>
+<td>0.49019608</td>
 <td>0.5294118</td>
 <td>0.5372549</td>
 <td>1.0</td>
-<td>0.14260027</td>
+<td>0.14261165</td>
 <td>0.58210224</td>
 <td>0.0945603</td>
-<td>-0x1.130efep126F</td>
+<td>0.6872305</td>
+<td>0.4185993</td>
+<td>0.26719537</td>
+<td>-0x1.130efap126F</td>
 </tr>
 <tr>
-<td style='background-color: #b34934;'></td>
+<td style='background-color: #b34834;'></td>
 <td>deep brown red</td>
-<td>0xb34934ff</td>
-<td>0.43529412</td>
+<td>0xb34834ff</td>
+<td>0.42352942</td>
 <td>0.5568628</td>
 <td>0.5372549</td>
 <td>1.0</td>
-<td>0.09359558</td>
+<td>0.09358352</td>
 <td>0.62164676</td>
 <td>0.13542919</td>
-<td>-0x1.131cdep126F</td>
+<td>0.7001068</td>
+<td>0.28397954</td>
+<td>0.2037034</td>
+<td>-0x1.131cd8p126F</td>
 </tr>
 <tr>
-<td style='background-color: #3080ba;'></td>
+<td style='background-color: #3282bc;'></td>
 <td>deep cyan blue</td>
-<td>0x3080baff</td>
-<td>0.48235294</td>
+<td>0x3282bcff</td>
+<td>0.47843137</td>
 <td>0.47058824</td>
 <td>0.44705883</td>
 <td>1.0</td>
-<td>0.67138404</td>
-<td>0.777096</td>
+<td>0.6713868</td>
+<td>0.7571704</td>
 <td>0.120651916</td>
-<td>-0x1.e4f0f6p125F</td>
+<td>0.19816065</td>
+<td>0.50875217</td>
+<td>0.7382578</td>
+<td>-0x1.e4f0f4p125F</td>
 </tr>
 <tr>
-<td style='background-color: #3fc386;'></td>
+<td style='background-color: #41c587;'></td>
 <td>deep cyan green</td>
-<td>0x3fc386ff</td>
-<td>0.65882355</td>
+<td>0x41c587ff</td>
+<td>0.654902</td>
 <td>0.43137255</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.44601285</td>
+<td>0.44599992</td>
 <td>0.78381544</td>
 <td>0.143312</td>
-<td>-0x1.0add5p126F</td>
+<td>0.25654107</td>
+<td>0.7703344</td>
+<td>0.5306712</td>
+<td>-0x1.0add4ep126F</td>
 </tr>
 <tr>
-<td style='background-color: #1ac0a1;'></td>
+<td style='background-color: #20c4a4;'></td>
 <td>deep green cyan</td>
-<td>0x1ac0a1ff</td>
+<td>0x20c4a4ff</td>
 <td>0.6509804</td>
 <td>0.43137255</td>
 <td>0.5019608</td>
 <td>1.0</td>
-<td>0.49065647</td>
+<td>0.49064872</td>
 <td>0.8962835</td>
 <td>0.13677454</td>
+<td>0.12747245</td>
+<td>0.7660921</td>
+<td>0.64227575</td>
 <td>-0x1.00dd4cp126F</td>
 </tr>
 <tr>
-<td style='background-color: #78c622;'></td>
+<td style='background-color: #7ac926;'></td>
 <td>deep green lime</td>
-<td>0x78c622ff</td>
+<td>0x7ac926ff</td>
 <td>0.68235296</td>
 <td>0.43137255</td>
 <td>0.57254905</td>
 <td>1.0</td>
-<td>0.36617374</td>
-<td>0.9105392</td>
+<td>0.36616713</td>
+<td>0.89456487</td>
 <td>0.1989505</td>
+<td>0.4802496</td>
+<td>0.7879616</td>
+<td>0.14927338</td>
 <td>-0x1.24dd5cp126F</td>
 </tr>
 <tr>
-<td style='background-color: #56c33e;'></td>
+<td style='background-color: #58c540;'></td>
 <td>deep lime green</td>
-<td>0x56c33eff</td>
-<td>0.654902</td>
+<td>0x58c540ff</td>
+<td>0.6509804</td>
 <td>0.42352942</td>
 <td>0.56078434</td>
 <td>1.0</td>
-<td>0.38859904</td>
+<td>0.38860857</td>
 <td>0.7762339</td>
 <td>0.1946081</td>
-<td>-0x1.1ed94ep126F</td>
+<td>0.3469408</td>
+<td>0.7710995</td>
+<td>0.25110608</td>
+<td>-0x1.1ed94cp126F</td>
 </tr>
 <tr>
-<td style='background-color: #aeba32;'></td>
+<td style='background-color: #b2be36;'></td>
 <td>deep lime yellow</td>
-<td>0xaeba32ff</td>
-<td>0.69411767</td>
+<td>0xb2be36ff</td>
+<td>0.69803923</td>
 <td>0.46666667</td>
 <td>0.5686275</td>
 <td>1.0</td>
-<td>0.31655478</td>
+<td>0.31656247</td>
 <td>0.8382007</td>
 <td>0.15199278</td>
-<td>-0x1.22ef62p126F</td>
+<td>0.6962519</td>
+<td>0.7425177</td>
+<td>0.21157598</td>
+<td>-0x1.22ef64p126F</td>
 </tr>
 <tr>
-<td style='background-color: #a032bb;'></td>
+<td style='background-color: #a032bc;'></td>
 <td>deep magenta purple</td>
-<td>0xa032bbff</td>
-<td>0.42745098</td>
+<td>0xa032bcff</td>
+<td>0.41960785</td>
 <td>0.5803922</td>
 <td>0.42745098</td>
 <td>1.0</td>
-<td>0.8872099</td>
+<td>0.8872186</td>
 <td>0.77911645</td>
 <td>0.21572971</td>
-<td>-0x1.db28dap125F</td>
+<td>0.62723154</td>
+<td>0.19834173</td>
+<td>0.73573273</td>
+<td>-0x1.db28d6p125F</td>
 </tr>
 <tr>
-<td style='background-color: #c3335a;'></td>
+<td style='background-color: #c4335b;'></td>
 <td>deep magenta red</td>
-<td>0xc3335aff</td>
-<td>0.4392157</td>
+<td>0xc4335bff</td>
+<td>0.43137255</td>
 <td>0.5882353</td>
 <td>0.50980395</td>
 <td>1.0</td>
-<td>0.02065512</td>
+<td>0.020642795</td>
 <td>0.7731609</td>
 <td>0.17686298</td>
-<td>-0x1.052cep126F</td>
+<td>0.7683199</td>
+<td>0.20235641</td>
+<td>0.35709518</td>
+<td>-0x1.052cdcp126F</td>
 </tr>
 <tr>
 <td style='background-color: #af6748;'></td>
 <td>deep orange brown</td>
 <td>0xaf6748ff</td>
-<td>0.49411765</td>
+<td>0.48235294</td>
 <td>0.53333336</td>
 <td>0.53333336</td>
 <td>1.0</td>
-<td>0.125</td>
-<td>0.5416137</td>
+<td>0.124999985</td>
+<td>0.51950705</td>
 <td>0.09391262</td>
-<td>-0x1.1110fcp126F</td>
+<td>0.685809</td>
+<td>0.403801</td>
+<td>0.2840319</td>
+<td>-0x1.1110f6p126F</td>
 </tr>
 <tr>
-<td style='background-color: #c87e25;'></td>
+<td style='background-color: #cb8127;'></td>
 <td>deep orange saffron</td>
-<td>0xc87e25ff</td>
-<td>0.5764706</td>
+<td>0xcb8127ff</td>
+<td>0.57254905</td>
 <td>0.52156866</td>
 <td>0.56078434</td>
 <td>1.0</td>
-<td>0.19291253</td>
+<td>0.19289988</td>
 <td>0.85440034</td>
 <td>0.12849128</td>
-<td>-0x1.1f0b26p126F</td>
+<td>0.7941241</td>
+<td>0.50466925</td>
+<td>0.15547071</td>
+<td>-0x1.1f0b24p126F</td>
 </tr>
 <tr>
-<td style='background-color: #0c2ed1;'></td>
+<td style='background-color: #0b2dcf;'></td>
 <td>deep pure blue</td>
-<td>0x0c2ed1ff</td>
-<td>0.2901961</td>
+<td>0x0b2dcfff</td>
+<td>0.28627452</td>
 <td>0.4862745</td>
 <td>0.3764706</td>
 <td>1.0</td>
-<td>0.7346399</td>
+<td>0.7346457</td>
 <td>0.79858524</td>
 <td>0.24760818</td>
-<td>-0x1.c0f894p125F</td>
+<td>0.046178896</td>
+<td>0.17693973</td>
+<td>0.8122143</td>
+<td>-0x1.c0f892p125F</td>
 </tr>
 <tr>
 <td style='background-color: #a6674c;'></td>
 <td>deep pure brown</td>
 <td>0xa6674cff</td>
-<td>0.48235294</td>
+<td>0.47058824</td>
 <td>0.5294118</td>
 <td>0.5294118</td>
 <td>1.0</td>
-<td>0.125</td>
-<td>0.4814344</td>
+<td>0.124999985</td>
+<td>0.47140452</td>
 <td>0.082864076</td>
-<td>-0x1.0f0ef6p126F</td>
+<td>0.6514757</td>
+<td>0.40293592</td>
+<td>0.29745582</td>
+<td>-0x1.0f0efp126F</td>
 </tr>
 <tr>
-<td style='background-color: #3ac4c5;'></td>
+<td style='background-color: #3cc6c7;'></td>
 <td>deep pure cyan</td>
-<td>0x3ac4c5ff</td>
-<td>0.68235296</td>
+<td>0x3cc6c7ff</td>
+<td>0.6784314</td>
 <td>0.44313726</td>
 <td>0.48235294</td>
 <td>1.0</td>
-<td>0.54428434</td>
+<td>0.5442928</td>
 <td>0.83201253</td>
 <td>0.11861114</td>
-<td>-0x1.f6e35cp125F</td>
+<td>0.23651236</td>
+<td>0.774207</td>
+<td>0.77936196</td>
+<td>-0x1.f6e35ap125F</td>
 </tr>
 <tr>
-<td style='background-color: #23c12d;'></td>
+<td style='background-color: #25c22e;'></td>
 <td>deep pure green</td>
-<td>0x23c12dff</td>
-<td>0.627451</td>
+<td>0x25c22eff</td>
+<td>0.61960787</td>
 <td>0.40784314</td>
 <td>0.5647059</td>
 <td>1.0</td>
-<td>0.39868373</td>
+<td>0.39869657</td>
 <td>0.8937718</td>
 <td>0.22432896</td>
-<td>-0x1.20d14p126F</td>
+<td>0.14465171</td>
+<td>0.75976074</td>
+<td>0.18154798</td>
+<td>-0x1.20d13cp126F</td>
 </tr>
 <tr>
-<td style='background-color: #8dc13b;'></td>
+<td style='background-color: #90c43e;'></td>
 <td>deep pure lime</td>
-<td>0x8dc13bff</td>
+<td>0x90c43eff</td>
 <td>0.6862745</td>
 <td>0.44705883</td>
 <td>0.5647059</td>
 <td>1.0</td>
-<td>0.35391617</td>
-<td>0.80758244</td>
+<td>0.35390377</td>
+<td>0.7926272</td>
 <td>0.16655473</td>
+<td>0.56312823</td>
+<td>0.7679913</td>
+<td>0.24423112</td>
 <td>-0x1.20e55ep126F</td>
 </tr>
 <tr>
-<td style='background-color: #bd38bd;'></td>
+<td style='background-color: #be39be;'></td>
 <td>deep pure magenta</td>
-<td>0xbd38bdff</td>
-<td>0.48235294</td>
+<td>0xbe39beff</td>
+<td>0.4745098</td>
 <td>0.5921569</td>
 <td>0.4392157</td>
 <td>1.0</td>
-<td>0.911086</td>
-<td>0.7753957</td>
+<td>0.91109616</td>
+<td>0.7649174</td>
 <td>0.21993263</td>
-<td>-0x1.e12ef6p125F</td>
+<td>0.74514276</td>
+<td>0.22562253</td>
+<td>0.74353516</td>
+<td>-0x1.e12ef2p125F</td>
 </tr>
 <tr>
-<td style='background-color: #c3682a;'></td>
+<td style='background-color: #c66a2c;'></td>
 <td>deep pure orange</td>
-<td>0xc3682aff</td>
-<td>0.52156866</td>
+<td>0xc66a2cff</td>
+<td>0.5176471</td>
 <td>0.5372549</td>
 <td>0.5529412</td>
 <td>1.0</td>
-<td>0.15127131</td>
-<td>0.8002163</td>
+<td>0.15128423</td>
+<td>0.78202957</td>
 <td>0.12896542</td>
-<td>-0x1.1b130ap126F</td>
+<td>0.77468365</td>
+<td>0.41782433</td>
+<td>0.17496398</td>
+<td>-0x1.1b1308p126F</td>
 </tr>
 <tr>
-<td style='background-color: #9828cb;'></td>
+<td style='background-color: #9928cb;'></td>
 <td>deep pure purple</td>
-<td>0x9828cbff</td>
-<td>0.41568628</td>
+<td>0x9928cbff</td>
+<td>0.40784314</td>
 <td>0.5803922</td>
 <td>0.4117647</td>
 <td>1.0</td>
-<td>0.87130225</td>
-<td>0.8567271</td>
+<td>0.8712994</td>
+<td>0.8448281</td>
 <td>0.2378005</td>
-<td>-0x1.d328d4p125F</td>
+<td>0.597807</td>
+<td>0.15797035</td>
+<td>0.79510826</td>
+<td>-0x1.d328dp125F</td>
 </tr>
 <tr>
-<td style='background-color: #c3241e;'></td>
+<td style='background-color: #c3251e;'></td>
 <td>deep pure red</td>
-<td>0xc3241eff</td>
-<td>0.40784314</td>
+<td>0xc3251eff</td>
+<td>0.4</td>
 <td>0.58431375</td>
 <td>0.54509807</td>
 <td>1.0</td>
-<td>0.07947698</td>
+<td>0.0794735</td>
 <td>0.8641355</td>
 <td>0.19048727</td>
-<td>-0x1.172adp126F</td>
+<td>0.763523</td>
+<td>0.14532664</td>
+<td>0.12061677</td>
+<td>-0x1.172accp126F</td>
 </tr>
 <tr>
 <td style='background-color: #c38834;'></td>
 <td>deep pure saffron</td>
 <td>0xc38834ff</td>
-<td>0.5921569</td>
+<td>0.5803922</td>
 <td>0.5137255</td>
 <td>0.5568628</td>
 <td>1.0</td>
-<td>0.20852949</td>
+<td>0.20852384</td>
 <td>0.7961115</td>
 <td>0.11653464</td>
-<td>-0x1.1d072ep126F</td>
+<td>0.76442504</td>
+<td>0.5325157</td>
+<td>0.20435438</td>
+<td>-0x1.1d0728p126F</td>
 </tr>
 <tr>
-<td style='background-color: #7533bd;'></td>
+<td style='background-color: #7432bd;'></td>
 <td>deep pure violet</td>
-<td>0x7533bdff</td>
-<td>0.36862746</td>
+<td>0x7432bdff</td>
+<td>0.36078432</td>
 <td>0.5529412</td>
 <td>0.4117647</td>
 <td>1.0</td>
-<td>0.84020853</td>
+<td>0.84019774</td>
 <td>0.7450517</td>
 <td>0.2049944</td>
-<td>-0x1.d31abcp125F</td>
+<td>0.4561281</td>
+<td>0.19876304</td>
+<td>0.7395964</td>
+<td>-0x1.d31ab8p125F</td>
 </tr>
 <tr>
-<td style='background-color: #c2c121;'></td>
+<td style='background-color: #c4c324;'></td>
 <td>deep pure yellow</td>
-<td>0xc2c121ff</td>
+<td>0xc4c324ff</td>
 <td>0.7294118</td>
 <td>0.47058824</td>
 <td>0.5764706</td>
 <td>1.0</td>
-<td>0.3035705</td>
-<td>0.9212879</td>
+<td>0.30358344</td>
+<td>0.901686</td>
 <td>0.1632233</td>
+<td>0.7672535</td>
+<td>0.7635328</td>
+<td>0.14227743</td>
 <td>-0x1.26f174p126F</td>
 </tr>
 <tr>
-<td style='background-color: #b92dce;'></td>
+<td style='background-color: #bb2ecf;'></td>
 <td>deep purple magenta</td>
-<td>0xb92dceff</td>
-<td>0.4745098</td>
+<td>0xbb2ecfff</td>
+<td>0.46666667</td>
 <td>0.59607846</td>
 <td>0.42352942</td>
 <td>1.0</td>
-<td>0.8965574</td>
+<td>0.8965699</td>
 <td>0.8373503</td>
 <td>0.24463232</td>
-<td>-0x1.d930f2p125F</td>
+<td>0.7305793</td>
+<td>0.18109989</td>
+<td>0.8096487</td>
+<td>-0x1.d930eep125F</td>
 </tr>
 <tr>
-<td style='background-color: #7f27c8;'></td>
+<td style='background-color: #8028c9;'></td>
 <td>deep purple violet</td>
-<td>0x7f27c8ff</td>
-<td>0.3764706</td>
+<td>0x8028c9ff</td>
+<td>0.37254903</td>
 <td>0.5647059</td>
 <td>0.40392157</td>
 <td>1.0</td>
-<td>0.8480996</td>
-<td>0.84031093</td>
+<td>0.8480867</td>
+<td>0.8284756</td>
 <td>0.23076649</td>
-<td>-0x1.cf20cp125F</td>
+<td>0.5007472</td>
+<td>0.15874572</td>
+<td>0.78899914</td>
+<td>-0x1.cf20bep125F</td>
 </tr>
 <tr>
-<td style='background-color: #ad553e;'></td>
+<td style='background-color: #ae563f;'></td>
 <td>deep red brown</td>
-<td>0xad553eff</td>
-<td>0.4509804</td>
+<td>0xae563fff</td>
+<td>0.44313726</td>
 <td>0.54509807</td>
 <td>0.53333336</td>
 <td>1.0</td>
-<td>0.102429084</td>
+<td>0.102416374</td>
 <td>0.5660377</td>
 <td>0.11172148</td>
-<td>-0x1.1116e6p126F</td>
+<td>0.6800962</td>
+<td>0.33737075</td>
+<td>0.24729776</td>
+<td>-0x1.1116e2p126F</td>
 </tr>
 <tr>
-<td style='background-color: #c4207f;'></td>
+<td style='background-color: #c62487;'></td>
 <td>deep red magenta</td>
-<td>0xc4207fff</td>
+<td>0xc62487ff</td>
 <td>0.43529412</td>
 <td>0.6039216</td>
-<td>0.47843137</td>
+<td>0.4745098</td>
 <td>1.0</td>
-<td>0.97084755</td>
-<td>0.88577616</td>
-<td>0.21144326</td>
-<td>-0x1.f534dep125F</td>
+<td>0.96519774</td>
+<td>0.8643323</td>
+<td>0.21316819</td>
+<td>0.7748013</td>
+<td>0.1425003</td>
+<td>0.5275602</td>
+<td>-0x1.f334dep125F</td>
 </tr>
 <tr>
-<td style='background-color: #bf7530;'></td>
+<td style='background-color: #c17732;'></td>
 <td>deep saffron orange</td>
-<td>0xbf7530ff</td>
-<td>0.54509807</td>
+<td>0xc17732ff</td>
+<td>0.5372549</td>
 <td>0.5254902</td>
 <td>0.5529412</td>
 <td>1.0</td>
-<td>0.17620972</td>
+<td>0.1762082</td>
 <td>0.7826238</td>
 <td>0.11705722</td>
-<td>-0x1.1b0d16p126F</td>
+<td>0.7543174</td>
+<td>0.4654258</td>
+<td>0.19578457</td>
+<td>-0x1.1b0d12p126F</td>
 </tr>
 <tr>
-<td style='background-color: #c4af3b;'></td>
+<td style='background-color: #c7b23d;'></td>
 <td>deep saffron yellow</td>
-<td>0xc4af3bff</td>
+<td>0xc7b23dff</td>
 <td>0.6901961</td>
 <td>0.4862745</td>
 <td>0.5647059</td>
 <td>1.0</td>
-<td>0.27781066</td>
+<td>0.27779996</td>
 <td>0.80291516</td>
 <td>0.13177444</td>
+<td>0.7776154</td>
+<td>0.6973172</td>
+<td>0.24161388</td>
 <td>-0x1.20f96p126F</td>
 </tr>
 <tr>
-<td style='background-color: #3932bb;'></td>
+<td style='background-color: #3932bc;'></td>
 <td>deep violet blue</td>
-<td>0x3932bbff</td>
+<td>0x3932bcff</td>
 <td>0.29803923</td>
 <td>0.50980395</td>
 <td>0.39607844</td>
 <td>1.0</td>
-<td>0.7682935</td>
-<td>0.7170549</td>
+<td>0.7682832</td>
+<td>0.707365</td>
 <td>0.20795049</td>
+<td>0.22513378</td>
+<td>0.19766846</td>
+<td>0.73460215</td>
 <td>-0x1.cb0498p125F</td>
 </tr>
 <tr>
-<td style='background-color: #8a36be;'></td>
+<td style='background-color: #8a36c5;'></td>
 <td>deep violet purple</td>
-<td>0x8a36beff</td>
-<td>0.40392157</td>
+<td>0x8a36c5ff</td>
+<td>0.4</td>
 <td>0.5647059</td>
-<td>0.41960785</td>
+<td>0.41568628</td>
 <td>1.0</td>
-<td>0.86213285</td>
-<td>0.7291336</td>
-<td>0.20558903</td>
-<td>-0x1.d720cep125F</td>
+<td>0.8583083</td>
+<td>0.74023324</td>
+<td>0.21173172</td>
+<td>0.541606</td>
+<td>0.21342474</td>
+<td>0.7701723</td>
+<td>-0x1.d520ccp125F</td>
 </tr>
 <tr>
-<td style='background-color: #9ec429;'></td>
+<td style='background-color: #a1c82d;'></td>
 <td>deep yellow lime</td>
-<td>0x9ec429ff</td>
-<td>0.7058824</td>
+<td>0xa1c82dff</td>
+<td>0.70980394</td>
 <td>0.4509804</td>
 <td>0.57254905</td>
 <td>1.0</td>
-<td>0.33966506</td>
+<td>0.33965456</td>
 <td>0.8812629</td>
 <td>0.17443058</td>
-<td>-0x1.24e768p126F</td>
+<td>0.63082886</td>
+<td>0.7825409</td>
+<td>0.17953525</td>
+<td>-0x1.24e76ap126F</td>
 </tr>
 <tr>
-<td style='background-color: #c49417;'></td>
+<td style='background-color: #c59519;'></td>
 <td>deep yellow saffron</td>
-<td>0xc49417ff</td>
-<td>0.61960787</td>
+<td>0xc59519ff</td>
+<td>0.6117647</td>
 <td>0.5019608</td>
 <td>0.5686275</td>
 <td>1.0</td>
-<td>0.24117598</td>
+<td>0.24116714</td>
 <td>0.9245003</td>
 <td>0.13677454</td>
-<td>-0x1.23013cp126F</td>
+<td>0.7734264</td>
+<td>0.5828963</td>
+<td>0.09899864</td>
+<td>-0x1.230138p126F</td>
 </tr>
 <tr>
-<td style='background-color: #1f3fa2;'></td>
+<td style='background-color: #2041a4;'></td>
 <td>drab blue</td>
-<td>0x1f3fa2ff</td>
-<td>0.28627452</td>
+<td>0x2041a4ff</td>
+<td>0.2901961</td>
 <td>0.49019608</td>
 <td>0.41568628</td>
 <td>1.0</td>
-<td>0.7348826</td>
-<td>0.540898</td>
+<td>0.73488796</td>
+<td>0.5340512</td>
 <td>0.16910048</td>
-<td>-0x1.d4fa92p125F</td>
+<td>0.12568842</td>
+<td>0.2540459</td>
+<td>0.64132464</td>
+<td>-0x1.d4fa94p125F</td>
 </tr>
 <tr>
-<td style='background-color: #805547;'></td>
+<td style='background-color: #85594b;'></td>
 <td>drab brown</td>
-<td>0x805547ff</td>
-<td>0.3882353</td>
+<td>0x85594bff</td>
+<td>0.39607844</td>
 <td>0.52156866</td>
 <td>0.5176471</td>
 <td>1.0</td>
-<td>0.11058099</td>
-<td>0.34712222</td>
+<td>0.110571034</td>
+<td>0.33235106</td>
 <td>0.055518243</td>
-<td>-0x1.090ac6p126F</td>
+<td>0.5196916</td>
+<td>0.35092977</td>
+<td>0.29540542</td>
+<td>-0x1.090acap126F</td>
 </tr>
 <tr>
-<td style='background-color: #388c8d;'></td>
+<td style='background-color: #3d9192;'></td>
 <td>drab cyan</td>
-<td>0x388c8dff</td>
-<td>0.49803922</td>
+<td>0x3d9192ff</td>
+<td>0.5058824</td>
 <td>0.45882353</td>
 <td>0.4862745</td>
 <td>1.0</td>
-<td>0.54637665</td>
-<td>0.7457362</td>
+<td>0.5463868</td>
+<td>0.7200211</td>
 <td>0.08646853</td>
-<td>-0x1.f8eafep125F</td>
+<td>0.2413963</td>
+<td>0.5687937</td>
+<td>0.5741133</td>
+<td>-0x1.f8eb02p125F</td>
 </tr>
 <tr>
-<td style='background-color: #369440;'></td>
+<td style='background-color: #3a9844;'></td>
 <td>drab green</td>
-<td>0x369440ff</td>
-<td>0.49803922</td>
+<td>0x3a9844ff</td>
+<td>0.5019608</td>
 <td>0.43529412</td>
 <td>0.5411765</td>
 <td>1.0</td>
-<td>0.4041304</td>
-<td>0.7191292</td>
+<td>0.404143</td>
+<td>0.70605415</td>
 <td>0.15279381</td>
-<td>-0x1.14defep126F</td>
+<td>0.22871135</td>
+<td>0.59709173</td>
+<td>0.26611978</td>
+<td>-0x1.14dfp126F</td>
 </tr>
 <tr>
-<td style='background-color: #688837;'></td>
+<td style='background-color: #6c8c3b;'></td>
 <td>drab lime</td>
-<td>0x688837ff</td>
-<td>0.49411765</td>
+<td>0x6c8c3bff</td>
+<td>0.49803922</td>
 <td>0.4627451</td>
 <td>0.54509807</td>
 <td>1.0</td>
-<td>0.3524291</td>
-<td>0.6976744</td>
+<td>0.35241637</td>
+<td>0.6818182</td>
 <td>0.11653464</td>
-<td>-0x1.16ecfcp126F</td>
+<td>0.42375824</td>
+<td>0.55010927</td>
+<td>0.230751</td>
+<td>-0x1.16ecfep126F</td>
 </tr>
 <tr>
-<td style='background-color: #953f90;'></td>
+<td style='background-color: #994294;'></td>
 <td>drab magenta</td>
-<td>0x953f90ff</td>
-<td>0.40392157</td>
+<td>0x994294ff</td>
+<td>0.40784314</td>
 <td>0.5647059</td>
 <td>0.45882353</td>
 <td>1.0</td>
-<td>0.915366</td>
-<td>0.6068641</td>
+<td>0.9153735</td>
+<td>0.5976692</td>
 <td>0.15279381</td>
-<td>-0x1.eb20cep125F</td>
+<td>0.59798694</td>
+<td>0.26139998</td>
+<td>0.57846946</td>
+<td>-0x1.eb20dp125F</td>
 </tr>
 <tr>
-<td style='background-color: #90552e;'></td>
+<td style='background-color: #935831;'></td>
 <td>drab orange</td>
-<td>0x90552eff</td>
-<td>0.40392157</td>
+<td>0x935831ff</td>
+<td>0.40784314</td>
 <td>0.5254902</td>
 <td>0.5372549</td>
 <td>1.0</td>
-<td>0.15278715</td>
-<td>0.67814195</td>
+<td>0.15279995</td>
+<td>0.6598138</td>
 <td>0.08992863</td>
-<td>-0x1.130ccep126F</td>
+<td>0.5779806</td>
+<td>0.34679613</td>
+<td>0.19406566</td>
+<td>-0x1.130cdp126F</td>
 </tr>
 <tr>
-<td style='background-color: #733494;'></td>
+<td style='background-color: #753697;'></td>
 <td>drab purple</td>
-<td>0x733494ff</td>
-<td>0.3372549</td>
+<td>0x753697ff</td>
+<td>0.34117648</td>
 <td>0.5529412</td>
 <td>0.4392157</td>
 <td>1.0</td>
-<td>0.8695183</td>
-<td>0.6513741</td>
+<td>0.86951405</td>
+<td>0.64119637</td>
 <td>0.1605844</td>
-<td>-0x1.e11aacp125F</td>
+<td>0.4606613</td>
+<td>0.21383731</td>
+<td>0.5901884</td>
+<td>-0x1.e11aaep125F</td>
 </tr>
 <tr>
-<td style='background-color: #8e3029;'></td>
+<td style='background-color: #91322a;'></td>
 <td>drab red</td>
-<td>0x8e3029ff</td>
-<td>0.3254902</td>
+<td>0x91322aff</td>
+<td>0.32941177</td>
 <td>0.5568628</td>
 <td>0.5294118</td>
 <td>1.0</td>
-<td>0.07798134</td>
-<td>0.68</td>
+<td>0.07797913</td>
+<td>0.6666667</td>
 <td>0.12753771</td>
-<td>-0x1.0f1ca6p126F</td>
+<td>0.5682251</td>
+<td>0.1962504</td>
+<td>0.1676766</td>
+<td>-0x1.0f1ca8p126F</td>
 </tr>
 <tr>
-<td style='background-color: #946d3e;'></td>
+<td style='background-color: #987141;'></td>
 <td>drab saffron</td>
-<td>0x946d3eff</td>
-<td>0.47058824</td>
+<td>0x987141ff</td>
+<td>0.4745098</td>
 <td>0.50980395</td>
 <td>0.5372549</td>
 <td>1.0</td>
-<td>0.20362332</td>
-<td>0.6141357</td>
+<td>0.2036132</td>
+<td>0.59658897</td>
 <td>0.07674564</td>
-<td>-0x1.1304fp126F</td>
+<td>0.5955832</td>
+<td>0.44486073</td>
+<td>0.2561317</td>
+<td>-0x1.1304f2p126F</td>
 </tr>
 <tr>
-<td style='background-color: #603e93;'></td>
+<td style='background-color: #634095;'></td>
 <td>drab violet</td>
-<td>0x603e93ff</td>
-<td>0.32941177</td>
+<td>0x634095ff</td>
+<td>0.33333334</td>
 <td>0.53333336</td>
 <td>0.4392157</td>
 <td>1.0</td>
-<td>0.83601886</td>
-<td>0.5300865</td>
+<td>0.83601046</td>
+<td>0.5221748</td>
 <td>0.1381068</td>
-<td>-0x1.e110a8p125F</td>
+<td>0.38679507</td>
+<td>0.2505382</td>
+<td>0.5847745</td>
+<td>-0x1.e110aap125F</td>
 </tr>
 <tr>
-<td style='background-color: #8d8e32;'></td>
+<td style='background-color: #919236;'></td>
 <td>drab yellow</td>
-<td>0x8d8e32ff</td>
-<td>0.54509807</td>
+<td>0x919236ff</td>
+<td>0.54901963</td>
 <td>0.47843137</td>
 <td>0.5529412</td>
 <td>1.0</td>
-<td>0.304581</td>
-<td>0.7824247</td>
+<td>0.30459395</td>
+<td>0.7623625</td>
 <td>0.11388578</td>
-<td>-0x1.1af516p126F</td>
+<td>0.5700739</td>
+<td>0.57334954</td>
+<td>0.2141942</td>
+<td>-0x1.1af518p126F</td>
 </tr>
 <tr>
-<td style='background-color: #375ec9;'></td>
+<td style='background-color: #3961cc;'></td>
 <td>faded blue</td>
-<td>0x375ec9ff</td>
+<td>0x3961ccff</td>
 <td>0.40784314</td>
 <td>0.49019608</td>
 <td>0.41568628</td>
 <td>1.0</td>
-<td>0.7348826</td>
-<td>0.62970215</td>
+<td>0.73488796</td>
+<td>0.6392431</td>
 <td>0.16910048</td>
+<td>0.22409287</td>
+<td>0.38033095</td>
+<td>0.7989912</td>
 <td>-0x1.d4fadp125F</td>
 </tr>
 <tr>
-<td style='background-color: #a17363;'></td>
+<td style='background-color: #a67767;'></td>
 <td>faded brown</td>
-<td>0xa17363ff</td>
-<td>0.50980395</td>
+<td>0xa67767ff</td>
+<td>0.5137255</td>
 <td>0.52156866</td>
 <td>0.5176471</td>
 <td>1.0</td>
-<td>0.11058099</td>
-<td>0.28926852</td>
+<td>0.110571034</td>
+<td>0.28400907</td>
 <td>0.055518243</td>
-<td>-0x1.090b04p126F</td>
+<td>0.6501856</td>
+<td>0.46568674</td>
+<td>0.4045533</td>
+<td>-0x1.090b06p126F</td>
 </tr>
 <tr>
-<td style='background-color: #57adaf;'></td>
+<td style='background-color: #5db4b5;'></td>
 <td>faded cyan</td>
-<td>0x57adafff</td>
-<td>0.62352943</td>
+<td>0x5db4b5ff</td>
+<td>0.63529414</td>
 <td>0.45882353</td>
 <td>0.4862745</td>
 <td>1.0</td>
-<td>0.54637665</td>
-<td>0.63274586</td>
+<td>0.5463868</td>
+<td>0.6141357</td>
 <td>0.08646853</td>
-<td>-0x1.f8eb3ep125F</td>
+<td>0.3659762</td>
+<td>0.70418596</td>
+<td>0.7088832</td>
+<td>-0x1.f8eb44p125F</td>
 </tr>
 <tr>
-<td style='background-color: #57b95f;'></td>
+<td style='background-color: #5bbd63;'></td>
 <td>faded green</td>
-<td>0x57b95fff</td>
-<td>0.6313726</td>
+<td>0x5bbd63ff</td>
+<td>0.63529414</td>
 <td>0.43529412</td>
 <td>0.5411765</td>
 <td>1.0</td>
-<td>0.4041304</td>
-<td>0.6163965</td>
+<td>0.404143</td>
+<td>0.6067653</td>
 <td>0.15279381</td>
-<td>-0x1.14df42p126F</td>
+<td>0.357926</td>
+<td>0.7404736</td>
+<td>0.38692906</td>
+<td>-0x1.14df44p126F</td>
 </tr>
 <tr>
-<td style='background-color: #89ac56;'></td>
+<td style='background-color: #8eb15a;'></td>
 <td>faded lime</td>
-<td>0x89ac56ff</td>
-<td>0.627451</td>
+<td>0x8eb15aff</td>
+<td>0.63529414</td>
 <td>0.4627451</td>
 <td>0.54509807</td>
 <td>1.0</td>
-<td>0.3524291</td>
-<td>0.6</td>
+<td>0.35241637</td>
+<td>0.5882353</td>
 <td>0.11653464</td>
-<td>-0x1.16ed4p126F</td>
+<td>0.55473304</td>
+<td>0.69333285</td>
+<td>0.35519364</td>
+<td>-0x1.16ed44p126F</td>
 </tr>
 <tr>
-<td style='background-color: #ba5eb4;'></td>
+<td style='background-color: #bf62b9;'></td>
 <td>faded magenta</td>
-<td>0xba5eb4ff</td>
-<td>0.53333336</td>
+<td>0xbf62b9ff</td>
+<td>0.5372549</td>
 <td>0.5647059</td>
 <td>0.45882353</td>
 <td>1.0</td>
-<td>0.915366</td>
-<td>0.5057201</td>
+<td>0.9153735</td>
+<td>0.4930771</td>
 <td>0.15279381</td>
-<td>-0x1.eb211p125F</td>
+<td>0.7496142</td>
+<td>0.3859107</td>
+<td>0.7249919</td>
+<td>-0x1.eb2112p125F</td>
 </tr>
 <tr>
-<td style='background-color: #b17248;'></td>
+<td style='background-color: #b7774d;'></td>
 <td>faded orange</td>
-<td>0xb17248ff</td>
-<td>0.52156866</td>
+<td>0xb7774dff</td>
+<td>0.5294118</td>
 <td>0.5254902</td>
 <td>0.5372549</td>
 <td>1.0</td>
-<td>0.15278715</td>
-<td>0.56774676</td>
+<td>0.15279995</td>
+<td>0.5548434</td>
 <td>0.08992863</td>
-<td>-0x1.130d0ap126F</td>
+<td>0.7174115</td>
+<td>0.46578062</td>
+<td>0.30281392</td>
+<td>-0x1.130d0ep126F</td>
 </tr>
 <tr>
-<td style='background-color: #9350b7;'></td>
+<td style='background-color: #9754bb;'></td>
 <td>faded purple</td>
-<td>0x9350b7ff</td>
-<td>0.45490196</td>
+<td>0x9754bbff</td>
+<td>0.45882353</td>
 <td>0.5529412</td>
 <td>0.4392157</td>
 <td>1.0</td>
-<td>0.8695183</td>
-<td>0.53995484</td>
+<td>0.86951405</td>
+<td>0.5261098</td>
 <td>0.1605844</td>
-<td>-0x1.e11ae8p125F</td>
+<td>0.5916718</td>
+<td>0.33007064</td>
+<td>0.73404557</td>
+<td>-0x1.e11aeap125F</td>
 </tr>
 <tr>
-<td style='background-color: #b34c42;'></td>
+<td style='background-color: #b64e44;'></td>
 <td>faded red</td>
-<td>0xb34c42ff</td>
+<td>0xb64e44ff</td>
 <td>0.44313726</td>
 <td>0.5568628</td>
 <td>0.5294118</td>
 <td>1.0</td>
-<td>0.07798134</td>
-<td>0.55737704</td>
+<td>0.07797913</td>
+<td>0.5483871</td>
 <td>0.12753771</td>
+<td>0.7129469</td>
+<td>0.30826837</td>
+<td>0.26865804</td>
 <td>-0x1.0f1ce2p126F</td>
 </tr>
 <tr>
-<td style='background-color: #bb915e;'></td>
+<td style='background-color: #c09662;'></td>
 <td>faded saffron</td>
-<td>0xbb915eff</td>
-<td>0.6117647</td>
+<td>0xc09662ff</td>
+<td>0.61960787</td>
 <td>0.50980395</td>
 <td>0.5372549</td>
 <td>1.0</td>
-<td>0.20362332</td>
+<td>0.2036132</td>
 <td>0.50928324</td>
 <td>0.07674564</td>
-<td>-0x1.130538p126F</td>
+<td>0.7528226</td>
+<td>0.5888386</td>
+<td>0.38622653</td>
+<td>-0x1.13053cp126F</td>
 </tr>
 <tr>
-<td style='background-color: #7d59b5;'></td>
+<td style='background-color: #805bb8;'></td>
 <td>faded violet</td>
-<td>0x7d59b5ff</td>
+<td>0x805bb8ff</td>
 <td>0.44313726</td>
 <td>0.53333336</td>
 <td>0.4392157</td>
 <td>1.0</td>
-<td>0.83601886</td>
-<td>0.4603383</td>
+<td>0.83601046</td>
+<td>0.47277987</td>
 <td>0.1381068</td>
+<td>0.50051624</td>
+<td>0.3589722</td>
+<td>0.71974707</td>
 <td>-0x1.e110e2p125F</td>
 </tr>
 <tr>
-<td style='background-color: #afb051;'></td>
+<td style='background-color: #b4b556;'></td>
 <td>faded yellow</td>
-<td>0xafb051ff</td>
-<td>0.6745098</td>
+<td>0xb4b556ff</td>
+<td>0.68235296</td>
 <td>0.47843137</td>
 <td>0.5529412</td>
 <td>1.0</td>
-<td>0.304581</td>
-<td>0.6757304</td>
+<td>0.30459395</td>
+<td>0.66071415</td>
 <td>0.11388578</td>
-<td>-0x1.1af558p126F</td>
+<td>0.7039969</td>
+<td>0.71007025</td>
+<td>0.3371785</td>
+<td>-0x1.1af55cp126F</td>
 </tr>
 <tr>
-<td style='background-color: #6079b1;'></td>
+<td style='background-color: #647db6;'></td>
 <td>gray blue</td>
-<td>0x6079b1ff</td>
-<td>0.49019608</td>
+<td>0x647db6ff</td>
+<td>0.49411765</td>
 <td>0.49411765</td>
 <td>0.45490196</td>
 <td>1.0</td>
-<td>0.735567</td>
-<td>0.40164948</td>
+<td>0.735571</td>
+<td>0.41680607</td>
 <td>0.09060479</td>
-<td>-0x1.e8fcfap125F</td>
+<td>0.3936319</td>
+<td>0.49145153</td>
+<td>0.7119908</td>
+<td>-0x1.e8fcfcp125F</td>
 </tr>
 <tr>
-<td style='background-color: #937a6f;'></td>
+<td style='background-color: #9a8176;'></td>
 <td>gray brown</td>
-<td>0x937a6fff</td>
-<td>0.5137255</td>
+<td>0x9a8176ff</td>
+<td>0.5294118</td>
 <td>0.50980395</td>
 <td>0.50980395</td>
 <td>1.0</td>
-<td>0.125</td>
-<td>0.173169</td>
+<td>0.124999985</td>
+<td>0.16317847</td>
 <td>0.027621359</td>
-<td>-0x1.050506p126F</td>
+<td>0.60455084</td>
+<td>0.5064285</td>
+<td>0.46428224</td>
+<td>-0x1.05050ep126F</td>
 </tr>
 <tr>
-<td style='background-color: #6d918f;'></td>
+<td style='background-color: #749996;'></td>
 <td>gray cyan</td>
-<td>0x6d918fff</td>
-<td>0.54901963</td>
+<td>0x749996ff</td>
+<td>0.5647059</td>
 <td>0.47843137</td>
 <td>0.49411765</td>
 <td>1.0</td>
-<td>0.53142345</td>
-<td>0.328969</td>
+<td>0.5314165</td>
+<td>0.31868872</td>
 <td>0.044538103</td>
-<td>-0x1.fcf518p125F</td>
+<td>0.45329183</td>
+<td>0.5994419</td>
+<td>0.5895115</td>
+<td>-0x1.fcf52p125F</td>
 </tr>
 <tr>
-<td style='background-color: #6c9e6f;'></td>
+<td style='background-color: #74a878;'></td>
 <td>gray green</td>
-<td>0x6c9e6fff</td>
-<td>0.57254905</td>
+<td>0x74a878ff</td>
+<td>0.59607846</td>
 <td>0.4627451</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.40640444</td>
-<td>0.3863091</td>
+<td>0.40641648</td>
+<td>0.36666626</td>
 <td>0.08575976</td>
-<td>-0x1.0aed24p126F</td>
+<td>0.45657992</td>
+<td>0.65743315</td>
+<td>0.46959773</td>
+<td>-0x1.0aed3p126F</td>
 </tr>
 <tr>
-<td style='background-color: #585858;'></td>
+<td style='background-color: #5b5b5b;'></td>
 <td>gray lead</td>
-<td>0x585858ff</td>
-<td>0.3529412</td>
+<td>0x5b5b5bff</td>
+<td>0.35686275</td>
 <td>0.49803922</td>
 <td>0.49803922</td>
 <td>1.0</td>
 <td>0.0</td>
 <td>0.0</td>
 <td>0.0055242716</td>
-<td>-0x1.fefeb4p125F</td>
+<td>0.35691032</td>
+<td>0.35687238</td>
+<td>0.35673323</td>
+<td>-0x1.fefeb6p125F</td>
 </tr>
 <tr>
-<td style='background-color: #7a8e66;'></td>
+<td style='background-color: #82976e;'></td>
 <td>gray lime</td>
-<td>0x7a8e66ff</td>
-<td>0.5372549</td>
+<td>0x82976eff</td>
+<td>0.5568628</td>
 <td>0.47843137</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.36058098</td>
-<td>0.33235106</td>
+<td>0.36057103</td>
+<td>0.3187857</td>
 <td>0.060766988</td>
-<td>-0x1.0af512p126F</td>
+<td>0.5081341</td>
+<td>0.5901593</td>
+<td>0.43018222</td>
+<td>-0x1.0af51cp126F</td>
 </tr>
 <tr>
-<td style='background-color: #a474a4;'></td>
+<td style='background-color: #ab7aab;'></td>
 <td>gray magenta</td>
-<td>0xa474a4ff</td>
-<td>0.5411765</td>
+<td>0xab7aabff</td>
+<td>0.5529412</td>
 <td>0.53333336</td>
 <td>0.4745098</td>
 <td>1.0</td>
-<td>0.90640444</td>
-<td>0.27041635</td>
+<td>0.9064165</td>
+<td>0.26382083</td>
 <td>0.0835974</td>
-<td>-0x1.f31114p125F</td>
+<td>0.6681107</td>
+<td>0.48039174</td>
+<td>0.6688167</td>
+<td>-0x1.f3111ap125F</td>
 </tr>
 <tr>
-<td style='background-color: #98745b;'></td>
+<td style='background-color: #a07b62;'></td>
 <td>gray orange</td>
-<td>0x98745bff</td>
-<td>0.49803922</td>
+<td>0xa07b62ff</td>
+<td>0.5137255</td>
 <td>0.5137255</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.15640444</td>
-<td>0.3517611</td>
+<td>0.15641648</td>
+<td>0.34338585</td>
 <td>0.050931267</td>
-<td>-0x1.0b06fep126F</td>
+<td>0.6256078</td>
+<td>0.48086327</td>
+<td>0.38406965</td>
+<td>-0x1.0b0706p126F</td>
 </tr>
 <tr>
-<td style='background-color: #89649a;'></td>
+<td style='background-color: #906ba1;'></td>
 <td>gray purple</td>
-<td>0x89649aff</td>
-<td>0.46666667</td>
+<td>0x906ba1ff</td>
+<td>0.48235294</td>
 <td>0.5294118</td>
 <td>0.46666667</td>
 <td>1.0</td>
 <td>0.875</td>
-<td>0.29386255</td>
+<td>0.286423</td>
 <td>0.08856081</td>
-<td>-0x1.ef0eeep125F</td>
+<td>0.5643653</td>
+<td>0.4185573</td>
+<td>0.6324507</td>
+<td>-0x1.ef0ef6p125F</td>
 </tr>
 <tr>
-<td style='background-color: #986055;'></td>
+<td style='background-color: #9f665b;'></td>
 <td>gray red</td>
-<td>0x986055ff</td>
-<td>0.4509804</td>
+<td>0x9f665bff</td>
+<td>0.4627451</td>
 <td>0.5294118</td>
 <td>0.5176471</td>
 <td>1.0</td>
-<td>0.088913955</td>
-<td>0.30432197</td>
+<td>0.088903844</td>
+<td>0.2948119</td>
 <td>0.068331465</td>
-<td>-0x1.090ee6p126F</td>
+<td>0.6231744</td>
+<td>0.39937195</td>
+<td>0.35578638</td>
+<td>-0x1.090eecp126F</td>
 </tr>
 <tr>
-<td style='background-color: #a08d6e;'></td>
+<td style='background-color: #aa9777;'></td>
 <td>gray saffron</td>
-<td>0xa08d6eff</td>
-<td>0.5764706</td>
+<td>0xaa9777ff</td>
+<td>0.6</td>
 <td>0.5019608</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.22370392</td>
-<td>0.3201454</td>
+<td>0.22371578</td>
+<td>0.31193656</td>
 <td>0.04314594</td>
-<td>-0x1.0b0126p126F</td>
+<td>0.66594285</td>
+<td>0.58992374</td>
+<td>0.46613362</td>
+<td>-0x1.0b0132p126F</td>
 </tr>
 <tr>
-<td style='background-color: #a1a1a1;'></td>
+<td style='background-color: #a4a4a4;'></td>
 <td>gray silver</td>
-<td>0xa1a1a1ff</td>
+<td>0xa4a4a4ff</td>
 <td>0.6431373</td>
 <td>0.49803922</td>
 <td>0.49803922</td>
@@ -2096,371 +2557,458 @@
 <td>0.0</td>
 <td>0.0</td>
 <td>0.0055242716</td>
+<td>0.643223</td>
+<td>0.64315456</td>
+<td>0.6429038</td>
 <td>-0x1.feff48p125F</td>
 </tr>
 <tr>
-<td style='background-color: #806e9f;'></td>
+<td style='background-color: #8573a4;'></td>
 <td>gray violet</td>
-<td>0x806e9fff</td>
-<td>0.48235294</td>
+<td>0x8573a4ff</td>
+<td>0.49019608</td>
 <td>0.5176471</td>
 <td>0.46666667</td>
 <td>1.0</td>
-<td>0.8389139</td>
-<td>0.27344874</td>
+<td>0.83890384</td>
+<td>0.2858782</td>
 <td>0.07513822</td>
-<td>-0x1.ef08f6p125F</td>
+<td>0.5233951</td>
+<td>0.44959477</td>
+<td>0.6436968</td>
+<td>-0x1.ef08fap125F</td>
 </tr>
 <tr>
-<td style='background-color: #939564;'></td>
+<td style='background-color: #9a9d6b;'></td>
 <td>gray yellow</td>
-<td>0x939564ff</td>
-<td>0.5803922</td>
+<td>0x9a9d6bff</td>
+<td>0.59607846</td>
 <td>0.4862745</td>
 <td>0.5294118</td>
 <td>1.0</td>
-<td>0.30708748</td>
-<td>0.42720017</td>
+<td>0.30710012</td>
+<td>0.41678065</td>
 <td>0.064659946</td>
-<td>-0x1.0ef928p126F</td>
+<td>0.60378784</td>
+<td>0.61442125</td>
+<td>0.41834834</td>
+<td>-0x1.0ef93p126F</td>
 </tr>
 <tr>
-<td style='background-color: #252525;'></td>
+<td style='background-color: #242424;'></td>
 <td>lead black</td>
-<td>0x252525ff</td>
-<td>0.13725491</td>
+<td>0x242424ff</td>
+<td>0.14117648</td>
 <td>0.49803922</td>
 <td>0.49803922</td>
 <td>1.0</td>
 <td>0.0</td>
 <td>0.0</td>
 <td>0.0055242716</td>
-<td>-0x1.fefe46p125F</td>
+<td>0.14119564</td>
+<td>0.14118065</td>
+<td>0.14112559</td>
+<td>-0x1.fefe48p125F</td>
 </tr>
 <tr>
-<td style='background-color: #496094;'></td>
+<td style='background-color: #4c6397;'></td>
 <td>lead blue</td>
-<td>0x496094ff</td>
-<td>0.3882353</td>
+<td>0x4c6397ff</td>
+<td>0.39215687</td>
 <td>0.49411765</td>
 <td>0.45490196</td>
 <td>1.0</td>
-<td>0.735567</td>
-<td>0.31558174</td>
+<td>0.735571</td>
+<td>0.32486355</td>
 <td>0.09060479</td>
-<td>-0x1.e8fcc6p125F</td>
+<td>0.29898483</td>
+<td>0.3881012</td>
+<td>0.5937156</td>
+<td>-0x1.e8fcc8p125F</td>
 </tr>
 <tr>
-<td style='background-color: #796258;'></td>
+<td style='background-color: #80685e;'></td>
 <td>lead brown</td>
-<td>0x796258ff</td>
-<td>0.41568628</td>
+<td>0x80685eff</td>
+<td>0.43137255</td>
 <td>0.50980395</td>
 <td>0.50980395</td>
 <td>1.0</td>
-<td>0.125</td>
-<td>0.2020305</td>
+<td>0.124999985</td>
+<td>0.1885618</td>
 <td>0.027621359</td>
-<td>-0x1.0504d4p126F</td>
+<td>0.501148</td>
+<td>0.409678</td>
+<td>0.3704429</td>
+<td>-0x1.0504dcp126F</td>
 </tr>
 <tr>
-<td style='background-color: #537573;'></td>
+<td style='background-color: #5a7d7b;'></td>
 <td>lead cyan</td>
-<td>0x537573ff</td>
-<td>0.4392157</td>
+<td>0x5a7d7bff</td>
+<td>0.45882353</td>
 <td>0.47843137</td>
 <td>0.49411765</td>
 <td>1.0</td>
-<td>0.53142345</td>
-<td>0.37770516</td>
+<td>0.5314165</td>
+<td>0.36421567</td>
 <td>0.044538103</td>
-<td>-0x1.fcf4ep125F</td>
+<td>0.35325634</td>
+<td>0.49100748</td>
+<td>0.481996</td>
+<td>-0x1.fcf4eap125F</td>
 </tr>
 <tr>
-<td style='background-color: #6a6969;'></td>
+<td style='background-color: #6d6d6d;'></td>
 <td>lead gray</td>
-<td>0x6a6969ff</td>
-<td>0.42352942</td>
+<td>0x6d6d6dff</td>
+<td>0.42745098</td>
 <td>0.49803922</td>
 <td>0.49803922</td>
 <td>1.0</td>
 <td>0.0</td>
 <td>0.0</td>
 <td>0.0055242716</td>
-<td>-0x1.fefed8p125F</td>
+<td>0.42750823</td>
+<td>0.42746276</td>
+<td>0.42729607</td>
+<td>-0x1.fefedap125F</td>
 </tr>
 <tr>
-<td style='background-color: #538256;'></td>
+<td style='background-color: #5a8a5e;'></td>
 <td>lead green</td>
-<td>0x538256ff</td>
-<td>0.46666667</td>
+<td>0x5a8a5eff</td>
+<td>0.4862745</td>
 <td>0.4627451</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.40640444</td>
-<td>0.4414961</td>
+<td>0.40641648</td>
+<td>0.41602516</td>
 <td>0.08575976</td>
-<td>-0x1.0aeceep126F</td>
+<td>0.35349688</td>
+<td>0.5429347</td>
+<td>0.3672552</td>
+<td>-0x1.0aecf8p126F</td>
 </tr>
 <tr>
-<td style='background-color: #5e714c;'></td>
+<td style='background-color: #647852;'></td>
 <td>lead lime</td>
-<td>0x5e714cff</td>
-<td>0.42352942</td>
+<td>0x647852ff</td>
+<td>0.4392157</td>
 <td>0.47843137</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.36058098</td>
-<td>0.3905125</td>
+<td>0.36057103</td>
+<td>0.37191665</td>
 <td>0.060766988</td>
-<td>-0x1.0af4d8p126F</td>
+<td>0.394073</td>
+<td>0.46953565</td>
+<td>0.32117912</td>
+<td>-0x1.0af4ep126F</td>
 </tr>
 <tr>
-<td style='background-color: #875b87;'></td>
+<td style='background-color: #8d608e;'></td>
 <td>lead magenta</td>
-<td>0x875b87ff</td>
-<td>0.43529412</td>
+<td>0x8d608eff</td>
+<td>0.44705883</td>
 <td>0.53333336</td>
 <td>0.4745098</td>
 <td>1.0</td>
-<td>0.90640444</td>
-<td>0.3135262</td>
+<td>0.9064165</td>
+<td>0.3004626</td>
 <td>0.0835974</td>
-<td>-0x1.f310dep125F</td>
+<td>0.5533876</td>
+<td>0.37823248</td>
+<td>0.5547652</td>
+<td>-0x1.f310e4p125F</td>
 </tr>
 <tr>
-<td style='background-color: #7c5a43;'></td>
+<td style='background-color: #826049;'></td>
 <td>lead orange</td>
-<td>0x7c5a43ff</td>
-<td>0.39215687</td>
+<td>0x826049ff</td>
+<td>0.40784314</td>
 <td>0.5137255</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.15640444</td>
-<td>0.412063</td>
+<td>0.15641648</td>
+<td>0.4006168</td>
 <td>0.050931267</td>
-<td>-0x1.0b06c8p126F</td>
+<td>0.51060075</td>
+<td>0.376658</td>
+<td>0.28687656</td>
+<td>-0x1.0b06dp126F</td>
 </tr>
 <tr>
-<td style='background-color: #6d4b7d;'></td>
+<td style='background-color: #724f82;'></td>
 <td>lead purple</td>
-<td>0x6d4b7dff</td>
-<td>0.36078432</td>
+<td>0x724f82ff</td>
+<td>0.37254903</td>
 <td>0.5294118</td>
 <td>0.46666667</td>
 <td>1.0</td>
 <td>0.875</td>
-<td>0.3481141</td>
+<td>0.33772263</td>
 <td>0.08856081</td>
-<td>-0x1.ef0eb8p125F</td>
+<td>0.44732255</td>
+<td>0.31225398</td>
+<td>0.509908</td>
+<td>-0x1.ef0ebep125F</td>
 </tr>
 <tr>
-<td style='background-color: #79463c;'></td>
+<td style='background-color: #7f4b41;'></td>
 <td>lead red</td>
-<td>0x79463cff</td>
-<td>0.3372549</td>
+<td>0x7f4b41ff</td>
+<td>0.3529412</td>
 <td>0.5294118</td>
 <td>0.5176471</td>
 <td>1.0</td>
-<td>0.088913955</td>
-<td>0.36996004</td>
+<td>0.088903844</td>
+<td>0.3559993</td>
 <td>0.068331465</td>
-<td>-0x1.090eacp126F</td>
+<td>0.49723348</td>
+<td>0.29313776</td>
+<td>0.25458688</td>
+<td>-0x1.090eb4p126F</td>
 </tr>
 <tr>
-<td style='background-color: #837255;'></td>
+<td style='background-color: #8c795c;'></td>
 <td>lead saffron</td>
-<td>0x837255ff</td>
-<td>0.46666667</td>
+<td>0x8c795cff</td>
+<td>0.4862745</td>
 <td>0.5019608</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.22370392</td>
-<td>0.36865228</td>
+<td>0.22371578</td>
+<td>0.35780957</td>
 <td>0.04314594</td>
-<td>-0x1.0b00eep126F</td>
+<td>0.5476309</td>
+<td>0.47650838</td>
+<td>0.36072534</td>
+<td>-0x1.0b00f8p126F</td>
 </tr>
 <tr>
-<td style='background-color: #695785;'></td>
+<td style='background-color: #6e5c8b;'></td>
 <td>lead violet</td>
-<td>0x695785ff</td>
-<td>0.3882353</td>
+<td>0x6e5c8bff</td>
+<td>0.4</td>
 <td>0.5176471</td>
 <td>0.46666667</td>
 <td>1.0</td>
-<td>0.8389139</td>
-<td>0.25846523</td>
+<td>0.83890384</td>
+<td>0.24826266</td>
 <td>0.07513822</td>
-<td>-0x1.ef08c6p125F</td>
+<td>0.43124253</td>
+<td>0.36116052</td>
+<td>0.5431959</td>
+<td>-0x1.ef08ccp125F</td>
 </tr>
 <tr>
-<td style='background-color: #797b4c;'></td>
+<td style='background-color: #7f8152;'></td>
 <td>lead yellow</td>
-<td>0x797b4cff</td>
-<td>0.47843137</td>
+<td>0x7f8152ff</td>
+<td>0.49019608</td>
 <td>0.4862745</td>
 <td>0.5294118</td>
 <td>1.0</td>
-<td>0.30708748</td>
-<td>0.48822877</td>
+<td>0.30710012</td>
+<td>0.47466686</td>
 <td>0.064659946</td>
-<td>-0x1.0ef8f4p126F</td>
+<td>0.49772492</td>
+<td>0.506898</td>
+<td>0.3219534</td>
+<td>-0x1.0ef8fap126F</td>
 </tr>
 <tr>
-<td style='background-color: #4e7aeb;'></td>
+<td style='background-color: #4f7bec;'></td>
 <td>pale blue</td>
-<td>0x4e7aebff</td>
-<td>0.5137255</td>
+<td>0x4f7becff</td>
+<td>0.5058824</td>
 <td>0.49019608</td>
 <td>0.41568628</td>
 <td>1.0</td>
-<td>0.7348826</td>
+<td>0.73488796</td>
 <td>0.811347</td>
 <td>0.16910048</td>
-<td>-0x1.d4fb06p125F</td>
+<td>0.30888873</td>
+<td>0.48300403</td>
+<td>0.92531145</td>
+<td>-0x1.d4fb02p125F</td>
 </tr>
 <tr>
-<td style='background-color: #c59281;'></td>
+<td style='background-color: #c99685;'></td>
 <td>pale brown</td>
-<td>0xc59281ff</td>
-<td>0.63529414</td>
+<td>0xc99685ff</td>
+<td>0.6392157</td>
 <td>0.52156866</td>
 <td>0.5176471</td>
 <td>1.0</td>
-<td>0.11058099</td>
-<td>0.33957607</td>
+<td>0.110571034</td>
+<td>0.35501134</td>
 <td>0.055518243</td>
-<td>-0x1.090b44p126F</td>
+<td>0.7873501</td>
+<td>0.5884386</td>
+<td>0.52220076</td>
+<td>-0x1.090b46p126F</td>
 </tr>
 <tr>
-<td style='background-color: #7ed8d9;'></td>
+<td style='background-color: #84dfe0;'></td>
 <td>pale cyan</td>
-<td>0x7ed8d9ff</td>
-<td>0.7764706</td>
+<td>0x84dfe0ff</td>
+<td>0.79607844</td>
 <td>0.45882353</td>
 <td>0.4862745</td>
 <td>1.0</td>
-<td>0.54637665</td>
-<td>0.5494898</td>
+<td>0.5463868</td>
+<td>0.53540033</td>
 <td>0.08646853</td>
-<td>-0x1.f8eb8cp125F</td>
+<td>0.51699156</td>
+<td>0.87131536</td>
+<td>0.8753863</td>
+<td>-0x1.f8eb96p125F</td>
 </tr>
 <tr>
-<td style='background-color: #76db7c;'></td>
+<td style='background-color: #7be182;'></td>
 <td>pale green</td>
-<td>0x76db7cff</td>
-<td>0.7529412</td>
+<td>0x7be182ff</td>
+<td>0.76862746</td>
 <td>0.43529412</td>
 <td>0.5411765</td>
 <td>1.0</td>
-<td>0.4041304</td>
-<td>0.54694337</td>
+<td>0.404143</td>
+<td>0.53934693</td>
 <td>0.15279381</td>
-<td>-0x1.14df8p126F</td>
+<td>0.48339152</td>
+<td>0.8824829</td>
+<td>0.507995</td>
+<td>-0x1.14df88p126F</td>
 </tr>
 <tr>
-<td style='background-color: #b2d97d;'></td>
+<td style='background-color: #b7de81;'></td>
 <td>pale lime</td>
-<td>0xb2d97dff</td>
-<td>0.7882353</td>
+<td>0xb7de81ff</td>
+<td>0.8039216</td>
 <td>0.4627451</td>
 <td>0.54509807</td>
 <td>1.0</td>
-<td>0.3524291</td>
+<td>0.35241637</td>
 <td>0.5084746</td>
 <td>0.11653464</td>
-<td>-0x1.16ed92p126F</td>
+<td>0.7167723</td>
+<td>0.8681523</td>
+<td>0.50733864</td>
+<td>-0x1.16ed9ap126F</td>
 </tr>
 <tr>
-<td style='background-color: #dd7bd6;'></td>
+<td style='background-color: #e27fdb;'></td>
 <td>pale magenta</td>
-<td>0xdd7bd6ff</td>
-<td>0.6509804</td>
+<td>0xe27fdbff</td>
+<td>0.654902</td>
 <td>0.5647059</td>
 <td>0.45882353</td>
 <td>1.0</td>
-<td>0.915366</td>
-<td>0.5635167</td>
+<td>0.9153735</td>
+<td>0.58874875</td>
 <td>0.15279381</td>
-<td>-0x1.eb214cp125F</td>
+<td>0.884564</td>
+<td>0.49839285</td>
+<td>0.85597366</td>
+<td>-0x1.eb214ep125F</td>
 </tr>
 <tr>
-<td style='background-color: #db966a;'></td>
+<td style='background-color: #e19b6e;'></td>
 <td>pale orange</td>
-<td>0xdb966aff</td>
-<td>0.6666667</td>
+<td>0xe19b6eff</td>
+<td>0.6745098</td>
 <td>0.5254902</td>
 <td>0.5372549</td>
 <td>1.0</td>
-<td>0.15278715</td>
-<td>0.54251355</td>
+<td>0.15279995</td>
+<td>0.56774676</td>
 <td>0.08992863</td>
-<td>-0x1.130d54p126F</td>
+<td>0.88054717</td>
+<td>0.60793966</td>
+<td>0.43292323</td>
+<td>-0x1.130d58p126F</td>
 </tr>
 <tr>
-<td style='background-color: #ba73e1;'></td>
+<td style='background-color: #bf77e6;'></td>
 <td>pale purple</td>
-<td>0xba73e1ff</td>
-<td>0.59607846</td>
+<td>0xbf77e6ff</td>
+<td>0.6</td>
 <td>0.5529412</td>
 <td>0.4392157</td>
 <td>1.0</td>
-<td>0.8695183</td>
-<td>0.6839428</td>
+<td>0.86951405</td>
+<td>0.70752704</td>
 <td>0.1605844</td>
-<td>-0x1.e11b3p125F</td>
+<td>0.7461768</td>
+<td>0.46716338</td>
+<td>0.9015479</td>
+<td>-0x1.e11b32p125F</td>
 </tr>
 <tr>
-<td style='background-color: #de6e62;'></td>
+<td style='background-color: #e27165;'></td>
 <td>pale red</td>
-<td>0xde6e62ff</td>
+<td>0xe27165ff</td>
 <td>0.58431375</td>
 <td>0.5568628</td>
 <td>0.5294118</td>
 <td>1.0</td>
-<td>0.07798134</td>
-<td>0.6415094</td>
+<td>0.07797913</td>
+<td>0.6666667</td>
 <td>0.12753771</td>
+<td>0.8862076</td>
+<td>0.4447391</td>
+<td>0.39542648</td>
 <td>-0x1.0f1d2ap126F</td>
 </tr>
 <tr>
-<td style='background-color: #ddb17b;'></td>
+<td style='background-color: #e3b67f;'></td>
 <td>pale saffron</td>
-<td>0xddb17bff</td>
-<td>0.73333335</td>
+<td>0xe3b67fff</td>
+<td>0.74509805</td>
 <td>0.50980395</td>
 <td>0.5372549</td>
 <td>1.0</td>
-<td>0.20362332</td>
-<td>0.4745594</td>
+<td>0.2036132</td>
+<td>0.49715745</td>
 <td>0.07674564</td>
-<td>-0x1.130576p126F</td>
+<td>0.8873443</td>
+<td>0.71340626</td>
+<td>0.49955285</td>
+<td>-0x1.13057cp126F</td>
 </tr>
 <tr>
-<td style='background-color: #9c77d9;'></td>
+<td style='background-color: #a07add;'></td>
 <td>pale violet</td>
-<td>0x9c77d9ff</td>
+<td>0xa07addff</td>
 <td>0.5647059</td>
 <td>0.53333336</td>
 <td>0.4392157</td>
 <td>1.0</td>
-<td>0.83601886</td>
-<td>0.62474483</td>
+<td>0.83601046</td>
+<td>0.64788353</td>
 <td>0.1381068</td>
+<td>0.6258228</td>
+<td>0.47817966</td>
+<td>0.86493677</td>
 <td>-0x1.e1112p125F</td>
 </tr>
 <tr>
-<td style='background-color: #d8da76;'></td>
+<td style='background-color: #dbdd79;'></td>
 <td>pale yellow</td>
-<td>0xd8da76ff</td>
-<td>0.8235294</td>
+<td>0xdbdd79ff</td>
+<td>0.8352941</td>
 <td>0.47843137</td>
 <td>0.5529412</td>
 <td>1.0</td>
-<td>0.304581</td>
+<td>0.30459395</td>
 <td>0.5829831</td>
 <td>0.11388578</td>
-<td>-0x1.1af5a4p126F</td>
+<td>0.85756624</td>
+<td>0.8663303</td>
+<td>0.47496915</td>
+<td>-0x1.1af5aap126F</td>
 </tr>
 <tr>
 <td style='background-color: #000000;'></td>
@@ -2473,12 +3021,15 @@
 <td>0.0</td>
 <td>0.0</td>
 <td>0.0055242716</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
 <td>-0x1.fefep125F</td>
 </tr>
 <tr>
-<td style='background-color: #7c7c7c;'></td>
+<td style='background-color: #7f7f7f;'></td>
 <td>pure gray</td>
-<td>0x7c7c7cff</td>
+<td>0x7f7f7fff</td>
 <td>0.49803922</td>
 <td>0.49803922</td>
 <td>0.49803922</td>
@@ -2486,6 +3037,9 @@
 <td>0.0</td>
 <td>0.0</td>
 <td>0.0055242716</td>
+<td>0.4981066</td>
+<td>0.49805364</td>
+<td>0.49785942</td>
 <td>-0x1.fefefep125F</td>
 </tr>
 <tr>
@@ -2499,12 +3053,15 @@
 <td>0.0</td>
 <td>0.0</td>
 <td>0.0055242716</td>
+<td>0.28631294</td>
+<td>0.28628254</td>
+<td>0.2861709</td>
 <td>-0x1.fefe92p125F</td>
 </tr>
 <tr>
-<td style='background-color: #b4b4b4;'></td>
+<td style='background-color: #b6b6b6;'></td>
 <td>pure silver</td>
-<td>0xb4b4b4ff</td>
+<td>0xb6b6b6ff</td>
 <td>0.7137255</td>
 <td>0.49803922</td>
 <td>0.49803922</td>
@@ -2512,6 +3069,9 @@
 <td>0.0</td>
 <td>0.0</td>
 <td>0.0055242716</td>
+<td>0.71382064</td>
+<td>0.71374476</td>
+<td>0.71346647</td>
 <td>-0x1.feff6cp125F</td>
 </tr>
 <tr>
@@ -2525,51 +3085,63 @@
 <td>0.0</td>
 <td>0.0</td>
 <td>0.0055242716</td>
+<td>1.0</td>
+<td>1.0</td>
+<td>0.99963707</td>
 <td>-0x1.fefffep125F</td>
 </tr>
 <tr>
-<td style='background-color: #7690cb;'></td>
+<td style='background-color: #7a95d0;'></td>
 <td>silver blue</td>
-<td>0x7690cbff</td>
-<td>0.5803922</td>
+<td>0x7a95d0ff</td>
+<td>0.58431375</td>
 <td>0.49411765</td>
 <td>0.45490196</td>
 <td>1.0</td>
-<td>0.735567</td>
-<td>0.50206184</td>
+<td>0.735571</td>
+<td>0.52596956</td>
 <td>0.09060479</td>
-<td>-0x1.e8fd28p125F</td>
+<td>0.4781564</td>
+<td>0.5826244</td>
+<td>0.8148845</td>
+<td>-0x1.e8fd2ap125F</td>
 </tr>
 <tr>
-<td style='background-color: #ae9488;'></td>
+<td style='background-color: #b69b8f;'></td>
 <td>silver brown</td>
-<td>0xae9488ff</td>
-<td>0.6156863</td>
+<td>0xb69b8fff</td>
+<td>0.6313726</td>
 <td>0.50980395</td>
 <td>0.50980395</td>
 <td>1.0</td>
-<td>0.125</td>
-<td>0.16637807</td>
+<td>0.124999985</td>
+<td>0.18446264</td>
 <td>0.027621359</td>
-<td>-0x1.05053ap126F</td>
+<td>0.71141607</td>
+<td>0.60719305</td>
+<td>0.56237686</td>
+<td>-0x1.050542p126F</td>
 </tr>
 <tr>
-<td style='background-color: #8bb2af;'></td>
+<td style='background-color: #93bbb8;'></td>
 <td>silver cyan</td>
-<td>0x8bb2afff</td>
-<td>0.67058825</td>
+<td>0x93bbb8ff</td>
+<td>0.69411767</td>
 <td>0.47843137</td>
 <td>0.49411765</td>
 <td>1.0</td>
-<td>0.53142345</td>
-<td>0.29137254</td>
+<td>0.5314165</td>
+<td>0.28327885</td>
 <td>0.044538103</td>
-<td>-0x1.fcf556p125F</td>
+<td>0.5762566</td>
+<td>0.7315589</td>
+<td>0.72065634</td>
+<td>-0x1.fcf562p125F</td>
 </tr>
 <tr>
-<td style='background-color: #8f8f8f;'></td>
+<td style='background-color: #929292;'></td>
 <td>silver gray</td>
-<td>0x8f8f8fff</td>
+<td>0x929292ff</td>
 <td>0.57254905</td>
 <td>0.49803922</td>
 <td>0.49803922</td>
@@ -2577,116 +3149,143 @@
 <td>0.0</td>
 <td>0.0</td>
 <td>0.0055242716</td>
+<td>0.57262534</td>
+<td>0.5725645</td>
+<td>0.57234114</td>
 <td>-0x1.feff24p125F</td>
 </tr>
 <tr>
-<td style='background-color: #86bb89;'></td>
+<td style='background-color: #8dc390;'></td>
 <td>silver green</td>
-<td>0x86bb89ff</td>
-<td>0.6784314</td>
+<td>0x8dc390ff</td>
+<td>0.69803923</td>
 <td>0.4627451</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.40640444</td>
-<td>0.34338585</td>
+<td>0.40641648</td>
+<td>0.33282012</td>
 <td>0.08575976</td>
-<td>-0x1.0aed5ap126F</td>
+<td>0.552743</td>
+<td>0.763242</td>
+<td>0.5653159</td>
+<td>-0x1.0aed64p126F</td>
 </tr>
 <tr>
-<td style='background-color: #9ab085;'></td>
+<td style='background-color: #a2b88d;'></td>
 <td>silver lime</td>
-<td>0x9ab085ff</td>
-<td>0.6666667</td>
+<td>0xa2b88dff</td>
+<td>0.6862745</td>
 <td>0.47843137</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.36058098</td>
-<td>0.28926852</td>
+<td>0.36057103</td>
+<td>0.2789375</td>
 <td>0.060766988</td>
-<td>-0x1.0af554p126F</td>
+<td>0.6341349</td>
+<td>0.7223732</td>
+<td>0.5512264</td>
+<td>-0x1.0af55ep126F</td>
 </tr>
 <tr>
-<td style='background-color: #be8cbe;'></td>
+<td style='background-color: #c593c6;'></td>
 <td>silver magenta</td>
-<td>0xbe8cbeff</td>
-<td>0.63529414</td>
+<td>0xc593c6ff</td>
+<td>0.6509804</td>
 <td>0.53333336</td>
 <td>0.4745098</td>
 <td>1.0</td>
-<td>0.90640444</td>
-<td>0.292342</td>
+<td>0.9064165</td>
+<td>0.3181369</td>
 <td>0.0835974</td>
-<td>-0x1.f31144p125F</td>
+<td>0.77336407</td>
+<td>0.5752858</td>
+<td>0.7735314</td>
+<td>-0x1.f3114cp125F</td>
 </tr>
 <tr>
-<td style='background-color: #b89177;'></td>
+<td style='background-color: #c0987e;'></td>
 <td>silver orange</td>
-<td>0xb89177ff</td>
-<td>0.6156863</td>
+<td>0xc0987eff</td>
+<td>0.6313726</td>
 <td>0.5137255</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.15640444</td>
-<td>0.3068554</td>
+<td>0.15641648</td>
+<td>0.3004626</td>
 <td>0.050931267</td>
-<td>-0x1.0b073ap126F</td>
+<td>0.7520057</td>
+<td>0.59683555</td>
+<td>0.49319327</td>
+<td>-0x1.0b0742p126F</td>
 </tr>
 <tr>
-<td style='background-color: #a881ba;'></td>
+<td style='background-color: #b088c3;'></td>
 <td>silver purple</td>
-<td>0xa881baff</td>
-<td>0.58431375</td>
+<td>0xb088c3ff</td>
+<td>0.6</td>
 <td>0.5294118</td>
 <td>0.46666667</td>
 <td>1.0</td>
 <td>0.875</td>
-<td>0.34283966</td>
+<td>0.37094125</td>
 <td>0.08856081</td>
-<td>-0x1.ef0f2ap125F</td>
+<td>0.68862504</td>
+<td>0.5327925</td>
+<td>0.76176935</td>
+<td>-0x1.ef0f32p125F</td>
 </tr>
 <tr>
-<td style='background-color: #ba7d71;'></td>
+<td style='background-color: #c18377;'></td>
 <td>silver red</td>
-<td>0xba7d71ff</td>
-<td>0.5686275</td>
+<td>0xc18377ff</td>
+<td>0.5803922</td>
 <td>0.5294118</td>
 <td>0.5176471</td>
 <td>1.0</td>
-<td>0.088913955</td>
-<td>0.3369279</td>
+<td>0.088903844</td>
+<td>0.36284542</td>
 <td>0.068331465</td>
-<td>-0x1.090f22p126F</td>
+<td>0.7554868</td>
+<td>0.51354843</td>
+<td>0.4654865</td>
+<td>-0x1.090f28p126F</td>
 </tr>
 <tr>
-<td style='background-color: #bca887;'></td>
+<td style='background-color: #c5b18f;'></td>
 <td>silver saffron</td>
-<td>0xbca887ff</td>
-<td>0.6784314</td>
+<td>0xc5b18fff</td>
+<td>0.7019608</td>
 <td>0.5019608</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.22370392</td>
-<td>0.28965536</td>
+<td>0.22371578</td>
+<td>0.27648923</td>
 <td>0.04314594</td>
-<td>-0x1.0b015ap126F</td>
+<td>0.77154297</td>
+<td>0.6916222</td>
+<td>0.56140035</td>
+<td>-0x1.0b0166p126F</td>
 </tr>
 <tr>
-<td style='background-color: #9a86ba;'></td>
+<td style='background-color: #9f8bc0;'></td>
 <td>silver violet</td>
-<td>0x9a86baff</td>
-<td>0.5803922</td>
+<td>0x9f8bc0ff</td>
+<td>0.5882353</td>
 <td>0.5176471</td>
 <td>0.46666667</td>
 <td>1.0</td>
-<td>0.8389139</td>
-<td>0.3559993</td>
+<td>0.83890384</td>
+<td>0.36996004</td>
 <td>0.07513822</td>
-<td>-0x1.ef0928p125F</td>
+<td>0.6233184</td>
+<td>0.5458692</td>
+<td>0.75160223</td>
+<td>-0x1.ef092cp125F</td>
 </tr>
 <tr>
-<td style='background-color: #dcdcdc;'></td>
+<td style='background-color: #dbdbdb;'></td>
 <td>silver white</td>
-<td>0xdcdcdcff</td>
+<td>0xdbdbdbff</td>
 <td>0.85882354</td>
 <td>0.49803922</td>
 <td>0.49803922</td>
@@ -2694,20 +3293,26 @@
 <td>0.0</td>
 <td>0.0</td>
 <td>0.0055242716</td>
+<td>0.8589381</td>
+<td>0.8588467</td>
+<td>0.8585118</td>
 <td>-0x1.feffb6p125F</td>
 </tr>
 <tr>
-<td style='background-color: #b3b681;'></td>
+<td style='background-color: #b8bb86;'></td>
 <td>silver yellow</td>
-<td>0xb3b681ff</td>
-<td>0.7019608</td>
+<td>0xb8bb86ff</td>
+<td>0.7137255</td>
 <td>0.4862745</td>
 <td>0.5294118</td>
 <td>1.0</td>
-<td>0.30708748</td>
+<td>0.30710012</td>
 <td>0.3714784</td>
 <td>0.064659946</td>
-<td>-0x1.0ef966p126F</td>
+<td>0.72162944</td>
+<td>0.73365706</td>
+<td>0.5263837</td>
+<td>-0x1.0ef96cp126F</td>
 </tr>
 <tr>
 <td style='background-color: #000000;'></td>
@@ -2720,610 +3325,751 @@
 <td>0.0</td>
 <td>0.0</td>
 <td>0.0055242716</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
 <td>0x0.fefep-126F</td>
 </tr>
 <tr>
-<td style='background-color: #38bbdc;'></td>
+<td style='background-color: #3bbedf;'></td>
 <td>true blue cyan</td>
-<td>0x38bbdcff</td>
+<td>0x3bbedfff</td>
 <td>0.6666667</td>
 <td>0.4509804</td>
 <td>0.4627451</td>
 <td>1.0</td>
-<td>0.6024291</td>
-<td>0.8333333</td>
+<td>0.6024164</td>
+<td>0.8108108</td>
 <td>0.12265874</td>
+<td>0.23387314</td>
+<td>0.74368453</td>
+<td>0.874774</td>
 <td>-0x1.ece754p125F</td>
 </tr>
 <tr>
-<td style='background-color: #6434dd;'></td>
+<td style='background-color: #6333dd;'></td>
 <td>true blue violet</td>
-<td>0x6434ddff</td>
-<td>0.3764706</td>
+<td>0x6333ddff</td>
+<td>0.36862746</td>
 <td>0.5372549</td>
 <td>0.3882353</td>
 <td>1.0</td>
-<td>0.804581</td>
+<td>0.8045939</td>
 <td>0.7722633</td>
 <td>0.23470029</td>
-<td>-0x1.c712cp125F</td>
+<td>0.39060828</td>
+<td>0.20226178</td>
+<td>0.86485577</td>
+<td>-0x1.c712bcp125F</td>
 </tr>
 <tr>
-<td style='background-color: #c07951;'></td>
+<td style='background-color: #c27a52;'></td>
 <td>true brown orange</td>
-<td>0xc07951ff</td>
-<td>0.56078434</td>
+<td>0xc27a52ff</td>
+<td>0.5529412</td>
 <td>0.5294118</td>
 <td>0.5372549</td>
 <td>1.0</td>
-<td>0.14260027</td>
-<td>0.54494673</td>
+<td>0.14261165</td>
+<td>0.5335937</td>
 <td>0.0945603</td>
-<td>-0x1.130f1ep126F</td>
+<td>0.7593211</td>
+<td>0.47986168</td>
+<td>0.3232126</td>
+<td>-0x1.130f1ap126F</td>
 </tr>
 <tr>
 <td style='background-color: #c65741;'></td>
 <td>true brown red</td>
 <td>0xc65741ff</td>
-<td>0.49411765</td>
+<td>0.48235294</td>
 <td>0.5568628</td>
 <td>0.5372549</td>
 <td>1.0</td>
-<td>0.09359558</td>
+<td>0.09358352</td>
 <td>0.57230973</td>
 <td>0.13542919</td>
-<td>-0x1.131cfcp126F</td>
+<td>0.7739858</td>
+<td>0.34155482</td>
+<td>0.25605017</td>
+<td>-0x1.131cf6p126F</td>
 </tr>
 <tr>
-<td style='background-color: #4292cf;'></td>
+<td style='background-color: #4495d2;'></td>
 <td>true cyan blue</td>
-<td>0x4292cfff</td>
-<td>0.5529412</td>
+<td>0x4495d2ff</td>
+<td>0.54901963</td>
 <td>0.47058824</td>
 <td>0.44705883</td>
 <td>1.0</td>
-<td>0.67138404</td>
+<td>0.6713868</td>
 <td>0.7030868</td>
 <td>0.120651916</td>
-<td>-0x1.e4f11ap125F</td>
+<td>0.26701382</td>
+<td>0.58238715</td>
+<td>0.8210567</td>
+<td>-0x1.e4f118p125F</td>
 </tr>
 <tr>
-<td style='background-color: #53d797;'></td>
+<td style='background-color: #54d898;'></td>
 <td>true cyan green</td>
-<td>0x53d797ff</td>
-<td>0.7294118</td>
+<td>0x54d898ff</td>
+<td>0.7254902</td>
 <td>0.43137255</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.44601285</td>
+<td>0.44599992</td>
 <td>0.7358268</td>
 <td>0.143312</td>
-<td>-0x1.0add74p126F</td>
+<td>0.33001846</td>
+<td>0.84579986</td>
+<td>0.59735376</td>
+<td>-0x1.0add72p126F</td>
 </tr>
 <tr>
-<td style='background-color: #36d3b3;'></td>
+<td style='background-color: #3ad7b6;'></td>
 <td>true green cyan</td>
-<td>0x36d3b3ff</td>
-<td>0.7176471</td>
+<td>0x3ad7b6ff</td>
+<td>0.72156864</td>
 <td>0.43137255</td>
 <td>0.5019608</td>
 <td>1.0</td>
-<td>0.49065647</td>
-<td>0.85146934</td>
+<td>0.49064872</td>
+<td>0.83070177</td>
 <td>0.13677454</td>
-<td>-0x1.00dd6ep126F</td>
+<td>0.22699988</td>
+<td>0.8415756</td>
+<td>0.71256316</td>
+<td>-0x1.00dd7p126F</td>
 </tr>
 <tr>
-<td style='background-color: #8bdc3a;'></td>
+<td style='background-color: #8ee03e;'></td>
 <td>true green lime</td>
-<td>0x8bdc3aff</td>
-<td>0.75686276</td>
+<td>0x8ee03eff</td>
+<td>0.7647059</td>
 <td>0.43137255</td>
 <td>0.57254905</td>
 <td>1.0</td>
-<td>0.36617374</td>
+<td>0.36616713</td>
 <td>0.83590484</td>
 <td>0.1989505</td>
-<td>-0x1.24dd82p126F</td>
+<td>0.5564755</td>
+<td>0.8760781</td>
+<td>0.24342008</td>
+<td>-0x1.24dd86p126F</td>
 </tr>
 <tr>
-<td style='background-color: #66d54e;'></td>
+<td style='background-color: #68d750;'></td>
 <td>true lime green</td>
-<td>0x66d54eff</td>
+<td>0x68d750ff</td>
 <td>0.7176471</td>
 <td>0.42352942</td>
 <td>0.56078434</td>
 <td>1.0</td>
-<td>0.38859904</td>
+<td>0.38860857</td>
 <td>0.7305731</td>
 <td>0.1946081</td>
+<td>0.4100553</td>
+<td>0.8430912</td>
+<td>0.3143971</td>
 <td>-0x1.1ed96ep126F</td>
 </tr>
 <tr>
-<td style='background-color: #c2cf47;'></td>
+<td style='background-color: #c6d24a;'></td>
 <td>true lime yellow</td>
-<td>0xc2cf47ff</td>
-<td>0.76862746</td>
+<td>0xc6d24aff</td>
+<td>0.7764706</td>
 <td>0.46666667</td>
 <td>0.5686275</td>
 <td>1.0</td>
-<td>0.31655478</td>
-<td>0.7879086</td>
+<td>0.31656247</td>
+<td>0.77245945</td>
 <td>0.15199278</td>
-<td>-0x1.22ef88p126F</td>
+<td>0.7738652</td>
+<td>0.82369494</td>
+<td>0.29037455</td>
+<td>-0x1.22ef8cp126F</td>
 </tr>
 <tr>
-<td style='background-color: #b242cf;'></td>
+<td style='background-color: #b343d0;'></td>
 <td>true magenta purple</td>
-<td>0xb242cfff</td>
-<td>0.49019608</td>
+<td>0xb343d0ff</td>
+<td>0.48235294</td>
 <td>0.5803922</td>
 <td>0.42745098</td>
 <td>1.0</td>
-<td>0.8872099</td>
-<td>0.7184061</td>
+<td>0.8872186</td>
+<td>0.70919573</td>
 <td>0.21572971</td>
-<td>-0x1.db28fap125F</td>
+<td>0.70150816</td>
+<td>0.2652136</td>
+<td>0.8137135</td>
+<td>-0x1.db28f6p125F</td>
 </tr>
 <tr>
-<td style='background-color: #d54167;'></td>
+<td style='background-color: #d74268;'></td>
 <td>true magenta red</td>
-<td>0xd54167ff</td>
-<td>0.49411765</td>
+<td>0xd74268ff</td>
+<td>0.4862745</td>
 <td>0.5882353</td>
 <td>0.50980395</td>
 <td>1.0</td>
-<td>0.02065512</td>
+<td>0.020642795</td>
 <td>0.71368694</td>
 <td>0.17686298</td>
-<td>-0x1.052cfcp126F</td>
+<td>0.84072375</td>
+<td>0.25959584</td>
+<td>0.40895727</td>
+<td>-0x1.052cf8p126F</td>
 </tr>
 <tr>
-<td style='background-color: #c07555;'></td>
+<td style='background-color: #c27657;'></td>
 <td>true orange brown</td>
-<td>0xc07555ff</td>
-<td>0.5529412</td>
+<td>0xc27657ff</td>
+<td>0.54509807</td>
 <td>0.53333336</td>
 <td>0.53333336</td>
 <td>1.0</td>
-<td>0.125</td>
-<td>0.4991342</td>
+<td>0.124999985</td>
+<td>0.48029897</td>
 <td>0.09391262</td>
-<td>-0x1.11111ap126F</td>
+<td>0.7584695</td>
+<td>0.46481818</td>
+<td>0.34018955</td>
+<td>-0x1.111116p126F</td>
 </tr>
 <tr>
-<td style='background-color: #de9239;'></td>
+<td style='background-color: #e2953c;'></td>
 <td>true orange saffron</td>
-<td>0xde9239ff</td>
+<td>0xe2953cff</td>
 <td>0.6509804</td>
 <td>0.52156866</td>
 <td>0.56078434</td>
 <td>1.0</td>
-<td>0.19291253</td>
-<td>0.79479104</td>
+<td>0.19289988</td>
+<td>0.7767276</td>
 <td>0.12849128</td>
+<td>0.88337696</td>
+<td>0.58231884</td>
+<td>0.23526627</td>
 <td>-0x1.1f0b4cp126F</td>
 </tr>
 <tr>
-<td style='background-color: #1540e6;'></td>
+<td style='background-color: #153fe5;'></td>
 <td>true pure blue</td>
-<td>0x1540e6ff</td>
-<td>0.34901962</td>
+<td>0x153fe5ff</td>
+<td>0.34117648</td>
 <td>0.4862745</td>
 <td>0.3764706</td>
 <td>1.0</td>
-<td>0.7346399</td>
+<td>0.7346457</td>
 <td>0.8196006</td>
 <td>0.24760818</td>
-<td>-0x1.c0f8b2p125F</td>
+<td>0.08357716</td>
+<td>0.24934943</td>
+<td>0.8948854</td>
+<td>-0x1.c0f8aep125F</td>
 </tr>
 <tr>
-<td style='background-color: #b9775b;'></td>
+<td style='background-color: #ba775b;'></td>
 <td>true pure brown</td>
-<td>0xb9775bff</td>
-<td>0.54901963</td>
+<td>0xba775bff</td>
+<td>0.5372549</td>
 <td>0.5294118</td>
 <td>0.5294118</td>
 <td>1.0</td>
-<td>0.125</td>
-<td>0.44367483</td>
+<td>0.124999985</td>
+<td>0.43514264</td>
 <td>0.082864076</td>
-<td>-0x1.0f0f18p126F</td>
+<td>0.7276369</td>
+<td>0.4678294</td>
+<td>0.35752904</td>
+<td>-0x1.0f0f12p126F</td>
 </tr>
 <tr>
-<td style='background-color: #4fd8d9;'></td>
+<td style='background-color: #53dcdd;'></td>
 <td>true pure cyan</td>
-<td>0x4fd8d9ff</td>
-<td>0.7529412</td>
+<td>0x53dcddff</td>
+<td>0.7607843</td>
 <td>0.44313726</td>
 <td>0.48235294</td>
 <td>1.0</td>
-<td>0.54428434</td>
+<td>0.5442928</td>
 <td>0.7663274</td>
 <td>0.11861114</td>
-<td>-0x1.f6e38p125F</td>
+<td>0.32522064</td>
+<td>0.8611511</td>
+<td>0.86562574</td>
+<td>-0x1.f6e384p125F</td>
 </tr>
 <tr>
-<td style='background-color: #39d33e;'></td>
+<td style='background-color: #3dd742;'></td>
 <td>true pure green</td>
-<td>0x39d33eff</td>
-<td>0.6901961</td>
+<td>0x3dd742ff</td>
+<td>0.69411767</td>
 <td>0.40784314</td>
 <td>0.5647059</td>
 <td>1.0</td>
-<td>0.39868373</td>
-<td>0.841197</td>
+<td>0.39869657</td>
+<td>0.8290058</td>
 <td>0.22432896</td>
-<td>-0x1.20d16p126F</td>
+<td>0.2394016</td>
+<td>0.84167737</td>
+<td>0.2584365</td>
+<td>-0x1.20d162p126F</td>
 </tr>
 <tr>
-<td style='background-color: #9dd34c;'></td>
+<td style='background-color: #a0d64e;'></td>
 <td>true pure lime</td>
-<td>0x9dd34cff</td>
-<td>0.7490196</td>
+<td>0xa0d64eff</td>
+<td>0.7529412</td>
 <td>0.44705883</td>
 <td>0.5647059</td>
 <td>1.0</td>
-<td>0.35391617</td>
+<td>0.35390377</td>
 <td>0.75091</td>
 <td>0.16655473</td>
-<td>-0x1.20e57ep126F</td>
+<td>0.6260152</td>
+<td>0.8382553</td>
+<td>0.30853683</td>
+<td>-0x1.20e58p126F</td>
 </tr>
 <tr>
-<td style='background-color: #d049cf;'></td>
+<td style='background-color: #d24ad1;'></td>
 <td>true pure magenta</td>
-<td>0xd049cfff</td>
-<td>0.54509807</td>
+<td>0xd24ad1ff</td>
+<td>0.5372549</td>
 <td>0.5921569</td>
 <td>0.4392157</td>
 <td>1.0</td>
-<td>0.911086</td>
+<td>0.91109616</td>
 <td>0.70754856</td>
 <td>0.21993263</td>
-<td>-0x1.e12f16p125F</td>
+<td>0.8219687</td>
+<td>0.29107708</td>
+<td>0.8180476</td>
+<td>-0x1.e12f12p125F</td>
 </tr>
 <tr>
-<td style='background-color: #d7793a;'></td>
+<td style='background-color: #da7b3c;'></td>
 <td>true pure orange</td>
-<td>0xd7793aff</td>
-<td>0.5882353</td>
+<td>0xda7b3cff</td>
+<td>0.58431375</td>
 <td>0.5372549</td>
 <td>0.5529412</td>
 <td>1.0</td>
-<td>0.15127131</td>
+<td>0.15128423</td>
 <td>0.7321128</td>
 <td>0.12896542</td>
-<td>-0x1.1b132cp126F</td>
+<td>0.85375893</td>
+<td>0.48313814</td>
+<td>0.23823985</td>
+<td>-0x1.1b132ap126F</td>
 </tr>
 <tr>
-<td style='background-color: #aa3adf;'></td>
+<td style='background-color: #ab3be0;'></td>
 <td>true pure purple</td>
-<td>0xaa3adfff</td>
-<td>0.47843137</td>
+<td>0xab3be0ff</td>
+<td>0.47058824</td>
 <td>0.5803922</td>
 <td>0.4117647</td>
 <td>1.0</td>
-<td>0.87130225</td>
-<td>0.77984136</td>
+<td>0.8712994</td>
+<td>0.76996994</td>
 <td>0.2378005</td>
-<td>-0x1.d328f4p125F</td>
+<td>0.67067266</td>
+<td>0.23212227</td>
+<td>0.87660176</td>
+<td>-0x1.d328fp125F</td>
 </tr>
 <tr>
-<td style='background-color: #d6362c;'></td>
+<td style='background-color: #d8372d;'></td>
 <td>true pure red</td>
-<td>0xd6362cff</td>
-<td>0.46666667</td>
+<td>0xd8372dff</td>
+<td>0.45882353</td>
 <td>0.58431375</td>
 <td>0.54509807</td>
 <td>1.0</td>
-<td>0.07947698</td>
-<td>0.7955533</td>
+<td>0.0794735</td>
+<td>0.7831228</td>
 <td>0.19048727</td>
-<td>-0x1.172aeep126F</td>
+<td>0.8437963</td>
+<td>0.21524148</td>
+<td>0.17693122</td>
+<td>-0x1.172aeap126F</td>
 </tr>
 <tr>
-<td style='background-color: #d59843;'></td>
+<td style='background-color: #d79a45;'></td>
 <td>true pure saffron</td>
-<td>0xd59843ff</td>
-<td>0.654902</td>
+<td>0xd79a45ff</td>
+<td>0.6509804</td>
 <td>0.5137255</td>
 <td>0.5568628</td>
 <td>1.0</td>
-<td>0.20852949</td>
+<td>0.20852384</td>
 <td>0.7392464</td>
 <td>0.11653464</td>
-<td>-0x1.1d074ep126F</td>
+<td>0.8428075</td>
+<td>0.6026875</td>
+<td>0.27120563</td>
+<td>-0x1.1d074cp126F</td>
 </tr>
 <tr>
-<td style='background-color: #8543d1;'></td>
+<td style='background-color: #8544d2;'></td>
 <td>true pure violet</td>
-<td>0x8543d1ff</td>
-<td>0.43137255</td>
+<td>0x8544d2ff</td>
+<td>0.42352942</td>
 <td>0.5529412</td>
 <td>0.4117647</td>
 <td>1.0</td>
-<td>0.84020853</td>
+<td>0.84019774</td>
 <td>0.6773197</td>
 <td>0.2049944</td>
-<td>-0x1.d31adcp125F</td>
+<td>0.5227348</td>
+<td>0.266257</td>
+<td>0.82260597</td>
+<td>-0x1.d31ad8p125F</td>
 </tr>
 <tr>
-<td style='background-color: #d4d438;'></td>
+<td style='background-color: #d7d73b;'></td>
 <td>true pure yellow</td>
-<td>0xd4d438ff</td>
-<td>0.79607844</td>
+<td>0xd7d73bff</td>
+<td>0.8039216</td>
 <td>0.47058824</td>
 <td>0.5764706</td>
 <td>1.0</td>
-<td>0.3035705</td>
-<td>0.86488247</td>
+<td>0.30358344</td>
+<td>0.84758484</td>
 <td>0.1632233</td>
-<td>-0x1.26f196p126F</td>
+<td>0.84223205</td>
+<td>0.8404028</td>
+<td>0.23186837</td>
+<td>-0x1.26f19ap126F</td>
 </tr>
 <tr>
-<td style='background-color: #ce40e2;'></td>
+<td style='background-color: #cf41e4;'></td>
 <td>true purple magenta</td>
-<td>0xce40e2ff</td>
-<td>0.5411765</td>
+<td>0xcf41e4ff</td>
+<td>0.53333336</td>
 <td>0.59607846</td>
 <td>0.42352942</td>
 <td>1.0</td>
-<td>0.8965574</td>
+<td>0.8965699</td>
 <td>0.77532434</td>
 <td>0.24463232</td>
-<td>-0x1.d93114p125F</td>
+<td>0.8117118</td>
+<td>0.2572162</td>
+<td>0.89220834</td>
+<td>-0x1.d9311p125F</td>
 </tr>
 <tr>
-<td style='background-color: #8e38dc;'></td>
+<td style='background-color: #8f39dc;'></td>
 <td>true purple violet</td>
-<td>0x8e38dcff</td>
-<td>0.43529412</td>
+<td>0x8f39dcff</td>
+<td>0.42745098</td>
 <td>0.5647059</td>
 <td>0.40392157</td>
 <td>1.0</td>
-<td>0.8480996</td>
+<td>0.8480867</td>
 <td>0.76391906</td>
 <td>0.23076649</td>
-<td>-0x1.cf20dep125F</td>
+<td>0.5607895</td>
+<td>0.2239672</td>
+<td>0.86280227</td>
+<td>-0x1.cf20dap125F</td>
 </tr>
 <tr>
-<td style='background-color: #be634b;'></td>
+<td style='background-color: #c0644c;'></td>
 <td>true red brown</td>
-<td>0xbe634bff</td>
-<td>0.50980395</td>
+<td>0xc0644cff</td>
+<td>0.5019608</td>
 <td>0.54509807</td>
 <td>0.53333336</td>
 <td>1.0</td>
-<td>0.102429084</td>
+<td>0.102416374</td>
 <td>0.51724136</td>
 <td>0.11172148</td>
-<td>-0x1.111704p126F</td>
+<td>0.7510379</td>
+<td>0.39434993</td>
+<td>0.29970473</td>
+<td>-0x1.1117p126F</td>
 </tr>
 <tr>
-<td style='background-color: #d83390;'></td>
+<td style='background-color: #da3697;'></td>
 <td>true red magenta</td>
-<td>0xd83390ff</td>
-<td>0.49803922</td>
+<td>0xda3697ff</td>
+<td>0.49411765</td>
 <td>0.6039216</td>
-<td>0.47843137</td>
+<td>0.4745098</td>
 <td>1.0</td>
-<td>0.97084755</td>
-<td>0.80761945</td>
-<td>0.21144326</td>
-<td>-0x1.f534fep125F</td>
+<td>0.96519774</td>
+<td>0.8016995</td>
+<td>0.21316819</td>
+<td>0.85250705</td>
+<td>0.21217917</td>
+<td>0.5906444</td>
+<td>-0x1.f334fcp125F</td>
 </tr>
 <tr>
-<td style='background-color: #d0843f;'></td>
+<td style='background-color: #d28540;'></td>
 <td>true saffron orange</td>
-<td>0xd0843fff</td>
-<td>0.6039216</td>
+<td>0xd28540ff</td>
+<td>0.59607846</td>
 <td>0.5254902</td>
 <td>0.5529412</td>
 <td>1.0</td>
-<td>0.17620972</td>
+<td>0.1762082</td>
 <td>0.72802216</td>
 <td>0.11705722</td>
-<td>-0x1.1b0d34p126F</td>
+<td>0.821828</td>
+<td>0.52336293</td>
+<td>0.2509448</td>
+<td>-0x1.1b0d3p126F</td>
 </tr>
 <tr>
-<td style='background-color: #d8c34d;'></td>
+<td style='background-color: #dac550;'></td>
 <td>true saffron yellow</td>
-<td>0xd8c34dff</td>
-<td>0.7607843</td>
+<td>0xdac550ff</td>
+<td>0.7647059</td>
 <td>0.4862745</td>
 <td>0.5647059</td>
 <td>1.0</td>
-<td>0.27781066</td>
+<td>0.27779996</td>
 <td>0.75055116</td>
 <td>0.13177444</td>
-<td>-0x1.20f984p126F</td>
+<td>0.8547572</td>
+<td>0.773105</td>
+<td>0.31296638</td>
+<td>-0x1.20f986p126F</td>
 </tr>
 <tr>
 <td style='background-color: #4341ce;'></td>
 <td>true violet blue</td>
 <td>0x4341ceff</td>
-<td>0.3529412</td>
+<td>0.34901962</td>
 <td>0.50980395</td>
 <td>0.39607844</td>
 <td>1.0</td>
-<td>0.7682935</td>
+<td>0.7682832</td>
 <td>0.6887501</td>
 <td>0.20795049</td>
-<td>-0x1.cb04b4p125F</td>
+<td>0.26538175</td>
+<td>0.25672978</td>
+<td>0.8072639</td>
+<td>-0x1.cb04b2p125F</td>
 </tr>
 <tr>
-<td style='background-color: #9d48d5;'></td>
+<td style='background-color: #9c47d9;'></td>
 <td>true violet purple</td>
-<td>0x9d48d5ff</td>
-<td>0.4745098</td>
+<td>0x9c47d9ff</td>
+<td>0.4627451</td>
 <td>0.5647059</td>
-<td>0.41960785</td>
+<td>0.41568628</td>
 <td>1.0</td>
-<td>0.86213285</td>
-<td>0.6730464</td>
-<td>0.20558903</td>
-<td>-0x1.d720f2p125F</td>
+<td>0.8583083</td>
+<td>0.6927824</td>
+<td>0.21173172</td>
+<td>0.61133015</td>
+<td>0.2799007</td>
+<td>0.85116273</td>
+<td>-0x1.d520ecp125F</td>
 </tr>
 <tr>
-<td style='background-color: #afd73e;'></td>
+<td style='background-color: #b3dc42;'></td>
 <td>true yellow lime</td>
-<td>0xafd73eff</td>
-<td>0.77254903</td>
+<td>0xb3dc42ff</td>
+<td>0.78431374</td>
 <td>0.4509804</td>
 <td>0.57254905</td>
 <td>1.0</td>
-<td>0.33966506</td>
+<td>0.33965456</td>
 <td>0.8323039</td>
 <td>0.17443058</td>
-<td>-0x1.24e78ap126F</td>
+<td>0.7021501</td>
+<td>0.86075276</td>
+<td>0.2601916</td>
+<td>-0x1.24e79p126F</td>
 </tr>
 <tr>
-<td style='background-color: #d7a52e;'></td>
+<td style='background-color: #daa831;'></td>
 <td>true yellow saffron</td>
-<td>0xd7a52eff</td>
+<td>0xdaa831ff</td>
 <td>0.6862745</td>
 <td>0.5019608</td>
 <td>0.5686275</td>
 <td>1.0</td>
-<td>0.24117598</td>
+<td>0.24116714</td>
 <td>0.85846454</td>
 <td>0.13677454</td>
+<td>0.85437727</td>
+<td>0.6578713</td>
+<td>0.1928531</td>
 <td>-0x1.23015ep126F</td>
 </tr>
 <tr>
-<td style='background-color: #8da9e7;'></td>
+<td style='background-color: #91adeb;'></td>
 <td>white blue</td>
-<td>0x8da9e7ff</td>
-<td>0.6745098</td>
+<td>0x91adebff</td>
+<td>0.6784314</td>
 <td>0.49411765</td>
 <td>0.45490196</td>
 <td>1.0</td>
-<td>0.735567</td>
-<td>0.6694158</td>
+<td>0.735571</td>
+<td>0.7126039</td>
 <td>0.09060479</td>
-<td>-0x1.e8fd58p125F</td>
+<td>0.56694835</td>
+<td>0.6775978</td>
+<td>0.9209572</td>
+<td>-0x1.e8fd5ap125F</td>
 </tr>
 <tr>
-<td style='background-color: #d1b5a9;'></td>
+<td style='background-color: #d7bbaf;'></td>
 <td>white brown</td>
-<td>0xd1b5a9ff</td>
-<td>0.7411765</td>
+<td>0xd7bbafff</td>
+<td>0.75686276</td>
 <td>0.50980395</td>
 <td>0.50980395</td>
 <td>1.0</td>
-<td>0.125</td>
-<td>0.2828427</td>
+<td>0.124999985</td>
+<td>0.30304575</td>
 <td>0.027621359</td>
-<td>-0x1.05057ap126F</td>
+<td>0.8422546</td>
+<td>0.7313644</td>
+<td>0.68362874</td>
+<td>-0x1.050582p126F</td>
 </tr>
 <tr>
-<td style='background-color: #afd9d6;'></td>
+<td style='background-color: #b6e0dd;'></td>
 <td>white cyan</td>
-<td>0xafd9d6ff</td>
-<td>0.8117647</td>
+<td>0xb6e0ddff</td>
+<td>0.8352941</td>
 <td>0.47843137</td>
 <td>0.49411765</td>
 <td>1.0</td>
-<td>0.53142345</td>
-<td>0.25495097</td>
+<td>0.5314165</td>
+<td>0.24873266</td>
 <td>0.044538103</td>
-<td>-0x1.fcf59ep125F</td>
+<td>0.7111093</td>
+<td>0.87531716</td>
+<td>0.86348695</td>
+<td>-0x1.fcf5aap125F</td>
 </tr>
 <tr>
-<td style='background-color: #a4dca7;'></td>
+<td style='background-color: #abe4af;'></td>
 <td>white green</td>
-<td>0xa4dca7ff</td>
-<td>0.79607844</td>
+<td>0xabe4afff</td>
+<td>0.8235294</td>
 <td>0.4627451</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.40640444</td>
-<td>0.30469447</td>
+<td>0.40641648</td>
+<td>0.3228852</td>
 <td>0.08575976</td>
-<td>-0x1.0aed96p126F</td>
+<td>0.6716325</td>
+<td>0.8929658</td>
+<td>0.6838332</td>
+<td>-0x1.0aeda4p126F</td>
 </tr>
 <tr>
-<td style='background-color: #c3dbad;'></td>
+<td style='background-color: #c6deb0;'></td>
 <td>white lime</td>
-<td>0xc3dbadff</td>
-<td>0.81960785</td>
+<td>0xc6deb0ff</td>
+<td>0.83137256</td>
 <td>0.47843137</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.36058098</td>
+<td>0.36057103</td>
 <td>0.24794444</td>
 <td>0.060766988</td>
-<td>-0x1.0af5a2p126F</td>
+<td>0.7758802</td>
+<td>0.8702037</td>
+<td>0.68800485</td>
+<td>-0x1.0af5a8p126F</td>
 </tr>
 <tr>
-<td style='background-color: #dea9de;'></td>
+<td style='background-color: #e6b0e5;'></td>
 <td>white magenta</td>
-<td>0xdea9deff</td>
-<td>0.7490196</td>
+<td>0xe6b0e5ff</td>
+<td>0.76862746</td>
 <td>0.53333336</td>
 <td>0.4745098</td>
 <td>1.0</td>
-<td>0.90640444</td>
-<td>0.4807402</td>
+<td>0.9064165</td>
+<td>0.52764165</td>
 <td>0.0835974</td>
-<td>-0x1.f3117ep125F</td>
+<td>0.8987545</td>
+<td>0.68947476</td>
+<td>0.8983519</td>
+<td>-0x1.f31188p125F</td>
 </tr>
 <tr>
-<td style='background-color: #deb498;'></td>
+<td style='background-color: #e5bb9f;'></td>
 <td>white orange</td>
-<td>0xdeb498ff</td>
-<td>0.7490196</td>
+<td>0xe5bb9fff</td>
+<td>0.76862746</td>
 <td>0.5137255</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.15640444</td>
-<td>0.4506939</td>
+<td>0.15641648</td>
+<td>0.4973174</td>
 <td>0.050931267</td>
-<td>-0x1.0b077ep126F</td>
+<td>0.898173</td>
+<td>0.7323348</td>
+<td>0.6216382</td>
+<td>-0x1.0b0788p126F</td>
 </tr>
 <tr>
-<td style='background-color: #cda3e1;'></td>
+<td style='background-color: #d5aae9;'></td>
 <td>white purple</td>
-<td>0xcda3e1ff</td>
-<td>0.7176471</td>
+<td>0xd5aae9ff</td>
+<td>0.7372549</td>
 <td>0.5294118</td>
 <td>0.46666667</td>
 <td>1.0</td>
 <td>0.875</td>
-<td>0.5518882</td>
+<td>0.5954583</td>
 <td>0.08856081</td>
-<td>-0x1.ef0f6ep125F</td>
+<td>0.83257174</td>
+<td>0.6664504</td>
+<td>0.9108578</td>
+<td>-0x1.ef0f78p125F</td>
 </tr>
 <tr>
-<td style='background-color: #e3a194;'></td>
+<td style='background-color: #e8a598;'></td>
 <td>white red</td>
-<td>0xe3a194ff</td>
-<td>0.70980394</td>
+<td>0xe8a598ff</td>
+<td>0.7176471</td>
 <td>0.5294118</td>
 <td>0.5176471</td>
 <td>1.0</td>
-<td>0.088913955</td>
-<td>0.5717564</td>
+<td>0.088903844</td>
+<td>0.60864395</td>
 <td>0.068331465</td>
-<td>-0x1.090f6ap126F</td>
+<td>0.90751785</td>
+<td>0.647154</td>
+<td>0.5946492</td>
+<td>-0x1.090f6ep126F</td>
 </tr>
 <tr>
-<td style='background-color: #dcc7a4;'></td>
+<td style='background-color: #e3ceab;'></td>
 <td>white saffron</td>
-<td>0xdcc7a4ff</td>
-<td>0.7921569</td>
+<td>0xe3ceabff</td>
+<td>0.8156863</td>
 <td>0.5019608</td>
 <td>0.52156866</td>
 <td>1.0</td>
-<td>0.22370392</td>
-<td>0.3201454</td>
+<td>0.22371578</td>
+<td>0.35780957</td>
 <td>0.04314594</td>
-<td>-0x1.0b0194p126F</td>
+<td>0.8889306</td>
+<td>0.8050707</td>
+<td>0.66832477</td>
+<td>-0x1.0b01ap126F</td>
 </tr>
 <tr>
-<td style='background-color: #c8c8c8;'></td>
+<td style='background-color: #c9c9c9;'></td>
 <td>white silver</td>
-<td>0xc8c8c8ff</td>
+<td>0xc9c9c9ff</td>
 <td>0.7882353</td>
 <td>0.49803922</td>
 <td>0.49803922</td>
@@ -3331,33 +4077,42 @@
 <td>0.0</td>
 <td>0.0</td>
 <td>0.0055242716</td>
+<td>0.7883404</td>
+<td>0.7882565</td>
+<td>0.7879492</td>
 <td>-0x1.feff92p125F</td>
 </tr>
 <tr>
-<td style='background-color: #baa5dd;'></td>
+<td style='background-color: #c0abe3;'></td>
 <td>white violet</td>
-<td>0xbaa5ddff</td>
-<td>0.7019608</td>
+<td>0xc0abe3ff</td>
+<td>0.7137255</td>
 <td>0.5176471</td>
 <td>0.46666667</td>
 <td>1.0</td>
-<td>0.8389139</td>
-<td>0.5390846</td>
+<td>0.83890384</td>
+<td>0.5717564</td>
 <td>0.07513822</td>
-<td>-0x1.ef0966p125F</td>
+<td>0.7509518</td>
+<td>0.66929686</td>
+<td>0.8882438</td>
+<td>-0x1.ef096cp125F</td>
 </tr>
 <tr>
-<td style='background-color: #dadda5;'></td>
+<td style='background-color: #dce0a8;'></td>
 <td>white yellow</td>
-<td>0xdadda5ff</td>
-<td>0.84313726</td>
+<td>0xdce0a8ff</td>
+<td>0.85490197</td>
 <td>0.4862745</td>
 <td>0.5294118</td>
 <td>1.0</td>
-<td>0.30708748</td>
+<td>0.30710012</td>
 <td>0.32861552</td>
 <td>0.064659946</td>
-<td>-0x1.0ef9aep126F</td>
+<td>0.863029</td>
+<td>0.876504</td>
+<td>0.6571083</td>
+<td>-0x1.0ef9b4p126F</td>
 </tr>
 </table>
 </body>

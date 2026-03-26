@@ -36,9 +36,9 @@ import static com.github.tommyettinger.colorful.oklab.ColorTools.*;
  * Created by Tommy Ettinger on 12/8/2019.
  */
 public class PaletteCodeGenerator extends ApplicationAdapter {
-    public static final String outputAdd = "Oklab";
-    public static final String inputName = "AuroraColorData.txt";
-    public static final String prefix = "Aurora";
+//    public static final String outputAdd = "Oklab";
+//    public static final String inputName = "AuroraColorData.txt";
+//    public static final String prefix = "Aurora";
 
 //    public static final String outputAdd = "YamOklab";
 //    public static final String inputName = "YamColorData.txt";
@@ -46,8 +46,9 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 //    public static final String outputAdd = "Yam2Oklab";
 //    public static final String inputName = "Yam2ColorData.txt";
 
-//    public static final String outputAdd = "Yam3Oklab";
-//    public static final String inputName = "Yam3ColorData.txt";
+    public static final String outputAdd = "Yam3Oklab";
+    public static final String inputName = "Yam3ColorData.txt";
+    public static final String prefix = "Yam3";
 
 //    public static final String outputAdd = "FullOklab";
 //    public static final String inputName = "ColorData.txt";
