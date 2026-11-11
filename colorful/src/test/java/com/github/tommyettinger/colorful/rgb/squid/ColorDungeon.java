@@ -402,8 +402,8 @@ public class ColorDungeon extends ApplicationAdapter {
         Gdx.app.setLogLevel(Application.LOG_INFO);
 
         // Switch between ColorfulBatch and the newer subclass, TextureArrayColorfulBatch, here.
-//        batch = new ColorfulBatch();
-        batch = new TextureArrayColorfulBatch();
+        batch = new ColorfulBatch();
+//        batch = new TextureArrayColorfulBatch();
 
         rng = new ChopRandom(seed);
 

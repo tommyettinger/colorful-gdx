@@ -35,13 +35,17 @@ import java.util.Comparator;
  * Created by Tommy Ettinger on 12/8/2019.
  */
 public class PaletteCodeGenerator extends ApplicationAdapter {
-//    public static final String outputAdd = "Oklab";
+//    public static final String outputAdd = "RGB";
 //    public static final String inputName = "AuroraColorData.txt";
 //    public static final String prefix = "Aurora";
+//
+    public static final String outputAdd = "Yam4RGB";
+    public static final String inputName = "Yam4ColorData.txt";
+    public static final String prefix = "Yam4";
 
-    public static final String outputAdd = "FullOklab";
-    public static final String inputName = "ColorData.txt";
-    public static final String prefix = "Full";
+//    public static final String outputAdd = "FullOklab";
+//    public static final String inputName = "ColorData.txt";
+//    public static final String prefix = "Full";
 
 //    public static final String outputAdd = "NamedMunsellOklab";
 //    public static final String inputName = "ISCCNBSData.txt";
@@ -96,7 +100,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
                 "* </pre>\n" +
                 "*/\n" +
                 "public static final `TYPE `NAME = `PACKED;\n" +
-                "static { NAMED.put(\"`Name\", `PACKED); LIST.add(`PACKED); }\n";
+                "static { NAMED.put(\"`Name\", `PACKED); LIST.add(`PACKED); NAMES.add(\"`Name\"); }\n";
         String data = Gdx.files.classpath(inputName).readString();
         String[] lines = StringKit.split(data, "\n"), rec = new String[3];
         float c;
@@ -106,6 +110,7 @@ public class PaletteCodeGenerator extends ApplicationAdapter {
 
         for (int i = 0; i < lines.length; i++) {
             tabSplit(rec, lines[i]);
+            rec[2] = rec[2].replace(' ', '_');
             c = ColorTools.fromRGBA8888(StringKit.intFromHex(rec[1]));
             sb.append(templateFull.replace("`Name", rec[2])
                     .replace("`NAME", rec[0])
